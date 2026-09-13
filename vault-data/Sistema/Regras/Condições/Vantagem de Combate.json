@@ -1,0 +1,124 @@
+{
+  "id": "Sistema/Regras/Condições/Vantagem de Combate",
+  "path": "Sistema/Regras/Condições/Vantagem de Combate.md",
+  "basename": "Vantagem de Combate",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Positiva",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Positiva",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Ataque 2"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Vantagem de Combate",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "⚔️",
+          "iconeDesligado": "🚫",
+          "ancorar": "AtaquesEAcoes",
+          "nucleo": true
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você recebe +2 de bônus de vantagem na jogada de [[Atacar|Ataque]] contra uma criatura que você tem Vantagem de Combate.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Ataque 2",
+      "parsed": [
+        {
+          "sourceNote": "Vantagem de Combate",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Ataque",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Condicao.Ataque 2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "ataque",
+            "value": 2
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Flanqueamento",
+      "kind": "wikilink",
+      "alias": "Flanqueado"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inconsciente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \nresumo:: \"Você recebe +2 de bônus de vantagem na jogada de [[Atacar|Ataque]] contra uma criatura que você tem Vantagem de Combate.\"\n%%\n## `= this.file.name`\nQuando uma criatura não pode se defender propriamente contra seu ataque, você tem Vantagem de Combate contra essa criatura. Vantagem de Combate é relativa de criatura para criatura. Dado um par de criaturas, uma delas, ambas, ou nenhuma delas pode ter Vantagem de Combate contra a outra. \n\nAlgumas habilidades ou técnicas de classe podem necessitar de Vantagem de Combate para funcionar ou podem garantir Vantagem de Combate com algum custo.\nTipicamente, você tem Vantagem de Combate quando seu alvo é [[Flanqueamento|Flanqueado]] por você ou está [[Desprevenido]]. Diversas condições aplicam [[Desprevenido]]: [[Atordoado]], [[Cego]], [[Caído]], [[Imobilizado]] e [[Inconsciente]].\nSe você está [[Escondido]] do alvo, também tem Vantagem de Combate, pois é como se o alvo estivesse [[Cego]] só para você.\n\nVocê recebe +2 de bônus de vantagem na jogada de [[Atacar|Ataque]] contra uma criatura que você tem Vantagem de Combate.\n\n```autosheet-rules\n```\n"
+}

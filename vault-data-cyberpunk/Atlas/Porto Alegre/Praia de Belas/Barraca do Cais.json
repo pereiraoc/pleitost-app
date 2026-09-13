@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Barraca do Cais",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Barraca do Cais.md",
+  "basename": "Barraca do Cais",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Bagé Medeiros",
+    "Descrição": null,
+    "Serviços": [
+      "[[Churrasquinho de Barraca]]",
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraca do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraca do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Barraca do Cais.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Churrasquinho, Polar e cachaça; em dia de jogo, o dobro e a taxa do Consórcio.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Barraca de lona com a marca do Zaffari, grelha de tambor, isopor e banco de tábua.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Churrasquinho, Polar e cachaça; em dia de jogo, o dobro e a taxa do Consórcio.",
+    "aparencia": "Barraca de lona com a marca do Zaffari, grelha de tambor, isopor e banco de tábua.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

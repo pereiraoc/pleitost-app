@@ -1,0 +1,109 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita (Rastreador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita (Rastreador).md",
+  "basename": "Estratégia Perfeita (Rastreador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Rastreador)]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Estratégia Perfeita",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "modificadores": [
+          {
+            "somar": "DadoExtraDaArma",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "estado": "Alvo de Caça"
+              },
+              {
+                "estado": "Acerto Decisivo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"O dano adicional da [[Marca do Caçador]] aumenta para 1d12. O bônus para [[rastrear]] seu alvo aumenta para +4. Dado de dano adicional no sucesso decisivo vs alvo de caça.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Rastreador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Perfeita (Rastreador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratégia Aprimorada (Rastreador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Rastreador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Estratégia Aprimorada (Rastreador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\n\nresumo:: \"O dano adicional da [[Marca do Caçador]] aumenta para 1d12. O bônus para [[rastrear]] seu alvo aumenta para +4. Dado de dano adicional no sucesso decisivo vs alvo de caça.\"\n%%\n##### `= this.file.name`\nO dano adicional da [[Marca do Caçador]] aumenta para 1d12. O bônus para [[rastrear]] seu alvo aumenta para +4. Adicionalmente, quando você tem um sucesso decisivo com um [[Atacar|Ataque]] contra seu alvo de caça, você causa dano adicional igual a um dado de dano da arma.\n\n```autosheet-rules\n```\n"
+}

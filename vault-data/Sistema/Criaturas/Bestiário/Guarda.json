@@ -1,0 +1,574 @@
+{
+  "id": "Sistema/Criaturas/Bestiário/Guarda",
+  "path": "Sistema/Criaturas/Bestiário/Guarda.md",
+  "basename": "Guarda",
+  "type": "Criatura",
+  "subtype": "Monstro",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Monstro",
+    "grupo": [],
+    "Imagem": "",
+    "Tier": 1,
+    "Classe": "[[Soldado|Soldado Competente]]",
+    "Sintonia": "[[Traço Elemental da Terra]]",
+    "Raça": "[[Humano|Humano (Médio)]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 45
+    },
+    "Atributos": {
+      "Principal": "FOR",
+      "FOR": 3,
+      "AGI": 0,
+      "INT": 1,
+      "PRE": 2
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 5,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Competente]]"
+            }
+          ]
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica de Monstro]]": "Regra.[[Soldado]]"
+        },
+        {
+          "[[Competente]]": "Manual.Modificador"
+        }
+      ],
+      "Especiais": []
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Ataques": {
+      "Proficiencia": "A",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "[[Escudo]]",
+        "Dano": 4,
+        "Dureza": 5,
+        "Categoria": "[[Adepto]]",
+        "Propriedade": "[[Escudo Obra-prima|Obra-prima]]",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Martelo de Guerra]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": "[[Imbuição Enraizante|Enraizante]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 45,
+        "Moral": 0,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "Escudo_Dano": 0
+      }
+    },
+    "Modificador": "Competente",
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": []
+    },
+    "Acoes": {
+      "Lista": []
+    },
+    "Experiencia": {
+      "Marcas": [],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 0,
+      "Abatedor": 0,
+      "Vanguarda": 0
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Soldado",
+      "kind": "wikilink",
+      "alias": "Soldado Competente"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Humano",
+      "kind": "wikilink",
+      "alias": "Humano (Médio)"
+    },
+    {
+      "target": "Competente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Martelo de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink",
+      "alias": "Enraizante"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Resumo\n```"
+}

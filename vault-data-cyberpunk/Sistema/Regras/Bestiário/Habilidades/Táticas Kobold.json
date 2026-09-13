@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Táticas Kobold",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Táticas Kobold.md",
+  "basename": "Táticas Kobold",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Kobold causa mais dano quando tem outro Kobold adjacente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Kobold causa mais dano quando tem outro Kobold adjacente.\"\n%%\n##### `= this.file.name`\n[[Atacar|Ataques]] dessa criatura tem dado de dano aumentado em um passo e dano base aumentado em 1 caso exista uma outra criatura com Táticas Kobold adjacente ao alvo.\n\n```autosheet-rules\n```\n"
+}

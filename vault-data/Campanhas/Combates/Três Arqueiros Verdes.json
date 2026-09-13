@@ -1,0 +1,39 @@
+{
+  "id": "Campanhas/Combates/Três Arqueiros Verdes",
+  "path": "Campanhas/Combates/Três Arqueiros Verdes.md",
+  "basename": "Três Arqueiros Verdes",
+  "type": "Combate",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": null,
+    "rank": null,
+    "disponivel": [
+      ""
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Orc Arqueiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nclasse:: \nrank:: \n%%\n#### `= this.file.name`\n```combat-marker-small\n- 3 [[Orc Arqueiro]]\n```\n"
+}

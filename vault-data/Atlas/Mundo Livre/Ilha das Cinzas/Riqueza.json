@@ -1,0 +1,98 @@
+{
+  "id": "Atlas/Mundo Livre/Ilha das Cinzas/Riqueza",
+  "path": "Atlas/Mundo Livre/Ilha das Cinzas/Riqueza.md",
+  "basename": "Riqueza",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Ilha das Cinzas]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Rubi",
+      "[[Imbuição Explosiva]]",
+      "[[Imbuição Flamejante]]",
+      "[[Imbuição Incendiária]]",
+      "[[Bracelete Elemental]]",
+      "[[Foco da Repetição]]",
+      "[[Foco da Penetração]]",
+      "[[Foco da Consistência]]",
+      "[[Foco da Intensificação]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Riqueza.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Flamejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Incendiária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bracelete Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Repetição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Penetração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Consistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Intensificação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Riqueza.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Riqueza.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Porto franco e feira permanente da [[Ilha das Cinzas]] — uma cidade sem governo, sem religião e sem [[Sociedade Aberta]], onde a única lei que todos respeitam é a do negócio fechado. Quase um \"ancapistão\" de trocas: tudo foi construído de forma funcional e barata, pronto para abrir comércio no dia seguinte, e boa parte das lojas não passa de uma tenda armada. É pelo seu cais que entra e sai tudo o que a ilha produz — rubis, imbuições de fogo e Focos arcanos — negociado de frente para [[Canto Alto]], do outro lado do estreito. \n>\n> 👁️**Aparência do Local:** Cidade de madeira e lona sem muralhas, sem portões e sem um único templo ou paço — casario baixo de um ou dois andares, de telhados de tábua e palha, aberto numa clareira comercial entre os palmeirais e o mar. As ruas de terra batida seguem uma grelha diagonal informal, tomadas por bancas, toldos, carroças e multidões; quarteirões inteiros são só tendas coloridas coladas umas nas outras. Ao sul, uma praia larga de areia clara com botes puxados na areia e um grande píer de madeira apinhado de carga, veleiros atracados dos dois lados. Os únicos volumes que se destacam são utilitários: os galpões dos Armazéns do Rubi, o sobrado da Casa dos Focos e as chaminés fumegantes das Oficinas das Imbuições na borda leste. Palmeirais densos fecham a cidade pelo norte, leste e sudeste; a única estrada de terra entra pelo norte, passando pela Estalagem dos Tropeiros. \n> \n\n> [!info] Distritos e Locais de Interesse\n> **Largo das Barganhas** *(amarelo — norte e centro-norte)* — casario baixo entremeado de bancas, o distrito que recebe quem chega por terra.\n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Porto franco e feira permanente da [[Ilha das Cinzas]] — uma cidade sem governo, sem religião e sem [[Sociedade Aberta]], onde a única lei que todos respeitam é a do negócio fechado. Quase um \"ancapistão\" de trocas: tudo foi construído de forma funcional e barata, pronto para abrir comércio no dia seguinte, e boa parte das lojas não passa de uma tenda armada. É pelo seu cais que entra e sai tudo o que a ilha produz — rubis, imbuições de fogo e Focos arcanos — negociado de frente para [[Canto Alto]], do outro lado do estreito.",
+    "aparencia": "Cidade de madeira e lona sem muralhas, sem portões e sem um único templo ou paço — casario baixo de um ou dois andares, de telhados de tábua e palha, aberto numa clareira comercial entre os palmeirais e o mar. As ruas de terra batida seguem uma grelha diagonal informal, tomadas por bancas, toldos, carroças e multidões; quarteirões inteiros são só tendas coloridas coladas umas nas outras. Ao sul, uma praia larga de areia clara com botes puxados na areia e um grande píer de madeira apinhado de carga, veleiros atracados dos dois lados. Os únicos volumes que se destacam são utilitários: os galpões dos Armazéns do Rubi, o sobrado da Casa dos Focos e as chaminés fumegantes das Oficinas das Imbuições na borda leste. Palmeirais densos fecham a cidade pelo norte, leste e sudeste; a única estrada de terra entra pelo norte, passando pela Estalagem dos Tropeiros.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Largo das Barganhas** *(amarelo — norte e centro-norte)* — casario baixo entremeado de bancas, o distrito que recebe quem chega por terra.",
+    "leaflet": null
+  }
+}

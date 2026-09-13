@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Velha Indústria",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Velha Indústria.md",
+  "basename": "Velha Indústria",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Dono": "ninguém — ocupada pelos artistas",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vaga no Sobrado da Velha Indústria]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Velha Indústria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Maria “Ferrugem” Souza",
+      "kind": "wikilink",
+      "alias": "Ferrugem"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga no Sobrado da Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Velha Indústria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Velha Indústria.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antigas fundições transformadas em clubes subterrâneos.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** [[Maria “Ferrugem” Souza|Ferrugem]] aparente, iluminação fraca, cheiro de fumaça e álcool.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antigas fundições transformadas em clubes subterrâneos.",
+    "aparencia": "[[Maria “Ferrugem” Souza|Ferrugem]] aparente, iluminação fraca, cheiro de fumaça e álcool.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

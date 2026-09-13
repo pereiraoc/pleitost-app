@@ -1,0 +1,96 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Musculatura Arcana",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Musculatura Arcana.md",
+  "basename": "Musculatura Arcana",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Musculatura Arcana]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Com [[Campo de Força]] ativo: Ataques corpo-a-corpo com [[Ataque Mágico]] causando 3d4+2 de força (4d4+2 decisivo) e [[Empurrar]] com [[Ataque Mágico]] sem provocar.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Musculatura Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Musculatura Arcana",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Musculatura Arcana]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Musculatura Arcana]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Mágico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Musculatura Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Com [[Campo de Força]] ativo: Ataques corpo-a-corpo com [[Ataque Mágico]] causando 3d4+2 de força (4d4+2 decisivo) e [[Empurrar]] com [[Ataque Mágico]] sem provocar.\"\n%%\n#### `= this.file.name` - `= this.rank`\nEnquanto seu [[Campo de Força]] estiver ativo, você pode:\n* Fazer [[Atacar|Ataques]] corpo-a-corpo usando seu modificador de [[Ataque Mágico]] e causando 3d4+2 de dano de força (4d4+2 se decisivo);\n* [[Empurrar]] usando seu modificador de [[Ataque Mágico]], sem provocar [[Ataque de Oportunidade]].\n\n```autosheet-rules\n```\n"
+}

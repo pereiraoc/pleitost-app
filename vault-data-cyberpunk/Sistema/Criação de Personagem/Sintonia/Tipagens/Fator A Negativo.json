@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator A Negativo",
+  "path": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator A Negativo.md",
+  "basename": "Fator A Negativo",
+  "type": "Sintonia",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fator A Negativo",
+    "categoria": "Sintonia",
+    "subcategoria": null,
+    "sintonia": null,
+    "dg-publish": false
+  },
+  "inlineFields": {
+    "up": "[[Reatividade Selênica e Tipagem]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Técnica Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Fator A Negativo"
+    }
+  ],
+  "body": "%%\nup:: [[Reatividade Selênica e Tipagem]]\nprev:: \nnext:: \n%%\n### Fator A Negativo\nSem reação à Lênica. O exame de Reatividade sai negativo, e com ele some a bolsa da [[Escola Técnica Gradiente]] e o cacife nos Círculos.\n"
+}

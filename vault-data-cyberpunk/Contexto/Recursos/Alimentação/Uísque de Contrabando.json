@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Uísque de Contrabando",
+  "path": "Contexto/Recursos/Alimentação/Uísque de Contrabando.md",
+  "basename": "Uísque de Contrabando",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "[[Clube dos Sete Portos]]",
+    "Preço": 4000,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Porto Novo]]",
+      "[[Moinhos de Vento]]",
+      "[[Clube dos Sete Portos]]"
+    ],
+    "Resumo": "Johnnie Walker Red de um litro sem selo, saído de contêiner do Porto Novo: Cz$ 4.000 — o legal custa o dobro no Plaza.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Uísque de Contrabando.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Sete Portos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plaza São Rafael",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Uísque de Contrabando.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Uísque de Contrabando.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO uísque escocês entra pelo [[Porto Novo]] dentro de contêiner do [[Clube dos Sete Portos]] e sai sem selo do\nimposto por metade do preço do bar do [[Plaza São Rafael]]. Garrafa de 1 litro, rótulo vermelho, às vezes\nverdadeiro. A elite compra por caixa; o Contratado ganha uma de gorjeta quando o serviço sai limpo.\n\n> [!info] Especificação\n> **Garrafa:** Johnnie Walker Red Label, 1 l, sem selo do IPI\n> **Origem:** contêiner do [[Porto Novo]] via [[Clube dos Sete Portos]]\n> **Preço:** Cz$ 4.000 a garrafa; Cz$ 8.000 com selo no [[Plaza São Rafael]]; dose Cz$ 800 na Padre Chagas\n> **Falso:** um em cada quatro é cachaça tingida — cheire a rolha\n> **Uso:** pagamento de favor, propina de sargento, gorjeta de caixinha\n"
+}

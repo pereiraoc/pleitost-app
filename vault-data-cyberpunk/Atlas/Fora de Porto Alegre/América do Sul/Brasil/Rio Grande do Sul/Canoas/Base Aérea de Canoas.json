@@ -1,0 +1,39 @@
+{
+  "id": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Base Aérea de Canoas",
+  "path": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Base Aérea de Canoas.md",
+  "basename": "Base Aérea de Canoas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "BACO"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Canoas]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Instalação militar de aviação, pista restrita.\n> \n> 👁️**Aparência do Local:** Hangar metálico, jatos estacionados, cheiro de combustível.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Instalação militar de aviação, pista restrita.",
+    "aparencia": "Hangar metálico, jatos estacionados, cheiro de combustível.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,540 @@
+{
+  "id": "Sistema/Criaturas/Bestiário/Franco-Atirador da Brigada",
+  "path": "Sistema/Criaturas/Bestiário/Franco-Atirador da Brigada.md",
+  "basename": "Franco-Atirador da Brigada",
+  "type": "Criatura",
+  "subtype": "Monstro",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Monstro",
+    "grupo": [],
+    "Imagem": "",
+    "Tier": 2,
+    "Classe": "[[Artilharia|Artilharia Competente]]",
+    "Modificador": "Competente",
+    "Sintonia": "[[Traço Elemental do Vento]]",
+    "Raça": "[[Humano|Humano (Médio)]]",
+    "Tamanho": "Médio",
+    "Descrição": "Dardo selênico do telhado. Escolhe um alvo por rodada e pune quem se expõe.",
+    "Afiliação": "[[Brigada Militar Metropolitana]]",
+    "Bairros": [
+      "[[Centro Histórico]]",
+      "[[Moinhos de Vento]]",
+      "[[Petrópolis]]"
+    ],
+    "Vida": {
+      "Vitalidade": 45
+    },
+    "Atributos": {
+      "Principal": "PRE",
+      "FOR": 0,
+      "AGI": 2,
+      "INT": 1,
+      "PRE": 3
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 5,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica de Monstro]]": "Regra.[[Artilharia]]"
+        },
+        {
+          "[[Tiro de Cobertura]]": "Manual.Habilidade"
+        },
+        {
+          "[[Alvo de Assassinato]]": "Manual.Habilidade"
+        },
+        {
+          "[[Competente]]": "Manual.Modificador"
+        }
+      ],
+      "Especiais": []
+    },
+    "Magias": {
+      "Potencia": 6,
+      "EM": 5,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": [
+            {
+              "[[Corte de Vento]]": "Regra"
+            },
+            {
+              "[[Vento Mensageiro]]": "Regra"
+            },
+            {
+              "[[Lufada de Vento]]": "Regra"
+            },
+            {
+              "[[Vento Guardião]]": "Regra"
+            },
+            {
+              "[[Passos do Vento]]": "Regra"
+            }
+          ]
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Ataques": {
+      "Proficiencia": "A",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 6,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Capa Discreta]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção da Velocidade]]",
+        "[[Poção da Velocidade]]",
+        "[[Poção da Velocidade]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Besta]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Arma Obra-prima]]",
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Arco Longo]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Adaga]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Biografia": {
+      "Passado": "",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Artilharia",
+      "kind": "wikilink",
+      "alias": "Artilharia Competente"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Humano",
+      "kind": "wikilink",
+      "alias": "Humano (Médio)"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Artilharia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capa Discreta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Velocidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Criatura\n\n```autosheet-yaml\nModo: Resumo\n```\n"
+}

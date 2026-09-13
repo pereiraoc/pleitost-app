@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Evitar Baixas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Evitar Baixas.md",
+  "basename": "Evitar Baixas",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "Use dado de comando. Um aliado que iria ficar [[Morrendo]], ele se mantém apto e também recebe [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] igual ao valor rolado até o início do próximo turno dele."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: Use dado de comando. Um aliado que iria ficar [[Morrendo]], ele se mantém apto e também recebe [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] igual ao valor rolado até o início do próximo turno dele.\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Evitar Baixas.\n\n**Evitar Baixas - R**\nQuando um aliado na sua área de influência recebe dano que reduz a [[Energia Vital|EV]] dele a 0 ou menos, o deixando [[Morrendo]], você pode, como reação, rolar um dado de comando. O aliado recebe um [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] igual ao valor rolado até o início do próximo turno dele e se mantêm apto por 1 turno, ignorando os efeitos de [[Morrendo]].\n\nSe o aliado receber dano na [[Energia Vital|EV]] novamente, fica [[Morrendo]] como normalmente. Se 1 turno se passar e o aliado não estiver com [[Energia Vital|EV]] 1 ou mais, ele fica [[Morrendo]].\n\nEvitar Baixas conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

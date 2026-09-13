@@ -1,0 +1,174 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada.md",
+  "basename": "Prática Avançada",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Escola Arcana (Estudos do Vazio)]]) Complementar Habilidades.Lista [[Prática Avançada (Estudos do Vazio)]]",
+      "Condicional Habilidades.Lista,Contem([[Escola Arcana (Aplicações da Luz)]]) Complementar Habilidades.Lista [[Prática Avançada (Aplicações da Luz)]]",
+      "Somar Magias.Slots.E 1",
+      "Definir Magias.Lista.ArcanaEssencial.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Avança conhecimento em [[Magia Arcana]], aprende uma [[Magia Essencial Experiente]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Escola Arcana (Estudos do Vazio)]]) Complementar Habilidades.Lista [[Prática Avançada (Estudos do Vazio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Escola Arcana (Estudos do Vazio)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Prática Avançada (Estudos do Vazio)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Escola Arcana (Estudos do Vazio)]]) Complementar Habilidades.Lista [[Prática Avançada (Estudos do Vazio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Escola Arcana (Aplicações da Luz)]]) Complementar Habilidades.Lista [[Prática Avançada (Aplicações da Luz)]]",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Escola Arcana (Aplicações da Luz)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Prática Avançada (Aplicações da Luz)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Escola Arcana (Aplicações da Luz)]]) Complementar Habilidades.Lista [[Prática Avançada (Aplicações da Luz)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaEssencial.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaEssencial.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaEssencial.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Essencial Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada (Estudos do Vazio)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Prática Avançada (Aplicações da Luz)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Escola Arcana (Estudos do Vazio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada (Estudos do Vazio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana (Aplicações da Luz)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada (Aplicações da Luz)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\n\nresumo:: \"Avança conhecimento em [[Magia Arcana]], aprende uma [[Magia Essencial Experiente]].\"\n%%\n#### `= this.file.name`\nVocê avança seu conhecimento mágico, expandindo seu repertório com opções mais poderosas, dependendo da sua escola:\n![[Prática Avançada (Estudos do Vazio)#`= this.file.name`]]\n![[Prática Avançada (Aplicações da Luz)#`= this.file.name`]]\n\nAdicionalmente, você aprende uma [[Magia Essencial Experiente]].\n\n```autosheet-rules\n```\n"
+}

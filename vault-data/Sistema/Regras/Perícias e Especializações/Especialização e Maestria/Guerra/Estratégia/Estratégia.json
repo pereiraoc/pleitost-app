@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Estratégia/Estratégia",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Estratégia/Estratégia.md",
+  "basename": "Estratégia",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Plano de Combate]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Guerra]]",
+    "resumo": "\"Pode [[Avaliar Campo de Batalha|Avaliar Campo]] ou [[Identificar Estratégia]] ao rolar iniciativa. Pode realizar [[Plano de Combate]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Plano de Combate]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Plano de Combate]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Plano de Combate]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avaliar Campo de Batalha",
+      "kind": "wikilink",
+      "alias": "Avaliar Campo"
+    },
+    {
+      "target": "Identificar Estratégia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plano de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avaliar Campo de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Guerra]]\nresumo:: \"Pode [[Avaliar Campo de Batalha|Avaliar Campo]] ou [[Identificar Estratégia]] ao rolar iniciativa. Pode realizar [[Plano de Combate]].\"\n%%\n### `= this.file.name`\n* Você pode realizar [[Avaliar Campo de Batalha]] ou [[Identificar Estratégia]] como ação livre ao rolar iniciativa.\n* Você pode realizar [[Plano de Combate]].\n\n```autosheet-rules\n```\n"
+}

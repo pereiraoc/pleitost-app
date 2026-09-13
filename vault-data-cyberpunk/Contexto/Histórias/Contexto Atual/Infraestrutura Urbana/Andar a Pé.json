@@ -1,0 +1,201 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Andar a Pé",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Andar a Pé.md",
+  "basename": "Andar a Pé",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O que acontece com quem atravessa Porto Alegre a pé, bairro por bairro.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Crimes Cotidianos",
+      "kind": "wikilink",
+      "alias": "roubo de implantes",
+      "subpath": "Roubo de Implantes e Componentes\\"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "alias": "a mesma fadiga do mês",
+      "subpath": "O que cada classe compra"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sem Endereço",
+      "kind": "wikilink",
+      "alias": "Sem Plano"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana\\",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Químicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Metalúrgicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Prefeitura"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Geral do Grêmio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\nQuem não tem cartão, perdeu a última linha ou precisa passar sem deixar registro no TRI, anda. A pé ninguém valida catraca — mas cada bairro cobra a travessia do seu jeito: a passarela com pedágio no [[Centro Histórico]], a patrulha da [[Zaffari]] em [[Nova Sarandi]], o pântano do [[Delta Radioativo]].\n\nA cidade não é perigosa por igual, e o mapa disso não é o do dinheiro. [[Petrópolis]] e [[Passo D'Areia]] são bairros de operário: atravessa-se inteiro em vinte minutos e o pior que costuma acontecer é um blecaute da [[Companhia Estadual de Energia Elétrica|CEEE]] ou um segurança de fábrica pedindo documento. Bairro rico não é mais seguro, é mais vigiado — em [[Ipanema]] e [[Moinhos de Vento]] ninguém assalta, mas a câmera registra, o portão anota o rosto e a próxima visita já começa mal.\n\nO que pesa mesmo é o chão que o Estado abandonou. No [[Centro Histórico]] se anda por passarela desde a enchente, e passarela tem dono: pedágio novo toda semana, tábua podre, assalto e a água embaixo. Na [[Restinga]] e no [[Quarto Distrito]] a rua tem cobrador. E no [[Delta Radioativo]] e na [[Zona Deserta]] não há mais rua nenhuma — cinco minutos de travessia bastam pra chuva ácida, saqueador, ou o piso de uma galeria cedendo. O [[Lago Guaíba]] não se atravessa a pé: é barco, balsa ou anfíbio.\n\nAndar junto ajuda, e andar com alguém do bairro ajuda mais: morador não é assaltado na própria rua, e um guia combinado antes desarma metade do que viria. À noite, depois do toque de recolher das 23h, tudo isso dobra de preço.\n\n> [!note]- A travessia na mesa — régua, ajustes e saídas\n> **Na mesa, em três passos**\n> 1. **Quanto tempo.** O planejador de trajeto (aba **Transporte**) mostra, em parênteses, quanto cada trecho levaria a pé — dá pra andar o trajeto inteiro ou só um pedaço dele. Sem o app: **4,5 km/h**, ou seja **1 km ≈ 15 min**.\n> 2. **Rolar.** Some os minutos a pé dentro de **cada bairro** atravessado. A cada **janela** do bairro — ou fração —, o Mestre rola **1d20**.\n> 3. **Ler o resultado.** Caiu **abaixo do Risco** do bairro, procure o número na tabela dele: quanto menor, pior. Igual ou acima, o trecho passa sem história. Um acontecimento por janela; se a rolagem pedir dois, vale o pior.\n>\n> > [!tip] Régua de bolso\n> > Atravessar um bairro inteiro a pé dá **20 a 40 min** (o [[Centro Histórico]] alagado, 10, porque é curto e cheio de passarela). Uma janela de 10 min é meia dúzia de quadras; uma de 20, meia hora de conversa.\n>\n> **Ajustes no Risco**\n> | Situação | No Risco |\n> |---|:-:|\n> | Noite, depois do toque de recolher das 23h (menos em [[Moinhos de Vento]], [[Ipanema]] e [[Petrópolis]], que são vigiados) | **+4** |\n> | Implante à mostra ([[Crimes Cotidianos#Roubo de Implantes e Componentes\\|roubo de implantes]]), ou carregando mercadoria, selênico ou dinheiro vivo à vista | **+2** |\n> | Dia de Gre-Nal ou manifestação, no [[Centro Histórico]], no [[Quarto Distrito]] e na [[Praia de Belas]] | **+2** |\n> | Chuva forte (o [[Delta Radioativo]] fica ácido; o Centro alaga de novo) | **+2** |\n> | Quatro ou mais andando juntos | **−2** |\n> | Alguém do bairro guiando (morador, fiel, feirante) | **−2** |\n> | Morador do próprio bairro | **não rola** (a não ser que algum ajuste acima suba o Risco) |\n>\n> **Saídas — o que dá pra fazer**\n> Todo acontecimento aceita uma saída. O custo é fixo; o Mestre escolhe qual cabe e o jogador decide se paga.\n>\n> | Saída | Custo | Serve pra |\n> |---|---|---|\n> | **Pagar** | Cz$ 50 (pedágio, flanelinha) a Cz$ 200 (propina de brigadiano) por cabeça | barreira, pedágio, revista, cobrador |\n> | **Contornar** | **+15 min** na janela (e rola de novo se passar da próxima) | rua fechada, interdição, obra, piquete |\n> | **Correr** | teste de **Atletismo** (CD Base); falha = o acontecimento vale igual e **+10 min** | assalto, racha, fogo cruzado |\n> | **Conversar** | **Diplomacia** ou **Enganação** (CD Base; CD Difícil com a Brigada sem documento) | blitz, segurança privada, recrutador, aliciador |\n> | **Passar sem ser visto** | **Furtividade** (CD Base; CD Difícil de dia em bairro nobre) | câmera, guarita, patrulha, área interditada |\n> | **Guia do bairro** | Cz$ 100 por bairro, combinado antes | **−2** no Risco do bairro inteiro |\n>\n> **Andar o dia inteiro**\n> Mais de **duas horas a pé no mesmo dia** cansa: no fim do dia, um **teste plano CD 1** ([[Custo de Vida#O que cada classe compra|a mesma fadiga do mês]]). Falhou, fica [[Fadigado]] até dormir uma noite inteira sob teto — quem está em [[Sem Endereço|Sem Plano]] ou Classe Baixa rola a fadiga da semana como sempre, e as duas se somam.\n>\n> **Cada bairro, de relance**\n> | Bairro | Janela | Risco | O que mais pesa |\n> |---|:---:|:---:|---|\n> | [[Bom Fim]] | 20 min | 6 | roubo de implante, manifestação, aliciador de clínica |\n> | [[Centro Histórico]] | 10 min | 9 | passarela: assalto, pedágio, interdição |\n> | [[Costa e Silva]] | 10 min | 8 | barreira militar e averiguação |\n> | [[Delta Radioativo]] | 5 min | 14 | saqueadores, fauna mutante, chuva ácida |\n> | [[Ipanema]] | 10 min | 10 | segurança privada, lista da [[Brigada Militar Metropolitana\\|Brigada]] |\n> | [[Jardim Botânico]] | 15 min | 6 | lago contaminado, trilha fechada |\n> | [[Jardim Itu]] | 15 min | 7 | vazamento de solvente, químicos desconfiados |\n> | [[Moinhos de Vento]] | 15 min | 7 | segurança corporativa, torres de vigilância |\n> | [[Nova Sarandi]] | 15 min | 8 | patrulha da Zaffari, piquete, ramal isolado |\n> | [[Passo D'Areia]] | 20 min | 6 | roubo na saída de turno, blecaute |\n> | [[Petrópolis]] | 20 min | 5 | seguranças da [[Tramontina]], pane |\n> | [[Praia de Belas]] | 15 min | 8 | fogo cruzado entre torcidas, cerco da Brigada |\n> | [[Quarto Distrito]] | 10 min | 10 | racha de Gurgel, briga de boate, cobrador de proteção |\n> | [[Restinga]] | 10 min | 11 | milícia × Restinga Livre, pedágio em dólar |\n> | [[Zona Deserta]] | 5 min | 13 | área de teste, saqueadores, galeria que cede |\n>\n> O [[Lago Guaíba]] não se atravessa a pé: é barco, balsa ou anfíbio.\n\n> [!note]- O que acontece em cada bairro (1d20)\n> **Bom Fim — janela 20 min · Risco 6**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1 | **Roubo de implante.** Dois garotos com alicate escolhem quem tem chip à mostra. | combate curto, ou o implante vai embora · **correr** ou **conversar** |\n> | 2–3 | **Manifestação estudantil** contra o racionamento de água fecha a rua; a [[Brigada Militar Metropolitana|Brigada]] está chegando. | **contornar** (+15 min) · ficar = revista |\n> | 4–5 | **Aliciador de clínica clandestina** oferece instalação barata e acesso liberado, insistindo por dois quarteirões. | **+10 min**, ou **Enganação** (CD Base) pra virar pista de quem instala peça roubada |\n>\n> **Centro Histórico — janela 10 min · Risco 9**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Assalto na passarela.** Um bando corta a bolsa de quem carrega kit de selênico ou mantimento e foge pela água. | perde o que estava à mão · **correr** (Atletismo, CD Base) |\n> | 3–4 | **Pedágio da [[Aliança dos Fundadores]]** numa passarela que não cobrava ontem. | **Cz$ 50 por cabeça**, ou **contornar** (+15 min) |\n> | 5–6 | **Passarela interditada** — tábua podre ou manutenção. | **contornar** (+15 min), ou atravessar pela água: **Atletismo** (CD Base), molhado até a cintura |\n> | 7–8 | **Blitz da Brigada** pedindo cartão TRI e documento; a câmera da [[Embratel]] registra de qualquer jeito. | **Diplomacia** (CD Difícil sem documento) ou **Cz$ 200** · falha = **1d6×10 min** |\n>\n> **Costa e Silva — janela 10 min · Risco 8**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Detidos para averiguação.** Pertences revistados um a um no posto. | **1d6 horas** · **Diplomacia** (CD Difícil) corta pela metade |\n> | 3–4 | **Revista na barreira.** O que é ilegal fica com a tropa. | **Cz$ 200** resolve, ou **Furtividade** (CD Base) pra esconder o que importa |\n> | 5–7 | **Área de torre interditada.** Alguém anota o rosto de cada um. | **contornar** (+20 min) |\n>\n> **Delta Radioativo — janela 5 min · Risco 14**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Saqueadores mutantes** cercam o grupo atrás de implante, mesmo contaminado. | combate |\n> | 3–5 | **Fauna mutante** sai da água parada. | combate curto, ou fuga: **Atletismo** (CD Difícil) no lodo |\n> | 6–8 | **Chuva ácida sem abrigo.** Roupa e equipamento exposto estragam. | dano leve em quem está descoberto · **contornar** até um teto (+15 min) |\n> | 9–11 | **Atoleiro tóxico.** Alguém afunda até a cintura. | **Atletismo** (CD Base) e **+10 min**; falha = mais 10 e a mochila molha |\n> | 12–13 | **Vapor do pântano.** Tontura e enjoo até sair do bairro. | teste plano CD 5 ou **[[Fadigado]]** até dormir |\n>\n> **Ipanema — janela 10 min · Risco 10**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Segurança privada da [[Gradiente]]** escolta o grupo pra fora, com cassetete se alguém reclamar. | volta ao ponto de entrada (**+20 min**) |\n> | 3–5 | **Abordagem no portão.** Crachá ou [[TRI Platina]]; sem isso, o nome vai pra lista da Brigada. | **Enganação** (CD Difícil) ou **+30 min** |\n> | 6–7 | **Ladrões de sucata** emboscam no muro de um condomínio e confundem o grupo com a segurança. | combate, ou **Diplomacia** (CD Base) pra virar informação |\n> | 8–9 | **A câmera registra.** Na próxima visita, os portões já conhecem vocês. | **Furtividade** (CD Difícil) evita; senão, +2 no Risco daqui por uma semana |\n>\n> **Jardim Botânico — janela 15 min · Risco 6**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Cheiro do lago** contaminado pelo vazamento da [[Panvel]]. | quem não cobrir o rosto: teste plano CD 5 ou enjoado (−1 em testes até sair) |\n> | 3–4 | **Guarda do cinturão verde** manda sair da trilha. | **contornar** (+15 min) ou **Diplomacia** (CD Fácil) |\n> | 5 | **Atalho pela mata** oferecido por um morador da vila. | **Cz$ 30** e **−15 min**; role 1d6 — em 1–2 é armadilha (combate) |\n>\n> **Jardim Itu — janela 15 min · Risco 7**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Vazamento de solvente** num galpão improvisado: a quadra é evacuada. | **contornar** (+20 min) e tosse o dia inteiro |\n> | 3–4 | **Gente do [[Clube dos Químicos]]** confunde o grupo com fiscais da Panvel. | **Diplomacia** ou **Sociedades** (CD Base); falha = hostis e **+15 min** |\n> | 5–6 | **Catadores do [[Clã da Ferrugem]]** vasculham sucata de laboratório. | querem trocar ou comprar metal: negócio, ou **+10 min** de insistência |\n>\n> **Moinhos de Vento — janela 15 min · Risco 7**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Segurança corporativa** pede documento e manda seguir pela calçada de serviço. | **+10 min** · **Enganação** (CD Base) evita |\n> | 3–4 | **Torre de vigilância.** O grupo é filmado; um carro preto passa duas vezes. | **Furtividade** (CD Difícil) evita o registro |\n> | 5–6 | **Informante de esquina** oferece o que vocês estão procurando. | **Cz$ 100** — às vezes é verdade (1d6: 1–3 é boa) |\n>\n> **Nova Sarandi — janela 15 min · Risco 8**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Patrulha armada da [[Zaffari]].** Área de carga: revista e expulsão; resistir é levar tiro. | **+20 min** e volta · **Diplomacia** (CD Difícil) pra atravessar |\n> | 3–4 | **Piquete do [[Sindicato dos Metalúrgicos]]** fecha a rua; atravessar sem apoiar vira hostilidade. | apoiar (**+15 min**) ou **contornar** (+15 min) |\n> | 5–6 | **Ramal isolado** pela [[Prefeitura de Porto Alegre|Prefeitura]] depois do vazamento selênico. | **contornar** (+20 min) |\n> | 7 | **Grafiteiros da [[Resistência Urbana Gaúcha]]** pedem pra vigiar a esquina. | **+10 min** e um favor devido — ou um contêiner pra esconder alguém |\n>\n> **Passo D'Areia — janela 20 min · Risco 6**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Roubo de implante na saída de turno.** Operário com prótese é o alvo preferido. | combate curto · **correr** (Atletismo, CD Base) |\n> | 3–4 | **Blecaute da [[Companhia Estadual de Energia Elétrica|CEEE]].** A rua apaga. | **1d6×10 min** no escuro; sem lanterna, **Acrobacia** (CD Fácil) ou tropeça |\n> | 5 | **Técnico da [[Marcopolo]]** pede ajuda pra empurrar um protótipo parado. | **+10 min** por uma cerveja ou uma informação |\n>\n> **Petrópolis — janela 20 min · Risco 5**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Seguranças da [[Tramontina]]** param o grupo perto das oficinas. | documento e motivo: **Diplomacia** (CD Fácil) ou **+15 min** |\n> | 3–4 | **Pane elétrica.** Portões automáticos travados. | **contornar** (+10 min) |\n>\n> **Praia de Belas — janela 15 min · Risco 8**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Fogo cruzado** entre a [[Camisa 12]] e a [[Geral do Grêmio]] num galpão. | cobertura: **Acrobacia** (CD Base); falha = dano |\n> | 3–4 | **Cerco da Brigada.** A quadra é fechada e todo mundo vai pro chão. | **1d6×10 min** · **Furtividade** (CD Difícil) pra sair antes |\n> | 5–6 | **Carga caída do contêiner** — selênico ou mantimento a preço de banana. É roubada. | negócio; comprar marca o grupo (+2 no Risco daqui por uma semana) |\n> | 7 | **Guindaste solta a carga.** | **Acrobacia** (CD Base) ou dano |\n>\n> **Quarto Distrito — janela 10 min · Risco 10**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Racha de motos [[Gurgel]]** das torcidas atravessa a rua. | **Acrobacia** (CD Base) ou atropelamento |\n> | 3–4 | **Briga de faca na porta da boate.** A unidade sombra da Brigada observa e anota. | **contornar** (+10 min) ou entrar no meio (combate) |\n> | 5–6 | **Cobrador de proteção** quer saber pra quem vocês trabalham. | **Cz$ 100**, ou **Intimidação** (CD Difícil) |\n> | 7–8 | **Vendedor da Panvel Underground** empurra shot de coragem em frasco de xarope. | **+10 min**; comprar é Cz$ 300 e laudo nenhum |\n> | 9 | **Show de rock na rua.** A multidão engole o grupo. | **+15 min** e, em 1–2 no 1d6, um bolso a menos |\n>\n> **Restinga — janela 10 min · Risco 11**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Confronto armado** entre a milícia do [[Sindicato dos Catadores]] e o [[Movimento Restinga Livre]]. | fogo cruzado: cobertura (**Acrobacia**, CD Base) ou dano |\n> | 3–4 | **Barricada com pedágio** — em dólar Restinga ou em mercadoria; cruzeiro não serve. | **Cz$ 200** em valor, ou **contornar** (+20 min) |\n> | 5–6 | **Recrutador do Restinga Livre** quer saber de onde vocês vêm e quem os mandou. | **Enganação** (CD Base) ou **+15 min** de interrogatório |\n> | 7–8 | **Oficina de sucata** oferece jailbreak de implante na hora. | preço bom, serviço duvidoso (1d6: 1–2 dá defeito) |\n> | 9–10 | **Crianças pedem moeda de passagem** em bando. | **Cz$ 50**; recusar marca o grupo como forasteiro (+2 no Risco até sair) |\n>\n> **Zona Deserta — janela 5 min · Risco 13**\n> | 1d20 | O que acontece | Custo e saída |\n> |:---:|---|---|\n> | 1–2 | **Área de teste secreto.** Detonação ou drone de vigilância. | quem está no aberto: **Acrobacia** (CD Difícil) ou dano |\n> | 3–4 | **Saqueadores de sucata** atrás de implante. | combate |\n> | 5–6 | **Forno portátil do [[Clã da Ferrugem]].** Fumaça tóxica. | **contornar** (+15 min), ou teste plano CD 5 e tosse até sair |\n> | 7–8 | **O chão cede** numa galeria inundada — corredor do [[Movimento Restinga Livre]]. | queda e água até o peito: **Atletismo** (CD Base) e **+15 min** |\n> | 9–10 | **Canteiro da obra de redirecionamento da enchente.** Guarda armada manda voltar. | **contornar** (+20 min) |\n> | 11–12 | **Micro-drone de propaganda** da [[Resistência Urbana Gaúcha]] segue o grupo tocando hino. | chama atenção: +2 no Risco da próxima janela, ou **Guerra** (CD Base) pra derrubar |\n"
+}

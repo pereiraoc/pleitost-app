@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Pelo Telhado",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Pelo Telhado.md",
+  "basename": "Pelo Telhado",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ignora terreno difícil e não provoca [[Ataque de Oportunidade|AdO]] ao se afastar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Ignora terreno difícil e não provoca [[Ataque de Oportunidade|AdO]] ao se afastar.\"\n%%\n##### `= this.file.name`\nIgnora terreno difícil e não provoca [[Ataque de Oportunidade|AdO]] ao se afastar.\n\n```autosheet-rules\n```\n"
+}

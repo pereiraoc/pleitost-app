@@ -1,0 +1,60 @@
+{
+  "id": "Contexto/Recursos/Crédito/Crédito da Firma",
+  "path": "Contexto/Recursos/Crédito/Crédito da Firma.md",
+  "basename": "Crédito da Firma",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "Megacorporações (PIRA)",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 5,
+    "Teto_Meses": 6,
+    "Nível": 3,
+    "Onde": [
+      "[[Gradiente]]",
+      "[[Tramontina]]",
+      "[[Zaffari]]"
+    ],
+    "Resumo": "O adiantamento que a empresa dá a quem tem carteira: 5% ao mês, e a conta se paga em horas de trabalho, não em Cruzado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Crédito da Firma.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Crédito da Firma.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Crédito da Firma.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO RH aprova em dois dias para quem tem carteira, laudo em dia e cadastro na PIRA. O dinheiro cai como adiantamento, não como empréstimo, e o desconto vem em folha antes de tu ver a cor dele. Cinco por cento ao mês, o menor juro em Cruzado da cidade — a empresa não está no ramo de emprestar, está no ramo de te manter.\n\nPorque o atraso não se paga em dinheiro: paga-se em **horas**. A dívida vira jornada, a jornada vira mês inteiro dentro da fábrica, e naquele mês não há serviço nenhum pra fazer na rua. Quem deve pra firma pertence à firma até quitar.\n\n> [!info] Especificação\n> **Quem consegue:** Classe Média Baixa ou acima, com carteira — e quem tem regalia corporativa ([[Regalias de Classe]])\n> **Teto:** seis meses do teu plano\n> **Juros:** 5% ao mês\n> **Garantia:** o laudo e o cadastro\n> **Se atrasa:** paga em horas: vira jornada PIRA, sem aventura naquele mês; a firma é dona do teu mês\n"
+}

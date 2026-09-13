@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Velocidade",
+  "path": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Velocidade.md",
+  "basename": "Poção da Velocidade",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Aumenta [[Movimentação|Movimentação]].",
+    "preço": "10 PO",
+    "tipo_efeito": "Velocidade",
+    "descrição": {
+      "adepto": "Garante +1 de bônus de condição na Movimentação terrestre por 10 minutos.",
+      "experiente": "Garante +2 de bônus de condição na Movimentação terrestre por 10 minutos.",
+      "mestre": "Garante +2 de bônus de condição na Movimentação terrestre por 1 hora."
+    },
+    "efeito": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+2"
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink",
+      "alias": "Movimentação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - consumível*\nEssa poção deixa seus passos leves e ágeis.\n* Adepto: Garante +1 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 10 minutos.\n* Experiente: Garante +2 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 10 minutos.\n* Mestre: Garante +2 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 1 hora.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: consumiveis\n```\n\n```autosheet-rules\n```\n"
+}

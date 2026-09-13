@@ -1,0 +1,88 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/VIP LESTE",
+  "path": "Contexto/Recursos/Transporte/Lotação/VIP LESTE.md",
+  "basename": "VIP LESTE",
+  "type": "Linha",
+  "subtype": "Lotação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Lotação",
+    "Letreiro": "VIP LESTE",
+    "Operador": "concessionárias privadas com rádio [[Embratel]]",
+    "Acesso": "[[TRI Ouro]]",
+    "Tarifa": "[[Lotação VIP]]",
+    "Qualidade": 4,
+    "Cor": "#b0b0b0",
+    "Horário": "6h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Centro Corporativo]]",
+      "[[Estação Independência]]",
+      "[[Redenção]]",
+      "[[Estação Jardim Botânico]]",
+      "[[Parque Moinhos]]"
+    ],
+    "Aparência": "Van Marcopolo prateada com vidro fumê e antena de rádio comprida, letreiro digital vermelho, motorista de gravata fina, poltronas de veludo azul, sinaleira abrindo verde à frente enquanto o ônibus do lado espera.",
+    "Resumo": "A lotação da Bento Gonçalves: do Centro Corporativo à sede da Tramontina e aos prédios do Jardim Botânico.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "VIP LESTE.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parque Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sede da Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação VIP",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "VIP LESTE.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[VIP LESTE.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nDe baixo do deck da [[Estação Centro Corporativo]] pela [[Estação Independência]] e pela [[Redenção]], pelos prédios da [[Estação Jardim Botânico]] e pela Bento Gonçalves até o [[Parque Moinhos]], na porta da [[Sede da Tramontina]]. É a van do técnico graduado e do gerente de fábrica; a [[Tramontina]] paga o plano Integrado de quem tem cargo e a Embratel registra cada validação.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

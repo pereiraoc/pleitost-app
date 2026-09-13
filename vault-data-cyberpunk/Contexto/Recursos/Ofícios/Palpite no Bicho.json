@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Palpite no Bicho",
+  "path": "Contexto/Recursos/Ofícios/Palpite no Bicho.md",
+  "basename": "Palpite no Bicho",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Aposta",
+    "Marca": "Banca do Bicho",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Aposta no jogo do bicho no banquinho da esquina do Mercado — proibido, anotado no talão e pago no mesmo dia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO apontador fica sentado num banquinho na esquina do Mercado, com o talão no bolso da camisa. Proibido e em toda esquina: grupo, dezena, centena, milhar. O resultado sai às duas da tarde e o prêmio é pago na hora — o bicho, dizem, nunca deu calote. A [[Brigada Militar Metropolitana|Brigada]] passa, cumprimenta e segue.\n\n> [!info] Especificação\n> **Palpite:** a partir de Cz$ 20\n> **Resultado:** 14h, anotado a lápis num quadro atrás da banca\n> **Prêmio:** no grupo, 18 vezes o palpite; na milhar, 4.000 vezes\n"
+}

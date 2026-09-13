@@ -1,0 +1,80 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Parque Moinhos",
+  "path": "Atlas/Porto Alegre/Petrópolis/Parque Moinhos.md",
+  "basename": "Parque Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "[[Tramontina]] (parque dos funcionários)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Sorvete Kibon]]",
+      "[[Guaraná Fruki]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Polar Tradicional]]"
+    ],
+    "Completo": true,
+    "markerTag": "Parque"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Parque Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sorvete Kibon",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Parque Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Parque Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pequeno parque de lazer para funcionários da [[Tramontina]].\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Árvores podadas, bancos de concreto, cheiro de grama recém cortada.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pequeno parque de lazer para funcionários da [[Tramontina]].",
+    "aparencia": "Árvores podadas, bancos de concreto, cheiro de grama recém cortada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

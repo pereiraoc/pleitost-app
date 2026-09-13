@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Fusão Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Fusão Elemental.md",
+  "basename": "Fusão Elemental",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Você pode conjurar duas magias adeptas de elementos diferentes simultaneamente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Você pode conjurar duas magias adeptas de elementos diferentes simultaneamente.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Fusão Elemental.\n\n**Fusão Elemental - 2A**\nConjure duas Magias Anima Adeptas de elementos diferentes que precisam de duas ações que você possa conjurar. Você gasta [[Energia Mágica|EM]] como normalmente para as magias (tipicamente 4 ao total). As magias devem compartilhar o alvo (caso sejam de alvo único), terem suas áreas centralizadas no mesmo ponto (ou no alvo, caso misture magia de área com de alvo único) ou compartilharem a área (círculos devem ser posicionados em algum ponto da parte central de um cone ou em algum ponto de uma linha) caso combinem áreas diferentes. A potência para essas magias é reduzida a metade (tipicamente 4 para cada magia, metade de 8).\n\n```autosheet-rules\n```\n"
+}

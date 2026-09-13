@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Caçadora",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Caçadora.md",
+  "basename": "Forma Caçadora",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Caçadora",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "iconeLigado": "🐺",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "pai": "Forma Feral"
+        },
+        "forma": {
+          "movimento": 5,
+          "ataques": [
+            "Presas",
+            "Garras"
+          ],
+          "manobras": [
+            "Derrubar"
+          ],
+          "resistencia": "Evasão",
+          "pericias": [
+            "Cambalhota",
+            "Nadar",
+            "Salto Longo",
+            "Rastrear",
+            "Finta"
+          ],
+          "habilidades": [
+            "Abater Presa"
+          ],
+          "beneficios": "Ataques com Presas contra criaturas Caídas tem seu dado de dano aumentado em 1 passo e o dano base aumentado em 1."
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"[[Movimentação]] 5+[[Agilidade|AGI]]; ataques naturais (Presas, Garras); [[Derrubar]]; resistência [[Evasão]]; ações: [[Cambalhota]], [[Nadar]], [[Salto Longo]], [[Rastrear]], [[Finta]]; habilidade [[Abater Presa]]; ataques com Presas contra criaturas [[Caído|Caídas]] aumentam o dado de dano em 1 passo e o dano base em 1.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abater Presa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caídas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"[[Movimentação]] 5+[[Agilidade|AGI]]; ataques naturais (Presas, Garras); [[Derrubar]]; resistência [[Evasão]]; ações: [[Cambalhota]], [[Nadar]], [[Salto Longo]], [[Rastrear]], [[Finta]]; habilidade [[Abater Presa]]; ataques com Presas contra criaturas [[Caído|Caídas]] aumentam o dado de dano em 1 passo e o dano base em 1.\"\n%%\n### `= this.file.name` - `= this.custo`\n* [[Movimentação]] 5+[[Agilidade|AGI]]\n* Ataques naturais \n\t* Presas\n\t* Garras\n* Manobras de ataque\n\t* [[Derrubar]]\n* Resistência\n\t* [[Evasão]]\n* Ações de Perícia\n\t* [[Cambalhota]]\n\t* [[Nadar]]\n\t* [[Salto Longo]]\n\t* [[Rastrear]]\n\t* [[Finta]]\n* Habilidades\n\t* [[Abater Presa]]\n\t* Ataques com Presas contra criaturas [[Caído|Caídas]] tem seu dado de dano aumentado em 1 passo e o dano base aumentado em 1.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Bar do Botânico",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Bar do Botânico.md",
+  "basename": "Bar do Botânico",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Seu Waldir Kessler",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Brahma Chopp]]",
+      "[[Xis]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bar do Botânico.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bar do Botânico.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bar do Botânico.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Polar, Brahma, cachaça, xis e café; sinuca a Cz$ 20 a partida.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bar com mesa de sinuca no meio, balcão de fórmica, ventilador e a TV no jogo.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Polar, Brahma, cachaça, xis e café; sinuca a Cz$ 20 a partida.",
+    "aparencia": "Bar com mesa de sinuca no meio, balcão de fórmica, ventilador e a TV no jogo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

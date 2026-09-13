@@ -1,0 +1,34 @@
+{
+  "id": "Sistema/Regras/Bônus & Penalidades/Bônus de Item",
+  "path": "Sistema/Regras/Bônus & Penalidades/Bônus de Item.md",
+  "basename": "Bônus de Item",
+  "type": "Regra",
+  "subtype": "Bônus",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "bônus de item",
+    "categoria": "Regra",
+    "subcategoria": "Bônus",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Bônus & Penalidades]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bônus & Penalidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Bônus & Penalidades]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nBônus de item são melhorias em rolagens de ataques ou testes garantidas por itens especiais, mágicos ou não. Por exemplo, uma arma de boa qualidade garante um bônus na rolagem de ataque ou um item mágico pode garantir um bônus numa perícia."
+}

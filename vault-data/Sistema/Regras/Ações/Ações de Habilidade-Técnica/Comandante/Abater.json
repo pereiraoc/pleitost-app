@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Abater",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Abater.md",
+  "basename": "Abater",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Abater",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode fazer um [[Atacar|Ataque]] e, se acertar, causa dano adicional igual ao resultado do dado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode fazer um [[Atacar|Ataque]] e, se acertar, causa dano adicional igual ao resultado do dado.\"\n%%\n### `= this.file.name` - `= this.custo`\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, realizar um [[Atacar|Ataque]]. Esse ataque causa dano adicional igual ao resultado do dado caso tenha sucesso.\n\n```autosheet-rules\n```\n"
+}

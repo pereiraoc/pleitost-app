@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Caloi Cross",
+  "path": "Contexto/Recursos/Veículos/Caloi Cross.md",
+  "basename": "Caloi Cross",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Caloi",
+    "Preço": 15000,
+    "Cobrança": "única",
+    "Usado": 6000,
+    "Manutenção": 200,
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Bom Fim]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "A bicicleta da molecada: aro 20, guidão alto, salta o meio-fio e desce a escadaria da passarela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Caloi Cross.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicletaria Verde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Caloi Cross.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Caloi Cross.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Cross é a bicicleta que todo moleque do [[Jardim Botânico]] pede no Natal: aro 20, quadro reforçado, guidão\nalto. Serve pra saltar meio-fio, entregar recado da [[Resistência Urbana Gaúcha]] e fugir de brigadiano a pé.\n\n> [!info] Especificação\n> **Modelo:** Caloi Cross 1986, aro 20\n> **Peso:** 13 kg\n> **Novo:** [[Bicicletaria Verde]]\n> **Usado:** Cz$ 6.000\n> **Manutenção:** Cz$ 200 por mês\n"
+}

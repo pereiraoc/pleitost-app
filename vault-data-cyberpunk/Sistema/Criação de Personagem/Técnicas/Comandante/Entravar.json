@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Entravar",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Entravar.md",
+  "basename": "Entravar",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; ele pode, como reação, fazer [[Agarrar]], [[Derrubar]] ou [[Desarmar]] e, se tiver sucesso, causa dano de contusão igual ao resultado do dado. Conta como [[Comandos de Batalha]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; ele pode, como reação, fazer [[Agarrar]], [[Derrubar]] ou [[Desarmar]] e, se tiver sucesso, causa dano de contusão igual ao resultado do dado. Conta como [[Comandos de Batalha]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Entravar.\n\n**Entravar - 2A**\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, realizar uma das ações [[Agarrar]], [[Derrubar]] ou [[Desarmar]]. O aliado causa dano de contusão igual ao resultado do dado caso a manobra tenha sucesso. Entravar conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Ambidestria",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Ambidestria.md",
+  "basename": "Ambidestria",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]],[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Quando você [[Lutando com Duas Armas|Luta com Duas Armas]], você ignora a -2 de penalidade de especialização nos ataques. Quando você [[Sacar|Sacar]] uma arma de 1 mão com as duas mãos livres, pode [[Sacar|Sacar]] duas armas de 1 mão ao mesmo tempo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink",
+      "alias": "Luta com Duas Armas"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Sacar"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Saca"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]],[[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Quando você [[Lutando com Duas Armas|Luta com Duas Armas]], você ignora a -2 de penalidade de especialização nos ataques. Quando você [[Sacar|Sacar]] uma arma de 1 mão com as duas mãos livres, pode [[Sacar|Sacar]] duas armas de 1 mão ao mesmo tempo.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você [[Lutando com Duas Armas|Luta com Duas Armas]], você não recebe -2 de penalidade de especialização nos ataques. Adicionalmente, quando você [[Sacar|Saca]] uma arma de uma mão, pode [[Sacar]] duas armas de uma mão caso tenha as duas mãos livres.\n\n```autosheet-rules\n```\n"
+}

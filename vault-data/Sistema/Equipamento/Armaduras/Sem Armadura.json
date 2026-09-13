@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Equipamento/Armaduras/Sem Armadura",
+  "path": "Sistema/Equipamento/Armaduras/Sem Armadura.md",
+  "basename": "Sem Armadura",
+  "type": "Item",
+  "subtype": "Armadura",
+  "grupo": "Sem",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Armadura",
+    "grupo": "Sem",
+    "dg-publish": true,
+    "propriedades": [],
+    "bonus-defesa": "",
+    "força-necessaria": "",
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armaduras]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armaduras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink",
+      "alias": "Monges"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armaduras]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nPersonagens sem armadura são tipicamente conjuradores ([[Arcanista]], [[Animista]]) e [[Monge|Monges]]. Esses personagens usam robes ou roupas normais, dependendo da sua [[Agilidade]] para desviar de ataques. Um [[Anel do Equilíbrio]] é a maneira que podem melhorar sua [[Defesa]].\n\n```autosheet-rules\n```\n"
+}

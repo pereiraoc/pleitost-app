@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+  "path": "Contexto/Histórias/Contexto Histórico/História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria.md",
+  "basename": "História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": "Guerra dos 100 Anos",
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": null,
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos"
+    },
+    {
+      "target": "Baar'shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink",
+      "alias": "Federação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`=this.file.name`"
+    }
+  ],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n# `=this.file.name`\nA formação da [[Federação Áurea]] não foi apenas um ato de cooperação, mas também uma resposta à iminente ameaça representada pela [[Magna Pátria]] durante a [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. Esta guerra foi um período sombrio e desafiador na história da região, marcado por conflitos implacáveis e a necessidade urgente de unidade.\n\nA [[Magna Pátria]], uma nação vizinha e expansiva, havia crescido em poder e ambição ao longo das décadas. Com vastos recursos e um exército formidável, eles viram as três regiões da [[Federação Áurea]] como alvos de conquista. Cada região individualmente não seria capaz de resistir ao avanço implacável da [[Magna Pátria]], mas os líderes das três capitais reconheceram que, unindo suas forças, poderiam formar uma barreira formidável contra a invasão.\n\nFoi em meio a essa crise que os líderes de [[Baar'shava]], [[Iluminada]] e [[Safira]] se uniram, estabelecendo a [[Federação Áurea]]. A união não apenas representava um compromisso de prosperidade compartilhada, mas também uma aliança militar para enfrentar a [[Magna Pátria]]. Reconhecendo que suas diferenças eram insignificantes diante da ameaça comum, as regiões se uniram em torno de um objetivo: proteger suas terras e construir um escudo capaz de resistir ao avanço inimigo.\n\nOs recursos de cada região foram combinados para construir o [[Grande Muro]], uma imponente fortificação que se estendia ao longo das fronteiras da [[Federação Áurea]]. O muro era uma obra-prima da engenharia, com tecnologia avançada e magias antigas entrelaçadas para formar uma defesa quase impenetrável. Além disso, as três regiões uniram seus exércitos e conhecimentos táticos para formar uma força de resistência coesa.\n\nA [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]] foi feroz e prolongada, mas a determinação da [[Federação Áurea]] permaneceu inabalável. Os soldados lutaram valentemente, os líderes tomaram decisões estratégicas importantes e o Conselho Áureo guiou a nação através das dificuldades. O [[Grande Muro]] provou ser uma defesa eficaz, e a unidade das três regiões trouxe um senso de propósito que fortaleceu a moral das tropas e dos cidadãos.\n\nApós um longo e desafiador conflito, a [[Federação Áurea]] emergiu vitoriosa da [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. A [[Magna Pátria]] foi enfraquecida e forçada a recuar, reconhecendo a resiliência e a coragem da nação unificada. Essa vitória não apenas garantiu a segurança da [[Federação Áurea|Federação]], mas também solidificou os laços entre as regiões e demonstrou o poder da cooperação em tempos de adversidade.\n\nA história da [[Federação Áurea]] durante a [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]] serve como um lembrete de que a união em face da adversidade pode levar a realizações extraordinárias. O [[Grande Muro]] permanece como um símbolo duradouro desse período, representando não apenas uma barreira física, mas a força da vontade humana e a capacidade de superar obstáculos aparentemente insuperáveis."
+}

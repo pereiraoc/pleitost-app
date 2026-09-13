@@ -1,0 +1,37 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Sustentar",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Sustentar.md",
+  "basename": "Sustentar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Especial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Especial",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Especiais]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você mantêm o efeito de uma magia que permite Sustentar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Especiais]]\nprev:: \nnext:: \n\nresumo:: \"Você mantêm o efeito de uma magia que permite Sustentar.\"\n%%\n\n### `= this.file.name` - `= this.custo`\nVocê mantêm o efeito de uma magia que permite Sustentar. Efeitos que não forem sustentados até o final do seu turno (contando do turno seguinte ao início do efeito) são Dissipados.\n\n```autosheet-rules\n```\n"
+}

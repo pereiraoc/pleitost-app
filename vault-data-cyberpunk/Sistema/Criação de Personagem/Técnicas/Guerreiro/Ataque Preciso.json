@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Preciso",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Preciso.md",
+  "basename": "Ataque Preciso",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com +2 de [[Bônus de Circunstância|bônus de circunstância]]; para esse ataque, reduza a [[Cobertura]] do alvo em 1 categoria e diminua em 25% a chance percentual de erro por limitação de visão.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com +2 de [[Bônus de Circunstância|bônus de circunstância]]; para esse ataque, reduza a [[Cobertura]] do alvo em 1 categoria e diminua em 25% a chance percentual de erro por limitação de visão.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Preciso.\n\n**Ataque Preciso - 2A**\nFaça um [[Atacar|Ataque]]. Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na rolagem de ataque para esse ataque. Se o alvo tiver [[Cobertura]], reduza ela em uma categoria para esse ataque. Se você tem uma chance percentual de errar ataques por limitação de visão, reduza essa chance em 25% para esse ataque.\n\n```autosheet-rules\n```\n"
+}

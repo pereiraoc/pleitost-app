@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Campus do Vale da UFRGS",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Campus do Vale da UFRGS.md",
+  "basename": "Campus do Vale da UFRGS",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Diretório dos estudantes (o Vale se governa sozinho à noite)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campus do Vale da UFRGS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Campus do Vale da UFRGS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Campus do Vale da UFRGS.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Prédios baixos espalhados no mato, ônibus de turno na entrada, a rádio pirata do diretório e a Brigada que só entra de dia; o veterinário atende gente também.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Vale verde com prédios baixos de concreto e vidro quebrado, estrada de chão, ônibus lotado na entrada, antena improvisada no telhado, mato fechado em volta.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Prédios baixos espalhados no mato, ônibus de turno na entrada, a rádio pirata do diretório e a Brigada que só entra de dia; o veterinário atende gente também.",
+    "aparencia": "Vale verde com prédios baixos de concreto e vidro quebrado, estrada de chão, ônibus lotado na entrada, antena improvisada no telhado, mato fechado em volta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

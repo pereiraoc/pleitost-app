@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Padaria da Vila",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Padaria da Vila.md",
+  "basename": "Padaria da Vila",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Dona Terezinha Souza",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Café Passado]]",
+      "[[Empada de Padaria]]",
+      "[[Bolo de Padaria]]",
+      "[[Cueca Virada]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padaria da Vila.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empada de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padaria da Vila.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padaria da Vila.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cacetinho, café, bolo e cueca virada; pão dormido de graça pra criança da vila.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casinha com balcão na porta, forno de tijolo no quintal, fila de chinelo às seis.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cacetinho, café, bolo e cueca virada; pão dormido de graça pra criança da vila.",
+    "aparencia": "Casinha com balcão na porta, forno de tijolo no quintal, fila de chinelo às seis.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

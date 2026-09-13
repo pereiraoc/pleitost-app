@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Garagem da Ferroviária",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Garagem da Ferroviária.md",
+  "basename": "Garagem da Ferroviária",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Seu Juarez Bitencourt",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Kombi]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Mercedes-Benz 1113]] usado",
+      "[[Honda CG 125]] usado",
+      "[[Agrale 27.5]] usado",
+      "[[Volkswagen Brasília]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Garagem da Ferroviária.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercedes-Benz 1113",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agrale 27.5",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Brasília",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Garagem da Ferroviária.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Garagem da Ferroviária.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Kombi, Fusca, caminhão 1113 usado, CG e Agrale; troca por serviço de frete.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pátio de brita com caminhões e Kombis, guincho, um cão preso e o barulho do trem.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Kombi, Fusca, caminhão 1113 usado, CG e Agrale; troca por serviço de frete.",
+    "aparencia": "Pátio de brita com caminhões e Kombis, guincho, um cão preso e o barulho do trem.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

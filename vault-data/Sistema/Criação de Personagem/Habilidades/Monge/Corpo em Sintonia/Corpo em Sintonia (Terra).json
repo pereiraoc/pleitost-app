@@ -1,0 +1,148 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Terra)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Terra).md",
+  "basename": "Corpo em Sintonia (Terra)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Sintonia [[Traço Elemental da Terra]]",
+      "Complementar Acoes.Lista [[Bloquear com Escudo]]",
+      "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Se estiver sem armadura e tiver uma mão livre, você é tratado como portando um Escudo Natural com Dureza igual a 4 e limite de danos 4. Você pode usar uma [[Bloquear com Escudo|reação para bloquear]] com seu Escudo Natural. Você repara seu Escudo Natural completamente ao [[Descansar]]. A Dureza aumenta para 6 no 4º nível e para 8 no 7º nível.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Sintonia [[Traço Elemental da Terra]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Terra)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental da Terra]]"
+          },
+          "raw": "Requisito Sintonia [[Traço Elemental da Terra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Bloquear com Escudo]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Terra)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Bloquear com Escudo]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Bloquear com Escudo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Terra)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "attr-compare",
+            "left": "FOR",
+            "op": ">",
+            "right": "AGI"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Atributo",
+            "valueRaw": "FOR"
+          },
+          "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink",
+      "alias": "reação para bloquear"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Se estiver sem armadura e tiver uma mão livre, você é tratado como portando um Escudo Natural com Dureza igual a 4 e limite de danos 4. Você pode usar uma [[Bloquear com Escudo|reação para bloquear]] com seu Escudo Natural. Você repara seu Escudo Natural completamente ao [[Descansar]]. A Dureza aumenta para 6 no 4º nível e para 8 no 7º nível.\"\n%%\n##### `= this.file.name`\nVocê pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Se estiver sem armadura e tiver uma mão livre, você é tratado como portando um Escudo Natural com Dureza igual a 4 e limite de danos 4. Você pode usar uma [[Bloquear com Escudo|reação para bloquear]] com seu Escudo Natural. Você repara seu Escudo Natural completamente ao [[Descansar]]. A Dureza aumenta para 6 no 4º nível e para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

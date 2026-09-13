@@ -1,0 +1,118 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Melhorar Habilidade",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Melhorar Habilidade.md",
+  "basename": "Melhorar Habilidade",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Melhorar Habilidade",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "selectores": [
+          {
+            "kind": "discreto",
+            "label": "Atributo",
+            "opcoes": [
+              "FOR",
+              "AGI",
+              "INT",
+              "PRE"
+            ]
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "PericiasDeAtributo",
+            "porAtributo": {
+              "doSeletor": "Atributo"
+            },
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Garante +2 em testes de [[Perícias|Perícia]] de um [[Atributos|Atributo]] a sua escolha de uma criatura em 2q por 10t (10 min se [[Experiente]], 1h se [[Mestre]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "perícia"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Garante +2 em testes de [[Perícias|Perícia]] de um [[Atributos|Atributo]] a sua escolha de uma criatura em 2q por 10t (10 min se [[Experiente]], 1h se [[Mestre]]).\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura recebe +2 de [[bônus de condição]] em testes de [[Perícias|perícia]] de [[Força|FOR]], [[Agilidade|AGI]], [[Inteligência|INT]] ou [[Presença|PRE]], a sua escolha, por 10 turnos. A duração aumenta para 10 minutos ao se tornar [[Experiente]] com [[Magia Arcana Branca]] e 1 hora ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Banca do Aeromóvel",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Banca do Aeromóvel.md",
+  "basename": "Banca do Aeromóvel",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Seu Darci Nunes (jornaleiro)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Mate Gelado Charrua]]",
+      "[[Chá Mate Leão]]",
+      "[[Elma Chips]]",
+      "[[Bubbaloo]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Diamante Negro]]",
+      "[[Amendoim Japonês]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Banca do Aeromóvel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chá Mate Leão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elma Chips",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bubbaloo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diamante Negro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Banca do Aeromóvel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Banca do Aeromóvel.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Mate gelado, salgadinho, chiclete, chocolate e chá mate; jornal censurado e o outro por baixo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Banca de ferro com isopor, revistas presas com prendedor e a fila da catraca do lado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Mate gelado, salgadinho, chiclete, chocolate e chá mate; jornal censurado e o outro por baixo.",
+    "aparencia": "Banca de ferro com isopor, revistas presas com prendedor e a fila da catraca do lado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

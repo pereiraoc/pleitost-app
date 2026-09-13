@@ -1,0 +1,82 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Auto Petrópolis",
+  "path": "Atlas/Porto Alegre/Petrópolis/Auto Petrópolis.md",
+  "basename": "Auto Petrópolis",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Sr. Getúlio Rech",
+    "Descrição": null,
+    "Serviços": [
+      "[[Chevrolet Chevette]]",
+      "[[Ford Del Rey]]",
+      "[[Chevrolet Monza]]",
+      "[[Volkswagen Kombi]]",
+      "[[Chevrolet Opala Diplomata]] usado",
+      "[[Chevrolet Chevette]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Auto Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Chevette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ford Del Rey",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Monza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Opala Diplomata",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Auto Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Auto Petrópolis.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Chevette, Del Rey, Monza e Kombi novos; Opala e Chevette de segunda mão com documento; financiamento em folha de megacorp.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pátio de vitrine com bandeirolas, escritório de vidro, um vendedor de gravata e o cheiro de carro novo.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Chevette, Del Rey, Monza e Kombi novos; Opala e Chevette de segunda mão com documento; financiamento em folha de megacorp.",
+    "aparencia": "Pátio de vitrine com bandeirolas, escritório de vidro, um vendedor de gravata e o cheiro de carro novo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

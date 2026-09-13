@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Luta Cega",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Luta Cega.md",
+  "basename": "Luta Cega",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Seus instintos de combate são afiados mesmo para inimigos difíceis de ver. Se você tem uma chance percentual de errar ataques por limitação de visão, reduza essa chance em 25%.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Seus instintos de combate são afiados mesmo para inimigos difíceis de ver. Se você tem uma chance percentual de errar ataques por limitação de visão, reduza essa chance em 25%.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSeus instintos de combate são afiados mesmo para inimigos difíceis de ver. Se você tem uma chance percentual de errar ataques por limitação de visão, reduza essa chance em 25%.\n\n```autosheet-rules\n```\n"
+}

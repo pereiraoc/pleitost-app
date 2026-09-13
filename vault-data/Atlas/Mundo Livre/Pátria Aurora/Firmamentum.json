@@ -1,0 +1,124 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Firmamentum",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Firmamentum.md",
+  "basename": "Firmamentum",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Firmamentum.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Firmamentum.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Firmamentum.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade serrana do sul da [[Pátria Aurora]] e o entroncamento de todos os caminhos terrestres da ilha: de suas placas de sinalização partem as trilhas de montanha para a [[Torre das Tochas]], o [[Palácio das Pedras]], o [[Mosteiro dos Mares]] e a [[Cúpula dos Céus]]. Vive dos peregrinos e das caravanas que cruzam a serra — guias, muares, mercados e oficinas de imbuição servem quem sobe aos mosteiros. É também a porta de entrada da vida monástica: no Claustra Novitiorum, os noviços da Pátria começam sua formação antes de seguir para os mosteiros-fortaleza.\n>\n> 👁️**Aparência do Local:** Cidade aberta, sem muralhas e sem porto, encravada em socalcos na encosta de montanhas de pinheirais e descendo até uma costa brava de falésias, onde o mar arrebenta sem cais nem embarcação alguma. O traçado é todo em terraços com muros de arrimo arcados e escadarias de pedra por toda parte; um aqueduto de arcos duplos desce a serra a nordeste e entra no bairro do Vicus Ascensionis. A arquitetura segue o romano-clássico da nação — colunatas, frontões e basílicas de telha marrom e vermelha —, com trilhas em zigue-zague sumindo nos picos ao norte. No skyline destacam-se a coluna do Forum Centrale, a torre-portal da Porta dos Caminhos no alto, a Torre das Brisas sobre o mar e o templete dourado do Mirante da Costa.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Porta dos Caminhos** *(alto norte)* — torre-portal de pedra onde as trilhas de montanha convergem antes de subir a serra rumo à [[Torre das Tochas]], ao [[Palácio das Pedras]], ao [[Mosteiro dos Mares]] e à [[Cúpula dos Céus]].\n>\n> **Claustra Novitiorum** *(roxo — noroeste)* — o distrito monástico dos noviços.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade serrana do sul da [[Pátria Aurora]] e o entroncamento de todos os caminhos terrestres da ilha: de suas placas de sinalização partem as trilhas de montanha para a [[Torre das Tochas]], o [[Palácio das Pedras]], o [[Mosteiro dos Mares]] e a [[Cúpula dos Céus]]. Vive dos peregrinos e das caravanas que cruzam a serra — guias, muares, mercados e oficinas de imbuição servem quem sobe aos mosteiros. É também a porta de entrada da vida monástica: no Claustra Novitiorum, os noviços da Pátria começam sua formação antes de seguir para os mosteiros-fortaleza.",
+    "aparencia": "Cidade aberta, sem muralhas e sem porto, encravada em socalcos na encosta de montanhas de pinheirais e descendo até uma costa brava de falésias, onde o mar arrebenta sem cais nem embarcação alguma. O traçado é todo em terraços com muros de arrimo arcados e escadarias de pedra por toda parte; um aqueduto de arcos duplos desce a serra a nordeste e entra no bairro do Vicus Ascensionis. A arquitetura segue o romano-clássico da nação — colunatas, frontões e basílicas de telha marrom e vermelha —, com trilhas em zigue-zague sumindo nos picos ao norte. No skyline destacam-se a coluna do Forum Centrale, a torre-portal da Porta dos Caminhos no alto, a Torre das Brisas sobre o mar e o templete dourado do Mirante da Costa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Porta dos Caminhos** *(alto norte)* — torre-portal de pedra onde as trilhas de montanha convergem antes de subir a serra rumo à [[Torre das Tochas]], ao [[Palácio das Pedras]], ao [[Mosteiro dos Mares]] e à [[Cúpula dos Céus]].\n\n**Claustra Novitiorum** *(roxo — noroeste)* — o distrito monástico dos noviços.",
+    "leaflet": null
+  }
+}

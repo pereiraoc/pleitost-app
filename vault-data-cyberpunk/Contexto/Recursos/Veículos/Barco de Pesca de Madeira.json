@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Veículos/Barco de Pesca de Madeira",
+  "path": "Contexto/Recursos/Veículos/Barco de Pesca de Madeira.md",
+  "basename": "Barco de Pesca de Madeira",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Carpinteiros do cais",
+    "Preço": 60000,
+    "Cobrança": "única",
+    "Usado": 40000,
+    "Manutenção": 1000,
+    "Nível": 2,
+    "Onde": [
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "Barco de madeira a remo e vela de saco, seis metros: o barco do pescador do cais, sem motor e sem pressa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barco de Pesca de Madeira.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estaleiro do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barco de Pesca de Madeira.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Barco de Pesca de Madeira.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO barco de pesca do cais é feito de madeira reaproveitada pelos carpinteiros do [[Sindicato dos Catadores]]: seis metros, remo, vela de saco de farinha. Não tem motor e não precisa: o Guaíba é parado e o peixe\nestá perto. Compra-se em dólar.\n\n> [!info] Especificação\n> **Modelo:** barco de madeira 6 m, remo e vela, 3 pessoas ou 300 kg de peixe\n> **Motor:** nenhum\n> **Velocidade:** a do vento\n> **Novo:** [[Estaleiro do Cais]] (US$ 600)\n> **Usado:** Cz$ 40.000 com casco calafetado\n> **Manutenção:** Cz$ 1.000 por mês: breu, corda e uma vela nova por ano\n"
+}

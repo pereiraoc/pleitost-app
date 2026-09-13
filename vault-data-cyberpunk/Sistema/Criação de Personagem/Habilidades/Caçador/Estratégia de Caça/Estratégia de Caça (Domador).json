@@ -1,0 +1,191 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça (Domador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça (Domador).md",
+  "basename": "Estratégia de Caça (Domador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Comandar Animal]]",
+      "Alias Classe Compor 1 \"Domador\"",
+      "Escolha_Habilidades \"Perícia Adepta\" Definir (\"Atletismo\":Pericias.Lista.Atletismo.Proficiencia,\"Diplomacia\":Pericias.Lista.Diplomacia.Proficiencia) A",
+      "Somar Papel.Vanguarda 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você consegue se comunicar com animais de forma rudimentar, podendo usar [[Diplomacia]] para fazer pedidos simples a eles. Você se torna [[Adepto]] em [[Atletismo]] ou [[Diplomacia]], a sua escolha. Você recebe um [[Companheiro Animal]]. Quando você usa [[Marca do Caçador]], pode [[Comandar Animal]] como ação livre.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Comandar Animal]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Domador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Comandar Animal]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Comandar Animal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Domador\"",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Domador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Domador"
+          },
+          "raw": "Alias Classe Compor 1 \"Domador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Perícia Adepta\" Definir (\"Atletismo\":Pericias.Lista.Atletismo.Proficiencia,\"Diplomacia\":Pericias.Lista.Diplomacia.Proficiencia) A",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Domador)",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Perícia Adepta",
+              "choiceKey": "__esc_h_75928667",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolha-prop-map",
+            "label": "Perícia Adepta",
+            "propMap": [
+              {
+                "label": "Atletismo",
+                "targetRaw": "Pericias.Lista.Atletismo.Proficiencia"
+              },
+              {
+                "label": "Diplomacia",
+                "targetRaw": "Pericias.Lista.Diplomacia.Proficiencia"
+              }
+            ],
+            "valueRaw": "A"
+          },
+          "raw": "Escolha_Habilidades \"Perícia Adepta\" Definir (\"Atletismo\":Pericias.Lista.Atletismo.Proficiencia,\"Diplomacia\":Pericias.Lista.Diplomacia.Proficiencia) A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Domador)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Vanguarda 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink",
+      "alias": "Comandar"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Você consegue se comunicar com animais de forma rudimentar, podendo usar [[Diplomacia]] para fazer pedidos simples a eles. Você se torna [[Adepto]] em [[Atletismo]] ou [[Diplomacia]], a sua escolha. Você recebe um [[Companheiro Animal]]. Quando você usa [[Marca do Caçador]], pode [[Comandar Animal]] como ação livre.\"\n%%\n##### `= this.file.name`\nVocê tem uma fera elemental como companheiro. Você consegue se comunicar com animais de forma rudimentar, podendo usar [[Diplomacia]] para fazer pedidos simples a eles. Você se torna [[Adepto]] em [[Atletismo]] ou [[Diplomacia]], a sua escolha. Você recebe um [[Companheiro Animal]]. Quando você usa [[Marca do Caçador]], pode [[Comandar Animal]] como ação livre.\n\n Quando você usaria uma ação para [[Comandar Animal|Comandar]] seu companheiro animal, pode optar por Comandar como uma ação livre. Comandar desta forma permite o companheiro animal realizar somente 1 ação para [[Atacar]] seu alvo de caça ou [[Mover]] (ou [[Voar]], para Aves) na direção do seu alvo de caça. Você ainda só pode Comandar seu companheiro animal uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

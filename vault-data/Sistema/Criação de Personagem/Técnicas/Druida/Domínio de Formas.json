@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Domínio de Formas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Domínio de Formas.md",
+  "basename": "Domínio de Formas",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você ganha 1 nova [[Forma Feral]] e a habilidade Controle de Forma (1A): mude de uma [[Forma Feral]] para outra que você conhece; um [[Aspecto Feral]] ativo continua com a mesma duração e, se for incompatível com a nova forma, fica inativo até você voltar a uma forma compatível (a duração continua correndo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você ganha 1 nova [[Forma Feral]] e a habilidade Controle de Forma (1A): mude de uma [[Forma Feral]] para outra que você conhece; um [[Aspecto Feral]] ativo continua com a mesma duração e, se for incompatível com a nova forma, fica inativo até você voltar a uma forma compatível (a duração continua correndo).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manifestar uma nova [[Forma Feral]]. Adicionalmente, você aprende a habilidade Controle de Forma.\n*Requer Forma Adicional*\n\n**Controle de Forma - 1A**\nVocê transforma a [[Forma Feral]] ativa em outra que você conhece. Caso tenha um [[Aspecto Feral]] ativo, ele se mantém ativo na nova forma com a mesma duração. Se o aspecto for incompatível com a nova forma, ele fica inativo até que você mude para uma forma compatível, mas sua duração continua correndo.\n\n```autosheet-rules\n```\n"
+}

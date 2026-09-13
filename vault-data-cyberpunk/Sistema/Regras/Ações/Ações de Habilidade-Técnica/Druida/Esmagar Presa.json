@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Esmagar Presa",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Esmagar Presa.md",
+  "basename": "Esmagar Presa",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"1 vez por turno, contra uma criatura [[Agarrar|Agarrada]] por você, faça um teste vs [[Vigor]] usando seu modificador de ataque com Garras e cause dano de contusão (no sucesso: 1d4+2; falha: metade; sucesso decisivo: +1d4; falha decisiva: nada). O dano do sucesso vira 2d4+2 se [[Experiente]] com [[Ataques]] e 3d4+2 se [[Mestre]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink",
+      "alias": "Agarrada"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink",
+      "alias": "Agarrada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"1 vez por turno, contra uma criatura [[Agarrar|Agarrada]] por você, faça um teste vs [[Vigor]] usando seu modificador de ataque com Garras e cause dano de contusão (no sucesso: 1d4+2; falha: metade; sucesso decisivo: +1d4; falha decisiva: nada). O dano do sucesso vira 2d4+2 se [[Experiente]] com [[Ataques]] e 3d4+2 se [[Mestre]].\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste contra o [[Vigor]] de uma criatura [[Agarrado|Agarrada]] por você, seu modificador para o teste é igual ao seu modificador de ataque com Garras. Você pode usar Esmagar Presa uma vez por turno.\n\n**Sucesso:** Você causa 1d4+2 de dano de contusão.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d4.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\nO dano no sucesso aumenta em para 2d4+2 ao se tornar [[Experiente]] como [[Ataques]] e para 3d4+2 ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

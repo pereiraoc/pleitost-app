@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Magna Pátria/Magna Pátria",
+  "path": "Atlas/Magna Pátria/Magna Pátria.md",
+  "basename": "Magna Pátria",
+  "type": "Localização",
+  "subtype": "Nação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Nação",
+    "Geolocalização": "[[Atlas]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atlas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** \n> \n> ℹ️**Descrição:** Nação expansionista que domina as terras a oeste do [[Grande Muro]], fora dos limites do [[Mundo Livre]]. Com vastos recursos e um exército formidável, cresceu em poder e ambição até tentar conquistar as três regiões que hoje formam a [[Federação Áurea]] — a invasão que deflagrou a [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. Derrotada diante do Muro, foi forçada a recuar, enfraquecida; desde então, pouco se sabe do que acontece do outro lado. \n> \n> 👁️**Aparência do Local:** Do [[Mundo Livre]] vê-se apenas uma faixa estreita de seu território, espremida entre o [[Grande Muro]] e o horizonte: ao norte, a continuação do mesmo deserto amarelo de [[Pedra Fina]]; ao sul, bosques de tom oliva. O Rio Raio da Luz atravessa por baixo do Muro e segue para oeste, adentrando suas terras — a única coisa do Mundo Livre que ainda cruza a fronteira. As passagens naturais são tão hostis quanto a muralha: as Montanhas de Vidro fecham o norte e a cordilheira escura fecha o sul, até a costa. Nenhum assentamento seu é visível das ameias; o que existe além dessa primeira faixa — cidades, exércitos, cicatrizes da guerra — é assunto de especulação nas tavernas da Federação. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Magna Pátria\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Nação expansionista que domina as terras a oeste do [[Grande Muro]], fora dos limites do [[Mundo Livre]]. Com vastos recursos e um exército formidável, cresceu em poder e ambição até tentar conquistar as três regiões que hoje formam a [[Federação Áurea]] — a invasão que deflagrou a [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. Derrotada diante do Muro, foi forçada a recuar, enfraquecida; desde então, pouco se sabe do que acontece do outro lado.",
+    "aparencia": "Do [[Mundo Livre]] vê-se apenas uma faixa estreita de seu território, espremida entre o [[Grande Muro]] e o horizonte: ao norte, a continuação do mesmo deserto amarelo de [[Pedra Fina]]; ao sul, bosques de tom oliva. O Rio Raio da Luz atravessa por baixo do Muro e segue para oeste, adentrando suas terras — a única coisa do Mundo Livre que ainda cruza a fronteira. As passagens naturais são tão hostis quanto a muralha: as Montanhas de Vidro fecham o norte e a cordilheira escura fecha o sul, até a costa. Nenhum assentamento seu é visível das ameias; o que existe além dessa primeira faixa — cidades, exércitos, cicatrizes da guerra — é assunto de especulação nas tavernas da Federação.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

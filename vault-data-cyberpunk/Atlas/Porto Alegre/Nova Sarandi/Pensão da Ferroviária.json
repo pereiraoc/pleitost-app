@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Pensão da Ferroviária",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Pensão da Ferroviária.md",
+  "basename": "Pensão da Ferroviária",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Seu Osvaldo Pacheco (ex-ferroviário)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Pensão da Ferroviária]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão da Ferroviária.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão da Ferroviária",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão da Ferroviária.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão da Ferroviária.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cama de ferro por noite, chimarrão às quatro e meia e a porta na cara de quem não sai pro turno; sem registro, batida na sexta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casarão de madeira encostado no pátio de manobras, cama de ferro em fila, cobertor de lã, locomotiva apitando na janela.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cama de ferro por noite, chimarrão às quatro e meia e a porta na cara de quem não sai pro turno; sem registro, batida na sexta.",
+    "aparencia": "Casarão de madeira encostado no pátio de manobras, cama de ferro em fila, cobertor de lã, locomotiva apitando na janela.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

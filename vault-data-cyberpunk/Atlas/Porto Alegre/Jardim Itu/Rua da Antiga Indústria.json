@@ -1,0 +1,95 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Rua da Antiga Indústria",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Rua da Antiga Indústria.md",
+  "basename": "Rua da Antiga Indústria",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "ninguém — botecos e postos da rua",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cachaça de Boteco]]",
+      "[[Polar Tradicional]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Gasolina Ipiranga]]",
+      "[[Gurgel Motomachine]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Agrale 27.5]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rua da Antiga Indústria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gasolina Ipiranga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agrale 27.5",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rua da Antiga Indústria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rua da Antiga Indústria.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Via principal ladeada por galpões industriais.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Asfalto manchado, iluminação fraca, eco de marteladas.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Via principal ladeada por galpões industriais.",
+    "aparencia": "Asfalto manchado, iluminação fraca, eco de marteladas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

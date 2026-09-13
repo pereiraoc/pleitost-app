@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Resistências/Evasão",
+  "path": "Sistema/Regras/Defesas e Resistências/Resistências/Evasão.md",
+  "basename": "Evasão",
+  "type": "Regra",
+  "subtype": "Defesas-e-Resistências",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Defesas-e-Resistências",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Resistências]]",
+    "prev": "[[Vigor]]",
+    "next": "[[Ímpeto]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Evasão"
+    }
+  ],
+  "body": "%%\nup:: [[Resistências]]\nprev:: [[Vigor]]\nnext:: [[Ímpeto]]\n%%\n### Evasão\nEvasão permite ao personagem resistir efeitos que precisam ser desviados ou requerem uma resposta rápida.\nSua Evasão é calculada como: 10 + [[Proficiência]] + [[Agilidade|AGI]] ou [[Inteligência|INT]]."
+}

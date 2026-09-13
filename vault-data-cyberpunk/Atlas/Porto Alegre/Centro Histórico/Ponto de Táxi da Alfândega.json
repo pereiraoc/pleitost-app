@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Ponto de Táxi da Alfândega",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Ponto de Táxi da Alfândega.md",
+  "basename": "Ponto de Táxi da Alfândega",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Seu Valter Bandeira (chefe do ponto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto de Táxi da Alfândega.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto de Táxi da Alfândega.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto de Táxi da Alfândega.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Táxi Gurgel na fila o dia inteiro; à noite, o dobro; em dia de jogo, o triplo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fila de Carajás amarelos sobre a passarela reforçada, guarita com rádio e um cartaz de tarifa rasurado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Táxi Gurgel na fila o dia inteiro; à noite, o dobro; em dia de jogo, o triplo.",
+    "aparencia": "Fila de Carajás amarelos sobre a passarela reforçada, guarita com rádio e um cartaz de tarifa rasurado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Estação Centro Corporativo",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Estação Centro Corporativo.md",
+  "basename": "Estação Centro Corporativo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Trensurb + segurança [[Gradiente]]",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Centro Corporativo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Centro Corporativo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Centro Corporativo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma envidraçada sobre a água, com carpete, telefone Embratel e segurança de terno; do outro lado da catraca, a Estação Central lotada.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Deck de vidro iluminado sobre água barrenta, vagão preto parado, executivo de óculos escuros, e do outro lado da grade a plataforma popular abarrotada.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma envidraçada sobre a água, com carpete, telefone Embratel e segurança de terno; do outro lado da catraca, a Estação Central lotada.",
+    "aparencia": "Deck de vidro iluminado sobre água barrenta, vagão preto parado, executivo de óculos escuros, e do outro lado da grade a plataforma popular abarrotada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

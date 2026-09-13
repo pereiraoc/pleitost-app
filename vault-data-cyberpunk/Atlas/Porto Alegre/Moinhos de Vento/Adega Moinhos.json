@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Adega Moinhos",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Adega Moinhos.md",
+  "basename": "Adega Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Seu Ítalo Bertoldi",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vinho Aurora]]",
+      "[[Brahma Chopp]]",
+      "[[Água Mineral em Galão]]",
+      "[[Uísque de Contrabando]]",
+      "[[Coca-Cola]]",
+      "[[Doce de Leite Colonial]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Adega Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Adega Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Adega Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vinho Aurora com rótulo de reserva, Brahma, água mineral e uísque de contrabando com selo colado; entrega em casa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de madeira escura com garrafas até o teto, balcão de degustação e um menino de entrega.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vinho Aurora com rótulo de reserva, Brahma, água mineral e uísque de contrabando com selo colado; entrega em casa.",
+    "aparencia": "Loja de madeira escura com garrafas até o teto, balcão de degustação e um menino de entrega.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

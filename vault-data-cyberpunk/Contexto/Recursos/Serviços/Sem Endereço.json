@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Serviços/Sem Endereço",
+  "path": "Contexto/Recursos/Serviços/Sem Endereço.md",
+  "basename": "Sem Endereço",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Sem Plano Mensal de Moradia"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Vagas": 0,
+    "Nível": 1,
+    "Onde": null,
+    "Resumo": "Sem aluguel no mês: dorme onde der — palafita, barraco, rede de bar — e paga a noite avulsa quando precisa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sem Endereço.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar da Estrada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Igreja Nosso Senhor do Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sem Endereço.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sem Endereço.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNenhum aluguel no mês. Dorme onde der: na palafita de um conhecido, num barraco do [[Clã da Ferrugem]], na rede do [[Bar da Estrada]], no chão da [[Igreja Nosso Senhor do Bom Fim]] quando chove. Quando precisa MESMO de uma cama, paga a noite avulsa numa pensão — e o Mestre desconta da ficha.\n\n> [!info] Especificação\n> **Teto:** nenhum fixo\n> **Dá direito a:** nada — cada noite se paga na hora, se pagar\n> **Quem vive assim:** catador, desempregado, quem fugiu de casa ou da Brigada\n> **O que cabe:** nada — o que tu carrega; o que deixa fica com quem guardar\n> **Classe:** Sem Plano Mensal\n"
+}

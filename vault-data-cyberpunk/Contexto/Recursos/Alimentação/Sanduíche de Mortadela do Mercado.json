@@ -1,0 +1,52 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Sanduíche de Mortadela do Mercado",
+  "path": "Contexto/Recursos/Alimentação/Sanduíche de Mortadela do Mercado.md",
+  "basename": "Sanduíche de Mortadela do Mercado",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Bancas do Mercado Público",
+    "Preço": 80,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Pão francês com dois dedos de mortadela fatiada na hora, na banca do Mercado: o lanche do estivador, Cz$ 80.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sanduíche de Mortadela do Mercado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sanduíche de Mortadela do Mercado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sanduíche de Mortadela do Mercado.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNa banca de frios do [[Mercado Público]] o sanduíche de mortadela é feito na hora: cacetinho aberto, dois dedos\nde mortadela fatiada na máquina, mostarda se pedir. Cz$ 80, em pé no balcão, com [[Café Passado]] ou\n[[Mate Gelado Charrua]]. O estivador come dois.\n\n> [!info] Especificação\n> **Lanche:** cacetinho, mortadela fatiada na hora, mostarda Hemmer\n> **Preço:** Cz$ 80; com queijo Cz$ 100\n> **Hora:** 7h às 15h\n> **Onde:** bancas de frios do [[Mercado Público]]\n"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Pessoas/Otto Kirst",
+  "path": "Contexto/Pessoas/Otto Kirst.md",
+  "basename": "Otto Kirst",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Seu Otto"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Fruki]]",
+    "Função": "Presidente da Fruki",
+    "Aparência": "Sessenta anos, largo, camisa de manga curta com caneta no bolso e relógio de ouro; sotaque do Vale do Taquari, chega de Del Rey com o filho dirigindo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Otto Kirst.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fruki",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Otto Kirst.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Otto Kirst.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

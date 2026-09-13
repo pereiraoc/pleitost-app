@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Sentido Artístico",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Sentido Artístico.md",
+  "basename": "Sentido Artístico",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você ganha um sentido especial, permitindo detectar criaturas não-acéfalas em até 10q de forma imprecisa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você ganha um sentido especial, permitindo detectar criaturas não-acéfalas em até 10q de forma imprecisa.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê é capaz de sentir a arte e criatividade dentro de cada um. Você ganha um sentido especial, permitindo detectar criaturas não-acéfalas em até 10q de forma imprecisa. Você sabe a posição que a criatura ocupa, mas ainda tem 50% de chance de errar contra essa. Esse sentido não permite ver através de objetos sólidos.\n\n```autosheet-rules\n```\n"
+}

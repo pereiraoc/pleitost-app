@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Localizar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Localizar.md",
+  "basename": "Localizar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Experiente",
+    "custo": "1 minuto",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em alcance 100q, por 10 minutos você sabe a direção de um objeto específico ou do objeto mais próximo de um tipo escolhido.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em alcance 100q, por 10 minutos você sabe a direção de um objeto específico ou do objeto mais próximo de um tipo escolhido.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 100q. Por 10 minutos você sabe a direção para onde está um objeto específico ou tipo de objeto. Caso escolha um tipo de objeto, o mais próximo de você é detectado.\n\n```autosheet-rules\n```\n"
+}

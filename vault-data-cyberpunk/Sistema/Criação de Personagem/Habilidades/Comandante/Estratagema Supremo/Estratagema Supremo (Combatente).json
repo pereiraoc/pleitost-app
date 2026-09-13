@@ -1,0 +1,83 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Supremo/Estratagema Supremo (Combatente)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Supremo/Estratagema Supremo (Combatente).md",
+  "basename": "Estratagema Supremo (Combatente)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratagema Superior (Combatente)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Todos os seus ataques representam uma nova oportunidade. Quando você tem sucesso com um [[Atacar|Ataque]] no seu turno, o alvo fica [[Desprevenido]] contra o próximo ataque feito contra ele por um aliado até o início do seu próximo turno.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratagema Superior (Combatente)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Supremo (Combatente)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratagema Superior (Combatente)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratagema Superior (Combatente)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Superior (Combatente)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\n\nresumo:: \"Todos os seus ataques representam uma nova oportunidade. Quando você tem sucesso com um [[Atacar|Ataque]] no seu turno, o alvo fica [[Desprevenido]] contra o próximo ataque feito contra ele por um aliado até o início do seu próximo turno.\"\n%%\n##### `= this.file.name`\nTodos os seus ataques representam uma nova oportunidade. Quando você tem sucesso com um [[Atacar|Ataque]] no seu turno, o alvo fica [[Desprevenido]] contra o próximo ataque feito contra ele por um aliado até o início do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

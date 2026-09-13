@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rharos",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rharos.md",
+  "basename": "Rharos",
+  "type": "Localização",
+  "subtype": "Grande Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Grande Cidade",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Agricultura (Grãos)"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rharos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rharos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rharos.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Grande cidade agrícola do [[Campos do Provento]] e principal produtora de grãos da [[Federação Áurea]]: as colheitas reunidas no Pátio dos Grãos abastecem [[Iluminada]] pela estrada do oeste e seguem rumo à costa de [[Lilá]]. Cidade aberta e próspera, vive no ritmo das safras — feiras na Praça do Mercado, forjas e oficinas a serviço da lavoura, e o Paço do Governo administrando tudo do alto da colina central. A [[Sociedade Aberta]] mantém ali uma sede imponente junto à Feira da Ponte.\n>\n> 👁️**Aparência do Local:** Cidade aberta, sem muralha alguma: as entradas são marcadas apenas por torres-portal de pedra isoladas sobre as estradas do norte e do sul. O casario de pedra e enxaimel, em gótico rural, organiza-se em torno da Colina do Paço, coroada pelo palácio de torres e pináculos do Paço do Governo; a Torre do Sino e a torre da Sociedade Aberta completam o skyline. As lavouras entram pelo próprio tecido urbano — talhões cultivados aparecem entre as casas, sobretudo nos Verdes Talhões — e um cinturão de campos, socalcos e bosques envolve a cidade por todos os lados. No leste corre o Rio Claro, largo e azul, cruzado pela Ponte do Rio Claro de múltiplos arcos, com a Ribeira do Rio Claro debruçada sobre a água em dezenas de trapiches.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Colina do Paço** *(dourado — centro-norte)* — o distrito do poder, na colina que domina a cidade.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)",
+    "descricao": "Grande cidade agrícola do [[Campos do Provento]] e principal produtora de grãos da [[Federação Áurea]]: as colheitas reunidas no Pátio dos Grãos abastecem [[Iluminada]] pela estrada do oeste e seguem rumo à costa de [[Lilá]]. Cidade aberta e próspera, vive no ritmo das safras — feiras na Praça do Mercado, forjas e oficinas a serviço da lavoura, e o Paço do Governo administrando tudo do alto da colina central. A [[Sociedade Aberta]] mantém ali uma sede imponente junto à Feira da Ponte.",
+    "aparencia": "Cidade aberta, sem muralha alguma: as entradas são marcadas apenas por torres-portal de pedra isoladas sobre as estradas do norte e do sul. O casario de pedra e enxaimel, em gótico rural, organiza-se em torno da Colina do Paço, coroada pelo palácio de torres e pináculos do Paço do Governo; a Torre do Sino e a torre da Sociedade Aberta completam o skyline. As lavouras entram pelo próprio tecido urbano — talhões cultivados aparecem entre as casas, sobretudo nos Verdes Talhões — e um cinturão de campos, socalcos e bosques envolve a cidade por todos os lados. No leste corre o Rio Claro, largo e azul, cruzado pela Ponte do Rio Claro de múltiplos arcos, com a Ribeira do Rio Claro debruçada sobre a água em dezenas de trapiches.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Colina do Paço** *(dourado — centro-norte)* — o distrito do poder, na colina que domina a cidade.",
+    "leaflet": null
+  }
+}

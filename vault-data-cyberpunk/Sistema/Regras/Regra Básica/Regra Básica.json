@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Regra Básica",
+  "path": "Sistema/Regras/Regra Básica/Regra Básica.md",
+  "basename": "Regra Básica",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Regra Básica",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Regras]]",
+    "next": "[[Atributos|Atributos]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributos"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CDs"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "CD",
+      "kind": "embed",
+      "subpath": "Classe de Dificuldade"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Regra Básica"
+    },
+    {
+      "level": 2,
+      "text": "Graus de Sucesso"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Regras]]\nnext:: [[Atributos|Atributos]]\n%%\n# Regra Básica\nA regra geral de solução de ações é um teste de d20 + modificador contra uma [[CD]]. Para obter sucesso, a rolagem somada do modificador deve **exceder** a [[CD]]. Modificadores são uma combinação de proficiência e um atributo chave relativo a ação. [[CD|CDs]] são calculadas como o modificador de uma ação + 10.\n\nTipicamente sistemas d20 você precisa só alcançar a [[CD]], porém isso cria uma disparidade onde quem rola tem uma vantagem, visto que praticamente tudo que é uma [[CD]] é o modificador + 10. Com essa modificação, um ataque +5 ([[Adepto]] 2 + [[Atributos|Atributo]] 3) rolando contra uma [[Defesa]] 15 (10 + [[Adepto]] 2 + [[Atributos|Atributo]] 3) tem 50% de chance de sucesso.\n\nEssa paridade garante que se invertermos quem rola o teste, não há modificação no resultado esperado na relação sucesso vs falha. Uma magia +8 contra [[Ímpeto]] 18 tem a mesma chance de um teste de [[Ímpeto]] +8 contra uma magia [[CD]] 18. Quando dois personagens com o mesmo valor de atributo e mesmo nível de proficiência na habilidade em questão entram em conflito, não se espera nada diferente de 50%.\n\n## Graus de Sucesso\nCada teste com o d20 pode ter 4 graus de sucesso diferentes: sucesso, sucesso decisivo, falha, falha decisiva. Muitas ações tem efeitos diferentes para os 4 graus, algumas só usam 3, e muito raramente só sucesso e falha importam - cada tipo de ação ou teste tem uma descrição para o efeito de cada grau de sucesso. Se uma ação não tiver efeito no sucesso decisivo, considere o mesmo do sucesso, e se não houver falha decisiva, considere o mesmo da falha.\n\nComo exemplo, a ação básica Atacar:\n![[Atacar#`= this.file.name` - `= this.custo`]]\n\nPara determinar o grau de sucesso além de sucesso vs falha, verifique se o resultado da rolagem é pelo menos 10 maior ou menor que a [[CD]]. Por exemplo, para um teste contra [[CD]] 15, um resultado de 25 ou mais é um sucesso decisivo e 5 ou menos é uma falha decisiva.\n\nOutra maneira de conseguir um resultado decisivo é com os resultados de 1 e 20 na rolagem não modificada do dado (chamados de 1 natural e 20 natural), nesses casos a rolagem é considerada crítica e seu resultado é considerado um grau maior do que seria para 20 natural, e um grau menor do que seria para 1 natural. Dessa forma, uma rolagem de 20 com modificador +5 (total 25) contra [[CD]] 18 (que seria um sucesso) é um sucesso decisivo e uma rolagem de 1 com modificador +8 (total 9) contra [[CD]] 15 (que seria uma falha) é uma falha decisiva. Certas ações podem ter efeitos especiais no caso de crítico (rolagem 20 ou 1 natural).\n\nPor regra, quaisquer efeitos oriundos de técnicas, habilidades, itens ou afins que ocorram em um sucesso (ou numa falha) também se aplicam no sucesso decisivo (ou falha decisiva) desde que o efeito no sucesso decisivo (ou falha decisiva) não seja explicitamente descrito.\n\n![[CD#Classe de Dificuldade]]\n\n```autosheet-rules\n```\n"
+}

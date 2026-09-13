@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Torre das Tochas",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Torre das Tochas.md",
+  "basename": "Torre das Tochas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Torre das Tochas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Torre das Tochas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Torre das Tochas.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Mosteiro-fortaleza do Fogo da [[Pátria Aurora]], cidadela marcial num penhasco da costa noroeste da ilha, a nordeste de [[Lucerna]]. Um dos mosteiros elementais irmãos da nação, é o mais guerreiro deles: campos de treino, arsenal e uma legião própria fazem dele mais quartel-monástico do que templo contemplativo, e no Sacrarium Furoris Domiti os monges aprendem a domar a própria fúria. A grande chama perpétua no topo da torre-mestra arde dia e noite, servindo de farol à costa.\n> \n> 👁️**Aparência do Local:** Cidadela vermelha em terraços concêntricos de pedra cinza-parda, com muralhas ameadas e torres redondas, coroada pela torre-pagode da Turris Magistra e sua chama perpétua. Nos platôs, salões de estilo oriental de telhados verde-escuros em camadas e colunas vermelhas; estandartes verticais com emblemas de chama e hábitos vermelhos dão a cor-assinatura. O fogo é onipresente — pilares-tocha ao longo das muralhas e da calçada de acesso, braseiros nos pátios, chamas votivas nos santuários — e a fortaleza arde como um farol na montanha mesmo em pleno dia. Ao redor, agulhas de rocha clara, bruma nos vales e o oceano ao norte; o único acesso é a calçada-escadaria do sul, ladeada de fogos.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Mosteiro-fortaleza do Fogo da [[Pátria Aurora]], cidadela marcial num penhasco da costa noroeste da ilha, a nordeste de [[Lucerna]]. Um dos mosteiros elementais irmãos da nação, é o mais guerreiro deles: campos de treino, arsenal e uma legião própria fazem dele mais quartel-monástico do que templo contemplativo, e no Sacrarium Furoris Domiti os monges aprendem a domar a própria fúria. A grande chama perpétua no topo da torre-mestra arde dia e noite, servindo de farol à costa.",
+    "aparencia": "Cidadela vermelha em terraços concêntricos de pedra cinza-parda, com muralhas ameadas e torres redondas, coroada pela torre-pagode da Turris Magistra e sua chama perpétua. Nos platôs, salões de estilo oriental de telhados verde-escuros em camadas e colunas vermelhas; estandartes verticais com emblemas de chama e hábitos vermelhos dão a cor-assinatura. O fogo é onipresente — pilares-tocha ao longo das muralhas e da calçada de acesso, braseiros nos pátios, chamas votivas nos santuários — e a fortaleza arde como um farol na montanha mesmo em pleno dia. Ao redor, agulhas de rocha clara, bruma nos vales e o oceano ao norte; o único acesso é a calçada-escadaria do sul, ladeada de fogos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

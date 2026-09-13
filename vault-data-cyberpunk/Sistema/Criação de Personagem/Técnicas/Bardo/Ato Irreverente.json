@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Ato Irreverente",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Ato Irreverente.md",
+  "basename": "Ato Irreverente",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"(1 EM) Aliados em 10q afetados pela performance ignoram os efeitos de estarem [[Morrendo]] por 1t. Performance não causa perda de [[Energia Vital|EV]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Ato Bárdico"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"(1 EM) Aliados em 10q afetados pela performance ignoram os efeitos de estarem [[Morrendo]] por 1t. Performance não causa perda de [[Energia Vital|EV]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende o [[Performance Bárdica|Ato Bárdico]] Ato Irreverente. Ato Irreverente pode ser utilizado como parte de qualquer performance que afeta somente aliados. Adicionalmente, iniciar uma [[Performance Bárdica]] não causa perda de [[Energia Vital|EV]] para você por estar [[Morrendo]].  \n\n**Ato Irreverente - 1A**\nCusta 1 [[Energia Mágica|EM]] para ativar. Aliados em 10q afetados pela performance ignoram os efeitos de estarem [[Morrendo]] no próximo turno deles.\n\n```autosheet-rules\n```\n"
+}

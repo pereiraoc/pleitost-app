@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Acidente de Chernobyl",
+  "path": "Contexto/Histórias/Contexto Histórico/Acidente de Chernobyl.md",
+  "basename": "Acidente de Chernobyl",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1986-04-26",
+    "Descrição": "O reator soviético explode e espalha medo nuclear pelo mundo. No Brasil, o desastre vira argumento de propaganda pró-selênica — a CEEE acelera os planos de modernização “limpa” das redes e a desconfiança contra os soviéticos e seus adaptadores neurais cresce nas ruas.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

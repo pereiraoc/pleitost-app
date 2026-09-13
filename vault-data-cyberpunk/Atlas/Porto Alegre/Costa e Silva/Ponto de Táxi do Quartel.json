@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Ponto de Táxi do Quartel",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Ponto de Táxi do Quartel.md",
+  "basename": "Ponto de Táxi do Quartel",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Dono": "Seu Ademir Rosa (chefe do ponto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto de Táxi do Quartel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto de Táxi do Quartel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto de Táxi do Quartel.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Táxi Gurgel na fila do portão do quartel; tarifa oficial e motorista que não conversa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Três táxis na sombra do muro do QG, guarita de madeira, um soldado na esquina.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Táxi Gurgel na fila do portão do quartel; tarifa oficial e motorista que não conversa.",
+    "aparencia": "Três táxis na sombra do muro do QG, guarita de madeira, um soldado na esquina.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

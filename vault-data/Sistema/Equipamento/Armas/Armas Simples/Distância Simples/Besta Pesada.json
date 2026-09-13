@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta Pesada",
+  "path": "Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta Pesada.md",
+  "basename": "Besta Pesada",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-simples",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-simples",
+    "dg-publish": true,
+    "dano": "d10+5",
+    "tipo": "perfuração",
+    "mãos": 2,
+    "propriedades": [
+      "[[Alcance|Alcance 20]]",
+      "[[Recarga]]",
+      "[[Força X|Força 3]]"
+    ],
+    "ordem": 6,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Distância Simples|Simples]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Distância Simples",
+      "kind": "wikilink",
+      "alias": "Simples"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 20"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 3"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Distância Simples|Simples]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

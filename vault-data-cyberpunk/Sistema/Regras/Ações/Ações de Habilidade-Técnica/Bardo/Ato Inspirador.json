@@ -1,0 +1,90 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Inspirador",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Inspirador.md",
+  "basename": "Ato Inspirador",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Ato Inspirador",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ato Inspirador",
+        "tipo": "AçãoLocal",
+        "origem": "Habilidade",
+        "escopo": {
+          "aplicaEm": "Ambos",
+          "compartilharGrupo": true,
+          "arma": "TodasAsArmas"
+        },
+        "visual": {
+          "iconeLigado": "🎶",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "requer": [
+            "Inspiração"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "DanoArmaPorDado",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Aliados afetados por Inspiração causam dano adicional como bônus de condição."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Aliados afetados por Inspiração causam dano adicional como bônus de condição.\n%%\n### `= this.file.name` - `= this.custo`\nCusta 1 EM para ativar. Você e aliados em 10q afetados por Inspiração causam dano adicional como [[Bônus de Condição|bônus de condição]] com [[Atacar|Ataques]] igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque por 1 turno.\n\n```autosheet-rules\n```\n"
+}

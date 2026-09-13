@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Imobiliária Petrópolis",
+  "path": "Atlas/Porto Alegre/Petrópolis/Imobiliária Petrópolis.md",
+  "basename": "Imobiliária Petrópolis",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Dr. Aloísio Sanmartin",
+    "Descrição": null,
+    "Serviços": [
+      "[[Apartamento em Petrópolis]]",
+      "[[Casa em Petrópolis]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento em Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária Petrópolis.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Apartamentos de 2 dormitórios e casas de 1960 com pátio; exige fiador ou crachá e três meses adiantados.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de esquina com fotos amareladas na vitrine, cadeira de espera de couro rachado e cheiro de churrasco vindo da galeteria ao lado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Apartamentos de 2 dormitórios e casas de 1960 com pátio; exige fiador ou crachá e três meses adiantados.",
+    "aparencia": "Loja de esquina com fotos amareladas na vitrine, cadeira de espera de couro rachado e cheiro de churrasco vindo da galeteria ao lado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

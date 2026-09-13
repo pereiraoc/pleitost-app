@@ -1,0 +1,69 @@
+{
+  "id": "Contexto/Organizações/Empresas/Grêmio Foot-Ball Porto Alegrense",
+  "path": "Contexto/Organizações/Empresas/Grêmio Foot-Ball Porto Alegrense.md",
+  "basename": "Grêmio Foot-Ball Porto Alegrense",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Grêmio"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Presidente Roberto Borba]]",
+    "Descrição": null,
+    "Resumo": "Clube social e esportivo sediado no Estádio Olímpico, no bairro Praia de Belas, na divisa com a Zona Deserta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Olímpico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Geral do Grêmio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense",
+      "kind": "wikilink",
+      "alias": "Grêmio"
+    },
+    {
+      "target": "Roberto Borba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presidente Roberto Borba",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Grêmio Foot-Ball Porto Alegrense.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Fundado em 15 de setembro de 1903 no Salão Grau, o [[Grêmio Foot-Ball Porto Alegrense|Grêmio]] adota em 1987 práticas avançadas de marketing esportivo e gestão profissional. Sob [[Roberto Borba]], o clube realiza amistosos no [[Olímpico]], mantém escolinhas em [[Petrópolis]] e [[Bom Fim]], e negociou pacotes VIP para clássicos com rádios do [[Centro Histórico]]. A facção [[Geral do Grêmio]], formada por torcedores de classe alta, organiza jantares de gala e atua como braço de lobby para aprovação de reformas e concessões de bares premium no estádio."
+}

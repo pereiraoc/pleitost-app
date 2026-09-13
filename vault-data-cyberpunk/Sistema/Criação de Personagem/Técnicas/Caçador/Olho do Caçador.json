@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Olho do Caçador",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Olho do Caçador.md",
+  "basename": "Olho do Caçador",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "L",
+    "resumo": "\"Quando você usa [[Marca do Caçador]], [[Detectar Sintonia]] ou [[Detectar Resistência]], você pode [[Reconhecer]] a mesma criatura como ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reconhecer",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: L\n\nresumo:: \"Quando você usa [[Marca do Caçador]], [[Detectar Sintonia]] ou [[Detectar Resistência]], você pode [[Reconhecer]] a mesma criatura como ação livre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você usa [[Marca do Caçador]], [[Detectar Sintonia]] ou [[Detectar Resistência]], você pode [[Reconhecer]] a mesma criatura como ação livre.\n\n```autosheet-rules\n```\n"
+}

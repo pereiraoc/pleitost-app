@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Arma Arcana",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Arma Arcana.md",
+  "basename": "Arma Arcana",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      null
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você pode fazer um ritual de 8 horas que conecta uma arma corpo-a-corpo de uma mão ou um arco a você e permite você canalizar energia arcana adequadamente. Quando você tenta conjurar uma magia sem sua Arma Arcana em mãos, precisa fazer um teste de [[Arcana]] CD 15 (20 para magias Experiente) ou a magia dissipa sem efeitos e você ainda gasta o uso de magia.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto]]\n\nresumo:: \"Você pode fazer um ritual de 8 horas que conecta uma arma corpo-a-corpo de uma mão ou um arco a você e permite você canalizar energia arcana adequadamente. Quando você tenta conjurar uma magia sem sua Arma Arcana em mãos, precisa fazer um teste de [[Arcana]] CD 15 (20 para magias Experiente) ou a magia dissipa sem efeitos e você ainda gasta o uso de magia.\"\n%%\n#### `= this.file.name`\nVocê pode fazer um ritual de 8 horas que conecta uma arma corpo-a-corpo de uma mão ou um arco a você e permite você canalizar energia arcana adequadamente. Quando você tenta conjurar uma magia sem sua Arma Arcana em mãos, precisa fazer um teste de [[Arcana]] CD 15 (20 para magias Experiente) ou a magia dissipa sem efeitos e você ainda gasta o uso de magia. Você só pode ter uma arma conectada desta forma, se fizer o ritual em uma segunda arma, a primeira perde os efeitos de Arma Arcana.\n\n```autosheet-rules\n```\n"
+}

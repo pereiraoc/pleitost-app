@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Estação PUCRS",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Estação PUCRS.md",
+  "basename": "Estação PUCRS",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação PUCRS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação PUCRS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação PUCRS.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma coberta com catraca dupla, banca de jornal e a fila do vestibular; a Brigada revista mochila em época de prova.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Viaduto de concreto passando na frente do muro branco da universidade, plataforma com estudantes de blazer, banca de jornal, capela ao fundo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma coberta com catraca dupla, banca de jornal e a fila do vestibular; a Brigada revista mochila em época de prova.",
+    "aparencia": "Viaduto de concreto passando na frente do muro branco da universidade, plataforma com estudantes de blazer, banca de jornal, capela ao fundo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

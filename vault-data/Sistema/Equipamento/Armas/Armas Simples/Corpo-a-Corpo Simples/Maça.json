@@ -1,0 +1,49 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Maça",
+  "path": "Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Maça.md",
+  "basename": "Maça",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "cac-simples",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "cac-simples",
+    "dg-publish": true,
+    "dano": "d6+3",
+    "tipo": "contusão",
+    "mãos": 1,
+    "propriedades": [
+      "[[Força X|Força 2]]"
+    ],
+    "ordem": 3,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Corpo-a-Corpo Simples|Simples]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corpo-a-Corpo Simples",
+      "kind": "wikilink",
+      "alias": "Simples"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 2"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Corpo-a-Corpo Simples|Simples]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

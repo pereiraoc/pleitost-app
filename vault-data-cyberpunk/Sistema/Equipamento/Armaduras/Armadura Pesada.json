@@ -1,0 +1,92 @@
+{
+  "id": "Sistema/Equipamento/Armaduras/Armadura Pesada",
+  "path": "Sistema/Equipamento/Armaduras/Armadura Pesada.md",
+  "basename": "Armadura Pesada",
+  "type": "Item",
+  "subtype": "Armadura",
+  "grupo": "Pesada",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Armadura",
+    "grupo": "Pesada",
+    "dg-publish": true,
+    "propriedades": [],
+    "bonus-defesa": "",
+    "força-necessaria": "",
+    "preço": "",
+    "Elementos_de_Regra": [
+      "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Armaduras]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+      "parsed": [
+        {
+          "sourceNote": "Armadura Pesada",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "attr-compare",
+            "left": "FOR",
+            "op": ">",
+            "right": "AGI"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Atributo",
+            "valueRaw": "FOR"
+          },
+          "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Armaduras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "Druidas"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armaduras]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nPersonagens que usam armadura pesada são tipicamente marcialistas e híbridos baseados em [[Força]]. A armadura mais comum de um espadachim (seja ele [[Guerreiro]], [[Comandante]] ou [[Mago]]) é pesada. Alguns [[Druida|Druidas]] também usam armadura pesada, mas normalmente feitas de ossos e couros grossos e reforçados. Assume-se que um personagem usando armadura pesada utiliza do máximo de sua força física e capacidade de carga para se defender, portanto, sua [[Defesa]] passa a depender da [[Força]], representando todas as camadas de armadura que o personagem é capaz de vestir e tolerar.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n```autosheet-rules\n```\n"
+}

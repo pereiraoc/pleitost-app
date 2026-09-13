@@ -1,0 +1,101 @@
+{
+  "id": "Sistema/Regras/Propriedades/Fatal",
+  "path": "Sistema/Regras/Propriedades/Fatal.md",
+  "basename": "Fatal",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Fatal (alvo Ferido)",
+        "tipo": "Estado",
+        "origem": "Propriedade",
+        "escopo": {
+          "proprio": true,
+          "arma": "TodasAsArmas"
+        },
+        "visual": {
+          "iconeLigado": "💀",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 2,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Fatal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Fatal (acerto decisivo)",
+        "tipo": "Passivo",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "links": {
+          "requer": [
+            "Acerto Decisivo"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 2,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Fatal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Dado de dano aumentado em 2 passos contra alvo em 1/3 ou menos da vida, ou no Acerto Decisivo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Acerto Decisivo"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Dado de dano aumentado em 2 passos contra alvo em 1/3 ou menos da vida, ou no Acerto Decisivo.\"\n%%\n## `= this.file.name`\nQuando o alvo está com **um terço ou menos** da [[Vitalidade]] total, ou num **[[Atacar|Acerto Decisivo]]**, o dado de dano dos [[Atacar|Ataques]] com essa arma é aumentado em **2 passos** (de d6 para d10, por exemplo). É a arma que encontra a fresta que o corpo já abriu. Os dois não somam: são dois passos, uma vez só.\n\nNa ficha, o botão **Fatal (alvo Ferido)** se liga à mão quando o alvo cruza o terço — Ferido é a faixa de vida que a mesa enxerga nesse ponto, e o mestre confirma. No Acerto Decisivo os dois passos vêm sozinhos.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\"\n```\n\n```autosheet-rules\n```\n"
+}

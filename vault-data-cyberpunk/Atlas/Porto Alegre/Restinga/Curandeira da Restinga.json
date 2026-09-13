@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Curandeira da Restinga",
+  "path": "Atlas/Porto Alegre/Restinga/Curandeira da Restinga.md",
+  "basename": "Curandeira da Restinga",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Dona Iolanda (benzedeira e parteira)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Curandeira da Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Curandeira da Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Curandeira da Restinga.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Parto, febre, corte e picada; erva do quintal, ponto com linha de pesca, antibiótico contrabandeado quando tem; paga em peixe, dose ou trabalho.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casa de palafita de metal reciclado com ervas secando no teto, altar de santo e garrafa de cachaça de raiz, maca de porta e um cachorro na entrada.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Parto, febre, corte e picada; erva do quintal, ponto com linha de pesca, antibiótico contrabandeado quando tem; paga em peixe, dose ou trabalho.",
+    "aparencia": "Casa de palafita de metal reciclado com ervas secando no teto, altar de santo e garrafa de cachaça de raiz, maca de porta e um cachorro na entrada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

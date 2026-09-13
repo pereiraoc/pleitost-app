@@ -1,0 +1,110 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Malabarismo Prático",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Malabarismo Prático.md",
+  "basename": "Malabarismo Prático",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "L",
+    "resumo": "\"Você conta como se tivesse 3 mãos ao total, podendo empunhar até 3 objetos ao mesmo tempo, ter 2 objetos empunhados e uma mão livre ou ter 1 objeto empunhado e duas mãos livres.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Saca"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink",
+      "alias": "precisas"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 1"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink",
+      "alias": "Espadas Curtas"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soltar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soltar",
+      "kind": "wikilink",
+      "alias": "Soltado"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: L\n\nresumo:: \"Você conta como se tivesse 3 mãos ao total, podendo empunhar até 3 objetos ao mesmo tempo, ter 2 objetos empunhados e uma mão livre ou ter 1 objeto empunhado e duas mãos livres.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você [[Sacar|Saca]] um objeto de uma mão, você pode decidir fazer malabarismo com seus objetos empunhados. Enquanto faz malabarismo, você conta como se tivesse 3 mãos ao total, podendo empunhar até 3 objetos ao mesmo tempo, ter 2 objetos empunhados e uma mão livre ou ter 1 objeto empunhado e duas mãos livres.\n\nVocê só pode fazer malabarismo com itens leves como poções, pergaminhos, focos, armas [[Precisa|precisas]] com propriedade [[Força X|Força 1]] ou inferior e outros objetos leves a critério do narrador. Você também pode empunhar um item mais pesado em uma das mãos normalmente e fazer malabarismo com dois itens leves (ou 1 item leve, para manter a mão tecnicamente livre) na outra mão.\n\nIsso te permite, por exemplo, fazer malabarismo com duas [[Espada Curta|Espadas Curtas]] e mesmo assim ter uma mão livre para pegar uma poção e bebê-la, [[Derrubar]], [[Desarmar]] ou [[Interagir]] para abrir uma porta. Outra combinação seria ter um [[Arco Curto]] em uma mão e fazer malabarismo com um [[Punhal]] e mais nada na outra, permitindo fazer ataques com o arco, pois existe a mão tecnicamente livre, e poder atacar com o punhal em corpo-a-corpo pois ele conta como empunhado.\n\nSe você quiser começar a fazer malabarismo sem [[Sacar]] um novo objeto, você pode realizar uma ação [[interagir]] para começar o malabarismo com seus itens empunhados no momento, desde que esteja empunhando ao menos um objeto. Você pode [[Soltar]] objetos do malabarismo normalmente. Se você ficar sem nenhum objeto empunhado, você para o malabarismo. Se você está com 1 ou 2 objetos empunhados, você pode realizar uma ação [[Interagir]] para parar o malabarismo, empunhando os objetos normalmente.\n\n[[Agarrar]] uma criatura conta como segurar um objeto não-leve, impedindo malabarismo com essa mão. Se você usa uma mão tecnicamente livre por conta do malabarismo para [[Agarrar]], o objeto que estava no malabarismo cai no chão, como se você tivesse [[Soltar|Soltado]] ele.\n\n Você fica [[Fadigado]] se você se manter fazendo malabarismo por mais de 5 minutos durante um intervalo de 30 minutos.\n\n%%encontrar forma melhor de determinar peso\n\n```autosheet-rules\n```\n"
+}

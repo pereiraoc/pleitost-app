@@ -1,0 +1,80 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Decifrar Resistência",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Decifrar Resistência.md",
+  "basename": "Decifrar Resistência",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Pericias.Lista.Arcana.Proficiencia M"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"1/turno, após sucesso em [[Detectar Resistência]], a próxima Magia contra a criatura custa 1 ação a menos; se alvejar a maior resistência, -2 nessa resistência.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Pericias.Lista.Arcana.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Decifrar Resistência",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Pericias.Lista.Arcana.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Requisito Pericias.Lista.Arcana.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"1/turno, após sucesso em [[Detectar Resistência]], a próxima Magia contra a criatura custa 1 ação a menos; se alvejar a maior resistência, -2 nessa resistência.\"\n%%\n#### `= this.file.name` - `= this.rank`\nUma vez por turno, quando você usa uma ação para [[Detectar Resistência]] de uma criatura e tem um sucesso, até o final do seu turno, a próxima Magia que você conjurar tendo a criatura como alvo requer uma ação a menos. Se a Magia alvejar a maior resistência da criatura, ela recebe -2 de [[Penalidades|penalidade de circunstância]] nessa resistência contra essa magia.\n*Requer Arcana Mestre*\n\n**CORRIGIR EXPLOIT DE DUAS MAGIAS COM EFEITO DE ACELERACAO (1 ACAO EXTRA)**\n```autosheet-rules\n```\n"
+}

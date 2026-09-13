@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Palácio de Ja'ar",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Palácio de Ja'ar.md",
+  "basename": "Palácio de Ja'ar",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Palácio de Ja'ar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Palácio de Ja'ar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Palácio de Ja'ar.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Complexo palaciano fortificado erguido sobre um promontório rochoso da costa nordeste de [[Pedra Fina]], isolado do resto da região — nenhuma estrada chega até ele, e o único acesso terrestre é uma ponte sobre o canal que o separa do deserto. É a obra-prima da arquitetura mourisca de Pedra Fina: um palácio de pátios, jardins e fontes murado como uma fortaleza, com o mar por todos os lados. Suas cortes de água corrente, banhos e claustros de laranjeiras fazem dele um retiro à altura de reis — tão belo quanto defensável.\n> \n> 👁️**Aparência do Local:** Estilo mourisco em pedra cor de areia e mel: arcos em ferradura, arcadas de colunas esguias, telhados de telha verde e painéis de mosaico azul embutidos até nos panos da muralha. Uma muralha ameada contínua, de torres quadradas e redondas, cerca todo o complexo, erguida direto sobre a rocha da falésia; o mar aberto bate ao norte e a leste, e um canal de margens rochosas contorna o sul e o sudoeste. O único acesso é a ponte de arcos de pedra sobre o canal, seguida da escadaria monumental que sobe ao Portão de Ja'ar. Por dentro, pátios e jardins encaixados — ciprestes, palmeiras, laranjeiras, fontes e espelhos d'água entre os edifícios. No skyline, a grande cúpula dourada do palácio principal ao centro-norte, a Torre do Sol a noroeste e o belvedere do Mirante das Marés a leste, com gaivotas e velas de dhows ao largo.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo palaciano fortificado erguido sobre um promontório rochoso da costa nordeste de [[Pedra Fina]], isolado do resto da região — nenhuma estrada chega até ele, e o único acesso terrestre é uma ponte sobre o canal que o separa do deserto. É a obra-prima da arquitetura mourisca de Pedra Fina: um palácio de pátios, jardins e fontes murado como uma fortaleza, com o mar por todos os lados. Suas cortes de água corrente, banhos e claustros de laranjeiras fazem dele um retiro à altura de reis — tão belo quanto defensável.",
+    "aparencia": "Estilo mourisco em pedra cor de areia e mel: arcos em ferradura, arcadas de colunas esguias, telhados de telha verde e painéis de mosaico azul embutidos até nos panos da muralha. Uma muralha ameada contínua, de torres quadradas e redondas, cerca todo o complexo, erguida direto sobre a rocha da falésia; o mar aberto bate ao norte e a leste, e um canal de margens rochosas contorna o sul e o sudoeste. O único acesso é a ponte de arcos de pedra sobre o canal, seguida da escadaria monumental que sobe ao Portão de Ja'ar. Por dentro, pátios e jardins encaixados — ciprestes, palmeiras, laranjeiras, fontes e espelhos d'água entre os edifícios. No skyline, a grande cúpula dourada do palácio principal ao centro-norte, a Torre do Sol a noroeste e o belvedere do Mirante das Marés a leste, com gaivotas e velas de dhows ao largo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

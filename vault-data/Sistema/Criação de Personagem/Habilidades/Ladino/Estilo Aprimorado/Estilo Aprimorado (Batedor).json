@@ -1,0 +1,86 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Batedor)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Batedor).md",
+  "basename": "Estilo Aprimorado (Batedor)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Quando você tem sucesso no teste de [[Percepção]] feito como parte de [[Calcular Ataque]], você descobre o valor exato de [[Defesa]] da criatura.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Batedor)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Ladino (Batedor)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Calcular Ataque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Quando você tem sucesso no teste de [[Percepção]] feito como parte de [[Calcular Ataque]], você descobre o valor exato de [[Defesa]] da criatura.\"\n%%\n##### `= this.file.name`\nVocê aprende detalhes das defesas dos inimigos quando você consegue prever seus movimentos de combate. Quando você tem sucesso no teste de [[Percepção]] feito como parte de [[Calcular Ataque]], você descobre o valor exato de [[Defesa]] da criatura.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,390 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Regalias de Classe",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Regalias de Classe.md",
+  "basename": "Regalias de Classe",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O que cada classe de Contratado ganha de terceiro — moradia, transporte, alimentação ou serviço — e o preço escondido de cada regalia.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regalias de Classe.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Classe social — o retrato do mês"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Estilos de vida (o mês fechado)"
+    },
+    {
+      "target": "Contexto POA 1987",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Nível, rank e classe esperada"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "alias": "34.000",
+      "subpath": "Estilos de vida (o mês fechado)"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "alias": "técnico da Gradiente",
+      "subpath": "Salários de referência"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "Químico"
+    },
+    {
+      "target": "Broche Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador\\",
+      "kind": "wikilink",
+      "alias": "Executivo"
+    },
+    {
+      "target": "Kitnet",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carro com Motorista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro\\",
+      "kind": "wikilink",
+      "alias": "Soldado"
+    },
+    {
+      "target": "Cantina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancheria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrascaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino\\",
+      "kind": "wikilink",
+      "alias": "Malandro"
+    },
+    {
+      "target": "Monge\\",
+      "kind": "wikilink",
+      "alias": "Artista Marcial"
+    },
+    {
+      "target": "Comandante\\",
+      "kind": "wikilink",
+      "alias": "Articulador"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo\\",
+      "kind": "wikilink",
+      "alias": "Ressonante"
+    },
+    {
+      "target": "Marmita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago\\",
+      "kind": "wikilink",
+      "alias": "Pirata"
+    },
+    {
+      "target": "Arcanista\\",
+      "kind": "wikilink",
+      "alias": "Tecnologista"
+    },
+    {
+      "target": "Druida\\",
+      "kind": "wikilink",
+      "alias": "Nóia"
+    },
+    {
+      "target": "Animista\\",
+      "kind": "wikilink",
+      "alias": "Químico"
+    },
+    {
+      "target": "Quarto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kitnet do Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Executiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink",
+      "alias": "arma"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "armadura"
+    },
+    {
+      "target": "Escudo Obra-prima",
+      "kind": "wikilink",
+      "alias": "escudo"
+    },
+    {
+      "target": "Broquel Obra-prima",
+      "kind": "wikilink",
+      "alias": "broquel"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga na Pensão da Vila Militar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás Picape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "alias": "teste de fadiga",
+      "subpath": "O que cada classe compra"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Andar a Pé",
+      "kind": "wikilink",
+      "subpath": "Andar o dia inteiro"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercedes-Benz 1113",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caravana da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Hotel Rua da Praia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo das Ligas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Consistência",
+      "kind": "wikilink",
+      "alias": "Consistência"
+    },
+    {
+      "target": "Foco da Intensificação",
+      "kind": "wikilink",
+      "alias": "Intensificação"
+    },
+    {
+      "target": "Foco da Penetração",
+      "kind": "wikilink",
+      "alias": "Precisão"
+    },
+    {
+      "target": "Foco da Repetição",
+      "kind": "wikilink",
+      "alias": "Repetição"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sem Endereço",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pescado do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga no Sobrado da Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "alias": "bico",
+      "subpath": "Salários de referência"
+    }
+  ],
+  "images": [
+    {
+      "target": "Regalias de Classe.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Quem Paga a Conta"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Regalias de Classe.png]]\n\n#### Quem Paga a Conta\nQuase nenhum Contratado de Porto Alegre paga sozinho o mês em que vive. A firma cede o alojamento, o quartel serve o rancho, o sindicato dá a carteirinha, o Círculo guarda o recado: cada ofício tem alguém interessado em manter seu pessoal de pé — e em saber onde esse pessoal dorme. O que se chama de regalia é isso, uma conta paga por terceiro, e nunca sai de graça.\n\nO trato é o mesmo, mude o uniforme que mudar: quem paga escolhe. O executivo dorme na kitnet da firma e o RH sabe em que andar; o soldado come o rancho e um dia da semana é da tropa; o malandro tem o quarto de fundos e um dossiê na [[Brigada Militar Metropolitana|Brigada]]; o químico tem a bancada e um laudo de Reatividade forjado. E a regalia sobe junto com o título — quem ganha nome novo ganha tratamento novo, e a cada degrau o dono da conta cobra um pouco mais alto.\n\nNinguém enriquece com isso. A regalia cobre um eixo do mês, no máximo dois quando dormir e comer são o mesmo endereço, e nunca mais do que a classe que o nível já esperava. É folga, não é fortuna: o que tira o Contratado do aperto continua sendo a caixinha da aventura. Onde ela mexe de verdade é na **classe social** — a letra que a cidade lê em você ([[Custo de Vida#Classe social — o retrato do mês]]): o executivo entra de terno e o ressonante entra descalço, e isso tem menos a ver com o que cada um ganha do que com quem paga a conta.\n\n> [!note]- A régua das regalias — como cada eixo é concedido\n> - **Um eixo por classe — dois quando vêm do mesmo teto.** Cada classe recebe de terceiro **um** dos eixos do mês — moradia, transporte, alimentação ou serviços —, aquele que interessa a quem paga: a corporação cuida do endereço do executivo, a tropa cuida da comida do soldado, o sindicato cuida do transporte do articulador. O eixo pode MUDAR de degrau pra degrau (o Executivo troca o endereço pelo carro), mas nunca são dois ao mesmo tempo. Duas exceções, e as duas têm motivo: onde dormir e comer é o mesmo lugar (a academia do Artista Marcial, a palafita do Nóia) e o **Ídolo**, que a marca sustenta inteiro porque precisa dele visível.\n> - **Plano concedido é plano que existe na ficha.** Quando a regalia cobre um eixo do mês, ela nomeia um dos planos da escada daquele eixo ([[Custo de Vida#Estilos de vida (o mês fechado)]]) — o jogador marca AQUELE plano e o marca como pago por terceiro. Nada de \"uma classe acima\", nada de endereço específico no lugar do plano: a pensão da Vila Militar e o sobrado do Clã continuam sendo a ficção, mas o que entra na ficha é o degrau equivalente. Diária de hotel, carona e corrida são avulsos — aparecem como cortesia, nunca como plano do mês.\n> - **Três degraus.** A regalia sobe nos níveis **1, 4 e 7**, os mesmos em que a classe recebe título novo no [[Contexto POA 1987]] (Gerente e Diretor, Veterano e Comando…): quem sobe de nome sobe de tratamento.\n> - **Nunca acima do tier.** Cada degrau vale um eixo da classe esperada do tier — nível 1 gira em torno de Cz$ 1.500 a 3.000 por mês, nível 4 em 5.000 a 6.000, nível 7 em 10.000 a 20.000 (o Ídolo, que leva dois eixos, chega a 24.000). A cesta esperada de [[Custo de Vida#Nível, rank e classe esperada]] é calculada **sem** contar regalia: o que a regalia cobre é folga, não obrigação.\n> - **Renda em dinheiro: de Cz$ 10.000 a 20.000 por mês.** As regalias de nível 7 que pagam em espécie (o ponto do Malandro, os alunos, a oficina do Barão, as doações, o laboratório) ficam nessa faixa — meia cesta de Classe Média Alta ([[Custo de Vida#Estilos de vida (o mês fechado)|34.000]]), na conta do [[Mercado de Trabalho#Salários de referência|técnico da Gradiente]]. Regalia nenhuma substitui a caixinha da aventura.\n> - **Desconto em dose é uma por aventura.** Meia dose Mestre vale 125.000 — mais que o mês inteiro de Classe Média Alta. Onde a regalia dá dose pela metade ([[Animista|Químico]], nos três degraus), vale **uma por aventura**; o resto se compra pelo preço de todo mundo.\n> - **Quatro classes ganham FERRAMENTA, não dinheiro.** Soldado, Ressonante, Pirata e Tecnologista lidam com equipamento, e o degrau 4 de cada uma entrega uma peça **emprestada** por quem paga a conta — a peça Premium do arsenal, o [[Broche Artístico]] da gravadora, o módulo da bancada do Círculo, a válvula de serviço da [[Gradiente]]. Peça emprestada **não é patrimônio**: não vende, não vira posse, e volta quando a relação acaba. No nível 7 ela sobe pra Experiente.\n> - **A profissão tem piso e teto.** O que a regalia faz com a classe social do herói está em [[Custo de Vida#Classe social — o retrato do mês]]: o Executivo entra na cidade em Classe Média e nunca vira Classe Alta (é funcionário); o Ressonante começa abaixo de todo mundo e, de Ídolo, passa o Executivo; o Nóia não sai da Média Baixa nem com as doações.\n> - **Sempre com preço escondido.** Auditoria mensal, chamada no quartel, dossiê na Brigada, a peça original que fica com o Círculo. Quando o texto diz que \"uma aventura por tier é da firma\", quer dizer que uma das três aventuras daquele tier é escolhida por quem paga a conta.\n>\n> | Classe | Eixo | nv 1 | nv 4 | nv 7 | Preço escondido |\n> |---|---|---|---|---|---|\n> | [[Caçador\\|Executivo]] | moradia → transporte | [[Kitnet]] da firma | [[TRI Ouro]] da firma | [[Carro com Motorista]] | auditoria; a firma escolhe uma aventura por tier |\n> | [[Guerreiro\\|Soldado]] | alimentação (o rancho, subindo) | [[Cantina]] | [[Lancheria]] + peça Premium e arsenal a ×0,7 | [[Churrascaria]] + picape do pelotão | um dia por semana é da tropa |\n> | [[Ladino\\|Malandro]] | moradia → receptação → ponto | quarto de fundos | vende a 75% | pedágio 15.000/mês | dossiê na Brigada |\n> | [[Monge\\|Artista Marcial]] | moradia + alimentação → corpo → alunos | academia | sem teste de fadiga | renda 10.000 + moradia | não anda de carro de diretoria |\n> | [[Comandante\\|Articulador]] | transporte coletivo | [[TRI Bronze]] pro grupo | Kombi do sindicato | [[TRI Platina]] + a frota | a base é alvo |\n> | [[Bardo\\|Ressonante]] | alimentação → palco → patrocínio | [[Marmita]] da casa | [[Lancheria]] + [[Broche Artístico]] | [[Apartamento]] + [[Churrascaria]] | fama: −1 em disfarce |\n> | [[Mago\\|Pirata]] | serviços → bancada → oficina própria | bancada do Círculo | módulo instalado + ×0,7 | oficina: 15.000/mês | a peça original fica com o Círculo |\n> | [[Arcanista\\|Tecnologista]] | serviços → clínica → apartamento funcional | telefone e luz | crachá Gradiente + válvula | apto no Jardim Botânico | módulo com registro |\n> | [[Druida\\|Nóia]] | moradia + alimentação (de graça, mas pobre) | palafita do Círculo | os fiéis | doações 20.000/mês | a comunidade é alvo |\n> | [[Animista\\|Químico]] | doses → quarto do Clã → laboratório | dose Adepta pela metade | [[Quarto]] + dose Experiente | renda 20.000 + dose Mestre pela metade | a Panvel odeia concorrência |\n\n> [!note]- Degrau a degrau, classe por classe\n> #### Executivo ([[Caçador]]) — a escada corporativa\n> Primeiro o endereço, depois o crachá, por fim o carro da firma — **um** eixo de cada vez: o que a corporação assume no degrau novo ela larga no antigo, e o Executivo passa a pagar do próprio bolso o que já tinha. É o único que começa em **Classe Média**, porque a firma banca o endereço antes de ele merecer. O Empregado (Segurança, Espião, Zangão, Capanga) entra na folha da firma junto com ele, desde o nível 1.\n> - **nv 1 · Trainee:** alojamento da firma — [[Kitnet]] (6.000: [[Kitnet do Aeromóvel]] funcional) paga pela firma. *Preço:* o RH sabe onde tu dorme; a Embratel lê o crachá na portaria.\n> - **nv 4 · Gerente:** crachá de linha — [[TRI Ouro]] (5.000) pago pela firma e [[Aeromóvel Linha Popular]] sem fila. A kitnet **passa pro teu bolso**: no tier 2 o Executivo já fecha a moradia de Classe Média sozinho. *Preço:* auditoria mensal; uma aventura por tier é da firma; missão contra a firma = perde tudo e vira alvo.\n> - **nv 7 · Diretor:** [[Carro com Motorista]] (20.000) com [[Aeromóvel Linha Executiva]] incluso — o teto da régua num eixo só. Moradia e alimentação saem do bolso dele, que a esta altura já é Classe Média Alta. *Preço:* o carro tem rádio Embratel; a firma escolhe a aventura A que quiser. **Teto:** diretor é funcionário — a firma não deixa ele virar Classe Alta.\n>\n> #### Soldado ([[Guerreiro]]) — o rancho e o arsenal\n> - **nv 1 · Praça:** rancho — [[Cantina]] (3.000) paga pelo quartel ou pelo sindicato. *Preço:* chamada — um dia por semana é da tropa.\n> - **nv 4 · Veterano:** o rancho sobe pro refeitório dos graduados — [[Lancheria]] (5.000) pelo quartel — e vem o arsenal: uma peça **Premium** ([[Arma Obra-prima|arma]], [[Armadura Obra-prima|armadura]], [[Escudo Obra-prima|escudo]] ou [[Broquel Obra-prima|broquel]]) [[Tramontina]] emprestada pelo pelotão, e o resto do arsenal Premium a preço de Boca de Bairro (×0,7). A [[Vaga na Pensão da Vila Militar]] segue à disposição de quem quiser pagar, mas é aluguel, não regalia. *Preço:* registro — a Brigada sabe qual lâmina é tua, e a peça volta pro arsenal quando tu sai.\n> - **nv 7 · Comando:** jipe do pelotão — [[Gurgel Carajás Picape]] de uso (manutenção de 5.000 paga) e [[Churrascaria]] (9.000) no clube dos oficiais. *Preço:* uma aventura por tier é da Brigada ou do sindicato.\n>\n> #### Malandro ([[Ladino]]) — o esconderijo e a receptação\n> - **nv 1:** quarto de fundos — [[Barraco]] (1.000) de graça em qualquer bairro, **sem as penalidades sociais** (o recado chega; ninguém te entrega). O [[Custo de Vida#O que cada classe compra|teste de fadiga]] continua sendo o do degrau. *Preço:* a dona da pensão sabe de tudo.\n> - **nv 4 · Agente:** receptador — vende posse por **75%** (em vez de metade), compra usado com −25%; [[Quarto]] (2.500) de graça. *Preço:* dossiê na Brigada; a facção cobra em serviço.\n> - **nv 7 (título da subclasse):** ponto — um estabelecimento do Atlas paga **Cz$ 15.000 por mês** de pedágio. *Preço:* se o ponto cai, cai a renda e vem cobrança. **Teto:** dinheiro de ponto não compra endereço — some junto com o ponto.\n>\n> #### Artista Marcial ([[Monge]]) — a academia\n> - **nv 1:** academia — dorme e come na academia: [[Barraco]] e [[Marmita]] (2.500 os dois) de graça, e vive o degrau **sem penalidade social** (a academia é endereço). *Preço:* um dia por semana treinando alunos.\n> - **nv 4 · Asceta:** corpo temperado — não rola o [[Custo de Vida#O que cada classe compra|teste de fadiga]] da semana, por moradia nem por alimentação, em degrau nenhum; nem o do dia inteiro a pé ([[Andar a Pé#Andar o dia inteiro]]). *Preço:* não anda de [[Carro com Motorista]] nem de [[Aeromóvel Linha Executiva]] — anda, pedala, pega o ônibus.\n> - **nv 7 · Transcendente:** alunos — a academia própria rende **Cz$ 10.000 por mês** e paga [[Kitnet]] (6.000). *Preço:* os alunos são responsabilidade tua (gancho pronto). **Teto:** acumular é o que ele se recusa a fazer.\n>\n> #### Articulador ([[Comandante]]) — o sindicato\n> - **nv 1 · Delegado de base:** carteirinha — o sindicato paga o [[TRI Bronze]] (1.500) **do grupo inteiro**, e a [[Carona no Caminhão do Sindicato]] e a [[Lotação Clandestina]] cooperada entram de graça por cima. *Preço:* assembleia; greve é missão.\n> - **nv 4 · Capitão:** a Kombi do sindicato — [[Volkswagen Kombi]] de uso (manutenção de 3.000 paga), leva o grupo aonde a malha não vai. *Preço:* a Kombi carrega o que o sindicato mandar.\n> - **nv 7 · Marechal:** a frota — [[Mercedes-Benz 1113]] de uso (manutenção de 12.000 paga) e a [[Caravana da Camisa 12]] de graça pro grupo inteiro; mobiliza vinte pessoas. O **[[TRI Platina]]** (10.000) é dele; o grupo anda nas linhas do sindicato, não no cartão da diretoria. *Preço:* a base é alvo da Brigada.\n>\n> #### Ressonante ([[Bardo]]) — o cachê\n> Começa embaixo de todo mundo: o cachê paga a janta, não o mês. O que muda a vida dele não é degrau de salário — é **fama**, e fama não vem por nível, vem por contrato. Quando vem, vem inteira.\n> - **nv 1:** cachê — come onde toca: a casa paga a [[Marmita]] (1.500) do mês, e entrada grátis em rave, boate e camarote (200 a 10.000). *Preço:* toca quando o dono manda. **Teto:** no tier 1 ele é o mais pobre da mesa, tenha o que tiver no bolso.\n> - **nv 4 · Astro:** camarim — a casa paga a [[Lancheria]] (5.000) do mês, e o contratante cobre a diária de hotel quando ele está em serviço ([[Diária no Hotel Rua da Praia]], 600 a noite — cortesia avulsa, não plano); e o **[[Broche Artístico]]** Adepto emprestado pela gravadora — o amplificador de palco, que ele leva pro serviço. *Preço:* fama — −1 de circunstância em disfarce; a [[Embratel]] grava o show; o amplificador é da gravadora.\n> - **nv 7 · Ídolo:** patrocínio — uma marca ([[Zaffari]], [[Fruki]], [[Polar]]) paga **dois eixos**, [[Apartamento]] (15.000) e [[Churrascaria]] (9.000), porque precisa do Ídolo visível; o amplificador vira Experiente. *Preço:* contrato de imagem — uma aventura por tier é da marca; escândalo = perde tudo, o apartamento no mesmo dia.\n>\n> #### Pirata ([[Mago]]) — a bancada pirata\n> Pirata é quem pirateia tecnologia: abre a prótese, troca o chip, grava o cartucho sem registro e destrava no implante o que a fábrica deixou trancado. Quem banca é o [[Círculo das Ligas]], que vive de upgrade clandestino tirado das oficinas da [[Tramontina]] — e quer mão boa na bancada.\n> - **nv 1:** a bancada — lugar numa oficina do Círculo em [[Petrópolis]]: uma consulta em clínica clandestina (1.000–3.000) e uma peça sob encomenda na [[Oficina de Sucata]] (500–2.000) de graça por mês. *Preço:* destrava o que o Círculo trouxer, sem perguntar de quem era.\n> - **nv 4 · Falsificador:** o upgrade pirata — **um módulo Adepto instalado de graça** na bancada do Círculo (é peça do Círculo, não vende), e os demais módulos instalados sem registro no [[Quarto Distrito]] a ×0,7. O implante \"jailbreak\" da clínica clandestina (serviço de 20.000–40.000, não é equipamento) sai pela metade uma vez por tier. *Preço:* a peça original fica com o Círculo, e módulo pirata não tem garantia — falhou, é pane.\n> - **nv 7 · Barão:** a oficina própria — o desbloqueio vendido pra operário e militar fora do padrão rende **Cz$ 15.000 por mês**; o módulo emprestado vira Experiente e o \"jailbreak\" sai sempre pela metade. *Preço:* a [[Tramontina]] quer a patente de volta e a [[Gradiente]] quer o Barão — a oficina é alvo.\n>\n> #### Tecnologista ([[Arcanista]]) — a bancada e o crachá\n> - **nv 1:** bancada — linha telefônica sem fila (5.000 de instalação + 300/mês) e água e luz oficiais (500–1.500) de graça: **endereço \"de laudo\"** mesmo morando em [[Barraco]] (e caixinhas B chegam direto). *Preço:* conserta o que a vizinhança traz.\n> - **nv 4 · Engenheiro:** crachá [[Gradiente]] — clínica credenciada (5.000+) de graça, módulos oficiais a ×0,7 na Gradiente e uma **válvula selênica de serviço** Adepta ([[Foco da Consistência|Consistência]], [[Foco da Intensificação|Intensificação]], [[Foco da Penetração|Precisão]] ou [[Foco da Repetição|Repetição]]) emprestada pela empresa. *Preço:* auditoria; todo módulo com registro; a válvula tem número de patrimônio.\n> - **nv 7 · Sistemista:** apartamento funcional — [[Apartamento]] (15.000) no [[Jardim Botânico]] ou em [[Petrópolis]]; a válvula vira Experiente. *Preço:* a Gradiente sabe onde dorme e o que constrói.\n>\n> #### Nóia ([[Druida]]) — o Círculo\n> - **nv 1:** a palafita do Círculo — [[Sem Endereço]] **sem penalidade social** (o Círculo guarda recado e é endereço) e com o [[Custo de Vida#O que cada classe compra|teste de fadiga]] do [[Barraco]] (a palafita tem teto); [[Pescado do Cais]]: [[Marmita]] (1.500) de graça. *Preço:* o Círculo pede.\n> - **nv 4 · Guru:** os fiéis — [[Quarto]] (2.500) e [[Cantina]] (3.000) de graça em qualquer bairro pobre; esconderijo garantido. *Preço:* os fiéis trazem os problemas deles.\n> - **nv 7 · Profeta:** a comunidade — doações de **Cz$ 20.000 por mês**; a comunidade some com ele (não é achado em bairro pobre). *Preço:* a Brigada quer a cabeça; a comunidade é alvo. **Teto:** o dinheiro é da comunidade — ele segue dormindo na palafita.\n>\n> #### Químico ([[Animista]]) — a bancada de reagentes\n> - **nv 1:** bancada própria — doses Adeptas (Cicatrilênico, Taurilênico…) **pela metade** (5.000), uma por aventura — para uso do grupo, não pra revenda. *Preço:* laudo de Reatividade forjado; a [[Panvel]] odeia concorrência.\n> - **nv 4 · Sabotador:** o quarto em cima da oficina — o [[Clã da Ferrugem]] paga o [[Quarto]] (2.500), com gato de luz e água puxada (a [[Vaga no Sobrado da Velha Indústria]] é o endereço de sempre); uma dose Experiente por aventura pela metade (25.000), e a Adepta segue pela metade. *Preço:* o Clã cobra em peça e serviço.\n> - **nv 7 · Catalisador:** laboratório — o que sai da bancada rende **Cz$ 20.000 por mês**, e uma dose Mestre por aventura sai pela metade (125.000 de desconto, o maior da cidade). *Preço:* o laboratório é alvo de todo mundo (Panvel, Cartéis, Brigada).\n\n> [!note]- Como a regalia chega na mesa\n> A regalia é um **eixo pago por terceiro**: na aba RECURSOS o plano aparece na ficha, marcado como pago pela firma, pelo sindicato ou pelo Círculo, e a conta não sai do saldo ao abrir o mês ([[Custo de Vida#Estilos de vida (o mês fechado)]]). Renda em dinheiro (o ponto do Malandro, os alunos, as doações, o laboratório, a oficina do Barão) entra ao abrir o mês, como salário de [[Mercado de Trabalho#Salários de referência|bico]]. Veículo \"de uso\" e peça **emprestada** (a Premium do arsenal, o [[Broche Artístico]] da gravadora, o módulo do Círculo, a válvula da [[Gradiente]]) não são posse: não vendem, não pagam manutenção, não contam como patrimônio no retrato do mês, e somem quando o preço escondido cobra. Quem perde a regalia (missão contra a firma, escândalo, o ponto que cai) paga o eixo do próprio bolso já no mês seguinte — ou cai de classe.\n"
+}

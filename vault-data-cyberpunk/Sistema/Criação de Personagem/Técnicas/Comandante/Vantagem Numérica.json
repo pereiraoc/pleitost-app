@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Vantagem Numérica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Vantagem Numérica.md",
+  "basename": "Vantagem Numérica",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"1 vez por turno, você recebe 1 dado de comando d6 quando um inimigo chega a 0 [[Energia Vital|EV]] por um [[Atacar|Ataque]] seu, ou quando o [[Atacar|Ataque]] de um aliado como parte de [[Abater]] reduz um inimigo a 0 [[Energia Vital|EV]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"1 vez por turno, você recebe 1 dado de comando d6 quando um inimigo chega a 0 [[Energia Vital|EV]] por um [[Atacar|Ataque]] seu, ou quando o [[Atacar|Ataque]] de um aliado como parte de [[Abater]] reduz um inimigo a 0 [[Energia Vital|EV]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você reduz a [[Energia Vital|EV]] de um inimigo a 0 com um [[Atacar|Ataque]], você recebe um dado de comando d6. Quando o Ataque realizado por um aliado como parte de [[Abater]] reduz a [[Energia Vital|EV]] de um inimigo a 0, você recebe um dado de comando d6. Vantagem Numérica só pode ativar uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

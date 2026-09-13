@@ -1,0 +1,808 @@
+{
+  "id": "Sistema/Regras/Bestiário/Classes de Bestiário/Líder",
+  "path": "Sistema/Regras/Bestiário/Classes de Bestiário/Líder.md",
+  "basename": "Líder",
+  "type": "Classe",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+      "Alias Classe Compor 0 \"Líder\"",
+      "Tier 0 Escolher Atributos.Principal INT, PRE",
+      "Tier 0 Definir Vida.Vitalidade 21",
+      "Tier 1 Definir Vida.Vitalidade 36",
+      "Tier 2 Definir Vida.Vitalidade 54",
+      "Tier 3 Definir Vida.Vitalidade 72",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "Tier 0 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "Tier 0 Definir Ataques.Proficiencia A",
+      "Tier 2 Definir Ataques.Proficiencia E",
+      "Tier 3 Definir Ataques.Proficiencia M"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes de Bestiário]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Lideres são monstros que amplificam o poder do esquadrão, e são mais perigosos quanto mais aliados eles são capazes de auxiliar.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica de Monstro]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 0 \"Líder\"",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Líder"
+          },
+          "raw": "Alias Classe Compor 0 \"Líder\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Escolher Atributos.Principal INT, PRE",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolher",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "INT",
+              "PRE"
+            ]
+          },
+          "raw": "Tier 0 Escolher Atributos.Principal INT, PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Vida.Vitalidade 21",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "21"
+          },
+          "raw": "Tier 0 Definir Vida.Vitalidade 21",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Vida.Vitalidade 36",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "36"
+          },
+          "raw": "Tier 1 Definir Vida.Vitalidade 36",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Vida.Vitalidade 54",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "54"
+          },
+          "raw": "Tier 2 Definir Vida.Vitalidade 54",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Vida.Vitalidade 72",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "72"
+          },
+          "raw": "Tier 3 Definir Vida.Vitalidade 72",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Ataques.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Líder",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Ataques.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes de Bestiário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Arco"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Retomar Fôlego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coordenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Blindar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reforçar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acelerar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evolução Básica de Monstro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Classes de Bestiário]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Lideres são monstros que amplificam o poder do esquadrão, e são mais perigosos quanto mais aliados eles são capazes de auxiliar.\"\n%%\n##### `= this.file.name`\nLideres são monstros que amplificam o poder do esquadrão, e são mais perigosos quanto mais aliados eles são capazes de auxiliar.\n\nAtributo Principal: [[Presença|PRE]] ou [[Inteligência|INT]]\n[[Energia Vital|EV]]: Médio (21/36/54/72)\n[[Defesa]]: No nível (A/A/E/M)\n[[Vigor]]: No nível (A/A/E/M)\n[[Evasão]]: Abaixo (N/N/A/E)\n[[Ímpeto]]: No nível (A/A/E/M)\n[[Percepção]]: No nível (A/A/E/M)\n[[Ataques]]: No nível (A/A/E/M)\nDano de ataque: d6+3 (arma [[Precisa]] e [[Distância Marcial|Arco]], se [[Agilidade|AGI]] secundário), d8+4 (arma de uma mão, se [[Força|FOR]] secundário)\n\nPerícias típicas:\n* [[Acrobacia]] (para [[Cambalhota]])\n* [[Sobrevivência]] (para [[Retomar Fôlego]])\n* [[Guerra]] (para [[Coordenar]])\n* [[Diplomacia]] (para [[Encorajar]])\n\nHabilidades típicas:\n* Habilidades e técnicas de [[Comandante]] como [[Reposicionar]], [[Abater]], [[Blindar]], sem necessidade de dados de comando, para Líderes mais focados na vanguarda.\n* Habilidades e técnicas de [[Bardo]] como [[Inspiração]], [[Reforçar]], [[Acelerar]], para Líderes mais focados na retaguarda.\n\n```autosheet-rules\n```\n"
+}

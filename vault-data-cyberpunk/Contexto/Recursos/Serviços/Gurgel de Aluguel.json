@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Serviços/Gurgel de Aluguel",
+  "path": "Contexto/Recursos/Serviços/Gurgel de Aluguel.md",
+  "basename": "Gurgel de Aluguel",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Aluguel de Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 4000,
+    "Cobrança": "dia",
+    "Nível": 4,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Shopping Iguatemi]]",
+      "[[Moinhos de Vento]]"
+    ],
+    "Resumo": "Carajás alugado na frota Gurgel da Rua da Praia: Cz$ 4.000 a diária, 100 km inclusos e caução de 20.000.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel de Aluguel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel de Aluguel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel de Aluguel.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPra quem precisa de carro por um dia — um serviço, uma fuga, uma noite. A locadora da frota [[Gurgel]] exige\ncarteira, identidade e uma caução que volta na devolução, se o carro voltar inteiro. O balcão do [[Shopping Iguatemi]] pergunta menos e cobra mais.\n\n> [!info] Especificação\n> **Locadora:** frota [[Gurgel]] da Rua da Praia (Centro) e balcão do [[Shopping Iguatemi]]\n> **Veículo:** Carajás 1986 com 60.000 km e cheiro de álcool\n> **Exigência:** carteira de motorista, identidade e caução de Cz$ 20.000 (volta na devolução)\n> **Inclui:** 100 km por dia; excedente Cz$ 20 por km\n> **Não inclui:** combustível, multa da Brigada e o que aconteceu com o carro à noite\n> **Sem documento:** o [[Cartel dos Eixos]] aluga por Cz$ 3.000 e não pergunta — mas o carro é roubado\n"
+}

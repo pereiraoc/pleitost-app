@@ -1,0 +1,60 @@
+{
+  "id": "Contexto/Recursos/Serviços/Cozinheira",
+  "path": "Contexto/Recursos/Serviços/Cozinheira.md",
+  "basename": "Cozinheira",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Alimentação Classe Alta"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 20000,
+    "Cobrança": "mês",
+    "Nível": 6,
+    "Onde": null,
+    "Resumo": "Importado entregue em casa e cozinha do Resort — alguém cozinha por ti, e a conta já está paga.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cozinheira.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Clube dos Sete Portos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercosul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plaza São Rafael",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cozinheira.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cozinheira.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nComida de contêiner do [[Clube dos Sete Portos]], cozinha do [[Resort Nova Porto Alegre]], champanhe do [[Mercosul]]. Entregue em casa com nota falsa e segurança na porta; a conta mensal já está paga antes de você acordar.\n\n> [!info] Especificação\n> **Garante no mês:** tudo, entregue em casa\n> **Café:** servido no apartamento; café importado, fruta fora de época\n> **Almoço:** restaurante do Resort ou do [[Plaza São Rafael]]\n> **Janta:** importado preparado em casa\n> **Bebida:** uísque com selo, champanhe do [[Mercosul]], [[Vinho Aurora]] reserva\n> **Classe:** Classe Alta\n"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Campo de Força Aprimorado",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Campo de Força Aprimorado.md",
+  "basename": "Campo de Força Aprimorado",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Com 3+ [[Energia Mágica|EM]]: recebe [[Ofuscação]] (Estudos do Vazio) ou reduz em 4 o dano de Ataques e Magias (Aplicações da Luz).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Com 3+ [[Energia Mágica|EM]]: recebe [[Ofuscação]] (Estudos do Vazio) ou reduz em 4 o dano de Ataques e Magias (Aplicações da Luz).\"\n%%\n#### `= this.file.name` - `= this.rank`\nEnquanto você possuir ao menos 3 [[Energia Mágica|EM]], você recebe um benefício dependendo da sua escola.\n* **Estudos do Vazio** - Você recebe os efeitos de [[Ofuscação]];\n* **Aplicações da Luz** - Quando você recebe dano de um [[Atacar|Ataque]] ou Magia, reduza o dano em 4.\n\n```autosheet-rules\n```\n"
+}

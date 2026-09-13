@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Proficiência/Adepto",
+  "path": "Sistema/Regras/Proficiência/Adepto.md",
+  "basename": "Adepto",
+  "type": "Regra",
+  "subtype": "Proficiência",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "A, Adepta, Adeptas",
+    "categoria": "Regra",
+    "subcategoria": "Proficiência",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Proficiência|Proficiência]]",
+    "prev": "[[Proficiência]]",
+    "next": "[[Experiente]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Adepto"
+    }
+  ],
+  "body": "%%\nup:: [[Proficiência|Proficiência]]\nprev:: [[Proficiência]]\nnext:: [[Experiente]]\n%%\n## Adepto\n* Adepto é o nível inicial, garantindo um bônus de +2. Ataques com armas nas quais você é Adepto causam 1 dado de dano. Certas atividades e [[Técnicas]] requerem um mínimo de Adepto para realizá-las."
+}

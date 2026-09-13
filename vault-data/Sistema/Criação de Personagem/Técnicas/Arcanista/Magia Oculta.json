@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Oculta",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Oculta.md",
+  "basename": "Magia Oculta",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Se sua próxima ação é conjurar uma magia, você pode remover componentes verbais da magia. Isso não reduz o número de ações necessárias para conjurar a magia. Você também pode fazer um teste de Furtividade contra a CD de Visão de uma ou mais criaturas para ocultar as manifestações visíveis da magia para estas quando conjura uma magia afetada por Magia Oculta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Se sua próxima ação é conjurar uma magia, você pode remover componentes verbais da magia. Isso não reduz o número de ações necessárias para conjurar a magia. Você também pode fazer um teste de Furtividade contra a CD de Visão de uma ou mais criaturas para ocultar as manifestações visíveis da magia para estas quando conjura uma magia afetada por Magia Oculta.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Oculta.\n*Requer Escola Arcana (Estudos do Vazio) e Adepto em Furtividade*\n\n**Magia Oculta - 1A**\nSe sua próxima ação é conjurar uma magia, você pode remover componentes verbais da magia. Isso não reduz o número de ações necessárias para conjurar a magia. Você também pode fazer um teste de Furtividade contra a CD de Visão de uma ou mais criaturas para ocultar as manifestações visíveis da magia para estas quando conjura uma magia afetada por Magia Oculta.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Conjuração Móvel",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Conjuração Móvel.md",
+  "basename": "Conjuração Móvel",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A ou 3A",
+    "resumo": "\"Conjure uma magia de 2 ou 3 ações e, como parte da conjuração, você pode [[Mover|Mover-se]] ou dar um [[Passo de Ajuste]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A ou 3A\n\nresumo:: \"Conjure uma magia de 2 ou 3 ações e, como parte da conjuração, você pode [[Mover|Mover-se]] ou dar um [[Passo de Ajuste]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Conjuração Móvel.\n\n**Conjuração Móvel - 2A ou 3A**\nConjure uma Magia que requer 2 ou 3 ações (mesmo número que você usou para ativar Conjuração Móvel), você [[Mover|Move]] ou da um [[Passo de Ajuste]] como parte da conjuração.\n\n```autosheet-rules\n```\n"
+}

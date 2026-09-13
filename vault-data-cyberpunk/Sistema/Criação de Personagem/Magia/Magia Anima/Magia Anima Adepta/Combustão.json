@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Combustão",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Combustão.md",
+  "basename": "Combustão",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Fogo",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criatura em 10q com 1d6×potência de dano de fogo (metade na falha). No sucesso pode Sustentar nos turnos subsequentes com 1d4×potência de dano de fogo na mesma criatura (metade na falha).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criatura em 10q com 1d6×potência de dano de fogo (metade na falha). No sucesso pode Sustentar nos turnos subsequentes com 1d4×potência de dano de fogo na mesma criatura (metade na falha).\"\n%%\n# `= this.file.name` - `= this.custo`\nIncendeia de forma duradoura uma criatura. Faça um Ataque Mágico contra [[Vigor]] de uma criatura em 6q:\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de fogo e você pode [[Sustentar]] Combustão a partir do próximo turno, por 10 turnos.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior e você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] para o Ataque Mágico parte de [[Sustentar]] Combustão.\n**Falha:** A criatura recebe metade de 1d6×potência de dano de fogo.\n**Falha Decisiva:** A criatura não é afetada.\n\nUma vez por turno, ao [[Sustentar]] (se for possível), faça um Ataque Mágico contra  [[Vigor]]: \n\n**Sucesso:** A criatura recebe 1d4×potência de dano de fogo.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada e Combustão é Dissipado.\n\nA criatura afetada pode usar uma ação para fazer um teste de [[Acrobacia]] contra [[CD]] da magia para Dissipar Combustão, essa ação conta como uma ação de movimento.\n\n"
+}

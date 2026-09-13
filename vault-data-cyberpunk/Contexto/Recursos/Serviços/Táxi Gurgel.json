@@ -1,0 +1,75 @@
+{
+  "id": "Contexto/Recursos/Serviços/Táxi Gurgel",
+  "path": "Contexto/Recursos/Serviços/Táxi Gurgel.md",
+  "basename": "Táxi Gurgel",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Corrida",
+    "Marca": "[[Gurgel]]",
+    "Preço": 300,
+    "Cobrança": "viagem",
+    "Por_km": 100,
+    "Nível": 4,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Moinhos de Vento]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "Carajás de fibra com bandeirada de Cz$ 300 e Cz$ 100 por quilômetro. Cabe todo mundo; o motorista vende o que ouviu.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Táxi Gurgel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plaza São Rafael",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Táxi Gurgel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Táxi Gurgel.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nFrota de Gurgel Carajás pintada de amarelo, seis lugares, rádio ligado na [[Embratel]]. Taxista de Porto Alegre\nsabe onde é a clínica clandestina, quem vende dose e a que horas a Brigada troca de turno — e vende essa\ninformação depois da corrida, pra quem pagar mais.\n\n> [!info] Especificação\n> **Veículo:** Gurgel Carajás táxi, carroceria de fibra, bancos pra 6 e taxímetro lacrado\n> **Tarifa:** bandeirada Cz$ 300 + Cz$ 100 por km\n> **Noite:** depois das 22h: bandeirada Cz$ 450 + Cz$ 150 por km\n> **Dia de Gre-Nal:** ×3 em [[Praia de Belas]], e ainda assim não tem táxi\n> **Ponto:** [[Mercado Público]], [[Shopping Iguatemi]], porta do [[Plaza São Rafael]]\n> **Motorista:** cambista de informação: o que ele ouviu no banco de trás vira mercadoria\n"
+}

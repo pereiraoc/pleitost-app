@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Coordenação Defensiva",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Coordenação Defensiva.md",
+  "basename": "Coordenação Defensiva",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Aliados alvos do seu [[Reposicionar]] que usarem a reação para mover recebem [[Energia Heroica|EH]] temporária 6 até o início do seu próximo turno (8 no 7º nível).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Aliados alvos do seu [[Reposicionar]] que usarem a reação para mover recebem [[Energia Heroica|EH]] temporária 6 até o início do seu próximo turno (8 no 7º nível).\"\n%%\n#### `= this.file.name` - `= this.rank`\nAliados alvos do seu [[Reposicionar]] recebem [[Energia Heroica|EH]] temporária igual a 6 até o início do seu próximo turno se usarem a reação para mover. Esse valor aumenta para 8 no 7º nível.\n\n%%candidato a ser culled\n\n```autosheet-rules\n```\n"
+}

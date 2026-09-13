@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Criação/Essência de Criação Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Criação/Essência de Criação Adepta.md",
+  "basename": "Essência de Criação Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Manifestação Básica]]",
+      "Complementar Magias.Lista [[Invocar Elemental Menor]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Manifestação Básica]], adepta [[Invocar Elemental Menor]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Manifestação Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência de Criação Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Manifestação Básica]]"
+          },
+          "raw": "Complementar Magias.Lista [[Manifestação Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Invocar Elemental Menor]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência de Criação Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Invocar Elemental Menor]]"
+          },
+          "raw": "Complementar Magias.Lista [[Invocar Elemental Menor]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manifestação Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invocar Elemental Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Manifestação Básica]], adepta [[Invocar Elemental Menor]]\"\n%%\n#### `= this.file.name`\n* basica [[Manifestação Básica]]\n* adepta [[Invocar Elemental Menor]]\n\n```autosheet-rules\n```\n"
+}

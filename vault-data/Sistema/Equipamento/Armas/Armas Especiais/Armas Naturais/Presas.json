@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Presas",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Presas.md",
+  "basename": "Presas",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "natural",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "natural",
+    "dg-publish": true,
+    "dano": "d4+2",
+    "tipo": "perfuração",
+    "mãos": 0,
+    "propriedades": [
+      "[[Precisa]]",
+      "[[Apunhalante]]"
+    ],
+    "ordem": 21,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armas Especiais]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armas Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Especiais]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Dano          | Tipo          | Propriedades          |\n| ------------- | ------------- | --------------------- |\n| `= this.dano` | `= this.tipo` | `= this.propriedades` |\n\n```autosheet-rules\n```\n"
+}

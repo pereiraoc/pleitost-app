@@ -1,0 +1,618 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Custo de Vida",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Custo de Vida.md",
+  "basename": "Custo de Vida",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Quanto custa viver em Porto Alegre 1987 — a escala do Cruzado, a régua por bairro, os estilos de vida mensais e as tabelas de transporte, moradia e alimentação.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Custo de Vida.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Transporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moradia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "Salários de referência"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink",
+      "alias": "bairro"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink",
+      "alias": "PIRA"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink",
+      "alias": "Aeromóvel"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Janta na Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachorro-Quente do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pastel da Banca do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prato Feito da Cantina do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga no Sobrado da Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink",
+      "alias": "Neugebauer"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga na Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kitnet do Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bubbaloo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vila Operária PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafita da Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink",
+      "alias": "água"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink",
+      "alias": "carroça"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeto ao Primo Canto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasco de Costela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto de Fundos da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caravana da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moeda e Sistemas de Troca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tipos de Substâncias e Legalidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "Caixinha por rank"
+    },
+    {
+      "target": "Contexto POA 1987",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink",
+      "alias": "Polar"
+    },
+    {
+      "target": "Pescado do Cais",
+      "kind": "wikilink",
+      "alias": "peixes"
+    },
+    {
+      "target": "Acesso a Recursos Básicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agiota da Facção",
+      "kind": "wikilink",
+      "alias": "agiota"
+    },
+    {
+      "target": "Penhor do Camelódromo",
+      "kind": "wikilink",
+      "alias": "penhor"
+    },
+    {
+      "target": "Sem Endereço",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Condomínio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sem Passe",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carro com Motorista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sem Rancho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cozinheira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "alias": "mais abaixo",
+      "subpath": "Classe social — o retrato do mês"
+    },
+    {
+      "target": "Sem Passe",
+      "kind": "wikilink",
+      "alias": "Sem plano"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kitnet",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cantina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancheria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrascaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "Classe social — o retrato do mês"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "O que cada classe compra"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "Quem vive como"
+    },
+    {
+      "target": "Regra Básica",
+      "kind": "wikilink",
+      "alias": "exceder a CD"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sicredi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "alias": "usado × novo",
+      "subpath": "Transporte"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "alias": "retrato do mês",
+      "subpath": "Classe social — o retrato do mês"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "O Trabalho de Caixinha"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink",
+      "alias": "regalia de classe"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Monza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Opala Diplomata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Tocantins",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel X-12 Anfíbio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Fibra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink",
+      "subpath": "Executivo"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "alias": "retrato",
+      "subpath": "Classe social — o retrato do mês"
+    },
+    {
+      "target": "Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "alias": "sinal",
+      "subpath": "O Trabalho de Caixinha"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "Quantas caixinhas custa"
+    },
+    {
+      "target": "Transporte e Mobilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "Serviços"
+    },
+    {
+      "target": "Moradia e Ocupação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Olímpico Monumental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Crédito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empréstimo em Dólar",
+      "kind": "wikilink",
+      "alias": "dólar"
+    }
+  ],
+  "images": [
+    {
+      "target": "Custo de Vida.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Preço de Estar Vivo"
+    },
+    {
+      "level": 4,
+      "text": "O sabor de cada bairro"
+    }
+  ],
+  "body": "\n### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Custo de Vida.png]]\n\n> [!info] Fonte única de verdade\n> Cada preço desta nota vive **numa nota própria** em [[Recursos]] (`categoria: Recurso`, uma por item — [[Transporte]], [[Moradia]], [[Alimentação]]), com marca, especificação e onde se acha. As tabelas abaixo são **consultas** sobre essas notas: pra mudar um preço, edite a nota do item. O app lê as mesmas notas na aba **RECURSOS** da ficha. Salários e a caixinha por rank vivem em [[Mercado de Trabalho#Salários de referência]]; as regalias por classe, em [[Regalias de Classe]]; a régua por bairro, no FM `Comércio` de cada [[Porto Alegre|bairro]]. Aqui ficam a escala, os planos, o que cada classe compra, a cesta esperada por nível, usado × novo e o empréstimo.\n\n#### O Preço de Estar Vivo\nMil Cruzados é mais ou menos um dia de trabalho qualificado — e essa é a única régua que Porto Alegre respeita. Um servente da obra tira Cz$ 5.000 no mês, um brigadiano 10.000, um técnico da [[Gradiente]] 25.000. Do outro lado do balcão, uma dose Adepta de selênico custa 10.000: dois meses inteiros do servente numa ampola. É por isso que remédio, nesta cidade, não é gasto — é dívida.\n\nO operário da [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)|PIRA]] nem chega a ver o dinheiro. Ganha oito, dez, doze mil no papel e recebe dois em espécie; o resto volta como ração, vaga na vila operária e passe de [[Aeromóvel Linha Popular|Aeromóvel]], tudo válido só no balcão de quem paga. Crédito de produtividade não é moeda: é coleira com desconto em folha.\n\nO que separa o Contratado disso tudo não é salário, é a caixinha. Uma noite de serviço de rank C paga Cz$ 60.000 — mais que dois meses do técnico da Gradiente, doze do servente. Viver bem em Porto Alegre não é ganhar mais por mês; é ser chamado pro trabalho que ninguém mais aceita, e voltar.\n\nE o mesmo dinheiro vale coisas diferentes conforme a esquina: em [[Moinhos de Vento]] tudo custa uma vez e meia, na [[Restinga]] se paga em dólar redondo porque cruzeiro não serve, e na [[Zona Deserta]] ninguém vende nada — troca-se sucata por dose e dose por passagem.\n\n#### O sabor de cada bairro\n- **[[Moinhos de Vento]]** — tudo ×1,5; cerveja importada Cz$ 500; garçom não aceita moeda miúda; segurança da Gradiente na porta; [[Janta na Padre Chagas]].\n- **[[Centro Histórico]]** — passarela cobra pedágio; café no deck Cz$ 80; [[Cachorro-Quente do Rosário]]; quarto sobre a água barato e úmido.\n- **[[Mercado Público]]** — o único lugar onde o pobre e o rico compram no mesmo balcão: [[Pastel da Banca do Mercado]], [[Prato Feito da Cantina do Mercado]], [[Café Passado]] nos fundos.\n- **[[Praia de Belas]]** — dia de jogo dobra tudo; fora dele, cais barato, boteco de estivador, [[Churrasquinho de Barraca]].\n- **[[Quarto Distrito]]** — bebida barata, entrada cara; [[Vaga no Sobrado da Velha Indústria]]; a fábrica da [[Chocolate Neugebauer|Neugebauer]] perfuma a graxa; racha de [[Gurgel Motomachine]].\n- **[[Bom Fim]]** — brechó, [[Vinho Aurora]] e livro proibido; [[Vaga na Pensão Farroupilha]]; [[Xis]] de madrugada; [[Cueca Virada]] às três.\n- **[[Passo D'Areia]]** — oficina barata, peça pirata mais barata ainda; [[Kitnet do Aeromóvel]]; concessionária [[Gurgel]]; [[Bubbaloo]] na plataforma.\n- **[[Nova Sarandi]]** — comida de trem, [[Vila Operária PIRA]], tudo cheira a graxa; [[Mate Gelado Charrua]] aos montes; [[Grapette]] de fundo de quintal.\n- **[[Cidade Baixa]]** — [[Palafita da Cidade Baixa]] quase de graça, o resto por escambo; [[Brahma Chopp]] por baixo em metade dos botecos; [[Lancha do Barqueiro]].\n- **[[Restinga]]** — enclave cercado pela [[Zona Deserta]], uma estrada só: dólar redondo, [[Água Mineral em Galão|água]] cara (não tem rio nem poço), [[Bicicleta Caloi 10]], [[Carroça com Cavalo|carroça]] e sucata; a lei do Renato Livre.\n- **[[Petrópolis]]** — casario, [[Galeto ao Primo Canto]], [[Churrasco de Costela]], [[Tramontina]] na esquina; conserto de prótese ×1,5.\n- **[[Jardim Botânico]]** — [[Quarto de Fundos da Vila]], boteco da [[Camisa 12]], [[Caravana da Camisa 12]] de graça pra quem canta; [[Chiclete Ping Pong]] e [[Bala Soft]] de troco.\n- **[[Zona Deserta]]** — ninguém vende; troca-se sucata por dose e dose por passagem.\n\n> [!note]- A régua do dinheiro e o mês fechado\n> **A escala: Cz$ = PO × 1.000**\n> - **O sistema conta em PO, o mundo mostra em Cruzado.** Ficha, loja, riqueza por nível e tabelas do `Sistema/` seguem em PO inteiro; o app e esta nota exibem **Cz$ = PO × 1.000**. Comparar os dois mundos é olhar o número e pular três zeros.\n> - **Nada fracionário.** Não existe Cz$ 0,50 nem centavo: o menor preço da cidade é Cz$ 10 (um pedágio de deck ou um [[Chiclete Ping Pong]]). Quando a régua do bairro (×0,7 · ×1,5) quebrar o número, arredonde pra dezena.\n> - **A ficha conta em milhares.** Cada 1 de ouro na ficha é Cz$ 1.000. Miudeza abaixo disso (ônibus, Polar, pastel) não entra no inventário: está dentro do **estilo de vida** do mês (abaixo) ou sai do bolso narrativo. Só se anota o que custa mil pra cima.\n> - **Dólar de esquina ≈ Cz$ 100, subindo todo mês.** O Cruzado nasceu em 1986 cortando três zeros do Cruzeiro; um ano depois já pede cem cruzados por dólar ([[Moeda e Sistemas de Troca]]).\n>\n> **A âncora: quanto vale mil Cruzados**\n> - **Cz$ 1.000 = mais ou menos um dia de trabalho qualificado.** Um servente ganha Cz$ 5.000 por mês, um brigadiano 10.000, um técnico da Gradiente 25.000 ([[Mercado de Trabalho#Salários de referência]]).\n> - **Uma dose Adepta de selênico é Cz$ 10.000 — dois meses de servente.** Remédio é caro de propósito ([[Tipos de Substâncias e Legalidade]]).\n> - **Um Gurgel usado é um ano de sargento.** Por isso a cidade anda de ônibus, e por isso roubo de carro é o crime que mais paga ([[Gurgel Carajás]]).\n> - **Créditos de Produtividade (PIRA)** não são dinheiro: valem só no balcão da empresa patrocinadora. O operário \"ganha\" Cz$ 8.000–12.000, recebe Cz$ 2.000 em espécie; o resto vira ração, vila operária e Aeromóvel grátis.\n> - **Marcas de Respeito** ([[A Caixinha|Caixinha]]) não compram nada, mas uma caixinha de rank C paga **Cz$ 60.000–70.000** por uma noite de serviço ([[Mercado de Trabalho#Caixinha por rank]]) — é o que faz o Contratado viver melhor que o operário.\n>\n> **A régua por bairro**\n> O preço base de toda nota de Recurso é o de **Rua de Comércio**. O bairro multiplica — é a mesma régua do FM `Comércio` das notas de Localização e da `disponibilidade.matriz` do [[Contexto POA 1987]], que a loja do app já aplica.\n>\n> | Linha da régua (FM `Comércio`) | Como a cidade chama | Preço | O que muda |\n> |---|---|---|---|\n> | Pequena Cidade | **Boca de Bairro** | ×0,7 | barato e escasso; marca própria some, sobra o genérico |\n> | Grande Cidade | **Rua de Comércio** | ×1 | o preço \"normal\" — o das notas |\n> | Capital | **Centro** | ×1,5 | pedágio dos decks, segurança privada, importado no balcão |\n> | Iluminada | **Mercadão** | ×1 | acha de tudo; a variedade é o luxo, não o preço |\n>\n> Quem está em que linha (lido do FM dos bairros):\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Bairro\", Comércio AS \"Linha da régua\"\n> FROM \"Atlas/Porto Alegre\"\n> WHERE subcategoria = \"Bairro\"\n> SORT Comércio ASC, file.name ASC\n> ```\n>\n> **Regra do dólar ([[Restinga]] e o [[Mercado da Restinga]]):** preço base ×0,7, convertido a Cz$ 100 por dólar e **arredondado pra cima, pra dólar inteiro** — não existe centavo de dólar. O que vale menos de um dólar vende-se em lote: três [[Polar Tradicional|Polar]] por um dólar, dois [[Pescado do Cais|peixes]] por um dólar. Coisa grande fica barata; coisa miúda fica cara, porque o mínimo é um dólar.\n>\n> **Modificadores que se somam:** dia de Gre-Nal em [[Praia de Belas]] (comida e bebida ×2, táxi ×3, quarto ×2) · toque de recolher depois das 23h fora dos bairros nobres (transporte ×2, só clandestino) · racionamento ([[Acesso a Recursos Básicos]]: água e luz a preço de mercado negro na periferia) · pagar em dólar fora da Restinga (10% de desconto em qualquer boteco — o dono guarda o dólar, não o Cruzado).\n>\n> **Estilos de vida (o mês fechado)**\n> **O nível 1 é a ausência de plano, não uma faixa de produto.** \"Sem Plano Mensal\" descreve quem não paga mensalidade nenhuma — não existe carroça nem barraco \"de Sem Plano Mensal\": o que se compra começa em **Classe Baixa**. Só os três planos `Sem Plano Mensal de …` (e o [[Agiota da Facção|agiota]] e o [[Penhor do Camelódromo|penhor]], que atendem quem não tem plano) ficam no nível 1.\n>\n> Como no Cyberpunk, a vida se compra em **planos mensais pagos adiantado** — três eixos, escolhidos separados na aba RECURSOS da ficha, cada um num de seis **degraus**. O plano se chama pelo que vende, não pela classe de quem compra: moradia vai de [[Sem Endereço]] a [[Condomínio]], transporte de [[Sem Passe]] a [[Carro com Motorista]], alimentação de [[Sem Rancho]] a [[Cozinheira]]. **Classe social é outra coisa** — é o retrato do mês inteiro, e está [[#Classe social — o retrato do mês|mais abaixo]]. Cada plano é uma nota de Recurso (`Tipo: Estilo de Vida`) com o preço do mês e o que garante: o **plano TRI** dá acesso aos transportes (nada de tarifa avulsa), a **moradia** é aluguel sem posse (do viaduto à cobertura), a **alimentação** garante refeições daquele padrão o mês inteiro. O que se tem de POSSE (carro, imóvel) paga a própria manutenção por mês, definida na nota do item.\n>\n> | Eixo | O que é | degrau 1 | degrau 2 | degrau 3 | degrau 4 | degrau 5 | degrau 6 |\n> |---|---|---|---|---|---|---|---|\n> | **Transporte** (plano TRI) | a que transportes tem acesso | [[Sem Passe|Sem plano]] — nenhum | [[TRI Bronze]] — ônibus no turno | [[TRI Prata]] — ônibus, anfíbio, Aeromóvel popular | [[TRI Ouro]] — + lotação VIP | [[TRI Platina]] — + linha executiva, táxi conveniado | [[Carro com Motorista]] — motorista, escolta |\n> | **Moradia** (aluguel, sem posse) | onde dorme (água, luz, pedágio e condomínio inclusos) | [[Sem Endereço]] — albergue, viaduto, palafita emprestada | [[Barraco]] — motel ruim por mês, palafita ou quarto de fundos | [[Quarto]] — pensão, hotel ruim por mês | [[Kitnet]] — kitnet, apto pequeno | [[Apartamento]] — apto ou casa em bairro bom | [[Condomínio]] — condomínio fechado, cobertura, suíte de luxo |\n> | **Alimentação** (padrão do mês, pago adiantado) | o que come e bebe todo dia | [[Sem Rancho]] — ração PIRA e resto | [[Marmita]] — marmita e pastel | [[Cantina]] — PF de cantina e cesta | [[Lancheria]] — boteco e janta fora | [[Churrascaria]] — galeto, churrasco, Padre Chagas | [[Cozinheira]] — importado, em casa |\n>\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Plano\", subcategoria AS \"Eixo\", Nível AS \"Degrau\", Preço AS \"Cz$/mês\"\n> FROM \"Contexto/Recursos\"\n> WHERE categoria = \"Recurso\" AND Tipo = \"Estilo de Vida\"\n> SORT Nível ASC, subcategoria ASC\n> ```\n>\n> O **custo do mês** é a soma dos três planos mais a manutenção do que se tem de posse (carro: manutenção, gasolina, seguro, IPVA; imóvel: condomínio, IPTU — tudo na nota do item, pago adiantado como o resto). Quem mora em cobertura e come ração não é Classe Alta: o **padrão de vida** é a média dos três degraus, e a classe sai dele com o resto da vida junto ([[#Classe social — o retrato do mês]]). O plano garante o MÍNIMO daquele padrão; consumir fora dele (uma janta melhor, um táxi) é extra e sai do bolso.\n>\n> | Degrau | Os três planos | Mês típico (transporte + moradia + alimentação) | Classe |\n> |:-:|---|---|:-:|\n> | 1 | [[Sem Passe]] · [[Sem Endereço]] · [[Sem Rancho]] | 0 + 300 + 600 = **Cz$ 900** (tudo avulso) | E |\n> | 2 | [[TRI Bronze]] · [[Barraco]] · [[Marmita]] | 1.500 + 1.000 + 1.500 = **Cz$ 4.000** | E |\n> | 3 | [[TRI Prata]] · [[Quarto]] · [[Cantina]] | 2.500 + 2.500 + 3.000 = **Cz$ 8.000** | D |\n> | 4 | [[TRI Ouro]] · [[Kitnet]] · [[Lancheria]] | 5.000 + 6.000 + 5.000 = **Cz$ 16.000** | C |\n> | 5 | [[TRI Platina]] · [[Apartamento]] · [[Churrascaria]] | 10.000 + 15.000 + 9.000 = **Cz$ 34.000** | B |\n> | 6 | [[Carro com Motorista]] · [[Condomínio]] · [[Cozinheira]] | 20.000 + 50.000 + 20.000 = **Cz$ 90.000** | A |\n>\n> **Classe social — o retrato do mês**\n> O degrau do plano diz como o herói vive; a **classe social** é o que a cidade lê nele — e isso é o mês inteiro junto. Cinco letras: **A** (Alta), **B** (Média Alta), **C** (Média), **D** (Média Baixa), **E** (Baixa). Quem não tem plano nenhum não é uma classe à parte: é o fundo da Baixa.\n>\n> | O que entra | Como conta |\n> |---|---|\n> | **Padrão de vida** | a média dos três degraus do mês — é o que **define** a letra |\n> | **Patrimônio** | o que foi comprado e é dele: carro, moto, imóvel, a preço de nota. O que terceiro cede (veículo \"de uso\", peça emprestada) **não conta** |\n> | **Equipamento** | arma, armadura, escudo, módulo, válvula — o que ele carrega. **Consumível não conta**: selênico se gasta |\n> | **Dinheiro em mãos** | o que está na ficha neste mês |\n>\n> Os três últimos **ajustam o padrão em até um degrau**, pra cima ou pra baixo. O mesmo herói de [[Kitnet]], [[Lancheria]] e [[TRI Ouro]] é **C** com o carro e o arsenal que o nível 4 espera, e cai pra **D** se só tiver o aluguel em dia. Quem mora em [[Condomínio]] com o armário vazio segue Classe Alta: o endereço é o que a cidade vê primeiro. É por isso que a letra não cabia no nome do plano — ela é o conjunto.\n>\n> **A profissão puxa.** Cada classe de Contratado tem um piso e um teto por tier ([[Regalias de Classe]]), e é daí que vem a textura da cidade: o **Executivo** entra em Classe Média já no tier 1, porque a firma paga o endereço antes de ele merecer, e nunca passa de Média Alta — é funcionário, não dono. O **Ressonante** começa em Baixa por mais dinheiro que junte (ninguém aluga bom apartamento pra quem toca em boteco) e, de Ídolo, chega à Alta, acima do Executivo. O **Nóia** não sai da Média Baixa nem com as doações, porque o dinheiro é da comunidade. O **Soldado** não passa de Média: soldo é soldo. A tabela completa é dado do mundo ([[Contexto POA 1987]], `classe_social.tendencias`), e o app mostra a letra no topo da aba RECURSOS.\n>\n> **O mês se paga na entrada.** Quando o calendário vira, o herói **abre o mês** na aba RECURSOS: escolhe os três planos e paga, antes de o mês contar, os planos, a manutenção do que tem de posse e a parcela da dívida ([[#Empréstimo]]) — tudo arredondado pro milhar. Mudar de classe, pra cima ou pra baixo, é nessa hora, nunca no meio do mês. Quem não tem como pagar cai de classe no eixo que não fecha e perde o que aquela classe comprava ([[#O que cada classe compra]]). Vale pra qualquer forma de pagar: dinheiro, sinal, empréstimo. **Cada personagem paga o seu plano** — não há rateio, e dormir na casa do colega é abrigo, não plano. Um eixo pago por terceiro (a firma, o sindicato, o Clube — [[Regalias de Classe]]) aparece na ficha marcado como tal e não sai do saldo. Salários e \"quanto sobra\" por profissão: [[Mercado de Trabalho#Quem vive como]].\n>\n> **Regra de bolso — quanto custa um dia fora do estilo** (viagem, esconderijo, dia de serviço): classe baixa **Cz$ 200** (pão, PF, ônibus, Polar); classe média **Cz$ 600** (lanche, janta simples, táxi de vez em quando); classe alta **Cz$ 3.000** (Aeromóvel executivo, restaurante da Padre Chagas, uísque). Multiplique pela régua do bairro.\n>\n> **O que cada classe compra**\n> Tudo dentro do preço do plano — sem bônus de energia. O que cada eixo compra está abaixo, e a Especificação de cada nota de plano repete o que lhe cabe.\n>\n> **Fadiga: o teste plano da semana.** Teste plano = d20 sem modificador, regra normal de [[Regra Básica|exceder a CD]]. No começo de cada semana, quem está em Sem Plano Mensal ou Classe Baixa rola **um teste por eixo** (dormir mal e comer mal são coisas diferentes); cada um rola pelo próprio plano.\n>\n> | Eixo em… | CD | Falha em | Efeito |\n> |---|:-:|---|---|\n> | [[Sem Endereço]] ou [[Sem Rancho]] | **5** | 1–5 (25%) | [[Fadigado]] a **semana inteira** — dormir não cura, porque é o dormir que causa |\n> | [[Barraco]] ou [[Marmita]] | **1** | só no 1 natural (5%) | idem |\n> | Do degrau 3 pra cima | — | nunca | — |\n>\n> **Moradia — quem te acha, o que cabe, quem empresta**\n>\n> | Moradia | Quem te acha | O que cabe (guarda · vaga · gente) | Segurança e dívida |\n> |---|---|---|---|\n> | [[Sem Endereço]] | só a rádio pirata: **caixinhas C, e só** | nada: nenhuma vaga, e o que deixa fica com quem guardar | a Brigada recolhe no toque; teste plano CD 5; só o agiota e o penhor emprestam |\n> | [[Barraco]] | recado na venda: **C** | um esconderijo no beco (uma mochila) · bicicleta dentro de casa · uma pessoa no chão | alagou, perdeu: uma vez por rank o Mestre pode alagar ou revirar; teste plano CD 1; fiado e agiota |\n> | [[Quarto]] | recado na pensão: **C e B** | armário com chave (equipamento) · moto ou mobilete no pátio · uma pessoa | a pensão sabe quem entra; crédito da firma se tiver carteira, [[Sicredi]] se tiver fiador |\n> | [[Kitnet]] | telefone: **B chegam direto — sem os 10% do despachante** (o único desconto em dinheiro vivo) | kitnet com porteiro: equipamento seguro · **uma vaga** (carro) · uma pessoa no sofá | endereço fixo: laudo, cadastro, conta na [[Panvel]]; compra Adepto no balcão; o [[Banrisul]] empresta |\n> | [[Apartamento]] | crachá, porteiro armado: **A** | apto ou casa: cofre · **duas vagas** · quarto de hóspede (esconde duas pessoas) | ninguém te acha em casa (Brigada precisa de mandado, facção não entra); clínica credenciada; compra Experiente no balcão; o Banrisul empresta o dobro |\n> | [[Condomínio]] | **S**; o financiador vem até ti | condomínio ou cobertura: sala segura e cofre · garagem pra **frota** e vaga de lancha (Ipanema) · suíte de hóspedes (esconde o grupo inteiro) | imune a blitz e toque de recolher; Mestre por encomenda; empréstimo em dólar |\n>\n> \"Gente\" é quem tu esconde por uns dias — a testemunha, o courier ferido —, não quem mora: cada personagem tem o seu plano e rola a própria fadiga. **Vaga é vaga de veículo** (FM `Vagas` da nota do plano: nenhuma no [[Sem Endereço]], uma do [[Barraco]] à [[Kitnet]], duas no [[Apartamento]], quatro no [[Condomínio]]). Veículo que não cabe dorme na rua e entra no d6 de pane ([[#Transporte|usado × novo]]) mesmo sendo novo; lancha sem vaga só na orla que a [[Aliança Livre das Palafitas]] guarda — por uma taxa.\n>\n> **Alimentação — se o corpo aguenta**\n>\n> | Alimentação | Come | Mecânica |\n> |---|---|---|\n> | [[Sem Rancho]] | ração PIRA e resto | teste plano **CD 5** por semana |\n> | [[Marmita]] | marmita e pastel | teste plano **CD 1** por semana |\n> | [[Cantina]] | PF de cantina e cesta | sem teste |\n> | [[Lancheria]] | boteco e janta fora | sem teste, nunca — e **um dia fora do estilo por semana de graça** (a marmita do restaurante: vale os Cz$ 600 da regra de bolso) |\n> | [[Churrascaria]] | galeto, Padre Chagas, corte especial | **um Vitalênico Adepto ([[Poção da Nutrição]], Cz$ 5.000) por aventura, de graça** — a comida da Padre Chagas já vem com reagente |\n> | [[Cozinheira]] | importado, em casa | **uma dose Adepta qualquer por aventura** (o médico da família), e o Vitalênico |\n>\n> **Transporte — onde e quando tu chega** (a malha, parada a parada, em [[Malha de Transportes]])\n>\n> | Plano | Chega | Mecânica |\n> |---|---|---|\n> | [[Sem Passe]] | a pé pela passarela; a guarita barra | chega [[Fadigado]] em serviço fora do bairro; o toque de recolher te pega |\n> | [[TRI Bronze]] | ônibus no turno | fora do turno é a pé: o relógio da aventura **perde uma hora** |\n> | [[TRI Prata]] | ônibus, anfíbio, Aeromóvel popular | chega em toda a malha popular no horário |\n> | [[TRI Ouro]] | + lotação VIP | o relógio **ganha uma hora**; a Brigada não para a lotação |\n> | [[TRI Platina]] | + Linha Executiva, táxi conveniado | chega onde a malha não vai (Ipanema); o táxi conta como fuga |\n> | [[Carro com Motorista]] | motorista, escolta | não sofre blitz; o carro é esconderijo móvel; o motorista é um NPC leal — ou o dedo-duro da firma |\n>\n> **A aparência, nos três eixos:** [[Bônus de Circunstância|bônus de circunstância]] de +1 em Diplomacia e Enganação com quem é da tua classe social ou abaixo (roupa, endereço, o carro na porta); −1 com quem está duas letras acima (o porteiro não deixa entrar) — a letra é a do [[#Classe social — o retrato do mês|retrato do mês]]. Intimidação não liga pra classe — liga pra Marca.\n>\n> **Nível, rank e classe esperada**\n> O Contratado não tem salário: tem a caixinha de cada aventura ([[Mercado de Trabalho#O Trabalho de Caixinha]]). **Uma aventura por nível, uma entrega por nível.** O rank da caixinha é o tier do herói: **C** nos níveis 1–3 (aventuras de 1 a 5 dias), **B** nos 4–6 (1 a 4 semanas), **A** nos 7–9 (1 a 6 meses), **S** no nível 10 (não sobe mais). Nos níveis 3, 6 e 9 há uma aventura a mais, curta: a **prova de rank**. Não há intervalo entre aventuras — o calendário é a soma das durações: o tier 1 cabe numa quinzena, o tier 2 em dois meses, o tier 3 num ano. O mês se paga quando o calendário vira.\n>\n> **Riqueza por nível** — o valor do **equipamento** que um herói daquele nível carrega (não é dinheiro em caixa), com quantos tesouros de cada tier ele tem. É a tabela de riqueza do sistema, em Cz$:\n>\n> | Nível | Riqueza (Cz$) | Adepto | Experiente | Mestre |\n> |:-:|--:|:-:|:-:|:-:|\n> | 1 | 10.000 | 0 | 0 | 0 |\n> | 2 | 50.000 | 1 | 0 | 0 |\n> | 3 | 90.000 | 2 | 0 | 0 |\n> | 4 | 175.000 | 4 | 0 | 0 |\n> | 5 | 400.000 | 4 | 1 | 0 |\n> | 6 | 600.000 | 4 | 2 | 0 |\n> | 7 | 1.000.000 | 2 | 4 | 0 |\n> | 8 | 2.000.000 | 1 | 4 | 1 |\n> | 9 | 3.000.000 | 0 | 4 | 2 |\n> | 10 | 4.800.000 | 0 | 2 | 4 |\n> | pós-10 | 5.700.000 | 0 | 1 | 5 |\n>\n> **A cesta esperada por nível.** A caixinha de cada nível é o menor valor redondo que paga o equipamento do nível seguinte, os meses que o calendário vira na classe esperada (planos + manutenção do veículo), o gasto na aventura e a troca do veículo ao subir (vende o atual pela metade). Calculada **sem regalia**: a [[Regalias de Classe|regalia de classe]] é a folga do jogador.\n>\n> | Nível | Rank | Classe esperada | Mês (planos + manutenção) | Meses que viram | **Caixinha** | Equipamento (compra no nível) | Gasto na aventura | Veículo esperado |\n> |:-:|:-:|---|--:|:-:|--:|---|--:|---|\n> | 1 | C | Classe Baixa | 4.000 | 1 | **60.000** | +1 Adepto (40.000) | 10.000 | a pé ou [[TRI Bronze]] |\n> | 2 | C | Classe Média Baixa | 8.300 | — | **70.000** | +1 Adepto (40.000) | 10.000 | [[Bicicleta Caloi 10]] usada (5.000) |\n> | 3 | C | Classe Média Baixa | 8.600 | — | **70.000 + prova 70.000** | +2 Adepto (85.000) | 10.000 + 5.000 | [[Mobilete Caloi]] usada (15.000) |\n> | 4 | B | Classe Média | 17.500 | 1 | **450.000** | +1 Experiente (225.000) | 100.000 | [[Honda CG 125]] usada (45.000) |\n> | 5 | B | Classe Média | 17.500 | — | **450.000** | +1 Experiente (200.000) | 100.000 | [[Volkswagen Fusca]] novo (90.000) |\n> | 6 | B | Classe Média Alta | 38.500 | 1 | **500.000 + prova 500.000** | 2 Adepto viram 2 Experiente (400.000) | 100.000 + 50.000 | [[Gurgel Carajás]] usado (150.000) |\n> | 7 | A | Classe Média Alta | 37.000 | 3 | **2.100.000** | +1 Mestre, −1 Adepto (1.000.000) | 400.000 | [[Gurgel Carajás]] novo (400.000) |\n> | 8 | A | Classe Alta | 95.000 | 4 | **2.400.000** | +1 Mestre, −1 Adepto (1.000.000) | 400.000 | [[Chevrolet Monza]] novo (700.000) |\n> | 9 | A | Classe Alta | 96.000 | 5 | **2.000.000 + prova 2.000.000** | 2 Experiente viram 2 Mestre (1.800.000) | 400.000 + 200.000 | [[Chevrolet Opala Diplomata]] novo (900.000) |\n> | 10 | S | Classe Alta | 100.000+ | — | **3.000.000+** (não sobe mais) | pós-10: 5.700.000 | 600.000 | [[Gurgel Tocantins]], [[Gurgel X-12 Anfíbio]], [[Lancha de Fibra]] |\n>\n> - **Gasto na aventura** é o dinheiro que sai durante o serviço e não fica com o herói: as doses de selênico que ele *usa* (Cicatrilênico é a [[Poção de Cura]]: 10.000 a Adepta, 50.000 a Experiente, 250.000 a Mestre; Taurilênico e Adrenalênico idem), suborno de brigadiano, pedágio, táxi fora do plano, a placa fria. Tier 1: uma dose Adepta numa noite. Tier 2: duas Experientes em semanas. Tier 3: três Experientes, uma Mestre e a propina de meses. É de 15% a 20% da caixinha.\n> - **Meses que viram** é onde o calendário passa de mês: uma vez no tier 1 (o mês da largada, pago adiantado), duas no tier 2, doze no tier 3. O Mestre abre o mês na mesa quando vira de verdade.\n> - **Veículo esperado** é o que o herói *tem*, não o que sonha: bicicleta e mobilete no C; moto e carro popular no B (o Fusca novo no 5 é a primeira compra com nota); Carajás usado, depois novo, no A; carro de diretoria no 8–9. A manutenção do usado já entra com o acréscimo ([[#Transporte|usado × novo]]).\n> - **Executivo** foge da tabela no tier 1: a firma paga a [[Kitnet]] ([[Regalias de Classe#Executivo]]) e ele fecha transporte e alimentação do degrau 4 do bolso (10.000 por mês) — começa **Classe Média**, e a caixinha C dá conta. É o `piso` dele no [[#Classe social — o retrato do mês|retrato]]; todo mundo mais começa Classe Baixa.\n> - **Classe Média Alta no nível 6** é cedo de propósito: é a classe que tem porteiro armado, garagem e clínica credenciada — o que um herói de rank B precisa pra sobreviver ao que já anda fazendo. A Classe Alta só no 8: é quando a caixinha paga o [[Edifício Concorde]] sem doer.\n> - **Tier 3 vive de sinal.** No nível 8 são quatro meses a 95.000: 380.000 de vida antes de receber. Metade de 2.400.000 adiantada resolve ([[Mercado de Trabalho#O Trabalho de Caixinha|sinal]]) — e o sinal é também a coleira do financiador. Sem sinal nem empréstimo, o herói cai uma classe na virada do mês.\n> - **Quanto o calendário come:** como não há intervalo, o custo de vida só pesa onde a aventura é longa — o tier 3 fecha doze meses de Classe Média Alta e Alta, cerca de 970.000, 11% do que o tier paga. No tier 1 e 2 o mês é troco. Quanto custa cada sonho de consumo, em caixinhas: [[Mercado de Trabalho#Quantas caixinhas custa]].\n\n> [!note]- Os preços, eixo por eixo\n> **Onde se compra**\n> Nada se compra \"no ar\": cada Recurso está à venda em **estabelecimentos** — Pontos de Interesse do Atlas com o FM `Serviços` (a concessionária, o guichê, a imobiliária, o boteco). No app, o local ganha a aba **Serviços**, com quantidade e disponibilidade conforme a linha da régua do bairro (Boca de Bairro vende pouco e barato, Centro vende o de cima da tabela), e o que o herói compra passa a aparecer na aba RECURSOS da ficha — só o que ele tem.\n>\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Estabelecimento\", Geolocalização AS \"Onde\", Serviços AS \"Vende ou aluga\"\n> FROM \"Atlas/Porto Alegre\"\n> WHERE Serviços\n> SORT Geolocalização ASC, file.name ASC\n> ```\n>\n> **Transporte**\n> O **plano TRI** do mês dá acesso aos transportes — as tarifas avulsas abaixo são referência de preço, não se compram nos lugares. Corrida de táxi, aluguel por dia e veículo se pagam à vista num estabelecimento; veículo comprado vira posse e paga a própria manutenção por mês. Detalhe de cada linha, veículo e combustível em [[Transporte]]; o contexto em [[Transporte e Mobilidade]]; as linhas, parada a parada, em [[Malha de Transportes]].\n>\n> **Usado × novo.** A nota do veículo traz o preço de novo, o de `Usado` e a `Manutenção`. Em cima disso:\n>\n> | | Novo (concessionária, com nota) | Usado (Camelódromo, ferro-velho) |\n> |---|---|---|\n> | **Preço** | `Preço` da nota | `Usado` da nota (≈ 35–40%) |\n> | **Manutenção por mês** | `Manutenção` da nota | **×1,5**, arredondado à centena — peça pirata, oficina de bairro, álcool do mercado negro ([[Gurgel Carajás]] 3.000 → 4.500; [[Honda CG 125]] 1.000 → 1.500) |\n> | **Pane** | garantia de 12 meses: não quebra | ao abrir o mês, 1d6: **1 = pane** — o mês sem o veículo, ou paga a manutenção em dobro na [[Oficina de Sucata]] |\n> | **Documento** | nota e placa — e o nome no cadastro da [[Embratel]] | sem documento: blitz da Brigada = perde o carro ou propina; \"placa limpa\" custa 30.000 no despachante da [[Aliança dos Fundadores]] ([[#Serviços]]) |\n> | **Revenda** | metade do preço | um quarto do preço |\n> | **Sem vaga de garagem** ([[#O que cada classe compra]]) | entra no d6 de pane mesmo novo — roubo de carro é o crime que mais paga | idem |\n> | **Quem chega onde** | igual | igual — o plano TRI continua valendo pro que o carro não faz (Aeromóvel, água) |\n>\n> Usado é a compra certa no rank C e B (a diferença de preço paga anos de manutenção); no A o herói quer o novo — pelo documento e por não ficar a pé no meio de uma aventura de meses.\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Usado AS \"Usado\", Manutenção AS \"Manutenção/mês\"\n> FROM \"Contexto/Recursos\"\n> WHERE categoria = \"Recurso\" AND subcategoria = \"Transporte\"\n> SORT Tipo ASC, Preço ASC\n> ```\n>\n> **Moradia**\n> O plano de moradia do mês (`Sem Endereço`… `Condomínio`) é aluguel sem posse. As notas abaixo são as moradias específicas: o aluguel de referência de cada uma, o preço de COMPRA nas imobiliárias (vira posse, com condomínio e IPTU por mês) e as diárias de hotel, pagas à vista. Detalhe em [[Moradia]]; o contexto em [[Moradia e Ocupação]].\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Nível AS \"Nível\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Compra AS \"Compra\", Onde AS \"Onde\"\n> FROM \"Contexto/Recursos\"\n> WHERE categoria = \"Recurso\" AND subcategoria = \"Moradia\"\n> SORT Tipo ASC, Nível ASC, Preço ASC\n> ```\n>\n> **Alimentação**\n> O **estilo de vida** é o pacote do mês (`Sem Rancho`… `Cozinheira`); o resto é a miudeza que dá identidade a cada bairro — o que se come, bebe e masca em Porto Alegre em 1987, com a marca de verdade sempre que a época tem uma. Detalhe em [[Alimentação]].\n>\n> Refeições e mantimentos:\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Nível AS \"Nível\"\n> FROM \"Contexto/Recursos\"\n> WHERE subcategoria = \"Alimentação\" AND categoria = \"Recurso\" AND (Tipo = \"Refeição\" OR Tipo = \"Mantimento\")\n> SORT Nível ASC, Preço ASC\n> ```\n>\n> Bebidas e refrigerantes:\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Nível AS \"Nível\", Onde AS \"Onde\"\n> FROM \"Contexto/Recursos\"\n> WHERE subcategoria = \"Alimentação\" AND categoria = \"Recurso\" AND (Tipo = \"Bebida\" OR Tipo = \"Refrigerante\")\n> SORT Tipo ASC, Preço ASC\n> ```\n>\n> Salgados e guloseimas:\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Nível AS \"Nível\", Onde AS \"Onde\"\n> FROM \"Contexto/Recursos\"\n> WHERE subcategoria = \"Alimentação\" AND categoria = \"Recurso\" AND (Tipo = \"Salgado\" OR Tipo = \"Guloseima\")\n> SORT Tipo ASC, Preço ASC\n> ```\n>\n> **Serviços**\n> Serviços não têm nota própria (não se compram na ficha) — esta é a única tabela deles.\n>\n> | Serviço | Base | Notas |\n> |---|---|---|\n> | Barbeiro / cabeleireiro | Cz$ 50 | |\n> | Telefone público (raro) | Cz$ 20 a ligação | linha fixa em casa: Cz$ 5.000 de instalação + Cz$ 300/mês + fila de meses ([[Embratel]]) |\n> | Classificado cifrado na rádio pirata | Cz$ 100 | [[Resistência Urbana Gaúcha]]; é como se chama um Contratado |\n> | Despachante da Caixinha | 10% da caixinha | garante as duas pontas |\n> | Laudo de Reatividade Selênica | Cz$ 500 | qualquer [[Panvel]]; obrigatório na PIRA |\n> | Consulta em clínica clandestina | Cz$ 1.000–3.000 | [[Bom Fim]], [[Cidade Baixa]]; implante \"jailbreak\" Cz$ 20.000–40.000 |\n> | Consulta em clínica credenciada [[Gradiente]] | Cz$ 5.000+ | só com laudo e cadastro |\n> | Advogado | Cz$ 20.000+ | inútil em tribunal militar; útil pra alvará |\n> | Suborno — brigadiano de rua | Cz$ 1.000–5.000 (ou uma dose) | a dose vale mais que o dinheiro |\n> | Suborno — sargento / tenente | Cz$ 20.000+ | ou a coisa que ele quer de verdade |\n> | Pedágio dos decks turísticos | Cz$ 10 | [[Aliança dos Fundadores]], Centro — o menor preço da cidade |\n> | Pedágio de barraca em dia de jogo | Cz$ 200 | [[Consórcio das Bandeiras]], sobre a taxa Zaffari de Cz$ 500 |\n> | Entrada em rave / boate | Cz$ 200 | [[Farrapos]]; a [[Ordem dos Subsolos]] cobra |\n> | Ingresso Gre-Nal — arquibancada / cambista / camarote | Cz$ 300 / 1.000 / 10.000 | [[Estádio Beira-Rio]], [[Estádio Olímpico Monumental]] |\n> | Oficina de sucata (peça sob encomenda) | Cz$ 500–2.000 | [[Clã da Ferrugem]], [[Oficina de Sucata]] |\n> | Placa e documento \"limpos\" | Cz$ 30.000 | despachante da [[Aliança dos Fundadores]] |\n> | Segurança privada [[Gradiente]] (porta de prédio, mês) | Cz$ 10.000 por unidade | rateado no condomínio; o porteiro armado dos Moinhos |\n> | Água e luz oficiais (mês) | Cz$ 500–1.500 | só quem tem endereço; ligação clandestina do [[Clã da Ferrugem]] Cz$ 500 + Cz$ 100/mês |\n> | Empréstimo | juros de 0 a 20% ao mês | fiado, agiota, penhor, crédito da firma, [[Sicredi]], [[Banrisul]], banco em dólar — a lógica e as fontes em [[#Empréstimo]] |\n>\n> **Empréstimo**\n> Sem financiamento, sem parcela de loja: tudo se compra à vista, e quem não tem o dinheiro **pega um empréstimo** e fica com uma **dívida**. A mecânica é a mesma pra qualquer fonte — o que muda é quem te empresta, quanto, a que juro e o que acontece quando atrasa.\n>\n> 1. **Pegar:** escolhe a fonte (pelo endereço — [[#O que cada classe compra]]) e recebe o principal à vista, até o teto da fonte: `Teto_Meses` × o teu mês, ou o teto fixo da nota. Vira **dívida** na ficha (saldo devedor).\n> 2. **Todo mês, ao abrir o mês** (como o plano): paga os **juros** do mês (taxa da fonte × saldo devedor, arredondado ao milhar pra cima) mais a **amortização mínima** — um décimo do principal original (ao milhar). Pode amortizar mais, qualquer múltiplo de mil, até quitar.\n> 3. **Não pagou** o mínimo na virada: os juros não pagos entram no saldo (a dívida cresce) e a fonte cobra do jeito dela.\n>\n> O juro faz sentido pela moeda: o dólar de esquina sobe 15–20% ao mês ([[Moeda e Sistemas de Troca]]), então quem empresta em Cruzado cobra a inflação **mais** o risco, e quem empresta em dólar cobra só o risco. Por isso o pobre paga 20% e o rico paga 3%.\n>\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Fonte\", Marca AS \"Quem empresta\", Nível AS \"Classe mínima\", Juros AS \"Juros/mês (%)\", Teto_Meses AS \"Teto (meses do plano)\", Preço AS \"Teto fixo (Cz$)\"\n> FROM \"Contexto/Recursos/Crédito\"\n> WHERE categoria = \"Recurso\" AND Tipo = \"Empréstimo\"\n> SORT Juros ASC\n> ```\n> Cada fonte é uma nota em [[Crédito]], com quem consegue, o teto, a garantia e o que acontece no atraso. Quem não tem teto em meses do plano ([[Agiota da Facção|agiota]], [[Penhor do Camelódromo|penhor]], [[Empréstimo em Dólar|dólar]]) negocia na mesa: uma caixinha do rank, metade do item deixado, o valor de um imóvel.\n>\n> **Exemplo — o [[Gurgel Carajás]] usado (150.000) sem ter os 150.000:**\n>\n> | Fonte | Mês 1 (juros + décimo) | Mês 5 | Mês 10 | Total pago em 10 meses |\n> |---|--:|--:|--:|--:|\n> | Agiota 20% | 30.000 + 15.000 = 45.000 | 18.000 + 15.000 = 33.000 | 3.000 + 15.000 = 18.000 | **315.000** |\n> | Banrisul 8% | 12.000 + 15.000 = 27.000 | 8.000 + 15.000 = 23.000 | 2.000 + 15.000 = 17.000 | **220.000** |\n> | Sicredi 6% | 9.000 + 15.000 = 24.000 | 6.000 + 15.000 = 21.000 | 1.000 + 15.000 = 16.000 | **204.000** |\n> | Dólar 3% | 5.000 + 15.000 = 20.000 | 3.000 + 15.000 = 18.000 | 1.000 + 15.000 = 16.000 | **180.000** |\n>\n> O agiota dobra o preço do carro; o Banrisul cobra metade a mais; o Sicredi um terço, mas exige um fiador que responde por ti; o rico paga o carro e um pouco. Amortizar cedo (uma caixinha inteira no mês 2) é o que separa dívida de ruína. O melhor empréstimo da cidade continua sendo o **sinal** ([[Mercado de Trabalho#O Trabalho de Caixinha]]): parte da caixinha adiantada, sem juro — e é por isso que o financiador de rank A manda no herói.\n"
+}

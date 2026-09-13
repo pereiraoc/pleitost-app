@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Lâminas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Lâminas).md",
+  "basename": "Especialização Menor em Arma (Lâminas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização Menor em Arma (Lâminas)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Espada Curta]]",
+            "[[Espada Curva]]",
+            "[[Espada Longa]]",
+            "[[Espada Bastarda]]",
+            "[[Montante]]"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Você se torna especializado em armas do grupo Lâminas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Você se torna especializado em armas do grupo Lâminas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro.\n%%\n#### `= this.file.name`\nVocê se torna especializado em armas do grupo Lâminas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Lâminas        | [[Espada Curta]], [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]], [[Montante]]                |\n\n```autosheet-rules\n```\n"
+}

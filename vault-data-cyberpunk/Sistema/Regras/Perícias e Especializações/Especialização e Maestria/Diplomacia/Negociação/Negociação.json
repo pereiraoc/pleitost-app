@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Negociação/Negociação",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Negociação/Negociação.md",
+  "basename": "Negociação",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Diplomacia]]",
+    "resumo": "\"Pode imediatamente [[Melhorar Atitude]] ao se apresentar. [[Barganhar|Barganha]] garante 5% na falha e mitiga falha decisiva.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhorar Atitude",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barganhar",
+      "kind": "wikilink",
+      "alias": "Barganha"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Diplomacia]]\nresumo:: \"Pode imediatamente [[Melhorar Atitude]] ao se apresentar. [[Barganhar|Barganha]] garante 5% na falha e mitiga falha decisiva.\"\n%%\n### `= this.file.name`\n* Quando você se apresenta para alguém em uma situação social ou casual, pode imediatamente [[Melhorar Atitude]] sem precisar conversar os 10 minutos. Em caso de falha decisiva, você decidir [[Melhorar Atitude]] normalmente para refazer o teste, em vez de aceitar a falha decisiva.\n* Quando você [[Barganhar|Barganha]], falhas decisivas tem o efeito de falha, e falhas garantem um desconto (ou ganho extra) de 5%.\n\n```autosheet-rules\n```\n"
+}

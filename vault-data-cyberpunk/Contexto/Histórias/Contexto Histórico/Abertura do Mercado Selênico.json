@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Abertura do Mercado Selênico",
+  "path": "Contexto/Histórias/Contexto Histórico/Abertura do Mercado Selênico.md",
+  "basename": "Abertura do Mercado Selênico",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1972-03-01",
+    "Descrição": "A patente é do Estado, mas quem sabe fabricar é a indústria gaúcha — e o dinheiro público entra em peso. A [[Panvel]] deixa de ser rede de farmácias e vira o laboratório que sintetiza selênica em escala; o [[Zaffari]] põe o produto na prateleira e na frota que o distribui. Em três anos o selênico sai do laboratório e vira compra de mercado, com selo de aprovação do regime: energético de turno, pomada, ração fortificada, utensílio de casa. As duas terminam a década grandes demais para serem contrariadas — são as primeiras [[Megacorporações|megacorporações]], e é com elas que o Estado vai montar a [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)|PIRA]].",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Megacorporações",
+      "kind": "wikilink",
+      "alias": "megacorporações"
+    },
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink",
+      "alias": "PIRA"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

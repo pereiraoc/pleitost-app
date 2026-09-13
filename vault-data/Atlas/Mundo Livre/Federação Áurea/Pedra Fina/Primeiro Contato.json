@@ -1,0 +1,83 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Primeiro Contato",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Primeiro Contato.md",
+  "basename": "Primeiro Contato",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Ambar",
+      "[[Imbuição Mineral]]",
+      "[[Imbuição Sísmica]]",
+      "[[Imbuição Enraizante]]",
+      "[[Colar da Eloquência|Colar da Eloquência (dobro do preço)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Primeiro Contato.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink",
+      "alias": "Colar da Eloquência (dobro do preço)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Primeiro Contato.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Primeiro Contato.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Posto de fronteira e imigração de [[Pedra Fina]], plantado na boca do grande portão escavado nas [[Montanhas de Vidro]] — para quem emerge do túnel da travessia, este é o primeiro contato com a [[Federação Áurea]]. Não é uma povoação, e sim um posto de passagem: filas de viajantes, guardas de lança, vistorias e carimbos antes que a trilha os leve deserto adentro. Ao redor do controle floresceu um pequeno comércio: âmbar descido das minas de [[Krasnogor]], oficinas de imbuição, câmbio e provisões para os recém-chegados.\n> \n> 👁️**Aparência do Local:** Tudo é dominado pelo Portão da Montanha: um arco ogival monumental escavado na rocha escura, emoldurado por pilares-torre entalhados com lancetas de âmbar acesas e coroado por um gigantesco cristal de âmbar facetado — atrás do arco, o túnel escuro que entra na montanha. Só há duas construções de alvenaria, o portão e a Casa da Imigração, um fortim de pedra ameado com cúpula de vitral de âmbar; o resto é tenda, banca e galpão de madeira. O âmbar é a identidade visual do posto: lanternas, estandartes laranja de emblema âmbar e pequenos santuários de cristais acesos se repetem por toda parte. O calçamento de pedra existe apenas na esplanada do Pátio da Inspeção; ao redor, terra batida e o deserto de arbustos ralos e cactos, com a montanha escarpada fechando o oeste e uma trilha serpenteando para nordeste rumo ao interior da região.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Posto de fronteira e imigração de [[Pedra Fina]], plantado na boca do grande portão escavado nas [[Montanhas de Vidro]] — para quem emerge do túnel da travessia, este é o primeiro contato com a [[Federação Áurea]]. Não é uma povoação, e sim um posto de passagem: filas de viajantes, guardas de lança, vistorias e carimbos antes que a trilha os leve deserto adentro. Ao redor do controle floresceu um pequeno comércio: âmbar descido das minas de [[Krasnogor]], oficinas de imbuição, câmbio e provisões para os recém-chegados.",
+    "aparencia": "Tudo é dominado pelo Portão da Montanha: um arco ogival monumental escavado na rocha escura, emoldurado por pilares-torre entalhados com lancetas de âmbar acesas e coroado por um gigantesco cristal de âmbar facetado — atrás do arco, o túnel escuro que entra na montanha. Só há duas construções de alvenaria, o portão e a Casa da Imigração, um fortim de pedra ameado com cúpula de vitral de âmbar; o resto é tenda, banca e galpão de madeira. O âmbar é a identidade visual do posto: lanternas, estandartes laranja de emblema âmbar e pequenos santuários de cristais acesos se repetem por toda parte. O calçamento de pedra existe apenas na esplanada do Pátio da Inspeção; ao redor, terra batida e o deserto de arbustos ralos e cactos, com a montanha escarpada fechando o oeste e uma trilha serpenteando para nordeste rumo ao interior da região.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

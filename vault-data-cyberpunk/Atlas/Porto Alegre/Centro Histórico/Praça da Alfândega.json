@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Praça da Alfândega",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Praça da Alfândega.md",
+  "basename": "Praça da Alfândega",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "[[Aliança dos Fundadores]] (pedágio das passarelas)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Parque"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Praça da Alfândega.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Praça da Alfândega.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Praça da Alfândega.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Espelho d'água barrenta com as copas das árvores saindo do meio; passarelas de tábua com pedágio da Aliança dos Fundadores de um lado, deck de vidro com catraca de crachá do outro.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Coreto afogado até o telhado, estátuas com água pelo pescoço, passarela de tábua rangendo, deck de vidro iluminado e guarda de terno; ao fundo o Mercado Público de pé.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Espelho d'água barrenta com as copas das árvores saindo do meio; passarelas de tábua com pedágio da Aliança dos Fundadores de um lado, deck de vidro com catraca de crachá do outro.",
+    "aparencia": "Coreto afogado até o telhado, estátuas com água pelo pescoço, passarela de tábua rangendo, deck de vidro iluminado e guarda de terno; ao fundo o Mercado Público de pé.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

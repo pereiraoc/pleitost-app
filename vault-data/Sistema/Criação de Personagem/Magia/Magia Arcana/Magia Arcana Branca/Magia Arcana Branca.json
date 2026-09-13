@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Arcana Branca",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Arcana Branca.md",
+  "basename": "Magia Arcana Branca",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Branca Básica",
+      "kind": "embed",
+      "subpath": "Magia Branca Básica"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "embed",
+      "subpath": "Magia Branca Adepta"
+    },
+    {
+      "target": "Magia Branca Experiente",
+      "kind": "embed",
+      "subpath": "Magia Branca Experiente"
+    },
+    {
+      "target": "Magia Branca Mestre",
+      "kind": "embed",
+      "subpath": "Magia Branca Mestre"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Magia Branca"
+    }
+  ],
+  "body": "## Magia Branca\n![[Magia Branca Básica#Magia Branca Básica]]\n![[Magia Branca Adepta#Magia Branca Adepta]]\n![[Magia Branca Experiente#Magia Branca Experiente]]\n![[Magia Branca Mestre#Magia Branca Mestre]]"
+}

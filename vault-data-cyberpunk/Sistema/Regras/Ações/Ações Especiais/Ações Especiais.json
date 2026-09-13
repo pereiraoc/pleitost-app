@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Ações Especiais",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Ações Especiais.md",
+  "basename": "Ações Especiais",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação Especial",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações|Ações]]",
+    "prev": "[[Ações de Perícia]]",
+    "next": "[[Combate|Combate]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink",
+      "alias": "Combate"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações Especiais"
+    }
+  ],
+  "body": "%%\nup:: [[Ações|Ações]]\nprev:: [[Ações de Perícia]]\nnext:: [[Combate|Combate]]\n%%\n## Ações Especiais\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  classe AS \"Classe\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações Especiais\"\nSORT classe ASC\nWHERE subcategoria = \"Ação\"\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Ocultar Objeto",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Ocultar Objeto.md",
+  "basename": "Ocultar Objeto",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Furtividade]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta ocultar um objeto em sua posse.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Furtividade]]\"\npropriedades:: \nresumo:: \"Tenta ocultar um objeto em sua posse.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Furtividade]] vs [[Percepção]] das criaturas que te observam.\n\n```autosheet-rules\n```\n"
+}

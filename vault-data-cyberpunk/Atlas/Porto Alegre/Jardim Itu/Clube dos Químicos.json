@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Clube dos Químicos",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Clube dos Químicos.md",
+  "basename": "Clube dos Químicos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "diretoria do clube (Dr. Jairo Tessmann)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Uísque de Contrabando]]",
+      "[[Laranjinha Fruki]]",
+      "[[Mate Gelado Charrua]]",
+      "[[Vinho Aurora]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clube dos Químicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Laranjinha Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clube dos Químicos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Clube dos Químicos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Espaço de convivência para técnicos e engenheiros.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sofás de vinil gasto, cartazes de normas de segurança, cheiro de bebidas.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Espaço de convivência para técnicos e engenheiros.",
+    "aparencia": "Sofás de vinil gasto, cartazes de normas de segurança, cheiro de bebidas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

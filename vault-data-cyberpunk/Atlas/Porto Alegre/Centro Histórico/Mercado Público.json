@@ -1,0 +1,295 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Mercado Público",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Mercado Público.md",
+  "basename": "Mercado Público",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Associação dos Permissionários (presidente Seu Waldir Pacheco)",
+    "Descrição": null,
+    "Comércio": "Iluminada",
+    "Recursos": [
+      "[[Poção de Cura]]",
+      "[[Poção da Nutrição]]",
+      "[[Poção da Velocidade]]"
+    ],
+    "Serviços": {
+      "Guichê do TRI": [
+        "[[TRI Prata]]"
+      ],
+      "Banca 40": [
+        "[[Pastel da Banca do Mercado]]",
+        "[[Bomba Royal da Banca 40]]",
+        "[[Caldo de Cana do Mercado]]"
+      ],
+      "Cantinas e restaurantes": [
+        "[[Prato Feito da Cantina do Mercado]]",
+        "[[Almoço no Gambrinus]]"
+      ],
+      "Bar Naval": [
+        "[[Chope do Bar Naval]]",
+        "[[Bolinho de Bacalhau do Naval]]",
+        "[[Vinho Aurora]]"
+      ],
+      "Lancherias": [
+        "[[Sanduíche de Mortadela do Mercado]]",
+        "[[Café Passado]]",
+        "[[Guaraná Fruki]]",
+        "[[Mate Gelado Charrua]]",
+        "[[Água Mineral em Galão]]"
+      ],
+      "Armazém de secos e molhados": [
+        "[[Feijão a Granel]]",
+        "[[Especiarias a Granel]]",
+        "[[Erva-Mate Charrua]]",
+        "[[Queijo Colonial]]",
+        "[[Salame Colonial]]",
+        "[[Doce de Leite Colonial]]",
+        "[[Sagu de Vinho]]",
+        "[[Chocolate Neugebauer]]"
+      ],
+      "Hortifrúti, peixaria e açougue": [
+        "[[Frutas da Banca]]",
+        "[[Peixe Fresco da Peixaria]]",
+        "[[Carne de Segunda do Açougue]]"
+      ],
+      "Banca de ervas": [
+        "[[Chá de Ervas da Banca]]",
+        "[[Benzedura da Erveira]]"
+      ],
+      "Corredor dos ofícios": [
+        "[[Engraxate do Mercado]]",
+        "[[Corte na Barbearia do Mercado]]",
+        "[[Cópia de Chave do Chaveiro]]",
+        "[[Meia-Sola no Sapateiro]]",
+        "[[Conserto de Relógio]]",
+        "[[Afiação de Faca]]",
+        "[[Foto 3x4 na Hora]]",
+        "[[Despachante do Mercado]]"
+      ],
+      "Banca de discos e eletrônicos": [
+        "[[Gravação de Fita K7]]",
+        "[[Conserto de Rádio e Walkman]]"
+      ],
+      "Esquina do bicho": [
+        "[[Palpite no Bicho]]"
+      ]
+    },
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Velocidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pastel da Banca do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bomba Royal da Banca 40",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caldo de Cana do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prato Feito da Cantina do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Almoço no Gambrinus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chope do Bar Naval",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolinho de Bacalhau do Naval",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sanduíche de Mortadela do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Feijão a Granel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especiarias a Granel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Queijo Colonial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salame Colonial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frutas da Banca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Peixe Fresco da Peixaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carne de Segunda do Açougue",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chá de Ervas da Banca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Benzedura da Erveira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Engraxate do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte na Barbearia do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cópia de Chave do Chaveiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meia-Sola no Sapateiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conserto de Relógio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Afiação de Faca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foto 3x4 na Hora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Despachante do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gravação de Fita K7",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conserto de Rádio e Walkman",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palpite no Bicho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado Público.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mercado Público.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Complexo de pavilhões metálicos e arcos de ferro inaugurado no século XIX, coração do comércio de alimentos e artesanato de Porto Alegre. Em 1987, segue vibrante, reunindo bancas de verduras, peixarias, açougues e pequenas cantinas — e agora também o que cresceu em volta dele: as [[Palafitas do Mercado]], o cinturão de barracas sobre estacas em que o centro inteiro faz a compra barata. Dentro do prédio o preço é de **Mercadão**; dois metros adiante, na tábua, é de **Boca de Bairro**, sem nota e sem garantia. Nos fundos do pavilhão leste funciona o balcão mais conhecido da [[A Caixinha|Caixinha]] — quem procura serviço, ou serviço procura, começa por ali, e desce nas palafitas quando precisa sumir.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Estrutura de ferro aparente com telhado de vidro reforçado, bancas de madeira pintada, balanças mecânicas, letreiros de néon discreto e o misto de aromas de frutas frescas, peixes e especiarias. Do lado de fora o prédio desaparece atrás de um anel de lona azul e telha de zinco: as palafitas sobem encostadas nos arcos, com passarelas pregadas nos pontões e varal cruzando de barraca em barraca, e só as cúpulas de ferro aparecem por cima do improviso.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo de pavilhões metálicos e arcos de ferro inaugurado no século XIX, coração do comércio de alimentos e artesanato de Porto Alegre. Em 1987, segue vibrante, reunindo bancas de verduras, peixarias, açougues e pequenas cantinas — e agora também o que cresceu em volta dele: as [[Palafitas do Mercado]], o cinturão de barracas sobre estacas em que o centro inteiro faz a compra barata. Dentro do prédio o preço é de **Mercadão**; dois metros adiante, na tábua, é de **Boca de Bairro**, sem nota e sem garantia. Nos fundos do pavilhão leste funciona o balcão mais conhecido da [[A Caixinha|Caixinha]] — quem procura serviço, ou serviço procura, começa por ali, e desce nas palafitas quando precisa sumir.",
+    "aparencia": "Estrutura de ferro aparente com telhado de vidro reforçado, bancas de madeira pintada, balanças mecânicas, letreiros de néon discreto e o misto de aromas de frutas frescas, peixes e especiarias. Do lado de fora o prédio desaparece atrás de um anel de lona azul e telha de zinco: as palafitas sobem encostadas nos arcos, com passarelas pregadas nos pontões e varal cruzando de barraca em barraca, e só as cúpulas de ferro aparecem por cima do improviso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

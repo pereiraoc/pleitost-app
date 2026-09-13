@@ -1,0 +1,161 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Luta Artística)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Luta Artística).md",
+  "basename": "Estilo Refinado (Luta Artística)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Ataques.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Melhora proficiência em [[Ataques]], [[Defesa]] e [[Evasão]] para [[Experiente]], estende [[Performance Bárdica]] quando você tem sucesso em um [[Atacar|Ataque]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Luta Artística)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Combate (Luta Artística)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Luta Artística)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Luta Artística)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Luta Artística)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\n\nresumo:: \"Melhora proficiência em [[Ataques]], [[Defesa]] e [[Evasão]] para [[Experiente]], estende [[Performance Bárdica]] quando você tem sucesso em um [[Atacar|Ataque]].\"\n%%\n##### `= this.file.name`\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Experiente]] em [[Evasão]];\n* Quando você tem sucesso em um [[Atacar|Ataque]] no seu turno e tem uma [[Performance Bárdica]] ativa, estenda a duração da performance para até o final do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

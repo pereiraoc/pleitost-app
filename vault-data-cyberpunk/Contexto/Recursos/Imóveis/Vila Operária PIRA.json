@@ -1,0 +1,61 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vila Operária PIRA",
+  "path": "Contexto/Recursos/Imóveis/Vila Operária PIRA.md",
+  "basename": "Vila Operária PIRA",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "[[Tramontina]]",
+    "Preço": 3000,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "Casa geminada de 40 m² no pátio da fábrica, descontada em folha: perdeu o emprego, perdeu a casa no mesmo dia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vila Operária PIRA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vila Operária PIRA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vila Operária PIRA.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Tramontina]] e a [[Marcopolo]] alojam o operário do PIRA em vilas geminadas dentro do muro da fábrica.\nÁgua e luz industriais (cortam junto com a linha de produção), ração em crédito e o apito às cinco da manhã.\nO aluguel sai descontado em folha — e o dia em que a carteira PIRA é cancelada, o caminhão da empresa já\nestá na porta.\n\n> [!info] Especificação\n> **Casa:** geminada de 40 m², dois cômodos, pátio comum com tanque\n> **Pagamento:** desconto em folha — só com carteira PIRA na [[Tramontina]] ou [[Marcopolo]]\n> **Inclui:** água e luz industriais, ração PIRA em crédito, creche da empresa, [[Aeromóvel Linha Popular]] grátis\n> **Não inclui:** sair: perdeu o emprego, perdeu a casa no mesmo dia\n> **Vigilância:** portaria da empresa anota entrada e saída; laudo selênico em dia\n> **Nível:** 3 — Classe Média Baixa\n"
+}

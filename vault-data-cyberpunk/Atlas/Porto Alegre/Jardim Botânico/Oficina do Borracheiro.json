@@ -1,0 +1,91 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Oficina do Borracheiro",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Oficina do Borracheiro.md",
+  "basename": "Oficina do Borracheiro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "João “Borracheiro” Dias",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Fusca]]",
+      "[[Volkswagen Brasília]]",
+      "[[Honda CG 125]] usado",
+      "[[Mobilete Caloi]] usado",
+      "[[Carroça com Cavalo]] usado",
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Monark Barra Circular]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oficina do Borracheiro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Brasília",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monark Barra Circular",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oficina do Borracheiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Oficina do Borracheiro.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Fusca, Brasília, CG, Mobilete, carroça com cavalo e bicicleta usada; pneu remendado na hora.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Barracão de zinco com pilha de pneu, um Fusca no macaco, cavalo amarrado e a bandeira do Inter.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fusca, Brasília, CG, Mobilete, carroça com cavalo e bicicleta usada; pneu remendado na hora.",
+    "aparencia": "Barracão de zinco com pilha de pneu, um Fusca no macaco, cavalo amarrado e a bandeira do Inter.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Serviços/Apartamento",
+  "path": "Contexto/Recursos/Serviços/Apartamento.md",
+  "basename": "Apartamento",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Moradia Classe Média Alta"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 15000,
+    "Cobrança": "mês",
+    "Vagas": 2,
+    "Nível": 5,
+    "Onde": null,
+    "Resumo": "Apartamento ou casa alugada em bairro bom, com porteiro armado no rateio.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Apartamento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Apartamento em Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento nos Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Apartamento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Apartamento.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAluguel de [[Apartamento em Petrópolis]], [[Apartamento nos Moinhos]] ou [[Casa em Petrópolis]]: zelador, gerador, porteiro armado da [[Gradiente]] no rateio e vizinho com crachá.\n\n> [!info] Especificação\n> **Onde dorme:** apto de 2–3 dormitórios; casa em Petrópolis — alugados\n> **Cobre:** condomínio, água e luz oficiais, telefone, rateio da segurança Gradiente\n> **O que compra:** crachá de megacorp como vizinho: clínica credenciada, porteiro armado; a empresa sabe onde você dorme\n> **O que cabe:** cofre; duas vagas de garagem; quarto de hóspede (esconde duas pessoas)\n> **Classe:** Classe Média Alta\n"
+}

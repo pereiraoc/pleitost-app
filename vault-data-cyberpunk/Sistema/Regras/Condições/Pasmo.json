@@ -1,0 +1,287 @@
+{
+  "id": "Sistema/Regras/Condições/Pasmo",
+  "path": "Sistema/Regras/Condições/Pasmo.md",
+  "basename": "Pasmo",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Pasmo X, Pasmo 1, Pasmo 2, Pasmo 3, Pasmos, Pasma, Pasmas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escalavel 3",
+      "Somar Condicao.Impeto -2",
+      "Somar Condicao.Sentidos -2",
+      "Somar Condicao.PericiasDeAtributo(INT) -2",
+      "Somar Condicao.PericiasDeAtributo(PRE) -2",
+      "Somar Condicao.MagiaAtaque -2",
+      "Somar Condicao.MagiaCD -2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Recebe -2 de [[Penalidades|penalidade de condição]] nas [[Perícias|Perícias]] baseadas em [[Inteligência|INT]] e [[Presença|PRE]], [[Ímpeto]], [[Sentidos|Sentidos]], [[Conjuração Mágica|Ataques Mágicos]] e [[CD|CDs]] mágicas.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escalavel 3",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 3,
+        "rules": [],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Impeto -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Impeto",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.Impeto -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "impeto",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Sentidos -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Sentidos",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.Sentidos -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number_group",
+            "group": "sentidos",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.PericiasDeAtributo(INT) -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.PericiasDeAtributo(INT)",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.PericiasDeAtributo(INT) -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "skill_attr",
+            "attr": "INT",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.PericiasDeAtributo(PRE) -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.PericiasDeAtributo(PRE)",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.PericiasDeAtributo(PRE) -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "skill_attr",
+            "attr": "PRE",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.MagiaAtaque -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.MagiaAtaque",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.MagiaAtaque -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "magiaAtaque",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.MagiaCD -2",
+      "parsed": [
+        {
+          "sourceNote": "Pasmo",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.MagiaCD",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.MagiaCD -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "magiaCD",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Conjuração Mágica",
+      "kind": "wikilink",
+      "alias": "Ataques Mágicos"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CDs"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Recebe -2 de [[Penalidades|penalidade de condição]] nas [[Perícias|Perícias]] baseadas em [[Inteligência|INT]] e [[Presença|PRE]], [[Ímpeto]], [[Sentidos|Sentidos]], [[Conjuração Mágica|Ataques Mágicos]] e [[CD|CDs]] mágicas.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

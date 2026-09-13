@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Obsessão Profissional",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Obsessão Profissional.md",
+  "basename": "Obsessão Profissional",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Fogo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Fogo]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Obsessão Profissional"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Fogo]]\nprev::\nnext::\n%%\n### Obsessão Profissional\nSua curiosidade de aprender te dá um talento especial para ofícios da mente. Você recebe +2 de [[bônus de especialização]] em uma [[Perícias de Ofício]] baseada em [[Inteligência]] a sua escolha."
+}

@@ -1,0 +1,98 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Explorador Nato",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Explorador Nato.md",
+  "basename": "Explorador Nato",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Técnica\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Treinamento com Escudo]], [[Especialista em Caçada]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você não é afetado por terreno difícil causado por terreno, vegetação ou efeito natural. Recebe técnica inicial entre [[Ambidestria]], [[Usar Escudo]] ou [[Especialista em Caçada]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Técnica\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Treinamento com Escudo]], [[Especialista em Caçada]])",
+      "parsed": [
+        {
+          "sourceNote": "Explorador Nato",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica",
+              "choiceKey": "__esc_h_9326b22f",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Ambidestria]]",
+              "[[Treinamento com Escudo]]",
+              "[[Especialista em Caçada]]"
+            ],
+            "label": "Técnica"
+          },
+          "raw": "Escolha_Habilidades \"Técnica\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Treinamento com Escudo]], [[Especialista em Caçada]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ambidestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialista em Caçada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento com Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Você não é afetado por terreno difícil causado por terreno, vegetação ou efeito natural. Recebe técnica inicial entre [[Ambidestria]], [[Usar Escudo]] ou [[Especialista em Caçada]].\"\n%%\n#### `= this.file.name`\nVocê não é afetado por terreno difícil causado por terreno, vegetação ou efeito natural. Adicionalmente, sua experiência de caçador te garante um dos seguintes benefícios a sua escolha:\n* **Mãos Hábeis:** Você recebe a técnica [[Ambidestria]];\n* **Guarda Forte:** Você recebe a técnica [[Treinamento com Escudo]];\n* **Perito em Caça:** Você recebe a técnica [[Especialista em Caçada]].\n\n```autosheet-rules\n```\n"
+}

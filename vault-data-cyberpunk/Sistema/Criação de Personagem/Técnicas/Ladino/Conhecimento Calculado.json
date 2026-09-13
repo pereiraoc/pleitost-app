@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Conhecimento Calculado",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Conhecimento Calculado.md",
+  "basename": "Conhecimento Calculado",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Ao [[Calcular Ataque]], pode [[Detectar Sintonia]], [[Detectar Resistência|Resistência]] ou [[Reconhecer]] a mesma criatura como ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Calcular Ataque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Reconhecer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Ao [[Calcular Ataque]], pode [[Detectar Sintonia]], [[Detectar Resistência|Resistência]] ou [[Reconhecer]] a mesma criatura como ação livre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você realiza [[Calcular Ataque]], pode [[Detectar Sintonia]], [[Detectar Resistência]] ou [[Reconhecer]] a criatura alvo de Calcular Ataque como ação livre.\n*Requer Estilo Batedor*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Motel Assis Brasil",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Motel Assis Brasil.md",
+  "basename": "Motel Assis Brasil",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Sr. Nelsinho (o Gerente)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Diária no Motel Assis Brasil]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Motel Assis Brasil.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Motel Assis Brasil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Motel Assis Brasil.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Motel Assis Brasil.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Suíte com garagem individual por 12 horas, pagamento na portinhola; serve pra dormir, sumir ou trocar de carro.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Muro alto com portões individuais, néon azul meio queimado, garagens com cortina e uma portinhola onde só se vê a mão.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Suíte com garagem individual por 12 horas, pagamento na portinhola; serve pra dormir, sumir ou trocar de carro.",
+    "aparencia": "Muro alto com portões individuais, néon azul meio queimado, garagens com cortina e uma portinhola onde só se vê a mão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

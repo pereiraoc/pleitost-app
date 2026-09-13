@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Oportunista",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Oportunista.md",
+  "basename": "Oportunista",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Causa 1 dado de dano adicional com [[Ataque de Oportunidade|AdO]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Causa 1 dado de dano adicional com [[Ataque de Oportunidade|AdO]].\"\n%%\n##### `= this.file.name`\nCausa 1 dado de dano adicional com [[Ataque de Oportunidade|AdO]].\n\n```autosheet-rules\n```\n"
+}

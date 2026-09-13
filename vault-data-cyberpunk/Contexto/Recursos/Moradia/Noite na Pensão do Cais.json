@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão do Cais",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão do Cais.md",
+  "basename": "Noite na Pensão do Cais",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão do Cais]]",
+    "Preço": 200,
+    "Cobrança": "noite",
+    "Nível": 3,
+    "Onde": [
+      "[[Praia de Belas]]",
+      "[[Pensão do Cais]]"
+    ],
+    "Resumo": "Uma noite na pensão de frente pro Porto Novo: janta às sete, chave de verdade e o barulho do guindaste até de manhã.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão do Cais.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPra quem chegou de balsa ou de barco sem saber onde dormir, Dona Neusa tem sempre um quarto por noite na [[Pensão do Cais]]. Estivador, marinheiro e viajante dividem a mesa da janta; ninguém pergunta o sobrenome.\n\n> [!info] Especificação\n> **Quarto:** solteiro ou duplo, janela pro cais\n> **Inclui:** janta às sete, café às cinco\n> **Regra:** porta fecha à meia-noite\n> **Nível:** 3 — Classe Média Baixa\n"
+}

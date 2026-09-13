@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Reposicionar",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Reposicionar.md",
+  "basename": "Reposicionar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Reposicionar",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode [[Mover|Mover-se]] e ganha [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] durante o movimento igual ao resultado do dado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode [[Mover|Mover-se]] e ganha [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] durante o movimento igual ao resultado do dado.\"\n%%\n### `= this.file.name` - `= this.custo`\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, [[Mover|Mover-se]]. Adicione o resultado do dado como um [[Bônus de Circunstância]] na [[Defesa]] do aliado durante o movimento.\n\n```autosheet-rules\n```\n"
+}

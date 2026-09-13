@@ -1,0 +1,75 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Pensão Farroupilha",
+  "path": "Atlas/Porto Alegre/Bom Fim/Pensão Farroupilha.md",
+  "basename": "Pensão Farroupilha",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Dona Olga Wentz",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vaga na Pensão Farroupilha]]",
+      "[[Café da Manhã de Padaria]]",
+      "[[Noite na Pensão Farroupilha]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão Farroupilha.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga na Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão Farroupilha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão Farroupilha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão Farroupilha.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vagas de quarto duplo com café da manhã e telefone na portaria; a dona anota recado e a Brigada sobe atrás de livro.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casarão de três andares com janelas pra [[Redenção]], escada de madeira que range, corredor com cheiro de café e de mofo.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vagas de quarto duplo com café da manhã e telefone na portaria; a dona anota recado e a Brigada sobe atrás de livro.",
+    "aparencia": "Casarão de três andares com janelas pra [[Redenção]], escada de madeira que range, corredor com cheiro de café e de mofo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

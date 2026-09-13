@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Palafita da Cidade Baixa",
+  "path": "Contexto/Recursos/Imóveis/Palafita da Cidade Baixa.md",
+  "basename": "Palafita da Cidade Baixa",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "[[Aliança Livre das Palafitas]]",
+    "Preço": 1000,
+    "Cobrança": "mês",
+    "Compra": 60000,
+    "Manutenção": 200,
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]"
+    ],
+    "Resumo": "Tábuas recicladas sobre estacas no alagado da Cidade Baixa: Cz$ 1.000 por mês com o pedágio da Aliança incluso.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Palafita da Cidade Baixa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Palafita da Cidade Baixa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Palafita da Cidade Baixa.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nQuem chega à [[Cidade Baixa]] sem palafita aluga uma da [[Aliança Livre das Palafitas]]: dois cômodos de tábua\nda [[Tramontina]] sobre estacas, uma passarela de madeira que range e vizinhos a um metro. O aluguel inclui a\nproteção da Aliança — quem te procura passa por eles antes — e a ligação clandestina do [[Clã da Ferrugem]].\nNão inclui escritura, água encanada nem garantia contra a próxima cheia.\n\n> [!info] Especificação\n> **Estrutura:** dois cômodos de tábua reciclada sobre estacas de eucalipto; passarela de acesso\n> **Inclui:** pedágio da Aliança, gato de luz do [[Clã da Ferrugem]], vizinhança que avisa\n> **Não inclui:** escritura, água encanada, banheiro (é o Guaíba)\n> **Compra:** Cz$ 60.000 pela posse — sem papel, com a palavra da Aliança\n> **Demolição:** a [[Brigada Militar Metropolitana]] derruba uma fileira por estação\n> **Nível:** 2 — Classe Baixa\n"
+}

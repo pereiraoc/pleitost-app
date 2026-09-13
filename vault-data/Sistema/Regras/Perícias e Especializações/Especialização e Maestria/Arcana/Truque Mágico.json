@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Arcana/Truque Mágico",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Arcana/Truque Mágico.md",
+  "basename": "Truque Mágico",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Magias.Slots.B 1",
+      "Definir Magias.Lista.ArcanaEssencial.Atributo INT",
+      "Definir Magias.Lista.ArcanaEssencial.Proficiencia A"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Arcana]]",
+    "resumo": "\"[[Identificar Magia|Identifica]] Magia Arcana como ação livre. Aprende uma [[Magia Essencial Básica]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Magias.Slots.B 1",
+      "parsed": [
+        {
+          "sourceNote": "Truque Mágico",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.B 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaEssencial.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Truque Mágico",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaEssencial.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Definir Magias.Lista.ArcanaEssencial.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaEssencial.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Truque Mágico",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaEssencial.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaEssencial.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink",
+      "alias": "Identifica"
+    },
+    {
+      "target": "Magia Essencial Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Arcana]]\nresumo:: \"[[Identificar Magia|Identifica]] Magia Arcana como ação livre. Aprende uma [[Magia Essencial Básica]].\"\n%%\n### `= this.file.name`\n* Você pode [[Identificar Magia]] como ação livre uma vez por turno para [[Magia Arcana]].\n* Você se torna [[Adepto]] em [[Magia Arcana]]. e aprende uma [[Magia Essencial Básica]].\n\n```autosheet-rules\n```\n"
+}

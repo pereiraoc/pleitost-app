@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Parceria Indomável",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Parceria Indomável.md",
+  "basename": "Parceria Indomável",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Faz AdO contra criaturas que ferem seu companheiro animal. Companheiro faz AdO contra criaturas que te ferem.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Faz AdO contra criaturas que ferem seu companheiro animal. Companheiro faz AdO contra criaturas que te ferem.\"\n%%\n#### `= this.file.name` - `= this.rank`\nCriaturas causando dano a seu [[Companheiro Animal]] provocam [[Ataque de Oportunidade]] de você.\nQuando uma criatura adjacente a seu [[Companheiro Animal]] te causa dano, o companheiro pode realizar um [[Ataque de Oportunidade]] como ação livre. Depois que o companheiro faz esse [[Ataque de Oportunidade|AdO]], ele não pode fazer novamente até o início do seu próximo turno.\n*Requer Estratégia de Caça Domador*\n```autosheet-rules\n```\n"
+}

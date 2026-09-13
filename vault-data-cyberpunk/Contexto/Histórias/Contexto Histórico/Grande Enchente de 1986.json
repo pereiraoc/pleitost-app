@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Grande Enchente de 1986",
+  "path": "Contexto/Histórias/Contexto Histórico/Grande Enchente de 1986.md",
+  "basename": "Grande Enchente de 1986",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1986-04-30",
+    "Descrição": "Quatro dias depois de [[Acidente de Chernobyl|Chernobyl]], a chuva que o vento trouxe do outro lado do mundo cai sem parar sobre um [[Lago Guaíba|Guaíba]] já cheio e a cidade acorda com a água dentro de casa. O [[Centro Histórico]] e a [[Cidade Baixa]] afundam de vez, o Jacuí vira o [[Delta Radioativo]] — pântano ácido, doença e bicho que ninguém reconhece — e o que era emergência vira endereço: palafita, mercado flutuante, passarela com pedágio e um Centro novo erguido em cima do velho submerso. O Estado encomenda às pressas as frotas anfíbias da [[Gurgel]] e da [[Marcopolo]], a [[Zona Deserta]] fica permanentemente alagável, e desde então quem decide o mapa de Porto Alegre é a cota da água, não a prefeitura.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acidente de Chernobyl",
+      "kind": "wikilink",
+      "alias": "Chernobyl"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink",
+      "alias": "Guaíba"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

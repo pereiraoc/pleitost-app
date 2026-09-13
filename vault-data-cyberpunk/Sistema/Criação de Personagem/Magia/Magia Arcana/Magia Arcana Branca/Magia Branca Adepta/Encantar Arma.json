@@ -1,0 +1,105 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Encantar Arma",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Encantar Arma.md",
+  "basename": "Encantar Arma",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Encantar Arma",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true,
+          "arma": "ArmaSelecionada"
+        },
+        "selectores": [
+          {
+            "kind": "numerico",
+            "label": "Potência Mágica",
+            "min": 0,
+            "max": 11,
+            "step": 1
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": {
+              "porSeletor": "Potência Mágica",
+              "tabela": {
+                "1": "d2",
+                "2": "d4",
+                "3": "d6",
+                "4": "d8",
+                "5": "d10",
+                "6": "d12",
+                "7": "d12+1",
+                "8": "d12+2",
+                "9": "d12+3",
+                "10": "d12+4",
+                "11": "d12+5"
+              }
+            },
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": {
+              "porSeletor": "Potência Mágica",
+              "tabela": {
+                "1": 1,
+                "2": 1,
+                "3": 2,
+                "4": 2,
+                "5": 3,
+                "6": 3,
+                "7": 4,
+                "8": 4,
+                "9": 5,
+                "10": 5,
+                "11": 6
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "Arma alvo causa dano adicional do mesmo tipo de dano da arma por 10 turnos, alcance 2q."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade\\",
+      "kind": "wikilink",
+      "alias": "AdO"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: Arma alvo causa dano adicional do mesmo tipo de dano da arma por 10 turnos, alcance 2q. \n%%\n# `= this.file.name` - `= this.custo`\nArma alvo causa dano adicional do mesmo tipo de dano da arma por 10 turnos, alcance 2q. O dano extra é definido pela potência mágica e é simplificado para [[Ataque de Oportunidade]].\n\n| Potência Mágica | Dano Adicional | [[Ataque de Oportunidade\\|AdO]] |\n|:---------------:|:--------------:|:-------------------------------:|\n|        1        |      1d2       |                1                |\n|        2        |      1d4       |                1                |\n|        3        |      1d6       |                2                |\n|        4        |      1d8       |                2                |\n|        5        |      1d10      |                3                |\n|        6        |      1d12      |                3                |\n|        7        |     1d12+1     |                4                |\n|        8        |     1d12+2     |                4                |\n|        9        |     1d12+3     |                5                |\n|       10        |     1d12+4     |                5                |\n|       11        |     1d12+5     |                6                |\n\n```autosheet-rules\n```\n"
+}

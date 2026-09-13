@@ -1,0 +1,96 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Campos do Provento",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Campos do Provento.md",
+  "basename": "Campos do Provento",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Federação Áurea]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** O celeiro da [[Federação Áurea]]: vasta região central de planícies férteis que alimenta as três regiões federadas com os grãos de [[Rharos]], o gado de [[Líciae]] e o pescado de [[Lilá]]. É também o coração político da nação, pois abriga [[Iluminada]], a capital federal, no cruzamento das estradas que ligam [[Baar'Shava]], no deserto ao norte, a [[Safira]], no sul. Sua fronteira oeste é a mais vigiada do Mundo Livre: o [[Grande Muro]], erguido na Guerra dos 100 Anos, sela a divisa com a [[Magna Pátria]], guarnecido pelo par de fortalezas [[Forte Norte]] e [[Forte Sul]].\n> \n> 👁️**Aparência do Local:** Planícies verde-oliva a perder de vista, entremeadas de campos cultivados e pastos, mais arborizadas rumo ao sul e ao leste; na costa oriental, entre [[Rharos]] e [[Lilá]], o verde cede a dunas e barrancos recortados. O [[Rio Raio da Luz]], único grande rio do Mundo Livre, atravessa a região inteira de leste a oeste, passando ao sul de [[Iluminada]] e por entre os dois fortes antes de mergulhar sob o [[Grande Muro]]. A oeste do centro, um círculo de terra chamuscada marca a cratera do [[Meteorito]], e mais ao norte a [[Torre dos Magos]] ergue-se solitária na estepe. No horizonte ocidental, a linha reta do Muro corre das [[Montanhas de Vidro]] à cordilheira escura do sudoeste, fechando a região contra o poente.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Federação Áurea/Campos do Provento\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "O celeiro da [[Federação Áurea]]: vasta região central de planícies férteis que alimenta as três regiões federadas com os grãos de [[Rharos]], o gado de [[Líciae]] e o pescado de [[Lilá]]. É também o coração político da nação, pois abriga [[Iluminada]], a capital federal, no cruzamento das estradas que ligam [[Baar'Shava]], no deserto ao norte, a [[Safira]], no sul. Sua fronteira oeste é a mais vigiada do Mundo Livre: o [[Grande Muro]], erguido na Guerra dos 100 Anos, sela a divisa com a [[Magna Pátria]], guarnecido pelo par de fortalezas [[Forte Norte]] e [[Forte Sul]].",
+    "aparencia": "Planícies verde-oliva a perder de vista, entremeadas de campos cultivados e pastos, mais arborizadas rumo ao sul e ao leste; na costa oriental, entre [[Rharos]] e [[Lilá]], o verde cede a dunas e barrancos recortados. O [[Rio Raio da Luz]], único grande rio do Mundo Livre, atravessa a região inteira de leste a oeste, passando ao sul de [[Iluminada]] e por entre os dois fortes antes de mergulhar sob o [[Grande Muro]]. A oeste do centro, um círculo de terra chamuscada marca a cratera do [[Meteorito]], e mais ao norte a [[Torre dos Magos]] ergue-se solitária na estepe. No horizonte ocidental, a linha reta do Muro corre das [[Montanhas de Vidro]] à cordilheira escura do sudoeste, fechando a região contra o poente.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

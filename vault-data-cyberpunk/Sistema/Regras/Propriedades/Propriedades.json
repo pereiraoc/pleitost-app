@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Regras/Propriedades/Propriedades",
+  "path": "Sistema/Regras/Propriedades/Propriedades.md",
+  "basename": "Propriedades",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Propriedade",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Propriedades"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: \nnext:: \n%%\n# Propriedades\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Propriedade\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Propriedades\"\nSORT file.name ASC\nWHERE subcategoria = \"Propriedade\"\n```\n\n```autosheet-rules\n```\n"
+}

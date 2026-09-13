@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Tiro a Queima Roupa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Tiro a Queima Roupa.md",
+  "basename": "Tiro a Queima Roupa",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você não provoca [[Ataque de Oportunidade|Ataques de Oportunidade]] quando faz um ataque a distância.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "Ataques de Oportunidade"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você não provoca [[Ataque de Oportunidade|Ataques de Oportunidade]] quando faz um ataque a distância.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê não provoca [[Ataque de Oportunidade|Ataques de Oportunidade]] quando faz um ataque a distância.\n\n```autosheet-rules\n```\n"
+}

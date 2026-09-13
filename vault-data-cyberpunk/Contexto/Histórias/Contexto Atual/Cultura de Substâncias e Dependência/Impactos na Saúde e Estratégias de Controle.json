@@ -1,0 +1,46 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Impactos na Saúde e Estratégias de Controle",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Impactos na Saúde e Estratégias de Controle.md",
+  "basename": "Impactos na Saúde e Estratégias de Controle",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Efeitos físicos, mentais e sociais do consumo em massa, além de táticas para mitigar ou explorar esses impactos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Impactos na Saúde e Estratégias de Controle.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Impactos na Saúde e Estratégias de Controle.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Principais Efeitos Adversos"
+    },
+    {
+      "level": 4,
+      "text": "Estratégias de Controle e Exploração"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Impactos na Saúde e Estratégias de Controle.png]]\n\nO consumo generalizado de selênicos em Porto Alegre em 1987 gera graves consequências para a saúde física, mental e social da população, intensificando problemas já severos devido ao uso contínuo e abusivo dessas substâncias.\n#### Principais Efeitos Adversos\nApesar da propaganda oficial minimizar essas ocorrências como \"raras exceções\", são comuns relatos médicos e populares sobre:\n- **Tremores, gagueira e comportamentos repetitivos**, indicando dano neurológico progressivo.\n- **Mortes súbitas e colapsos cardíacos**, frequentemente registrados em hospitais superlotados.\n- **Episódios de catatonia e amnésia**, resultando em incapacidade permanente ou prolongada.\n- **Dependência intensa**, levando a sintomas violentos de abstinência quando o uso é interrompido.\n- **Medo crescente** entre usuários de perderem o controle sobre sua vontade própria.\n- **Ataques psicóticos e surtos violentos**, desencadeando crises sociais e intervenções policiais constantes.\n\n#### Estratégias de Controle e Exploração\nPara lidar com esses impactos devastadores e garantir a estabilidade social, o Estado adota estratégias rígidas e frequentemente brutais:\n- **Clínicas de Desintoxicação Militarizadas**: Administradas pelas forças armadas, essas clínicas impõem tratamentos extremos, como choques elétricos rotulados oficialmente como “terapia regenerativa”.\n- **Campanhas de Propaganda Estatal**: Outdoors eletrônicos e meios oficiais mantêm uma narrativa tranquilizadora, tratando casos de surtos e mortes como incidentes isolados, apesar das evidências contrárias.\n- **Negação Pública**: Autoridades evitam oficialmente reconhecer a amplitude dos danos, suprimindo relatórios médicos detalhados e censurando discussões públicas.\n\nEssas estratégias permitem ao regime explorar a situação, mantendo a população em um estado de dependência controlada e reprimindo qualquer tentativa de denúncia ou organização coletiva que desafie o status quo."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Operação Silêncio",
+  "path": "Campanhas/Combates/Operação Silêncio.md",
+  "basename": "Operação Silêncio",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Bom Fim]] · [[Centro Histórico]]",
+    "Situação": "Objetivo dividido: brigar e tirar gente de lá antes da Brigada fechar o quarteirão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano Atirador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cão de Brigada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Cabo de Choque]] lento\n- 3 [[Brigadiano Atirador]] rápido\n- 4 [[Cão de Brigada]] rápido\n```\n"
+}

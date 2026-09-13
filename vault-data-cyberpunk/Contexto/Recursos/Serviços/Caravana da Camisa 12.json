@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Serviços/Caravana da Camisa 12",
+  "path": "Contexto/Recursos/Serviços/Caravana da Camisa 12.md",
+  "basename": "Caravana da Camisa 12",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Corrida",
+    "Marca": "[[Camisa 12]]",
+    "Preço": 200,
+    "Cobrança": "viagem",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Praia de Belas]]",
+      "[[Estádio Beira-Rio]]"
+    ],
+    "Resumo": "Caminhão com bandeira e cem torcedores da vila do Botânico até o Beira-Rio, em dia de jogo. Quem canta não paga.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Caravana da Camisa 12.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Caravana da Camisa 12.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Caravana da Camisa 12.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nEm dia de jogo a [[Camisa 12]] fecha a rua na [[Jardim Botânico]] e enche um Mercedes 1113 de gente, bandeira e\nisopor. A passagem custa Cz$ 200 ou uma dose — e a regra da carroceria é simples: quem canta o hino inteiro\nnão paga. A Brigada não para caravana de torcida; ninguém quer briga com cem.\n\n> [!info] Especificação\n> **Veículo:** caminhão Mercedes-Benz 1113 com carroceria de madeira e a bandeira do [[Sport Club Internacional]]\n> **Quando:** dia de Gre-Nal e clássico; sai 3 horas antes do apito\n> **Pagamento:** Cz$ 200, uma dose de tarja amarela ou o hino inteiro\n> **Destino:** portão 5 do [[Estádio Beira-Rio]]\n> **Volta:** só se ganhou — perdeu, cada um se vira\n"
+}

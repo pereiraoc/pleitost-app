@@ -1,0 +1,229 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Armas Atípicas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Armas Atípicas).md",
+  "basename": "Especialização em Arma (Armas Atípicas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização em Arma (Armas Atípicas)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Porrete]]",
+            "[[Manopla]]",
+            "[[Funda]]",
+            "[[Bordão]]"
+          ]
+        }
+      }
+    ],
+    "Elementos_de_Regra": [
+      "Condicional Inventario.Armas.Lista,[[Porrete]] Sobrescrever Inventario.Armas.Lista.[[Porrete]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Manopla]] Sobrescrever Inventario.Armas.Lista.[[Manopla]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Funda]] Sobrescrever Inventario.Armas.Lista.[[Funda]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Bordão]] Sobrescrever Inventario.Armas.Lista.[[Bordão]].Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Arruaceiro\"",
+      "Somar Papel.Vanguarda 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Atípicas."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Porrete]] Sobrescrever Inventario.Armas.Lista.[[Porrete]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Porrete]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Porrete]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Porrete]] Sobrescrever Inventario.Armas.Lista.[[Porrete]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Manopla]] Sobrescrever Inventario.Armas.Lista.[[Manopla]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Manopla]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Manopla]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Manopla]] Sobrescrever Inventario.Armas.Lista.[[Manopla]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Funda]] Sobrescrever Inventario.Armas.Lista.[[Funda]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Funda]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Funda]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Funda]] Sobrescrever Inventario.Armas.Lista.[[Funda]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Bordão]] Sobrescrever Inventario.Armas.Lista.[[Bordão]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Bordão]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Bordão]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Bordão]] Sobrescrever Inventario.Armas.Lista.[[Bordão]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Arruaceiro\"",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Arruaceiro"
+          },
+          "raw": "Alias Classe Compor 1 \"Arruaceiro\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas Atípicas)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Vanguarda 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Porrete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Funda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Atípicas.\n%%\n#### `= this.file.name`\nVocê recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Atípicas.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Armas Atípicas | [[Porrete]], [[Manopla]], [[Funda]], [[Bordão]]                    |\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,287 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Concussão)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Concussão).md",
+  "basename": "Especialização em Arma (Concussão)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização em Arma (Concussão)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Maça]]",
+            "[[Tacape]]",
+            "[[Maça Estrela]]",
+            "[[Martelo de Guerra]]",
+            "[[Picareta de Guerra]]",
+            "[[Malho]]"
+          ]
+        }
+      }
+    ],
+    "Elementos_de_Regra": [
+      "Condicional Inventario.Armas.Lista,[[Maça]] Sobrescrever Inventario.Armas.Lista.[[Maça]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Tacape]] Sobrescrever Inventario.Armas.Lista.[[Tacape]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Maça Estrela]] Sobrescrever Inventario.Armas.Lista.[[Maça Estrela]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Martelo de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Martelo de Guerra]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Picareta de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Picareta de Guerra]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Malho]] Sobrescrever Inventario.Armas.Lista.[[Malho]].Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Demolidor\"",
+      "Somar Papel.Vanguarda 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Concussão."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Maça]] Sobrescrever Inventario.Armas.Lista.[[Maça]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Maça]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Maça]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Maça]] Sobrescrever Inventario.Armas.Lista.[[Maça]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Tacape]] Sobrescrever Inventario.Armas.Lista.[[Tacape]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Tacape]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Tacape]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Tacape]] Sobrescrever Inventario.Armas.Lista.[[Tacape]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Maça Estrela]] Sobrescrever Inventario.Armas.Lista.[[Maça Estrela]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Maça Estrela]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Maça Estrela]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Maça Estrela]] Sobrescrever Inventario.Armas.Lista.[[Maça Estrela]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Martelo de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Martelo de Guerra]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Martelo de Guerra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Martelo de Guerra]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Martelo de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Martelo de Guerra]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Picareta de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Picareta de Guerra]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Picareta de Guerra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Picareta de Guerra]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Picareta de Guerra]] Sobrescrever Inventario.Armas.Lista.[[Picareta de Guerra]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Malho]] Sobrescrever Inventario.Armas.Lista.[[Malho]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Malho]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Malho]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Malho]] Sobrescrever Inventario.Armas.Lista.[[Malho]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Demolidor\"",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Demolidor"
+          },
+          "raw": "Alias Classe Compor 1 \"Demolidor\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Concussão)",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Vanguarda 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça Estrela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Martelo de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Concussão.\n%%\n#### `= this.file.name`\nVocê recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Concussão.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Concussão      | [[Maça]], [[Tacape]], [[Maça Estrela]], [[Martelo de Guerra]], [[Picareta de Guerra]], [[Malho]] |\n\n```autosheet-rules\n```\n"
+}

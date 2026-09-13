@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel Motomachine",
+  "path": "Contexto/Recursos/Veículos/Gurgel Motomachine.md",
+  "basename": "Gurgel Motomachine",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 160000,
+    "Cobrança": "única",
+    "Usado": 55000,
+    "Manutenção": 1500,
+    "Nível": 4,
+    "Onde": [
+      "[[Quarto Distrito]]",
+      "[[Camelódromo]]"
+    ],
+    "Resumo": "Microcarro aberto de dois lugares e 500 kg — o carro dos rachas do Quarto Distrito: leve, barulhento, fácil de roubar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel Motomachine.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel Motomachine.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel Motomachine.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nUm carro sem teto, sem porta e sem vergonha. O Motomachine é o que a molecada do [[Quarto Distrito]] corre na\nmadrugada pela Voluntários, com o motor a ar berrando e a [[Ordem dos Subsolos]] apostando na esquina. Novo\ncusta o preço de uma kitnet; usado, custa o que o dono anterior perdeu no racha.\n\n> [!info] Especificação\n> **Modelo:** Gurgel Motomachine 1985, microcarro aberto de 2 lugares, carroceria de fibra, 500 kg\n> **Motor:** VW 1.6 a ar, 50 cv; 120 km/h ladeira abaixo\n> **Uso:** racha, entrega rápida da [[A Caixinha|Caixinha]], fuga pelas vielas onde o Carajás não entra\n> **Usado:** Cz$ 55.000 no [[Camelódromo]], com a fibra rachada\n> **Roubo:** leva-se no braço; quem tem, guarda dentro de casa\n> **Manutenção:** Cz$ 1.500 por mês — e pneu toda vez que corre\n"
+}

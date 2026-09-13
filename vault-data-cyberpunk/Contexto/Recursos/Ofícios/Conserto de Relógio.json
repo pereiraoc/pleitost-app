@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Conserto de Relógio",
+  "path": "Contexto/Recursos/Ofícios/Conserto de Relógio.md",
+  "basename": "Conserto de Relógio",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Conserto",
+    "Marca": "Relojoaria do Mercado",
+    "Preço": 300,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Relógio de pulso e despertador abertos na lupa do relojoeiro — pilha, corda, vidro e, se precisar, um cofre pequeno.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA relojoaria é um balcão de vidro com relógios parados em horas diferentes. O relojoeiro trabalha com a lupa no olho, abre o relógio, troca corda, pilha ou vidro. É também o único no Mercado que compra relógio usado sem perguntar de quem era.\n\n> [!info] Especificação\n> **Pilha:** Cz$ 80, na hora\n> **Corda e limpeza:** Cz$ 300, três dias\n> **Compra usado:** paga um terço do valor, sem nota\n"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Guaraná Fruki",
+  "path": "Contexto/Recursos/Alimentação/Guaraná Fruki.md",
+  "basename": "Guaraná Fruki",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "[[Fruki]]",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Bom Fim]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "O guaraná de Lajeado na garrafinha de 290 ml — o 'caçulinha' — ou no litro retornável: o refrigerante do interior que a capital adotou.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guaraná Fruki.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Laranjinha Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Guaraná Fruki.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Guaraná Fruki.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Fruki]] engarrafa em Lajeado desde 1924 e é o refrigerante que a cidade bebe quando não quer pagar\nCoca-Cola. Garrafinha de 290 ml gelada no isopor do boteco, litro retornável no armazém pra família. Sem\ntarja, doce demais, e o gaúcho jura que é melhor que o Antarctica.\n\n> [!info] Especificação\n> **Garrafa:** 290 ml ('caçulinha') Cz$ 60; 1 l retornável Cz$ 120\n> **Fábrica:** [[Fruki]], Lajeado, 1924\n> **Sabores:** guaraná, laranja, limão; uva só no interior\n> **Outros sabores:** [[Laranjinha Fruki]] e limão, mesmo preço\n> **Régua:** Cz$ 40 na boca de bairro; Cz$ 90 nos Moinhos\n"
+}

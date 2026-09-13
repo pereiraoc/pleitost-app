@@ -1,0 +1,116 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Armazém Petrópolis",
+  "path": "Atlas/Porto Alegre/Petrópolis/Armazém Petrópolis.md",
+  "basename": "Armazém Petrópolis",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Seu Waldemar Krebs",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cesta Básica Zaffari]]",
+      "[[Água Mineral em Galão]]",
+      "[[Erva-Mate Charrua]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Grapette]]",
+      "[[Guaraná Fruki]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Chocolate Neugebauer]]",
+      "[[Coca-Cola]]",
+      "[[Vinho Aurora]]",
+      "[[Doce de Leite Colonial]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armazém Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Armazém Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Armazém Petrópolis.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cesta, água, chocolate Neugebauer, Coca, vinho, doce de leite e bala; fiado pro casario.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de madeira com balcão de mármore, prateleira até o teto, balança de prato e um gato.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cesta, água, chocolate Neugebauer, Coca, vinho, doce de leite e bala; fiado pro casario.",
+    "aparencia": "Loja de madeira com balcão de mármore, prateleira até o teto, balança de prato e um gato.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

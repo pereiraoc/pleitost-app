@@ -1,0 +1,65 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Pescado do Cais",
+  "path": "Contexto/Recursos/Alimentação/Pescado do Cais.md",
+  "basename": "Pescado do Cais",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Sindicato dos Pescadores",
+    "Preço": 80,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Praia de Belas]]",
+      "[[Mercado de Frutos do Mar]]"
+    ],
+    "Resumo": "Traíra, jundiá e piava do Guaíba fritos na hora, um dólar por dois. Pergunte de onde veio — o Delta fica rio acima.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pescado do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado de Frutos do Mar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraca do Cais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pescado do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Pescado do Cais.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNo [[Mercado de Frutos do Mar]] o peixe sai da água e vai pra chapa. Traíra, jundiá, piava — um dólar por dois, frito com\nfarinha, embrulhado em jornal. O [[Delta Radioativo]] fica rio acima e a [[Brigada Militar Metropolitana]] fecha a\nbanca de vez em quando 'por contaminação'; o pescador diz que é só implicância.\n\n> [!info] Especificação\n> **Peixe:** traíra, jundiá, piava do [[Lago Guaíba]]; frito na hora com farinha\n> **Preço:** Cz$ 80 o peixe; no cais, US$ 1 por dois\n> **Origem:** pergunte — o [[Delta Radioativo]] fica rio acima\n> **Pagamento:** dólar redondo; cruzado com cara feia\n> **Onde:** [[Mercado de Frutos do Mar]] em [[Praia de Belas]]; [[Barraca do Cais]] a Cz$ 150\n"
+}

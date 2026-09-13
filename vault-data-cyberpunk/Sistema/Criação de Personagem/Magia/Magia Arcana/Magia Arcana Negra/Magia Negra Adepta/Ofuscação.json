@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Ofuscação",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Ofuscação.md",
+  "basename": "Ofuscação",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 2q fica difícil de ver por 10t. Ataques contra [[Defesa]] ou [[Evasão]] tem 20% de chance de falha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 2q fica difícil de ver por 10t. Ataques contra [[Defesa]] ou [[Evasão]] tem 20% de chance de falha.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura fica díficil de se observar por 10 turnos; [[Ataques]] contra [[Defesa]] e ataques/testes contra/de [[Evasão]] que não tenham área de efeito feitos contra a criatura afetada tem 20% de chance de falha.\n\n```autosheet-rules\n```\n"
+}

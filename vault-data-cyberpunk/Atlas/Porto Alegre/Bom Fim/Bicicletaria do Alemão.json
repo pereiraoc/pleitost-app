@@ -1,0 +1,78 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Bicicletaria do Alemão",
+  "path": "Atlas/Porto Alegre/Bom Fim/Bicicletaria do Alemão.md",
+  "basename": "Bicicletaria do Alemão",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Rudi Schneider, o Alemão",
+    "Descrição": null,
+    "Serviços": [
+      "[[Bicicleta Caloi 10]]",
+      "[[Monark Barra Circular]]",
+      "[[Caloi Cross]]",
+      "[[Mobilete Caloi]]",
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Monark Barra Circular]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bicicletaria do Alemão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monark Barra Circular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caloi Cross",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bicicletaria do Alemão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bicicletaria do Alemão.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vende e conserta Caloi, Monark e Mobilete; câmara na hora, roubo de bicicleta é 'recompra' sem pergunta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja estreita com quadros pendurados no teto, cheiro de borracha e graxa, rádio na Farroupilha.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vende e conserta Caloi, Monark e Mobilete; câmara na hora, roubo de bicicleta é 'recompra' sem pergunta.",
+    "aparencia": "Loja estreita com quadros pendurados no teto, cheiro de borracha e graxa, rádio na Farroupilha.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

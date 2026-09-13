@@ -1,0 +1,29 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Inauguração da Malha de Transporte Aeromóvel",
+  "path": "Contexto/Histórias/Contexto Histórico/Inauguração da Malha de Transporte Aeromóvel.md",
+  "basename": "Inauguração da Malha de Transporte Aeromóvel",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Aeromóvel"
+    ],
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1983-09-07",
+    "Descrição": "Malha de transportes aeromóvel é inaugurada em sua totalidade em [[Porto Alegre]], após quase 2 anos de foco e jornadas de trabalho abusivas.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

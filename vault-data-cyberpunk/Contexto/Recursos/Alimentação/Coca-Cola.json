@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Coca-Cola",
+  "path": "Contexto/Recursos/Alimentação/Coca-Cola.md",
+  "basename": "Coca-Cola",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "Coca-Cola (engarrafadora Vonpar)",
+    "Preço": 80,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Shopping Iguatemi]]",
+      "[[Moinhos de Vento]]",
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Garrafa retornável de 290 ml da engarrafadora gaúcha: o refrigerante americano que custa o dobro do Fruki e vende o triplo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Coca-Cola.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Coca-Cola.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Coca-Cola.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Coca-Cola chega da engarrafadora Vonpar em caminhão vermelho e custa o dobro do [[Guaraná Fruki]]. É o\nrefrigerante do [[Shopping Iguatemi]], do cinema da [[Padre Chagas]] e de quem quer parecer que tem crachá.\nNa periferia vende quente, sem gelo, e mesmo assim vende.\n\n> [!info] Especificação\n> **Garrafa:** 290 ml retornável (a 'KS'); lata de 350 ml Cz$ 120 só em bairro nobre\n> **Engarrafadora:** Vonpar, Porto Alegre — franquia gaúcha da marca\n> **Preço:** Cz$ 80; Cz$ 120 nos Moinhos; Cz$ 60 quente na boca de bairro\n> **Sem tarja:** nunca teve versão com selênico — a marca americana não deixa\n"
+}

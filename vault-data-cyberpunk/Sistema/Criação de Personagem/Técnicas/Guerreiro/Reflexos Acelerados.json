@@ -1,0 +1,49 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Reflexos Acelerados",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Reflexos Acelerados.md",
+  "basename": "Reflexos Acelerados",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"No início do seu turno, quando você recuperar sua reação da rodada, você ganha uma reação extra que só pode ser usada para [[Ataque de Oportunidade]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"No início do seu turno, quando você recuperar sua reação da rodada, você ganha uma reação extra que só pode ser usada para [[Ataque de Oportunidade]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nNo início do seu turno, quando você recebe uma reação para utilizar durante a rodada, você recebe também uma reação extra que só pode ser usada para [[Ataque de Oportunidade]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "Contexto/Recursos/Moradia/Moradia",
+  "path": "Contexto/Recursos/Moradia/Moradia.md",
+  "basename": "Moradia",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Serviços",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imóveis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n**Teto por noite**, sem posse e sem contrato: pensão, hotel, motel, vaga em salão. Pra quem não tem endereço ou está longe do dele. O plano do mês está em [[Serviços]]; imóvel com endereço, em [[Imóveis]].\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Onde dormir\", Marca AS \"Casa\", Nível AS \"Classe\", Preço AS \"Cz$/noite\", Onde AS \"Bairro\"\nFROM \"Contexto/Recursos/Moradia\"\nWHERE categoria = \"Recurso\"\nSORT Nível ASC, Preço ASC\n```\n"
+}

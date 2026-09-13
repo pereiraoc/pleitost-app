@@ -1,0 +1,221 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico (Manipulador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico (Manipulador).md",
+  "basename": "Método Artístico (Manipulador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "Definir Magias.Lista.ArcanaNegra.Atributo PRE",
+      "Somar Magias.Slots.B 2",
+      "Somar Magias.Slots.A 2",
+      "Definir Pericias.Lista.Enganacao.Proficiencia A",
+      "Alias Classe Compor 1 \"Manipulador\"",
+      "Somar Papel.Controlador 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende duas [[Magia Negra Adepta|Magias Negras Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Enganação]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.B 2",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.B 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Enganacao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Enganacao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Manipulador\"",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Manipulador"
+          },
+          "raw": "Alias Classe Compor 1 \"Manipulador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Controlador 1",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Manipulador)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Controlador",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Controlador 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Básica",
+      "kind": "wikilink",
+      "alias": "Magias Negras Básicas"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink",
+      "alias": "Magias Negras Adepta"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende duas [[Magia Negra Adepta|Magias Negras Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Enganação]].\"\n%%\n##### `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende duas [[Magia Negra Adepta|Magias Negras Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Enganação]].\n\n```autosheet-rules\n```\n"
+}

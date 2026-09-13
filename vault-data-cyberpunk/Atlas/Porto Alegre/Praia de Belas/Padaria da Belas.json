@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Padaria da Belas",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Padaria da Belas.md",
+  "basename": "Padaria da Belas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Genésio Fontana",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Café Passado]]",
+      "[[Bolo de Padaria]]",
+      "[[Sanduíche de Mortadela do Mercado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padaria da Belas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sanduíche de Mortadela do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padaria da Belas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padaria da Belas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cacetinho, café e bolo; pão com mortadela em dia de jogo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fachada descascada, vitrine de pão, forno a lenha nos fundos e o cheiro de maresia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cacetinho, café e bolo; pão com mortadela em dia de jogo.",
+    "aparencia": "Fachada descascada, vitrine de pão, forno a lenha nos fundos e o cheiro de maresia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Sede da Camisa 12",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Sede da Camisa 12.md",
+  "basename": "Sede da Camisa 12",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "[[Camisa 12]] ([[João “Borracheiro” Dias]])",
+    "Descrição": null,
+    "Serviços": [
+      "[[Caravana da Camisa 12]]",
+      "[[Polar Tradicional]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Cachaça de Boteco]]",
+      "[[Amendoim Japonês]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sede da Camisa 12.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "João “Borracheiro” Dias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caravana da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sede da Camisa 12.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Sede da Camisa 12.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Boteco, bilheteria e garagem da caravana: em dia de jogo sai daqui o caminhão pro [[Estádio Beira-Rio]]; nos outros dias vende Polar, churrasquinho e ingresso de cambista.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fachada vermelha descascada, bandeira do Inter no lugar da porta, caminhão Mercedes 1113 no pátio e um isopor que nunca esvazia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Boteco, bilheteria e garagem da caravana: em dia de jogo sai daqui o caminhão pro [[Estádio Beira-Rio]]; nos outros dias vende Polar, churrasquinho e ingresso de cambista.",
+    "aparencia": "Fachada vermelha descascada, bandeira do Inter no lugar da porta, caminhão Mercedes 1113 no pátio e um isopor que nunca esvazia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

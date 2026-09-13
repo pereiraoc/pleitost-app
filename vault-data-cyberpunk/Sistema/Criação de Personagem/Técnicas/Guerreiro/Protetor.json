@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Protetor",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Protetor.md",
+  "basename": "Protetor",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Se estiver com [[Erguer Escudo|Escudo Erguido]], você pode reagir para [[Bloquear com Escudo]] um ataque contra um aliado adjacente, reduzindo o dano que ele sofre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Escudo Erguido"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Erguido"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Se estiver com [[Erguer Escudo|Escudo Erguido]], você pode reagir para [[Bloquear com Escudo]] um ataque contra um aliado adjacente, reduzindo o dano que ele sofre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSe estiver com escudo [[Erguer Escudo|Erguido]], pode usar uma reação para [[Bloquear com Escudo]] um ataque que um aliado adjacente a você recebeu, reduzindo o dano que o aliado sofre.\n*Requer Usar Escudo*\n\n```autosheet-rules\n```\n"
+}

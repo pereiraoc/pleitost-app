@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Curativo d'Água",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Curativo d'Água.md",
+  "basename": "Curativo d'Água",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Água",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Água]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atadura d'Água",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Proteção Rochosa"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Água]]\nprev::\nnext::\n%%\n### Proteção Rochosa\nVocê aprende a Magia Anima Básica [[Atadura d'Água]]."
+}

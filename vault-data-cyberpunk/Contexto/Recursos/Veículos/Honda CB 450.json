@@ -1,0 +1,71 @@
+{
+  "id": "Contexto/Recursos/Veículos/Honda CB 450",
+  "path": "Contexto/Recursos/Veículos/Honda CB 450.md",
+  "basename": "Honda CB 450",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Honda",
+    "Preço": 350000,
+    "Cobrança": "única",
+    "Usado": 130000,
+    "Manutenção": 3000,
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "A moto grande: 450 cilindradas, carenagem, a que o executivo compra pra parecer perigoso no fim de semana.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Honda CB 450.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moto Center Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Honda CB 450.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Honda CB 450.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA CB 450 é a moto de quem tem garagem: bicilíndrica, carenagem, cromado. O gerente da [[Gradiente]] tira no\ndomingo pra ir até [[Ipanema]] e volta antes do toque. Roubada, vale três CG no [[Camelódromo]].\n\n> [!info] Especificação\n> **Modelo:** Honda CB 450 1987, 4 tempos\n> **Motor:** 450 cc bicilíndrico, 43 cv; 20 km/l\n> **Velocidade:** 170 km/h\n> **Novo:** [[Moto Center Assis Brasil]], [[Revenda Moinhos]]\n> **Usado:** Cz$ 130.000 — roubada, metade\n> **Manutenção:** Cz$ 3.000 por mês\n"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Sinergia Mágica Básica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Sinergia Mágica Básica.md",
+  "basename": "Sinergia Mágica Básica",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Um aliado afetado por [[Abater]] pode, no lugar do [[Atacar|Ataque]], conjurar uma Magia Básica que tenha como alvo um ou mais inimigos; se a magia tiver sucesso, adicione o resultado do dado como [[bônus de circunstância]] no dano.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Um aliado afetado por [[Abater]] pode, no lugar do [[Atacar|Ataque]], conjurar uma Magia Básica que tenha como alvo um ou mais inimigos; se a magia tiver sucesso, adicione o resultado do dado como [[bônus de circunstância]] no dano.\"\n%%\n#### `= this.file.name` - `= this.rank`\nUm aliado alvo de [[Abater]], pode, no lugar do [[Atacar|Ataque]], conjurar uma Magia Básica que tenha como alvo um ou mais inimigos. Adicione o resultado do dado como um [[bônus de circunstância]] no dano da Magia Básica caso esta tenha sucesso.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Avaliar Campo de Batalha",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Avaliar Campo de Batalha.md",
+  "basename": "Avaliar Campo de Batalha",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Guerra]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta deduzir pontos críticos do campo de batalha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Guerra]]\"\npropriedades:: \nresumo:: \"Tenta deduzir pontos críticos do campo de batalha.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de Guerra contra a [[CD|CD-Nível]] da região. No sucesso o Mestre descreve fatos notáveis do campo de batalha.\n\n```autosheet-rules\n```\n"
+}

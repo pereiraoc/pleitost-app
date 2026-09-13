@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Marcar Alvo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Marcar Alvo.md",
+  "basename": "Marcar Alvo",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "Role o dado de comando e escolha um inimigo na sua área de influência; o próximo [[Atacar|Ataque]] de um aliado contra ele tem [[Vantagem de Combate]] e, se acertar, causa dano extra igual ao dado + maior entre [[Inteligência|INT]] e [[Presença|PRE]]. Conta como [[Comandos de Batalha]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: Role o dado de comando e escolha um inimigo na sua área de influência; o próximo [[Atacar|Ataque]] de um aliado contra ele tem [[Vantagem de Combate]] e, se acertar, causa dano extra igual ao dado + maior entre [[Inteligência|INT]] e [[Presença|PRE]]. Conta como [[Comandos de Batalha]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Marcar Alvo.\n\n**Marcar Alvo - 1A**\nRole o dado de comando e escolha um inimigo dentro da sua área de influência. O próximo [[Atacar|Ataque]] feito por um aliado tem [[Vantagem de Combate]]. Se esse ataque tiver sucesso, ele causa dano adicional igual a rolagem do dado somado da sua [[Inteligência|INT]] ou [[Presença|PRE]], o que for maior. Marcar Alvo conta como uma habilidade de [[Comandos de Batalha]].\n\n%%Role o dado de comando e escolha um inimigo dentro da sua área de influência. O próximo [[Atacar|Ataque]] feito por um aliado tem [[Vantagem de Combate]]. Se esse ataque tiver sucesso, ele causa dano adicional igual a rolagem do dado somado da sua [[Inteligência|INT]] ou [[Presença|PRE]], o que for maior. Marcar Alvo conta como uma habilidade de [[Comandos de Batalha]]. %%\n\n%%Role o dado de comando e escolha um inimigo dentro da sua área de influência. O primeiro [[Atacar|Ataque]] que um aliado tiver sucesso antes do início do seu próximo turno causa dano adicional igual a rolagem do dado somado da sua [[Inteligência|INT]] ou [[Presença|PRE]], o que for maior. Marcar Alvo conta como uma habilidade de [[Comandos de Batalha]]. %%\n\n%%Role o dado de comando e escolha um inimigo dentro da sua área de influência. O primeiro [[Atacar|Ataque]] que um aliado tiver sucesso antes do início do seu próximo turno causa dano adicional igual a rolagem do dado somado da sua [[Inteligência|INT]] ou [[Presença|PRE]], o que for maior. Adicionalmente, o próximo ataque feito por um aliado contra este inimigo tem [[Vantagem de Combate]]. Marcar Alvo conta como uma habilidade de [[Comandos de Batalha]]. %%\n\n```autosheet-rules\n```\n"
+}

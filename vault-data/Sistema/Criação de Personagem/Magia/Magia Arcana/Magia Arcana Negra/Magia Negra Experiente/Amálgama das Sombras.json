@@ -1,0 +1,178 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Amálgama das Sombras",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Amálgama das Sombras.md",
+  "basename": "Amálgama das Sombras",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Amálgama das Sombras",
+        "tipo": "Invocação",
+        "origem": "Magia",
+        "invocacao": {
+          "porProficienciaEm": "Magia Arcana Negra",
+          "proficienciaMinima": "E",
+          "stats": {
+            "EV": {
+              "porNivel": {
+                "1": "5×potência"
+              }
+            },
+            "Defesa": {
+              "porProficiencia": {
+                "A": 14,
+                "E": 16,
+                "M": 18
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Vigor": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Evasão": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Impeto": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Percepção": {
+              "porProficiencia": {
+                "A": 2,
+                "E": 2,
+                "M": 4
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Movimento": 5
+          },
+          "ataques": [
+            {
+              "nome": "Ataque Mental",
+              "tipo": "corpo-a-corpo",
+              "bonus": {
+                "doInvocador": "MagiaAtaque"
+              },
+              "dano": {
+                "porProficiencia": {
+                  "A": "1d6+3",
+                  "E": "2d6+3",
+                  "M": "3d6+3"
+                },
+                "porProficienciaEm": "Magia Arcana Negra"
+              }
+            }
+          ],
+          "habilidadesEspeciais": [
+            {
+              "label": "Pseudópode Sombrio",
+              "descricao": "Pode agarrar, derrubar ou desarmar a sua escolha quando é invocado."
+            }
+          ],
+          "notas": [
+            "Você pode comandar a criatura uma vez por turno com uma ação, dando duas ações para ela. Pode dissipá-la como ação livre."
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Conjura sombra grande com EV 5×potência que pode atacar e realizar certas [[Ataques#Manobras de Ataque|Manobras de Ataque]] a sua escolha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Conjura sombra grande com EV 5×potência que pode atacar e realizar certas [[Ataques#Manobras de Ataque|Manobras de Ataque]] a sua escolha.\"\n%%\n# `= this.file.name` - `= this.custo`\nConjura uma criatura amorfa de energias negativas, associada a um desastre de sua escolha em até 6q por 10t. Você pode comandar a criatura uma vez por turno com uma ação, dando duas ações para ela. Você pode dissipá-la como uma ação livre.\n\nOs atributos base da criatura são:\n* [[Energia Vital|EV]] 5×potência\n* Tamanho Grande (2x2)\n* [[Defesa]] 14 (16 se [[Experiente]] em [[Magia Arcana]], 18 se [[Mestre]])\n* [[Vigor]], [[Evasão]] e [[Ímpeto]] 14 (16 se [[Experiente]] em [[Magia Arcana]], 18 se [[Mestre]])\n* [[Percepção]] +4 (+6 se [[Mestre]] em [[Magia Arcana]])\n* Ataque Amorfo corpo-a-corpo com bônus de ataque igual ao seu Ataque Mágico, 1d6+3 dano de contusão (2d6+3 se [[Experiente]] em [[Magia Arcana Negra]], 3d6+3 se [[Mestre]])\n* Movimentação Terrestre 5q\n* Modificadores Desastrosos:\n    * Soterramento: pode [[Agarrar]] com bônus de ataque e proficiência igual ao seu Ataque Mágico\n    * Queda: pode [[Derrubar]] com bônus de ataque e proficiência igual ao seu Ataque Mágico\n    * Roubo: pode [[Desarmar]] com bônus de ataque e proficiência igual ao seu Ataque Mágico\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "Contexto/Recursos/Serviços/Lancha de Aluguel",
+  "path": "Contexto/Recursos/Serviços/Lancha de Aluguel.md",
+  "basename": "Lancha de Aluguel",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Aluguel de Veículo",
+    "Marca": "[[Aliança Livre das Palafitas]]",
+    "Preço": 3000,
+    "Cobrança": "dia",
+    "Nível": 3,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Lago Guaíba]]"
+    ],
+    "Resumo": "Bote de 5 m com motor 15 HP por dia, da Aliança das Palafitas: caução de uma dose e devolver com o tanque cheio.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lancha de Aluguel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trapiche da Aliança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lancha de Aluguel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lancha de Aluguel.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Aliança Livre das Palafitas]] aluga bote pra quem sabe pilotar e não faz pergunta sobre o destino. Caução\né uma dose ou Cz$ 5.000; devolver com o tanque cheio e sem furo novo. Se a patrulha fluvial apreender, o\naluguel vira dívida — e dívida com a Aliança se paga em serviço.\n\n> [!info] Especificação\n> **Barco:** bote de alumínio de 5 m, motor de popa 15 HP, remo de emergência\n> **Caução:** uma dose de tarja amarela ou Cz$ 5.000\n> **Devolução:** tanque cheio (gasolina Cz$ 30/l no [[Trapiche da Aliança]]) e sem furo novo\n> **Apreensão:** o aluguel vira dívida com a Aliança — paga-se em serviço\n> **Uso:** ilhas do Guaíba, canais da [[Cidade Baixa]], orla de [[Ipanema]]; o [[Delta Radioativo]] só de dia\n"
+}

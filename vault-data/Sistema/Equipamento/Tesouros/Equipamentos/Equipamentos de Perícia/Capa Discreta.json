@@ -1,0 +1,326 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Capa Discreta",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Capa Discreta.md",
+  "basename": "Capa Discreta",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Bônus de [[Furtividade]]. Conjurar magias de ocultação.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Furtividade. Com 1 ação, pode ativar em si Ofuscação por 1 turno (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Furtividade. Com 1 ação, pode ativar em si Ofuscação por 2 turnos ou Manto Translúcido por 1 turno (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Furtividade. Com 1 ação, pode ativar em si Ofuscação por 3 turnos, Manto Translúcido por 2 turnos ou Invisibilidade por 1 turno (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+      "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+      "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+      "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Invisibilidade]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Ofuscação]]"
+          },
+          "raw": "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Ofuscação]]"
+          },
+          "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Manto Translúcido]]"
+          },
+          "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Ofuscação]]"
+          },
+          "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Ofuscação]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Manto Translúcido]]"
+          },
+          "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Manto Translúcido]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Invisibilidade]]",
+      "parsed": [
+        {
+          "sourceNote": "Capa Discreta",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Invisibilidade]]"
+          },
+          "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Invisibilidade]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manto Translúcido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invisibilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - capa*\nEsta capa não faz barulho mesmo quando interagida e tem um aspecto nebuloso e amorfo. Ela abafa os sons emitidos pelo portador e cria um perfil discreto.\n* Adepto: +1 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 1 turno.\n* Experiente: +2 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 2 turnos ou [[Manto Translúcido]] por 1 turno.\n* Mestre: +3 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 3 turnos, [[Manto Translúcido]] por 2 turnos ou [[Invisibilidade]] por 1 turno.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

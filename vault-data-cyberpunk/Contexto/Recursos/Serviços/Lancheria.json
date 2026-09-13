@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Serviços/Lancheria",
+  "path": "Contexto/Recursos/Serviços/Lancheria.md",
+  "basename": "Lancheria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Alimentação Classe Média"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 5000,
+    "Cobrança": "mês",
+    "Nível": 4,
+    "Onde": null,
+    "Resumo": "Xis, PF e janta fora duas vezes por semana — pago adiantado, com conta aberta nos lugares.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lancheria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Janta no Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lancheria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lancheria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPadaria com [[Cueca Virada]], [[Xis]] ou PF no almoço, [[Janta no Bom Fim]] duas vezes por semana com [[Vinho Aurora]]. Pago adiantado com conta aberta no restaurante e no boteco, garante o padrão o mês inteiro; [[Sagu de Vinho]] no domingo.\n\n> [!info] Especificação\n> **Garante no mês:** padaria, almoço e duas jantas fora por semana\n> **Café:** padaria com sonho e café passado\n> **Almoço:** [[Xis]] ou PF\n> **Janta:** [[Janta no Bom Fim]] 2× por semana; o resto em casa\n> **Bebida:** cerveja de boteco, [[Vinho Aurora]], [[Coca-Cola]] gelada\n> **Classe:** Classe Média\n"
+}

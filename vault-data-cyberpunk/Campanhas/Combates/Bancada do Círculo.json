@@ -1,0 +1,41 @@
+{
+  "id": "Campanhas/Combates/Bancada do Círculo",
+  "path": "Campanhas/Combates/Bancada do Círculo.md",
+  "basename": "Bancada do Círculo",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Petrópolis]]",
+    "Situação": "O Encantador liga módulo nos capangas: a luta piora sozinha.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Capanga de Oficina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instalador Pirata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Capanga de Oficina]] lento\n- 2 [[Instalador Pirata]] rápido\n```\n"
+}

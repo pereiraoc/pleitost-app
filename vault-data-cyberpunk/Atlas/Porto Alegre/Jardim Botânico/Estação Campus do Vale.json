@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Estação Campus do Vale",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Estação Campus do Vale.md",
+  "basename": "Estação Campus do Vale",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Trensurb",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Campus do Vale.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Campus do Vale.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Campus do Vale.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma comprida e sem cobertura no meio do mato, com mural pintado por estudante que a Brigada apaga e alguém repinta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Concreto rachado com grama alta na junta, cartaz de assembleia colado no vidro, mochila de lona, violão, cheiro de mate e de eucalipto.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma comprida e sem cobertura no meio do mato, com mural pintado por estudante que a Brigada apaga e alguém repinta.",
+    "aparencia": "Concreto rachado com grama alta na junta, cartaz de assembleia colado no vidro, mochila de lona, violão, cheiro de mate e de eucalipto.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

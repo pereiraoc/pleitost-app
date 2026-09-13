@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Imobiliária Passo D'Areia",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Imobiliária Passo D'Areia.md",
+  "basename": "Imobiliária Passo D'Areia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Dona Cida Ramos",
+    "Descrição": null,
+    "Serviços": [
+      "[[Kitnet do Aeromóvel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária Passo D'Areia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kitnet do Aeromóvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária Passo D'Areia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária Passo D'Areia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Aluga e vende kitnets dos condomínios do Aeromóvel; financiamento só com desconto em folha — e você não sai mais.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de vitrine com plantas coloridas coladas no vidro, maquete do condomínio com o vagão de plástico e um corretor de terno cinza.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Aluga e vende kitnets dos condomínios do Aeromóvel; financiamento só com desconto em folha — e você não sai mais.",
+    "aparencia": "Loja de vitrine com plantas coloridas coladas no vidro, maquete do condomínio com o vagão de plástico e um corretor de terno cinza.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

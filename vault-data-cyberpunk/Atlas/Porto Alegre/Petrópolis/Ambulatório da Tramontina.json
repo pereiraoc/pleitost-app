@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Ambulatório da Tramontina",
+  "path": "Atlas/Porto Alegre/Petrópolis/Ambulatório da Tramontina.md",
+  "basename": "Ambulatório da Tramontina",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Dr. Getúlio Ramos (médico do trabalho)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ambulatório da Tramontina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ambulatório da Tramontina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ambulatório da Tramontina.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Médico de fábrica, enfermeira e uma sala de prótese; funcionário e família atendidos de graça, o resto paga adiantado — e o RH lê o prontuário.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Anexo de vidro e aço da sede, sala de espera com logotipo da Tramontina, maca hidráulica, braço protético em cima da bancada.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Médico de fábrica, enfermeira e uma sala de prótese; funcionário e família atendidos de graça, o resto paga adiantado — e o RH lê o prontuário.",
+    "aparencia": "Anexo de vidro e aço da sede, sala de espera com logotipo da Tramontina, maca hidráulica, braço protético em cima da bancada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

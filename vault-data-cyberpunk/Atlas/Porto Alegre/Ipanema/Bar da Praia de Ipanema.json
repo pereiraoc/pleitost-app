@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Bar da Praia de Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Bar da Praia de Ipanema.md",
+  "basename": "Bar da Praia de Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Toninho Ferraz",
+    "Descrição": null,
+    "Serviços": [
+      "[[Brahma Chopp]]",
+      "[[Polar Tradicional]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Café Passado]]",
+      "[[Coca-Cola]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bar da Praia de Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bar da Praia de Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bar da Praia de Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Brahma, Polar, churrasquinho e café; à noite, coquetel de gim pra quem pede baixinho.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Deck de madeira sobre a areia, guarda-sol listrado, mesa de plástico branca e o Guaíba escuro atrás.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Brahma, Polar, churrasquinho e café; à noite, coquetel de gim pra quem pede baixinho.",
+    "aparencia": "Deck de madeira sobre a areia, guarda-sol listrado, mesa de plástico branca e o Guaíba escuro atrás.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

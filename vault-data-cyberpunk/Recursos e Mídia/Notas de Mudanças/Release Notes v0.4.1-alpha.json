@@ -1,0 +1,165 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.1-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.1-alpha.md",
+  "basename": "Release Notes v0.4.1-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Efeitos Interativos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.4.1-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "👥 Aba **Companheiros** funcional (#69)"
+    },
+    {
+      "level": 3,
+      "text": "🐺 Companheiro Animal sincroniza nível com tutor"
+    },
+    {
+      "level": 3,
+      "text": "🪄 Toggles de efeito ancorados no painel certo"
+    },
+    {
+      "level": 3,
+      "text": "🎯 Atacar Além do Alcance escalável (#158)"
+    },
+    {
+      "level": 3,
+      "text": "⚔️ Ataque Poderoso toggláveis (#156)"
+    },
+    {
+      "level": 3,
+      "text": "🛡️ Aparar (Guerreiro) — buff de Defesa aplica corretamente"
+    },
+    {
+      "level": 3,
+      "text": "💪 Pulseira da Potência funciona em armas desarmadas + Manobras"
+    },
+    {
+      "level": 3,
+      "text": "💾 Save da Interativa mais confiável"
+    },
+    {
+      "level": 3,
+      "text": "🦸 Edição da ficha (Heroi/Monstro)"
+    },
+    {
+      "level": 3,
+      "text": "🐛 Bugs reportados em fichas Heroi"
+    },
+    {
+      "level": 3,
+      "text": "🧠 Bugs de regra que afetavam fichas existentes"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Schema YAML novo `Efeitos_Interativos:`"
+    },
+    {
+      "level": 3,
+      "text": "Novos targets de Elementos_de_Regra pra Pulseira da Potência"
+    },
+    {
+      "level": 3,
+      "text": "Novos recursos pra `Condicional Recurso,...`"
+    },
+    {
+      "level": 3,
+      "text": "Imbuições + Habilidades/Técnicas com usos parametrizáveis (#152)"
+    },
+    {
+      "level": 3,
+      "text": "Mudanças de mecânica / regras desta versão"
+    },
+    {
+      "level": 3,
+      "text": "Origem das regras nas tooltips"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas nesta versão"
+    },
+    {
+      "level": 2,
+      "text": "🚧 Próximas (não nesta versão)"
+    },
+    {
+      "level": 1,
+      "text": "🛠️ Parte técnica (plugin `pleitost-autosheet` v1.0.1)"
+    },
+    {
+      "level": 2,
+      "text": "Schema novo & migração"
+    },
+    {
+      "level": 2,
+      "text": "Aba Companheiros — modelo & resolvers"
+    },
+    {
+      "level": 2,
+      "text": "Rule engine — Somar + Definir + Sobrescrever"
+    },
+    {
+      "level": 2,
+      "text": "Targets novos: `Ataques.Lista.{Desarmadas}` + `Ataques.Lista.Manobras`"
+    },
+    {
+      "level": 2,
+      "text": "Recursos derivados de inventário"
+    },
+    {
+      "level": 2,
+      "text": "CA sync de nível com tutor (cross-ficha)"
+    },
+    {
+      "level": 2,
+      "text": "Tradução targetRaw → modelPath para meta scalars"
+    },
+    {
+      "level": 2,
+      "text": "Pipeline & reactivity (bugs latentes pré-0.4.0 corrigidos)"
+    },
+    {
+      "level": 2,
+      "text": "Mode preservation"
+    },
+    {
+      "level": 2,
+      "text": "Sort canonical de magias"
+    },
+    {
+      "level": 2,
+      "text": "Reorganização de docs (3 audiências)"
+    },
+    {
+      "level": 2,
+      "text": "Cobertura de testes"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.4.0-alpha...v0.4.1-alpha\n\n# 📦 Release Notes — Pleitost v0.4.1-alpha\n\n**Período coberto:** Mai/2026\n**Foco:** Versão de polimento da Interativa pós-rework. Aba **Companheiros** entra completa (invocações com stats próprios, múltiplas instâncias). Toggles de efeitos passam a aparecer ancorados no painel certo (Defesa, Magia, Ataques). Ato Bárdico / Performance Bárdica / Aspectos do Druida ganham toggle inline ao lado da ação. Companheiro Animal sincroniza nível com o tutor automaticamente. Pulseira da Potência passa a aplicar bônus em armas desarmadas (incluindo armas naturais e Manobras). Várias correções de regra que afetavam fichas de Bardo/Druida/Heroi.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 👥 Aba **Companheiros** funcional (#69)\n\nHeróis com classes ou sintonias que invocam (Servo das Sombras, Reanimar, etc.) ganham uma aba dedicada:\n\n- Cada invocação tem um \"creator slot\" no topo (com PM ± + botão Invocar) e mostra as instâncias ativas embaixo.\n- Você pode ter **múltiplas instâncias da mesma invocação** ao mesmo tempo, cada uma com EV/Vitalidade/Temp independentes. Dissipar remove SÓ a instância clicada.\n- Stats são resolvidos automaticamente a partir da Potência Mágica investida (ex: Servo das Sombras EV = PM × 5).\n- Ataques aparecem no estilo da ficha do herói (com tooltips de bônus, dano calculado).\n- Vida tem barra + counter Vit/Temp + linha de dano (mesmo padrão do Monstro). Persistência completa no FM.\n\n### 🐺 Companheiro Animal sincroniza nível com tutor\n\nCA é satélite do tutor — sobe de nível automaticamente quando o tutor sobe. Antes você tinha que editar o `Nível` do CA manualmente toda vez. Agora abrir a ficha já mostra a divergência como pendência atribuída ao Tutor, e salvar grava o nível novo no FM. (Cobre Metis ↔ Mera, qualquer combinação CA + tutor.)\n\n### 🪄 Toggles de efeito ancorados no painel certo\n\nEm vez de toda condição/efeito aparecer numa Lista geral solta:\n\n- **Vantagem de Combate** aparece ancorado no painel **Defesa** (perto do que ela afeta).\n- **Magias toggláveis / Encantar Arma / Atos Bárdicos / Aspectos do Druida** aparecem no painel de Magia ou Ataques relevante.\n- **Performances Bárdicas, Formas Druídicas, Aspectos do Druida, Atos e Fúria/Fúria Profunda do Monge** ganham emoji-toggle inline ao lado do link da ação (paridade visual com Inspiração).\n- **Magias toggláveis ancoradas** (Encantar Arma, Servo das Sombras, etc.) ganharam paridade visual com Atos: link supercharged + emoji-toggle inline na própria row da magia (sem section duplicada).\n- Efeitos compartilhados com aliados (Inspiração de outro Bardo, Ato Inspirador, etc.) aparecem agrupados em uma seção dedicada com sort por Fonte → Origem → Rank.\n\n### 🎯 Atacar Além do Alcance escalável (#158)\n\nQuando você tem uma arma com propriedade Alcance equipada e ativa \"Atacar Além do Alcance\", aparece um controle **±** inline pra você dizer quantos passos além vai atacar (penalidade escala automaticamente: -2 por passo).\n\n### ⚔️ Ataque Poderoso toggláveis (#156)\n\nAtaque Poderoso (e similares com efeito local de arma) ganham toggle por arma, com bônus aplicado conforme proficiência + empunhadura.\n\n### 🛡️ Aparar (Guerreiro) — buff de Defesa aplica corretamente\n\nAparar declara `Recurso,ARMAS_CAC>=2` e `Recurso,ARMAS_CAC_AGEIS>=1` no modo \"Duas armas\". Antes esses recursos não eram reconhecidos pelo runtime → guard sempre falso → buff de +2 Defesa nunca aplicava. Agora os recursos derivados de inventário (ARMAS_CAC, ARMAS_CAC_AGEIS, ARMAS_DIST) funcionam.\n\n### 💪 Pulseira da Potência funciona em armas desarmadas + Manobras\n\nAdicionar Pulseira da Potência (Adepto/Experiente/Mestre) no inventário agora aplica o bônus de item correto (+1/+2/+3) em:\n\n- Manobras (sempre)\n- Toda arma cuja nota declara `mãos:: 0` (Garras, Manopla, Ataque Desarmado, Pontos de Pressão, Garra de Tigre, Presas de Lobo, Cauda de Dragão, e todas as armas naturais Médias/Grandes/Enormes/Colossais)\n\nVale tanto pra Heroi (Druida em Forma Feral, Monge) quanto pra CA (mandíbulas, garras, presas, caudas, chifres).\n\n### 💾 Save da Interativa mais confiável\n\n- **Moral salva corretamente** (#162) — não rebaixa nem esquece edits.\n- **Condições deletadas não voltam** no FM (#154) — antes, ao deletar uma condição via UI ela podia re-aparecer no próximo save.\n- **Inspiração de aliado aplica +1 nos seus ataques** (#153) — efeito compartilhado de Bardo aliado agora bate corretamente.\n\n### 🦸 Edição da ficha (Heroi/Monstro)\n\n- **Mode preservado entre re-renders** — antes, qualquer edição em uma ficha cujo code-block declarava `Modo: Interativa` te jogava de volta pra Interativa mesmo se você tivesse trocado pra Editável. Agora a escolha de modo do usuário é respeitada.\n- **Lixeira 🗑️ pra habilidades manuais** (Monstro) — habilidades adicionadas à mão ganham botão de remover.\n- **Dropdown \"+ Habilidade\" no Monstro** (#169) — novo dropdown lista habilidades de `Sistema/Regras/Bestiário/Habilidades/`. O botão antigo (texto livre) virou \"+ Habilidade Especial\".\n- **Magias arrumadas no FM** — sort canônico (escola → custo → nome) aplicado automaticamente. Não mais lista bagunçada depois de adicionar/remover magia.\n- **Pill ★ Especial nas armas** funciona (antes mostrava sempre 0).\n\n### 🐛 Bugs reportados em fichas Heroi\n\nBugs reportados após teste manual da ficha de Bardo (Carlos Facão), corrigidos:\n\n- **Heroísmo (Exaustão)** linka pra mesma magia do Heroísmo (antes apontava pra nota inexistente).\n- **Subclasses sumindo da Lista de Habilidades** (Inspirador, Luta Artística reaparecem).\n- **Ato Inspirador duplicado em Ações de Habilidade** — dedupe por target.\n- **Save loop em atributos** — clicar em PRE 0→3, FOR 3→0 dava save mas pendência persistia.\n- **Estilo de Combate (Arte Mágica) — escolha de Magia persiste** — após salvar Palavras Cortantes (ou Projétil Telecinético), recarregava como Ruído Estridente. Pick agora é reconhecido.\n\n### 🧠 Bugs de regra que afetavam fichas existentes\n\nEsses são bugs que existiam desde antes da 0.4.0 mas só foram diagnosticados agora — atualize sua ficha pra ver o efeito:\n\n- **Somar + Definir convivem corretamente** — Carlos Facão (Bardo, Estilo de Combate Arte Mágica + Trovador) tinha `Magias.EM = 3` quando deveria ser 4. O `Somar Magias.EM 1` do Estilo de Combate era perdido pelo `Definir Magias.EM 3` do Trovador. Agora `EM = max(0, Definir) + Σ(Somar) = 4`.\n- **Papel.* stale após remover habilidade** — trocar Estilo de Combate (Luta Artística → Arte Mágica) deixava `Abatedor: 1` salvo no FM mesmo depois da rule sumir.\n- **Pendência fantasma pós-save** — mudar `Estilo de Combate` no Editável deixava `Estilo Refinado (Arte Mágica)` aparecendo como \"vai mudar\" no painel ℹ️ até dar reload. Agora todas as cascatas convergem em UM extract.\n- **Bonus Especial mágico stale após perder habilidade** — `Somar Magias.Lista.<Escola>.Bonus_Especial N` de uma habilidade ficava persistido no FM mesmo após perder a habilidade. Agora wipa corretamente em qualquer family.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Schema YAML novo `Efeitos_Interativos:`\n\nSubstitui as rules legadas `Interativa Efeito \"...\"`. Cada efeito vira UM objeto autocontido em PT-BR:\n\n```yaml\nEfeitos_Interativos:\n  - label: Encantar Arma\n    tipo: Estado\n    grupo: Encantamento\n    origem: Magia\n    escopo:\n      aplicaEm: ArmaSelecionada\n      compartilharGrupo: true\n    selectores:\n      - tipo: Numerico\n        nome: \"EM Investido\"\n        min: 1\n        max: 5\n    modificadores:\n      - alvo: PassoDeDado\n        valor:\n          porSeletor: \"EM Investido\"\n```\n\n- Properties YAML SEMPRE em PT-BR (vault inteiro está em português).\n- Schema cobre 7 tipos de efeito: Passivo, Estado, Condição, Forma, AçãoLocal, AtaqueLocal, Invocação.\n- 33 notas migradas — vault não tem mais nenhuma rule legacy `Interativa Efeito`.\n\n> 📚 **Documentação completa** dos targets, guards e exemplos por arquétipo: [[Efeitos Interativos]].\n\n### Novos targets de Elementos_de_Regra pra Pulseira da Potência\n\n- **`Ataques.Lista.{Desarmadas}.<Field>`** — pseudo-wildcard que filtra armas cuja nota tem `mãos:: 0`. Usado por Pulseira da Potência: `Categoria Adepto Definir Ataques.Lista.{Desarmadas}.Bonus_Item 1`.\n- **`Ataques.Lista.Manobras.<Field>`** — literal (nome da arma especial \"Manobras\"). Pulseira aplica em ambos.\n\n### Novos recursos pra `Condicional Recurso,...`\n\n- **`ARMAS_CAC`** — quantidade de armas corpo-a-corpo equipadas.\n- **`ARMAS_CAC_AGEIS`** — corpo-a-corpo com propriedade `[[Ágil]]`.\n- **`ARMAS_DIST`** / **`ARMAS_DISTANCIA`** — armas de distância equipadas.\n\nAparar usa esses pra escolher qual modo (Mão Livre × Duas Armas) habilita o buff.\n\n### Imbuições + Habilidades/Técnicas com usos parametrizáveis (#152)\n\nParser novo aceita `usos_*::` inline-Dataview no body:\n\n- **Imbuições com tier**: `usos_adepto:: 3/dia` / `usos_experiente:: 3/hora` / `usos_mestre:: passivo`. Quando aplicada num Pique (ex: Imbuição Ciclonal Adepto), a Interativa mostra \"3/dia\" ao invés de hardcoded \"1/hora\". Tier passivo é filtrado.\n- **Habilidades/Técnicas**: `usos_nome:: \"Curativo Herbal\"` + `usos_freq:: 4/dia` (ex: Herbalismo Prático).\n\n### Mudanças de mecânica / regras desta versão\n\n- **Bardo — Lâminas Artísticas → Instrumentos de Guerra** — nota redesenhada com nome novo + escopo expandido.\n- **Bardo Arte Mágica rework** — Estilo de Combate (Arte Mágica) escolhe entre Ruído Estridente / Palavras Cortantes / Projétil Telecinético. Estilo Virtuoso (Arte Mágica) e Estilo Refinado (Arte Mágica) ajustados.\n- **Mago — Magia Arcana Mista Limitada** — agora soma EM (interage com a semântica corrigida de Somar+Definir).\n- **Estilo de Combate (Arte Mágica)** — passa a usar `Somar Magias.EM 1` (era `Definir`).\n- **Estilo de Combate (Luta Artística)** — `Somar Papel.Abatedor 1`.\n- **Pulseira da Potência** — ganha `Elementos_de_Regra:` cobrindo Adepto/Experiente/Mestre via `{Desarmadas}` + `Manobras`.\n- **Armas naturais (~30 notas) + armas desarmadas** ganham `mãos:: 0` no inline-Dataview pra que `{Desarmadas}` filtre.\n- **Performances Bárdicas / Atos Bárdicos** — declarações de regra ajustadas pra que ações apareçam corretamente após adicionar a habilidade (root cause de bug recorrente onde a ação sumia depois de salvar).\n- **Companheiro Animal** — nova ação permitida.\n- **Disparo Múltiplo (Guerreiro)** — fix de tier.\n- **Técnica Elemental (Monge)** — daily removal.\n- **Atordoado (Condição)** — clarificação.\n\n### Origem das regras nas tooltips\n\nTooltips de \"Fonte\" em widgets de proficiência / item bônus / etc agora mostram a NOTA REAL que aplicou aquele rank/bônus (ex: \"Performance Bárdica\" em vez de só \"Regra\"). Vale pra NAEM widgets, Item Bônus, equipamentos, magias e Atributo Principal.\n\n---\n\n## ✅ Issues fechadas nesta versão\n\n- **#163** — Rework Elementos de Regra for Ficha Interativa (schema YAML completo).\n- **#162** — Save corretamente da Moral na Interativa.\n- **#159** — Vantagem de Combate ancorado no painel Defesa.\n- **#158** — Atacar Além do Alcance escalável (Propulsão).\n- **#156** — Ataque Poderoso toggle aparecendo (AçãoLocal/AtaqueLocal).\n- **#154** — Condições deletadas não re-aparecem no FM ao salvar.\n- **#153** — Inspiração de aliado adiciona +1 nos seus ataques.\n- **#169** — Dropdown de habilidades de Bestiário no Monstro editável.\n- **#152** — Parser `usos_*::` inline-Dataview pra Imbuições + Habilidades/Técnicas (Herbalismo Prático, Pique Ciclonal).\n- **#69** — Aba Companheiros completa (invocações com stats e vida).\n\n---\n\n## 🚧 Próximas (não nesta versão)\n\nPendências aceitas pra próxima janela:\n\n- 🟢 **Manual mode (Fase 14)** — variante \"modo livre\" sem rule engine. Hoje stub.\n\n---\n\n---\n\n# 🛠️ Parte técnica (plugin `pleitost-autosheet` v1.0.1)\n\n> Tudo abaixo é interno do plugin. Pode pular se você só usa a vault.\n\n## Schema novo & migração\n\n- **Bloco YAML estruturado `Efeitos_Interativos:`** (canal `interactive-only`) substitui rules legadas `Interativa Efeito \"...\"`. 33 notas migradas; `extractEffectsCombined` ignora rules legacy se aparecerem (com warning).\n- **Tradutor inverso** `paraDescritorLegado` traduz schema novo pra runtime internamente.\n- **Validação `extras: {}`** — qualquer parâmetro mágico vira warning pra estender o schema (gate de qualidade).\n- **Test invariant** garante que vault não tem mais rule legacy: `tests/integration/no-legacy-interativa-rules.test.ts`.\n\n## Aba Companheiros — modelo & resolvers\n\n```yaml\nInvocacoes_Ativas:\n  - label: \"Servo das Sombras\"\n    instancias:\n      - id: \"abc123\"\n        potencia: 6\n        vitalidade: 30\n        temp: 0\n```\n\n- **Resolvers puros** `resolveStat({ porSeletor, porAtributo, porNivel, multiplicador, base })` e `resolveAtaque({...})` em `runtime/invocacao/` — resolvem stat dinâmico a partir do contexto (PM, atributos, nivel/tier do herói origem).\n- **Persistência**: `Invocacoes_Ativas` (ASCII canonical) ou `Invocações_Ativas` (acentuado legado aceito no load). Malformed entries são skipped.\n- **Save flow**: tab `getDelta` → `flattenPatch` (com `interativa.invocacoesAtivas` em `INTERATIVA_BLOB_CONTAINERS`) → `applyUserEditsToModel` → `setInterativa` (lazy-init) → `serializeToFm`.\n- **dirty** comparison-based (snapshot JSON inicial vs ativas atual) — paridade com tab-anotacoes.\n\n## Rule engine — Somar + Definir + Sobrescrever\n\nSpec confirmada:\n\n| Verbo | Semântica |\n|---|---|\n| `Definir` | Set com **MAX-MERGE** sobre a base (sem incluir Somar acumulada). Quando múltiplos Definir tocam o mesmo target, o maior valor ganha (independente da ordem do BFS). |\n| `Somar` | Increment **ortogonal** ao Definir. Sobrevive ao max-merge mesmo quando BFS visita Somar primeiro. Resultado final = `max(curBase, Definir) + Σ(Somar)`. |\n| `Sobrescrever` | Override **absoluto** (last-wins). Wipa Somar acumulada. Subsequente Somar volta a acumular. |\n\n**Implementação**: sidecar `__somar__<key>` no delta storage. `deltaAccumulateNumber` escreve em ambos `__somar__` e `deltas[key]`. `deltaDefine` subtrai a somar de `cur` antes do max-merge, depois reaplica. `deltaSet` (Sobrescrever) wipa `__somar__`.\n\n## Targets novos: `Ataques.Lista.{Desarmadas}` + `Ataques.Lista.Manobras`\n\nPseudo-wildcard `{Desarmadas}` filtra ataques cuja arma fonte tem `mãos:: 0` no inline-Dataview. `Manobras` é literal (arma especial sempre na lista). Lookup `Map<basename, mãos>` derivado do vault scan é propagado pelo extract pipeline pra que o setter filtre no momento do apply (model puro — campo `mãos` não é gravado no FM).\n\n## Recursos derivados de inventário\n\n`Recurso,ARMAS_CAC` / `ARMAS_CAC_AGEIS` / `ARMAS_DIST` / `ARMAS_DISTANCIA` reconhecidos via novo `armaCounts: { cac, cacAgeis, distancia }` em `GuardEvalContext`, computado em `makeGuardCtx` cruzando `model.inventario.armas` com `armaPropsLookup` do vault scan.\n\n## CA sync de nível com tutor (cross-ficha)\n\nNovo `syncCaTutorNivel(model, tutorFm, calculated, sources)` em `extract/sync-ca-tutor-nivel.ts`. Roda APÓS o loop convergente do extract estabilizar. Quando family === `CompanheiroAnimal` + `meta.tutor` é wikilink válido + tutor FM tem `Nível` diferente, injeta no `calculatedRuleElements[\"Nível\"]` com source `Tutor.<basename>` e re-projeta.\n\n## Tradução targetRaw → modelPath para meta scalars\n\n`targetToModelPath` substituiu `replace(\"ç\",\"c\").replace(\"á\",\"a\")` ad-hoc por NFD-normalize universal (`.normalize(\"NFD\").replace(/[̀-ͯ]/g, \"\")`) — cobre `Nível`, `Raça`, e qualquer scalar futuro sem replace ad-hoc.\n\n## Pipeline & reactivity (bugs latentes pré-0.4.0 corrigidos)\n\n- **Fixed-point loop projeta model entre iters** — conditional `Habilidades.Lista,Contem(X)` agora vê adições do mesmo ciclo. Antes, mudar `Estilo de Combate` no Editável deixava `Estilo Refinado (Arte Mágica)` como pendência fantasma pós-save porque a conditional só disparava no próximo load.\n- **`wipeRuleControlledScalars`** wipa `papel.lider/controlador/abatedor/vanguarda` antes do merge — sem isto, valores stale persistiam quando rule do Papel sumia. Wipa também `magias.proficiencias.<escola>.{bonusItem,bonusEspecial}` em qualquer family (Heroi tem UI READONLY pra esse campo, então wipe é seguro).\n- **Cross-instance refresh** — `metadataCache.changed` dispara re-render em todas as instâncias do mesmo file. Guard crítico: compara JSON do FM antes do trigger; só re-renderiza se conteúdo realmente mudou.\n- **Source canônico granular** — incrementos e FontedLinks recebem `Regra.<sourceNote>` granular em vez de `Regra` plain.\n- **Loading overlay no primeiro render** + permanece quando extract falha (não troca por demo).\n\n## Mode preservation\n\n- Adicionado `getActiveMode()` no `ShellDemoHandle`.\n- `process-yaml-block` captura `preservedMode` antes do destroy.\n- Re-render usa `preservedMode ?? initialMode` (preserved wins se há handle anterior).\n\n## Sort canonical de magias\n\n- `sortMagiasByEscolaCustoLabel` exportado de `serialize-to-fm`.\n- Aplicado em `applyRenderEnrichments` após `enrichMagias` — render mostra ordem canônica imediatamente.\n- Save (que já sortia em `serializeToFm`) grava no FM via deepDiff. Idempotente.\n- Sequência: `escolaOriginal` (Especial → Essencial → Branca → Negra → Anima → Tesouros) → `custo` (L → R → 1A → 2A) → alfabético PT-BR.\n\n## Reorganização de docs (3 audiências)\n\n- `docs/architecture/` — overview, pipeline, data-model, modes, flows, painel-detalhes (pra entender o plugin).\n- `docs/reference/` — extending, rule-elements, spec-modificadores, interativa-catalogos, rule-elements-unsupported, testing (pra mexer no plugin).\n- `Recursos e Mídia/Documentação Adicional/Autosheet Plugin/` — user docs (pra usar a vault, acessível via Obsidian).\n\nUser docs ganharam catálogo extenso de targets/guards + 18 exemplos por arquétipo (Passivo, Estado, Condição, Forma, AçãoLocal, AtaqueLocal, Invocação) extraídos de notas reais.\n\n## Cobertura de testes\n\n- `tests/integration/frankenstein-coverage.test.ts` — 124 testes E2E (toggles, seletores, mutex Formas, shared, Encantar Arma todos os níveis, save/load roundtrip).\n- `tests/integration/migration-coverage.test.ts` — 40 testes por nota migrada.\n- `tests/integration/all-tipos-efeito.test.ts` — 15 testes failure-oriented cobrindo os 7 TipoEfeito.\n- `tests/render/modes/interativa/panel/sections/ancoragem-painel.test.ts` — 6 testes pra render de toggles ancorados.\n- **GOLDEN Frankenstein**: ficha multiclasse com TODAS as 33 notas migradas, capturada em 3 modos.\n- `tests/integration/golden-smoke.test.ts` — smoke automatizado das 4 fixtures GOLDEN em 3 modos.\n\n**Estado final**: 1975 testes passando, 0 failures.\n"
+}

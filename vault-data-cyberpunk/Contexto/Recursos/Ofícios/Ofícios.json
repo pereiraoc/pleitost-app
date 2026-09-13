@@ -1,0 +1,33 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Ofícios",
+  "path": "Contexto/Recursos/Ofícios/Ofícios.md",
+  "basename": "Ofícios",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nO que se **contrata no balcão** — engraxate, barbeiro, chaveiro, sapateiro, relojoeiro, amolador, fotógrafo, despachante, gravação de fita, conserto de rádio, benzedura e o palpite no bicho. Paga-se na hora e **não entra no mês**: nenhum plano de [[Custo de Vida]] cobre, e nenhum eixo da ficha soma. O [[Mercado Público]] tem quase todos num corredor só.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Nível AS \"Classe\", Onde AS \"Onde\"\nFROM \"Contexto/Recursos/Ofícios\"\nWHERE categoria = \"Recurso\"\nSORT Tipo ASC, Preço ASC\n```\n"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Otimismo Extraordinário",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Otimismo Extraordinário.md",
+  "basename": "Otimismo Extraordinário",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Vento]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teste",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Otimismo Extraordinário"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Vento]]\nprev::\nnext::\n%%\n### Otimismo Extraordinário\nQuando você tem sucesso em [[Encorajar]], até o início de seu próximo turno, a criatura alvo também recebe +1 de [[bônus de circunstância]] no próximo [[Ataques]] ou [[Teste]] que fizer. Você também recebe esse bônus até o final do seu próximo turno quando alguém tem sucesso em [[Encorajar]] tendo você como alvo."
+}

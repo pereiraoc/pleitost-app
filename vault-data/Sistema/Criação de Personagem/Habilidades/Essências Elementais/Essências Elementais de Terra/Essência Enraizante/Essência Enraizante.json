@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante.md",
+  "basename": "Essência Enraizante",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Vinhas Emaranhantes]], adepta [[Enraizar]], experiente [[Rocha Empaladora]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhas Emaranhantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enraizar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rocha Empaladora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Enraizante Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Vinhas Emaranhantes]], adepta [[Enraizar]], experiente [[Rocha Empaladora]]\"\n%%\n### `= this.file.name`\n![[Essência Enraizante Adepta#`= this.file.name`]]\n![[Essência Enraizante Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

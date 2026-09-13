@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Regras/Propriedades/Apunhalante",
+  "path": "Sistema/Regras/Propriedades/Apunhalante.md",
+  "basename": "Apunhalante",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Apunhalante (VC)",
+        "tipo": "Passivo",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "links": {
+          "requer": [
+            "Vantagem de Combate"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Apunhalante"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Apunhalante"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Dano extra quando com [[Vantagem de Combate]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Dano extra quando com [[Vantagem de Combate]].\"\n%%\n## `= this.file.name`\nQuando você causa dano a uma criatura que você tem [[Vantagem de Combate]] contra usando um [[Atacar|Ataque]] com essa arma, o dado de dano é aumentado em 1 passo e o dano base aumentado em 1 (de d4+2 para d6+3, por exemplo).\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n```autosheet-rules\n```\n"
+}

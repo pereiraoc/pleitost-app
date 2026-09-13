@@ -1,0 +1,67 @@
+{
+  "id": "Contexto/Recursos/Veículos/Lancha de Fibra",
+  "path": "Contexto/Recursos/Veículos/Lancha de Fibra.md",
+  "basename": "Lancha de Fibra",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Estaleiros de Ipanema",
+    "Preço": 900000,
+    "Cobrança": "única",
+    "Usado": 300000,
+    "Manutenção": 8000,
+    "Nível": 6,
+    "Onde": [
+      "[[Ipanema]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "Lancha de fibra de sete metros com motor de centro: o brinquedo do Embarcadouro e o jeito da elite atravessar o Guaíba.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lancha de Fibra.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embarcadouro do Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estaleiro do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lancha de Fibra.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lancha de Fibra.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA lancha de fibra é o Monza da água: sete metros, motor de centro a gasolina, cabine com dois beliches, rádio\n[[Embratel]]. Fica no trapiche da [[Casa em Ipanema]] e atravessa o Guaíba sem passar por barqueiro, patrulha ou\npalafita. Usada, é a que a Brigada apreendeu com contrabando.\n\n> [!info] Especificação\n> **Modelo:** lancha de fibra 7 m, motor de centro, cabine com 2 beliches\n> **Motor:** Chevrolet 4.1 marinizado, 150 cv; 1 km/l\n> **Velocidade:** 60 km/h\n> **Novo:** [[Embarcadouro do Guaíba]]\n> **Usado:** leilão da Brigada, [[Estaleiro do Cais]]\n> **Manutenção:** Cz$ 8.000 por mês: gasolina, vaga no embarcadouro, seguro\n"
+}

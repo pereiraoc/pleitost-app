@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Corte de Vento",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Corte de Vento.md",
+  "basename": "Corte de Vento",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "Faça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q. Se houver uma criatura imediatamente atrás e adjacente ao alvo (seguindo numa linha começando em você e passando pelo alvo), esta criatura também sofre um Ataque mágico com os mesmos efeitos."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: Faça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q. Se houver uma criatura imediatamente atrás e adjacente ao alvo (seguindo numa linha começando em você e passando pelo alvo), esta criatura também sofre um Ataque mágico com os mesmos efeitos.\n%%\n# `= this.file.name` - `= this.custo`\nDispara uma lâmina de vento contra uma criatura. Faça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q. Se houver uma criatura imediatamente atrás e adjacente ao alvo (seguindo numa linha começando em você e passando pelo alvo), esta criatura também sofre um Ataque mágico com os mesmos efeitos.\n\n**Sucesso:** A criatura recebe 1d4+2 de dano de corte.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d4.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d4+2 ao se tornar [[Experiente]] com [[Magia Anima]] e 3d4+2 ao se tornar [[Mestre]]."
+}

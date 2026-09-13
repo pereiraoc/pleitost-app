@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Cópia de Chave do Chaveiro",
+  "path": "Contexto/Recursos/Ofícios/Cópia de Chave do Chaveiro.md",
+  "basename": "Cópia de Chave do Chaveiro",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Chaveiro",
+    "Marca": "Chaveiro do Mercado",
+    "Preço": 80,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Cópia de chave na máquina do corredor dos ofícios — e, por um preço, fechadura aberta sem a chave.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO chaveiro trabalha num cubículo de um metro por um metro no corredor dos ofícios, com um painel de chaves virgens e a máquina de copiar que range. Cópia na hora. Abrir fechadura custa mais e pede que o cliente mostre que a porta é dele — ou que pague o bastante pra ele acreditar.\n\n> [!info] Especificação\n> **Cópia:** na hora, Cz$ 80 a chave\n> **Abrir fechadura:** Cz$ 400 com prova de que é teu; Cz$ 1.500 sem prova\n> **Tranca de cartão:** não mexe — \"isso é coisa da [[Embratel]]\"\n"
+}

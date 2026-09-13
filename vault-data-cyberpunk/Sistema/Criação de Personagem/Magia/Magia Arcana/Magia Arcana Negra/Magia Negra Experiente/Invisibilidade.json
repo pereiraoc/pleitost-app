@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Invisibilidade",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Invisibilidade.md",
+  "basename": "Invisibilidade",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Invisibilidade (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 2q fica [[Invisível]] por 10t.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Invisível",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 2q fica [[Invisível]] por 10t.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura fica [[Invisível]] por 10 turnos.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Flamejante/Essência Flamejante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Flamejante/Essência Flamejante.md",
+  "basename": "Essência Flamejante",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Raio Flamejante]], adepta [[Cone de Fogo]], experiente [[Bola de Fogo]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Raio Flamejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cone de Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bola de Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Flamejante Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Raio Flamejante]], adepta [[Cone de Fogo]], experiente [[Bola de Fogo]]\"\n%%\n### `= this.file.name`\n![[Essência Flamejante Adepta#`= this.file.name`]]\n![[Essência Flamejante Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

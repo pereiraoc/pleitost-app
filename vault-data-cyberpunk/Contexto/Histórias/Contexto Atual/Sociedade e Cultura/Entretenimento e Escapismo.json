@@ -1,0 +1,126 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Entretenimento e Escapismo",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Entretenimento e Escapismo.md",
+  "basename": "Entretenimento e Escapismo",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As opções de lazer disponíveis para diferentes classes sociais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Entretenimento e Escapismo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parcão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Entretenimento e Escapismo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "🎸 Cenário Musical Alternativo"
+    },
+    {
+      "level": 4,
+      "text": "🎬 Cinemas e Propaganda Disfarçada"
+    },
+    {
+      "level": 4,
+      "text": "🎨 Eventos Subversivos e Culturais"
+    },
+    {
+      "level": 4,
+      "text": "🌳 Refúgio das Classes Altas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Entretenimento e Escapismo.png]]\n\n#### 🎸 Cenário Musical Alternativo\nShows clandestinos de rock e punk ocorrem frequentemente no **[[Quarto Distrito]]**, especialmente no emblemático **[[Teatro Quarto Distrito]]** e em antigos galpões transformados em clubes subterrâneos como a **[[Velha Indústria]]**. Artistas locais enfrentam censura constante pela **[[Brigada Militar Metropolitana]]**.\n\n#### 🎬 Cinemas e Propaganda Disfarçada\nOs cinemas de rua, especialmente os próximos ao **[[Shopping Iguatemi]]** e ao eixo da **Avenida [[Padre Chagas]]**, exibem predominantemente filmes de ficção científica financiados pela **[[Gradiente]]** e **[[Embratel]]**, que, sob o véu da fantasia, promovem implantes selênicos e um futuro supostamente utópico, reforçando a ideologia dominante sem que a população perceba diretamente a doutrinação.\n\n#### 🎨 Eventos Subversivos e Culturais\nEspaços como a **[[Galeria Malcom]]** e a **[[Galeria do Rosário]]**, no **[[Centro Histórico]]**, abrigam vernissages clandestinas e exposições artísticas que desafiam diretamente o regime. Eventos similares acontecem nas praças públicas como a **[[Redenção]]** e a **Praça da Encol**, com feiras tecnológicas não autorizadas e concertos acústicos organizados pelos **Estudantes da [[Resistência Urbana Gaúcha]]**. Estas atividades culturais frequentemente terminam abruptamente com incursões agressivas da **[[Brigada Militar Metropolitana]]**.\n\n#### 🌳 Refúgio das Classes Altas\nO entretenimento da elite ocorre em espaços restritos como o **[[Resort Nova Porto Alegre]]** em **[[Ipanema]]** e eventos VIP no **[[Parcão]]** em **[[Moinhos de Vento]]**, onde coquetéis farmacêuticos com doses leves de selênicos fornecidos pela **[[Panvel]]** são distribuídos entre executivos e altos oficiais. Nestes locais, a vigilância da **[[Embratel]]** e a segurança privada financiada pela **[[Gradiente]]** garantem exclusividade e proteção contra invasões de grupos dissidentes.\n\nDessa forma, o entretenimento e o escapismo em Porto Alegre de 1987 se tornam espelhos das divisões sociais da cidade, refletindo tanto a resistência cultural quanto a propaganda estatal, dependendo da classe e do bairro."
+}

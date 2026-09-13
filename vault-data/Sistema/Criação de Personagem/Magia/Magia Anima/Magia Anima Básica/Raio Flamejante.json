@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Raio Flamejante",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Raio Flamejante.md",
+  "basename": "Raio Flamejante",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Fogo",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 10q para causar dano de fogo 1d8+4 (2d8+4 se [[Experiente]] em [[Magia Anima]], 3d8+4 se [[Mestre]]). No sucesso decisivo, +1d8; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 10q para causar dano de fogo 1d8+4 (2d8+4 se [[Experiente]] em [[Magia Anima]], 3d8+4 se [[Mestre]]). No sucesso decisivo, +1d8; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 10q.\n\n**Sucesso:** A criatura recebe 1d8+4 de dano de fogo.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d8.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d8+4 ao se tornar [[Experiente]] com [[Magia Anima]] e 3d8+4 ao se tornar [[Mestre]]."
+}

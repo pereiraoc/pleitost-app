@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Cobertura",
+  "path": "Sistema/Regras/Regra Básica/Cobertura.md",
+  "basename": "Cobertura",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Cobertura Menor",
+      "Cobertura Média",
+      "Cobertura Maior"
+    ],
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Cobertura"
+    }
+  ],
+  "body": "## Cobertura\n3 categorias\nCobertura Menor: +1 [[Defesa]], [[Evasão]] e [[Furtividade]]\nCobertura Média: +2 [[Defesa]], [[Evasão]] e [[Furtividade]]\nCobertura Maior: +4 [[Defesa]], [[Evasão]] e [[Furtividade]]\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "Campanhas/Combates/Blitz na Esquina",
+  "path": "Campanhas/Combates/Blitz na Esquina.md",
+  "basename": "Blitz na Esquina",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "Genérico — qualquer calçada depois das 23h, no toque de recolher.",
+    "Situação": "O grupo carrega algo que não quer mostrar. É o primeiro combate de campanha: ensina que farda se resolve conversando, correndo ou pagando.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cão de Brigada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Brigadiano de Esquina]] lento\n- 1 [[Cão de Brigada]] rápido\n```\n"
+}

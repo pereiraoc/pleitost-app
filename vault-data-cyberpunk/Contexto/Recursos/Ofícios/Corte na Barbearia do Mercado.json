@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Corte na Barbearia do Mercado",
+  "path": "Contexto/Recursos/Ofícios/Corte na Barbearia do Mercado.md",
+  "basename": "Corte na Barbearia do Mercado",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Barbearia",
+    "Marca": "Barbearia do sobrado",
+    "Preço": 150,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Corte na navalha e na tesoura, com toalha quente, no sobrado do Mercado — barba por mais Cz$ 80.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA barbearia fica no sobrado, subindo a escada de ferro: duas cadeiras de couro rachado, espelho com moldura de madeira e rádio na Guaíba. O barbeiro corta na tesoura e acerta na navalha, toalha quente no rosto. Quem precisa parecer outra pessoa sobe aqui antes de uma entrevista — ou depois de um retrato na parede da delegacia.\n\n> [!info] Especificação\n> **Corte:** tesoura e navalha, 20 minutos\n> **Barba:** Cz$ 80, com toalha quente\n> **Mudar a cara:** corte, barba e tintura: Cz$ 400, e o barbeiro não pergunta\n"
+}

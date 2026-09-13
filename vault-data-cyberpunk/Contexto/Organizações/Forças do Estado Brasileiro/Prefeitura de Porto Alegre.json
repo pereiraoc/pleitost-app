@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Prefeitura de Porto Alegre",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Prefeitura de Porto Alegre.md",
+  "basename": "Prefeitura de Porto Alegre",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Prefeitura"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Administração municipal — licenças, obras e a fila de quem pode reconstruir depois da enchente.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Prefeitura de Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    }
+  ],
+  "images": [
+    {
+      "target": "Prefeitura de Porto Alegre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Prefeitura de Porto Alegre.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Espremida entre o [[Governo Militar Brasileiro|Governo Militar]] acima e as megacorporações ao lado, a Prefeitura administra o que sobra: obra atrasada, alvará vendido e a arte de dizer sim pra todo mundo sem entregar nada."
+}

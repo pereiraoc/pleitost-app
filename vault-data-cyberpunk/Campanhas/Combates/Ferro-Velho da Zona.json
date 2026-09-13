@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Ferro-Velho da Zona",
+  "path": "Campanhas/Combates/Ferro-Velho da Zona.md",
+  "basename": "Ferro-Velho da Zona",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Zona Deserta]] · [[Depósito de Sucata]] · [[Restinga]]",
+    "Situação": "Mexer na pilha errada. A marreta vem junto com a prótese que ela construiu.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ferro-Velho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Depósito de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Ferro-Velho]] lento\n- 7 [[Catador Armado]] rápido\n```\n"
+}

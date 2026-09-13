@@ -1,0 +1,108 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Baar'Shava",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Baar'Shava.md",
+  "basename": "Baar'Shava",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "[[Lança]]",
+      "[[Azagaia]]",
+      "[[Espada Curva]]",
+      "[[Alfange]]",
+      "[[Pique]]",
+      "[[Maça Estrela]]",
+      "[[Bordão]]",
+      "[[Colar da Eloquência]]",
+      "[[Cinto dos Ermos]]",
+      "[[Diapasão Elemental]]",
+      "[[Bracelete Elemental]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Baar'Shava.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Azagaia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alfange",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pique",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça Estrela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cinto dos Ermos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diapasão Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bracelete Elemental",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Baar'Shava.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local \n![[Baar'Shava.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Capital de [[Pedra Fina]] e uma das três cidades fundadoras da [[Federação Áurea]], erguida onde o deserto encontra o mar. É o grande entreposto do norte: as caravanas que cruzam as dunas desembocam em seus portões e as mercadorias seguem pelos píeres da Doca para o resto do Mundo Livre. Vive do comércio de especiarias, das forjas de armas de haste e de uma vida erudita própria — sábios, oradores e elementalistas têm casa e academia na cidade.\n>\n> 👁️**Aparência do Local:** Cidade oval de estilo mourisco cercada por muralha alta de pedra cor de areia com dezenas de torres redondas; quatro portões — do Norte, do Oeste, do Leste e do Sul, este último guardado pela torre-portal chamada Porta do Deserto — despejam as ruas num traçado radial que converge para a Praça das Cúpulas. O casario é de adobe claro e telhados planos, salpicado de cúpulas azuis em bulbo (as cívicas com remates dourados), minaretes esguios e palmeiras. No norte, o Palácio do Sol Dourado coroa a Colina Dourada; a torre da Grande Mesquita das Marés domina o nordeste e uma torre branca de cúpula dourada marca a muralha leste. Ao sul, o mar azul-turquesa: um portão-d'água de torres gêmeas abre a muralha para os longos píeres da Doca, apinhados de bancas e dhows, com um grande navio de três mastros ancorado na baía. Fora das muralhas, dunas em todas as direções — rotas de caravana com camelos chegando pelo Portão do Leste, acampamentos de tendas junto aos portões e uma praia com barcos puxados para a areia a sudoeste.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Praça das Cúpulas** *(centro)* — praça circular com um pavilhão central de cúpula azul azulejada sobre base escalonada, cercada por um anel de palmeiras; as ruas principais convergem para ela.\n>\n> **Colina Dourada** *(azul-aço — norte)* — o distrito palaciano, onde cúpulas azuis de detalhes dourados dominam o casario.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)",
+    "descricao": "Capital de [[Pedra Fina]] e uma das três cidades fundadoras da [[Federação Áurea]], erguida onde o deserto encontra o mar. É o grande entreposto do norte: as caravanas que cruzam as dunas desembocam em seus portões e as mercadorias seguem pelos píeres da Doca para o resto do Mundo Livre. Vive do comércio de especiarias, das forjas de armas de haste e de uma vida erudita própria — sábios, oradores e elementalistas têm casa e academia na cidade.",
+    "aparencia": "Cidade oval de estilo mourisco cercada por muralha alta de pedra cor de areia com dezenas de torres redondas; quatro portões — do Norte, do Oeste, do Leste e do Sul, este último guardado pela torre-portal chamada Porta do Deserto — despejam as ruas num traçado radial que converge para a Praça das Cúpulas. O casario é de adobe claro e telhados planos, salpicado de cúpulas azuis em bulbo (as cívicas com remates dourados), minaretes esguios e palmeiras. No norte, o Palácio do Sol Dourado coroa a Colina Dourada; a torre da Grande Mesquita das Marés domina o nordeste e uma torre branca de cúpula dourada marca a muralha leste. Ao sul, o mar azul-turquesa: um portão-d'água de torres gêmeas abre a muralha para os longos píeres da Doca, apinhados de bancas e dhows, com um grande navio de três mastros ancorado na baía. Fora das muralhas, dunas em todas as direções — rotas de caravana com camelos chegando pelo Portão do Leste, acampamentos de tendas junto aos portões e uma praia com barcos puxados para a areia a sudoeste.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Praça das Cúpulas** *(centro)* — praça circular com um pavilhão central de cúpula azul azulejada sobre base escalonada, cercada por um anel de palmeiras; as ruas principais convergem para ela.\n\n**Colina Dourada** *(azul-aço — norte)* — o distrito palaciano, onde cúpulas azuis de detalhes dourados dominam o casario.",
+    "leaflet": null
+  }
+}

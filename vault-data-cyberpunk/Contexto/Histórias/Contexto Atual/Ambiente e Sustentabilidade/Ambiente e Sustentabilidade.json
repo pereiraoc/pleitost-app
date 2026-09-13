@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Ambiente e Sustentabilidade",
+  "path": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Ambiente e Sustentabilidade.md",
+  "basename": "Ambiente e Sustentabilidade",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Adaptações Urbanas",
+      "kind": "embed"
+    },
+    {
+      "target": "Degradação Ambiental",
+      "kind": "embed"
+    },
+    {
+      "target": "Desastres Ignorados",
+      "kind": "embed"
+    },
+    {
+      "target": "Escassez de Recursos",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Adaptações Urbanas]]\n![[Degradação Ambiental]]\n![[Desastres Ignorados]]\n![[Escassez de Recursos]]\n"
+}

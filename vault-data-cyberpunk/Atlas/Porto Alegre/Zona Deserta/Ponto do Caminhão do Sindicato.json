@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Ponto do Caminhão do Sindicato",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Ponto do Caminhão do Sindicato.md",
+  "basename": "Ponto do Caminhão do Sindicato",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "Waldemar “Papeleiro” Nunes",
+    "Descrição": null,
+    "Serviços": [
+      "[[Carona no Caminhão do Sindicato]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto do Caminhão do Sindicato.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto do Caminhão do Sindicato.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto do Caminhão do Sindicato.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Carona na caçamba do caminhão de lixo, Cz$ 10 ou um favor; passa por qualquer barricada da cidade.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Um Mercedes 1113 de caçamba aberta parado no meio da sucata, gente sentada em cima do papelão.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Carona na caçamba do caminhão de lixo, Cz$ 10 ou um favor; passa por qualquer barricada da cidade.",
+    "aparencia": "Um Mercedes 1113 de caçamba aberta parado no meio da sucata, gente sentada em cima do papelão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

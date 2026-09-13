@@ -1,0 +1,82 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Degradação Ambiental",
+  "path": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Degradação Ambiental.md",
+  "basename": "Degradação Ambiental",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os efeitos visíveis da poluição e exploração descontrolada.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Degradação Ambiental.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Degradação Ambiental.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Poluição Atmosférica"
+    },
+    {
+      "level": 4,
+      "text": "Contaminação Hídrica"
+    },
+    {
+      "level": 4,
+      "text": "Acúmulo de Lixo Eletrônico"
+    },
+    {
+      "level": 4,
+      "text": "Deposição de Sais Tóxicos"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Degradação Ambiental.png]]\n\nPorto Alegre, em 1987, é uma cidade marcada por uma grave degradação ambiental decorrente das atividades industriais intensivas e da exploração descontrolada de recursos naturais pelas megacorporações.\n\n#### Poluição Atmosférica\n- O ar da cidade frequentemente carrega uma densa camada de poeira metálica, resultado direto das operações constantes das fábricas da **[[Tramontina]]**. Essa poeira fina recobre superfícies, afeta a saúde respiratória dos habitantes e contribui para uma constante sensação de asfixia urbana.\n\n#### Contaminação Hídrica\n- Os córregos e rios urbanos são visivelmente contaminados com resíduos químicos tóxicos descartados irregularmente pelos laboratórios clandestinos da **[[Panvel]]**. Essas águas poluídas afetam tanto o abastecimento público quanto a fauna local, causando doenças frequentes e aumentando o risco de epidemias.\n\n#### Acúmulo de Lixo Eletrônico\n- Terrenos baldios, especialmente nas regiões periféricas e industriais como [[Nova Sarandi]] e [[Passo D'Areia]], são utilizados como depósitos informais para grandes quantidades de lixo eletrônico proveniente dos centros de pesquisa e produção da **[[Gradiente]]**. Esses resíduos, ricos em substâncias nocivas, vazam continuamente para o solo e para o lençol freático.\n\n#### Deposição de Sais Tóxicos\n- As frequentes enchentes, ao recuarem e evaporarem, deixam para trás camadas de sais tóxicos acumuladas nos bairros baixos da cidade, como a [[Cidade Baixa]] e o [[Centro Histórico]]. Esses depósitos químicos prejudicam gravemente o solo, tornando-o impróprio para a agricultura urbana improvisada e expondo ainda mais a população a substâncias perigosas."
+}

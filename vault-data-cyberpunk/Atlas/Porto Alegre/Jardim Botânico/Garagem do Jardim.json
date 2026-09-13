@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Garagem do Jardim",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Garagem do Jardim.md",
+  "basename": "Garagem do Jardim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Seu Galvão Pereira",
+    "Descrição": null,
+    "Serviços": [
+      "[[Chevrolet Chevette]] usado",
+      "[[Fiat 147]]",
+      "[[Volkswagen Brasília]]",
+      "[[Honda CG 125]] usado",
+      "[[Volkswagen Fusca]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Garagem do Jardim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Chevette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiat 147",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Brasília",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Garagem do Jardim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Garagem do Jardim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Chevette, Fiat 147, Brasília e CG de segunda mão com documento; financia em três vezes com cheque.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pátio cercado com carros lavados, faixa de 'promoção', escritório de madeira e uma bandeira do Grêmio.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Chevette, Fiat 147, Brasília e CG de segunda mão com documento; financia em três vezes com cheque.",
+    "aparencia": "Pátio cercado com carros lavados, faixa de 'promoção', escritório de madeira e uma bandeira do Grêmio.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

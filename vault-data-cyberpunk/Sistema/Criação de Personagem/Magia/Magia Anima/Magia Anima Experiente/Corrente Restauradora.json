@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Corrente Restauradora",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Corrente Restauradora.md",
+  "basename": "Corrente Restauradora",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Corrente Restauradora (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cura [1d6+(MOD/2)]×potência [[Energia Heroica|EH]], alcance 6q. Criatura em 3q do alvo principal recebe metade da cura e criatura em 3q do alvo secundário recebe 1/4 da cura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cura [1d6+(MOD/2)]×potência [[Energia Heroica|EH]], alcance 6q. Criatura em 3q do alvo principal recebe metade da cura e criatura em 3q do alvo secundário recebe 1/4 da cura.\"\n%%\n# `= this.file.name` - `= this.custo`\n[1d6+(MOD/2)]×potência de cura de [[Energia Heroica|EH]], alcance 6q. Adicionalmente, uma outra criatura em 3q do alvo principal recebe metade do valor de cura, e uma terceira criatura em 3q do segundo alvo recebe 1/4 do valor de cura. %%Se a [[Energia Heroica|EH]] for completamente curada, metade do que sobrar cura [[Energia Vital|EV]]. %%"
+}

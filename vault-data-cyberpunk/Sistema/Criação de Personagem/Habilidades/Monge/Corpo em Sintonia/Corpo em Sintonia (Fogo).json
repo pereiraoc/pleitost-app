@@ -1,0 +1,139 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Fogo)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Fogo).md",
+  "basename": "Corpo em Sintonia (Fogo)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Sintonia [[Traço Elemental do Fogo]]",
+      "Complementar Acoes.Lista [[Fúria]]",
+      "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Você aprende a habilidade [[Fúria]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Sintonia [[Traço Elemental do Fogo]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Fogo)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental do Fogo]]"
+          },
+          "raw": "Requisito Sintonia [[Traço Elemental do Fogo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Fúria]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Fogo)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Fúria]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Fúria]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Fogo)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "attr-compare",
+            "left": "FOR",
+            "op": ">",
+            "right": "AGI"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Atributo",
+            "valueRaw": "FOR"
+          },
+          "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Você aprende a habilidade [[Fúria]].\"\n%%\n##### `= this.file.name`\nVocê pode usar [[Força|FOR]] no lugar de [[Agilidade|AGI]] para o cálculo de [[Defesa]] sem armadura. Você aprende a habilidade [[Fúria]].\n\n```autosheet-rules\n```\n"
+}

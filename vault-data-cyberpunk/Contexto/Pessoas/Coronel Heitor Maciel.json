@@ -1,0 +1,45 @@
+{
+  "id": "Contexto/Pessoas/Coronel Heitor Maciel",
+  "path": "Contexto/Pessoas/Coronel Heitor Maciel.md",
+  "basename": "Coronel Heitor Maciel",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Coronel Maciel",
+      "Heitor Maciel"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Banrisul]]",
+    "Função": "Presidente do Banrisul",
+    "Aparência": "Sessenta e poucos, farda de gala nas fotos e terno cinza no expediente, bigode branco, óculos de leitura pendurados no pescoço; despacha da mesa da presidência com um telefone vermelho da [[Embratel]].",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Coronel Heitor Maciel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Coronel Heitor Maciel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Coronel Heitor Maciel.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

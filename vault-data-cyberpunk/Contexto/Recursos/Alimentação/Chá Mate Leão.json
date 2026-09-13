@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Chá Mate Leão",
+  "path": "Contexto/Recursos/Alimentação/Chá Mate Leão.md",
+  "basename": "Chá Mate Leão",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "Leão Júnior (Curitiba, 1938)",
+    "Preço": 50,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Bom Fim]]",
+      "[[Shopping Iguatemi]]"
+    ],
+    "Resumo": "Mate tostado em garrafinha, do Paraná: o refresco do escritório e da sala de espera, Cz$ 50.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chá Mate Leão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chá Mate Leão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chá Mate Leão.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO chá mate do Leão vem de Curitiba em caixa de vidro e é o refresco de quem trabalha sentado: escritório da\n[[Embratel]], sala de espera da [[Panvel]], banca da [[Galeria do Rosário]]. Cz$ 50 a garrafinha, gelada ou nem\ntanto.\n\n> [!info] Especificação\n> **Garrafa:** 300 ml, mate tostado com limão\n> **Marca:** Leão Júnior, Curitiba, 1938\n> **Preço:** Cz$ 50\n> **Onde:** banca, escritório, [[Shopping Iguatemi]]\n"
+}

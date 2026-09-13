@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Pensão da Vila",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Pensão da Vila.md",
+  "basename": "Pensão da Vila",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Dona Terezinha 'Tia Tê' Farias",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Pensão da Vila]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão da Vila.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão da Vila",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão da Vila.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão da Vila.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Quarto com cadeado, café às seis, rádio tocando hino; colorado dorme de graça em dia de vitória.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casa de tijolo sem reboco com portão de grade, cachorro na frente, bandeira do Inter na janela, varal de camisa vermelha.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Quarto com cadeado, café às seis, rádio tocando hino; colorado dorme de graça em dia de vitória.",
+    "aparencia": "Casa de tijolo sem reboco com portão de grade, cachorro na frente, bandeira do Inter na janela, varal de camisa vermelha.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

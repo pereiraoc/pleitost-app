@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Campo de Mineradores",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Campo de Mineradores.md",
+  "basename": "Campo de Mineradores",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Safira"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campo de Mineradores.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Campo de Mineradores.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Campo de Mineradores.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Acampamento de mineração de grande porte cravado numa clareira da [[Grande Mata]], de onde saem as safiras que dão nome e riqueza à capital [[Safira]]. É uma operação organizada, quase militar: mineradores agrupados por esquadrões sob o estandarte azul de picaretas cruzadas, com tudo que entra e sai registrado no portão. Lavadas e selecionadas na margem do rio, as gemas seguem em carroças mata afora rumo à capital e ao restante de [[Planaltina]]. \n> \n> 👁️**Aparência do Local:** Assentamento inteiramente de tendas e madeira — nada de alvenaria: fileiras ordenadas de grandes tendas creme, galpões-estante abertos, torres de vigia e uma paliçada de troncos apontados fechando o sul e o sudeste, com o resto do perímetro protegido pela própria floresta cerrada. Estandartes azuis com picaretas cruzadas em branco se repetem do portão à tenda de comando. Ruas de terra batida ligam as áreas funcionais, com movimento constante de trabalhadores, carrinhos de mão e carroças carregadas de minério azul; fumaça de fogueiras e forjas sobe em vários pontos. A oeste e sudoeste, a água azul do rio banha uma margem rochosa onde as calhas da lavagem avançam sobre um trapiche com barco; trilhas somem na mata a nordeste, rumo às frentes de extração. \n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Acampamento de mineração de grande porte cravado numa clareira da [[Grande Mata]], de onde saem as safiras que dão nome e riqueza à capital [[Safira]]. É uma operação organizada, quase militar: mineradores agrupados por esquadrões sob o estandarte azul de picaretas cruzadas, com tudo que entra e sai registrado no portão. Lavadas e selecionadas na margem do rio, as gemas seguem em carroças mata afora rumo à capital e ao restante de [[Planaltina]].",
+    "aparencia": "Assentamento inteiramente de tendas e madeira — nada de alvenaria: fileiras ordenadas de grandes tendas creme, galpões-estante abertos, torres de vigia e uma paliçada de troncos apontados fechando o sul e o sudeste, com o resto do perímetro protegido pela própria floresta cerrada. Estandartes azuis com picaretas cruzadas em branco se repetem do portão à tenda de comando. Ruas de terra batida ligam as áreas funcionais, com movimento constante de trabalhadores, carrinhos de mão e carroças carregadas de minério azul; fumaça de fogueiras e forjas sobe em vários pontos. A oeste e sudoeste, a água azul do rio banha uma margem rochosa onde as calhas da lavagem avançam sobre um trapiche com barco; trilhas somem na mata a nordeste, rumo às frentes de extração.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

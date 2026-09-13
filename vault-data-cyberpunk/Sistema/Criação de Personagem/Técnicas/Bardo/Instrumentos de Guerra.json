@@ -1,0 +1,124 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Instrumentos de Guerra",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Instrumentos de Guerra.md",
+  "basename": "Instrumentos de Guerra",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você aperfeiçoa seu estilo de luta com armamentos especificos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ambidestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broquel",
+      "kind": "wikilink",
+      "alias": "Broquéis"
+    },
+    {
+      "target": "Estilo Refinado (Luta Artística)",
+      "kind": "wikilink",
+      "alias": "estende a duração de uma Performance"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Erguer"
+    },
+    {
+      "target": "Broquel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink",
+      "alias": "Passos"
+    },
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Arco"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você aperfeiçoa seu estilo de luta com armamentos especificos.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aperfeiçoa sua habilidade com equipamentos para combate, mantendo um *flair* dramático. Escolha um dos benefícios:\n*Requer Luta Artística*\n\n* **Lâminas Artísticas:** Você recebe a técnica [[Ambidestria]]. Você não requer 1 de [[Força|FOR]] a mais para a arma ágil quando [[Lutando com Duas Armas]]. Uma mão sua empunhando uma arma [[Ágil]] conta como livre para fins de conjurar magias de Bardo.\n* **Broquel Percussivo:** Você pode [[Erguer Escudo]] e [[Bloquear com Escudo]] usando [[Broquel|Broquéis]]. Uma vez por turno, quando você [[Estilo Refinado (Luta Artística)|estende a duração de uma Performance]] com um [[Atacar|Ataque]] corpo-a-corpo, você pode [[Erguer Escudo|Erguer]] um [[Broquel]] como ação livre e a Dureza dele aumenta em 3 até o início do seu próximo turno.\n* **Valsa das Adagas:** Uma vez por turno, quando você [[Estilo Refinado (Luta Artística)|estende a duração de uma Performance]] com um [[Atacar|Ataque]] corpo-a-corpo e tem uma mão livre, você pode fazer um teste de [[Atuação]] contra [[Ímpeto]] da criatura alvejada pelo Ataque. Em caso de sucesso, você faz um [[Passo de Ajuste]] como ação livre (2 [[Passo de Ajuste|Passos]] se decisivo) e empurre a criatura de forma que ela esteja na mesma posição relativa a você antes do Passo.\n* **Flecha Dançante:** Uma vez por turno, quando você [[Estilo Refinado (Luta Artística)|estende a duração de uma Performance]] com um [[Atacar|Ataque]] usando um [[Distância Marcial|Arco]], você pode [[Mover]] metade da sua [[Movimentação]] como ação livre.\n\n```autosheet-rules\n```\n"
+}

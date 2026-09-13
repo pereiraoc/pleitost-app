@@ -1,0 +1,84 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/T5 PETRÓPOLIS — QUARTO DISTRITO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/T5 PETRÓPOLIS — QUARTO DISTRITO.md",
+  "basename": "T5 PETRÓPOLIS — QUARTO DISTRITO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "T5 PETRÓPOLIS — QUARTO DISTRITO",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#5d4037",
+    "Horário": "6h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Galeteria de Petrópolis]]",
+      "[[Pensão Farroupilha]]",
+      "[[Estação Independência]]",
+      "[[Farrapos]]",
+      "[[Teatro Quarto Distrito]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "A linha do artista que mora em Petrópolis e finge que não: da Bento ao Bom Fim e à Farrapos, sem passar pelo Centro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "T5 PETRÓPOLIS — QUARTO DISTRITO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Galeteria de Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "T5 PETRÓPOLIS — QUARTO DISTRITO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[T5 PETRÓPOLIS — QUARTO DISTRITO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA linha do artista que mora em Petrópolis e finge que não. Da [[Galeteria de Petrópolis]] pelo Bom Fim — [[Pensão Farroupilha]], [[Estação Independência]] — até a [[Farrapos]] e o [[Teatro Quarto Distrito]], sem tocar o Centro. Enche às dezenove com gente de casaco preto e volta vazia; depois do toque, só a Kombi da Voluntários faz o caminho.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

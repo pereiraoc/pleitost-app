@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Tocha Flutuante",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Tocha Flutuante.md",
+  "basename": "Tocha Flutuante",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Fogo",
+    "rank": "Básica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria uma tocha flutuante em até 6q que ilumina como uma tocha normal; você pode controlá-la para flutuar até 6q. Ela dissipa se você não a controlar por 1 turno ou se ficar a mais de 10q de distância.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria uma tocha flutuante em até 6q que ilumina como uma tocha normal; você pode controlá-la para flutuar até 6q. Ela dissipa se você não a controlar por 1 turno ou se ficar a mais de 10q de distância.\"\n%%\n# `= this.file.name` - `= this.custo`\nCria uma tocha flutuante em até 6q de distância. A tocha emite luz como uma tocha normal. Você pode usar uma ação para controlar a tocha, fazendo-a flutuar por até 6q. A tocha dissipa se você não controlá-la por um turno ou ficar mais distante do que 10q de você. "
+}

@@ -1,0 +1,173 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Broquel Obra-prima",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Broquel Obra-prima.md",
+  "basename": "Broquel Obra-prima",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [],
+    "resumo": "Dureza melhorada.",
+    "preço": "20 PO",
+    "bonus_tipo": "dureza",
+    "descrição": {
+      "adepto": "Esse broquel bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 3.",
+      "experiente": "Esse broquel bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 4.",
+      "mestre": "Esse broquel bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 6."
+    },
+    "bonus": {
+      "adepto": "3",
+      "experiente": "4",
+      "mestre": "6"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Escudo Grupo,broquel",
+      "Categoria Adepto Definir Inventario.Escudo.Dureza 3",
+      "Categoria Experiente Definir Inventario.Escudo.Dureza 4",
+      "Categoria Mestre Definir Inventario.Escudo.Dureza 6"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Escudo Grupo,broquel",
+      "parsed": [
+        {
+          "sourceNote": "Broquel Obra-prima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Escudo"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "broquel"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Escudo Grupo,broquel",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Inventario.Escudo.Dureza 3",
+      "parsed": [
+        {
+          "sourceNote": "Broquel Obra-prima",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Adepto Definir Inventario.Escudo.Dureza 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Inventario.Escudo.Dureza 4",
+      "parsed": [
+        {
+          "sourceNote": "Broquel Obra-prima",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "4"
+          },
+          "raw": "Categoria Experiente Definir Inventario.Escudo.Dureza 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Inventario.Escudo.Dureza 6",
+      "parsed": [
+        {
+          "sourceNote": "Broquel Obra-prima",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "6"
+          },
+          "raw": "Categoria Mestre Definir Inventario.Escudo.Dureza 6",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broquel",
+      "kind": "wikilink",
+      "alias": "broquel"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Mundano - escudo*\nEsse [[Broquel|broquel]] bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate.\n* Adepto: Dureza 3.\n* Experiente: Dureza 4.\n* Mestre: Dureza 6.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```carta-item\ntipo: qualidades\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Pedra Fina",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Pedra Fina.md",
+  "basename": "Pedra Fina",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Federação Áurea]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Última Parada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio de Ja'ar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Região desértica do norte da [[Federação Áurea]] — um mar de dunas espremido entre a costa e as [[Montanhas de Vidro]], governado a partir da capital [[Baar'Shava]]. Foi uma das três regiões fundadoras da Federação, unida a [[Iluminada]] e [[Safira]] na Guerra dos 100 Anos contra a [[Magna Pátria]]. Sua riqueza vem do que o deserto esconde e do que por ele passa: o âmbar e as armas anãs de [[Krasnogor]], as especiarias e o porto da capital, e as caravanas que percorrem a rota entre [[Última Parada]] e o sul. É também a porta da Federação: quem chega de fora atravessa as montanhas pelo portal de [[Primeiro Contato]], o posto de imigração da fronteira.\n> \n> 👁️**Aparência do Local:** Dunas amarelas cobrem a faixa inteira entre a costa norte e a fronteira sul, onde o deserto esmorece em escrube cinzento rumo às planícies do [[Campos do Provento]]. A oeste, as [[Montanhas de Vidro]] erguem picos coroados de vidro reluzente ao longo da costa noroeste, e o [[Grande Muro]] as continua para o sul, fechando a fronteira com a [[Magna Pátria]]. Uma única estrada corta o deserto — de [[Última Parada]] a [[Baar'Shava]] e dali para o sul, rumo a [[Iluminada]] — enquanto o resto da região é travessia de caravana: as [[Ruínas de Luxor]] jazem isoladas nas dunas do norte e o [[Palácio de Ja'ar]] se ergue solitário numa ponta costeira do nordeste, ambos sem estrada alguma. Sob o sol impiedoso, aves de rapina circulam os picos e tempestades de areia varrem o horizonte.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Federação Áurea/Pedra Fina\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Região desértica do norte da [[Federação Áurea]] — um mar de dunas espremido entre a costa e as [[Montanhas de Vidro]], governado a partir da capital [[Baar'Shava]]. Foi uma das três regiões fundadoras da Federação, unida a [[Iluminada]] e [[Safira]] na Guerra dos 100 Anos contra a [[Magna Pátria]]. Sua riqueza vem do que o deserto esconde e do que por ele passa: o âmbar e as armas anãs de [[Krasnogor]], as especiarias e o porto da capital, e as caravanas que percorrem a rota entre [[Última Parada]] e o sul. É também a porta da Federação: quem chega de fora atravessa as montanhas pelo portal de [[Primeiro Contato]], o posto de imigração da fronteira.",
+    "aparencia": "Dunas amarelas cobrem a faixa inteira entre a costa norte e a fronteira sul, onde o deserto esmorece em escrube cinzento rumo às planícies do [[Campos do Provento]]. A oeste, as [[Montanhas de Vidro]] erguem picos coroados de vidro reluzente ao longo da costa noroeste, e o [[Grande Muro]] as continua para o sul, fechando a fronteira com a [[Magna Pátria]]. Uma única estrada corta o deserto — de [[Última Parada]] a [[Baar'Shava]] e dali para o sul, rumo a [[Iluminada]] — enquanto o resto da região é travessia de caravana: as [[Ruínas de Luxor]] jazem isoladas nas dunas do norte e o [[Palácio de Ja'ar]] se ergue solitário numa ponta costeira do nordeste, ambos sem estrada alguma. Sob o sol impiedoso, aves de rapina circulam os picos e tempestades de areia varrem o horizonte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

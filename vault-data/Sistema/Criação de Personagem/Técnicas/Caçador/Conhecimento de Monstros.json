@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Conhecimento de Monstros",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Conhecimento de Monstros.md",
+  "basename": "Conhecimento de Monstros",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você desenvolveu um instinto para entender as criaturas do mundo. Você pode usar [[Sobrevivência]] para testes de Conhecimento para identificar qualquer criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reconhecer",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você desenvolveu um instinto para entender as criaturas do mundo. Você pode usar [[Sobrevivência]] para testes de Conhecimento para identificar qualquer criatura.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê desenvolveu um instinto para entender as criaturas do mundo. Você pode usar [[Sobrevivência]] para [[Reconhecer]] qualquer criatura e testes de Conhecimento para identificar fatos sobre qualquer criatura.\n*Requer Sobrevivência Experiente*\n\n```autosheet-rules\n```\n"
+}

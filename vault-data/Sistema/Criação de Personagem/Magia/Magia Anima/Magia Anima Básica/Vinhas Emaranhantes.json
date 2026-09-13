@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Vinhas Emaranhantes",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Vinhas Emaranhantes.md",
+  "basename": "Vinhas Emaranhantes",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 6q para reduzir a [[Movimentação]] em 2q (por 1 turno; 2 turnos se [[Experiente]] em [[Magia Anima]], 3 turnos se [[Mestre]]). No sucesso decisivo, também aplica [[Preso]] por 1 turno; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 6q para reduzir a [[Movimentação]] em 2q (por 1 turno; 2 turnos se [[Experiente]] em [[Magia Anima]], 3 turnos se [[Mestre]]). No sucesso decisivo, também aplica [[Preso]] por 1 turno; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q.\n\n**Sucesso:** A criatura tem sua [[Movimentação]] reduzida em 2q por 1 turno.\n**Sucesso Decisivo:** Como sucesso, e a criatura fica [[Preso|Presa]] por 1 turno.\n**Falha:** A criatura não é afetada.\n\nA duração da redução de movimento aumenta para 2 turnos ao se tornar [[Experiente]] com [[Magia Anima]] e 3 turnos ao se tornar [[Mestre]]."
+}

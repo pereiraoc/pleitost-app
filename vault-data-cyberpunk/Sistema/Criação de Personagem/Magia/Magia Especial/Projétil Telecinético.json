@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Especial/Projétil Telecinético",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Especial/Projétil Telecinético.md",
+  "basename": "Projétil Telecinético",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Especial",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 6q para causar dano 1d6+3 de contusão/perfuração/corte (à escolha; 2d6+3 se [[Experiente]] em [[Atuação]], 3d6+3 se [[Mestre]]). No sucesso decisivo, +1d6; na falha não afeta.\"",
+    "habilidade": "[[Estilo de Combate]]",
+    "classe": "\"[[Bardo]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 6q para causar dano 1d6+3 de contusão/perfuração/corte (à escolha; 2d6+3 se [[Experiente]] em [[Atuação]], 3d6+3 se [[Mestre]]). No sucesso decisivo, +1d6; na falha não afeta.\"\n\nhabilidade:: [[Estilo de Combate]]\nclasse:: \"[[Bardo]]\"\n%%\n# `= this.file.name` - `= this.custo`\nCom passos de dança, você transforma um objeto numa arma com vontade própria por um instante. Faça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q.\n\n**Sucesso:** A criatura recebe 1d6+3 de dano de contusão, perfuração ou corte, a sua escolha.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d6.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d6+3 ao se tornar [[Experiente]] em [[Atuação]] e 3d6+3 ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

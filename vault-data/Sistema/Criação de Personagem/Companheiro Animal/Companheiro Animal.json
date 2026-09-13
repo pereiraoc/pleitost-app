@@ -1,0 +1,1845 @@
+{
+  "id": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal",
+  "path": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal.md",
+  "basename": "Companheiro Animal",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Mover]]",
+      "Complementar Acoes.Lista [[Voar]]",
+      "Complementar Acoes.Lista [[Arrastar-se]]",
+      "Complementar Acoes.Lista [[Cair]]",
+      "Complementar Acoes.Lista [[Levantar]]",
+      "Complementar Acoes.Lista [[Passo de Ajuste]]",
+      "Complementar Acoes.Lista [[Saltar]]",
+      "Complementar Acoes.Lista [[Atacar]]",
+      "Complementar Acoes.Lista [[Agarrar]]",
+      "Complementar Acoes.Lista [[Derrubar]]",
+      "Complementar Acoes.Lista [[Escapar]]",
+      "Complementar Acoes.Lista [[Preparar]]",
+      "Complementar Acoes.Lista [[Procurar]]",
+      "Complementar Acoes.Lista [[Interagir]]",
+      "Complementar Acoes.Lista [[Empurrar]]",
+      "Complementar Acoes.Lista [[Salto Longo]]",
+      "Complementar Acoes.Lista [[Salto Alto]]",
+      "Complementar Acoes.Lista [[Arrombar]]",
+      "Complementar Acoes.Lista [[Escalar]]",
+      "Complementar Acoes.Lista [[Nadar]]",
+      "Complementar Acoes.Lista [[Equilibrar-se]]",
+      "Complementar Acoes.Lista [[Manobrar]]",
+      "Complementar Acoes.Lista [[Espremer-se]]",
+      "Complementar Acoes.Lista [[Cambalhota]]",
+      "Complementar Acoes.Lista [[Esconder-se]]",
+      "Complementar Acoes.Lista [[Espreitar]]",
+      "Complementar Acoes.Lista [[Retomar Fôlego]]",
+      "Complementar Acoes.Lista [[Intuir Direção]]",
+      "Complementar Acoes.Lista [[Rastrear]]",
+      "Complementar Acoes.Lista [[Assustar]]",
+      "Nivel 1 Definir Tamanho Pequeno",
+      "Nivel 1 Alias Classe Compor 1 \"Pequeno\"",
+      "Nivel 1 Definir Vida.Vitalidade 10",
+      "Nivel 1 Definir Vida.Moral 20",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Atletismo.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Acrobacia.Proficiencia A",
+      "Nivel 4 Definir Tamanho Médio",
+      "Nivel 4 Alias Classe Compor 1 \"Médio\"",
+      "Nivel 4 Definir Vida.Vitalidade 15",
+      "Nivel 4 Definir Vida.Moral 30",
+      "Nivel 4 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Nivel 4 Definir Ataques.Proficiencia E",
+      "Nivel 4 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Nivel 4 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 4 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Nivel 4 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "Nivel 4 Somar Pericias.Slots.E 2",
+      "Nivel 7 Definir Vida.Vitalidade 20",
+      "Nivel 7 Definir Vida.Moral 40",
+      "Nivel 7 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "Nivel 7 Definir Ataques.Proficiencia M",
+      "Nivel 7 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "Nivel 7 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+      "Nivel 7 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Nivel 7 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "Nivel 7 Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "Nivel 7 Somar Pericias.Slots.M 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você recebe um companheiro animal.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Mover]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Mover]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Mover]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Voar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Voar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Voar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Arrastar-se]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Arrastar-se]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Arrastar-se]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Cair]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Cair]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Cair]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Levantar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Levantar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Levantar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Passo de Ajuste]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Passo de Ajuste]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Passo de Ajuste]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Saltar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Saltar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Saltar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Atacar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Atacar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Atacar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Agarrar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Agarrar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Agarrar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Derrubar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Derrubar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Derrubar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Escapar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Escapar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Escapar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Preparar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Preparar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Preparar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Procurar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 12,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Procurar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Procurar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Interagir]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 13,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Interagir]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Interagir]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Empurrar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 14,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Empurrar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Empurrar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Salto Longo]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 15,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Salto Longo]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Salto Longo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Salto Alto]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 16,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Salto Alto]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Salto Alto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Arrombar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 17,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Arrombar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Arrombar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Escalar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 18,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Escalar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Escalar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Nadar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 19,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Nadar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Nadar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Equilibrar-se]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 20,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Equilibrar-se]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Equilibrar-se]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Manobrar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 21,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Manobrar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Manobrar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Espremer-se]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 22,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Espremer-se]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Espremer-se]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Cambalhota]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 23,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Cambalhota]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Cambalhota]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Esconder-se]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 24,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Esconder-se]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Esconder-se]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Espreitar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 25,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Espreitar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Espreitar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Retomar Fôlego]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 26,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Retomar Fôlego]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Retomar Fôlego]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Intuir Direção]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 27,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Intuir Direção]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Intuir Direção]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Rastrear]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 28,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Rastrear]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Rastrear]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Assustar]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 29,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Assustar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Assustar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Tamanho Pequeno",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 30,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Pequeno"
+          },
+          "raw": "Nivel 1 Definir Tamanho Pequeno",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Alias Classe Compor 1 \"Pequeno\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 31,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Pequeno"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 1 \"Pequeno\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 32,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "10"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 20",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 33,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "20"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 20",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 34,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 35,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 36,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 37,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 38,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Atletismo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 39,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Atletismo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Acrobacia.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 40,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Acrobacia.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 41,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Nivel 4 Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Alias Classe Compor 1 \"Médio\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 42,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Médio"
+          },
+          "raw": "Nivel 4 Alias Classe Compor 1 \"Médio\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Vida.Vitalidade 15",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 43,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "15"
+          },
+          "raw": "Nivel 4 Definir Vida.Vitalidade 15",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Vida.Moral 30",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 44,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "30"
+          },
+          "raw": "Nivel 4 Definir Vida.Moral 30",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 45,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 46,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 4 Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 47,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 48,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 49,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 50,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 4 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 51,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 4 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Somar Pericias.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 52,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 4 Somar Pericias.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Vida.Vitalidade 20",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 53,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "20"
+          },
+          "raw": "Nivel 7 Definir Vida.Vitalidade 20",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Vida.Moral 40",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 54,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "40"
+          },
+          "raw": "Nivel 7 Definir Vida.Moral 40",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 55,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Ataques.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 56,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Nivel 7 Definir Ataques.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 57,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 58,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 59,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 60,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Nivel 7 Definir Sentidos.Lista.Percepcao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 61,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Sentidos.Lista.Intuicao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Somar Pericias.Slots.M 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal",
+          "occurrenceIndex": 62,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.M",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Somar Pericias.Slots.M 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrombar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manobrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espremer-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Retomar Fôlego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuir Direção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal Ave",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Companheiro Animal Canino",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Companheiro Animal Ursino",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Companheiro Animal Felino",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink",
+      "alias": "Comandados"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink",
+      "alias": "caia pois sua EV negativa chegou ao limite"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 3,
+      "text": "Companheiro Animal Base"
+    },
+    {
+      "level": 3,
+      "text": "Companheiros Animais Experientes"
+    },
+    {
+      "level": 3,
+      "text": "Companheiros Animais Mestres"
+    },
+    {
+      "level": 4,
+      "text": "Companheiros Animais e Morte"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Você recebe um companheiro animal.\"\n%%\n#### `= this.file.name`\nVocê recebe um companheiro animal. As características do animal são determinadas pelo tipo. O tipo de animal é determinado pela sua sintonia: Ave (Vento/Fogo), Canino (Fogo/Terra), Ursino (Terra/Água) ou Felino (Água/Vento).\n\nCompanheiros animais são parceiros de Domadores, tendo uma conexão forte com o [[caçador]]. Um companheiro animal tem nível igual ao nível de seu Domador. Um Domador pode comandar seu companheiro para realizar ações que condizem com a capacidade intelectual de um animal. Em combate, um Domador pode, uma vez por turno, [[Comandar Animal]].\n\nAs ações que um companheiro animal pode fazer são:\n* Básicas: [[Mover]], [[Voar]], [[Arrastar-se]], [[Cair]], [[Levantar]], [[Passo de Ajuste]], [[Saltar]], [[Atacar]], [[Agarrar]], [[Derrubar]], [[Escapar]], [[Preparar]] e [[Procurar]]\n* [[Interagir]] somente para pegar, soltar ou mover algo utilizando a boca\n* [[Atletismo]]: [[Empurrar]], [[Salto Longo]], [[Salto Alto]], [[Arrombar]], [[Escalar]] e [[Nadar]]\n* [[Acrobacia]]: [[Equilibrar-se]], [[Manobrar]], [[Espremer-se]] e [[Cambalhota]]\n* [[Furtividade]]: [[Esconder-se]] e [[Espreitar]]\n* [[Sobrevivência]]: [[Retomar Fôlego]], [[Intuir Direção]] e [[Rastrear]]\n* [[Intimidação]]: [[Assustar]]\n\nCompanheiros animais todos partem da mesma base. Cada tipo recebe ataques, movimento, ajustes e benefícios específicos.\n\n### Companheiro Animal Base\n* Tamanho Pequeno\n* [[Energia Vital|EV]] 10\n* [[Energia Heroica|EH]] 20\n* Visão na Penumbra\n* [[Adepto]] em [[Defesa]];\n* [[Adepto]] em [[Ataques]];\n* [[Adepto]] em [[Vigor]] e [[Evasão]];\n* [[Adepto]] em [[Percepção]];\n* [[Adepto]] em [[Atletismo]] e [[Acrobacia]].\n\n![[Companheiro Animal Ave#`= this.file.name`]]\n![[Companheiro Animal Canino#`= this.file.name`]]\n![[Companheiro Animal Ursino#`= this.file.name`]]\n![[Companheiro Animal Felino#`= this.file.name`]]\n\n### Companheiros Animais Experientes\nAs habilidades do Companheiro Animal se aprimoram quando ele alcança o patamar [[Experiente]]. Eles recebem os seguintes benefícios:\n* Tamanho Médio;\n* [[Energia Vital|EV]] aumenta para 15;\n* [[Energia Heroica|EH]] aumenta para 30;\n* [[Experiente]] em [[Defesa]];\n* [[Experiente]] em [[Ataques]];\n* [[Experiente]] em [[Vigor]] e [[Evasão]];\n* [[Adepto]] em [[Ímpeto]];\n* [[Experiente]] em [[Percepção]];\n* [[Adepto]] em [[Intuição]];\n\nAlém disso, escolha duas perícias entre [[Atletismo]], [[Acrobacia]], [[Furtividade]], [[Sobrevivência]] e [[Intimidação]]. Seu companheiro se torna [[Adepto]] nessas perícias. Se ele já era Adepto em uma das perícias escolhidas, ele se torna [[Experiente]] nela.\n\n### Companheiros Animais Mestres\nAs habilidades do Companheiro Animal se aperfeiçoam quando ele alcança o patamar [[Mestre]]. Eles recebem os seguintes benefícios:\n* [[Energia Vital|EV]] aumenta para 20;\n* [[Energia Heroica|EH]] aumenta para 40;\n* [[Mestre]] em [[Defesa]];\n* [[Mestre]] em [[Ataques]];\n* [[Mestre]] em [[Vigor]] e [[Evasão]];\n* [[Experiente]] em [[Ímpeto]];\n* [[Mestre]] em [[Percepção]];\n* [[Experiente]] em [[Intuição]];\n\nAlém disso, escolha duas perícias entre [[Atletismo]], [[Acrobacia]], [[Furtividade]], [[Sobrevivência]] e [[Intimidação]]. Seu companheiro se torna [[Adepto]] nessas perícias. Se ele já era Adepto em uma das perícias escolhidas, ele se torna [[Experiente]] nela. Se ele já era Experiente, ele se torna [[Mestre]].\n\n#### Companheiros Animais e Morte\nCompanheiros seguem as regras de [[Morte]] como outros heróis, mas não recebem ajuste no número de ações, ainda recebendo as mesmas ações quando [[Comandar Animal|Comandados]].\n\nCaso o Domador do companheiro [[Morte|caia pois sua EV negativa chegou ao limite]], o companheiro age independentemente no turno do Domador, movendo-se para próximo dele e atacando possíveis ameaças ao caçador, a critério do Mestre.\n\n```autosheet-rules\n```\n"
+}

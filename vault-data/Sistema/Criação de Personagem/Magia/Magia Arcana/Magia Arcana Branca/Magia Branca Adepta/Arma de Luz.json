@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Arma de Luz",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Arma de Luz.md",
+  "basename": "Arma de Luz",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria arma de luz corpo-a-corpo (d8+4) ou a distância (d6+3, 10q) que usa sua Proficiência e Ataque Mágico por 10t. Faz [[Atacar|Ataque]] como parte da conjuração.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 10q"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria arma de luz corpo-a-corpo (d8+4) ou a distância (d6+3, 10q) que usa sua Proficiência e Ataque Mágico por 10t. Faz [[Atacar|Ataque]] como parte da conjuração.\"\n%%\n# `= this.file.name` - `= this.custo`\nInvoca uma arma de luz na sua mão por 10 turnos. Ela conta como uma arma simples e tem uma das três formas a seguir de sua escolha:\n\n* Corpo-a-corpo, 1d8+4 dano de força;\n* Corpo-a-corpo, 1d6+3 dano de força, [[Precisa]];\n* Distância com, 1d6+3 dano de força, [[Alcance|Alcance 10q]].\n\nVocê pode [[Atacar]] com a arma como ação livre ao conjurar esta magia. Uma arma de luz ocupa uma mão, mas esta mão ainda pode ser usada para realizar gestos mágicos para magia. \n\nVocê pode [[Atacar]] com a Arma de Luz usando seu bônus de ataque mágico caso seja maior que seu bônus normal. Você pode usar sua proficiência em Magia Arcana no lugar da sua proficiência com armas simples para fins de dano caso seja maior que seu nível de proficiência normal (1 dado de dano adicional se você for Experiente em Magia Arcana e 2 dados de dano adicionais se for Mestre).\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,558 @@
+{
+  "id": "Sistema/Criação de Personagem/Evolução Básica/Evolução Básica",
+  "path": "Sistema/Criação de Personagem/Evolução Básica/Evolução Básica.md",
+  "basename": "Evolução Básica",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Evolução Básica, Evoluções Básicas",
+    "categoria": "Regra",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Tamanho Médio",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "Nivel 1 Somar Pericias.Slots.A Propriedade(INT)",
+      "Nivel 4 Somar Pericias.Slots.E 1",
+      "Nivel 5 Somar Pericias.Slots.E 1",
+      "Nivel 6 Somar Pericias.Slots.E 1",
+      "Nivel 7 Somar Pericias.Slots.M 1",
+      "Nivel 8 Somar Pericias.Slots.M 1",
+      "Nivel 9 Somar Pericias.Slots.M 1",
+      "Nivel 2 Somar Tecnicas.Slots.A 1",
+      "Nivel 3 Somar Tecnicas.Slots.A 1",
+      "Nivel 5 Somar Tecnicas.Slots.E 1",
+      "Nivel 6 Somar Tecnicas.Slots.E 1",
+      "Nivel 8 Somar Tecnicas.Slots.M 1",
+      "Nivel 9 Somar Tecnicas.Slots.M 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Sintonia|Sintonia]]",
+    "next": "[[Ações|Ações]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A Propriedade(INT)",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "Propriedade(INT)"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A Propriedade(INT)",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Somar Pericias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 4 Somar Pericias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Pericias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Pericias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 6 Somar Pericias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 6
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 6 Somar Pericias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Somar Pericias.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Somar Pericias.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 8 Somar Pericias.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 8
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 8 Somar Pericias.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 9 Somar Pericias.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 9
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 9 Somar Pericias.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 2 Somar Tecnicas.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 2 Somar Tecnicas.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Somar Tecnicas.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 3 Somar Tecnicas.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Tecnicas.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Tecnicas.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 6 Somar Tecnicas.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 6
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 6 Somar Tecnicas.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 8 Somar Tecnicas.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 8
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 8 Somar Tecnicas.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 9 Somar Tecnicas.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 9
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Tecnicas.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 9 Somar Tecnicas.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink",
+      "alias": "Sintonia"
+    },
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "Herói"
+    },
+    {
+      "target": "Perícias\\",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classes",
+      "kind": "wikilink",
+      "alias": "Classe Heroica"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributos"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traços Elementais",
+      "kind": "wikilink",
+      "alias": "Traço Elemental"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Evolução Básica"
+    },
+    {
+      "level": 2,
+      "text": "Herói"
+    },
+    {
+      "level": 2,
+      "text": "Perícia Experiente"
+    },
+    {
+      "level": 2,
+      "text": "Perícia Mestre"
+    },
+    {
+      "level": 2,
+      "text": "Traço Elemental"
+    },
+    {
+      "level": 2,
+      "text": "Melhoria de Atributo (X)"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Sintonia|Sintonia]]\nnext:: [[Ações|Ações]]\n%%\n# Evolução Básica\nTodo personagem recebe os seguintes benefícios em cada nível.\n\n| Nível | Características de Personagem        |\n|:-----:| ------------------------------------ |\n|  1º   | [[#Herói]]                           |\n|  2º   |                                      |\n|  3º   |                                      |\n|  4º   | [[Perícias\\|Perícia]] [[Experiente]] |\n|  5º   | [[Perícias\\|Perícia]] [[Experiente]] |\n|  6º   | [[Perícias\\|Perícia]] [[Experiente]] |\n|  7º   | [[Perícias\\|Perícia]] [[Mestre]]     |\n|  8º   | [[Perícias\\|Perícia]] [[Mestre]]     |\n|  9º   | [[Perícias\\|Perícia]] [[Mestre]]     |\n|  10º  |                                      | \n\n## Herói\nVocê é um herói, um ser acima da média, empoderado por uma sintonia aparente e representado por um passado e um arquétipo de classe heroica.\n* **[[Classes|Classe Heroica]]**: Escolha uma classe, você recebe todos os benefícios de classe de 1º nível e avança na classe conforme sobe níveis. Escolha um dos [[Atributos|Atributos]] da sua classe, o valor deste atributo se torna 3.\n* **[[Sintonia|Sintonia]]:** Escolha uma [[Sintonia|Sintonia]] aparente. Um [[Atributos|Atributo]] a sua escolha dos [[Atributos|Atributos]] associados a esta [[Sintonia|Sintonia]] se torna 1.\n* **Passado:** Escolha uma perícia, você se torna [[Adepto]] nesta e o atributo associado a [[Perícias|Perícia]] escolhida se torna 1. Escolha uma [[Perícias de Ofício]], você se torna [[Adepto]] nesta.\n* **Talento Nato:** Aumente o atributo escolhido da sua [[sintonia]] ou do seu passado de 1 para 2.\n\n## Perícia Experiente\nEscolha uma [[Perícias|Perícia]] que você é [[Adepto]]. Você se torna [[Experiente]] nesta [[Perícias|Perícia]]. Escolha uma das especializações para esta perícia e receba seus benefícios.\n\n## Perícia Mestre\nEscolha uma [[Perícias|Perícia]] que você é [[Experiente]]. Você se torna [[Mestre]] nesta [[Perícias|Perícia]]. Escolha uma das maestrias para esta [[Perícias|Perícia]] e receba seus benefícios.\n\n%%\n## Traço Elemental\nEscolha um [[Traços Elementais|Traço Elemental]] da sua sintonia compatível com seu nível. Você recebe esse traço permanentemente.\n\n## Melhoria de Atributo (X)\nAumente 3 [[Atributos|Atributos]] seus até um máximo de X. Um destes aumentos deve ser um [[Atributos|Atributo]] físico ([[Força|FOR]]/[[Agilidade|AGI]]), outro deve ser um [[Atributos|Atributo]] mental ([[Inteligência|INT]]/[[Presença|PRE]]) e o último deve ser um [[Atributos|Atributo]] da sua classe. Você não pode aumentar duas vezes o mesmo [[Atributos|Atributo]] numa mesma Melhoria de Atributo.\n%%\n\n```autosheet-rules\n```\n"
+}

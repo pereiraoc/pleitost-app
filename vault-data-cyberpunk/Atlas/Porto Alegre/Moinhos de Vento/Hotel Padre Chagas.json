@@ -1,0 +1,65 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Hotel Padre Chagas",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Hotel Padre Chagas.md",
+  "basename": "Hotel Padre Chagas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Grupo hoteleiro da [[Gradiente]] (gerente Sr. Renato Ely)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Diária no Hotel Padre Chagas]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hotel Padre Chagas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Hotel Padre Chagas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hotel Padre Chagas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hotel Padre Chagas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Diária de suíte com telefone Embratel, garagem vigiada e jornal na porta; registro com passaporte ou crachá — a Gradiente sabe quem dormiu.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fachada de tijolo à vista e vidro fumê entre restaurantes, porteiro de luva, Gurgel Carajás preto na porta, bar de piano aceso.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Diária de suíte com telefone Embratel, garagem vigiada e jornal na porta; registro com passaporte ou crachá — a Gradiente sabe quem dormiu.",
+    "aparencia": "Fachada de tijolo à vista e vidro fumê entre restaurantes, porteiro de luva, Gurgel Carajás preto na porta, bar de piano aceso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

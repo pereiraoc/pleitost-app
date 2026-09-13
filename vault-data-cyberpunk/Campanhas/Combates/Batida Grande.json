@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Batida Grande",
+  "path": "Campanhas/Combates/Batida Grande.md",
+  "basename": "Batida Grande",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "Genérico — qualquer bairro, quando a Brigada decide fechar o quarteirão.",
+    "Situação": "A patrulha vira operação: o sargento faz os quatro valerem por oito.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sargento de Pelotão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cão de Brigada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Sargento de Pelotão]] rápido\n- 8 [[Brigadiano de Esquina]] lento\n- 3 [[Guarda]] lento\n- 2 [[Cão de Brigada]] rápido\n```\n"
+}

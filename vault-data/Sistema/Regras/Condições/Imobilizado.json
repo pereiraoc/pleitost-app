@@ -1,0 +1,91 @@
+{
+  "id": "Sistema/Regras/Condições/Imobilizado",
+  "path": "Sistema/Regras/Condições/Imobilizado.md",
+  "basename": "Imobilizado",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Imobilizados, Imobilizada, Imobilizadas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Derivar Condicao Preso",
+      "Derivar Condicao Desprevenido"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"[[Preso]], [[Desprevenido]], limita ações fora [[Escapar]] do efeito que imobilizou.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Derivar Condicao Preso",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Preso"
+        ]
+      }
+    },
+    {
+      "raw": "Derivar Condicao Desprevenido",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Desprevenido"
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "ataque"
+    },
+    {
+      "target": "Conjuração Mágica",
+      "kind": "wikilink",
+      "alias": "conjurar uma magia"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Ações de Manipulação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"[[Preso]], [[Desprevenido]], limita ações fora [[Escapar]] do efeito que imobilizou.\"\n%%\n## `= this.file.name`\n[[Preso]], [[Desprevenido]], não pode realizar nenhum [[Ataques|ataque]] (exceto [[Escapar]]), [[Conjuração Mágica|conjurar uma magia]] ou [[Ações Básicas de Manipulação|Ações de Manipulação]].\n\n```autosheet-rules\n```\n"
+}

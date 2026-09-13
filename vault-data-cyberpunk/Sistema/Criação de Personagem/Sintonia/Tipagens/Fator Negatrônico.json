@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator Negatrônico",
+  "path": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator Negatrônico.md",
+  "basename": "Fator Negatrônico",
+  "type": "Sintonia",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fator Negatrônico",
+    "categoria": "Sintonia",
+    "subcategoria": null,
+    "sintonia": null,
+    "dg-publish": false
+  },
+  "inlineFields": {
+    "up": "[[Reatividade Selênica e Tipagem]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Fator Negatrônico"
+    }
+  ],
+  "body": "%%\nup:: [[Reatividade Selênica e Tipagem]]\nprev:: \nnext:: \n%%\n### Fator Negatrônico\nImplante de SUPRESSÃO (Negatrônica). A rotina apaga em vez de acender, e a [[Embratel]] escuta o espectro atrás de quem roda isso perto de torre.\n"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Café Passado",
+  "path": "Contexto/Recursos/Alimentação/Café Passado.md",
+  "basename": "Café Passado",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Boteco e padaria",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Nova Sarandi]]",
+      "[[Bom Fim]]"
+    ],
+    "Resumo": "Café de coador de pano no copo americano, Cz$ 20 em qualquer balcão da cidade — o primeiro e o último gole do dia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Café Passado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Café Passado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Café Passado.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO café da cidade é passado no coador de pano, forte e doce, servido no copo americano em todo boteco, padaria\ne cantina. Cz$ 20, ou de graça pra quem está comendo. O turno da [[Tramontina]] começa com ele no balcão da\nportaria e termina com ele no boteco da esquina.\n\n> [!info] Especificação\n> **Xícara:** copo americano, café de coador, açúcar já posto\n> **Preço:** Cz$ 20; Cz$ 30 nos Moinhos, em xícara\n> **Onde:** qualquer boteco, padaria, cantina\n"
+}

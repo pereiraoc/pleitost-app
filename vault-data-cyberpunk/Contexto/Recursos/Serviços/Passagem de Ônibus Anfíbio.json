@@ -1,0 +1,61 @@
+{
+  "id": "Contexto/Recursos/Serviços/Passagem de Ônibus Anfíbio",
+  "path": "Contexto/Recursos/Serviços/Passagem de Ônibus Anfíbio.md",
+  "basename": "Passagem de Ônibus Anfíbio",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Passagem",
+    "Marca": "[[Marcopolo]]",
+    "Preço": 80,
+    "Cobrança": "viagem",
+    "Nível": 3,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Cidade Baixa]]"
+    ],
+    "Resumo": "Torino com casco de fibra e hélice na popa — cruza a parte alagada do Centro e da Cidade Baixa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Passagem de Ônibus Anfíbio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Passagem de Ônibus Anfíbio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Passagem de Ônibus Anfíbio.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nDepois da enchente de 1986 a [[Marcopolo]] cortou um Torino ao meio, colou um casco de fibra da [[Gurgel]]\nembaixo e chamou de anfíbio. Anda a 15 km/h na rua e a 6 na água, com cheiro de diesel e lodo. É a única linha\nque chega às passarelas do [[Centro Histórico]] sem barqueiro.\n\n> [!info] Especificação\n> **Operador:** [[Marcopolo]], linha 1 (Centro alagado ↔ [[Cidade Baixa]])\n> **Casco:** fibra de vidro Plasteel da [[Gurgel]], calado de 1,2 m — não entra em rua com mais de um metro e meio de água\n> **Lotação:** 30 sentados, coletes salva-vidas que ninguém usa\n> **Pagamento:** TRI; o cobrador fica na proa\n> **Quando quebra:** fica boiando até a lancha da [[Aliança Livre das Palafitas]] rebocar — e cobrar\n"
+}

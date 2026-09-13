@@ -1,0 +1,218 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica (Xamã)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica (Xamã).md",
+  "basename": "Tradição Druídica (Xamã)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+      "Somar Papel.Controlador 1",
+      "Alias Classe Compor 1 \"Xamã\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Pode invocar um espírito feral de uma das suas formas conhecidas com uma ação caso não tenha espírito ativo e possua EH.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Xamã)",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Forma",
+              "choiceKey": "__esc_h_942d89da",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Acoes.Lista",
+            "options": [
+              "[[Forma Caçadora]]",
+              "[[Forma Espreitadora]]",
+              "[[Forma Brutal]]",
+              "[[Forma Fortificada]]"
+            ],
+            "label": "Forma"
+          },
+          "raw": "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Controlador 1",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Xamã)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Controlador",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Controlador 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Xamã\"",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Xamã)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Xamã"
+          },
+          "raw": "Alias Classe Compor 1 \"Xamã\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Formas Espirituais"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]]\n\nresumo:: \"Pode invocar um espírito feral de uma das suas formas conhecidas com uma ação caso não tenha espírito ativo e possua EH.\"\n%%\n#####  `= this.file.name`\nVocê é capaz de invocar um espírito de uma [[Forma Feral]], com ataques naturais e habilidades próprias. Você pode manifestar um espírito com uma das suas formas conhecidas com uma ação caso não tenha um espírito ativo e tenha [[Energia Heroica|EH]] maior que 0. Quando invocado, o espírito surge em até 6q de você num espaço não ocupado e os seguintes fatores determinam suas habilidades:\n* O espírito usa sua [[Inteligência]] e sua proficiência druídica para o cálculo de [[Defesa]];\n* O espírito usa sua [[Inteligência]] e sua proficiência druídica para o cálculo da [[Resistências|Resistência]] da forma;\n* O espírito usa sua [[Inteligência]] e sua proficiência druídica reduzida de um grau para o cálculo das outras [[Resistências]];\n* A [[Movimentação]] do espírito é definida pela forma, considerando [[Agilidade|AGI]] 1;\n* Os [[Ataques]] do espírito são os ataques naturais da forma (que contam como ataques desarmados) e manobras de ataque da forma;\n* O dado de dano, dano base e [[Propriedades]] dos ataques naturais é definido pela forma, considerando [[Força|FOR]] 1;\n* O espírito usa sua [[Inteligência]] para as jogadas de ataque dos ataques naturais da forma;\n* O espírito usa sua [[Inteligência]] para as jogadas de ataque das manobras de ataque da forma;\n* O espírito tem acesso as habilidades da forma, envolvendo ações especiais e/ou benefícios passivos;\n* O espírito usa sua [[Inteligência]] e sua proficiência druídica para as ações de perícia que a forma se especializa;\n* Para demais perícias, o espírito usa sua [[Inteligência]] como modificador, sem nível de proficiência;\n* O espírito recebe os mesmos [[Bônus de Item|bônus de item]] que você possua para [[Ataques]] (desarmados e manobras), [[Defesa]], [[Resistências]] e [[Perícias]];\n* Você e seu espírito compartilham das suas ações e reações de cada turno e rodada;\n* Você pode ver e usar os sentidos do espírito como se fossem seus;\n* O espírito compartilha e contribui com sua [[Penalidade por Ataque Múltiplo]];\n* Você pode dissipar o espírito com uma ação;\n* Quando o espírito recebe dano, você perde [[Energia Heroica|EH]] igual ao dano recebido;\n* Se sua [[Energia Heroica|EH]] chegar a 0, o espírito é dissipado;\n* Se ao receber dano pelo espírito você perde mais [[Energia Heroica|EH]] que o total atual, reduza sua [[Energia Heroica|EH]] para 0 e, para cada 4 de dano excedente do necessário para zerar, você recebe uma aplicação de [[Atordoado]], até um máximo de 3. Esse limiar aumenta para 6 de dano no 4° nível e 8 no 7° nível.\n\nVocê aprende uma Forma para seu Espírito Feral de sua escolha.\n\n#### Formas Espirituais\n\n![[Forma Feral#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

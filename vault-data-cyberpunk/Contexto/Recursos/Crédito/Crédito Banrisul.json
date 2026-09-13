@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Crédito/Crédito Banrisul",
+  "path": "Contexto/Recursos/Crédito/Crédito Banrisul.md",
+  "basename": "Crédito Banrisul",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "[[Banrisul]]",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 8,
+    "Teto_Meses": 12,
+    "Nível": 4,
+    "Onde": [
+      "[[Banrisul]]"
+    ],
+    "Resumo": "O crédito oficial do banco do Estado: 8% ao mês com correção, pra quem tem endereço fixo, laudo e nome limpo no cadastro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Crédito Banrisul.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praça da Alfândega",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lourdes Marimon",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tenente Cássio Weber",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Crédito Banrisul.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Crédito Banrisul.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA agência da [[Praça da Alfândega]] empresta a quem existe no papel: endereço fixo, laudo de reatividade, cadastro aberto. [[Lourdes Marimon]] despacha a ficha em uma semana, e o dinheiro sai com correção monetária embutida — oito por cento ao mês é o nome bonito de cobrar a inflação de quem não tem dólar.\n\nO cadastro é o preço real. Abrir conta é entrar no arquivo que a [[Embratel]] cruza e que o [[Tenente Cássio Weber]] lê todo mês. Quem atrasa não vê capanga: vê o nome sujo, a posse levada por oficial e a Brigada sabendo exatamente onde bater.\n\n> [!info] Especificação\n> **Quem consegue:** Classe Média ou acima: endereço fixo, laudo, cadastro — a conta é cadastro público, e o Estado lê\n> **Teto:** doze meses do teu plano; vinte e quatro na Classe Média Alta\n> **Juros:** 8% ao mês, com correção\n> **Garantia:** o bem e o cadastro\n> **Se atrasa:** nome sujo no cadastro do Estado: perde cadastro (cai pra Média Baixa nos serviços); o banco toma uma posse; a Brigada sabe onde cobrar\n"
+}

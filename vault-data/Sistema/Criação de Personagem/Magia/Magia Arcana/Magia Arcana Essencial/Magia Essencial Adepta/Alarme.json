@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Alarme",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Alarme.md",
+  "basename": "Alarme",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Adepta",
+    "custo": "1 minuto",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Encanta uma área (círculo raio 2q) com um alarme por 8 horas, definindo senha ou critério para disparar; quando alguém dispara, a magia dissipa e você recebe um alerta mental (te acorda se estiver dormindo).\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Encanta uma área (círculo raio 2q) com um alarme por 8 horas, definindo senha ou critério para disparar; quando alguém dispara, a magia dissipa e você recebe um alerta mental (te acorda se estiver dormindo).\"\n%%\n# `= this.file.name` - `= this.custo`\nEncanta uma área de um circulo com raio 2q com um alarme mágico por 8 horas. Você pode especificar um critério ou senha para o alarme. Caso escolha senha, criaturas que entrem na área sem falar a senha disparam o alarme. Caso escolha critério, criaturas que satisfazerem o critério disparam o alarme (um critério pode ser algo como: criaturas mascaradas, criaturas com robes, criaturas maiores que X, criaturas menores que Y, etc). Quando o alarme dispara, a magia dissipa e você recebe um alerta mental que te acorda caso esteja dormindo.\n\n```autosheet-rules\n```\n"
+}

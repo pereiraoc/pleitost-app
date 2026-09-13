@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Serviços/Barraco",
+  "path": "Contexto/Recursos/Serviços/Barraco.md",
+  "basename": "Barraco",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Moradia Classe Baixa"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 1000,
+    "Cobrança": "mês",
+    "Vagas": 1,
+    "Nível": 2,
+    "Onde": null,
+    "Resumo": "Barraco, palafita ou quarto de fundos alugado por mês — teto ruim, mas seu por trinta dias.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraco.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Palafita da Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto de Fundos da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraco.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Barraco.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAluguel do pior teto que existe: quarto de motel vagabundo pago por mês, [[Palafita da Cidade Baixa]] de aluguel, [[Quarto de Fundos da Vila]]. Pedágio da facção e gato de luz do [[Clã da Ferrugem]] inclusos. Alagou, perdeu.\n\n> [!info] Especificação\n> **Onde dorme:** motel ruim por mês; palafita ou quarto de fundos alugado\n> **Cobre:** pedágio da facção, gato de luz, galões de água\n> **O que compra:** endereço de facção: quem te procura passa pelo pedágio; fiado no boteco do beco\n> **O que cabe:** um esconderijo no beco (uma mochila); bicicleta dentro de casa; uma pessoa no chão\n> **Classe:** Classe Baixa\n"
+}

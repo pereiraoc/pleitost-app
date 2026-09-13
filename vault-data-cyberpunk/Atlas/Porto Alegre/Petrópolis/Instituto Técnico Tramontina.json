@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Instituto Técnico Tramontina",
+  "path": "Atlas/Porto Alegre/Petrópolis/Instituto Técnico Tramontina.md",
+  "basename": "Instituto Técnico Tramontina",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "[[Tramontina]] (coordenador Sr. Elói Benvenutti)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Instituto Técnico Tramontina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Instituto Técnico Tramontina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Instituto Técnico Tramontina.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Galpão-escola com torno, forno e bancada de prótese; o aluno entra às sete com o turno e sai com o crachá da fábrica no fim do curso.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão de tijolo com o logo da Tramontina, alunos de macacão em volta de um braço protético na bancada, forno de liga ao fundo, ônibus na porta.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Galpão-escola com torno, forno e bancada de prótese; o aluno entra às sete com o turno e sai com o crachá da fábrica no fim do curso.",
+    "aparencia": "Galpão de tijolo com o logo da Tramontina, alunos de macacão em volta de um braço protético na bancada, forno de liga ao fundo, ônibus na porta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

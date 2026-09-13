@@ -1,0 +1,92 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.2-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.2-alpha.md",
+  "basename": "Release Notes v0.5.2-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "<Nome>.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink",
+      "alias": "Arcanologista Bruxo"
+    },
+    {
+      "target": "Arcanologista Bruxo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Truque Mágico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "<Nome>.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.2-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🗺️ Mapas em massa — Federação Áurea, Ilha das Cinzas, Principado das Flores, Pátria Aurora"
+    },
+    {
+      "level": 3,
+      "text": "🌟 Pátria Aurora preenchida — capital Lucerna + 8 satélites"
+    },
+    {
+      "level": 3,
+      "text": "⛏️ Krasnogor — cidade anã nova em Pedra Fina substitui Montanhas de Vidro"
+    },
+    {
+      "level": 3,
+      "text": "🌐 Pleitost Sync — 3 features pedidas pelos jogadores"
+    },
+    {
+      "level": 3,
+      "text": "🛠️ Correções de bugs trazidas pela mesa 2026-06-01"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Especialização e Maestria de perícia agora são fontes de regra"
+    },
+    {
+      "level": 3,
+      "text": "Conteúdo novo / atualizado"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Releases dos plugins"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.1-alpha...v0.5.2-alpha\n\n# 📦 Release Notes — Pleitost v0.5.2-alpha\n\n**Período coberto:** 2026-05-30 → 2026-06-08\n\n**Foco:** **Pátria Aurora preenchida** (9 localizações novas + Lucerna como capital), **Krasnogor** (cidade anã nova em Pedra Fina substituindo Montanhas de Vidro como cidade), **39 mapas novos** pras cidades e pontos de interesse do Mundo Livre, e bugfixes da **mesa 2026-06-01** que testou a v0.5.1 com 6 jogadores em sessão sync — vários problemas reais de uso vieram à tona e foram corrigidos.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🗺️ Mapas em massa — Federação Áurea, Ilha das Cinzas, Principado das Flores, Pátria Aurora\n\nAntes de v0.5.2 várias cidades tinham nota mas nenhum mapa visual. Agora **39 PNGs** novos em `Recursos e Mídia/Imagens/Mapas/` cobrem as cidades cadastradas + os principais pontos de interesse, mais o mapa-resumo da Pátria Aurora. Cada nota de localização ganhou um `![[<Nome>.png]]` no topo, embaixo do `#Local`.\n\n**Federação Áurea** (17 mapas):\n\n- **Campos do Provento**: Forte Norte, Forte Sul, Iluminada, Lilá, Líciae, Rharos, Torre dos Magos + Grande Muro, Meteorito, Rio Raio da Luz (pontos de interesse)\n- **Pedra Fina**: Baar'Shava, Palácio de Ja'ar, Primeiro Contato, Última Parada + Krasnogor (cidade nova, ver abaixo) + Montanhas de Vidro, Ruínas de Luxor (pontos)\n- **Planaltina**: Campo de Mineradores, Chama Céu, Grande Mata, Manilha, Pedrita, Safira\n\n**Ilha das Cinzas** (2): Floresta da Ordem, Riqueza\n**Principado das Flores** (4): Canto Alto, Pencas, Varadas, Vinhedos\n**Pátria Aurora** (10): mapa da nação + Lucerna, Velimaris, Firmamentum, Prasinarium, Cúpula dos Céus, Magna Vigília, Mosteiro dos Mares, Palácio das Pedras, Torre das Tochas\n\n### 🌟 Pátria Aurora preenchida — capital Lucerna + 8 satélites\n\nAntes só a nota da nação `Pátria Aurora.md` (recursos + esmeralda + imbuições de ar/vento) existia. Agora a estrutura interna ficou:\n\n| Subcategoria | Localizações |\n|---|---|\n| **Capital** | Lucerna |\n| **Grande Cidade** | Velimaris |\n| **Pequena Cidade** | Firmamentum, Prasinarium |\n| **Ponto de Interesse** | Cúpula dos Céus, Magna Vigilia, Mosteiro dos Mares, Palácio das Pedras, Torre das Tochas |\n\nCada nota tem `Geolocalização: [[Pátria Aurora]]` + a estrutura padrão `Contexto / Descrição / Organizações_Influentes / Acontecimento_Recente / Recursos`.\n\n### ⛏️ Krasnogor — cidade anã nova em Pedra Fina substitui Montanhas de Vidro\n\nKrasnogor é uma **Pequena Cidade** anã em Pedra Fina (Federação Áurea) que herda os recursos metalúrgicos que antes ficavam vinculados às Montanhas de Vidro: Âmbar, Machado de Batalha, Machadinha, Machadão, Picareta de Guerra, Imbuição Mineral, Imbuição Sísmica, Imbuição Enraizante.\n\n**Mudança no mapa-mãe Mundo Livre**:\n- Montanhas de Vidro **antes Cidade** → agora **Ponto de Interesse** (coords ajustadas)\n- Krasnogor marcada como Cidade Pequena nas coordenadas antigas das Montanhas\n- Marker antigo de Montanhas no leaflet removido\n\n### 🌐 Pleitost Sync — 3 features pedidas pelos jogadores\n\n**Botão 🔌 Desconectar no histórico de sessões.** No home view, ao lado do ▶️ \"Voltar pra essa sessão\", agora tem um 🔌 que **sai do sync local sem mexer no servidor**. Diferente das outras saídas:\n\n| Botão | Ação | Pode rejoinar com ▶️? |\n|---|---|---|\n| 🔌 Desconectar | Limpa estado local, mantém memberId no server | ✅ direto |\n| 📥 Arquivar | Marca arquivada, fica em seção `<details>` colapsada | ✅ direto |\n| 🚪 Abandonar | `removeMember` + remove do histórico | ❌ precisa do código |\n| ❌ Encerrar (Mestre) | Mata a sessão pra todos | — |\n\n**Lista de Membros colapsável.** Header \"Membros (N)\" agora é clicável (▶/▼) e por **default abre colapsado** — em sessões de 4-6 jogadores a lista tomava muita tela vertical e empurrava combate/personagens pra baixo. Estado persiste no `data.json`.\n\n**Mestre renomeia sessão ativa.** Ícone ✏️ no header da sessão (só Mestre vê) → modal pra editar o nome. UPDATE propaga em tempo real pros jogadores. Código da sessão permanece o mesmo.\n\n### 🛠️ Correções de bugs trazidas pela mesa 2026-06-01\n\nSessão de teste com a v0.5.1 levantou vários problemas reais de uso. Todos corrigidos pra v0.5.2:\n\n**Sincronização**\n\n- **Condições aplicadas sumiam logo depois** — clicar em Inspirado/Abalado/etc no Modo Interativa fazia a condição aparecer e em seguida desaparecer, exigindo cliques repetidos. Race no write-back: o sync reescrevia o FM local com um snapshot stale do DB e apagava entries recém-clicadas. Agora `Condicoes_Ativas/Efeitos_Ativos/Invocacoes_Ativas` mergem por default em vez de substituir total.\n- **Wikilink de Classe/Sintonia/Raça/Imagem se corrompia** — uma ficha com `Classe: \"[[Arcanista|Arcanologista Bruxo]]\"` voltava como `\"[[Arcanologista Bruxo]]\"` (alias virava target, target sumia). Round-trip extract→DB→write descartava o target. Afetava Pind Bund, Carlos Facão, Thoren, Dante, Mera e Metis na mesa. Agora preservado.\n- **Combate iniciado pelo Mestre não aparecia pros players sem reload.** Mesma coisa pra ordem de turno reordenada e revelação de NPC com 👁️. Causa: a tabela `session_encounters` precisava estar manualmente habilitada em \"Realtime\" no Dashboard do Supabase. O `install.sql` agora cobre isso automaticamente; quem já tem projeto provisionado precisa rodar `ALTER PUBLICATION supabase_realtime ADD TABLE session_encounters` uma vez (ou habilitar pelo Dashboard).\n\n**Visual**\n\n- **Moral_Temporaria não aparecia na barrinha do painel sync** — só renderizava como chip de texto separado, longe da barra. Agora desenha **overlay branca sobre a barra** com paridade visual ao combat-tracker do autosheet.\n- **Vitalidade negativa não aparecia na barrinha** — quando Vita < 0, a barra ficava 100% vazia sem indicar quão grave estava. Agora desenha as duas metades vermelhas da vita negativa (`neg-half1` + `neg-half2`) sobre o espaço vazio.\n\n**Combate**\n\n- **⏭️ não pulava bichos mortos na iniciativa do painel sync** — Mestre tinha que clicar manualmente pra passar por cada NPC morto. Agora pula automaticamente (paridade com o combat-tracker do autosheet).\n\n**Regras**\n\n- **Especialização e Maestria de Perícia não aplicavam efeitos** — uma perícia com `Especializacao: \"[[Truque Mágico]]\"` (que tem `Somar Magias.Slots.B 1`) não dava o +1 em Slots Básicos. O BFS de regras do autosheet ignorava esses campos. Agora itera `Pericias.Lista[].Especializacao` e `.Maestria` e aplica os `Elementos_de_Regra` das notas linkadas.\n- **Ficha abria em \"Magias Anima\" vazia/cinza pra personagens sem proficiência em Anima** — Carlos Facão, Pind Bund e Thoren mostravam o painel direito travado em Anima sem botão pra voltar. Causa: `pickRenderSchool` respeitava o `activeSchool` salvo no localStorage cego, mesmo quando o personagem não tinha proficiência. Agora valida a proficiência antes de respeitar; estado stale é ignorado e o painel cai no auto-pick (Anima > Branca > Negra) da primeira escola proficiente.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Especialização e Maestria de perícia agora são fontes de regra\n\n`Pericias.Lista[<X>].Especializacao` e `.Maestria` passam a entrar como sementes do BFS do extractor. As notas em `Sistema/Regras/Perícias e Especializações/Especialização e Maestria/<Pericia>/<Nome>.md` agora têm seus `Elementos_de_Regra` aplicados quando o personagem tem a especialização/maestria escolhida.\n\nExemplo concreto: Truque Mágico já tinha `Somar Magias.Slots.B 1` no FM, mas nunca era aplicado. Quem tinha essa especialização no Arcana ganha +1 em slots básicos a partir do próximo save da ficha.\n\n### Conteúdo novo / atualizado\n\n- **Pátria Aurora**: 9 notas de localização novas + estrutura interna (capital + 1 grande cidade + 2 pequenas + 5 pontos de interesse)\n- **Federação Áurea / Pedra Fina**: nota nova `Krasnogor.md` (Pequena Cidade anã); Montanhas de Vidro reclassificada como Ponto de Interesse\n- **Mapa-mãe `Mundo Livre.md`**: markers reorganizados (Krasnogor entra, Montanhas vira ponto)\n- **39 mapas PNG** em `Recursos e Mídia/Imagens/Mapas/` referenciados via `![[<Nome>.png]]` no topo das notas de localização\n- **Estado de jogo**: ajustes nas fichas dos heróis (Pind Bund, Carlos Facão, Thoren, Dante, Mera, Metis, Saladin, Flohx, Ex-Tenente Deodoro) reflexo da mesa 2026-06-01\n\n---\n\n## ✅ Issues fechadas\n\n- **#86** — Mapas das Capitais.\n- **#87** — Mapas das Grandes Cidades.\n- **#88** — Mapas das Pequenas Cidades.\n- **#210** — Lista de Membros colapsável no painel sync (default colapsado).\n- **#211** — Wikilink alias preservado em Classe/Sintonia/Raça/Imagem no round-trip do bidi sync.\n- **#212** — GM renomeia sessão ativa via ✏️ no header.\n- **#213** — Pericias.Especializacao e .Maestria expandem `Elementos_de_Regra` da nota linkada.\n- **#214** — `session_encounters` realtime: combat tracker, ordem de turno e reveal de NPC propagam sem reload.\n- **#215** — Moral_Temporaria renderiza como overlay branca sobre a barra de HP no painel sync.\n- **#216** — Condições não somem mais ao clicar em sequência (race do write-back resolvida).\n- **#217** — Vitalidade negativa visualizada na barra do painel sync.\n- **#218** — `triggerMoveTurn` pula chars mortos na iniciativa do painel sync.\n\n---\n\n## 🛠️ Releases dos plugins\n\n| Plugin | Versão | Highlights |\n|---|---|---|\n| `pleitost-autosheet` | **2.0.12 → 2.0.13** | 1 patch: `collectSeeds` inclui `Pericias.Especializacao` e `.Maestria` como sementes do BFS (#213) + `pickRenderSchool` valida proficiência antes de respeitar `activeSchool` (state pollution de versões antigas é ignorado). [`CHANGELOG`](.obsidian/plugins/pleitost-autosheet/CHANGELOG.md) |\n| `pleitost-sync` | **0.3.0 → 0.3.1** | 1 patch consolidado: bugfixes da mesa 2026-06-01 (#214 publication, #215/#217 overlays, #216 merge maps, #218 skip dead, #211 wikilink raw) + features (#210 colapsar Membros, #212 renomear sessão, 🔌 Desconectar) + guard contra DB stale corromper alias. [`CHANGELOG`](.obsidian/plugins/pleitost-sync/CHANGELOG.md) |\n| `pleitost-views` | 0.4.1 (sem bump) | Estável. |\n"
+}

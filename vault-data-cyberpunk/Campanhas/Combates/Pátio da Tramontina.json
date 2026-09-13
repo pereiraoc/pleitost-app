@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Pátio da Tramontina",
+  "path": "Campanhas/Combates/Pátio da Tramontina.md",
+  "basename": "Pátio da Tramontina",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Portaria da Tramontina]] · [[Petrópolis]] · [[Nova Sarandi]]",
+    "Situação": "Turno da madrugada no pátio da fábrica. Faca com número de série dos dois lados.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Segurança de Portaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capanga de Oficina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Portaria da Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Segurança de Portaria]] lento\n- 3 [[Capanga de Oficina]] rápido\n```\n"
+}

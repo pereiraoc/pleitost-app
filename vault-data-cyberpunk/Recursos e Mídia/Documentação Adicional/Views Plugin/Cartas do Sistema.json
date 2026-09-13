@@ -1,0 +1,100 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Views Plugin/Cartas do Sistema",
+  "path": "Recursos e Mídia/Documentação Adicional/Views Plugin/Cartas do Sistema.md",
+  "basename": "Cartas do Sistema",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Cartas do Sistema"
+    },
+    {
+      "level": 2,
+      "text": "Visão geral"
+    },
+    {
+      "level": 2,
+      "text": "Como imprimir"
+    },
+    {
+      "level": 3,
+      "text": "Por que A4 landscape e não Letter ou retrato?"
+    },
+    {
+      "level": 2,
+      "text": "Anatomia de uma carta"
+    },
+    {
+      "level": 2,
+      "text": "Frontmatter por tipo"
+    },
+    {
+      "level": 3,
+      "text": "Armas (`Sistema/Equipamento/Armas/<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Escudos (`Sistema/Equipamento/.../<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Consumíveis (`Sistema/Equipamento/Tesouros/Consumíveis/<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Equipamentos de Ataque (`…/Equipamentos de Ataque/<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Equipamentos de Defesa (`…/Equipamentos de Defesa/<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Equipamentos de Perícia (`…/Equipamentos de Perícia/<Nome>.md`)"
+    },
+    {
+      "level": 3,
+      "text": "Implementos (`Sistema/Equipamento/Tesouros/Implementos/<Nome>.md`)"
+    },
+    {
+      "level": 1,
+      "text": "... igual pra experiente, mestre"
+    },
+    {
+      "level": 3,
+      "text": "Imbuições (`…/Imbuições e Qualidade/Imbuições/<Nome>.md`)"
+    },
+    {
+      "level": 1,
+      "text": "... campos por tier (varia, ver Cartas de Imbuições.md pro detalhe atual)"
+    },
+    {
+      "level": 3,
+      "text": "Qualidades (`…/Imbuições e Qualidade/Qualidade/<Nome>.md`)"
+    },
+    {
+      "level": 2,
+      "text": "Paths das imagens"
+    },
+    {
+      "level": 2,
+      "text": "Adicionando uma carta nova"
+    },
+    {
+      "level": 2,
+      "text": "Roadmap"
+    },
+    {
+      "level": 2,
+      "text": "Notas de operação"
+    }
+  ],
+  "body": "# Cartas do Sistema\n\nEsta doc é referência pra **quem usa as cartas físicas do Pleitost**: imprime,\ndistribui em mesa, ou cria conteúdo novo que vai virar carta. Cobre o que\nexiste hoje e o roadmap pra futura migração pro `pleitost-views`.\n\n> **Estado atual (2026-05):** todas as cartas são geradas por `dataviewjs`\n> em [`Recursos e Mídia/Exportação/`](../../Exportação/). Migração pro plugin\n> está planejada — ver [Roadmap](#roadmap) no fim.\n\n---\n\n## Visão geral\n\nO sistema Pleitost suporta **9 tipos de carta** + **verso unificado**. Cada\ncarta tem 63×88mm (tamanho Pokémon, fácil de comprar sleeves). Impressão é\nem **A4 landscape**, 8 cartas por página (grade 4×2), coladas sem espaço\npra facilitar o corte.\n\n| Tipo | Arquivo de impressão | Conteúdo da carta |\n|---|---|---|\n| Armas Marciais/Simples | `Cartas de Armas Marciais e Simples.md` | Dano, tipo de dano, propriedades, resumo, especial, grupo, mãos |\n| Armas Especiais/Naturais | `Cartas de Armas Especiais e Naturais.md` | Igual armas, filtrando só especiais/naturais |\n| Escudos | `Cartas de Escudos.md` | Dureza, danos, bônus defesa, propriedades, resumo, especial |\n| Consumíveis | `Cartas de Consumíveis.md` | Efeito + dados (Adepto/Experiente/Mestre), descrição por tier |\n| Equipamentos de Ataque | `Cartas de Equipamentos de Ataque e Defesa.md` (MODE=ataque) | Efeito + dados + descrição por tier |\n| Equipamentos de Defesa | `Cartas de Equipamentos de Ataque e Defesa.md` (MODE=defesa) | Bônus + emblema + descrição por tier |\n| Equipamentos de Perícia | `Cartas de Equipamentos de Perícia.md` | Bônus de perícia + descrição por tier |\n| Imbuições | `Cartas de Imbuições.md` | Efeito por tier |\n| Implementos | `Cartas de Implementos.md` | Bônus + emblema (foco/dureza/resist./ataque/perícia) + usos |\n| Qualidades | `Cartas de Qualidades.md` | 4 cartas/tier × 3 tiers = 12 cartas por item |\n| Verso | `Cartas Verso.md` | Fundo decorado pra dorso (8 cartas, idênticas) |\n\n---\n\n## Como imprimir\n\n1. Abre o arquivo `Cartas de X.md` em **modo de leitura** (`Ctrl+E` se estiver\n   em edição).\n2. Aguarda o `dataviewjs` renderizar (pode levar 1-3s pra varrer a pasta).\n3. `Ctrl+P` → escolhe impressora ou \"Salvar como PDF\".\n4. Configurações da impressão:\n   - **Orientação:** Paisagem\n   - **Margens:** Nenhuma / Mínimas\n   - **Escala:** 100% (não usar \"Ajustar à página\")\n   - **Cabeçalhos e rodapés:** desativados\n   - **Gráficos de fundo:** ativados (senão fundo da carta fica branco)\n\nCada arquivo gera N páginas A4 conforme a quantidade de itens. Tipos com\ntiers (Consumíveis, Equipamentos, etc.) geram 1 ou 2 páginas por item.\n\n### Por que A4 landscape e não Letter ou retrato?\n\nA grade 4×2 (4 colunas, 2 linhas) de cartas 63×88mm cabe quase exato em A4\ndeitado (297×210mm). Letter (279×216mm) seria parecido mas tem 18mm a menos\nde largura — o último corte ficaria espremido. Retrato caberia só 2×4 = 8\nmas a margem vertical sobraria muito. Landscape com cartas coladas é o que\nmaximiza papel.\n\n---\n\n## Anatomia de uma carta\n\n```\n┌─────────────────────────┐\n│      Nome do item       │  ← top:33-39px, font auto-fit\n│                         │\n│   [emb] [d6] [+2]       │  ← top:81-85px, 3 ícones lado a lado\n│                         │     (variações por tipo)\n│                         │\n│        🗡️               │  ← top:149px, max 285×204px, fallback default.png\n│                         │\n│                         │\n│ [prop1] [prop2] [prop3] │  ← top:350px, 3 slots (esquerda/centro/direita)\n│                         │\n│ Resumo: ...             │  ← top:384px, área scrollável de 112px\n│ · · ──── · ──── · ·     │     (resumo + separador + especial)\n│ Especial: ...           │\n│                         │\n│  Tipo • N mãos          │  ← bottom:17-22px, rodapé centralizado\n└─────────────────────────┘\n   63mm × 88mm (Pokémon)\n   360px × 540px (base)\n```\n\nVariações por tipo:\n\n- **Armas / Escudos:** 3 emblemas (tipo, dado, bônus) ou (dureza, danos, defesa).\n- **Consumíveis / Equip. Ataque:** emblema + dados empilhados + bônus (linha\n  de efeito).\n- **Equip. Defesa / Implementos:** 1 emblema central com valor sobreposto.\n- **Verso:** sem conteúdo, só o fundo decorado.\n\n---\n\n## Frontmatter por tipo\n\nCada item lido pelas cartas precisa de FM específico. Lista completa:\n\n### Armas (`Sistema/Equipamento/Armas/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Arma\ngrupo: cac-marcial          # cac-marcial | cac-simples | d-marcial | d-simples | especial | natural\ntipo: corte                  # corte | perfuração | impacto | ...\ndano: d6+1\nmãos: 1                     # 1 | 2\npropriedades: [precisa, leve]\nresumo: \"Espada curta de uma mão.\"\nespecial: \"Em crítico, sangra.\"\nordem: 10                    # ordena na pasta (opcional)\nimage: \"<Nome>.png\"          # opcional; default = \"<Nome>.png\"\n---\n```\n\n### Escudos (`Sistema/Equipamento/.../<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Escudo\ndureza: 5\ndanos: 0\nbonus-defesa: 2              # também aceita bonus_defesa, bonusdefesa\nmãos: 1\npropriedades: [...]\nresumo: \"...\"\nespecial: \"...\"\n---\n```\n\n### Consumíveis (`Sistema/Equipamento/Tesouros/Consumíveis/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\ntipo_efeito: vitalidade      # vitalidade | moral | velocidade\npropriedades: [...]\nefeito_adepto: 1d4+1\ndescrição_adepto: \"Cura X.\"  # ou descricao_adepto\nefeito_experiente: 2d6+2\ndescrição_experiente: \"...\"\nefeito_mestre: 3d8+3\ndescrição_mestre: \"...\"\nordem: 5\n---\n```\n\nGeração: **4 Adepto + 3 Experiente + 1 Mestre = 8 cartas por item** (1 sheet\npor item). Imagem central tem sufixo de tier:\n`<Nome> Adepta.png`, `<Nome> Experiente.png`, `<Nome> Mestre.png`.\n\n### Equipamentos de Ataque (`…/Equipamentos de Ataque/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\nbonus_tipo: ataque           # ataque | corte | ...\nefeito_adepto: 1d4\ndescrição_adepto: \"...\"\nefeito_experiente: 1d6+1\ndescrição_experiente: \"...\"\nefeito_mestre: 1d8+2\ndescrição_mestre: \"...\"\n---\n```\n\n**4 Adepto + 3 Experiente + 1 Mestre = 8 cartas/item.** Imagem com sufixo\nde tier: `<Nome> Adepto.png` (sem \"a\" — diferente de consumíveis).\n\n### Equipamentos de Defesa (`…/Equipamentos de Defesa/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\nbonus_tipo: defesa           # defesa | resist (resistências)\nbonus_adepto: 1\ndescrição_adepto: \"...\"\nbonus_experiente: 2\ndescrição_experiente: \"...\"\nbonus_mestre: 3\ndescrição_mestre: \"...\"\n---\n```\n\n**4 Adepto + 4 Experiente + 4 Mestre = 12 cartas/item.** Gera 2 sheets por\nitem (8 + 4 com slots vazios). Imagem central exibe o valor de `bonus_X`\nsobreposto no emblema.\n\n### Equipamentos de Perícia (`…/Equipamentos de Perícia/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\nbonus_adepto: 1\ndescrição_adepto: \"...\"\nbonus_experiente: 2\ndescrição_experiente: \"...\"\nbonus_mestre: 3\ndescrição_mestre: \"...\"\n---\n```\n\n**2 Adepto + 1 Experiente + 1 Mestre = 4 cartas/item.** Sheet tem 2 items\n(8 cartas). Imagem SEM sufixo de tier: `<Nome>.png`.\n\n### Implementos (`Sistema/Equipamento/Tesouros/Implementos/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\nbonus_tipo: foco             # foco | dureza | resist | ataque | perícia (define emblema)\nbonus_adepto: 1\ndescrição_adepto: \"...\"\nusos_adepto: 3               # opcional, presença basta pra incluir o tier\n# ... igual pra experiente, mestre\n---\n```\n\nImagem SEM sufixo. Default emblema é `foco`.\n\n### Imbuições (`…/Imbuições e Qualidade/Imbuições/<Nome>.md`)\n\n```yaml\n---\ncategoria: Item\nsubcategoria: Tesouro\n# ... campos por tier (varia, ver Cartas de Imbuições.md pro detalhe atual)\n---\n```\n\n### Qualidades (`…/Imbuições e Qualidade/Qualidade/<Nome>.md`)\n\n**4A + 4E + 4M = 12 cartas/item.** Imagem com sufixo de tier no formato\n\"Adepta\", \"Experiente\", \"Mestre\". Pasta da figura: `Figura/Imbuições e Têmperas/`.\n\n---\n\n## Paths das imagens\n\nTodas as imagens vivem em `Recursos e Mídia/Imagens/Cartas/`:\n\n```\nCartas/\n├── Cartas Exportadas/      # arquivo histórico de PDFs/PNGs já gerados\n├── Elementos de Interface/\n│   ├── Bônus/bonus-0.png .. bonus-N.png\n│   ├── Dados/dado-tamanho-d4.png .. dado-tamanho-d20.png\n│   ├── Emblemas/emblema-{tipo}.png\n│   └── Fundo/\n│       ├── carta-fundo-marrom.png      # armas, escudos\n│       ├── carta-fundo-azul.png        # implementos\n│       ├── carta-frente-mundano.png    # armas, escudos\n│       ├── carta-frente-adepto.png     # tier Adepto (todos com tier)\n│       ├── carta-frente-experiente.png\n│       ├── carta-frente-mestre.png\n│       └── carta-verso-marrom.png      # verso unificado\n└── Figura/\n    ├── Armas/<Nome>.png\n    ├── Consumíveis/<Nome> {Adepta,Experiente,Mestre}.png\n    ├── Equipamentos/<Nome>[ <Tier>].png\n    ├── Imbuições e Têmperas/<Nome> {Adepta,Experiente,Mestre}.png\n    ├── Implementos/<Nome>.png\n    └── default.png         # fallback se a imagem do item estiver faltando\n```\n\n**Convenção do sufixo de tier:** quando a imagem da figura tem variação por\ntier (Consumíveis, Equipamentos Ataque/Defesa, Imbuições, Qualidades), o\nnome é `<Nome> <TierLabel>.png`. `TierLabel` é \"Adepta\" (feminino, pra\nconsumíveis e qualidades) ou \"Adepto\" (masculino, pra equipamentos), e\n\"Experiente\" / \"Mestre\" sempre iguais. Ver a tabela acima por tipo.\n\nSe a imagem está faltando, o sistema cai pro `default.png` da subpasta\n(ex: `Figura/Armas/default.png`). Verificar que cada subpasta tem o seu\n`default.png`.\n\n---\n\n## Adicionando uma carta nova\n\n1. **Cria a nota do item** em `Sistema/Equipamento/<sub>/<Nome>.md` com FM\n   conforme o tipo (tabela acima).\n2. **Cria a imagem** em `Recursos e Mídia/Imagens/Cartas/Figura/<sub>/`\n   seguindo a convenção de nome (com sufixo de tier se aplicável).\n3. **Abre o arquivo de exportação correspondente** em\n   `Recursos e Mídia/Exportação/Cartas de <Tipo>.md` e aguarda re-render\n   (o dataviewjs detecta o item novo automaticamente).\n4. Conferir visualmente. Se algo errado:\n   - Texto cortado: nome muito longo (auto-fit reduz fonte a partir de 20\n     chars; > 30 chars pode quebrar). Renomeia ou abrevia.\n   - Imagem em branco com placeholder: nome do arquivo não bate com `<Nome>`\n     da nota, ou sufixo de tier errado. Renomeia.\n   - Carta não aparece: FM incompleto (faltou `categoria`, `subcategoria`,\n     ou nenhum campo de tier). Adiciona.\n\n---\n\n## Roadmap\n\nA partir da `pleitost-views v0.3.0` (planejada), os 10 arquivos de\n`Recursos e Mídia/Exportação/` deixarão de usar `dataviewjs` e passarão a\nusar um fence novo do plugin:\n\n````md\n```cartas\ntipo: armas-marciais-simples\n```\n````\n\nRazões da migração:\n\n- Sair da dependência do plugin `dataview` pra rendering de cartas (continua\n  sendo usado em outros lugares da vault).\n- Centralizar a lógica em TS testável (snapshots automáticos garantem que\n  não introduzimos regressão visual).\n- Reduzir ~3.500 linhas de `dataviewjs` espalhadas em 10 arquivos pra\n  ~100 linhas declarativas + lógica versionada no plugin.\n- Permitir adicionar tipos novos sem copy-paste de boilerplate.\n\n**Output visual será idêntico ao atual** — print A4 landscape continua\nfuncionando do mesmo jeito, os mesmos PDFs podem ser regerados. Os\narquivos em `Recursos e Mídia/Exportação/` permanecem (só o fence interno\nmuda).\n\nPlano técnico completo: `.obsidian/plugins/pleitost-views/docs/architecture/cartas-mosaico.md`\n(não acessível via Obsidian — fica no sistema de arquivos / GitHub).\n\n---\n\n## Notas de operação\n\n- **Print exige modo de leitura.** Modo de edição mostra o source do\n  `dataviewjs` (ou do fence `cartas` após migração).\n- **Imagens com acento no nome funcionam** (testado: \"Poção de Cura.png\").\n  Mas evita caracteres `?`, `*`, `:`, `<`, `>`, `|`, `\"` (problemas em\n  sincronização cross-OS).\n- **Verso é independente.** Pra um deck completo, imprime o arquivo do\n  tipo (frente) E `Cartas Verso.md` (verso) na mesma quantidade de\n  páginas. Recomendação: imprimir frente em N páginas, depois carrega o\n  mesmo papel virado e imprime N páginas de verso.\n- **A4 vs Letter.** Hoje só A4. Se precisar Letter, o template precisaria\n  re-calcular `PRINT_ZOOM` e `CARD_W_MM` × `CARD_H_MM` (não suportado).\n"
+}

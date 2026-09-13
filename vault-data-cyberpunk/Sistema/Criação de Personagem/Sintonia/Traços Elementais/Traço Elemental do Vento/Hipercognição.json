@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Hipercognição",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Hipercognição.md",
+  "basename": "Hipercognição",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Vento]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Hipercognição"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Vento]]\nprev::\nnext::\n%%\n### Hipercognição\nUma vez por dia, como uma ação, você pode fazer 5 testes de [[Conhecimento]]."
+}

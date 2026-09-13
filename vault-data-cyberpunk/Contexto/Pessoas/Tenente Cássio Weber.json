@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Pessoas/Tenente Cássio Weber",
+  "path": "Contexto/Pessoas/Tenente Cássio Weber.md",
+  "basename": "Tenente Cássio Weber",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Tenente Weber",
+      "Cássio Weber"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Banrisul]]",
+    "Função": "Auditor de cadastro do Banrisul, cedido pela Brigada",
+    "Aparência": "Trinta e poucos, cabelo raspado, jaqueta de couro por cima da farda da [[Brigada Militar Metropolitana]], pasta de cadastros debaixo do braço; anda de [[Gurgel XEF]] do banco.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tenente Cássio Weber.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel XEF",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Tenente Cássio Weber.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Tenente Cássio Weber.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Bravura",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Bravura.md",
+  "basename": "Bravura",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe +2 de [[bônus de especialização]] em [[Ímpeto]] contra efeitos que aplicam [[Abalado]] ou [[Nervoso]]. Quando você tiver sucesso num teste de [[Ímpeto]] contra um efeito de uma criatura ou quando uma criatura falhar um ataque contra seu [[Ímpeto]], você ganha 4 [[Energia Heroica|EH]] temporária por 1 minuto (6 no 4º nível; 8 no 7º nível).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe +2 de [[bônus de especialização]] em [[Ímpeto]] contra efeitos que aplicam [[Abalado]] ou [[Nervoso]]. Quando você tiver sucesso num teste de [[Ímpeto]] contra um efeito de uma criatura ou quando uma criatura falhar um ataque contra seu [[Ímpeto]], você ganha 4 [[Energia Heroica|EH]] temporária por 1 minuto (6 no 4º nível; 8 no 7º nível).\"\n%%\n#### `= this.file.name` - `= this.rank`\nRecebe +2 de [[bônus de especialização]] em [[Ímpeto]] contra efeitos que aplicam [[Abalado]] ou [[Nervoso]]. Adicionalmente, quando você tem sucesso num teste de [[Ímpeto]] contra um efeito de uma criatura ou quando uma criatura falha um ataque contra seu [[Ímpeto]], você recebe 4 [[Energia Heroica|EH]] temporária por 1 minuto. Esse valor aumenta para 6 no 4º nível e para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

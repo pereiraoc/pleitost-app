@@ -1,0 +1,72 @@
+{
+  "id": "Contexto/Recursos/Serviços/Cantina",
+  "path": "Contexto/Recursos/Serviços/Cantina.md",
+  "basename": "Cantina",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Alimentação Classe Média Baixa"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 3000,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": null,
+    "Resumo": "Café de padaria, PF de cantina e cesta básica — o padrão do operário, pago no início do mês.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cantina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prato Feito da Cantina do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cantina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cantina.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\n[[Café da Manhã de Padaria]] antes do turno, [[Prato Feito da Cantina do Mercado]] ao meio-dia, arroz com ovo da [[Cesta Básica Zaffari]] à noite. Pago adiantado (vale de armazém e fiado da cantina), garante o padrão o mês inteiro; [[Mate Gelado Charrua]] pra aguentar as horas, [[Chocolate Neugebauer]] de vez em quando.\n\n> [!info] Especificação\n> **Garante no mês:** café, PF e janta de casa todo dia\n> **Café:** [[Café da Manhã de Padaria]]\n> **Almoço:** PF de cantina ou do boteco da fábrica\n> **Janta:** cesta básica em casa; [[Xis]] na sexta\n> **Bebida:** [[Mate Gelado Charrua]] no turno, [[Polar Tradicional]] no domingo, chimarrão de [[Erva-Mate Charrua]]\n> **Classe:** Classe Média Baixa\n"
+}

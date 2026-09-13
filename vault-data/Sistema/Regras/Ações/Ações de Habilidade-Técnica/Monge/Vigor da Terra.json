@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Vigor da Terra",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Vigor da Terra.md",
+  "basename": "Vigor da Terra",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Monge]]\"",
+    "resumo": "\"Você recebe 6 [[Energia Heroica|EH]] temporária até o início do seu próximo turno. Esse valor aumenta para 8 no 7º nível.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Monge]]\"\n\nresumo:: \"Você recebe 6 [[Energia Heroica|EH]] temporária até o início do seu próximo turno. Esse valor aumenta para 8 no 7º nível.\"\n%%\n\n### `= this.file.name` - `= this.custo`\nVocê recebe 6 [[Energia Heroica|EH]] temporária até o início do seu próximo turno. Esse valor aumenta para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

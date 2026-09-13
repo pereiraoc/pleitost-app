@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Cantina da Fábrica",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Cantina da Fábrica.md",
+  "basename": "Cantina da Fábrica",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Dona Ilse Brand",
+    "Descrição": null,
+    "Serviços": [
+      "[[Marmita Congelada Zaffari]]",
+      "[[Ração PIRA]]",
+      "[[Mate Gelado Charrua]]",
+      "[[Café Passado]]",
+      "[[Prato Feito da Cantina do Mercado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cantina da Fábrica.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prato Feito da Cantina do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cantina da Fábrica.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Cantina da Fábrica.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Marmita congelada, ração PIRA em crédito, mate gelado e café; PF ao meio-dia pra quem paga em espécie.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão de mesa comprida, balcão de alumínio, caldeirão de sopa e a fila de macacão.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Marmita congelada, ração PIRA em crédito, mate gelado e café; PF ao meio-dia pra quem paga em espécie.",
+    "aparencia": "Salão de mesa comprida, balcão de alumínio, caldeirão de sopa e a fila de macacão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

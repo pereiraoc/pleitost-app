@@ -1,0 +1,94 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Disponibilidade de Tesouros",
+  "path": "Contexto/Histórias/Contexto Atual/Disponibilidade de Tesouros.md",
+  "basename": "Disponibilidade de Tesouros",
+  "type": "Contexto",
+  "subtype": "Dados",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Dados"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luva do Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bracelete Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferramenta Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink",
+      "alias": "Arma"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Armadura"
+    },
+    {
+      "target": "Obter Informação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Arma"
+    },
+    {
+      "target": "Armadura Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Armadura"
+    },
+    {
+      "target": "Ferramenta Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Ferramenta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Disponibilidade de Tesouros"
+    },
+    {
+      "level": 2,
+      "text": "Disponibilidade Pronta"
+    },
+    {
+      "level": 2,
+      "text": "Disponibilidade por Encomenda"
+    },
+    {
+      "level": 2,
+      "text": "Modificadores por Região"
+    },
+    {
+      "level": 2,
+      "text": "Tesouros em Vilarejos"
+    }
+  ],
+  "body": "# Disponibilidade de Tesouros\nMuitas vezes aventureiros procuram tesouros para comprar. Dependendo da localidade, densidade urbana e cultura local, a chance de encontrar um destes tesouros disponível para compra ou encomenda varia.\n\n## Disponibilidade Pronta\n\n| Local              | Adepto | Experiente | Mestre |\n| ------------------ |:------:|:----------:|:------:|\n| **Pequena Cidade** |  33%   |     —      |   —    |\n| **Grande Cidade**  |  50%   |    10%     |   —    |\n| **Capital**        |  100%  |    25%     |  2%*   |\n| **Iluminada**      |  150%  |    50%     |  5%*   | \n\\* *Itens Mestre são extremamente valiosos e raros, portanto a negociação normalmente envolve contrapartidas, contratos ou outras combinações.*\n\n## Disponibilidade por Encomenda\n\n| Local              | Adepto | Experiente | Mestre |\n| ------------------ |:------:|:----------:|:------:|\n| **Pequena Cidade** |  100%  |     —      |   —    |\n| **Grande Cidade**  |  100%  |    50%     |   —    |\n| **Capital**        |  150%  |    100%    |  10%*  |\n| **Iluminada**      |  200%  |    100%    | 25%**  |\n\\* *Grandes artesões capazes de criar itens Mestre tem agendas tipicamente lotadas e muitas vezes não tem disponíveis materiais de qualidade alta o suficiente para produzir o item.*\n\\*\\* *Iluminada é um centro comercial onde grandes artesões muitas vezes estão para obter materiais e/ou ferramentas da melhor qualidade. Um artesão Mestre encontrado em Iluminada pode ser aleatoriamente de qualquer origem para fins de decidir quais são os itens típicos que ele produz.*\n\n## Modificadores por Região\nOs heróis podem querer obter tesouros que não são típicos da região. Aplique os seguintes modificadores para esses casos. Itens com imbuição são casos específicos dependendo da combinação, como descrito na tabela. Alguns tesouros são considerados básicos, o que torna-os mais comuns:\n* [[Anel do Equilíbrio]]\n* [[Luva do Arcanista]]\n* [[Bracelete Elemental]]\n* [[Arma Obra-prima]]\n* [[Armadura Obra-prima]]\n* [[Ferramenta Obra-prima]]\n\n| Caso                            | Modificador |\n| ------------------------------- |:-----------:|\n| Tesouro típico                  |     ×1      |\n| Tesouro básico típico           |     ×2      |\n| Tesouro básico incomum          |    ×1/2     |\n| Tesouro incomum                 |    ×1/4     |\n| Arma típica + imbuição típica   |     ×1      |\n| Arma incomum + imbuição típica  |    ×1/2     |\n| Arma típica + imbuição incomum  |    ×1/4     |\n| Arma incomum + imbuição incomum |    ×1/8     |\n\n## Tesouros em Vilarejos\n\nAlgumas vezes, principalmente heróis iniciantes, podem estar procurando algum tipo de tesouro em um vilarejo. A estrutura econômica de um vilarejo é precária, onde muitas vezes não há artesões capazes de criar itens além de algum tipo de [[Arma Obra-prima|Arma]], [[Armadura Obra-prima|Armadura]] ou [[Ferramenta Obra-prima]] Adepta típica da região. Nesse caso, uma vez por semana, um grupo de heróis pode realizar [[Obter Informação]] em um vilarejo para buscar se há algum morador local ou mercador itinerante disposto a vender um tesouro desejado, onde a chance de encontrar depende do resultado do teste. Esse teste (e o tempo de espera) é feito para cada tesouro específico desejado, portanto, um grupo pode tentar vários testes no mesmo vilarejo na mesma semana, desde que esteja procurando por itens diferentes.\n\n| Disponibilidade em Vilarejo |                Chance                 |\n| --------------------------- |:-------------------------------------:|\n| [[Arma Obra-prima\\|Arma]], [[Armadura Obra-prima\\|Armadura]] ou [[Ferramenta Obra-prima\\|Ferramenta]] típica pronta           |                  25%                  |\n| [[Arma Obra-prima\\|Arma]], [[Armadura Obra-prima\\|Armadura]] ou [[Ferramenta Obra-prima\\|Ferramenta]] típica por encomenda    |                 100%                  |\n| Tesouro típico Adepto       | 1.5 × [[Obter Informação]]% (max 33%)    |\n| Tesouro fundamental Adepto  | 3/4 × [[Obter Informação]]% (max 17%) |\n| Tesouro atípico Adepto      | 2/5 × [[Obter Informação]]% (max 8%) |\n"
+}

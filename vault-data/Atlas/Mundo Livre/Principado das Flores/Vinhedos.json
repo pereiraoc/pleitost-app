@@ -1,0 +1,55 @@
+{
+  "id": "Atlas/Mundo Livre/Principado das Flores/Vinhedos",
+  "path": "Atlas/Mundo Livre/Principado das Flores/Vinhedos.md",
+  "basename": "Vinhedos",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Principado das Flores]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Uva",
+      "Vinho"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vinhedos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vinhedos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Vinhedos.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade vinícola do [[Principado das Flores]], assentada sobre a própria linha da fronteira norte, na estrada que cruza rumo ao interior da [[Federação Áurea]]. Toda a sua vida gira em torno da uva e do vinho: os parreirais cercam o casario por todos os lados, a Adega Comunal guarda a produção coletiva e a Vinícola dos Toneleiros une lagar e tanoaria sob o mesmo teto. Cidade aberta e sem muralhas, mistura o casario holandês do Principado com a lida campeira dos tropeiros e suas tropilhas.\n>\n> 👁️**Aparência do Local:** Casario de tijolo marrom, ocre e avermelhado de empenas escalonadas, disposto num losango: dois eixos diagonais se cruzam na Praça da Vindima e a malha de ruas acompanha as diagonais até esfarelar em chácaras e parreirais, sem muralha nem portão. Fileiras e mais fileiras de vinhedo cobrem todo o entorno — norte, sul, leste e oeste — recortadas por estradas de terra sinuosas e cercas. O skyline é baixíssimo: destacam-se apenas o chafariz monumental da praça, de bacias em camadas encimadas por coruchéu, o coruchéu da Sede da Sociedade Aberta e as empenas mais altas do Altos das Cantinas. Não há rio, canal nem porto — Vinhedos vive inteiramente da terra.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Praça da Vindima** *(terracota — centro e oeste)* — os quarteirões em volta da praça e do mercado, onde os eixos da cidade se cruzam.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade vinícola do [[Principado das Flores]], assentada sobre a própria linha da fronteira norte, na estrada que cruza rumo ao interior da [[Federação Áurea]]. Toda a sua vida gira em torno da uva e do vinho: os parreirais cercam o casario por todos os lados, a Adega Comunal guarda a produção coletiva e a Vinícola dos Toneleiros une lagar e tanoaria sob o mesmo teto. Cidade aberta e sem muralhas, mistura o casario holandês do Principado com a lida campeira dos tropeiros e suas tropilhas.",
+    "aparencia": "Casario de tijolo marrom, ocre e avermelhado de empenas escalonadas, disposto num losango: dois eixos diagonais se cruzam na Praça da Vindima e a malha de ruas acompanha as diagonais até esfarelar em chácaras e parreirais, sem muralha nem portão. Fileiras e mais fileiras de vinhedo cobrem todo o entorno — norte, sul, leste e oeste — recortadas por estradas de terra sinuosas e cercas. O skyline é baixíssimo: destacam-se apenas o chafariz monumental da praça, de bacias em camadas encimadas por coruchéu, o coruchéu da Sede da Sociedade Aberta e as empenas mais altas do Altos das Cantinas. Não há rio, canal nem porto — Vinhedos vive inteiramente da terra.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Praça da Vindima** *(terracota — centro e oeste)* — os quarteirões em volta da praça e do mercado, onde os eixos da cidade se cruzam.",
+    "leaflet": null
+  }
+}

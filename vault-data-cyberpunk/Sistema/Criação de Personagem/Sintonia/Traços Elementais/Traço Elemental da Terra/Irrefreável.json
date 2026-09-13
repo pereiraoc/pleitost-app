@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Irrefreável",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Irrefreável.md",
+  "basename": "Irrefreável",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Terra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Terra]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Irrefreável"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Terra]]\nprev::\nnext::\n%%\n### Irrefreável\nVocê recebe +2 de [[bônus de especialização]] nas [[Resistências]] contra tentativas de [[Empurrar]] ou [[Derrubar]] você. Adicionalmente, efeitos que empurrem pelo menos 2q, são reduzidos em 1q."
+}

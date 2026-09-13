@@ -1,0 +1,51 @@
+{
+  "id": "Contexto/Recursos/Veículos/Fiat 147",
+  "path": "Contexto/Recursos/Veículos/Fiat 147.md",
+  "basename": "Fiat 147",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Fiat",
+    "Preço": 60000,
+    "Cobrança": "única",
+    "Manutenção": 1200,
+    "Nível": 3,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "O carrinho italiano de segunda mão que pega no frio quando o Fusca não pega: barato, apertado, enferruja olhando.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Fiat 147.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Fiat 147.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Fiat 147.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO 147 é o carro mais barato que anda: motor a álcool que pega no inverno (ao contrário do Fusca), quatro\nlugares apertados, lataria que a umidade do Guaíba devora em três anos. Só usado; a Fiat vende o Uno agora, e\nninguém aqui tem dinheiro pra Uno.\n\n> [!info] Especificação\n> **Modelo:** Fiat 147 (1976–1986), 2 portas, 4 lugares\n> **Motor:** Fiat 1.3 álcool, 61 cv; 11 km/l\n> **Velocidade:** 135 km/h\n> **Só usado:** garagens de bairro; Cz$ 60.000 — Cz$ 40.000 com o assoalho podre\n> **Manutenção:** Cz$ 1.200 por mês\n"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Envenenador Nato",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Envenenador Nato.md",
+  "basename": "Envenenador Nato",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Você se torna [[Adepto]] em Ofício: Venenos e prepara 4 Venenos Básicos por dia (expiram no dia seguinte); a potência melhora com sua proficiência em [[Ladinagem]] (Experiente/Mestre). Um veneno aplicado expira no primeiro sucesso (ou melhor) em um [[Atacar|Ataque]] com a arma ou após 10 minutos. Você pode envenenar uma arma empunhada ou munição em sua posse com um veneno que você tenha (precisa 1 mão livre).\"",
+    "usos_nome": "\"Veneno Básico\"",
+    "usos_freq": "4/dia"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Você se torna [[Adepto]] em Ofício: Venenos e prepara 4 Venenos Básicos por dia (expiram no dia seguinte); a potência melhora com sua proficiência em [[Ladinagem]] (Experiente/Mestre). Um veneno aplicado expira no primeiro sucesso (ou melhor) em um [[Atacar|Ataque]] com a arma ou após 10 minutos. Você pode envenenar uma arma empunhada ou munição em sua posse com um veneno que você tenha (precisa 1 mão livre).\"\n\nusos_nome:: \"Veneno Básico\"\nusos_freq:: 4/dia\n%%\n#### `= this.file.name` - `= this.rank`\nVocê se torna [[Adepto]] em Ofício: Venenos. Você prepara 4 Venenos Básicos (Adepto) no início do dia. Estes expiram no próximo dia. Caso você se torne [[Experiente]] em [[Ladinagem]], você cria Venenos Básicos (Experiente). Caso você se torne [[Mestre]] em [[Ladinagem]], você se torna [[Experiente]] em Ofício: Venenos e cria Venenos Básicos (Mestre).\n\nUm Veneno Básico aplicado em uma arma expira após você ter sucesso (ou melhor) em um [[Atacar|Ataque]] com a arma ou ao se passarem 10 minutos. o que acontecer antes.\n* Veneno Básico (Adepto): 1d4+2. Teste +5 vs [[Vigor]]. Metade na falha, +1d4 no sucesso decisivo.\n* Veneno Básico (Experiente): 2d4+2. Teste +7 vs [[Vigor]]. Metade na falha, +1d4 no sucesso decisivo.\n* Veneno Básico (Mestre): 3d4+2. Teste +9 vs [[Vigor]]. Metade na falha, +1d4 no sucesso decisivo.\n\nSe você tiver algum [[Bônus de Item|bônus de item]] para [[Ladinagem]], pode adicioná-lo ao teste contra [[Vigor]] do veneno.\n\nAdicionalmente, você aprende a habilidade Envenenamento Rápido.\n\n**Envenenamento Rápido - 1A**\nVocê envenena uma arma que você está empunhando ou uma munição em sua posse com um veneno em sua posse. Você precisa de uma mão livre para esta ação.\n\n```autosheet-rules\n```\n"
+}

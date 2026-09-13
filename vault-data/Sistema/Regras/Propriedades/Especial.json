@@ -1,0 +1,35 @@
+{
+  "id": "Sistema/Regras/Propriedades/Especial",
+  "path": "Sistema/Regras/Propriedades/Especial.md",
+  "basename": "Especial",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Explicação na descrição.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Explicação na descrição.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

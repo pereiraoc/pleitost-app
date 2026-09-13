@@ -1,0 +1,1888 @@
+{
+  "id": "Atlas/Porto Alegre/Porto Alegre",
+  "path": "Atlas/Porto Alegre/Porto Alegre.md",
+  "basename": "Porto Alegre",
+  "type": "Localização",
+  "subtype": "Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Grande Porto Alegre"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Cidade",
+    "Geolocalização": "[[Rio Grande do Sul]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mapa de Porto Alegre RPG.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Rio Grande do Sul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Porto Alegre.png",
+      "from": "body"
+    },
+    {
+      "target": "Mapa de Porto Alegre RPG.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Bairros de Porto Alegre"
+    }
+  ],
+  "body": "#Local\n![[Porto Alegre.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto** `= this.Contexto`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** `= this.Descrição`\n\n```leaflet\nid: leaflet-map\nimage: [[Mapa de Porto Alegre RPG.png]]\nbounds: [[0,0], [1170,850]]\nheight: 585px\nwidth: 425px\nlat: 585\nlong: 425\nminZoom: -1\nmaxZoom: 0.1\ndefaultZoom: -1\nzoomDelta: 0.5\nunit: meters\nscale: 45.6\nrecenter: true\ndarkMode: false\nmarker: Bairro,990.078125,405.5,Nova Sarandi,,,-0.1\nmarker: Bairro,928,309,Quarto Distrito,,,-0.1\nmarker: Bairro,885,335,Moinhos de Vento,,,-0.1\nmarker: Bairro,861,295,Bom Fim,,,-0.1\nmarker: Bairro,852,248,Centro Histórico,,,-0.1\nmarker: Bairro,642.078125,247.5,Ipanema,,,-0.1\nmarker: Bairro,578,436,Restinga,,,-0.1\nmarker: Bar,846,255,Cidade Baixa,,-0.1,\nmarker: Bairro,788,256,Praia de Belas,,,-0.1\nmarker: Mercado,876,258,Mercado Público,,-0.1,\nmarker: Mercado,872,262,Palafitas do Mercado,,-0.1,\nmarker: Parque,845,299,Redenção,,-0.1,\nmarker: Bar,883,343,Padre Chagas,,0,\nmarker: Parque,863,338,Parcão,,-0.1,\nmarker: Mercado,858,272,Camelódromo,,-0.1,\nmarker: Industrial,937.46875,315.5,Velha Indústria,,-0.1,\nmarker: Bairro,416,524,Zona Deserta,,,-0.1\nmarker: Porto,796,236,Porto Novo,,-0.1,\nmarker: Hotel,621,260,Resort Nova Porto Alegre,,-0.1,\nmarker: Radioativo,953,197,Delta Radioativo,,,-0.1\nmarker: Bairro,952,548,Costa e Silva,,,-0.1\nmarker: Bairro,942,446,Passo D'Areia,,,-0.1\nmarker: Bairro,900,422,Jardim Itu,,,-0.1\nmarker: Bairro,864,466,Petrópolis,,,-0.1\nmarker: Bairro,820,402,Jardim Botânico,,,-0.1\nmarker: Parque,876.4,252.4,Praça da Alfândega,,-0.1,\nmarker: Mercado,879.4,260.0,Galeria Malcom,,-0.1,\nmarker: Mercado,881.2,264.4,Galeria do Rosário,,-0.1,\nmarker: Ponto de Interesse,869.4,252.4,Duque de Caxias,,-0.1,\nmarker: Ponto de Interesse,875.7,262.2,Salgado Filho,,-0.1,\nmarker: Ponto de Interesse,871.4,257.9,Viaduto da Borges,,-0.1,\nmarker: Porto,850.7,267.6,Trapiche da Aliança,,-0.1,\nmarker: Bar,855.7,275.2,Lancheria da Cidade Baixa,,-0.1,\nmarker: Estação,884,253,Estação Central,,-0.1,\nmarker: Estação,875.4,250.3,Estação Centro Corporativo,,-0.1,\nmarker: Estação,852.4,270.9,Estação Cidade Baixa,,-0.1,\nmarker: Ponto de Interesse,876.9,285.0,Independência,,-0.1,\nmarker: Ponto de Interesse,877.4,279.6,Colégio Rosário,,-0.1,\nmarker: Mercado,868,276,Armazém Sarmento Leite,,-0.1,\nmarker: Bar,864.9,288.3,Bar Ocidente,,-0.1,\nmarker: Hotel,868.2,293.7,Pensão Farroupilha,,-0.1,\nmarker: Estação,876.9,283.9,Estação Independência,,-0.1,\nmarker: Ponto de Interesse,887.4,328.5,Edifício Concorde,,-0.1,\nmarker: Estação,887,313,Estação Moinhos,,-0.1,\nmarker: Estação,887.4,329.5,Estação Concorde,,-0.1,\nmarker: Bar,923.2,303.5,Farrapos,,-0.1,\nmarker: Bar,933.2,315.4,Teatro Quarto Distrito,,-0.1,\nmarker: Ponto de Interesse,937.0,311.1,Ponto da Kombi da Voluntários,,-0.1,\nmarker: Ponto de Interesse,993.3,458.8,Rua da Sarandi,,-0.1,\nmarker: Industrial,1000.8,469.6,Ferroviária Nacional,,-0.1,\nmarker: Mercado,1017.1,482.7,Depósito Zaffari,,-0.1,\nmarker: Estação,1002.0,470.7,Estação Sarandi,,-0.1,\nmarker: Estação,1015.8,480.5,Estação Zaffari,,-0.1,\nmarker: Mercado,910,377,Shopping Iguatemi,,-0.1,\nmarker: Estação,938.2,382.8,Estação Passo D'Areia,,-0.1,\nmarker: Parque,929.5,373.0,Praça das Nogueiras,,-0.1,\nmarker: Estação,929.5,374.1,Estação Nogueiras,,-0.1,\nmarker: Estação,858.9,470.0,Estação Tramontina,,-0.1,\nmarker: Estação,909.0,427.0,Estação Itu,,-0.1,\nmarker: Estação,772.4,488.4,Estação Campus do Vale,,-0.1,\nmarker: Hotel,961,446,Motel Assis Brasil,,-0.1,\nmarker: Industrial,958.3,430.5,Concessionária Gurgel,,-0.1,\nmarker: Industrial,949.5,404.5,Posto Ipiranga da Assis Brasil,,-0.1,\nmarker: Bar,934.5,379.5,Boteco Embaixo da Via,,-0.1,\nmarker: Industrial,912.0,430.5,Fábrica Itú Química,,-0.1,\nmarker: Industrial,905.7,420.8,Rua da Antiga Indústria,,-0.1,\nmarker: Ponto de Interesse,898.2,413.2,Ponto da Kombi do Itu,,-0.1,\nmarker: Industrial,856.9,474.0,Sede da Tramontina,,-0.1,\nmarker: Parque,865.7,458.8,Parque Moinhos,,-0.1,\nmarker: Bar,869.4,445.7,Galeteria de Petrópolis,,-0.1,\nmarker: Estação,823.1,369.7,Estação Jardim Botânico,,-0.1,\nmarker: Ponto de Interesse,787.9,239.2,Estádio Beira-Rio,,-0.1,\nmarker: Estação,801.9,259.0,Estação Estádios,,-0.1,\nmarker: Ponto de Interesse,837,252,Estação Férrea de Belas,,-0.1,\nmarker: Estação,796,234,Estação Porto Novo,,-0.1,\nmarker: Estação,832,249,Estação Praia de Belas,,-0.1,\nmarker: Industrial,838,245,Usina do Gasômetro,,-0.1,\nmarker: Mercado,779,230,Mercado de Frutos do Mar,,-0.1,\nmarker: Porto,778,236,Estaleiro do Cais,,-0.1,\nmarker: Porto,640,238,Embarcadouro do Guaíba,,-0.1,\nmarker: Estação,639.2,250.3,Estação Ipanema,,-0.1,\nmarker: Industrial,574.2,439.2,Oficina de Sucata,,-0.1,\nmarker: Mercado,581.7,430.5,Mercado da Restinga,,-0.1,\nmarker: Ponto de Interesse,421.6,521.8,Ponto do Caminhão do Sindicato,,-0.1,\nmarker: Ponto de Interesse,953,560,Quartel-General do Exército,,-0.1,\nmarker: Estação,955,560,Estação Quartel,,-0.1,\nmarker: Ponto de Interesse,958.3,555.4,Vila Militar do Paraguassu,,-0.1,\nmarker: Ponto de Interesse,944.5,543.5,Rádio Farroupilha,,-0.1,\nmarker: Ponto de Interesse,831,509,Sede da Camisa 12,,-0.1,\nmarker: Mercado,826,496,Venda da Vila,,-0.1,\nmarker: Industrial,825,507,Oficina do Borracheiro,,-0.1,\nmarker: Mercado,822,501,Padaria da Vila,,-0.1,\nmarker: Hospital,854.4,301.3,Hospital de Clínicas,,-0.1,\nmarker: Hospital,871.4,268.1,Santa Casa,,-0.1,\nmarker: Hospital,954.5,413.2,Hospital Cristo Redentor,,-0.1,\nmarker: Hospital,949.5,550.0,Hospital de Guarnição,,-0.1,\nmarker: Ponto de Interesse,870,280,Campus Centro da UFRGS,,-0.1,\nmarker: Ponto de Interesse,855.7,299.1,Campus Saúde da UFRGS,,-0.1,\nmarker: Ponto de Interesse,769.4,491.4,Campus do Vale da UFRGS,,-0.1,\nmarker: Ponto de Interesse,802.9,375.2,Campus Central da PUCRS,,-0.1,\nmarker: Estação,804.4,370.8,Estação PUCRS,,-0.1,\nmarker: Ponto de Interesse,890.7,325.2,Escola Técnica Gradiente,,-0.1,\nmarker: Ponto de Interesse,855,473,Instituto Técnico Tramontina,,-0.1,\nmarker: Parque,890.7,331.7,Praça da Encol,,-0.1,\nmarker: Mercado,887,318,Adega Moinhos,,-0.1,\nmarker: Hospital,912,436,Ambulatório da Itú Química,,-0.1,\nmarker: Hospital,856,463,Ambulatório da Tramontina,,-0.1,\nmarker: Mercado,942,551,Armazém Costa e Silva,,-0.1,\nmarker: Mercado,869,451,Armazém Petrópolis,,-0.1,\nmarker: Mercado,846,260,Armazém da Palafita,,-0.1,\nmarker: Mercado,928,314,Armazém do Distrito,,-0.1,\nmarker: Mercado,899,408,Armazém do Itu,,-0.1,\nmarker: Mercado,796,241,Armazém do Porto,,-0.1,\nmarker: Mercado,587,431,Armazém do Renato,,-0.1,\nmarker: Industrial,866,438,Auto Petrópolis,,-0.1,\nmarker: Mercado,864,260,Banca da Esquina Democrática,,-0.1,\nmarker: Mercado,938,388,Banca do Aeromóvel,,-0.1,\nmarker: Bar,579,423,Bar da Estrada,,-0.1,\nmarker: Bar,634,249,Bar da Praia de Ipanema,,-0.1,\nmarker: Bar,823,375,Bar do Botânico,,-0.1,\nmarker: Bar,959,550,Bar do Sargento,,-0.1,\nmarker: Bar,870,247,Bar do Zeca,,-0.1,\nmarker: Mercado,422,527,Barraca de Escambo,,-0.1,\nmarker: Mercado,778,241,Barraca do Cais,,-0.1,\nmarker: Hospital,427,522,Barraca do Enfermeiro,,-0.1,\nmarker: Hotel,419,514,Barraco de Aluguel do Clã,,-0.1,\nmarker: Industrial,416,529,Base Fantasma,,-0.1,\nmarker: Ponto de Interesse,818,368,Biblioteca Verde,,-0.1,\nmarker: Industrial,820,362,Bicicletaria Verde,,-0.1,\nmarker: Industrial,862,281,Bicicletaria do Alemão,,-0.1,\nmarker: Bar,877,449,Boteco da Bento,,-0.1,\nmarker: Bar,998,477,Boteco do Apito,,-0.1,\nmarker: Bar,773,235,Boteco do Estivador,,-0.1,\nmarker: Bar,930,323,Boteco do Quarto,,-0.1,\nmarker: Bar,917,431,Boteco do Químico,,-0.1,\nmarker: Bar,883,348,Café da Padre Chagas,,-0.1,\nmarker: Bar,1008,473,Cantina da Fábrica,,-0.1,\nmarker: Industrial,586,424,Carpintaria da Restinga,,-0.1,\nmarker: Bar,863,343,Churrascaria do Parcão,,-0.1,\nmarker: Parque,636,258,Clube de Golfe de Ipanema,,-0.1,\nmarker: Bar,904,433,Clube dos Químicos,,-0.1,\nmarker: Hospital,636,243,Clínica Ipanema,,-0.1,\nmarker: Hospital,945,386,Clínica Ortopédica D'Areia,,-0.1,\nmarker: Hospital,888,343,Clínica Salgado,,-0.1,\nmarker: Industrial,411,523,Complexo de Testes Orion,,-0.1,\nmarker: Hospital,918,302,Consultório da Farrapos,,-0.1,\nmarker: Ponto de Interesse,646,254,Corretora Ipanema,,-0.1,\nmarker: Hospital,583,438,Curandeira da Restinga,,-0.1,\nmarker: Industrial,426,515,Curral do Sindicato,,-0.1,\nmarker: Industrial,429,530,Depósito de Sucata,,-0.1,\nmarker: Mercado,641,258,Empório Ipanema,,-0.1,\nmarker: Hospital,851,255,Enfermaria das Palafitas,,-0.1,\nmarker: Hospital,804,244,Enfermaria do Porto,,-0.1,\nmarker: Parque,830,373,Estufa Histórica,,-0.1,\nmarker: Ponto de Interesse,832,254,Estádio Olímpico Monumental,,-0.1,\nmarker: Hospital,877,290,Farmácia Panvel da Independência,,-0.1,\nmarker: Industrial,880,245,Garagem Rua da Praia,,-0.1,\nmarker: Industrial,993,472,Garagem da Ferroviária,,-0.1,\nmarker: Industrial,771,244,Garagem do Estivador,,-0.1,\nmarker: Industrial,827,363,Garagem do Jardim,,-0.1,\nmarker: Industrial,935,323,Garagem dos Rachas,,-0.1,\nmarker: Hotel,816,378,Hospedaria do Jardim,,-0.1,\nmarker: Hotel,878,342,Hotel Padre Chagas,,-0.1,\nmarker: Hotel,863,247,Hotel Rua da Praia,,-0.1,\nmarker: Ponto de Interesse,845,304,Igreja Nosso Senhor do Bom Fim,,-0.1,\nmarker: Ponto de Interesse,882,285,Imobiliária Independência,,-0.1,\nmarker: Ponto de Interesse,812,369,Imobiliária Jardim,,-0.1,\nmarker: Ponto de Interesse,892,313,Imobiliária Moinhos,,-0.1,\nmarker: Ponto de Interesse,931,385,Imobiliária Passo D'Areia,,-0.1,\nmarker: Ponto de Interesse,862,448,Imobiliária Petrópolis,,-0.1,\nmarker: Ponto de Interesse,873,239,Imobiliária da Rua da Praia,,-0.1,\nmarker: Parque,808,376,Lago Dilúvio,,-0.1,\nmarker: Parque,700,130,Lago Guaíba,,-0.1,\nmarker: Parque,953,202,Lagoa do Pinheiro,,-0.1,\nmarker: Bar,854,288,Lancheria do Bom Fim,,-0.1,\nmarker: Bar,942,376,Lancheria do Passo,,-0.1,\nmarker: Industrial,860,255,Locadora Gurgel da Rua da Praia,,-0.1,\nmarker: Mercado,832,363,Mercadinho do Jardim,,-0.1,\nmarker: Industrial,961,451,Moto Center Assis Brasil,,-0.1,\nmarker: Bar,871,301,Ocidente,,-0.1,\nmarker: Industrial,966,559,Oficina Paraguassu,,-0.1,\nmarker: Industrial,911,421,Oficina da Antiga Indústria,,-0.1,\nmarker: Industrial,853,283,Oficina do Cardã,,-0.1,\nmarker: Mercado,885,270,Padaria Central,,-0.1,\nmarker: Mercado,877,296,Padaria Colonial do Bom Fim,,-0.1,\nmarker: Mercado,628,250,Padaria Ipanema,,-0.1,\nmarker: Mercado,920,311,Padaria Navegantes,,-0.1,\nmarker: Mercado,930,368,Padaria Nogueiras,,-0.1,\nmarker: Mercado,837,257,Padaria da Belas,,-0.1,\nmarker: Mercado,850,278,Padaria da Ponte,,-0.1,\nmarker: Mercado,589,438,Padaria da Restinga,,-0.1,\nmarker: Mercado,993,464,Padaria da Sarandi,,-0.1,\nmarker: Mercado,873,439,Padaria de Petrópolis,,-0.1,\nmarker: Mercado,893,412,Padaria do Itu,,-0.1,\nmarker: Mercado,822,381,Padaria do Jardim,,-0.1,\nmarker: Mercado,948,559,Padaria do Quartel,,-0.1,\nmarker: Hotel,878,439,Pensão da Bento,,-0.1,\nmarker: Hotel,1005,463,Pensão da Ferroviária,,-0.1,\nmarker: Hotel,831,496,Pensão da Vila,,-0.1,\nmarker: Hotel,966,554,Pensão da Vila Militar,,-0.1,\nmarker: Hotel,767,235,Pensão do Cais,,-0.1,\nmarker: Hotel,895,421,Pensão do Itu,,-0.1,\nmarker: Hotel,933,304,Pensão sem Placa,,-0.1,\nmarker: Hotel,879,272,Plaza São Rafael,,-0.1,\nmarker: Ponto de Interesse,864,241,Ponto de Táxi da Alfândega,,-0.1,\nmarker: Ponto de Interesse,857,453,Ponto de Táxi da Bento,,-0.1,\nmarker: Ponto de Interesse,846,294,Ponto de Táxi da Redenção,,-0.1,\nmarker: Ponto de Interesse,648,243,Ponto de Táxi de Ipanema,,-0.1,\nmarker: Ponto de Interesse,827,356,Ponto de Táxi do Parque,,-0.1,\nmarker: Ponto de Interesse,955,543,Ponto de Táxi do Quartel,,-0.1,\nmarker: Ponto de Interesse,888,308,Ponto de Táxi dos Moinhos,,-0.1,\nmarker: Industrial,1003,477,Portaria da Tramontina,,-0.1,\nmarker: Hospital,988,458,Posto Panvel da Sarandi,,-0.1,\nmarker: Hospital,829,382,Posto Panvel do Jardim,,-0.1,\nmarker: Hotel,571,430,Pousada da Estrada,,-0.1,\nmarker: Bar,865,301,Restaurante Familiar do Bom Fim,,-0.1,\nmarker: Industrial,627,257,Revenda Ipanema Motors,,-0.1,\nmarker: Industrial,880,321,Revenda Moinhos,,-0.1,\nmarker: Industrial,864,477,Rua das Indústrias,,-0.1,\nmarker: Ponto de Interesse,958,197,Rua do Rato,,-0.1,\nmarker: Industrial,569,438,Torre de Vigilância Caseira,,-0.1,\nmarker: Hospital,827,491,Veterinário da Vila,,-0.1,\nmarker: Industrial,916,424,Vila da Itú Química,,-0.1,\nmarker: Bar,821,495,Xis da Vila,,-0.1,\nmarker: Mercado,931,391,Zaffari do Passo D'Areia,,-0.1,\nmarker: Mercado,895,306,Zaffari dos Moinhos,,-0.1,\n```\n\n\n## Bairros de Porto Alegre\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Localização\" and subcategoria=\"Bairro\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": null,
+    "aparencia": null,
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": {
+      "image": "Mapa de Porto Alegre RPG.png",
+      "bounds": [
+        [
+          0,
+          0
+        ],
+        [
+          1170,
+          850
+        ]
+      ],
+      "defaultZoom": -1,
+      "scale": 45.6,
+      "unit": "meters",
+      "markers": [
+        {
+          "tipo": "Bairro",
+          "lat": 990.078125,
+          "long": 405.5,
+          "nome": "Nova Sarandi",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 928,
+          "long": 309,
+          "nome": "Quarto Distrito",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 885,
+          "long": 335,
+          "nome": "Moinhos de Vento",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 861,
+          "long": 295,
+          "nome": "Bom Fim",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 852,
+          "long": 248,
+          "nome": "Centro Histórico",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 642.078125,
+          "long": 247.5,
+          "nome": "Ipanema",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 578,
+          "long": 436,
+          "nome": "Restinga",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bar",
+          "lat": 846,
+          "long": 255,
+          "nome": "Cidade Baixa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 788,
+          "long": 256,
+          "nome": "Praia de Belas",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 876,
+          "long": 258,
+          "nome": "Mercado Público",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 872,
+          "long": 262,
+          "nome": "Palafitas do Mercado",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 845,
+          "long": 299,
+          "nome": "Redenção",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 883,
+          "long": 343,
+          "nome": "Padre Chagas",
+          "minZoom": 0,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 863,
+          "long": 338,
+          "nome": "Parcão",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 858,
+          "long": 272,
+          "nome": "Camelódromo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 937.46875,
+          "long": 315.5,
+          "nome": "Velha Indústria",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 416,
+          "long": 524,
+          "nome": "Zona Deserta",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Porto",
+          "lat": 796,
+          "long": 236,
+          "nome": "Porto Novo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 621,
+          "long": 260,
+          "nome": "Resort Nova Porto Alegre",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Radioativo",
+          "lat": 953,
+          "long": 197,
+          "nome": "Delta Radioativo",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 952,
+          "long": 548,
+          "nome": "Costa e Silva",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 942,
+          "long": 446,
+          "nome": "Passo D'Areia",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 900,
+          "long": 422,
+          "nome": "Jardim Itu",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 864,
+          "long": 466,
+          "nome": "Petrópolis",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 820,
+          "long": 402,
+          "nome": "Jardim Botânico",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Parque",
+          "lat": 876.4,
+          "long": 252.4,
+          "nome": "Praça da Alfândega",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 879.4,
+          "long": 260,
+          "nome": "Galeria Malcom",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 881.2,
+          "long": 264.4,
+          "nome": "Galeria do Rosário",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 869.4,
+          "long": 252.4,
+          "nome": "Duque de Caxias",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 875.7,
+          "long": 262.2,
+          "nome": "Salgado Filho",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 871.4,
+          "long": 257.9,
+          "nome": "Viaduto da Borges",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Porto",
+          "lat": 850.7,
+          "long": 267.6,
+          "nome": "Trapiche da Aliança",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 855.7,
+          "long": 275.2,
+          "nome": "Lancheria da Cidade Baixa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 884,
+          "long": 253,
+          "nome": "Estação Central",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 875.4,
+          "long": 250.3,
+          "nome": "Estação Centro Corporativo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 852.4,
+          "long": 270.9,
+          "nome": "Estação Cidade Baixa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 876.9,
+          "long": 285,
+          "nome": "Independência",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 877.4,
+          "long": 279.6,
+          "nome": "Colégio Rosário",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 868,
+          "long": 276,
+          "nome": "Armazém Sarmento Leite",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 864.9,
+          "long": 288.3,
+          "nome": "Bar Ocidente",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 868.2,
+          "long": 293.7,
+          "nome": "Pensão Farroupilha",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 876.9,
+          "long": 283.9,
+          "nome": "Estação Independência",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 887.4,
+          "long": 328.5,
+          "nome": "Edifício Concorde",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 887,
+          "long": 313,
+          "nome": "Estação Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 887.4,
+          "long": 329.5,
+          "nome": "Estação Concorde",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 923.2,
+          "long": 303.5,
+          "nome": "Farrapos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 933.2,
+          "long": 315.4,
+          "nome": "Teatro Quarto Distrito",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 937,
+          "long": 311.1,
+          "nome": "Ponto da Kombi da Voluntários",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 993.3,
+          "long": 458.8,
+          "nome": "Rua da Sarandi",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 1000.8,
+          "long": 469.6,
+          "nome": "Ferroviária Nacional",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 1017.1,
+          "long": 482.7,
+          "nome": "Depósito Zaffari",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 1002,
+          "long": 470.7,
+          "nome": "Estação Sarandi",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 1015.8,
+          "long": 480.5,
+          "nome": "Estação Zaffari",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 910,
+          "long": 377,
+          "nome": "Shopping Iguatemi",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 938.2,
+          "long": 382.8,
+          "nome": "Estação Passo D'Areia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 929.5,
+          "long": 373,
+          "nome": "Praça das Nogueiras",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 929.5,
+          "long": 374.1,
+          "nome": "Estação Nogueiras",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 858.9,
+          "long": 470,
+          "nome": "Estação Tramontina",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 909,
+          "long": 427,
+          "nome": "Estação Itu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 772.4,
+          "long": 488.4,
+          "nome": "Estação Campus do Vale",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 961,
+          "long": 446,
+          "nome": "Motel Assis Brasil",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 958.3,
+          "long": 430.5,
+          "nome": "Concessionária Gurgel",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 949.5,
+          "long": 404.5,
+          "nome": "Posto Ipiranga da Assis Brasil",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 934.5,
+          "long": 379.5,
+          "nome": "Boteco Embaixo da Via",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 912,
+          "long": 430.5,
+          "nome": "Fábrica Itú Química",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 905.7,
+          "long": 420.8,
+          "nome": "Rua da Antiga Indústria",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 898.2,
+          "long": 413.2,
+          "nome": "Ponto da Kombi do Itu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 856.9,
+          "long": 474,
+          "nome": "Sede da Tramontina",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 865.7,
+          "long": 458.8,
+          "nome": "Parque Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 869.4,
+          "long": 445.7,
+          "nome": "Galeteria de Petrópolis",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 823.1,
+          "long": 369.7,
+          "nome": "Estação Jardim Botânico",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 787.9,
+          "long": 239.2,
+          "nome": "Estádio Beira-Rio",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 801.9,
+          "long": 259,
+          "nome": "Estação Estádios",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 837,
+          "long": 252,
+          "nome": "Estação Férrea de Belas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 796,
+          "long": 234,
+          "nome": "Estação Porto Novo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 832,
+          "long": 249,
+          "nome": "Estação Praia de Belas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 838,
+          "long": 245,
+          "nome": "Usina do Gasômetro",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 779,
+          "long": 230,
+          "nome": "Mercado de Frutos do Mar",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Porto",
+          "lat": 778,
+          "long": 236,
+          "nome": "Estaleiro do Cais",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Porto",
+          "lat": 640,
+          "long": 238,
+          "nome": "Embarcadouro do Guaíba",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 639.2,
+          "long": 250.3,
+          "nome": "Estação Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 574.2,
+          "long": 439.2,
+          "nome": "Oficina de Sucata",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 581.7,
+          "long": 430.5,
+          "nome": "Mercado da Restinga",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 421.6,
+          "long": 521.8,
+          "nome": "Ponto do Caminhão do Sindicato",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 953,
+          "long": 560,
+          "nome": "Quartel-General do Exército",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 955,
+          "long": 560,
+          "nome": "Estação Quartel",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 958.3,
+          "long": 555.4,
+          "nome": "Vila Militar do Paraguassu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 944.5,
+          "long": 543.5,
+          "nome": "Rádio Farroupilha",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 831,
+          "long": 509,
+          "nome": "Sede da Camisa 12",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 826,
+          "long": 496,
+          "nome": "Venda da Vila",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 825,
+          "long": 507,
+          "nome": "Oficina do Borracheiro",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 822,
+          "long": 501,
+          "nome": "Padaria da Vila",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 854.4,
+          "long": 301.3,
+          "nome": "Hospital de Clínicas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 871.4,
+          "long": 268.1,
+          "nome": "Santa Casa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 954.5,
+          "long": 413.2,
+          "nome": "Hospital Cristo Redentor",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 949.5,
+          "long": 550,
+          "nome": "Hospital de Guarnição",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 870,
+          "long": 280,
+          "nome": "Campus Centro da UFRGS",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 855.7,
+          "long": 299.1,
+          "nome": "Campus Saúde da UFRGS",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 769.4,
+          "long": 491.4,
+          "nome": "Campus do Vale da UFRGS",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 802.9,
+          "long": 375.2,
+          "nome": "Campus Central da PUCRS",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Estação",
+          "lat": 804.4,
+          "long": 370.8,
+          "nome": "Estação PUCRS",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 890.7,
+          "long": 325.2,
+          "nome": "Escola Técnica Gradiente",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 855,
+          "long": 473,
+          "nome": "Instituto Técnico Tramontina",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 890.7,
+          "long": 331.7,
+          "nome": "Praça da Encol",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 887,
+          "long": 318,
+          "nome": "Adega Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 912,
+          "long": 436,
+          "nome": "Ambulatório da Itú Química",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 856,
+          "long": 463,
+          "nome": "Ambulatório da Tramontina",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 942,
+          "long": 551,
+          "nome": "Armazém Costa e Silva",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 869,
+          "long": 451,
+          "nome": "Armazém Petrópolis",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 846,
+          "long": 260,
+          "nome": "Armazém da Palafita",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 928,
+          "long": 314,
+          "nome": "Armazém do Distrito",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 899,
+          "long": 408,
+          "nome": "Armazém do Itu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 796,
+          "long": 241,
+          "nome": "Armazém do Porto",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 587,
+          "long": 431,
+          "nome": "Armazém do Renato",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 866,
+          "long": 438,
+          "nome": "Auto Petrópolis",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 864,
+          "long": 260,
+          "nome": "Banca da Esquina Democrática",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 938,
+          "long": 388,
+          "nome": "Banca do Aeromóvel",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 579,
+          "long": 423,
+          "nome": "Bar da Estrada",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 634,
+          "long": 249,
+          "nome": "Bar da Praia de Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 823,
+          "long": 375,
+          "nome": "Bar do Botânico",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 959,
+          "long": 550,
+          "nome": "Bar do Sargento",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 870,
+          "long": 247,
+          "nome": "Bar do Zeca",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 422,
+          "long": 527,
+          "nome": "Barraca de Escambo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 778,
+          "long": 241,
+          "nome": "Barraca do Cais",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 427,
+          "long": 522,
+          "nome": "Barraca do Enfermeiro",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 419,
+          "long": 514,
+          "nome": "Barraco de Aluguel do Clã",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 416,
+          "long": 529,
+          "nome": "Base Fantasma",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 818,
+          "long": 368,
+          "nome": "Biblioteca Verde",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 820,
+          "long": 362,
+          "nome": "Bicicletaria Verde",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 862,
+          "long": 281,
+          "nome": "Bicicletaria do Alemão",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 877,
+          "long": 449,
+          "nome": "Boteco da Bento",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 998,
+          "long": 477,
+          "nome": "Boteco do Apito",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 773,
+          "long": 235,
+          "nome": "Boteco do Estivador",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 930,
+          "long": 323,
+          "nome": "Boteco do Quarto",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 917,
+          "long": 431,
+          "nome": "Boteco do Químico",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 883,
+          "long": 348,
+          "nome": "Café da Padre Chagas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 1008,
+          "long": 473,
+          "nome": "Cantina da Fábrica",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 586,
+          "long": 424,
+          "nome": "Carpintaria da Restinga",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 863,
+          "long": 343,
+          "nome": "Churrascaria do Parcão",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 636,
+          "long": 258,
+          "nome": "Clube de Golfe de Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 904,
+          "long": 433,
+          "nome": "Clube dos Químicos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 636,
+          "long": 243,
+          "nome": "Clínica Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 945,
+          "long": 386,
+          "nome": "Clínica Ortopédica D'Areia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 888,
+          "long": 343,
+          "nome": "Clínica Salgado",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 411,
+          "long": 523,
+          "nome": "Complexo de Testes Orion",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 918,
+          "long": 302,
+          "nome": "Consultório da Farrapos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 646,
+          "long": 254,
+          "nome": "Corretora Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 583,
+          "long": 438,
+          "nome": "Curandeira da Restinga",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 426,
+          "long": 515,
+          "nome": "Curral do Sindicato",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 429,
+          "long": 530,
+          "nome": "Depósito de Sucata",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 641,
+          "long": 258,
+          "nome": "Empório Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 851,
+          "long": 255,
+          "nome": "Enfermaria das Palafitas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 804,
+          "long": 244,
+          "nome": "Enfermaria do Porto",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 830,
+          "long": 373,
+          "nome": "Estufa Histórica",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 832,
+          "long": 254,
+          "nome": "Estádio Olímpico Monumental",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 877,
+          "long": 290,
+          "nome": "Farmácia Panvel da Independência",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 880,
+          "long": 245,
+          "nome": "Garagem Rua da Praia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 993,
+          "long": 472,
+          "nome": "Garagem da Ferroviária",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 771,
+          "long": 244,
+          "nome": "Garagem do Estivador",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 827,
+          "long": 363,
+          "nome": "Garagem do Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 935,
+          "long": 323,
+          "nome": "Garagem dos Rachas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 816,
+          "long": 378,
+          "nome": "Hospedaria do Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 878,
+          "long": 342,
+          "nome": "Hotel Padre Chagas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 863,
+          "long": 247,
+          "nome": "Hotel Rua da Praia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 845,
+          "long": 304,
+          "nome": "Igreja Nosso Senhor do Bom Fim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 882,
+          "long": 285,
+          "nome": "Imobiliária Independência",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 812,
+          "long": 369,
+          "nome": "Imobiliária Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 892,
+          "long": 313,
+          "nome": "Imobiliária Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 931,
+          "long": 385,
+          "nome": "Imobiliária Passo D'Areia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 862,
+          "long": 448,
+          "nome": "Imobiliária Petrópolis",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 873,
+          "long": 239,
+          "nome": "Imobiliária da Rua da Praia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 808,
+          "long": 376,
+          "nome": "Lago Dilúvio",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 700,
+          "long": 130,
+          "nome": "Lago Guaíba",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 953,
+          "long": 202,
+          "nome": "Lagoa do Pinheiro",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 854,
+          "long": 288,
+          "nome": "Lancheria do Bom Fim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 942,
+          "long": 376,
+          "nome": "Lancheria do Passo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 860,
+          "long": 255,
+          "nome": "Locadora Gurgel da Rua da Praia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 832,
+          "long": 363,
+          "nome": "Mercadinho do Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 961,
+          "long": 451,
+          "nome": "Moto Center Assis Brasil",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 871,
+          "long": 301,
+          "nome": "Ocidente",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 966,
+          "long": 559,
+          "nome": "Oficina Paraguassu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 911,
+          "long": 421,
+          "nome": "Oficina da Antiga Indústria",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 853,
+          "long": 283,
+          "nome": "Oficina do Cardã",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 885,
+          "long": 270,
+          "nome": "Padaria Central",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 877,
+          "long": 296,
+          "nome": "Padaria Colonial do Bom Fim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 628,
+          "long": 250,
+          "nome": "Padaria Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 920,
+          "long": 311,
+          "nome": "Padaria Navegantes",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 930,
+          "long": 368,
+          "nome": "Padaria Nogueiras",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 837,
+          "long": 257,
+          "nome": "Padaria da Belas",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 850,
+          "long": 278,
+          "nome": "Padaria da Ponte",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 589,
+          "long": 438,
+          "nome": "Padaria da Restinga",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 993,
+          "long": 464,
+          "nome": "Padaria da Sarandi",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 873,
+          "long": 439,
+          "nome": "Padaria de Petrópolis",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 893,
+          "long": 412,
+          "nome": "Padaria do Itu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 822,
+          "long": 381,
+          "nome": "Padaria do Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 948,
+          "long": 559,
+          "nome": "Padaria do Quartel",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 878,
+          "long": 439,
+          "nome": "Pensão da Bento",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 1005,
+          "long": 463,
+          "nome": "Pensão da Ferroviária",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 831,
+          "long": 496,
+          "nome": "Pensão da Vila",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 966,
+          "long": 554,
+          "nome": "Pensão da Vila Militar",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 767,
+          "long": 235,
+          "nome": "Pensão do Cais",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 895,
+          "long": 421,
+          "nome": "Pensão do Itu",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 933,
+          "long": 304,
+          "nome": "Pensão sem Placa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 879,
+          "long": 272,
+          "nome": "Plaza São Rafael",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 864,
+          "long": 241,
+          "nome": "Ponto de Táxi da Alfândega",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 857,
+          "long": 453,
+          "nome": "Ponto de Táxi da Bento",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 846,
+          "long": 294,
+          "nome": "Ponto de Táxi da Redenção",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 648,
+          "long": 243,
+          "nome": "Ponto de Táxi de Ipanema",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 827,
+          "long": 356,
+          "nome": "Ponto de Táxi do Parque",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 955,
+          "long": 543,
+          "nome": "Ponto de Táxi do Quartel",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 888,
+          "long": 308,
+          "nome": "Ponto de Táxi dos Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 1003,
+          "long": 477,
+          "nome": "Portaria da Tramontina",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 988,
+          "long": 458,
+          "nome": "Posto Panvel da Sarandi",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 829,
+          "long": 382,
+          "nome": "Posto Panvel do Jardim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 571,
+          "long": 430,
+          "nome": "Pousada da Estrada",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 865,
+          "long": 301,
+          "nome": "Restaurante Familiar do Bom Fim",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 627,
+          "long": 257,
+          "nome": "Revenda Ipanema Motors",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 880,
+          "long": 321,
+          "nome": "Revenda Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 864,
+          "long": 477,
+          "nome": "Rua das Indústrias",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": 958,
+          "long": 197,
+          "nome": "Rua do Rato",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 569,
+          "long": 438,
+          "nome": "Torre de Vigilância Caseira",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hospital",
+          "lat": 827,
+          "long": 491,
+          "nome": "Veterinário da Vila",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 916,
+          "long": 424,
+          "nome": "Vila da Itú Química",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 821,
+          "long": 495,
+          "nome": "Xis da Vila",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 931,
+          "long": 391,
+          "nome": "Zaffari do Passo D'Areia",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 895,
+          "long": 306,
+          "nome": "Zaffari dos Moinhos",
+          "minZoom": -0.1,
+          "maxZoom": null
+        }
+      ]
+    }
+  }
+}

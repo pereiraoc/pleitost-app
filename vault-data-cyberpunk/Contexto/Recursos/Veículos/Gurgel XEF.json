@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel XEF",
+  "path": "Contexto/Recursos/Veículos/Gurgel XEF.md",
+  "basename": "Gurgel XEF",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 180000,
+    "Cobrança": "única",
+    "Usado": 60000,
+    "Manutenção": 1500,
+    "Nível": 4,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Camelódromo]]"
+    ],
+    "Resumo": "Microcarro de três lugares lado a lado, fibra, motor a ar: o carro de cidade da classe média que não cabe num Carajás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel XEF.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Concessionária Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel XEF.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel XEF.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO XEF é o menor carro que a [[Gurgel]] fabrica: três pessoas sentadas lado a lado num banco só, carroceria de fibra\nque não enferruja e motor VW a ar que ronca na subida da Independência. Estaciona onde a bicicleta estaciona e\ngasta o que uma moto gasta. Usado, é o primeiro carro de todo técnico da [[Gradiente]].\n\n> [!info] Especificação\n> **Modelo:** Gurgel XEF 1984, 3 lugares lado a lado, 2 portas, fibra Plasteel\n> **Motor:** VW 1.6 a ar, 50 cv; 11 km/l\n> **Velocidade:** 110 km/h no plano\n> **Novo:** [[Concessionária Gurgel]] com nota\n> **Usado:** [[Camelódromo]] e garagens de bairro, sem documento\n> **Manutenção:** Cz$ 1.500 por mês: pouca gasolina, oficina de bairro, IPVA baixo\n"
+}

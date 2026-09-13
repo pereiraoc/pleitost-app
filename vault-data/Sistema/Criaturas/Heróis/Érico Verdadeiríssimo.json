@@ -1,0 +1,670 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Érico Verdadeiríssimo",
+  "path": "Sistema/Criaturas/Heróis/Érico Verdadeiríssimo.md",
+  "basename": "Érico Verdadeiríssimo",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [],
+    "Imagem": "[[Érico Verdadeiríssimo.png]]",
+    "Nível": 4,
+    "Classe": "[[Bardo|Trovador Manipulador de Arte Mágica]]",
+    "Sintonia": "[[Traço Elemental do Fogo]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 18,
+      "Moral": 36
+    },
+    "Atributos": {
+      "Principal": "PRE",
+      "FOR": 0,
+      "AGI": 2,
+      "INT": 1,
+      "PRE": 3
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 1,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Encorajamento]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Método Artístico (Manipulador)]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Diadema da Ameaça]]"
+            }
+          ]
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Marinheiro",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Regra.[[Trovador]]"
+            },
+            {
+              "E": "Regra.[[Trovador]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Método Artístico]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Performance Bárdica]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Estilo de Combate]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Auto-Confiança]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Conhecimento Arcano Adepto]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Trovador]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Estilo Refinado]]": "Regra.[[Bardo]]"
+        },
+        {
+          "[[Método Artístico (Manipulador)|Manipulador]]": "Escolha.[[Método Artístico]]"
+        },
+        {
+          "[[Estilo de Combate (Arte Mágica)|Arte Mágica]]": "Escolha.[[Estilo de Combate]]"
+        },
+        {
+          "[[Estilo Refinado (Arte Mágica)|Arte Mágica]]": "Regra.[[Estilo Refinado]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Performance Reforçante]]": "Slot.A"
+        },
+        {
+          "[[Entrada Dramática]]": "Slot.A"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 6,
+      "EM": 4,
+      "Slots": {
+        "B": 2,
+        "A": 4,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 2,
+          "Lista": [
+            {
+              "[[Palavras Cortantes]]": "Regra.[[Estilo de Combate (Arte Mágica)]]"
+            },
+            {
+              "[[Aturdir]]": "Slot.B"
+            },
+            {
+              "[[Choque Mental]]": "Slot.B"
+            },
+            {
+              "[[Enfraquecer]]": "Slot.A"
+            },
+            {
+              "[[Entorpecer]]": "Slot.A"
+            },
+            {
+              "[[Míssil Mágico]]": "Slot.A"
+            },
+            {
+              "[[Servo das Sombras]]": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Aterrorizar]]": "Tesouro.[[Diadema da Ameaça]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Inspiração]]": "Regra.[[Performance Bárdica]]"
+        },
+        {
+          "[[Ato Inspirador]]": "Regra.[[Inspiração]]"
+        },
+        {
+          "[[Reforçar]]": "Regra.[[Performance Reforçante]]"
+        },
+        {
+          "[[Ato Reforçante]]": "Regra.[[Performance Reforçante]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "A",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "[[Armadura Leve]]",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Diadema da Ameaça|Diadema da Ameaça (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "N",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Adaga]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "Poeta de Porto",
+      "Motivacao": "Alavancar Compra de Navio",
+      "Genero": "M",
+      "Idade": "32",
+      "Naturalidade": "[[Varadas]]",
+      "Altura": "1.82m",
+      "Peso": "75kg",
+      "Ideais": [
+        "Amizade se aproveita, porque acaba"
+      ],
+      "Desprezos": [
+        "Impostos"
+      ],
+      "Qualidades": [
+        "Conforto Perto do Mar"
+      ],
+      "Defeitos": [
+        "Desconforto em Cavernas"
+      ],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 2,
+      "Controlador": 1,
+      "Abatedor": 0,
+      "Vanguarda": 0
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 18,
+        "Moral": 36,
+        "Moral_Temporaria": 0,
+        "EM": 2,
+        "Escudo_Dano": 0
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Érico Verdadeiríssimo.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink",
+      "alias": "Trovador Manipulador de Arte Mágica"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajamento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Manipulador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diadema da Ameaça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trovador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Refinado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Reforçante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diadema da Ameaça",
+      "kind": "wikilink",
+      "alias": "Diadema da Ameaça (Adepto)"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Érico Verdadeiríssimo.png",
+      "from": "frontmatter:Imagem"
+    }
+  ],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

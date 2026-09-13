@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Erva-Mate Charrua",
+  "path": "Contexto/Recursos/Alimentação/Erva-Mate Charrua.md",
+  "basename": "Erva-Mate Charrua",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "[[Charrua]]",
+    "Preço": 100,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Pacote de um quilo de erva moída grossa: o chimarrão é a única coisa que o gaúcho não corta do orçamento.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Erva-Mate Charrua.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Erva-Mate Charrua.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Erva-Mate Charrua.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Charrua]] mói a erva do chimarrão da cidade inteira — e é a mesma fábrica que enlata o [[Mate Gelado Charrua]]. Pacote\nde 1 kg, moída grossa, 'tradicional'. Em toda palafita, pensão e escritório tem uma cuia rodando; corta-se o\npão, corta-se a carne, não se corta a erva.\n\n> [!info] Especificação\n> **Erva:** moída grossa, tradicional, pacote de 1 kg\n> **Rende:** uma semana de roda de chimarrão\n> **Fábrica:** [[Charrua]] — a mesma do [[Mate Gelado Charrua]] de lata\n> **Cuia e bomba:** Cz$ 300 no [[Mercado Público]]; a de prata, Cz$ 20.000 no antiquário\n> **Régua:** Cz$ 70 na boca de bairro\n"
+}

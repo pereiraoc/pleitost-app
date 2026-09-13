@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Pessoas/Embaixadora Patricia Carter",
+  "path": "Contexto/Pessoas/Embaixadora Patricia Carter.md",
+  "basename": "Embaixadora Patricia Carter",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Patricia Carter"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Governo Americano]]",
+    "Função": "Embaixadora americana para o cone sul",
+    "Aparência": "Conjunto executivo americano, broche de bandeirinha, assessor com maleta que nunca abre em público.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embaixadora Patricia Carter.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Governo Americano",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Embaixadora Patricia Carter.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Embaixadora Patricia Carter.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

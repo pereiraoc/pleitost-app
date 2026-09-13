@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Preparação Sagaz",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Preparação Sagaz.md",
+  "basename": "Preparação Sagaz",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"1A para ganhar reação extra.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"1A para ganhar reação extra.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Preparação Sagaz.\n\n**Preparação Sagaz - 1A**\nVocê se prepara, planejando alguma tática contra seus inimigos. Você recebe uma reação adicional para usar até o início do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

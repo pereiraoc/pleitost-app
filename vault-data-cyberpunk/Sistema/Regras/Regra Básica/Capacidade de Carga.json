@@ -1,0 +1,30 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Capacidade de Carga",
+  "path": "Sistema/Regras/Regra Básica/Capacidade de Carga.md",
+  "basename": "Capacidade de Carga",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Capacidade de Carga"
+    }
+  ],
+  "body": "## Capacidade de Carga\nVocê pode carregar X+[[Força|FOR]] peso em itens.\n\n```autosheet-rules\n```\n"
+}

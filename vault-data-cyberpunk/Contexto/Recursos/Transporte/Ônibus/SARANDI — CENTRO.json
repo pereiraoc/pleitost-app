@@ -1,0 +1,102 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/SARANDI — CENTRO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/SARANDI — CENTRO.md",
+  "basename": "SARANDI — CENTRO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "SARANDI",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 1,
+    "Cor": "#e6a100",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Zaffari]]",
+      "[[Estação Sarandi]]",
+      "[[Rua da Sarandi]]",
+      "[[Posto Ipiranga da Assis Brasil]]",
+      "[[Estação Nogueiras]]",
+      "[[Estação Independência]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "O radial do turno pela Assis Brasil: lota às cinco, quebra na subida da Independência e é a linha mais assaltada da cidade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "SARANDI — CENTRO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Rua da Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Posto Ipiranga da Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Nogueiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Crimes Cotidianos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "SARANDI — CENTRO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[SARANDI — CENTRO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO corredor da [[Rua da Sarandi]]. Sai do pátio da [[Estação Zaffari]], recolhe o turno na [[Estação Sarandi]] e na [[Rua da Sarandi]], pega a Assis Brasil no [[Posto Ipiranga da Assis Brasil]] e desce pela [[Estação Nogueiras]] e pela [[Estação Independência]] até a [[Estação Central]]. O [[TRI Bronze]] vale no horário do turno; fora dele, Prata pra cima ou dinheiro pro cobrador. Motor que apaga na subida, cobrador de sacola, camelô de amendoim pela porta de trás — e assalto na parada de [[Nova Sarandi]] como rotina ([[Crimes Cotidianos]]).\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

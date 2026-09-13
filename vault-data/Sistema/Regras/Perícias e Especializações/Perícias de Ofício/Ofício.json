@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Ofício",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Ofício.md",
+  "basename": "Ofício",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias de Ofício]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Ofício  ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias de Ofício]]\nprev:: \nnext:: \n%%\n### Ofício  ([[Inteligência|INT]])\nOficios sao atividades profissionais que geram valor na sociedade. Oficios são usados tipicamente para ganhar dinheiro ou ajudar na construção de itens, mas podem ser também fontes de conhecimento especifico."
+}

@@ -1,0 +1,74 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Drenar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Drenar.md",
+  "basename": "Drenar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Drenar (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criatura em 6q para causar dano de força 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Arcana]], 3d4+2 se [[Mestre]]) e reduz dano de um ataque em 1+dados. No sucesso decisivo, +1d4 e [[Enfraquecido]]; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink",
+      "alias": "Enfraquecida"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criatura em 6q para causar dano de força 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Arcana]], 3d4+2 se [[Mestre]]) e reduz dano de um ataque em 1+dados. No sucesso decisivo, +1d4 e [[Enfraquecido]]; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nDrena forças de uma criatura. Faça um Ataque Mágico contra [[Vigor]] de uma criatura em 6q.\n\n**Sucesso:** A criatura recebe 1d4+2 de dano de força e o primeiro [[Atacar|Ataque]] que a criatura tiver sucesso no próximo turno recebe uma [[Penalidades|penalidade de condição]] igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque.\n**Sucesso Decisivo:** A criatura recebe 2d4+2 de dano de força e fica [[Enfraquecido|Enfraquecida]] por 1 turno.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d4+2 (3d4+2 se decisivo) ao se tornar [[Experiente]] com [[Magia Arcana]] e 3d4+2 (4d4+2 se decisivo) ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

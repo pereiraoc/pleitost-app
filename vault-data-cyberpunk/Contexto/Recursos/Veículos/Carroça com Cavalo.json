@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Veículos/Carroça com Cavalo",
+  "path": "Contexto/Recursos/Veículos/Carroça com Cavalo.md",
+  "basename": "Carroça com Cavalo",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Sindicato dos Catadores]]",
+    "Preço": 40000,
+    "Cobrança": "única",
+    "Usado": 25000,
+    "Manutenção": 800,
+    "Nível": 2,
+    "Onde": [
+      "[[Zona Deserta]]",
+      "[[Jardim Botânico]]",
+      "[[Restinga]]"
+    ],
+    "Resumo": "Carroça de madeira e um cavalo magro: o veículo do catador, passa onde caminhão não passa e a Brigada não para.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carroça com Cavalo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Curral do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina do Borracheiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Carroça com Cavalo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Carroça com Cavalo.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA carroça do [[Sindicato dos Catadores]] é o veículo mais comum da [[Zona Deserta]]: pneu de carro, caçamba de\ntábua, um cavalo que come o que acha. Leva sucata, mudança e gente; ninguém para carroça — nem Brigada, nem\npedágio de facção. A manutenção é o cavalo.\n\n> [!info] Especificação\n> **Modelo:** carroça de madeira sobre eixo de Fusca, 500 kg, 1 cavalo\n> **Motor:** cavalo; come Cz$ 600 por mês\n> **Velocidade:** 8 km/h\n> **Novo:** [[Curral do Sindicato]] (carroça nova + cavalo velho)\n> **Usado:** [[Oficina do Borracheiro]], Cz$ 25.000 com o cavalo\n> **Manutenção:** Cz$ 800 por mês: ferradura, feno e um pneu\n"
+}

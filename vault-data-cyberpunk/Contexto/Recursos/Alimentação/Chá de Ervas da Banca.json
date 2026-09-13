@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Chá de Ervas da Banca",
+  "path": "Contexto/Recursos/Alimentação/Chá de Ervas da Banca.md",
+  "basename": "Chá de Ervas da Banca",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Banca de Ervas do Mercado",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Saquinho de erva seca pra chá — pra dor, pro sono, pro estômago — na banca que cura o que a Panvel cobra caro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Benzedura da Erveira",
+      "kind": "wikilink",
+      "alias": "benzedura"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA banca de ervas fica num canto do pavilhão oeste, com maços pendurados e gavetas de madeira sem rótulo. Marcela, espinheira-santa, camomila, boldo, carqueja. A erveira pergunta o que dói e monta o saquinho; é o remédio de quem não tem receita nem Cz$ pra [[Panvel]].\n\n> [!info] Especificação\n> **Unidade:** o saquinho, rende uma semana de chá\n> **Mais pedidos:** marcela pro estômago, camomila pro sono, espinheira-santa pra gastrite\n> **Ao lado:** a própria erveira faz [[Benzedura da Erveira|benzedura]]\n"
+}

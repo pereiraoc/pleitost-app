@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Especial/Magia Especial",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Especial/Magia Especial.md",
+  "basename": "Magia Especial",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Especial"
+    }
+  ],
+  "body": "### Magia Especial\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Especial\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Especial\"\n```"
+}

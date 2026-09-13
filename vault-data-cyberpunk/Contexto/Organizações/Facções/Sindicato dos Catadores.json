@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Facções/Sindicato dos Catadores",
+  "path": "Contexto/Organizações/Facções/Sindicato dos Catadores.md",
+  "basename": "Sindicato dos Catadores",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Waldemar “Papeleiro” Nunes]]",
+    "Descrição": null,
+    "Resumo": "Sindicato-milícia que controla a coleta e triagem de resíduos da cidade, da banca do Mercado Público às rotas de contrabando.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sindicato dos Catadores.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Waldemar “Papeleiro” Nunes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sindicato dos Catadores.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sindicato dos Catadores.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Nascido como sindicato de papeleiros, virou máfia de logística reversa: os caminhões e carroças do Sindicato passam por toda parte sem levantar suspeita, e o que viaja no meio do lixo — selênicos, peças, gente — paga pedágio. A milícia própria protege as rotas e briga por território onde a sucata vale mais que o salário.\n\n"
+}

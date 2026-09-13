@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Organizações/Facções/Cartéis de Selênicos",
+  "path": "Contexto/Organizações/Facções/Cartéis de Selênicos.md",
+  "basename": "Cartéis de Selênicos",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Nome genérico dos grupos que dominam a produção e distribuição ilegal de selênicos em escala.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cartéis de Selênicos.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Cartéis de Selênicos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Cartéis de Selênicos.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Menos uma organização, mais um ecossistema: químicos independentes, atravessadores e financiadores que a imprensa e a Brigada agrupam sob um nome só. Quando um cai, outro assume a rota na mesma semana."
+}

@@ -1,0 +1,139 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Aparar",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Aparar.md",
+  "basename": "Aparar",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Aparar",
+        "tipo": "Estado",
+        "origem": "Técnica",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🛡️",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "discreto",
+            "label": "Modo",
+            "opcoes": [
+              "[[Mão livre]]",
+              "[[Duas armas]]"
+            ]
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "Defesa",
+            "valor": 2,
+            "tipoBonus": "Circunstancia",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "empunhadura": 1
+              },
+              {
+                "seletor": {
+                  "label": "Modo",
+                  "valor": "Mão livre"
+                }
+              },
+              {
+                "recurso": "ESCUDO=0"
+              }
+            ]
+          },
+          {
+            "somar": "Defesa",
+            "valor": 2,
+            "tipoBonus": "Circunstancia",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "empunhadura": 1
+              },
+              {
+                "seletor": {
+                  "label": "Modo",
+                  "valor": "Duas armas"
+                }
+              },
+              {
+                "recurso": "ARMAS_CAC>=2"
+              },
+              {
+                "recurso": "ARMAS_CAC_AGEIS>=1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Se estiver com uma arma corpo-a-corpo de 1 mão e uma mão livre, ou com duas armas corpo-a-corpo (com pelo menos uma [[Ágil]]), você recebe +2 de [[bônus de circunstância]] na [[Defesa]] até o início do seu próximo turno; o bônus termina se você deixar de cumprir esses requisitos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mão livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duas armas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Se estiver com uma arma corpo-a-corpo de 1 mão e uma mão livre, ou com duas armas corpo-a-corpo (com pelo menos uma [[Ágil]]), você recebe +2 de [[bônus de circunstância]] na [[Defesa]] até o início do seu próximo turno; o bônus termina se você deixar de cumprir esses requisitos.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Aparar.\n\n**Aparar - 1A**\nCaso esteja empunhando uma arma corpo-a-corpo de uma mão e uma mão livre ou empunhando duas armas corpo-a-corpo e ao menos uma delas é [[Ágil]], recebe +2 [[bônus de circunstância]] na [[Defesa]] até o inicio de seu próximo turno. O benefício é interrompido caso deixe de estar empunhando uma arma corpo-a-corpo de uma mão e uma mão livre ou empunhando duas armas corpo-a-corpo e ao menos uma delas é [[Ágil]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "Contexto/Recursos/Serviços/Aeromóvel Linha Executiva",
+  "path": "Contexto/Recursos/Serviços/Aeromóvel Linha Executiva.md",
+  "basename": "Aeromóvel Linha Executiva",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Passagem",
+    "Marca": "Trensurb / [[Gradiente]]",
+    "Preço": 1000,
+    "Cobrança": "viagem",
+    "Nível": 6,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Ipanema]]",
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Vagão de 24 poltronas e vidro fumê entre Moinhos, Ipanema e Centro. Só entra crachá — e a empresa paga.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aeromóvel Linha Executiva.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aeromóvel Linha Executiva.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Aeromóvel Linha Executiva.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA linha executiva corre no mesmo viaduto, mas para em outras estações: [[Moinhos de Vento]], [[Ipanema]] e o\ndeck corporativo do Centro. Vazio, silencioso, com um segurança da [[Gradiente]] na porta. A passagem custa\nCz$ 1.000 e ninguém paga: o crachá da megacorp abre a catraca e a conta vai pro RH.\n\n> [!info] Especificação\n> **Acesso:** crachá de megacorp ([[Gradiente]], [[Tramontina]], [[Panvel]], [[Zaffari]]) ou farda de oficial\n> **Vagão:** 24 poltronas, ar-condicionado, vidro fumê, telefone [[Embratel]] a bordo\n> **Paradas:** [[Moinhos de Vento]] · Centro corporativo · [[Ipanema]]\n> **Segurança:** [[Brigada Militar Metropolitana]] + segurança privada [[Gradiente]]\n> **Sem crachá:** Cz$ 1.000 no TRI Platina — e o segurança pergunta o que você foi fazer lá\n"
+}

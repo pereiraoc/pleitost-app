@@ -1,0 +1,819 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Maestria em Classe Secundária",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Maestria em Classe Secundária.md",
+  "basename": "Maestria em Classe Secundária",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Essência Invertida]], [[Aliado dos Elementos]], [[Águas Revitalizadoras]], [[Ventos Transportadores]], [[Terras Formadoras]], [[Chamas Persistentes]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Contra-mágica Superior]], [[Dissipar Magia]], [[Magia Ofuscante]], [[Magia para o Espírito]], [[Manifestação Pseudo-Natural]], [[Recuperação Heroica]], [[Magia Acelerada]], [[Magia Cambaleante]], [[Magia Calculada]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Malabarismo Prático]], [[Oportunidade Artística]], [[Ato Restaurador]], [[Arte Mágica Distante]], [[Instrumentos de Guerra]], [[Performance Móvel]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Caçada Oportuna]], [[Um Olho para cada Presa]], [[Ataque Opressivo]], [[Sentir a Presa]], [[Camuflagem]], [[Conhecimento de Monstros]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Confirmar Abate]], [[Marcar Alvo]], [[Gambito de Combate]], [[Análise Cautelosa]], [[Alterar Formação]], [[Ataque Desestabilizante]], [[Coordenação Defensiva]], [[Estudo Marcial]], [[Oportunidade Prevista]], [[Estabilizar Posição]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Oportunidade Feral]], [[Aspecto Camuflado]], [[Domínio de Formas]], [[Maestria de Formas]], [[Magia Feral]], [[Aspecto Colossal]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ataque Surpresa]], [[Desarmamento Astuto]], [[Olho nas Costas]], [[Interferência Reativa]], [[Oportunidade Injusta]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Escrita em Arma]], [[Combinação Distratora]], [[Repertório Diverso]], [[Combinação Neutralizante]], [[Encantamento Residual]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Abraçar a Dor]], [[Rolamento Defensivo]], [[Manobra Combinada]], [[Ataque Paralisante]], [[Golpe Rasteiro]], [[Urro Atormentador]], [[Integridade Corporal]], [[Instintos Aprimorados]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Você aprende uma técnica experiente da sua classe secundária.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Essência Invertida]], [[Aliado dos Elementos]], [[Águas Revitalizadoras]], [[Ventos Transportadores]], [[Terras Formadoras]], [[Chamas Persistentes]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_1e8b274a",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Animista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Essência Invertida]]",
+              "[[Aliado dos Elementos]]",
+              "[[Águas Revitalizadoras]]",
+              "[[Ventos Transportadores]]",
+              "[[Terras Formadoras]]",
+              "[[Chamas Persistentes]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Essência Invertida]], [[Aliado dos Elementos]], [[Águas Revitalizadoras]], [[Ventos Transportadores]], [[Terras Formadoras]], [[Chamas Persistentes]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Contra-mágica Superior]], [[Dissipar Magia]], [[Magia Ofuscante]], [[Magia para o Espírito]], [[Manifestação Pseudo-Natural]], [[Recuperação Heroica]], [[Magia Acelerada]], [[Magia Cambaleante]], [[Magia Calculada]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_86e91460",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Contra-mágica Superior]]",
+              "[[Dissipar Magia]]",
+              "[[Magia Ofuscante]]",
+              "[[Magia para o Espírito]]",
+              "[[Manifestação Pseudo-Natural]]",
+              "[[Recuperação Heroica]]",
+              "[[Magia Acelerada]]",
+              "[[Magia Cambaleante]]",
+              "[[Magia Calculada]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Contra-mágica Superior]], [[Dissipar Magia]], [[Magia Ofuscante]], [[Magia para o Espírito]], [[Manifestação Pseudo-Natural]], [[Recuperação Heroica]], [[Magia Acelerada]], [[Magia Cambaleante]], [[Magia Calculada]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Malabarismo Prático]], [[Oportunidade Artística]], [[Ato Restaurador]], [[Arte Mágica Distante]], [[Instrumentos de Guerra]], [[Performance Móvel]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_f7d5843b",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Bardo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Malabarismo Prático]]",
+              "[[Oportunidade Artística]]",
+              "[[Ato Restaurador]]",
+              "[[Arte Mágica Distante]]",
+              "[[Instrumentos de Guerra]]",
+              "[[Performance Móvel]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Malabarismo Prático]], [[Oportunidade Artística]], [[Ato Restaurador]], [[Arte Mágica Distante]], [[Instrumentos de Guerra]], [[Performance Móvel]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Caçada Oportuna]], [[Um Olho para cada Presa]], [[Ataque Opressivo]], [[Sentir a Presa]], [[Camuflagem]], [[Conhecimento de Monstros]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_3468bb67",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Caçador]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Caçada Oportuna]]",
+              "[[Um Olho para cada Presa]]",
+              "[[Ataque Opressivo]]",
+              "[[Sentir a Presa]]",
+              "[[Camuflagem]]",
+              "[[Conhecimento de Monstros]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Caçada Oportuna]], [[Um Olho para cada Presa]], [[Ataque Opressivo]], [[Sentir a Presa]], [[Camuflagem]], [[Conhecimento de Monstros]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Confirmar Abate]], [[Marcar Alvo]], [[Gambito de Combate]], [[Análise Cautelosa]], [[Alterar Formação]], [[Ataque Desestabilizante]], [[Coordenação Defensiva]], [[Estudo Marcial]], [[Oportunidade Prevista]], [[Estabilizar Posição]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_d3e850da",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Comandante]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Confirmar Abate]]",
+              "[[Marcar Alvo]]",
+              "[[Gambito de Combate]]",
+              "[[Análise Cautelosa]]",
+              "[[Alterar Formação]]",
+              "[[Ataque Desestabilizante]]",
+              "[[Coordenação Defensiva]]",
+              "[[Estudo Marcial]]",
+              "[[Oportunidade Prevista]]",
+              "[[Estabilizar Posição]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Confirmar Abate]], [[Marcar Alvo]], [[Gambito de Combate]], [[Análise Cautelosa]], [[Alterar Formação]], [[Ataque Desestabilizante]], [[Coordenação Defensiva]], [[Estudo Marcial]], [[Oportunidade Prevista]], [[Estabilizar Posição]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Oportunidade Feral]], [[Aspecto Camuflado]], [[Domínio de Formas]], [[Maestria de Formas]], [[Magia Feral]], [[Aspecto Colossal]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_48b8441a",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Druida]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Oportunidade Feral]]",
+              "[[Aspecto Camuflado]]",
+              "[[Domínio de Formas]]",
+              "[[Maestria de Formas]]",
+              "[[Magia Feral]]",
+              "[[Aspecto Colossal]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Oportunidade Feral]], [[Aspecto Camuflado]], [[Domínio de Formas]], [[Maestria de Formas]], [[Magia Feral]], [[Aspecto Colossal]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_11204ba9",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Guerreiro]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Arsenal Diverso]]",
+              "[[Perseguição Decisiva]]",
+              "[[Disparo Debilitante]]",
+              "[[Ataque Preciso]]",
+              "[[Disparo Perfurante]]",
+              "[[Eliminar Covardia]]",
+              "[[Ataque Brutal]]",
+              "[[Reflexos Acelerados]]",
+              "[[Impulso de Velocidade]]",
+              "[[Investida Atropelante]]",
+              "[[Bloqueio Rápido]]",
+              "[[Contra-ataque Ágil]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ataque Surpresa]], [[Desarmamento Astuto]], [[Olho nas Costas]], [[Interferência Reativa]], [[Oportunidade Injusta]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_ad42c547",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Ladino]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Ataque Surpresa]]",
+              "[[Desarmamento Astuto]]",
+              "[[Olho nas Costas]]",
+              "[[Interferência Reativa]]",
+              "[[Oportunidade Injusta]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ataque Surpresa]], [[Desarmamento Astuto]], [[Olho nas Costas]], [[Interferência Reativa]], [[Oportunidade Injusta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Escrita em Arma]], [[Combinação Distratora]], [[Repertório Diverso]], [[Combinação Neutralizante]], [[Encantamento Residual]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_9ed2e841",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Mago]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Magia Escrita em Arma]]",
+              "[[Combinação Distratora]]",
+              "[[Repertório Diverso]]",
+              "[[Combinação Neutralizante]]",
+              "[[Encantamento Residual]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Escrita em Arma]], [[Combinação Distratora]], [[Repertório Diverso]], [[Combinação Neutralizante]], [[Encantamento Residual]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Abraçar a Dor]], [[Rolamento Defensivo]], [[Manobra Combinada]], [[Ataque Paralisante]], [[Golpe Rasteiro]], [[Urro Atormentador]], [[Integridade Corporal]], [[Instintos Aprimorados]])",
+      "parsed": [
+        {
+          "sourceNote": "Maestria em Classe Secundária",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Experiente Secundária",
+              "choiceKey": "__esc_h_039073e0",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Monge]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Abraçar a Dor]]",
+              "[[Rolamento Defensivo]]",
+              "[[Manobra Combinada]]",
+              "[[Ataque Paralisante]]",
+              "[[Golpe Rasteiro]]",
+              "[[Urro Atormentador]]",
+              "[[Integridade Corporal]]",
+              "[[Instintos Aprimorados]]"
+            ],
+            "label": "Técnica Experiente Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Experiente Secundária\" Complementar Tecnicas.Lista Selecionar ([[Abraçar a Dor]], [[Rolamento Defensivo]], [[Manobra Combinada]], [[Ataque Paralisante]], [[Golpe Rasteiro]], [[Urro Atormentador]], [[Integridade Corporal]], [[Instintos Aprimorados]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Invertida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliado dos Elementos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Águas Revitalizadoras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ventos Transportadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terras Formadoras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chamas Persistentes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contra-mágica Superior",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Dissipar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Ofuscante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia para o Espírito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manifestação Pseudo-Natural",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recuperação Heroica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Acelerada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Cambaleante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Calculada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malabarismo Prático",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Artística",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ato Restaurador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arte Mágica Distante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instrumentos de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Móvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçada Oportuna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Um Olho para cada Presa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Opressivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentir a Presa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camuflagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento de Monstros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Confirmar Abate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcar Alvo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gambito de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise Cautelosa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alterar Formação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Desestabilizante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coordenação Defensiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estudo Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Prevista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estabilizar Posição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Camuflado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Domínio de Formas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maestria de Formas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Colossal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arsenal Diverso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perseguição Decisiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Debilitante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Preciso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Perfurante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Eliminar Covardia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reflexos Acelerados",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Impulso de Velocidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Investida Atropelante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloqueio Rápido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contra-ataque Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Surpresa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmamento Astuto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Olho nas Costas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interferência Reativa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Injusta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Escrita em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Distratora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Repertório Diverso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Neutralizante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encantamento Residual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abraçar a Dor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rolamento Defensivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manobra Combinada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Paralisante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Golpe Rasteiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Urro Atormentador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Integridade Corporal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instintos Aprimorados",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Você aprende uma técnica experiente da sua classe secundária.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende uma técnica experiente da sua classe secundária.\n\n```autosheet-rules\n```\n"
+}

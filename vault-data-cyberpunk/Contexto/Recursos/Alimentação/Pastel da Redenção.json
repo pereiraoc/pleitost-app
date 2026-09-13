@@ -1,0 +1,69 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Pastel da Redenção",
+  "path": "Contexto/Recursos/Alimentação/Pastel da Redenção.md",
+  "basename": "Pastel da Redenção",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Barracas da Redenção",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Redenção]]",
+      "[[Bom Fim]]"
+    ],
+    "Resumo": "Pastel de barraca no brique de domingo, com lona patrocinada pelo Zaffari e a Brigada rondando a feira.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pastel da Redenção.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sorvete Kibon",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pastel da Redenção.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Pastel da Redenção.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nDomingo na [[Redenção]] é brique, feira de hortaliça da [[Resistência Urbana Gaúcha]] e pastel de barraca sob\nlona do [[Zaffari]]. Cz$ 40 o pastel, Cz$ 20 o caldo de cana, e a [[Brigada Militar Metropolitana]] passando\ndevagar pra ver quem vende o quê.\n\n> [!info] Especificação\n> **Pastel:** carne, queijo ou pizza; massa grossa de feira\n> **Quando:** domingo, 8h às 14h\n> **Preço:** Cz$ 40; Cz$ 80 em dia de jogo (o Beira-Rio fica perto)\n> **Ao lado:** carrinho de [[Sorvete Kibon]], barraca de [[Cueca Virada]], feira de livro proibido\n"
+}

@@ -1,0 +1,74 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Grande Muro",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Grande Muro.md",
+  "basename": "Grande Muro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Muro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Grande Muro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Grande Muro.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Fortificação colossal erguida com os recursos das três regiões durante a Guerra dos 100 Anos para deter o avanço da [[Magna Pátria]] — obra-prima de engenharia entrelaçada com magias antigas, que sela a fronteira oeste da [[Federação Áurea]]. Corre em linha quase reta da ponta sul das [[Montanhas de Vidro]] à cordilheira escura do sudoeste, e só o [[Rio Raio da Luz]] o atravessa, mergulhando por baixo da muralha; a travessia junto ao rio é guarnecida pelo par de fortalezas [[Forte Norte]] e [[Forte Sul]]. Mais que defesa, é o símbolo da própria Federação: a prova em pedra de que as três regiões unidas resistem ao que nenhuma resistiria sozinha.\n> \n> 👁️**Aparência do Local:** Uma cortina de cantaria cinzenta de escala inumana — blocos grandes e quase ciclópicos, manchados de musgo —, coroada de ameias de ponta a ponta e pontuada por bastiões quadrados em intervalos regulares: dezenas deles, repetindo-se até sumirem na névoa do horizonte. Não há portão nem poterna; o muro corre inteiro, antigo mas íntegro, e deserto — nem um soldado nas ameias, nem um estandarte ao vento. Onde faz sua quina, ancora-se num pico rochoso envolto em bruma, com tálus de pedras soltas na base; à sua frente estende-se uma campina agreste de capim ralo e pedregulhos, onde um riacho raso e pedregoso serpenteia espelhando o céu. Sob nuvens de tempestade que se abrem numa luz dourada no horizonte, metade da muralha arde em luz morna enquanto a outra jaz em sombra fria.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fortificação colossal erguida com os recursos das três regiões durante a Guerra dos 100 Anos para deter o avanço da [[Magna Pátria]] — obra-prima de engenharia entrelaçada com magias antigas, que sela a fronteira oeste da [[Federação Áurea]]. Corre em linha quase reta da ponta sul das [[Montanhas de Vidro]] à cordilheira escura do sudoeste, e só o [[Rio Raio da Luz]] o atravessa, mergulhando por baixo da muralha; a travessia junto ao rio é guarnecida pelo par de fortalezas [[Forte Norte]] e [[Forte Sul]]. Mais que defesa, é o símbolo da própria Federação: a prova em pedra de que as três regiões unidas resistem ao que nenhuma resistiria sozinha.",
+    "aparencia": "Uma cortina de cantaria cinzenta de escala inumana — blocos grandes e quase ciclópicos, manchados de musgo —, coroada de ameias de ponta a ponta e pontuada por bastiões quadrados em intervalos regulares: dezenas deles, repetindo-se até sumirem na névoa do horizonte. Não há portão nem poterna; o muro corre inteiro, antigo mas íntegro, e deserto — nem um soldado nas ameias, nem um estandarte ao vento. Onde faz sua quina, ancora-se num pico rochoso envolto em bruma, com tálus de pedras soltas na base; à sua frente estende-se uma campina agreste de capim ralo e pedregulhos, onde um riacho raso e pedregoso serpenteia espelhando o céu. Sob nuvens de tempestade que se abrem numa luz dourada no horizonte, metade da muralha arde em luz morna enquanto a outra jaz em sombra fria.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

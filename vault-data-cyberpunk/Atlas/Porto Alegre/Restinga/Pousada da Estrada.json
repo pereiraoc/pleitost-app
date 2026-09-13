@@ -1,0 +1,65 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Pousada da Estrada",
+  "path": "Atlas/Porto Alegre/Restinga/Pousada da Estrada.md",
+  "basename": "Pousada da Estrada",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Nego Ari (dono do [[Bar da Estrada]])",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Pousada da Estrada]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pousada da Estrada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bar da Estrada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pousada da Estrada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pousada da Estrada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pousada da Estrada.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Rede ou colchão por noite, cadeado próprio, café do bar; sem registro e sem Brigada, cobra em dinheiro, dólar ou sucata.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sobrado de zinco e tábua sobre o bar, redes penduradas em salão comum, lampião, o deserto escuro pela janela sem vidro.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Rede ou colchão por noite, cadeado próprio, café do bar; sem registro e sem Brigada, cobra em dinheiro, dólar ou sucata.",
+    "aparencia": "Sobrado de zinco e tábua sobre o bar, redes penduradas em salão comum, lampião, o deserto escuro pela janela sem vidro.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

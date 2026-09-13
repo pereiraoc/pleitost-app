@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Organizações/Empresas/Gurgel",
+  "path": "Contexto/Organizações/Empresas/Gurgel.md",
+  "basename": "Gurgel",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Helena Gurgel]]",
+    "Descrição": null,
+    "Resumo": "Maior montadora, fornecedora e vendedora de veículos leves, pesados, anfíbios e de uso militar em Porto Alegre e região.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Helena Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Gurgel.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Opera a maior fábrica de montagem automotiva de [[Porto Alegre]], produzindo desde carros urbanos reforçados até tanques de guerra e veículos anfíbios para uso militar e civil. Todas as estações de montagem utilizam trabalhadores equipados com próteses físicas [[Tramontina]], garantindo produtividade e padronização de qualidade. Após a grande enchente de abril de 1986, a Gurgel lucrou com a perda massiva de frotas: o Governo fechou parcerias emergenciais para aquisição rápida de novas unidades, reforçando a presença da marca em bairros como [[Cidade Baixa]] e [[Centro Histórico]]. Enquanto a [[Tramontina]] detém participação acionária minoritária para fornecer peças mais complexas, cresce o debate entre executivos em [[Moinhos de Vento]] sobre se a Gurgel não se tornará, em breve, rival à altura da própria [[Tramontina]]."
+}

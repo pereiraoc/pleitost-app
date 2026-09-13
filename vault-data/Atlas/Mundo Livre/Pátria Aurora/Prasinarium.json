@@ -1,0 +1,108 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Prasinarium",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Prasinarium.md",
+  "basename": "Prasinarium",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Prasinarium.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Prasinarium.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Prasinarium.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade operária do litoral norte da [[Pátria Aurora]], espremida entre o mar e a serra: porto de carga de um lado, minas do outro. Sua vida é braçal — a estiva das docas escoa o minério do Mons Fodinarium e os estoques dos celeiros verdes, e comboios de mulas e carretas sobem e descem a montanha o dia inteiro. É o contraponto utilitário das cidades douradas da nação: pedra, madeira e trabalho, com o fórum como único luxo cívico.\n>\n> 👁️**Aparência do Local:** Anfiteatro sem muralhas entre o mar ao norte e as montanhas cinzentas ao sul, cobertas de cavaletes, torres de madeira, andaimes e chaminés fumegantes de mineração. O porto é de trabalho, não de guerra nem de pompa: píeres compridos de madeira, guindastes de carga e armazéns de telhado azul, com naus mercantes de dois mastros navegando ao largo e botes a remo entre os cais. Um aqueduto de arcos duplos, de canal d'água visível, desce das montanhas a leste e entra na cidade pela Turris Rotarum. O casario vai do vermelho cívico do fórum ao ocre do bairro operário e aos telhados verdes dos celeiros em socalcos, com estradas em zigue-zague e trilhos de vagonete subindo até o portal escorado da mina.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Portus Borealis** *(azul — todo o litoral norte)* — o porto de trabalho: píeres, guindastes e armazéns de telhado azul.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade operária do litoral norte da [[Pátria Aurora]], espremida entre o mar e a serra: porto de carga de um lado, minas do outro. Sua vida é braçal — a estiva das docas escoa o minério do Mons Fodinarium e os estoques dos celeiros verdes, e comboios de mulas e carretas sobem e descem a montanha o dia inteiro. É o contraponto utilitário das cidades douradas da nação: pedra, madeira e trabalho, com o fórum como único luxo cívico.",
+    "aparencia": "Anfiteatro sem muralhas entre o mar ao norte e as montanhas cinzentas ao sul, cobertas de cavaletes, torres de madeira, andaimes e chaminés fumegantes de mineração. O porto é de trabalho, não de guerra nem de pompa: píeres compridos de madeira, guindastes de carga e armazéns de telhado azul, com naus mercantes de dois mastros navegando ao largo e botes a remo entre os cais. Um aqueduto de arcos duplos, de canal d'água visível, desce das montanhas a leste e entra na cidade pela Turris Rotarum. O casario vai do vermelho cívico do fórum ao ocre do bairro operário e aos telhados verdes dos celeiros em socalcos, com estradas em zigue-zague e trilhos de vagonete subindo até o portal escorado da mina.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Portus Borealis** *(azul — todo o litoral norte)* — o porto de trabalho: píeres, guindastes e armazéns de telhado azul.",
+    "leaflet": null
+  }
+}

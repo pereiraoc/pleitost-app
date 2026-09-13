@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Descansar",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Descansar.md",
+  "basename": "Descansar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Especial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Especial",
+    "custo": "10 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Especiais]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você descansa por 10 minutos, recuperando totalmente sua [[Energia Heroica|EH]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Especiais]]\nprev:: \nnext:: \n\nresumo:: \"Você descansa por 10 minutos, recuperando totalmente sua [[Energia Heroica|EH]].\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê descansa por 10 minutos, recuperando totalmente sua [[Energia Heroica|EH]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Manopla",
+  "path": "Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Manopla.md",
+  "basename": "Manopla",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "cac-simples",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "cac-simples",
+    "especial": "Não pode ser desarmada. Pode empunhar e segurar objetos com a mão que veste a Manopla.  Não pode realizar ataques com ela caso a mão esteja ocupada.",
+    "resumo": "Luva de metal letal.",
+    "dg-publish": true,
+    "dano": "d2+1",
+    "tipo": "contusão",
+    "mãos": 1,
+    "propriedades": [
+      "[[Especial]]"
+    ],
+    "ordem": 1,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Corpo-a-Corpo Simples|Simples]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corpo-a-Corpo Simples",
+      "kind": "wikilink",
+      "alias": "Simples"
+    },
+    {
+      "target": "Especial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink",
+      "alias": "Desarmada"
+    },
+    {
+      "target": "Arte Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encantar Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Corpo-a-Corpo Simples|Simples]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: Luva de metal que transforma suas mãos em armas letais. Não pode ser [[Desarmar|Desarmada]]. Você ainda pode empunhar e segurar objetos com a mão que veste a Manopla, mas não pode realizar ataques com ela caso a mão esteja ocupada. Se você tiver algum efeito ou técnica que precise de ataque desarmado, pode usá-los com Manopla. Caso tenha ataques desarmados especiais (como em [[Arte Marcial]]), efeitos (como [[Encantar Arma]]) e encantamentos (como [[Imbuição Sísmica]]) em uma Manopla afetam esses ataques, se a mão da Manopla for usada para fazê-los.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

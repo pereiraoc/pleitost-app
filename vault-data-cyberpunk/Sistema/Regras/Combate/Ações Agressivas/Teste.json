@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Teste",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Teste.md",
+  "basename": "Teste",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Testes",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Agressivas]]",
+    "prev": "[[Lutando com Duas Armas]]",
+    "next": "[[Sistema/Regras/Combate/Ações Agressivas/Magia]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sistema/Regras/Combate/Ações Agressivas/Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink",
+      "alias": "Ação Agressiva"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Testes"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Agressivas]]\nprev:: [[Lutando com Duas Armas]]\nnext:: [[Sistema/Regras/Combate/Ações Agressivas/Magia]]\n%%\n### Testes\nTestes são utilizados em todos os pilares do jogo, mas também em combate. Testes são maneiras menos diretas de interagir com seus inimigos e não sofrem de nada como [[Penalidade por Ataque Múltiplo|PAM]] ou similares. Um exemplo de Teste para uma [[Ações Agressivas|Ação Agressiva]] é quando se faz um Teste de [[Intimidação]] para [[Assustar]] um oponente.\n\n```autosheet-rules\n```\n"
+}

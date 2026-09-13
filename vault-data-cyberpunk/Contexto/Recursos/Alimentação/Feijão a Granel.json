@@ -1,0 +1,42 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Feijão a Granel",
+  "path": "Contexto/Recursos/Alimentação/Feijão a Granel.md",
+  "basename": "Feijão a Granel",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Armazém de Secos e Molhados",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Feijão preto a granel, pesado na concha e embrulhado em papel pardo — a base do prato de quem conta moeda.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNo armazém do Mercado o feijão fica em sacas abertas e sai na concha de alumínio, pesado na balança e embrulhado em cone de papel pardo. Feijão preto, arroz, farinha e açúcar a granel: é aqui que a família da [[Restinga]] e do [[Passo D'Areia]] faz a compra do mês quando o plano não dá.\n\n> [!info] Especificação\n> **Unidade:** o quilo; arroz e farinha no mesmo preço\n> **Qualidade:** tem pedrinha — escolher antes de cozinhar\n> **Racionamento:** em semana de falta, limite de 2 kg por pessoa\n"
+}

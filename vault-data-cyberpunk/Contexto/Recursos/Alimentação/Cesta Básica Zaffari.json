@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Cesta Básica Zaffari",
+  "path": "Contexto/Recursos/Alimentação/Cesta Básica Zaffari.md",
+  "basename": "Cesta Básica Zaffari",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "[[Zaffari]]",
+    "Preço": 2500,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Jardim Botânico]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "Arroz, feijão, óleo, açúcar, farinha, café, macarrão e sabão de marca própria — uma por carteira PIRA por mês.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cesta Básica Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cesta Básica Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cesta Básica Zaffari.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA cesta do [[Zaffari]] é a comida de casa da cidade que trabalha: 5 kg de arroz, 3 de feijão, óleo, açúcar,\nfarinha, sal, café, macarrão, sabão em pedra. Marca própria, racionada — uma por carteira PIRA por mês — e é\nassim que metade do salário do servente chega: em vale de armazém.\n\n> [!info] Especificação\n> **Conteúdo:** 5 kg arroz, 3 kg feijão, 2 l óleo, 2 kg açúcar, 1 kg farinha, 500 g café, macarrão, sal, sabão\n> **Marca:** própria do [[Zaffari]]; em bairro nobre vem com carne seca\n> **Racionamento:** uma por carteira PIRA por mês; sem carteira, Cz$ 3.000 e fila\n> **Vale de armazém:** metade do salário do servente é pago assim\n> **Régua:** Cz$ 1.750 na boca de bairro (×0,7), com marca genérica\n"
+}

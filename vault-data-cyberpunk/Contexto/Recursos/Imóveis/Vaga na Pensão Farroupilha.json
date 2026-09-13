@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vaga na Pensão Farroupilha",
+  "path": "Contexto/Recursos/Imóveis/Vaga na Pensão Farroupilha.md",
+  "basename": "Vaga na Pensão Farroupilha",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Pensão de estudante",
+    "Preço": 2000,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Redenção]]"
+    ],
+    "Resumo": "Quarto de duas camas com janela pra Redenção, café da manhã incluso e a Brigada subindo atrás de livro proibido.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaga na Pensão Farroupilha.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vaga na Pensão Farroupilha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vaga na Pensão Farroupilha.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAs pensões do [[Bom Fim]] alugam pra estudante da universidade, artista sem grana e quem precisa de um endereço\nque não seja o próprio. Quarto de duas camas, armário, café das sete, telefone na portaria que a dona atende.\nA [[Brigada Militar Metropolitana]] já subiu duas vezes este ano atrás de livro proibido — achou.\n\n> [!info] Especificação\n> **Quarto:** 2 camas, armário, mesa; janela pra [[Redenção]]\n> **Inclui:** café da manhã, luz oficial (com apagão), telefone na portaria — recado anotado\n> **Público:** estudante, professor, artista; brechó e clínica clandestina no sobrado ao lado\n> **Regra:** visita até as 22h; livro proibido debaixo do colchão\n> **Nível:** 3 — Classe Média Baixa\n"
+}

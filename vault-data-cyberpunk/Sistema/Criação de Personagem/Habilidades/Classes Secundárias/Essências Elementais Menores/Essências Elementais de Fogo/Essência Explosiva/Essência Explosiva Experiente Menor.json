@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva Experiente Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva Experiente Menor.md",
+  "basename": "Essência Explosiva Experiente Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Fogo",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Propulsão Explosiva]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Experiente]]",
+    "resumo": "\"experiente [[Propulsão Explosiva]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Propulsão Explosiva]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Explosiva Experiente Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Propulsão Explosiva]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Propulsão Explosiva]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propulsão Explosiva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Experiente]]\n\nresumo:: \"experiente [[Propulsão Explosiva]]\"\n%%\n#### `= this.file.name`\n* experiente [[Propulsão Explosiva]]\n\n```autosheet-rules\n```\n"
+}

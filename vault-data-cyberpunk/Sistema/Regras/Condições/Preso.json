@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Condições/Preso",
+  "path": "Sistema/Regras/Condições/Preso.md",
+  "basename": "Preso",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Presos, Presa, Presas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Não pode realizar ações de [[Ações Básicas de Movimento|Movimento]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Não pode realizar ações de [[Ações Básicas de Movimento|Movimento]].\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

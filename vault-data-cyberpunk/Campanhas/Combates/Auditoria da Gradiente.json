@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Auditoria da Gradiente",
+  "path": "Campanhas/Combates/Auditoria da Gradiente.md",
+  "basename": "Auditoria da Gradiente",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Edifício Concorde]] · [[Moinhos de Vento]]",
+    "Situação": "O mais difícil da lista: quem manda não luta, e o prédio inteiro é arma dele.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sistemista da Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auditor de Campo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta de Diretoria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Sistemista da Gradiente]] lento\n- 1 [[Auditor de Campo]] rápido\n- 2 [[Escolta de Diretoria]] super rápido\n```\n"
+}

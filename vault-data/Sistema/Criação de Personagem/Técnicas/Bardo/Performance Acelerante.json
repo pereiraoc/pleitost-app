@@ -1,0 +1,138 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Acelerante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Acelerante.md",
+  "basename": "Performance Acelerante",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Acelerar]]",
+      "Complementar Acoes.Lista [[Ato Acelerante]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Auto-Confiança",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "modificadores": [
+          {
+            "somar": "Movimento",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você aprende a Performance Bárdica [[Acelerar]]. Adicionalmente, [[Auto-Confiança]] também garante +1q na movimentação terrestre.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Acelerar]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Acelerante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Acelerar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Acelerar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Acelerante]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Acelerante",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Acelerante]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Acelerante]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Acelerar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acelerar",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Ato Acelerante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você aprende a Performance Bárdica [[Acelerar]]. Adicionalmente, [[Auto-Confiança]] também garante +1q na movimentação terrestre.\"\n\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a Performance Bárdica Acelerar. Adicionalmente, [[Auto-Confiança]] também garante +1q de [[Bônus de Condição|bônus de condição]] na [[movimentação]] terrestre.\n\n![[Acelerar#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

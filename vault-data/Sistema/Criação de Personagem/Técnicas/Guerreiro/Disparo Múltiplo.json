@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Múltiplo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Múltiplo.md",
+  "basename": "Disparo Múltiplo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A ou 3A",
+    "resumo": "\"Faça 2 ou 3 [[Atacar|Ataques]] com um arco contra 1 criatura usando a [[Penalidade por Ataque Múltiplo|PAM]] atual, com -2 (para 2 ataques) ou -3 (para 3 ataques) de [[Penalidades|penalidade de especialização]]. Conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A ou 3A\n\nresumo:: \"Faça 2 ou 3 [[Atacar|Ataques]] com um arco contra 1 criatura usando a [[Penalidade por Ataque Múltiplo|PAM]] atual, com -2 (para 2 ataques) ou -3 (para 3 ataques) de [[Penalidades|penalidade de especialização]]. Conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Disparo Múltiplo\n\n**Disparo Múltiplo - 2A ou 3A**\nVocê foca num inimigo e dispara repetidamente.\n* 2A - Faça dois [[Atacar|Ataques]] usando um arco contra uma criatura na [[Penalidade por Ataque Múltiplo|PAM]] atual. Você recebe -2 de [[Penalidades|penalidade de especialização]] nesses ataques.\n* 3A - Faça três [[Atacar|Ataques]] usando um arco contra uma criatura na [[Penalidade por Ataque Múltiplo|PAM]] atual. Você recebe -3 de [[Penalidades|penalidade de especialização]] nesses ataques.\n\nDisparo Múltiplo conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

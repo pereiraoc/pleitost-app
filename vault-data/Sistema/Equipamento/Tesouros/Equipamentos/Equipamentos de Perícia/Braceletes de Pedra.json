@@ -1,0 +1,164 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Braceletes de Pedra",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Braceletes de Pedra.md",
+  "basename": "Braceletes de Pedra",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Terra|Terra]]"
+    ],
+    "resumo": "Bônus de [[Atletismo]]. Bônus para [[Escalar]].",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Atletismo. +1 de bônus de circunstância em Atletismo para Escalar.",
+      "experiente": "+2 de bônus de item em Atletismo. +2 de bônus de circunstância em Atletismo para Escalar.",
+      "mestre": "+3 de bônus de item em Atletismo. +2 de bônus de circunstância em Atletismo para Escalar. Você ganha movimentação de escalada igual à metade da sua movimentação terrestre enquanto usar este item."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Atletismo.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Braceletes de Pedra",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Braceletes de Pedra",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Atletismo.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Braceletes de Pedra",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Atletismo.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink",
+      "alias": "Terra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Terra) - braceletes*\nEste par de braceletes é feito de um metal escuro, gelado ao toque. Garante um punho firme e estável ao usuário.\n* Adepto: +1 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +1 de [[bônus de circunstância]] em Atletismo para [[Escalar]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +2 de [[bônus de circunstância]] em Atletismo para [[Escalar]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +2 de [[bônus de circunstância]] em Atletismo para [[Escalar]]. Você tem uma [[Movimentação]] de escalada igual a metade da sua [[Movimentação]] terrestre enquanto estiver usando este item.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

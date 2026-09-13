@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Performance Bárdica",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Performance Bárdica.md",
+  "basename": "Performance Bárdica",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Inspiração]]",
+      "Complementar Acoes.Lista [[Ato Inspirador]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Performance Bárdica Ativa",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "🎵",
+          "iconeDesligado": "🚫"
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você pode realizar Performances e Atos Bárdicos. Sempre que uma Performance ou Ato Bárdico precisar de um modificador (ou CD) use seu modificador de [[Atuação]] (ou 10 + [[Atuação]]).\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Inspiração]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Bárdica",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Inspiração]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Inspiração]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Inspirador]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Bárdica",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Inspirador]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Inspirador]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ato Inspirador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 5,
+      "text": "Performances"
+    },
+    {
+      "level": 5,
+      "text": "Atos"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: \"Você pode realizar Performances e Atos Bárdicos. Sempre que uma Performance ou Ato Bárdico precisar de um modificador (ou CD) use seu modificador de [[Atuação]] (ou 10 + [[Atuação]]).\"\n%%\n####  `= this.file.name`\nSua arte é capaz de alterar a realidade. Suas performances tem efeitos no corpo e alma de seus aliados e inimigos. Você pode realizar Performances e Atos Bárdicos. Sempre que uma Performance ou Ato Bárdico precisar de um modificador (ou CD) use seu modificador de [[Atuação]] (ou 10 + [[Atuação]]).\n\n##### Performances\nPerformances Bárdicas são palavras de impacto, música ou passos de dança que afetam aliados e/ou inimigos em uma área em volta do bardo. Você pode ter somente uma [[Performance Bárdica]] ativa, usar uma enquanto outra estiver ativa cancela os efeitos da primeira. Você aprende a [[Performance Bárdica]] [[Inspiração]].\n\n##### Atos\nAtos Bárdicos são ênfases, *crescendos* ou floreios dramáticos durante uma performance. Cada Performance Bárdica tem um Ato associado, e você pode ativá-lo com as ações e custo de recursos mágicos necessários enquanto a performance estiver ativa. Você só pode ativar um Ato Bárdico por turno.\n\n```autosheet-rules\n```\n"
+}

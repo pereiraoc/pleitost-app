@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Escalar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Escalar.md",
+  "basename": "Escalar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Escala uma superfície vertical ou íngrime.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Escala uma superfície vertical ou íngrime.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Atletismo]] vs  [[CD]] do trajeto. Você precisa de duas mãos livres para escalar. Conta como uma ação de [[Ações Básicas de Movimento|Movimento]].\n\n**Sucesso:** Você [[Mover|Move]] 1q pelo trajeto.\n**Sucesso Decisivo:** Você [[Mover|Move]] 2q pelo trajeto.\n**Falha:** Você não consegue se mover, mas não cai.\n**Falha Decisiva:** Você fica [[Caído]], possivelmente caindo ou escorregando pelo trajeto.\n\n```autosheet-rules\n```\n"
+}

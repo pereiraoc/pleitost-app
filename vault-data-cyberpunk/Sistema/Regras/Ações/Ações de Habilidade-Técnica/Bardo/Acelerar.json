@@ -1,0 +1,84 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Acelerar",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Acelerar.md",
+  "basename": "Acelerar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Acelerar",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Acelerar",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Técnica",
+        "escopo": {
+          "aplicaEm": "Aliados",
+          "compartilharGrupo": true
+        },
+        "visual": {
+          "iconeLigado": "🎵",
+          "iconeDesligado": "🚫",
+          "realceEspecial": "performance-bardica"
+        },
+        "links": {
+          "ativa": [
+            "Performance Bárdica Ativa"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "Movimento",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Aliados em até 10q recebem +1q de movimentação terrestre até o inicio do seu próximo turno."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ato Acelerante",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Aliados em até 10q recebem +1q de movimentação terrestre até o inicio do seu próximo turno.\n%%\n### `= this.file.name` - `= this.custo`\nAliados em até 10q recebem +1q de [[bônus de condição]] na [[movimentação]] terrestre até o inicio do seu próximo turno.\n\n![[Ato Acelerante#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

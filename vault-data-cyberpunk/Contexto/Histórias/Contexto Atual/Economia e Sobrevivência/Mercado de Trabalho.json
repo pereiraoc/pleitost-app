@@ -1,0 +1,272 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Mercado de Trabalho",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Mercado de Trabalho.md",
+  "basename": "Mercado de Trabalho",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As oportunidades (ou falta delas) de emprego formal e informal.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado de Trabalho.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Nível, rank e classe esperada"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "alias": "Classe Média",
+      "subpath": "O que cada classe compra"
+    },
+    {
+      "target": "Pós Grenal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartéis de Selênicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vila Operária PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Executiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "Caixinha por rank"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Estilos de vida (o mês fechado)"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink",
+      "alias": "regalia de classe"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "alias": "empréstimo",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kitnet do Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Monza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento no Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Fibra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Tocantins",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento nos Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura no Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado de Trabalho.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Profissões Mais Valorizadas"
+    },
+    {
+      "level": 4,
+      "text": "Profissões Menos Valorizadas"
+    },
+    {
+      "level": 4,
+      "text": "Mercados Formais"
+    },
+    {
+      "level": 4,
+      "text": "Mercados Informais"
+    }
+  ],
+  "body": "\n### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Mercado de Trabalho.png]]\n\n#### Profissões Mais Valorizadas\nO mercado de trabalho formal é dominado por profissões estratégicas para o governo e megacorporações, com alta valorização dos profissionais vinculados ao programa PIRA:\n- **Engenharia:** Fundamental para o desenvolvimento e manutenção da infraestrutura urbana após as enchentes de 1986, engenheiros ligados ao PIRA têm alta demanda em projetos da [[Gurgel]] (veículos anfíbios e blindados) e da [[Tramontina]] (implantes físicos para trabalhadores industriais).\n- **Medicina:** Médicos selênicos são essenciais, especialmente os especializados em implantes cognitivos e físicos realizados em clínicas autorizadas pela [[Gradiente]] e [[Panvel]]. Aqueles que não aderem ao PIRA trabalham informalmente em clínicas clandestinas nos bairros [[Centro Histórico]] e [[Cidade Baixa]].\n- **Militares e Advogados:** Após a integração das carreiras jurídicas às forças armadas, militares desfrutam de salários elevados, porém precisam lidar diretamente com operações repressivas e conflitos urbanos.\n\n#### Profissões Menos Valorizadas\n- **Cultura e Arte:** Profissionais culturais, frequentemente vistos com desconfiança pelo regime, operam informalmente em locais como o [[Teatro Quarto Distrito]] e [[Galeria Malcom]], enfrentando censura e repressão constante da [[Brigada Militar Metropolitana]] e [[Embratel]].\n- **Serviços Básicos:** Trabalhadores como faxineiras, pintores e serviços gerais têm pouco acesso ao mercado formal, dependendo de \"bicos\" e contratos temporários nos bairros periféricos como [[Restinga]] e [[Cidade Baixa]], onde são mais vulneráveis às ações policiais e exploração.\n\n#### Mercados Formais\n- **Industrial:** Dominado por megacorporações ([[Tramontina]], [[Gurgel]], [[Marcopolo]]) nos bairros [[Petrópolis]], [[Nova Sarandi]] e [[Passo D'Areia]], oferecendo empregos estáveis, porém altamente controlados e exigentes.\n- **Varejo:** Controlado por [[Zaffari]], com ampla distribuição logística e pontos comerciais nos bairros como [[Moinhos de Vento]] e [[Centro Histórico]]. Apesar de formal, o setor é afetado por frequentes greves e ações de resistência urbana.\n- **Tecnologia e Telecomunicações:** Setor liderado pela [[Gradiente]] e [[Embratel]], com rígido controle militar e frequentes auditorias internas, oferecendo altos salários, mas exigindo adesão total às políticas governamentais.\n\n#### Mercados Informais\n- **Contrabando e Sucata:** Atividades intensas especialmente em [[Restinga]], [[Zona Deserta]] e [[Centro Histórico]], com o [[Clã da Ferrugem]] dominando o mercado de metais reciclados e equipamentos \"jailbreak\".\n- **Coleta de Sucata:** Operada principalmente pelo [[Sindicato dos Catadores]] e informalmente em mercados como [[Camelódromo]] e [[Oficina de Sucata]] na [[Restinga]], oferecendo oportunidades precárias, porém essenciais.\n- **Oficinas Mecânicas e Clínicas Clandestinas:** Amplamente presentes em [[Cidade Baixa]] e [[Bom Fim]], oferecendo serviços de reparo de implantes e veículos que não passam pelo controle oficial da [[Gurgel]] ou [[Tramontina]].\n\n> [!note]- O que o trabalho paga, na mesa\n> **O Trabalho de Caixinha**\n> Pra quem vive fora da carteira assinada e da PIRA, o ganha-pão é a\n> [[A Caixinha|Caixinha]]: serviços avulsos pagos por depósito anônimo, do\n> frete arriscado à cobrança delicada. O despachante garante o pagamento, a\n> **Marca de Respeito** garante o próximo trabalho — e os melhores Contratados\n> da cidade nunca assinaram nada.\n>\n> **Como a Caixinha paga.** O rank da caixinha é o tier de quem a fecha: **C** = níveis 1–3 (Adepto), **B** = 4–6 (Experiente), **A** = 7–9 (Mestre), **S** = nível 10. Uma aventura por nível, uma entrega por nível — a cesta que cada nível paga está em [[Custo de Vida#Nível, rank e classe esperada]]; os valores por rank, abaixo.\n> - **Duração:** rank C, 1 a 5 dias; B, 1 a 4 semanas; A, 1 a 6 meses. Sem intervalo entre uma e outra.\n> - **Prova de rank** (níveis 3, 6 e 9): uma aventura a mais, curta (um dia no C, uma semana no B, um mês no A), que só abre com **padrinho** — alguém com Marca do rank seguinte que assina por ti — e com as Marcas mínimas. Paga cheio, uma caixinha do rank atual, e dá o **dobro de Marcas**: é o nome que abre o rank de cima.\n> - **Marcas mínimas pra ser chamado:** rank B ≥ 5 · A ≥ 20 · S ≥ 50. Quem trai contratante perde Marca e cai de rank.\n> - **Sinal:** aventura de dias paga na entrega; rank B paga **um quarto** na aceitação; rank A paga **metade** — quem passa meses em serviço fecha meses antes de receber. Falhou, devolve o sinal; não devolveu, vira dívida com quem depositou ([[Custo de Vida#Empréstimo]]).\n> - **Despachante:** 10% da caixinha ficam com ele — salvo quando o contratante te liga direto, o que exige telefone ([[Custo de Vida#O que cada classe compra|Classe Média]]).\n> - **Ajustes em cima do típico:** boteco e facção de bairro pagam Boca de Bairro (×0,7); megacorp e Brigada pagam Centro (×1,5) — e cobram na pele. Pagar em dose (Adepta 10.000, Experiente 50.000) ou em favor (\"limpar o nome\" vale metade da caixinha) é comum.\n>\n> **Caixinha por rank**\n> | Rank | Níveis | Duração | Caixinha típica | Faixa que o Mestre usa | Marcas por aventura | Quem deposita | Serviço típico |\n> |:-:|:-:|---|--:|--:|:-:|---|---|\n> | **C** | 1–3 | 1 a 5 dias | 70.000 | 40.000–120.000 | 1–5 (2 é o normal) | boteco, dono de estabelecimento, facção de bairro, sargento por fora | uma noite: frete sujo, cobrança, recuperar carga ([[Pós Grenal]]), sumir com um corpo pequeno |\n> | **B** | 4–6 | 1 a 4 semanas | 500.000 | 300.000–800.000 | 3–8 (5) | facção grande ([[Consórcio das Bandeiras]], [[Clã da Ferrugem]], [[Camisa 12]]), laranja de megacorp, tenente | semanas: roubo de protótipo, sabotagem de linha, resgate de alguém que a Brigada levou, escolta de dose graúda |\n> | **A** | 7–9 | 1 a 6 meses | 2.000.000 | 1.500.000–3.000.000 | 5–15 (10) | megacorp por laranja ([[Panvel]], [[Gradiente]]), [[Cartéis de Selênicos]], Brigada oficial | meses: invasão de laboratório, sumir com um diretor, guerra de facção, a Cápsula-Matriz |\n> | **S** | 10 | a campanha | 3.000.000+ | o que a diretoria quiser | 20+ | diretoria, [[Governo Militar Brasileiro]], governos estrangeiros | o que muda a cidade: Médici, o programa PIRA |\n>\n> **Salários de referência**\n> Valores mensais em Cz$ (escala fechada em [[Custo de Vida]]: Cz$ = PO × 1.000). Esta é a única tabela de salários da vault — as demais notas apontam pra cá.\n>\n> | Quem | Cz$ por mês | Observação |\n> |---|---|---|\n> | Bico / servente / faxina | 5.000–6.000 | metade em \"vale\" de armazém ([[Cesta Básica Zaffari]]) |\n> | Operário do PIRA | 8.000–12.000 | só Cz$ 2.000 em espécie; o resto em crédito da empresa (ração, [[Vila Operária PIRA]], [[Aeromóvel Linha Popular]]) |\n> | Brigadiano (soldado) | 10.000–12.000 | mais o que a rua paga pra ele não ver |\n> | Sargento da Brigada | 18.000 | vinte anos de PIRA e aposentadoria que não chega |\n> | Enfermeiro / balconista Panvel | 12.000 | |\n> | Técnico Gradiente / Embratel | 20.000–30.000 | auditoria mensal |\n> | Médico selênico credenciado | 40.000+ | clandestino ganha o mesmo, em dólar |\n> | Executivo de megacorp | 100.000+ | mais [[Aeromóvel Linha Executiva]] e carro da empresa |\n> | Contratado rank C (nível 1–3) | 60.000–70.000 por aventura, de uma noite | irregular; a Marca é o salário de verdade ([[A Caixinha]]; [[#Caixinha por rank]]) |\n> | Contratado rank B (nível 4–6) | 450.000–500.000 por aventura, de semanas | um quarto de sinal |\n> | Contratado rank A (nível 7–9) | 2.000.000–2.400.000 por aventura, de meses | metade de sinal; um quinto vai em dose |\n> | Contratado rank S (nível 10) | 3.000.000+ por aventura | não sobe mais nível — é o que a diretoria paga |\n>\n> **Quem vive como**\n> A classe de estilo de vida que cada salário fecha e quanto sobra por mês — as classes e os três eixos são os de [[Custo de Vida#Estilos de vida (o mês fechado)]].\n>\n> | Salário | Classe que fecha | Sobra por mês |\n> |---|---|---|\n> | Servente (Cz$ 5.000–6.000, metade em vale) | Classe Baixa; Classe Média Baixa se o vale cobrir a cesta | Cz$ 0–2.000 |\n> | Operário PIRA (Cz$ 2.000 em espécie + crédito) | Classe Média Baixa — a vila, a ração e o Aeromóvel vêm no crédito | Cz$ 1.000 |\n> | Brigadiano (Cz$ 10.000–12.000 + a rua) | Classe Média Baixa; Classe Média se a rua pagar bem | Cz$ 2.500–4.500 |\n> | Sargento (Cz$ 18.000) | Classe Média | Cz$ 3.000 |\n> | Técnico Gradiente (Cz$ 20.000–30.000) | Classe Média | Cz$ 5.000–15.000 |\n> | Médico credenciado (Cz$ 40.000+) | Classe Média Alta, no limite | Cz$ 8.000+ |\n> | Executivo (Cz$ 100.000+) | Classe Média Alta com folga; Classe Alta só a diretoria | Cz$ 10.000–70.000 |\n> | Contratado tier 1 (rank C: quatro caixinhas numa quinzena, ≈ Cz$ 270.000 no mês) | Classe Média Baixa | mobilete usada e uma dose por aventura |\n> | Contratado tier 2 (rank B: ≈ Cz$ 950.000 por mês de calendário) | Classe Média → Média Alta | um quinto vai em dose; o carro usado |\n> | Contratado tier 3 (rank A: ≈ Cz$ 700.000 por mês — menos que o tier 2, porque a aventura dura meses) | Classe Alta | o carro novo, o imóvel, o banco |\n>\n> **Mês de bico (opcional):** se a mesa parar de propósito — o grupo se esconde, espera a poeira baixar —, um mês parado pode ser um mês de emprego: o herói ganha o salário da linha desta tabela que a [[Regalias de Classe|regalia de classe]] dele indica (o Executivo ganha de técnico ou executivo; o Soldado, de brigadiano; o Tecnologista, de técnico Gradiente) e segura a classe esperada. Não é aventura, não dá Marca.\n>\n> **Quantas caixinhas custa**\n> Pra dar ao jogador o gosto de \"falta uma caixinha pro Carajás\" — na caixinha típica do rank em que a compra é esperada ([[#Caixinha por rank]]). Tudo se compra à vista; quem não tem, pega [[Custo de Vida#Empréstimo|empréstimo]].\n>\n> | Compra | Cz$ | Custa |\n> |---|--:|---|\n> | Placa e documento limpos; implante jailbreak | 30.000 | metade de uma C |\n> | [[Gurgel Carajás]] usado | 150.000 | duas C |\n> | [[Gurgel Carajás]] novo | 400.000 | uma B, quase |\n> | [[Kitnet do Aeromóvel]] (compra) | 600.000 | uma B e pouco |\n> | [[Chevrolet Monza]] novo | 700.000 | uma B e meia |\n> | [[Apartamento no Bom Fim]] (compra) | 800.000 | uma B e meia · metade de uma A |\n> | [[Lancha de Fibra]] | 900.000 | duas B · metade de uma A |\n> | [[Gurgel Tocantins]] | 1.500.000 | três B · uma A, quase |\n> | [[Apartamento nos Moinhos]] (compra) | 2.000.000 | uma A |\n> | [[Casa em Petrópolis]] (compra) | 4.000.000 | duas A |\n> | [[Cobertura no Edifício Concorde]] (compra) | 6.000.000 | três A · duas S |\n> | [[Casa em Ipanema]] (compra) | 8.000.000 | quatro A · três S |\n>\n> Imóvel próprio não entra na cesta esperada: no rank A a Classe Alta já paga o aluguel de cobertura, e comprar é o luxo de quem quer parar de pagar 50.000 por mês — e de quem quer garagem pra frota. Quatro anos de aluguel valem um Concorde.\n"
+}

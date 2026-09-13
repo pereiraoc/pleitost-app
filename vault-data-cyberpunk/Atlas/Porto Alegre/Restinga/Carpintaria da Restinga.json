@@ -1,0 +1,62 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Carpintaria da Restinga",
+  "path": "Atlas/Porto Alegre/Restinga/Carpintaria da Restinga.md",
+  "basename": "Carpintaria da Restinga",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Seu Zeca Carpinteiro",
+    "Descrição": null,
+    "Serviços": [
+      "[[Carroça com Cavalo]]",
+      "[[Carroça com Cavalo]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carpintaria da Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Carpintaria da Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Carpintaria da Restinga.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Carroça nova com cavalo, eixo e roda de reposição; conserto de carroceria por troca.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pátio de terra batida, carroças viradas, serrote e cola quente, uma bandeira do Movimento na estaca.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Carroça nova com cavalo, eixo e roda de reposição; conserto de carroceria por troca.",
+    "aparencia": "Pátio de terra batida, carroças viradas, serrote e cola quente, uma bandeira do Movimento na estaca.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

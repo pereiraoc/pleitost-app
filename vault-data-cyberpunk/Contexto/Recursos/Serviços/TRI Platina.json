@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Serviços/TRI Platina",
+  "path": "Contexto/Recursos/Serviços/TRI Platina.md",
+  "basename": "TRI Platina",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "Trensurb + [[Gradiente]]",
+    "Preço": 10000,
+    "Cobrança": "mês",
+    "Nível": 5,
+    "Onde": null,
+    "Resumo": "Linha executiva do Aeromóvel e táxi conveniado inclusos. O cartão de quem tem crachá.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "TRI Platina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aeromóvel Linha Executiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "LINHA EXECUTIVA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "TRI Platina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[TRI Platina.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO cartão de platina é o de quem tem crachá de megacorp: [[Aeromóvel Linha Executiva]] e lotação VIP ilimitadas, [[Táxi Gurgel]] conveniado (a corrida vai na conta do plano), a lancha da Gradiente com convite e prioridade na plataforma. A [[Embratel]] sabe cada trecho — e o RH também.\n\nAbre a [[LINHA EXECUTIVA]] do Aeromóvel (e o táxi conveniado, que não é linha); o resto da malha em [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** TRI Platina ([[Gradiente]] / Trensurb)\n> **Dá acesso a:** linha executiva, lotação VIP, táxi conveniado, lancha da Gradiente com convite\n> **Não cobre:** motorista particular\n> **Quem usa:** executivo, médico de clínica, oficial\n> **Classe:** Classe Média Alta\n"
+}

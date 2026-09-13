@@ -1,0 +1,364 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Transporte e Mobilidade",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Transporte e Mobilidade.md",
+  "basename": "Transporte e Mobilidade",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A eficiência, segurança e acesso aos meios de locomoção na cidade.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Transporte e Mobilidade.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink",
+      "alias": "Aeromóvel"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Transporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "A régua por bairro"
+    },
+    {
+      "target": "Andar a Pé",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praça da Alfândega",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ônibus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Informal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "LINHA EXECUTIVA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Ipanema",
+      "kind": "wikilink",
+      "alias": "Ipanema"
+    },
+    {
+      "target": "Sem Passe\\",
+      "kind": "wikilink",
+      "alias": "Sem plano"
+    },
+    {
+      "target": "KOMBI DO ITU\\",
+      "kind": "wikilink",
+      "alias": "Kombi do Itu"
+    },
+    {
+      "target": "KOMBI DA VOLUNTÁRIOS\\",
+      "kind": "wikilink",
+      "alias": "da Voluntários"
+    },
+    {
+      "target": "KOMBI DO BOTÂNICO\\",
+      "kind": "wikilink",
+      "alias": "Kombi da vila do Botânico"
+    },
+    {
+      "target": "Lancha do Barqueiro\\",
+      "kind": "wikilink",
+      "alias": "barqueiro"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "SARANDI — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "SARANDI"
+    },
+    {
+      "target": "ITU — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "ITU"
+    },
+    {
+      "target": "ASSIS BRASIL — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "ASSIS BRASIL"
+    },
+    {
+      "target": "NAVEGANTES — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "NAVEGANTES"
+    },
+    {
+      "target": "CAMPUS DO VALE — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "ZONA LESTE"
+    },
+    {
+      "target": "T3 VILA MILITAR — SARANDI\\",
+      "kind": "wikilink",
+      "alias": "T3"
+    },
+    {
+      "target": "T1 SARANDI — PORTO NOVO\\",
+      "kind": "wikilink",
+      "alias": "T1"
+    },
+    {
+      "target": "T2 BOTÂNICO — BEIRA-RIO\\",
+      "kind": "wikilink",
+      "alias": "T2"
+    },
+    {
+      "target": "B23 VILA DO BOTÂNICO\\",
+      "kind": "wikilink",
+      "alias": "B23"
+    },
+    {
+      "target": "A2 CIDADE BAIXA — CENTRO\\",
+      "kind": "wikilink",
+      "alias": "A2"
+    },
+    {
+      "target": "A3 LINHA DO CAIS\\",
+      "kind": "wikilink",
+      "alias": "A3"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "L1 POPULAR NORTE\\",
+      "kind": "wikilink",
+      "alias": "L1"
+    },
+    {
+      "target": "L2 POPULAR SUL\\",
+      "kind": "wikilink",
+      "alias": "L2"
+    },
+    {
+      "target": "A1 CENTRO ALAGADO\\",
+      "kind": "wikilink",
+      "alias": "A1"
+    },
+    {
+      "target": "T4 SARANDI — MOINHOS\\",
+      "kind": "wikilink",
+      "alias": "T4"
+    },
+    {
+      "target": "T6 CIRCULAR NOBRE\\",
+      "kind": "wikilink",
+      "alias": "T6"
+    },
+    {
+      "target": "343 BEIRA-RIO\\",
+      "kind": "wikilink",
+      "alias": "343"
+    },
+    {
+      "target": "UFRGS — BARRA\\",
+      "kind": "wikilink",
+      "alias": "UFRGS"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP NORTE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP PORTO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP LESTE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "L3 CORPORATIVA",
+      "kind": "wikilink",
+      "alias": "L3"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel\\",
+      "kind": "wikilink",
+      "alias": "táxi"
+    },
+    {
+      "target": "Carro com Motorista",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Transporte e Mobilidade.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Eficiência e Acesso"
+    },
+    {
+      "level": 4,
+      "text": "Programa PIRA e Transporte Gratuito"
+    },
+    {
+      "level": 4,
+      "text": "Precariedade do Transporte Popular"
+    },
+    {
+      "level": 4,
+      "text": "Segurança e Vigilância"
+    },
+    {
+      "level": 4,
+      "text": "Sistema TRI (Transporte Integrado de Porto Alegre)"
+    }
+  ],
+  "body": "\n### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Transporte e Mobilidade.png]]\n\n#### Eficiência e Acesso\nPorto Alegre vive uma dualidade intensa em sua rede de transporte urbano. O sistema [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], inaugurado em 1983 após jornadas exaustivas de trabalho forçado, é o símbolo máximo de modernidade e eficiência. Contudo, permanece elitizado: a linha executiva do [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]] atravessa rapidamente a cidade, com paradas exclusivamente projetadas para bairros de classe alta como [[Moinhos de Vento]] e [[Ipanema]], priorizando o deslocamento de executivos e funcionários de alto escalão das megacorporações [[Gradiente]] e [[Tramontina]], bem como oficiais do [[Governo Militar Brasileiro|Governo Militar]].\n\nAs lotações VIP representam outra camada desse sistema de transporte privilegiado. Equipadas com tecnologia avançada da [[Embratel]], elas conseguem interagir com as sinaleiras da cidade, garantindo deslocamentos rápidos e seguros. O preço proibitivo restringe seu uso aos mais ricos ou membros destacados do programa PIRA, aumentando ainda mais a segregação urbana.\n\n#### Programa PIRA e Transporte Gratuito\nA população aderente ao Programa Integrado de Redução da Atividade (PIRA) recebe acesso gratuito ao [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], causando superlotação constante nas poucas linhas acessíveis às classes mais baixas, criando um cenário paradoxal: um transporte futurista abarrotado e desconfortável, símbolo do preço pago pelos trabalhadores sob o regime exaustivo do PIRA.\n\n#### Precariedade do Transporte Popular\nPara quem não aderiu ao PIRA ou não pode pagar pelo [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], restam alternativas precárias: ônibus superlotados, lentos e perigosos operados pela [[Marcopolo]] e pequenas cooperativas clandestinas. Muitos trabalhadores optam por bicicletas improvisadas ou longas caminhadas, enfrentando ruas alagadas e perigos urbanos constantes. Os ônibus operam frequentemente com falhas técnicas devido à escassez de peças e manutenção, agravada por cortes sistemáticos de energia pela [[Companhia Estadual de Energia Elétrica|CEEE]], especialmente em bairros mais afastados como [[Restinga]], [[Jardim Itu]] e [[Cidade Baixa]].\n\n#### Segurança e Vigilância\nA segurança pública nos transportes reflete claramente a segregação social e política. Nos ônibus, o risco de assaltos é constante, especialmente nas paradas dos bairros periféricos como [[Cidade Baixa]] e [[Nova Sarandi]], onde gangues locais, como a [[Camisa 12]], frequentemente disputam território.\n\nEm contraste, os Aeromóveis e as lotações VIP são protegidos pela [[Brigada Militar Metropolitana]] com uma postura ostensiva. Assaltantes flagrados nessas áreas são imediatamente tratados como \"vagabundos\", \"subversivos\" ou \"comunistas\", podendo ser executados em flagrante como exemplo máximo do controle repressivo estatal. Esta política de tolerância zero mantém essas modalidades como vitrines para o governo ditatorial, projetando uma imagem de eficiência e segurança para investidores nacionais e internacionais.\n\n#### Sistema TRI (Transporte Integrado de Porto Alegre)\nTodos os meios de transporte adotam o sistema de pagamento TRI, controlado rigidamente por terminais automatizados administrados por Trensurb e monitorados pela [[Embratel]]. Os créditos TRI frequentemente são inseridos pelos empregadores das megacorporações, ampliando ainda mais o controle e monitoramento sobre o deslocamento dos trabalhadores.\nA combinação de tecnologia, repressão seletiva e elitização torna o transporte público de Porto Alegre uma expressão física das desigualdades profundas que permeiam a cidade no ano de 1987.\n\n> [!note]- Preços, planos e a malha na mesa\n> **Quanto custa se mover**\n> Passagens se pagam no TRI; corrida, aluguel e veículo à vista. Cada linha é uma nota de [[Transporte]]; régua por bairro e regra do dólar em [[Custo de Vida#A régua por bairro]].\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Transporte\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Usado AS \"Usado\", Manutenção AS \"Manutenção/mês\"\n> FROM \"Contexto/Recursos\"\n> WHERE categoria = \"Recurso\" AND subcategoria = \"Transporte\"\n> SORT Tipo ASC, Preço ASC\n> ```\n>\n> **Andar a pé**\n> Quem não pega linha, anda — e cada bairro cobra a travessia do seu jeito. O planejador mostra o tempo a pé ao lado de cada trajeto; a janela, o Risco e o que acontece em cada bairro estão em [[Andar a Pé]].\n>\n> <!-- malha:inicio -->\n>\n> **Como o sistema funciona**\n> - **Quem manda:** o cartão **TRI** (Transporte Integrado) é da Trensurb, administrado por terminais automatizados e monitorado pela [[Embratel]] — cada validação vira registro. A [[Companhia Estadual de Energia Elétrica|CEEE]] alimenta o [[Aeromóvel]] (prioridade absoluta: corta a periferia antes de cortar o trilho). A [[Marcopolo]] fabrica ônibus e anfíbios e opera as linhas populares por contrato com a [[Prefeitura de Porto Alegre]]; concessionárias privadas com rádio Embratel operam as lotações VIP; a [[Zaffari]] tem ferrovia e balsa próprias; a [[Aliança Livre das Palafitas]] domina a água miúda; a [[Brigada Militar Metropolitana]] vigia o que é vitrine (Aeromóvel, lotação) e ignora o que é pobre (ônibus, Kombi).\n> - **A geografia manda mais:** desde a [[Grande Enchente de 1986]] o [[Centro Histórico]] e a [[Cidade Baixa]] estão alagados — o \"novo piso\" flutuante liga o Centro por passarelas com pedágio da [[Aliança dos Fundadores]] a partir da [[Praça da Alfândega]]; o anfíbio e o barqueiro fazem o que o ônibus não faz. O [[Lago Guaíba]] é estrada, fronteira e despensa.\n> - **Horários:** ônibus 5h–23h; Aeromóvel popular 5h–23h (executivo 6h–1h); toque de recolher às 23h fora dos bairros nobres — depois disso só a Kombi clandestina (×2) e o barqueiro.\n> - **Qualidade (★ a ★★★★★):** precário (quebra, lota, assalta) · funciona, feio · regular · bom, vigiado · vitrine do regime.\n>\n> **A malha, linha a linha**\n> Cada linha é uma nota em [[Malha de Transportes]] (paradas em ordem, acesso, tarifa, qualidade, horário, aparência): [[Aeromóvel]] · [[Ônibus]] · [[Lotação]] · [[Água]] · [[Informal]]. As estações do Aeromóvel e as paradas são Pontos de Interesse no mapa de [[Porto Alegre]].\n> ```dataview\n> TABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\n> FROM \"Contexto/Recursos/Transporte\"\n> WHERE categoria = \"Linha\"\n> SORT subcategoria ASC, file.name ASC\n> ```\n>\n> **Quem chega onde (por plano do mês)**\n> Ao sul da Praia de Belas **não há malha**: a Restinga, a Zona Deserta e a orla se alcançam a pé, de carona no caminhão do Sindicato ([[Carona no Caminhão do Sindicato]]) ou de barco pago na mão — só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]].\n> | De \\ Para | Centro | Moinhos / Ipanema | Nova Sarandi / Passo | Jardim Botânico / Costa e Silva | Cidade Baixa / Porto |\n> |---|---|---|---|---|---|\n> | [[Sem Passe\\|Sem plano]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DO BOTÂNICO\\|Kombi da vila do Botânico]] | [[Lancha do Barqueiro\\|barqueiro]] (dose) |\n> | [[TRI Bronze]] | [[SARANDI — CENTRO\\|SARANDI]] / [[ITU — CENTRO\\|ITU]] / [[ASSIS BRASIL — CENTRO\\|ASSIS BRASIL]] / [[NAVEGANTES — CENTRO\\|NAVEGANTES]] / [[CAMPUS DO VALE — CENTRO\\|ZONA LESTE]] no turno | não | SARANDI, [[T3 VILA MILITAR — SARANDI\\|T3]], [[T1 SARANDI — PORTO NOVO\\|T1]] no turno | [[T2 BOTÂNICO — BEIRA-RIO\\|T2]] / ZONA LESTE / [[B23 VILA DO BOTÂNICO\\|B23]] no turno | [[A2 CIDADE BAIXA — CENTRO\\|A2]] / [[A3 LINHA DO CAIS\\|A3]] / T1 no turno |\n> | [[TRI Prata]] | ônibus + [[L1 POPULAR NORTE\\|L1]] / [[L2 POPULAR SUL\\|L2]] + [[A1 CENTRO ALAGADO\\|A1]] | [[T4 SARANDI — MOINHOS\\|T4]] / [[T6 CIRCULAR NOBRE\\|T6]] (com cara feia); Ipanema não | L1, ASSIS BRASIL, [[T1 SARANDI — PORTO NOVO\\|T1]] | T2 / T3 | [[A2 CIDADE BAIXA — CENTRO\\|A2]], [[343 BEIRA-RIO\\|343]], [[UFRGS — BARRA\\|UFRGS]], L2 |\n> | [[TRI Ouro]] | + [[VIP NORTE]] / [[VIP PORTO]] / [[VIP LESTE]] / [[L3 CORPORATIVA|L3]] | VIP Norte; Ipanema não | VIP Norte | VIP Leste, T2 / T3 | VIP Porto |\n> | [[TRI Platina]] | [[LINHA EXECUTIVA]] + [[Táxi Gurgel\\|táxi]] | Linha Executiva até Ipanema | táxi | táxi (o motorista reclama) | Linha Executiva (Praia de Belas) |\n> | [[Carro com Motorista]] | motorista (e o TRI Platina no bolso) | motorista ou a lancha da Gradiente | motorista com escolta | motorista com escolta | motorista |\n> <!-- malha:fim -->\n"
+}

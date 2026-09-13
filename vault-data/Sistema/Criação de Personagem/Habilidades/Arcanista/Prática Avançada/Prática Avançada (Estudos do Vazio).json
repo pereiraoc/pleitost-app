@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada (Estudos do Vazio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada (Estudos do Vazio).md",
+  "basename": "Prática Avançada (Estudos do Vazio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Escola Arcana (Estudos do Vazio)]]",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "Somar Magias.Slots.E 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende duas  [[Magia Negra Experiente|Magias Negras Experientes]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Escola Arcana (Estudos do Vazio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Estudos do Vazio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Escola Arcana (Estudos do Vazio)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Escola Arcana (Estudos do Vazio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Estudos do Vazio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Estudos do Vazio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Experiente",
+      "kind": "wikilink",
+      "alias": "Magias Negras Experientes"
+    },
+    {
+      "target": "Escola Arcana (Estudos do Vazio)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende duas  [[Magia Negra Experiente|Magias Negras Experientes]] de sua escolha.\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende duas  [[Magia Negra Experiente|Magias Negras Experientes]] de sua escolha.\n\n```autosheet-rules\n```\n"
+}

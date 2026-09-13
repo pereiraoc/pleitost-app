@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Refino do Itu",
+  "path": "Campanhas/Combates/Refino do Itu.md",
+  "basename": "Refino do Itu",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Fábrica Itú Química]] · [[Jardim Itu]]",
+    "Situação": "Cenário que machuca (vapor, frasco, fogo) e um terceiro lado que não é amigo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guarda de Refino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Refinador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiscal de Patente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Guarda de Refino]] lento\n- 2 [[Refinador]] lento\n- 2 [[Fiscal de Patente]] rápido\n```\n"
+}

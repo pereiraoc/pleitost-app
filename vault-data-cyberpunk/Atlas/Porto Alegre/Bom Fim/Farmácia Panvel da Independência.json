@@ -1,0 +1,90 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Farmácia Panvel da Independência",
+  "path": "Atlas/Porto Alegre/Bom Fim/Farmácia Panvel da Independência.md",
+  "basename": "Farmácia Panvel da Independência",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "[[Panvel]] (gerente Sr. Élcio Motta)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Mate Gelado Charrua]]",
+      "[[Laranjinha Fruki]]",
+      "[[Brahma Chopp]]",
+      "[[Água Mineral em Galão]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Farmácia Panvel da Independência.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Laranjinha Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Farmácia Panvel da Independência.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Farmácia Panvel da Independência.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Água em galão, mate gelado, bala e chiclete no balcão; laudo de Reatividade Selênica no fundo, com fila. Selênico de verdade é na loja de tesouros do bairro.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Vitrine verde e branca, prateleira de latas de mate gelado até o teto, balcão de laudo com senha e um farmacêutico de jaleco e crachá.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Água em galão, mate gelado, bala e chiclete no balcão; laudo de Reatividade Selênica no fundo, com fila. Selênico de verdade é na loja de tesouros do bairro.",
+    "aparencia": "Vitrine verde e branca, prateleira de latas de mate gelado até o teto, balcão de laudo com senha e um farmacêutico de jaleco e crachá.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

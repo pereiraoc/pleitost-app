@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Empresas/Marcopolo",
+  "path": "Contexto/Organizações/Empresas/Marcopolo.md",
+  "basename": "Marcopolo",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Roberto Zanini]]",
+    "Descrição": null,
+    "Resumo": "Fabricante de ônibus anfíbios para transporte público.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Marcopolo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Roberto Zanini",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Marcopolo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Marcopolo.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Inova em biocombustíveis e estruturas flutuantes para enchentes."
+}

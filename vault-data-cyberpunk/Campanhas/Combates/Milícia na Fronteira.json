@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Milícia na Fronteira",
+  "path": "Campanhas/Combates/Milícia na Fronteira.md",
+  "basename": "Milícia na Fronteira",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Costa e Silva]] · [[Zona Deserta]]",
+    "Situação": "O que sobrou da tropa, sem regulamento, na linha onde a cidade acaba.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Miliciano Veterano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ex-Praça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Miliciano Veterano]] lento\n- 4 [[Ex-Praça]] lento\n```\n"
+}

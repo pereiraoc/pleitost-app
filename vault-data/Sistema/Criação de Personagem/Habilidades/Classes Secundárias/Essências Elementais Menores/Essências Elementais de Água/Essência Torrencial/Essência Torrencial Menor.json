@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Torrencial/Essência Torrencial Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Torrencial/Essência Torrencial Menor.md",
+  "basename": "Essência Torrencial Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Água",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Esfera d'Água]]",
+      "Complementar Magias.Secundaria.Lista [[Rajada d'água]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Esfera d'Água]], adepta [[Rajada d'água]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Esfera d'Água]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Torrencial Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Esfera d'Água]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Esfera d'Água]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Rajada d'água]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Torrencial Menor",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Rajada d'água]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Rajada d'água]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esfera d'Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rajada d'água",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Esfera d'Água]], adepta [[Rajada d'água]]\"\n%%\n#### `= this.file.name`\n* basica [[Esfera d'Água]]\n* adepta [[Rajada d'água]]\n\n```autosheet-rules\n```\n"
+}

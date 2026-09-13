@@ -1,0 +1,60 @@
+{
+  "id": "Contexto/Recursos/Moradia/Diária no Plaza São Rafael",
+  "path": "Contexto/Recursos/Moradia/Diária no Plaza São Rafael.md",
+  "basename": "Diária no Plaza São Rafael",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "Plaza Hotéis",
+    "Preço": 3000,
+    "Cobrança": "noite",
+    "Nível": 5,
+    "Onde": [
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Cinco estrelas de 1973 na Alberto Bins: executivo em trânsito, estrangeiro do Mercosul, coronel de passagem. Uísque legalizado no bar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diária no Plaza São Rafael.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercosul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diária no Plaza São Rafael.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diária no Plaza São Rafael.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Plaza São Rafael é o hotel onde a cidade recebe quem manda de fora: executivo da matriz, negociador do\n[[Mercosul]], coronel de Brasília. Convenções no térreo, segurança da [[Gradiente]] no saguão e telefone\ninternacional via [[Embratel]] — gravado, claro. O bar serve o uísque com selo, a Cz$ 8.000 a garrafa.\n\n> [!info] Especificação\n> **Hotel:** 5 estrelas de 1973, 280 apartamentos, centro de convenções, restaurante panorâmico\n> **Inclui:** café, ar-condicionado, segurança [[Gradiente]], telefone internacional [[Embratel]] (gravado)\n> **Hóspede:** executivo em trânsito, estrangeiro do [[Mercosul]], oficial de passagem\n> **Bar:** uísque legalizado, Cz$ 8.000 a garrafa; o mesmo contrabandeado custa 4.000 no [[Porto Novo]]\n> **Mês:** Cz$ 90.000 — ninguém mora aqui, mas alguns tentam\n> **Nível:** 5 — Classe Média Alta\n"
+}

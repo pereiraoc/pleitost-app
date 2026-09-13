@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Banrisul",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Banrisul.md",
+  "basename": "Banrisul",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Banco do Estado"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Coronel Heitor Maciel]]",
+    "Descrição": null,
+    "Resumo": "O banco do Estado — a conta que é cadastro do regime: empresta a 8% ao mês, com correção, a quem tem endereço, laudo e nome limpo, e tem um auditor que sabe onde cobrar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Banrisul.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coronel Heitor Maciel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Banrisul.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Banrisul.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** O Banco do Estado do Rio Grande do Sul é do [[Governo Militar Brasileiro|Governo Militar]] desde a intervenção: presidente coronel, gerente de carreira e um auditor que anda de Brigada. Empresta a 8% ao mês, com correção monetária, a quem tem endereço fixo, laudo e cadastro — e o cadastro é o preço: abrir conta é entrar no arquivo que a Embratel lê. Quem atrasa não vê capanga: vê o nome sujo, a posse levada e a Brigada sabendo onde cobrar. Como se pega e se paga: [[Custo de Vida#Empréstimo]].\n\n"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Engraxate do Mercado",
+  "path": "Contexto/Recursos/Ofícios/Engraxate do Mercado.md",
+  "basename": "Engraxate do Mercado",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Engraxate",
+    "Marca": "Cadeiras da entrada principal",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Graxa, escova e pano na cadeira alta da entrada do Mercado — sapato brilhando em cinco minutos e a conversa de brinde.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nTrês cadeiras altas na entrada principal, com apoio de ferro pro pé. O engraxate trabalha de joelho, graxa preta ou marrom, escova e pano de flanela, e fala de futebol o tempo inteiro. Sapato engraxado ainda abre porta em escritório do Centro — e o engraxate sabe quem passou por ali de manhã.\n\n> [!info] Especificação\n> **Serviço:** graxa, escova e pano: 5 minutos\n> **Bota:** Cz$ 50\n> **De brinde:** quem entrou no Mercado hoje e com quem\n"
+}

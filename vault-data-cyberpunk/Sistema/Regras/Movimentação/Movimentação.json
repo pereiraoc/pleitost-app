@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Regras/Movimentação/Movimentação",
+  "path": "Sistema/Regras/Movimentação/Movimentação.md",
+  "basename": "Movimentação",
+  "type": "Regra",
+  "subtype": "Movimentação",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Movimentação",
+    "categoria": "Regra",
+    "subcategoria": "Movimentação",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Sentidos|Sentidos]]",
+    "next": "[[Perícias|Perícias]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "ação de movimento"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "embed",
+      "subpath": "Terreno Difícil"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Movimentação"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Sentidos|Sentidos]]\nnext:: [[Perícias|Perícias]]\n%%\n# Movimentação\nQuando um personagem usa uma ação para [[Mover]], ele se move um numero de quadrados igual a sua movimentação. A movimentação de um personagem é 4 + [[Agilidade|AGI]].\n\nVocê pode mover-se pelos quadrados de aliados livremente, mas estes contam como [[Terreno Difícil]]. Para mover-se por quadrados de inimigos, use a ação [[Cambalhota]].\n\nVocê pode mover em diagonal como 1q, mas um segundo movimento em diagonal custa 2q, e então alterna (1q para diagonais ímpares e 2q para pares). Conte seu movimento diagonal por todo seu turno, mas no final dele a próxima diagonal volta a ser 1q. Você pode mover em uma diagonal de um aliado normalmente, sem passar pelo seu espaço, mas não pode mover na diagonal de um inimigo sem uma [[Cambalhota]] de sucesso.\n\nUma criatura não pode parar no mesmo quadrado que outra já ocupa, mas você pode terminar uma [[Ações Básicas de Movimento|ação de movimento]] no mesmo quadrado de outra criatura, desde que sua próxima ação seja outra ação de movimento para mover-se para um quadrado livre.\n\n![[Terreno Difícil#Terreno Difícil]]"
+}

@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Boteco do Apito",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Boteco do Apito.md",
+  "basename": "Boteco do Apito",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Seu Piá Rodrigues",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]",
+      "[[Churrasquinho de Barraca]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Boteco do Apito.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Boteco do Apito.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Boteco do Apito.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cachaça antes do turno, Polar depois, churrasquinho e café; fiado até o vale.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Balcão de tábua, banco de ferro, um rádio e a portaria da fábrica do outro lado da rua.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cachaça antes do turno, Polar depois, churrasquinho e café; fiado até o vale.",
+    "aparencia": "Balcão de tábua, banco de ferro, um rádio e a portaria da fábrica do outro lado da rua.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

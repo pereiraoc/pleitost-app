@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Monark Barra Circular",
+  "path": "Contexto/Recursos/Veículos/Monark Barra Circular.md",
+  "basename": "Monark Barra Circular",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Monark",
+    "Preço": 10000,
+    "Cobrança": "única",
+    "Usado": 3000,
+    "Manutenção": 150,
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Restinga]]",
+      "[[Bom Fim]]"
+    ],
+    "Resumo": "A bicicleta de padeiro: quadro de ferro, freio contrapedal, bagageiro que carrega um saco de pão ou uma criança.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Monark Barra Circular.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bicicletaria do Alemão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicletaria Verde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Monark Barra Circular.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Monark Barra Circular.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Barra Circular é a bicicleta que não morre: quadro de ferro pesado, freio no pedal, bagageiro de aço. Anda\ndevagar e leva tudo — o pão da padaria, a lata de água, o filho. Usada, sai por três mil em qualquer oficina de\nbairro, provavelmente roubada uma vez antes.\n\n> [!info] Especificação\n> **Modelo:** Monark Barra Circular, quadro de aço, freio contrapedal\n> **Peso:** 18 kg\n> **Novo:** [[Bicicletaria do Alemão]], [[Bicicletaria Verde]]\n> **Usado:** oficinas de bairro, Cz$ 3.000\n> **Manutenção:** Cz$ 150 por mês: câmara e óleo\n"
+}
