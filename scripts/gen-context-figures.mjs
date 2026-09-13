@@ -850,6 +850,126 @@ const nomeMundo = (v) => {
   return base ? reskinName(base) : ''
 }
 
+// ANATOMIA das próteses (2026-09-13): o prompt de criatura só NOMEAVA o
+// equipamento, e o modelo inventava onde a peça ficava — daí criatura com o
+// Dublê na orelha depois que a arte aceita o pôs na nuca. `peca` é o que o
+// objeto É (vale pra gente, máquina e bicho); `onde` é o lugar no corpo (só
+// faz sentido em gente). Fonte: as 72 cartas curadas + o `descricoes` do
+// Contexto, alinhados em 2026-09-13.
+const ANATOMIA_EQUIP = {
+  'Adaptador de Operador': {
+    peca: 'placa Gradiente em asa, com as trilhas chatas saindo dela',
+    onde: 'na base do crânio, com as trilhas descendo pela nuca',
+  },
+  'Amplificador Audiovisual': {
+    peca: 'arco fino Gradiente, com um terminal óptico numa ponta e um poste de ancoragem na outra',
+    onde: 'do canto externo do olho até atrás da orelha, cruzando o alto do crânio POR BAIXO da pele — por fora só aparecem as duas pontas e o vulto do arco',
+  },
+  'Amplificador de Palco': {
+    peca: 'placa Gradiente parafusada, com um captador na ponta de um pescoço flexível',
+    onde: 'no osso do esterno, com o captador subindo até a traqueia',
+  },
+  'Aplicador Asséptico': {
+    peca: 'capas Panvel de ponta de dedo, cada uma com um bico estéril',
+    onde: 'no lugar das polpas dos dedos',
+  },
+  'Braço Hidráulico': {
+    peca: 'antebraço Tramontina inteiro: cilindro hidráulico no eixo, mão de cinco dedos com torque regulável e um alojamento de módulo no dorso',
+    onde: 'do cotovelo à mão',
+  },
+  'Compartimento de Campo': {
+    peca: 'barra Tramontina com TRÊS cápsulas seladas e rotuladas, uma de marcador, uma de concentrado e uma de bússola',
+    onde: 'ancorada na crista ilíaca, com as válvulas na linha da cintura',
+  },
+  'Comunicador de Pulso': {
+    peca: 'transceptor Embratel chato, com uma pastilha redonda de condução na ponta de um pescoço curto',
+    onde: 'sob a clavícula, com a pastilha encostada no osso',
+  },
+  'Difusor de Ameaça': {
+    peca: 'PAR de cápsulas termoquímicas Panvel, uma de cada lado',
+    onde: 'sob a pele dos ombros',
+  },
+  'Difusor de Silhueta': {
+    peca: 'lâmina dérmica Mercur de borda suturada, com fileiras de bicos emissores e uma mangueira corrugada até um cilindro',
+    onde: 'nas costas, das escápulas ao meio do dorso, com o cilindro na lombar',
+  },
+  'Dublê': {
+    peca: 'disco Gradiente de asas, com tela de alto-falante e um canário amarelo em serigrafia',
+    onde: 'na base da nuca, entre os trapézios',
+  },
+  'Estabilizador Vestibular': {
+    peca: 'cápsula Gradiente com um eletrodo espiral fino',
+    onde: 'atrás da orelha, com o eletrodo entrando no ouvido interno',
+  },
+  'Gazua Integrada': {
+    peca: 'multiferramenta Tramontina com um revólver de pontas que gira uma pra fora de cada vez',
+    onde: 'sob a pele do dorso da mão',
+  },
+  'Implante Subdérmico': {
+    peca: 'malha hexagonal Tramontina com portas de injeção e borda suturada',
+    onde: 'sob a pele da parede abdominal',
+  },
+  'Modulador de Voz': {
+    peca: 'DUAS peças Gradiente ligadas por um cabo curto, com o cartucho de idioma numa janela',
+    onde: 'uma no conduto do ouvido e outra no lugar da laringe',
+  },
+  'Olho Tático': {
+    peca: 'globo ocular de fábrica com barril de lente, retículo gravado no vidro e íris cinza-fosca que não combina com a do outro olho',
+    onde: 'no lugar do olho dominante',
+  },
+  'Pernas Hidráulicas': {
+    peca: 'carcaça Tramontina com o acumulador de fluido AZUL à vista e o pistão descendo até o calcanhar',
+    onde: 'nas canelas — joelho e pé continuam de carne',
+  },
+  'Porta de Reagentes': {
+    peca: 'porta de infusão Panvel com os cartuchos de reagente coloridos em pé e uma cânula fina saindo por baixo',
+    onde: 'no braço, acima do cotovelo, com a cânula descendo pra veia',
+  },
+  'Reforço de Punho': {
+    peca: 'par de cascos Tramontina com o coxim cinza de microporo coroando o DORSO (nunca a palma)',
+    onde: 'sobre os ossos do punho',
+  },
+  'Sensor Trônico': {
+    peca: 'antena farpada Gradiente com o mostrador de um frequencímetro na base',
+    onde: 'sob a pele, ao longo da coluna, com o mostrador na lombar',
+  },
+  'Tampão de Fator': {
+    peca: 'reservatório Panvel de vidro, com a solução tamponante iridescente dentro',
+    onde: 'ancorado nas costelas flutuantes',
+  },
+}
+
+// As válvulas não são todas iguais: o formato do bulbo é o que distingue uma
+// da outra na mesa.
+const ANATOMIA_VALVULA = {
+  'Válvula da Precisão': 'bulbo estreito e comprido, terminado em agulha',
+  'Válvula de Consistência': 'bulbo achatado e largo, com dois cilindros acesos deitados dentro',
+  'Válvula de Intensificação': 'bulbo curto assentado sobre um capacitor cilíndrico preto',
+  'Válvula de Repetição': 'DOIS bulbos verdes ligados por uma ponte de vidro',
+}
+
+// Equipamento sem anatomia escrita cai na linha de tipo do Contexto
+// (`*Trônico - implante ósseo (base do crânio)*`) — melhor que nada, e o aviso
+// no fim da geração diz quais faltam.
+const SEM_ANATOMIA = new Set()
+const fantasiaDe = (mundo) => [...notas].find(([, w]) => w === mundo)?.[0] ?? mundo
+function anatomiaVault(mundo) {
+  const v = DESCRICOES[fantasiaDe(mundo)] ?? DESCRICOES[mundo]
+  const linha = v?.split('\n')[1] ?? ''
+  const m = /^\*[^-*]+ - ([^*]+)\*$/.exec(linha.trim())
+  return m ? m[1].trim() : ''
+}
+function comAnatomia(mundo, especie) {
+  const a = ANATOMIA_EQUIP[mundo]
+  if (!a) {
+    const v = anatomiaVault(mundo)
+    if (!v) SEM_ANATOMIA.add(mundo)
+    return v ? `${mundo} (${v})` : mundo
+  }
+  // Em máquina e bicho o corpo é outro: sai o que a peça É, não onde ela ia.
+  return especie === 'gente' ? `${mundo} — ${a.peca}, ${a.onde}` : `${mundo} — ${a.peca}`
+}
+
 // Direção de arte por PAPEL de bestiário (a classe diz o que a criatura faz no
 // combate — é isso que a pose tem que contar).
 const PAPEL_ARTE = {
@@ -1022,7 +1142,10 @@ function promptCriatura(nome, fm, refPessoa) {
   }
   const tesouros = (inv['Tesouros'] ?? []).map(nomeMundo).filter(Boolean)
   const valvulas = tesouros.filter((t) => /^Válvula/.test(t))
-  const equipamentos = tesouros.filter((t) => !/^Válvula/.test(t))
+  // "X Premium" é QUALIDADE (o selo do INMETRO), não prótese — sem isso o
+  // prompt mandava enxertar um jogo de chaves no corpo do Instalador Pirata.
+  const selados = tesouros.filter((t) => / Premium$/.test(t))
+  const equipamentos = tesouros.filter((t) => !/^Válvula/.test(t) && !/ Premium$/.test(t))
   const consumiveis = [...new Set((inv['Consumiveis'] ?? []).map(nomeMundo).filter(Boolean))]
   const tec = (fm['Magias']?.['Lista'] ?? []).find((l) => (l['Lista'] ?? []).length > 0)
   const bairros = (fm['Bairros'] ?? []).map(alvoWl).filter(Boolean)
@@ -1076,13 +1199,23 @@ function promptCriatura(nome, fm, refPessoa) {
       : '') +
     (equipamentos.length
       ? especie === 'gente'
-        ? ` EQUIPAMENTO — são PRÓTESES: peça acoplada sobre um flange fixo no corpo (nunca roupa, nunca acessório solto): ${equipamentos.join('; ')}.`
+        ? ` EQUIPAMENTO — são PRÓTESES: peça acoplada sobre um flange fixo no corpo (nunca roupa, nunca acessório solto), e cada uma tem O SEU lugar, que é o que vai escrito: ${equipamentos.map((e) => comAnatomia(e, especie)).join('; ')}.`
         : especie === 'maquina'
-          ? ` EQUIPAMENTO embarcado, parafusado na carcaça: ${equipamentos.join('; ')}.`
-          : ` No chão em volta, do que ele já comeu (bicho não usa aparelho): ${equipamentos.join('; ')}.`
+          ? ` EQUIPAMENTO embarcado, parafusado na carcaça (a peça é a mesma, o corpo é que é outro): ${equipamentos.map((e) => comAnatomia(e, especie)).join('; ')}.`
+          : ` No chão em volta, do que ele já comeu (bicho não usa aparelho): ${equipamentos.map((e) => comAnatomia(e, especie)).join('; ')}.`
+      : '') +
+    (selados.length
+      ? ` NA MÃO ou no cinto (é ferramenta de trabalho, não prótese): ${selados
+          .map(
+            (s) =>
+              `${s.replace(/ Premium$/, '')} com o selo Premium do INMETRO aplicado (etiqueta metalizada de qualidade)`,
+          )
+          .join('; ')}.`
       : '') +
     (valvulas.length
-      ? ` Encaixada no equipamento: ${valvulas.join(', ')} — válvula selênica de VIDRO, com o líquido visível.`
+      ? ` VÁLVULA — válvula selênica Gradiente de VIDRO sobre base metálica com pinos de contato, o elemento selênico ACESO dentro do bulbo;` +
+        `${especie === 'gente' ? ' encaixada na PORTA DO ANTEBRAÇO, nunca na arma' : ' encaixada no soquete da carcaça'}:` +
+        ` ${valvulas.map((v) => (ANATOMIA_VALVULA[v] ? `${v} (${ANATOMIA_VALVULA[v]})` : v)).join('; ')}.`
       : '') +
     (consumiveis.length
       ? ` No cinto ou no bolso: ${consumiveis.join(', ')} — remédio de farmácia de 1987, com tarja impressa no rótulo.`
@@ -1355,6 +1488,69 @@ const CABECALHO_CODEX = {
     '> **Bicho é bicho, máquina é máquina.** Onde o prompt diz ARMAS NATURAIS, elas fazem parte do CORPO — nunca uma ferramenta acoplada no bicho. Onde diz MÁQUINA, é aparelho de 1987: chapa, servo, antena, parafuso.',
     '> ',
     '> **Sem texto legível** de nenhum tipo. O único texto permitido é o logotipo de marca real que o prompt pedir.',
+    '',
+    '---',
+    '',
+    '```text',
+    'Preciso de 87 ilustrações de criatura para o RPG "Porto Alegre 1987" — Brasil dos anos 80,',
+    'cyberpunk analógico-tropical sob regime militar. Uma imagem por criatura do bestiário: é a',
+    'arte que o mestre mostra na mesa quando o bicho entra em cena.',
+    '',
+    'Mando abaixo um prompt por criatura. Cada um foi montado a partir da FICHA dela — papel,',
+    'tier, o que veste, o que empunha e a quem responde. O QUE O PROMPT LISTA TEM QUE APARECER',
+    'NA IMAGEM: a arma na mão, a armadura no corpo, a prótese no lugar, o selo na peça. É por',
+    'isso que existe uma imagem por criatura em vez de uma por tipo.',
+    '',
+    'FORMATO: PNG, retrato 1024×1536, fundo COMPLETO (nada de transparência).',
+    'NOME DO ARQUIVO: exatamente o que cada item indica, sem mudar acento nem espaço.',
+    '',
+    'REGRAS QUE VALEM PARA AS 87:',
+    '',
+    '1. ESTILO — pintura digital cinematográfica SEMIRREALISTA, a mesma linguagem das Classes,',
+    '   das Pessoas e do Contexto Atual que já estão prontas. Nada de foto literal, nada de',
+    '   anime, nada de render 3D.',
+    '',
+    '2. 1987 ANALÓGICO — metal usinado, plástico bege de eletrônica brasileira, borracha, vidro,',
+    '   fita isolante, tinta descascada. NUNCA holograma, néon, fibra ótica brilhante nem',
+    '   estética futurista de ficção moderna.',
+    '',
+    '3. DECRETO DAS ARMAS FRIAS — pólvora é monopólio do Estado. Só as criaturas cujo prompt diz',
+    '   explicitamente que são AUTORIZADAS podem parecer armadas de fogo. Em todas as outras, o',
+    '   que tem alcance é besta, dardo, funda ou arco, e tem que ser visualmente distinto de uma',
+    '   arma de fogo.',
+    '',
+    '4. ENQUADRAMENTO — a criatura preenche o quadro: corpo inteiro ou três quartos, ocupando uns',
+    '   85% da altura, com margem de respiro nos quatro lados. Nada cortado pela borda.',
+    '',
+    '5. BICHO É BICHO, MÁQUINA É MÁQUINA — onde o prompt diz ARMAS NATURAIS (presas, garras,',
+    '   chifres, cauda), elas fazem parte do CORPO: nunca uma ferramenta acoplada no bicho. Onde',
+    '   diz MÁQUINA, é aparelho de 1987: chapa, servo, antena, parafuso.',
+    '',
+    '6. EQUIPAMENTO É PRÓTESE — quando o prompt lista equipamento, é peça acoplada sobre um',
+    '   flange fixo no corpo, com a fixação visível: nunca roupa, nunca acessório solto.',
+    '',
+    '7. CADA PRÓTESE TEM O SEU LUGAR — o prompt descreve a peça e diz ONDE ela fica no corpo.',
+    '   Isso não é sugestão: é a arte que já existe pra esse item, e a criatura tem que bater com',
+    '   ela. Se o prompt diz que o disco fica na base da nuca, ele não pode aparecer na orelha.',
+    '   Em criatura MÁQUINA o prompt descreve só a peça, porque o corpo é outro: aí ela vai',
+    '   parafusada na carcaça, no lugar que fizer sentido.',
+    '',
+    '8. MÓDULO DE ARMA É ENXERTO — quando o prompt diz que a arma leva um módulo, é uma peça',
+    '   FUNDIDA no metal da arma, permanente, com a gema da família à mostra. Nunca cartucho',
+    '   encaixável, nunca acessório removível.',
+    '',
+    '9. VÁLVULA É VÁLVULA DE VIDRO — a válvula selênica tem cara de válvula de rádio antiga:',
+    '   bulbo de vidro soprado sobre base metálica com pinos de contato, e o elemento selênico',
+    '   ACESO dentro do bulbo. Ela encaixa na porta do antebraço da criatura, nunca na arma.',
+    '',
+    '10. SEM TEXTO LEGÍVEL de nenhum tipo — sem etiqueta, sem placa escrita, sem número. O único',
+    '    texto permitido é o logotipo de marca real que o prompt pedir.',
+    '',
+    'Uma das criaturas (Coronel Luciana Prado) pede uma referência anexada: é o retrato que ela',
+    'já tem, e a imagem nova tem que ser a MESMA pessoa, mesmo rosto e mesma idade.',
+    '',
+    'Vai gerando na ordem e me devolvendo os PNGs com o nome exato de cada um.',
+    '```',
   ],
 }
 
@@ -1383,6 +1579,10 @@ if (CODEX) {
   mkdirSync(dirname(arquivo), { recursive: true })
   writeFileSync(arquivo, linhas.join('\n'))
   console.log(`${itens.length} prompts → ${arquivo}`)
+  if (SEM_ANATOMIA.size)
+    console.warn(
+      `AVISO equipamento sem anatomia (nem em ANATOMIA_EQUIP nem na linha de tipo do Contexto): ${[...SEM_ANATOMIA].sort().join(', ')}`,
+    )
   process.exit(0)
 }
 
