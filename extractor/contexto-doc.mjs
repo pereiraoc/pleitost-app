@@ -81,10 +81,20 @@ export function renderContextoDoc(contexto, typeByBasename) {
       ...Object.entries(cs.pesos ?? {}).map(([k, v]) => [`peso ${k}`, `×${v}`]),
     ], ["Campo", "Valor"]));
     out.push(...tabela("Classe social: faixas (valor mínimo do degrau, em moeda do mundo)", Object.entries(cs.faixas ?? {}).map(([k, v]) => [k, (v ?? []).map((n, i) => `${i + 1} ≥ ${n}`).join(" · ")]), ["Componente", "Faixas"]));
-    out.push(...tabela("Classe social: tendência da profissão (piso/teto por tier)", Object.entries(cs.tendencias ?? {}).map(([classe, t]) => [
+    out.push(...tabela("Classe social: piso da profissão (por tier)", Object.entries(cs.tendencias ?? {}).map(([classe, t]) => [
       classe,
-      [t.piso ? `piso ${t.piso.map((d) => letra(d)).join("/")}` : null, t.teto ? `teto ${t.teto.map((d) => letra(d)).join("/")}` : null, t.nota ?? null].filter(Boolean).join(" · "),
-    ]), ["Classe", "Tendência"]));
+      [t.piso ? `piso ${t.piso.map((d) => letra(d)).join("/")}` : null, t.nota ?? null].filter(Boolean).join(" · "),
+    ]), ["Classe", "Piso"]));
+  }
+  // IMPOSTO (2026-09-13): o freio de quem sobe, no lugar do antigo teto.
+  const imp = c.recursos?.imposto;
+  if (imp) {
+    out.push(...tabela("Imposto: alíquota por nível do bem (sobre o mês, nunca sobre a compra)",
+      (imp.por_nivel ?? imp.porNivel ?? []).map((pct, i) => [`nível ${i + 1}`, pct ? `+${pct}%` : "isento"]),
+      ["Nível", "Alíquota"]));
+    if (imp.disfarce) {
+      out.push(`Bem em nome de terceiro não paga imposto, não conta como patrimônio e não se vende — quem segura cobra ${imp.disfarce.fracao ?? imp.disfarce["fração"]}% do que o Estado cobraria.`, "");
+    }
   }
 
   // Perícias com display próprio

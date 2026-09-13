@@ -66,34 +66,39 @@ describe.skipIf(!cs)('retrato social com a régua REAL do POA', () => {
     expect(r.tendencia?.nota).toBeTruthy()
   })
 
-  it('Executivo tem TETO no tier 3: o funcionário não vira patrão', () => {
-    const rico = { niveis: [6, 6, 6], patrimonio: 5_000_000, equipamento: 5_000_000, dinheiro: 5_000_000 }
-    expect(retratoSocial(cs!, { ...rico, classe: 'Caçador', tier: 3 }).letra).toBe('B')
-    // sem profissão declarada o mesmo herói chega em A
+  // NÃO HÁ TETO (2026-09-13): a profissão garante um chão e nunca impede de
+  // subir. Quem vive como Classe Alta é lido como Classe Alta, seja executivo,
+  // soldado ou profeta — o freio de quem sobe é o imposto (`recursos.imposto`),
+  // que é conta, não trava.
+  const rico = { niveis: [6, 6, 6], patrimonio: 5_000_000, equipamento: 5_000_000, dinheiro: 5_000_000 }
+
+  it('nenhuma classe é rebaixada pela profissão: quem vive no topo é lido no topo', () => {
+    for (const classe of Object.keys(cs!.tendencias)) {
+      const r = retratoSocial(cs!, { ...rico, classe, tier: 3 })
+      expect(r.letra, `${classe} foi rebaixado`).toBe('A')
+      expect(r.tendencia?.limite ?? 'piso').toBe('piso')
+    }
+  })
+
+  it('o Executivo chega a Classe Alta, igual a quem não declara profissão', () => {
+    expect(retratoSocial(cs!, { ...rico, classe: 'Caçador', tier: 3 }).letra).toBe('A')
     expect(retratoSocial(cs!, rico).letra).toBe('A')
   })
 
-  it('Ressonante (Bardo) começa embaixo de todo mundo e termina acima do Executivo', () => {
-    const rico = { niveis: [6, 6, 6], patrimonio: 5_000_000, equipamento: 5_000_000, dinheiro: 5_000_000 }
-    const inicio = retratoSocial(cs!, { ...rico, classe: 'Bardo', tier: 1 })
-    expect(inicio.letra).toBe('E') // teto do tier 1
-    expect(inicio.tendencia?.limite).toBe('teto')
-    const fim = retratoSocial(cs!, { ...rico, classe: 'Bardo', tier: 3 })
-    expect(fim.letra).toBe('A')
-    const executivo = retratoSocial(cs!, { ...rico, classe: 'Caçador', tier: 3 })
-    expect(fim.degrau).toBeGreaterThan(executivo.degrau)
+  it('o Ressonante começa embaixo de todo mundo, e é só o PISO que difere', () => {
+    // No tier 1 o piso do Bardo é o fundo (1) e o do Caçador é Classe Média (4):
+    // sem nada no bolso, um entra descalço e o outro entra de terno.
+    const pelado = { niveis: [1, 1, 1], patrimonio: 0, equipamento: 0, dinheiro: 0 }
+    expect(retratoSocial(cs!, { ...pelado, classe: 'Bardo', tier: 1 }).letra).toBe('E')
+    expect(retratoSocial(cs!, { ...pelado, classe: 'Caçador', tier: 1 }).letra).toBe('C')
+    // Mas se o Ressonante bancar o topo, ele chega lá como qualquer um.
+    expect(retratoSocial(cs!, { ...rico, classe: 'Bardo', tier: 1 }).letra).toBe('A')
   })
 
-  it('Nóia (Druida) não passa de Média Baixa nem com as doações', () => {
-    const r = retratoSocial(cs!, {
-      niveis: [6, 6, 6],
-      patrimonio: 5_000_000,
-      equipamento: 5_000_000,
-      dinheiro: 5_000_000,
-      classe: 'Druida',
-      tier: 3,
-    })
-    expect(r.letra).toBe('D')
+  it('o Nóia tem o chão mais baixo da cidade, e ainda assim pode subir', () => {
+    const pelado = { niveis: [1, 1, 1], patrimonio: 0, equipamento: 0, dinheiro: 0 }
+    expect(retratoSocial(cs!, { ...pelado, classe: 'Druida', tier: 3 }).degrau).toBe(2)
+    expect(retratoSocial(cs!, { ...rico, classe: 'Druida', tier: 3 }).letra).toBe('A')
   })
 
   it('tier 4 (nível 10) usa a linha do tier 3', () => {

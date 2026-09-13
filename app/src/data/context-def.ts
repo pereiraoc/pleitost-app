@@ -83,8 +83,8 @@ export interface ContextoDef {
      *  faixa de níveis atendida de cara + fator de quantidade. */
     disponibilidade: Record<string, { niveis: [number, number]; quantidade: number }>
     /** CLASSE SOCIAL (2026-09-12): régua do retrato do mês — letra por degrau,
-     *  peso de cada componente, faixas em moeda do mundo e a tendência (piso e
-     *  teto por tier) de cada profissão. Ausente = mundo sem banner. */
+     *  peso de cada componente, faixas em moeda do mundo e o piso por tier de
+     *  cada profissão. Ausente = mundo sem banner. */
     classeSocial?: {
       /** Letra de cada degrau 1..6 (o 1 e o 2 compartilham a de baixo). */
       letras: string[]
@@ -95,8 +95,19 @@ export interface ContextoDef {
       pesos: { patrimonio: number; equipamento: number; dinheiro: number }
       /** Valor MÍNIMO de cada degrau, por componente. */
       faixas: { patrimonio: number[]; equipamento: number[]; dinheiro: number[] }
-      /** Classe canônica → piso/teto (um degrau por tier) e a razão. */
-      tendencias: Record<string, { piso?: number[]; teto?: number[]; nota?: string }>
+      /** Classe canônica → PISO (um degrau por tier) e a razão. Não há teto: o
+       *  ofício garante um chão e nunca impede de subir (2026-09-13). */
+      tendencias: Record<string, { piso?: number[]; nota?: string }>
+    }
+    /** IMPOSTO (2026-09-13): o freio de quem sobe, no lugar do antigo teto. A
+     *  alíquota (%) sobe com o `Nível` do bem e incide sobre o MÊS — manutenção
+     *  da posse e preço do plano —, nunca sobre a compra e nunca sobre a
+     *  caixinha. `disfarce.fracao` é o que o terceiro cobra pra segurar o bem
+     *  no lugar do herói (e aí o bem não é patrimônio e não se vende). */
+    imposto?: {
+      /** Percentual por nível 1..6 (índice 0 = nível 1). */
+      porNivel: number[]
+      disfarce?: { fracao: number }
     }
   }
   /** MALHA DE TRANSPORTES (2026-09-08): notas `categoria` (= linhas, com

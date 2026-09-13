@@ -26,11 +26,14 @@ const defPoa = JSON.parse(
 afterEach(() => setActiveContexto(null))
 
 describe('figuras de equipamento do mundo (cyberpunk)', () => {
-  it('tesouro COM tier: Anel da Resistência A → Implante Subdérmico Adepto', () => {
+  // 2026-09-12b: a leva de próteses passou a nomear a arte por tier curto,
+  // `Nome (A)/(E)/(M)`, e apagou a antiga por extenso. O lookup prefere o
+  // curto; este teste guarda esse contrato.
+  it('tesouro COM tier: Anel da Resistência A → Implante Subdérmico (A)', () => {
     setActiveContexto(defPoa)
     const url = tesouroImageUrl('Anel da Resistência', 'A', cyber)
     expect(decodeURIComponent(url ?? '')).toContain(
-      'Recursos de Contextos/Equipamentos/Implante Subdérmico Adepto',
+      'Recursos de Contextos/Equipamentos/Implante Subdérmico (A)',
     )
   })
   it('tesouro SEM tier no arquivo: Anel Canário → Dublê', () => {

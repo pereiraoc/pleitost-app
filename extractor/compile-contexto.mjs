@@ -212,12 +212,32 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
           }
           return lista;
         };
-        const piso = lim("piso"); const teto = lim("teto");
-        tendencias[classe] = { ...(piso ? { piso } : {}), ...(teto ? { teto } : {}), ...(typeof t.nota === "string" && t.nota.trim() ? { nota: t.nota.trim() } : {}) };
+        // Só PISO (2026-09-13): o `teto` saiu do mundo — a profissão garante um
+        // chão e nunca impede de subir. O freio de quem sobe é `recursos.imposto`.
+        const piso = lim("piso");
+        tendencias[classe] = { ...(piso ? { piso } : {}), ...(typeof t.nota === "string" && t.nota.trim() ? { nota: t.nota.trim() } : {}) };
       }
       classeSocial = { letras, rotulos, ajuste, pesos, faixas, tendencias };
     }
-    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade, ...(regalias ? { regalias } : {}), ...(classeSocial ? { classeSocial } : {}) };
+    // IMPOSTO (2026-09-13): alíquota por `Nível` do bem (6 degraus, em %), que
+    // incide sobre o MÊS — manutenção da posse e preço do plano. `disfarce.fracao`
+    // é o que o terceiro cobra pra segurar o bem no lugar do herói.
+    let imposto = null;
+    if (isPlainObject(r.imposto)) {
+      const porNivel = Array.isArray(r.imposto.por_nivel ?? r.imposto.porNivel)
+        ? (r.imposto.por_nivel ?? r.imposto.porNivel).map(Number)
+        : [];
+      if (porNivel.length !== 6 || !porNivel.every((n) => Number.isFinite(n) && n >= 0)) {
+        problems.push("recursos.imposto.por_nivel: esperado 6 números ≥ 0 (um por nível)");
+      } else {
+        const fr = Number(r.imposto.disfarce?.fracao ?? r.imposto.disfarce?.fração);
+        if (r.imposto.disfarce !== undefined && (!Number.isFinite(fr) || fr < 0 || fr > 100)) {
+          problems.push("recursos.imposto.disfarce.fracao: percentual de 0 a 100");
+        }
+        imposto = { porNivel, ...(Number.isFinite(fr) ? { disfarce: { fracao: fr } } : {}) };
+      }
+    }
+    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade, ...(regalias ? { regalias } : {}), ...(classeSocial ? { classeSocial } : {}), ...(imposto ? { imposto } : {}) };
   }
   // MALHA DE TRANSPORTES (2026-09-08): notas `categoria: <transporte.categoria>`
   // (Paradas em ordem, Acesso, Cor) + a nota `mapa` com o bloco ```malha```

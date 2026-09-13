@@ -102,8 +102,8 @@ export function ClasseSocialBanner({ retrato }: { retrato: RetratoSocial }) {
       ? 'O que ele tem não mudou o degrau do padrão de vida.'
       : `O que ele tem levou o retrato de ${retrato.bruto} pra ${retrato.degrau}.`,
     tendencia
-      ? `${tendencia.limite === 'piso' ? 'Piso' : 'Teto'} da profissão: ${tendencia.nota ?? tendencia.classe}.`
-      : 'Sem piso nem teto de profissão neste tier.',
+      ? `Piso da profissão: ${tendencia.nota ?? tendencia.classe}.`
+      : 'O ofício não levantou o retrato neste tier.',
   ]
   const dica = [
     '<div class="dv-tooltip-head-row">',
@@ -140,7 +140,7 @@ export function ClasseSocialBanner({ retrato }: { retrato: RetratoSocial }) {
       <Componente rotulo="em mãos" degrau={degraus.dinheiro} valor={valores.dinheiro} />
       {tendencia ? (
         <span style={{ ...MONO, fontSize: 10, flexBasis: '100%', color: 'var(--muted)' }}>
-          {tendencia.limite === 'piso' ? '▲ PISO DA PROFISSÃO' : '▼ TETO DA PROFISSÃO'}
+          {'▲ PISO DA PROFISSÃO'}
           {tendencia.nota ? ` — ${tendencia.nota}` : ''}
         </span>
       ) : null}

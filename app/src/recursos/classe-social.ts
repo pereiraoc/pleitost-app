@@ -2,9 +2,10 @@
 // plano ("Moradia Classe Média"); agora o plano se chama pelo que vende
 // ("Kitnet") e a classe é o conjunto: como se vive (os três planos), o que se
 // comprou (posse), o que se carrega (equipamento não-consumível) e o que
-// sobrou no bolso. Por cima vem a TENDÊNCIA da profissão — piso e teto por
+// sobrou no bolso. Por cima vem a TENDÊNCIA da profissão — o PISO por
 // tier —, que é o que faz o Executivo entrar na cidade já de terno e o
-// Ressonante começar embaixo de todo mundo e terminar acima dele.
+// Ressonante começar embaixo de todo mundo. Só PISO: a profissão garante um
+// chão e nunca impede de subir (2026-09-13).
 //
 // Nada aqui é número do código: letras, pesos, faixas e tendências são o
 // bloco `recursos.classe_social` do Contexto-Def do mundo.
@@ -16,7 +17,7 @@ export type ComponenteSocial = 'padrao' | 'patrimonio' | 'equipamento' | 'dinhei
 export type ComponenteTido = Exclude<ComponenteSocial, 'padrao'>
 
 export interface RetratoSocial {
-  /** Degrau final 1..6, já com o piso/teto da profissão. */
+  /** Degrau final 1..6, já com o piso da profissão. */
   degrau: number
   /** Degrau antes da tendência — o que o dinheiro do herói compraria sozinho. */
   bruto: number
@@ -24,8 +25,10 @@ export interface RetratoSocial {
   rotulo: string
   degraus: Record<ComponenteSocial, number>
   valores: { patrimonio: number; equipamento: number; dinheiro: number }
-  /** Presente quando a profissão mexeu no resultado. */
-  tendencia?: { limite: 'piso' | 'teto'; classe: string; nota?: string }
+  /** Presente quando o PISO da profissão levantou o resultado. Não há teto
+   *  desde 2026-09-13: o ofício garante um chão e nunca impede de subir — quem
+   *  freia quem sobe é o imposto (`recursos.imposto`), não uma trava. */
+  tendencia?: { limite: 'piso'; classe: string; nota?: string }
 }
 
 export interface EntradaSocial {
@@ -89,12 +92,7 @@ export function retratoSocial(cs: ClasseSocialCfg, e: EntradaSocial): RetratoSoc
   const t = e.classe ? cs.tendencias[e.classe] : undefined
   if (t && e.tier) {
     const i = Math.min(3, Math.max(1, e.tier)) - 1
-    const teto = t.teto?.[i]
     const piso = t.piso?.[i]
-    if (teto !== undefined && degrau > teto) {
-      degrau = teto
-      tendencia = { limite: 'teto', classe: e.classe!, ...(t.nota ? { nota: t.nota } : {}) }
-    }
     if (piso !== undefined && degrau < piso) {
       degrau = piso
       tendencia = { limite: 'piso', classe: e.classe!, ...(t.nota ? { nota: t.nota } : {}) }
