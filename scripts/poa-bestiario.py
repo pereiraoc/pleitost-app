@@ -211,6 +211,162 @@ def checa_hospedagem(tesouro: str, host: str, dono: str):
                          f"(grupo {fm_h.get('grupo')}, tipo {fm_h.get('tipo')})")
 
 
+# ───────────────────── a criatura alcança a própria arma? ─────────────────────
+# `Força X` e `Inteligência X` são requisitos, não decoração: quem fica abaixo
+# de Força leva −1 cumulativo em ataque e dano (−2 e −5 de alcance no arco, ou
+# recarga dobrada na besta) e quem fica abaixo de Inteligência simplesmente NÃO
+# ATACA com a arma. O bestiário tinha 18 casos assim. Aqui vira erro de geração:
+# nenhuma criatura carrega arma que ela não consegue usar.
+
+def requisitos_da_arma(nome: str) -> tuple[int, int]:
+    fm = itens_do_catalogo().get(nome) or {}
+    forca = intelecto = 0
+    for prop in fm.get("propriedades") or []:
+        m = re.search(r"Força\s+(\d+)", str(prop))
+        if m:
+            forca = int(m.group(1))
+        m = re.search(r"Intelig[êe]ncia\s+(\d+)", str(prop))
+        if m:
+            intelecto = int(m.group(1))
+    return forca, intelecto
+
+
+def checa_requisitos(nome: str, atributos: dict, dono: str):
+    if nome not in itens_do_catalogo():
+        raise SystemExit(f"{dono}: arma '{nome}' não existe no catálogo")
+    forca, intelecto = requisitos_da_arma(nome)
+    if atributos["FOR"] < forca:
+        raise SystemExit(f"{dono}: '{nome}' pede Força {forca} e a criatura tem "
+                         f"FOR {atributos['FOR']}")
+    if atributos["INT"] < intelecto:
+        raise SystemExit(f"{dono}: '{nome}' pede Inteligência {intelecto} e a criatura "
+                         f"tem INT {atributos['INT']} — não conseguiria atacar")
+
+
+# ─────────────────────── tecnologias: catálogo e repartição ───────────────────
+# O catálogo de magia é a VAULT, não uma lista mantida à mão: o mestre pediu que
+# o bestiário exercitasse o sistema inteiro, e "tecnologia" na POA é justamente
+# `Sistema/Criação de Personagem/Magia`. Ler dali é o que garante que uma magia
+# nova nasça sem dono visível em vez de sumir do radar.
+
+MAGIA = VAULT / "Sistema/Criação de Personagem/Magia"
+RANKS = ["Básica", "Adepta", "Experiente", "Mestre"]
+# Até que rank cada tier alcança. T0 só o básico; T3 chega no Mestre.
+TETO_RANK = {0: 1, 1: 2, 2: 3, 3: 4}
+# pasta → escola no vocabulário da POA
+ESCOLA_DA_PASTA = {
+    "Magia Anima": "Lênica",
+    "Magia Arcana Branca": "Positrônica",
+    "Magia Arcana Negra": "Negatrônica",
+    "Magia Arcana Essencial": "Utilitrônica",
+}
+
+
+def catalogo_magias() -> list[dict]:
+    """Toda magia da vault, com escola, elemento e rank. A escola vem da PASTA
+    (é ela que separa Branca de Negra de Essencial); o rank e o elemento vêm do
+    frontmatter da própria magia."""
+    out = []
+    for md in sorted(MAGIA.rglob("*.md")):
+        try:  # as notas-índice da pasta não têm frontmatter
+            fm = fm_da_nota(md)
+        except Exception:
+            continue
+        if not isinstance(fm, dict) or fm.get("categoria") != "Magia":
+            continue
+        partes = md.relative_to(MAGIA).parts
+        escola = None
+        for parte in partes[:-1]:
+            for pasta, nome in ESCOLA_DA_PASTA.items():
+                if parte.startswith(pasta):
+                    escola = nome
+        if escola is None:
+            # `Magia Especial` (Trônicos Especiais) fica DE FORA da cobertura do
+            # bestiário de propósito: as quatro não se escolhem, vêm de
+            # habilidade de HERÓI — Raio Arcano de [[Princípios Arcanos]]
+            # (Arcanista) e as três do Bardo de [[Estilo de Combate (Arte
+            # Mágica)]]. Nenhuma das oito classes de bestiário as alcança.
+            continue
+        rank = str(fm.get("rank") or "Básica")
+        out.append({"nome": md.stem, "escola": escola, "rank": rank,
+                    "elemento": fm.get("elemento") or None,
+                    "ordem": (RANKS.index(rank) if rank in RANKS else 0, md.stem)})
+    return out
+
+
+def _pool_da_criatura(spec: dict, catalogo: list[dict]) -> list[dict]:
+    teto = TETO_RANK[spec["tier"]]
+    return [m for m in catalogo
+            if m["escola"] == spec["escola"]
+            and RANKS.index(m["rank"]) < teto
+            # Na Lênica o Fator do sangue tranca o elemento; as magias sem
+            # elemento (Manifestação Básica e cia.) servem a qualquer Fator.
+            and (spec["escola"] != "Lênica" or m["elemento"] in (None, spec["elemento"]))]
+
+
+def distribui_magias(criaturas: list[dict]) -> list[str]:
+    """Reparte o catálogo entre os operadores e devolve o que ficou sem dono.
+
+    Duas passadas: primeiro cada magia AINDA SEM DONO procura o operador elegível
+    mais vazio (cobertura antes de sabor), depois as vagas que sobraram são
+    preenchidas com o que couber. Determinístico.
+
+    A ORDEM da primeira passada é o que faz a conta fechar. Do rank mais ALTO
+    para o mais baixo, porque uma Mestre só cabe num T3 e uma Básica cabe em
+    qualquer um: servir as difíceis primeiro reserva o teto pra quem precisa
+    dele. E, dentro do rank, as de elemento antes das neutras — a neutra serve
+    qualquer Fator, então é ela que deve sobrar pra tapar buraco."""
+    catalogo = catalogo_magias()
+    casters = [s for s in criaturas if s.get("escola")]
+    for s in casters:
+        s["magias"] = []
+    pools = {s["nome"]: _pool_da_criatura(s, catalogo) for s in casters}
+
+    def prioridade(m: dict):
+        return (-RANKS.index(m["rank"]), 0 if m["elemento"] else 1, m["nome"])
+
+    for magia in sorted(catalogo, key=prioridade):
+        aptos = [s for s in casters
+                 if magia in pools[s["nome"]] and len(s["magias"]) < s["n_magias"]]
+        if not aptos:
+            continue
+        # o mais vazio primeiro; empate resolve pelo menor tier (deixa o teto
+        # alto livre pras magias que só ele alcança) e depois pelo nome
+        aptos.sort(key=lambda s: (len(s["magias"]), s["tier"], s["nome"]))
+        aptos[0]["magias"].append(magia["nome"])
+
+    postos = {m for s in casters for m in s["magias"]}
+    for s in casters:
+        for magia in sorted(pools[s["nome"]], key=lambda m: m["ordem"]):
+            if len(s["magias"]) >= s["n_magias"]:
+                break
+            if magia["nome"] not in s["magias"]:
+                s["magias"].append(magia["nome"])
+    return sorted(m["nome"] for m in catalogo if m["nome"] not in postos)
+
+
+# ───────────────────── tecnologias que o tesouro concede ─────────────────────
+# `Complementar Magias.Lista.Tesouros.Lista [[X]]` na nota do tesouro: é o que
+# põe Detectar Magia na ficha de quem carrega um Sensor Arcano. A ficha do herói
+# já traz isso; a da criatura não trazia — o bloco Tesouros nascia vazio.
+
+def magias_do_tesouro(nome: str, categoria: str) -> list[str]:
+    fm = itens_do_catalogo().get(nome) or {}
+    out: list[str] = []
+    for e in fm.get("Elementos_de_Regra") or []:
+        m = re.match(r"^(?:Categoria (\w+) )?Complementar Magias\.Lista\.Tesouros\.Lista (.+)$",
+                     str(e).strip())
+        if not m:
+            continue
+        exige, alvo = m.groups()
+        if exige and exige != categoria:
+            continue
+        nome_magia = _basename_wl(alvo)
+        if nome_magia not in out:
+            out.append(nome_magia)
+    return out
+
+
 # ─────────────────────────── esqueleto da criatura ───────────────────────────
 
 def linha_pericia(nome: str, atributo: str) -> dict:
@@ -302,7 +458,14 @@ def monta(spec: dict) -> dict:
         atributo = "AGI" if grupo.startswith("d-") or (info.get("precisa") and agi > forca) else "FOR"
         if grupo == "d-arcanonico":
             especificas.append(f"[[{a['nome']}]]")
+        checa_requisitos(a["nome"], spec["atributos"], spec["nome"])
         if a.get("propriedade"):
+            # Módulo/premium só entra onde existe QUALIDADE que o sustente: o
+            # bônus de item do monstro é Tier−1 (+1 com modificador), então um
+            # T1 comum tem 0 e a ficha sairia com propriedade sem categoria.
+            if not qualidade:
+                raise SystemExit(f"{spec['nome']}: '{a['propriedade']}' em "
+                                 f"'{a['nome']}' sem qualidade — bônus de item 0")
             checa_hospedagem(a["propriedade"], a["nome"], spec["nome"])
         lista_armas.append({
             "Nome": f"[[{a['nome']}]]",
@@ -389,6 +552,21 @@ def monta(spec: dict) -> dict:
     fm["Inventario"]["Tesouros"] = [f"[[{t}]]" for t in inv.get("tesouros", [])]
     fm["Inventario"]["Consumiveis"] = [f"[[{c}]]" for c in inv.get("consumiveis", [])]
     fm["Inventario"]["Ouro"] = inv.get("ouro", 0)
+
+    # O que o TESOURO concede entra na linha "Tesouros" do bloco de tecnologia —
+    # é de lá que a ficha lê o Detectar Magia de quem carrega um Sensor Arcano.
+    # A categoria do tesouro de criatura é a do tier (CAT_POR_TIER), e é ela que
+    # decide o degrau: a Capa Discreta Mestre também dá Invisibilidade.
+    categoria = {0: "Adepto", 1: "Adepto", 2: "Experiente", 3: "Mestre"}[tier]
+    concedidas: list[dict] = []
+    for t_nome in inv.get("tesouros", []):
+        for magia in magias_do_tesouro(t_nome, categoria):
+            chave = f"[[{magia}]]"
+            if all(chave not in d for d in concedidas):
+                concedidas.append({chave: f"Tesouro.[[{t_nome}]]"})
+    if concedidas:
+        alvo = next(x for x in fm["Magias"]["Lista"] if x["Nome"] == "Tesouros")
+        alvo["Lista"] = concedidas
     return fm
 
 
@@ -472,8 +650,14 @@ def dificuldade_do_encontro(enc: dict, fichas: dict[str, dict]) -> tuple[int, fl
     return total, razao, rotulo_dificuldade(razao)
 
 
-def fichas_do_bestiario() -> dict[str, dict]:
-    return {p.stem: fm_da_nota(p) for p in BESTIARIO.glob("*.md") if p.stem != "Bestiário"}
+def fichas_do_bestiario(criaturas: list[dict] | None = None) -> dict[str, dict]:
+    """Fichas pra conta de dificuldade. As geradas vêm do SPEC, não do disco —
+    senão `--check` (que não escreve) não enxerga criatura nova e a conta
+    estoura. As escritas à mão (as quatro herdadas) vêm da vault."""
+    fichas = {p.stem: fm_da_nota(p) for p in BESTIARIO.glob("*.md") if p.stem != "Bestiário"}
+    for spec in criaturas or []:
+        fichas[spec["nome"]] = monta(spec)
+    return fichas
 
 
 CORPO_ENCONTRO = """### `= this.file.name`
@@ -551,16 +735,24 @@ if __name__ == "__main__":
     args = ap.parse_args()
     sys.path.insert(0, str(Path(__file__).parent))
     from poa_bestiario_dados import CRIATURAS
+    # A repartição das tecnologias roda ANTES de qualquer coisa: é ela que
+    # preenche spec["magias"], e tanto a geração quanto a cobertura leem de lá.
+    orfas = distribui_magias(CRIATURAS)
     if args.cobertura:
         falta = cobertura(CRIATURAS)
         for sub, nomes in falta.items():
             print(f"{sub} ({len(nomes)}): " + " · ".join(nomes))
-        if not falta:
+        total = len(catalogo_magias())
+        print(f"Tecnologia: {total - len(orfas)}/{total} com dono"
+              + (" · sem dono: " + " · ".join(orfas) if orfas else ""))
+        if not falta and not orfas:
             print("catálogo inteiro coberto")
         sys.exit(0)
     from poa_bestiario_dados import ENCONTROS
+    if orfas:
+        print("! tecnologia sem dono: " + " · ".join(orfas))
     if args.encontros:
-        fichas = fichas_do_bestiario()
+        fichas = fichas_do_bestiario(CRIATURAS)
         usadas: set[str] = set()
         for enc in sorted(ENCONTROS, key=lambda e: (e["tier"], e["nome"])):
             total, razao, rotulo = dificuldade_do_encontro(enc, fichas)
@@ -571,7 +763,7 @@ if __name__ == "__main__":
         print(f"\nsem encontro ({len(sem)}): " + (" · ".join(sem) if sem else "—"))
         sys.exit(0)
     n = escreve_bestiario(CRIATURAS, dry=args.check)
-    avisos = escreve_encontros(ENCONTROS, fichas_do_bestiario(), dry=args.check)
+    avisos = escreve_encontros(ENCONTROS, fichas_do_bestiario(CRIATURAS), dry=args.check)
     print(("(dry) " if args.check else "") + f"{n} criaturas em {BESTIARIO}")
     print(("(dry) " if args.check else "") + f"{len(ENCONTROS)} encontros em {COMBATES}")
     for a in avisos:

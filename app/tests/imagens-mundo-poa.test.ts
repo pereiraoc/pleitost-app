@@ -163,7 +163,22 @@ describe('bestiário do mundo', () => {
     expect(a).not.toBe(b)
   })
 
-  it('a leva cobre o bestiário inteiro: nenhuma ficha ficou sem arte própria', () => {
+  // As sete que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
+  // não foram à leva de arte — os prompts delas estão em `Recursos e Mídia/
+  // Rascunhos/Prompt Codex — bestiário (7 pendentes).md`. A lista vale nos DOIS
+  // sentidos: quando uma ganhar o webp e ninguém tirar daqui, o teste quebra e
+  // cobra a limpeza, em vez de virar exceção permanente.
+  const AGUARDANDO_ARTE = [
+    'Arpoador do Cais',
+    'Arquivista da Delegacia',
+    'Braço da Caixinha',
+    'Chaveiro Trônico',
+    'Detonador do Clã',
+    'Queimador do Itu',
+    'Escuta da Embratel',
+  ]
+
+  it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
     const semArte = docsCyber.docs
       .filter((d) => d.type === 'Criatura' && d.basename)
@@ -172,6 +187,6 @@ describe('bestiário do mundo', () => {
         const url = creatureImageUrl(monstro(nome), cyber)
         return !decodeURIComponent(url ?? '').includes('Recursos de Contextos/Bestiário/')
       })
-    expect(semArte).toEqual([])
+    expect(semArte.slice().sort()).toEqual(AGUARDANDO_ARTE.slice().sort())
   })
 })

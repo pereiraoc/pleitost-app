@@ -74,6 +74,10 @@ const ONLY = opt('--only', null)
 // --codex "<Categoria>": doc de UMA categoria só, no formato que o user cola no
 // Codex (cabeçalho com as regras da leva + checkbox e prompt por item).
 const CODEX = opt('--codex', null)
+// --pendentes: o doc do Codex sai só com o que AINDA não tem arte. É o modo
+// de leva incremental — quando entram sete criaturas novas num bestiário de
+// 94, ninguém quer colar 94 prompts de novo pra gerar 7 imagens.
+const SO_PENDENTES = flag('--pendentes')
 const QUALITY = opt('--quality', 'medium')
 
 // ---- porte de app/src/data/reskin.ts (manter em sincronia) ----------------
@@ -1607,7 +1611,7 @@ const CABECALHO_CODEX = {
     '',
     '**Formato: retrato 1024×1536, PNG, fundo COMPLETO (nada de transparência).**',
     '',
-    '> [!warning] Regras que valem para as 87',
+    '> [!warning] Regras que valem para as {N}',
     '> **Estilo.** Pintura digital cinematográfica SEMIRREALISTA — a mesma linguagem das Classes, das Pessoas e do Contexto Atual que já estão prontas. Nada de foto literal, nada de anime, nada de 3D.',
     '> ',
     '> **1987 analógico.** Metal usinado, plástico bege de eletrônica brasileira, borracha, vidro, fita isolante, tinta descascada. NUNCA holograma, néon, fibra ótica brilhante ou estética futurista de ficção moderna.',
@@ -1623,7 +1627,7 @@ const CABECALHO_CODEX = {
     '---',
     '',
     '```text',
-    'Preciso de 87 ilustrações de criatura para o RPG "Porto Alegre 1987" — Brasil dos anos 80,',
+    'Preciso de {N} ilustrações de criatura para o RPG "Porto Alegre 1987" — Brasil dos anos 80,',
     'cyberpunk analógico-tropical sob regime militar. Uma imagem por criatura do bestiário: é a',
     'arte que o mestre mostra na mesa quando o bicho entra em cena.',
     '',
@@ -1685,20 +1689,44 @@ const CABECALHO_CODEX = {
   ],
 }
 
+// Pendente = marcado pra regerar OU sem arquivo final no layout flat.
+// WEBP NO ACERVO (2026-09-13): a arte entra na vault já em webp. Um retrato de
+// 1024×1536 sai de ~3,4 MB em PNG pra ~350 KB, e é o que faz o site publicado
+// caber no GitHub Pages sem reencodar nada no deploy. q90 é praticamente
+// indistinguível do original em ilustração, e evita perda de geração: o
+// gen-thumbs pula o que já é webp e serve o próprio master.
+const WEBP_QUALIDADE = 90
+/** Destino final da arte: o mesmo caminho, em .webp. */
+const saidaWebp = (out) => out.replace(/\.[^.]+$/, '.webp')
+
+// Pendente = marcado pra regerar, ou sem arte em NENHUM dos dois formatos. O
+// acervo antigo é .png e não se remigra só por causa disto.
+const pendente = (t) =>
+  !MANTER_FANTASIA.has(t.chave) &&
+  (REGERAR.has(t.chave) || (!existsSync(t.out) && !existsSync(saidaWebp(t.out))))
+
 if (CODEX) {
-  const itens = trabalho.filter((t) => t.cat === CODEX)
-  if (!itens.length) {
+  const daCategoria = trabalho.filter((t) => t.cat === CODEX)
+  const itens = SO_PENDENTES ? daCategoria.filter(pendente) : daCategoria
+  if (!daCategoria.length) {
     console.error(`categoria sem itens: ${CODEX} (use uma de: ${CATS.join(', ')})`)
     process.exit(1)
   }
+  if (!itens.length) {
+    console.log(`${CODEX}: nada pendente — as ${daCategoria.length} já têm arte`)
+    process.exit(0)
+  }
+  const sufixo = SO_PENDENTES ? `${itens.length} pendentes` : String(itens.length)
   const arquivo = join(
     VAULT,
-    `Recursos e Mídia/Rascunhos/Prompt Codex — ${CODEX.toLowerCase()} (${itens.length}).md`,
+    `Recursos e Mídia/Rascunhos/Prompt Codex — ${CODEX.toLowerCase()} (${sufixo}).md`,
   )
+  // `{N}` no cabeçalho é o tamanho DESTA leva: o doc dizia "as 87" mesmo quando
+  // saía com sete, e o Codex lê o cabeçalho como instrução.
   const linhas = [
     `# Prompt pro Codex — ${CODEX.toLowerCase()} (${itens.length} imagens)`,
     '',
-    ...(CABECALHO_CODEX[CODEX] ?? []),
+    ...(CABECALHO_CODEX[CODEX] ?? []).map((l) => l.replaceAll('{N}', String(itens.length))),
     '',
     '---',
     '',
@@ -1720,22 +1748,6 @@ if (CODEX) {
     )
   process.exit(0)
 }
-
-// Pendente = marcado pra regerar OU sem arquivo final no layout flat.
-// WEBP NO ACERVO (2026-09-13): a arte entra na vault já em webp. Um retrato de
-// 1024×1536 sai de ~3,4 MB em PNG pra ~350 KB, e é o que faz o site publicado
-// caber no GitHub Pages sem reencodar nada no deploy. q90 é praticamente
-// indistinguível do original em ilustração, e evita perda de geração: o
-// gen-thumbs pula o que já é webp e serve o próprio master.
-const WEBP_QUALIDADE = 90
-/** Destino final da arte: o mesmo caminho, em .webp. */
-const saidaWebp = (out) => out.replace(/\.[^.]+$/, '.webp')
-
-// Pendente = marcado pra regerar, ou sem arte em NENHUM dos dois formatos. O
-// acervo antigo é .png e não se remigra só por causa disto.
-const pendente = (t) =>
-  !MANTER_FANTASIA.has(t.chave) &&
-  (REGERAR.has(t.chave) || (!existsSync(t.out) && !existsSync(saidaWebp(t.out))))
 
 if (MANIFEST) {
   const entradas = trabalho.filter(pendente).map((t) => ({

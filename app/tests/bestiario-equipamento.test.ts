@@ -88,6 +88,32 @@ function carregados(fm: Fm): string[] {
   return nomes.filter(Boolean)
 }
 
+/** Toda tecnologia que ALGUMA classe de bestiário alcança. Fora: `Magia
+ *  Especial`, que só vem de habilidade de herói. */
+function magiasDoCatalogo(): string[] {
+  const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
+  return manifest.docs
+    .filter((d) => d.type === 'Magia' && d.basename && !d.path?.includes('/Magia Especial/'))
+    .map((d) => d.basename!)
+    .sort()
+}
+
+/** Tecnologias que a ficha lista — as da escola E as que o tesouro concede. */
+function magiasDe(fm: Fm): string[] {
+  const out: string[] = []
+  const blocos = [fm['Magias'] ?? {}, fm['Magias']?.['Secundaria'] ?? {}]
+  for (const bloco of blocos) {
+    for (const linha of ((bloco['Lista'] ?? []) as Fm[])) {
+      for (const item of ((linha['Lista'] ?? []) as unknown[])) {
+        const chave = typeof item === 'object' && item ? Object.keys(item)[0] : String(item)
+        const nome = alvo(chave ?? '')
+        if (nome) out.push(nome)
+      }
+    }
+  }
+  return out
+}
+
 describe.skipIf(!temDataset)('equipamento do bestiário', () => {
   const { manifest, criaturas, itens } = temDataset
     ? dataset()
@@ -127,5 +153,60 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
       .map((d) => d.basename!)
       .filter((n) => !SEM_DONO.has(n) && !fora.has(n) && !usadas.has(n))
     expect(faltando).toEqual([])
+  })
+
+  // TECNOLOGIA (pedido do mestre, 2026-09-13): "no mínimo pelo menos 1 criatura
+  // pra cada arma, implemento, equipamento, tecnologia". Tecnologia na POA é a
+  // Magia do sistema — e o bestiário cobria 31 de 99: todo conjurador do mesmo
+  // elemento saía com o MESMO prefixo da lista, e a Utilitrônica inteira não
+  // estava na mão de ninguém.
+  it('toda tecnologia do catálogo está com alguma criatura', () => {
+    const usadas = new Set(criaturas.flatMap((c) => magiasDe(c.fm)))
+    const faltando = magiasDoCatalogo()
+      .filter((m) => !usadas.has(m))
+    expect(faltando).toEqual([])
+  })
+
+  // `Magia Especial` fica de fora e isso é DECLARADO, não esquecido: as quatro
+  // vêm de habilidade de herói (Raio Arcano de Princípios Arcanos, as três do
+  // Bardo de Estilo de Combate (Arte Mágica)) e nenhuma das oito classes de
+  // bestiário as alcança. Se um dia alguma virar alcançável, este teste cai.
+  it('as tecnologias fora do alcance do bestiário são só as de habilidade de herói', () => {
+    const especiais = manifest.docs
+      .filter((d) => d.type === 'Magia' && d.basename && d.path?.includes('/Magia Especial/'))
+      .map((d) => d.basename!)
+      .sort()
+    expect(especiais).toEqual([
+      'Palavras Cortantes', 'Projétil Telecinético', 'Raio Arcano', 'Ruído Estridente',
+    ])
+  })
+
+  // REQUISITO DA ARMA (report do mestre: "não quero coisas bizarras"): `Força X`
+  // cobra −1 cumulativo em ataque e dano de quem fica abaixo — −2 e −5 de
+  // alcance no arco, recarga dobrada na besta — e `Inteligência X` simplesmente
+  // IMPEDE o ataque. Eram 18 casos: sete Artilharias com FOR 0 carregando rifle
+  // e arco, Batedores com arpão de Força 3, o Despachante com a katana.
+  it('nenhuma criatura carrega arma que não consegue usar', () => {
+    const erros: string[] = []
+    for (const { nome, fm } of criaturas) {
+      const at = (fm['Atributos'] ?? {}) as Record<string, number>
+      for (const a of ((fm['Inventario']?.['Armas']?.['Lista'] ?? []) as Fm[])) {
+        const arma = alvo(a?.['Nome'])
+        const doc = itens.get(arma)
+        if (!doc) continue
+        for (const prop of ((doc.frontmatter?.['propriedades'] ?? []) as unknown[])) {
+          const texto = String(prop)
+          const f = /Força\s+(\d+)/.exec(texto)
+          if (f && Number(at['FOR'] ?? 0) < Number(f[1])) {
+            erros.push(`${nome}: ${arma} pede Força ${f[1]} e ela tem FOR ${at['FOR'] ?? 0}`)
+          }
+          const i = /Intelig[êe]ncia\s+(\d+)/.exec(texto)
+          if (i && Number(at['INT'] ?? 0) < Number(i[1])) {
+            erros.push(`${nome}: ${arma} pede Inteligência ${i[1]} e ela tem INT ${at['INT'] ?? 0}`)
+          }
+        }
+      }
+    }
+    expect(erros).toEqual([])
   })
 })

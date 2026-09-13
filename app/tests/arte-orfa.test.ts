@@ -55,4 +55,19 @@ describe.skipIf(!temDataset)('arte de equipamento do mundo não fica órfã', ()
 
     expect([...new Set(orfas)].sort()).toEqual([])
   })
+
+  // O outro lado do mesmo buraco (2026-09-13): a criatura da POA já NASCE com
+  // nome da POA, então reskinar o nome dela tem que ser identidade. Não era:
+  // `Rastreador de Sinal` caía na cascata de termos (Rastreador → Auditor) e a
+  // arte ia se chamar `Auditor de Sinal.png` — um arquivo que o resolvedor de
+  // figura nunca procuraria. A criatura entrava na mesa sem cara e sem erro.
+  it('nome de criatura do bestiário não é reescrito pela cascata de termos', () => {
+    const index = ler<IndexManifest>('index.json')
+    setActiveContexto(ler<ContextoDef>('contexto.json'))
+    const mexidas = index.docs
+      .filter((d) => d.type === 'Criatura' && d.subtype === 'Monstro' && d.basename)
+      .map((d) => d.basename!)
+      .filter((nome) => reskinName(nome) !== nome)
+    expect(mexidas).toEqual([])
+  })
 })

@@ -39,6 +39,46 @@ function criaturas(): { nome: string; fm: Fm }[] {
     }))
 }
 
+/** Basename de um wikilink: "[[Adaga|faca]]" → "Adaga". */
+function alvo(v: unknown): string {
+  const s = typeof v === 'string' ? v : ''
+  const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(s)
+  return (m ? m[1]! : s).trim()
+}
+
+let _itens: Map<string, VaultDoc> | null = null
+function itens(): Map<string, VaultDoc> {
+  if (_itens) return _itens
+  const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
+  _itens = new Map()
+  for (const d of manifest.docs) {
+    if (d.type === 'Item' && d.basename && !_itens.has(d.basename)) {
+      _itens.set(d.basename, JSON.parse(fs.readFileSync(path.join(cyberDir, `${d.id}.json`), 'utf8')) as VaultDoc)
+    }
+  }
+  return _itens
+}
+
+/** O que os tesouros da criatura concedem, relido da REGRA de cada nota de
+ *  tesouro (`Complementar Magias.Lista.Tesouros.Lista [[X]]`), com a categoria
+ *  que o tier da criatura dá. Deriva de novo em vez de confiar no gerador. */
+function magiasConcedidas(fm: Fm): string[] {
+  const categoria = QUALIDADE[Math.max(1, Number(fm['Tier'] ?? 0))] ?? 'Mestre'
+  const out: string[] = []
+  for (const bruto of (fm['Inventario']?.['Tesouros'] ?? []) as unknown[]) {
+    const doc = itens().get(alvo(bruto))
+    for (const re of (doc?.ruleElements ?? []) as { raw?: string }[]) {
+      const m = /^(?:Categoria (\w+) )?Complementar Magias\.Lista\.Tesouros\.Lista (.+)$/.exec(
+        String(re.raw ?? '').trim())
+      if (!m) continue
+      if (m[1] && m[1] !== categoria) continue
+      const magia = alvo(m[2])
+      if (magia && !out.includes(magia)) out.push(magia)
+    }
+  }
+  return out
+}
+
 function papelEMod(fm: Fm): { papel: string; mod: string | null } {
   const m = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/.exec(String(fm['Classe'] ?? ''))
   const papel = (m?.[1] ?? '').trim()
@@ -159,11 +199,32 @@ describe.skipIf(!temDataset)('toda criatura do bestiário obedece à regra de mo
     for (const { nome, fm } of todas) {
       const { papel } = papelEMod(fm)
       const linhas = fm['Magias']?.['Lista'] ?? []
-      const comMagia = linhas.filter((l: Fm) => (l['Lista'] ?? []).length > 0)
+      // A linha "Tesouros" fica DE FORA da conta: ela não é a tecnologia da
+      // classe, é o que o ITEM concede (Detectar Magia de quem leva um Sensor
+      // Arcano). Um Líder com Modulador de Voz lista Compreender Idiomas sem
+      // ser conjurador — igualzinho à ficha de herói.
+      const escolas = linhas.filter((l: Fm) => l['Nome'] !== 'Tesouros')
+      const comMagia = escolas.filter((l: Fm) => (l['Lista'] ?? []).length > 0)
       const deveria = COM_TECNOLOGIA.has(papel)
       if (deveria && comMagia.length === 0) erros.push(`${nome}: ${papel} sem magia nenhuma`)
       if (!deveria && comMagia.length > 0) erros.push(`${nome}: ${papel} não tem tecnologia mas lista magia`)
       if (deveria && Number(fm['Magias']?.['Potencia']) <= 0) erros.push(`${nome}: potência mágica zerada`)
+    }
+    expect(erros).toEqual([])
+  })
+
+  it('a linha Tesouros lista exatamente o que os tesouros carregados concedem', () => {
+    // Guarda do elo inverso: se a criatura carrega Capa Discreta Mestre, a
+    // ficha tem que mostrar Invisibilidade — e se não carrega nada que conceda,
+    // a linha fica vazia. Sem isso o bloco nascia em branco e ninguém via.
+    const erros: string[] = []
+    for (const { nome, fm } of todas) {
+      const linha = (fm['Magias']?.['Lista'] ?? []).find((l: Fm) => l['Nome'] === 'Tesouros')
+      const listadas = ((linha?.['Lista'] ?? []) as Fm[]).map((d) => alvo(Object.keys(d)[0] ?? ''))
+      const esperadas = magiasConcedidas(fm)
+      if (listadas.join('|') !== esperadas.join('|')) {
+        erros.push(`${nome}: Tesouros lista [${listadas}] e os itens concedem [${esperadas}]`)
+      }
     }
     expect(erros).toEqual([])
   })
