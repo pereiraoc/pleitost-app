@@ -32,6 +32,31 @@ import { fileURLToPath } from 'node:url'
 
 const THUMB_MAX_WIDTH = 384
 const WEBP_QUALITY = 72
+
+// IMAGEM CHEIA EM WEBP (2026-09-13) — o site publicado tinha chegado a 3,1 GB,
+// contra o limite de 1 GB do GitHub Pages, e o deploy parou de entrar: 2,7 GB
+// eram PNG original em `assets/`. Reencodar pra webp na MESMA resolução corta
+// ~10× sem perder um pixel (3,4 MB → 214 KB num retrato de 1024×1536).
+//
+// A vault segue intocada: isto roda no DIST, como os thumbs. O que muda no
+// manifest é só o `copiedTo` (o caminho SERVIDO); o `path` — que é a chave de
+// busca do app (`byPath`) — fica com o nome original da vault.
+//
+// Roda ANTES dos thumbs de propósito: o thumb é derivado do copiedTo, nos dois
+// lados (aqui por thumbDestFor, no app por thumbCopiedTo). Converter depois
+// deixaria o app pedindo `foo.webp.webp` e o arquivo escrito em `foo.png.webp`.
+const FULL_QUALITY = 82
+/** Formatos que valem reencodar no cheio. `.webp` já está no formato e `.svg`/
+ *  `.gif` não são raster (vetorial / animação). */
+const FULL_CONVERT_EXTS = new Set(['.png', '.jpg', '.jpeg', '.bmp', '.avif'])
+
+/** `assets/<p>.png` → `assets/<p>.webp`; null pro que não se converte. */
+export function fullWebpDestFor(copiedTo) {
+  if (!copiedTo?.startsWith('assets/')) return null
+  const ext = path.extname(copiedTo).toLowerCase()
+  if (!FULL_CONVERT_EXTS.has(ext)) return null
+  return `${copiedTo.slice(0, -ext.length)}.webp`
+}
 // Espelha THUMB_RASTER_EXTENSIONS de src/data/assets.ts. svg (vetorial) e gif
 // (anima; reencode perde o loop) ficam SÓ na imagem cheia.
 const RASTER_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif', '.bmp'])
@@ -119,6 +144,47 @@ async function main() {
     process.exit(1)
   }
 
+  // 1) CHEIAS → webp (antes dos thumbs; ver o comentário em FULL_QUALITY)
+  let convertidas = 0
+  let antes = 0
+  let depois = 0
+  for (const datasetDir of datasets) {
+    const manifestPath = path.join(datasetDir, 'assets.json')
+    if (!fs.existsSync(manifestPath)) continue
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    for (const entry of manifest.assets ?? []) {
+      const destRel = fullWebpDestFor(entry.copiedTo)
+      if (!destRel) continue
+      const abs = path.join(datasetDir, entry.copiedTo)
+      if (!fs.existsSync(abs)) continue
+      const bruto = fs.readFileSync(abs)
+      // #283: o frontmatter colado no binário sai aqui, antes de decodificar
+      const src = stripLeadingFrontmatter(bruto)
+      antes += src.length
+      try {
+        const out = await sharp(src).webp({ quality: FULL_QUALITY }).toBuffer()
+        fs.writeFileSync(path.join(datasetDir, destRel), out)
+        fs.unlinkSync(abs)
+        entry.copiedTo = destRel
+        depois += out.length
+        convertidas++
+      } catch (err) {
+        // corrompida (#283) ou formato exótico: fica o original, e o copiedTo
+        // não muda — o app segue servindo o arquivo que está lá.
+        console.warn(`[gen-thumbs] cheia falhou em ${entry.copiedTo}: ${err.message}`)
+        if (src !== bruto) fs.writeFileSync(abs, src)
+        depois += src.length
+      }
+    }
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2))
+  }
+  const mb = (n) => (n / 1024 / 1024).toFixed(0)
+  console.log(
+    `[gen-thumbs] cheias: ${convertidas} em webp q${FULL_QUALITY} (mesma resolução) — ` +
+      `${mb(antes)} MB → ${mb(depois)} MB no dist.`,
+  )
+
+  // 2) THUMBS
   let generated = 0
   let skipped = 0
   let passed = 0 // não-raster (svg/gif) — sem thumb, seguem no cheio

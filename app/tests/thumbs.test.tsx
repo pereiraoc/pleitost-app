@@ -18,7 +18,7 @@ import {
   thumbCopiedTo,
   thumbUrl,
 } from '../src/data/assets'
-import { thumbDestFor, stripLeadingFrontmatter } from '../../scripts/gen-thumbs.mjs'
+import { thumbDestFor, fullWebpDestFor, stripLeadingFrontmatter } from '../../scripts/gen-thumbs.mjs'
 import { VaultImage } from '../src/components/compendium/VaultImage'
 import type { AssetsManifest } from '../src/data/types'
 
@@ -82,6 +82,34 @@ describe('derivação do caminho do thumb (#280)', () => {
     expect(assetUrlFor(entry, true)).toBe(assetUrl(entry))
     // contexto grande (small=false) é sempre o cheio.
     expect(assetUrlFor(entry, false)).toBe(assetUrl(entry))
+  })
+})
+
+// IMAGEM CHEIA EM WEBP (2026-09-13): o site publicado tinha ido a 3,1 GB
+// contra o limite de 1 GB do GitHub Pages e o deploy parou de entrar. O cheio
+// passa a ser reencodado pra webp NO DIST, na mesma resolução (2972 MB → 258).
+describe('derivação do caminho da imagem cheia em webp', () => {
+  it('troca a extensão mantendo o caminho', () => {
+    expect(fullWebpDestFor('assets/x/Foto.png')).toBe('assets/x/Foto.webp')
+    expect(fullWebpDestFor('assets/x/Foto.JPG')).toBe('assets/x/Foto.webp')
+  })
+
+  it('não mexe no que já é webp, nem em vetorial/animado', () => {
+    expect(fullWebpDestFor('assets/x/Foto.webp')).toBeNull()
+    expect(fullWebpDestFor('assets/x/Icone.svg')).toBeNull()
+    expect(fullWebpDestFor('assets/x/Anima.gif')).toBeNull()
+  })
+
+  it('só mexe dentro de assets/', () => {
+    expect(fullWebpDestFor('fora/coisa.png')).toBeNull()
+    expect(fullWebpDestFor(undefined)).toBeNull()
+  })
+
+  it('o thumb do cheio convertido continua derivável pelos dois lados', () => {
+    // o app deriva de copiedTo (thumbCopiedTo); o gerador, do caminho no dist
+    // (thumbDestFor). Depois da conversão os dois têm que dar no mesmo arquivo.
+    const cheia = fullWebpDestFor('assets/x/Foto.png')!
+    expect(thumbCopiedTo(cheia)).toBe(thumbDestFor(cheia))
   })
 })
 
