@@ -21,6 +21,7 @@ import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
 import { RecursoCardStyle, RecursoFaixa, RecursoThumb } from './RecursoThumb'
 import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
+import { concessoesDaRegalia } from '../../recursos/concessoes'
 import { ClasseSocialBanner, useRetratoSocial } from './ClasseSocial'
 import { TipProvider } from './tooltips'
 import { linkIconForEntry } from '../../markdown/link-icon'
@@ -188,10 +189,21 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const fator = moedaFator()
   const { carregando, recursos, porNome } = useRecursosDoMundo(cfg)
   const [aviso, setAviso] = useState<string | null>(null)
-  const custo = useMemo(() => custoMensal(estado, porNome, fator, cfg), [estado, porNome, fator, cfg])
+  const regaliaDoc = useRegaliaDaClasse(str(fm['Classe']))
+  // O QUE A REGALIA ENTREGA: derivado da nota × nível × índice de Recursos,
+  // nunca gravado no FM (ver concessoes.ts). Piso, posse cedida e renda saem
+  // daqui e entram no cálculo do mês.
+  const concessoes = useMemo(
+    () => concessoesDaRegalia(regaliaDoc?.regalia ?? null, num(fm['Nível']), porNome, cfg),
+    [regaliaDoc, fm, porNome, cfg],
+  )
+  const custo = useMemo(
+    () => custoMensal(estado, porNome, fator, cfg, concessoes),
+    [estado, porNome, fator, cfg, concessoes],
+  )
   // O que a CLASSE do herói ganha de terceiro (nota `recursos.regalias`): fica
   // no topo do custo de vida porque é o que explica um eixo pago por outro.
-  const regalia = useRegaliaDaClasse(str(fm['Classe']))
+  const regalia = regaliaDoc
   // O RETRATO do mês (classe social A–E): padrão de vida + posse + equipamento
   // + dinheiro, com o piso/teto da profissão (pedido 2026-09-12).
   const retrato = useRetratoSocial(fm, cfg, custo, estado)
@@ -254,25 +266,35 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
         <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{'// CUSTO DE VIDA'}</span>
         <span style={{ flex: 1 }} />
         <span style={MONO}>TOTAL DO MÊS</span>
-        <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
+        <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total} data-custo-renda={custo.renda} data-custo-liquido={custo.liquido}>
           {formatValorMoeda(custo.total)}
         </b>
         <Botao
           onClick={() =>
             aplicar(
-              abrirMes(estado, porNome, cfg, saldo, fator, doc.basename),
-              `Mês ${estado.mes + 1} aberto: −${formatValorMoeda(custo.ouro * fator)}.`,
+              abrirMes(estado, porNome, cfg, saldo, fator, doc.basename, concessoes),
+              `Mês ${estado.mes + 1} aberto: −${formatValorMoeda(custo.ouro * fator)}${custo.renda > 0 ? ` +${formatValorMoeda(custo.rendaOuro * fator)} de renda` : ''}.`,
               'Saldo insuficiente pra abrir o mês — cai de classe no eixo que não fecha.',
             )
           }
-          disabled={custo.total <= 0}
-          title={`Paga adiantado ${formatValorMoeda(custo.ouro * fator)}: planos, manutenção da posse e parcela das dívidas`}
+          disabled={custo.total <= 0 && custo.renda <= 0}
+          title={
+            custo.renda > 0
+              ? `Paga adiantado ${formatValorMoeda(custo.ouro * fator)} (planos, manutenção e parcela das dívidas) e recebe ${formatValorMoeda(custo.renda)} de renda da regalia`
+              : `Paga adiantado ${formatValorMoeda(custo.ouro * fator)}: planos, manutenção da posse e parcela das dívidas`
+          }
         >
           Abrir o mês −{formatValorMoeda(custo.ouro * fator)}
+          {custo.renda > 0 ? ` +${formatValorMoeda(custo.rendaOuro * fator)}` : ''}
         </Botao>
         <span style={{ ...MONO, fontSize: 10, flexBasis: '100%' }}>
           NA FICHA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(saldo * fator)}</b>
           {estado.mes > 0 ? <span style={{ marginLeft: 14 }}>MÊS <b style={{ color: 'var(--text)' }}>{estado.mes}</b></span> : null}
+          {custo.renda > 0 ? (
+            <span style={{ marginLeft: 14 }} title={concessoes.rendaFontes.join(' · ')}>
+              RENDA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(custo.renda)}</b>
+            </span>
+          ) : null}
           {custo.parcelasTotal > 0 ? (
             <span style={{ marginLeft: 14 }}>
               DÍVIDA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(estado.dividas.reduce((a, d) => a + d.saldo, 0))}</b>
@@ -489,7 +511,13 @@ function SecaoEixo({
             {eixo.plano ? `${nomeNivel(cfg, eixo.nivel, eixo.papel)} · ${eixo.plano.nome}` : 'sem plano'}
             {eixo.posse.length ? ` · ${eixo.posse.length} de posse` : ''}
           </span>
-          {eixo.pagoPor ? <Chip>plano pago por {eixo.pagoPor}</Chip> : null}
+          {eixo.pagoPor && eixo.pagoPorValor >= eixo.planoValor ? (
+            <Chip>plano pago por {eixo.pagoPor}</Chip>
+          ) : eixo.pagoPor && eixo.pagoPorValor > 0 ? (
+            <Chip title={`A regalia garante ${eixo.piso?.plano.nome}; acima disso o resto sai do teu bolso.`}>
+              {eixo.pagoPor} paga {formatValorMoeda(eixo.pagoPorValor)}
+            </Chip>
+          ) : null}
           {eixo.imposto > 0 ? (
             <Chip title={`${aliquotaDoNivel(cfg, eixo.plano?.nivel)}% sobre o plano, mais o imposto da posse pelo nível de cada bem. O que está em nome de terceiro não paga.`}>
               imposto {formatValorMoeda(eixo.imposto)}
@@ -513,11 +541,15 @@ function SecaoEixo({
             <span>PAGO POR</span>
             <input
               aria-label={`Quem paga o plano de ${nomeAba}`}
-              defaultValue={eixo.pagoPor ?? ''}
-              placeholder="eu mesmo"
+              // espelha o que está GRAVADO, não o derivado da regalia: se
+              // lesse `eixo.pagoPor`, limpar o campo faria o texto voltar
+              // sozinho e o mestre não distinguiria o que ele escreveu do que
+              // o sistema deduziu.
+              defaultValue={estado.pagoPor[papel] ?? ''}
+              placeholder={eixo.piso?.quem ?? 'eu mesmo'}
               onBlur={(e) => {
                 const quem = e.target.value
-                if (quem.trim() !== (eixo.pagoPor ?? '')) aplicar(marcarPagoPor(estado, papel, quem), quem.trim() ? `${nomeAba}: plano pago por ${quem.trim()}.` : `${nomeAba}: plano volta a sair do teu bolso.`)
+                if (quem.trim() !== (estado.pagoPor[papel] ?? '')) aplicar(marcarPagoPor(estado, papel, quem), quem.trim() ? `${nomeAba}: plano pago por ${quem.trim()}.` : `${nomeAba}: plano volta a sair do teu bolso.`)
               }}
               style={{ width: 120, fontFamily: 'var(--mono)', fontSize: 11 }}
             />
@@ -525,26 +557,37 @@ function SecaoEixo({
         </div>
         <div role="radiogroup" aria-label={nomeAba}>
           {planos.map((r) => {
-            const sel = estado.estilos[papel] === r.nome
+            // marca o plano EFETIVO (o escolhido ou o piso), não o nome salvo:
+            // assim o piso aparece marcado, e um nome antigo salvo não deixa o
+            // eixo sem nenhum rádio marcado.
+            const sel = eixo.plano?.nome === r.nome
             const n = r.nivel ?? 1
+            const travado = eixo.piso ? (r.nivel ?? 1) < (eixo.piso.plano.nivel ?? 1) : false
+            // `aplicar(null, …)` é o caminho de aviso da aba: sem resultado,
+            // ele só mostra a terceira mensagem no `role="status"`.
+            const avisaTravado = () =>
+              aplicar(null, '', `${nomeAba}: a regalia garante ${eixo.piso!.plano.nome} — não dá pra descer daqui.`)
             return (
               <div
                 key={r.id}
                 role="radio"
                 aria-checked={sel}
-                tabIndex={0}
+                aria-disabled={travado || undefined}
+                data-abaixo-piso={travado ? '' : undefined}
+                tabIndex={travado ? -1 : 0}
                 data-classe={n}
-                title={r.resumo}
-                onClick={() => escolher(r, sel)}
+                title={travado ? `Garantido pela regalia: ${eixo.piso!.plano.nome}` : r.resumo}
+                onClick={() => (travado ? avisaTravado() : escolher(r, sel))}
                 onKeyDown={(e) => {
                   if (e.key === ' ' || e.key === 'Enter') {
                     e.preventDefault()
-                    escolher(r, sel)
+                    if (travado) avisaTravado()
+                    else escolher(r, sel)
                   }
                 }}
-                style={{ ...LINHA_FIG, ...(sel ? LINHA_MARCADA : {}) }}
+                style={{ ...LINHA_FIG, ...(sel ? LINHA_MARCADA : {}), ...(travado ? { opacity: 0.45 } : {}) }}
               >
-                <Radio marcado={sel} />
+                {travado ? <span aria-hidden title="garantido pela regalia">🔒</span> : <Radio marcado={sel} />}
                 <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
                 <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>

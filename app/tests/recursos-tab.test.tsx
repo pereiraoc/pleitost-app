@@ -132,14 +132,22 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     // 2.500 do plano + 10% de imposto (nível 3) = 2.750
     expect(valorEixo('transporte')).toBe('2750')
     expect(custoMes()).toBe('2750')
-    fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Kitnet (degrau 4)
-    expect(valorEixo('moradia')).toBe('7800') // 6.000 + 30% (nível 4)
+    // O Carlos é Bardo nível 7 — o Ídolo —, e a regalia dele GARANTE o
+    // Apartamento: a Kitnet (degrau 4) fica travada abaixo do piso, e o eixo
+    // vale o Apartamento (15.000 +75% = 26.250), pago pela marca.
+    const kitnet = within(eixo('moradia')).getAllByRole('radio')[3]!
+    expect(kitnet.getAttribute('aria-disabled')).toBe('true')
+    fireEvent.click(kitnet)
+    expect(valorEixo('moradia')).toBe('26250')
+    expect(eixo('moradia').querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
     fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Churrascaria (degrau 5)
-    // 2.750 (TRI Prata) + 7.800 (Kitnet) + 15.750 (Churrascaria, nível 5: 9.000 +75%)
-    expect(custoMes()).toBe('26300')
-    // abrir o mês: 26.300 → 27 (pra cima) — 50 → 23
+    // do BOLSO: 2.750 (TRI Prata) + 0 (moradia é da marca) + 9.250 da
+    // Churrascaria — o nv 4 do Ressonante garante a Lancheria (6.500 com
+    // imposto), então subir pra Churrascaria (15.750) cobra só a diferença.
+    expect(custoMes()).toBe('12000')
+    // abrir o mês: 12.000 → 12 pra cima, e entram 40 de renda: 50 − 12 + 40 = 78
     fireEvent.click(screen.getByText(/Abrir o mês/))
-    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 23.000')
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 78.000')
     // nenhum "ouro" à mostra, nenhum saldo de TRI, nenhum estoque
     expect(document.body.textContent).not.toMatch(/\bouro\b/i)
     expect(document.querySelector('[data-tri]')).toBeNull()
@@ -171,10 +179,11 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     // que é onde IPVA e IPTU sempre moraram.
     // transporte: TRI Ouro 5.000 +30% (nível 4) = 6.500; Carajás (nível 5)
     //   3.000 +75% = 5.250, e o USADO paga ×1,5 à centena pra cima = 7.900
-    // moradia: plano 6.000 +30% = 7.800; kitnet (nível 4) 1.500 +30% = 1.950
+    // moradia: o piso do Ídolo é o Apartamento (15.000 +75% = 26.250, pago
+    //   pela marca) + kitnet de posse (nível 4) 1.500 +30% = 1.950
     expect(valorEixo('transporte')).toBe('14400')
-    expect(valorEixo('moradia')).toBe('9750')
-    expect(custoMes()).toBe('24150')
+    expect(valorEixo('moradia')).toBe('28200')
+    expect(custoMes()).toBe('16350') // 14.400 do transporte + 1.950 da posse
     const carro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
     expect(within(carro).getByText('usado')).toBeTruthy()
     expect(within(carro).getByText('Cz$ 7.900')).toBeTruthy()
@@ -264,7 +273,8 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     const moradia = eixo('moradia')
     expect(within(moradia).getByText(/plano pago por a firma/)).toBeTruthy()
     // o eixo mostra o que sai do bolso (0), mas guarda o custo cheio no atributo
-    expect(moradia.querySelector('[data-eixo-valor]')!.getAttribute('data-eixo-valor')).toBe('7800')
+    // o piso do Ídolo (Apartamento) ganha da Moradia Classe Média escolhida
+    expect(moradia.querySelector('[data-eixo-valor]')!.getAttribute('data-eixo-valor')).toBe('26250')
     expect(moradia.querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
     // quem paga o plano paga o imposto dele junto: do herói sai só o TRI Ouro
     expect(custoMes()).toBe('6500') // 5.000 + 30%
@@ -319,6 +329,37 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 100.000') // 500 − 400
   }, 30000)
 
+  // A REGALIA SE ENTREGA SOZINHA (2026-09-13): o Carlos é Bardo nível 7, o
+  // Ídolo — a marca paga o Apartamento e os direitos rendem Cz$ 40.000/mês.
+  // Antes disso, nada disso existia na ficha: o jogador digitava à mão.
+  it('o piso da regalia aparece marcado, trava o que está abaixo e diz quem paga', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: null, moradia: null, alimentacao: null } })
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const moradia = eixo('moradia')
+    const linhas = within(moradia).getAllByRole('radio')
+    // Apartamento é o degrau 5: marcado sem nada salvo, e os quatro abaixo travados
+    expect(linhas[4]!.getAttribute('aria-checked')).toBe('true')
+    expect(linhas.slice(0, 4).every((l) => l.getAttribute('aria-disabled') === 'true')).toBe(true)
+    expect(within(moradia).getByText(/plano pago por a marca/)).toBeTruthy()
+    expect(moradia.querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
+    // e clicar num travado não muda nada, só avisa
+    fireEvent.click(linhas[1]!)
+    expect(moradia.querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
+    expect(screen.getByRole('status').textContent).toMatch(/não dá pra descer/)
+  }, 30000)
+
+  it('a renda da regalia aparece no topo e entra ao abrir o mês', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: null, moradia: null, alimentacao: null } }, 0)
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    expect(document.querySelector('[data-custo-renda]')!.getAttribute('data-custo-renda')).toBe('40000')
+    expect(screen.getByText(/RENDA/)).toBeTruthy()
+    // saldo zero, e ainda assim abre o mês: a renda cai antes da checagem
+    fireEvent.click(screen.getByText(/Abrir o mês/))
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 40.000')
+  }, 30000)
+
   it('pega empréstimo numa fonte da vault, mostra a parcela e quita', async () => {
     if (!temDataset) return
     montarCom({ estilos: { transporte: null, moradia: 'Moradia Classe Média', alimentacao: null } }, 0)
@@ -334,26 +375,32 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     expect(within(linha).getByText('juros Cz$ 30.000')).toBeTruthy()
     expect(within(linha).getByText('amortiza Cz$ 15.000')).toBeTruthy()
     // e entra no total do mês, junto do plano de moradia
-    expect(custoMes()).toBe('52800') // moradia 7.800 (6.000 + 30%) + 45.000
+    expect(custoMes()).toBe('45000') // só a parcela: a moradia do Ídolo é da marca
     fireEvent.click(within(linha).getByText('Quitar'))
     expect(document.querySelector('[data-divida="Agiota da Facção"]')).toBeNull()
-    expect(custoMes()).toBe('7800')
+    expect(custoMes()).toBe('0')
   }, 30000)
 
   it('veículo sem vaga na moradia dorme na rua', async () => {
     if (!temDataset) return
     montarCom({
-      estilos: { transporte: null, moradia: 'Moradia Classe Média', alimentacao: null }, // uma vaga
+      // A vaga sai do plano EFETIVO: o Carlos é o Ídolo, e o piso da regalia
+      // dele é o Apartamento, que guarda DOIS. Ler só o nome salvo faria o
+      // carro dormir na rua dentro do próprio apartamento.
+      estilos: { transporte: null, moradia: 'Moradia Classe Média', alimentacao: null },
       itens: [
         { nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, pago: 400000 },
         { nome: 'Chevrolet Monza', aba: 'Transporte', qtd: 1, pago: 700000 },
+        { nome: 'Volkswagen Fusca', aba: 'Transporte', qtd: 1, pago: 90000 },
       ],
     })
-    await screen.findByText('Chevrolet Monza', {}, { timeout: 15000 })
+    await screen.findByText('Volkswagen Fusca', {}, { timeout: 15000 })
     const primeiro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
     const segundo = screen.getByText('Chevrolet Monza').closest('[data-item]') as HTMLElement
+    const terceiro = screen.getByText('Volkswagen Fusca').closest('[data-item]') as HTMLElement
     expect(within(primeiro).queryByText(/na rua/)).toBeNull()
-    expect(within(segundo).getByText(/na rua: sem vaga/)).toBeTruthy()
+    expect(within(segundo).queryByText(/na rua/)).toBeNull()
+    expect(within(terceiro).getByText(/na rua: sem vaga/)).toBeTruthy()
   }, 30000)
 })
 
@@ -388,9 +435,12 @@ describe('figura do maior do eixo no sumário', () => {
     setActiveContexto(def)
     montar()
     await screen.findAllByRole('radio', {}, { timeout: 15000 })
-    expect(figuraDoSumario('moradia')).toBeNull()
-    fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Kitnet
+    // moradia nunca fica vazia: o piso da regalia do Ídolo já põe a figura do
+    // Apartamento. O eixo sem regalia nenhuma (transporte) é que começa limpo.
     expect(figuraDoSumario('moradia')).toBeTruthy()
+    expect(figuraDoSumario('transporte')).toBeNull()
+    fireEvent.click(within(eixo('transporte')).getAllByRole('radio')[3]!) // TRI Ouro
+    expect(figuraDoSumario('transporte')).toBeTruthy()
   }, 30000)
 
   it('o imóvel de degrau mais alto que o plano é quem aparece', async () => {

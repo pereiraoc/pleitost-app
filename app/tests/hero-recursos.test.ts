@@ -328,6 +328,116 @@ describe('adicionar posse sem débito', () => {
   })
 })
 
+// PISO E RENDA DA REGALIA (2026-09-13): antes, a regalia era só texto e o
+// jogador digitava à mão quem pagava. Agora o piso entra no cálculo e a renda
+// cai ao abrir o mês. Sem o parâmetro, tudo se comporta como antes.
+describe('piso da regalia no eixo', () => {
+  const comPiso = (plano: typeof estilos.t3, quem = 'o sindicato') => ({
+    pisos: { transporte: { plano, quem } },
+    posse: [],
+    renda: 0,
+  })
+
+  it('sem plano escolhido, o eixo vale o piso e não sai do bolso', () => {
+    const e = custoMensal(RECURSOS_VAZIO, porNome, 1000, cfg, comPiso(estilos.t3)).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.plano?.nome).toBe(estilos.t3.nome)
+    expect(e.planoValor).toBe(2500)
+    expect(e.doBolso).toBe(0)
+    expect(e.pagoPor).toBe('o sindicato')
+    expect(e.nivel).toBe(3)
+  })
+
+  it('plano abaixo do piso é ignorado: o efetivo é o piso', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, transporte: estilos.t3.nome } }
+    const e = custoMensal(r, porNome, 1000, cfg, comPiso(estilos.t4)).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.plano?.nome).toBe(estilos.t4.nome)
+    expect(e.doBolso).toBe(0)
+  })
+
+  it('acima do piso o herói paga SÓ A DIFERENÇA', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, transporte: estilos.t4.nome } }
+    const e = custoMensal(r, porNome, 1000, cfg, comPiso(estilos.t3)).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.planoValor).toBe(5000)
+    expect(e.pagoPorValor).toBe(2500)
+    expect(e.doBolso).toBe(2500)
+    expect(e.total).toBe(5000)
+  })
+
+  it('o pagoPor manual do mestre cobre o plano inteiro, mesmo acima do piso', () => {
+    const r = {
+      ...RECURSOS_VAZIO,
+      estilos: { ...RECURSOS_VAZIO.estilos, transporte: estilos.t4.nome },
+      pagoPor: { transporte: 'a firma' },
+    }
+    const e = custoMensal(r, porNome, 1000, cfg, comPiso(estilos.t3)).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.doBolso).toBe(0)
+    expect(e.pagoPor).toBe('a firma')
+  })
+
+  it('sem regalia, o custo é bit a bit o de antes', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, transporte: estilos.t4.nome } }
+    expect(custoMensal(r, porNome, 1000, cfg)).toEqual(custoMensal(r, porNome, 1000, cfg, { pisos: {}, posse: [], renda: 0 }))
+  })
+
+  it('o piso de moradia dá as vagas do plano efetivo', () => {
+    const pisos = { moradia: { plano: estilos.m6, quem: 'a marca' } }
+    expect(vagasDe(RECURSOS_VAZIO, porNome, cfg)).toBe(0)
+    expect(vagasDe(RECURSOS_VAZIO, porNome, cfg, pisos)).toBe(4)
+  })
+})
+
+describe('posse cedida pela regalia', () => {
+  const cedida = { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 0, pagoPor: 'o sindicato' }
+  const ativa = { pisos: {}, posse: [cedida], renda: 0 }
+
+  it('entra no eixo sem manutenção, marcada como cedida e sem índice', () => {
+    const e = custoMensal(RECURSOS_VAZIO, porNome, 1000, cfg, ativa).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.posse).toHaveLength(1)
+    expect(e.posse[0]).toMatchObject({ indice: -1, valor: 0, concedido: true })
+    expect(e.doBolso).toBe(0)
+  })
+
+  it('não duplica o que o herói já tem salvo com o mesmo nome', () => {
+    const r = { ...RECURSOS_VAZIO, itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }] }
+    const e = custoMensal(r, porNome, 1000, cfg, ativa).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.posse).toHaveLength(1)
+    expect(e.posse[0]!.indice).toBe(0)
+  })
+
+  it('não ocupa vaga: quem guarda é quem paga', () => {
+    expect(naRua(RECURSOS_VAZIO, porNome, cfg)).toEqual([])
+  })
+})
+
+describe('renda da regalia ao abrir o mês', () => {
+  const comRenda = (renda: number) => ({ pisos: {}, posse: [], renda })
+
+  it('a renda não entra no total do mês — sai em linha própria', () => {
+    const c = custoMensal(RECURSOS_VAZIO, porNome, 1000, cfg, comRenda(40000))
+    expect(c.total).toBe(0)
+    expect(c.renda).toBe(40000)
+    expect(c.rendaOuro).toBe(40)
+    expect(c.liquido).toBe(-40000)
+  })
+
+  it('a renda arredonda PRA BAIXO — dinheiro que entra não arredonda a favor', () => {
+    expect(custoMensal(RECURSOS_VAZIO, porNome, 1000, cfg, comRenda(40900)).rendaOuro).toBe(40)
+  })
+
+  it('a renda cai ANTES da checagem: abre um mês que o saldo sozinho não fecharia', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, moradia: estilos.m6.nome } }
+    expect(abrirMes(r, porNome, cfg, 0, 1000, 'heroi')).toBeNull()
+    const aberto = abrirMes(r, porNome, cfg, 0, 1000, 'heroi', comRenda(60000))
+    expect(aberto).not.toBeNull()
+    expect(aberto!.ouro).toBe(10) // 60 de renda − 50 do Condomínio
+  })
+
+  it('renda menor que o custo ainda nega o mês', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, moradia: estilos.m6.nome } }
+    expect(abrirMes(r, porNome, cfg, 0, 1000, 'heroi', comRenda(10000))).toBeNull()
+  })
+})
+
 describe('empréstimo: dívida, juros ao mês e amortização', () => {
   const rico = { ...RECURSOS_VAZIO, estilos: { transporte: estilos.t4.nome, moradia: estilos.m4.nome, alimentacao: estilos.a2.nome } }
   it('teto = Teto_Meses × o mês do herói, ou o teto fixo da nota', () => {

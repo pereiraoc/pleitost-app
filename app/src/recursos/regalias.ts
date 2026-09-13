@@ -20,6 +20,20 @@ export interface DegrauRegalia {
   texto: string
   /** O preço escondido, quando o degrau declara um. */
   preco: string | null
+  /** `*Concede:*` — o que ESTE degrau passa a dar (nomes de notas de Recurso).
+   *  A prosa também linka coisas que NÃO são concessão (o endereço fictício,
+   *  o aluguel que "não é regalia", a cortesia avulsa), então adivinhar ali
+   *  daria erro silencioso: só vale o que o campo declara. */
+  concede: string[]
+  /** `*Larga:*` — o que este degrau DEVOLVE. O Executivo troca um eixo pelo
+   *  outro ("a kitnet passa pro teu bolso"); sem isto, a união dos degraus o
+   *  deixaria com os dois. */
+  larga: string[]
+  /** `*Paga:*` — quem banca este degrau. Muda de degrau pra degrau dentro da
+   *  mesma classe (a casa, depois a gravadora, depois a marca). */
+  paga: string | null
+  /** `*Renda:*` em moeda do mundo — o que cai no bolso ao abrir o mês. */
+  renda: number
 }
 
 export interface RegaliaDeClasse {
@@ -37,14 +51,45 @@ const CABECALHO = /^(.+?)\s*\(\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]\)\s*(?:[—–-]
 /** `- **nv 4 · Gerente:** …` — o rótulo entre o número e os dois-pontos é
  *  livre (`· Gerente`, `(título da subclasse)`, nada). */
 const DEGRAU = /^-\s+\*\*nv\s*(\d+)\s*([^:*]*):\*\*\s*(.+)$/i
-const PRECO = /\*Preço:\*\s*(.+)$/
+/** Campos do degrau: `*Rótulo:* valor`, em QUALQUER ordem, cada um indo até o
+ *  próximo campo conhecido ou o fim da linha. O lookahead só reconhece esta
+ *  lista de propósito: a nota usa `**Negrito:**` na prosa, e um lookahead
+ *  solto truncaria o texto no primeiro deles. */
+const ROTULOS = ['Preço', 'Concede', 'Larga', 'Paga', 'Renda'] as const
+const campoRe = (r: string) => new RegExp(`\\*${r}:\\*\\s*(.+?)(?=\\s\\*(?:${ROTULOS.join('|')}):\\*|$)`)
+const PRECO = campoRe('Preço')
+const CONCEDE = campoRe('Concede')
+const LARGA = campoRe('Larga')
+const PAGA = campoRe('Paga')
+const RENDA = campoRe('Renda')
+
+/** Alvo de um wikilink (`[[Caçador|Executivo]]` → `Caçador`); texto cru passa.
+ *  A tabela escapa o pipe (`[[Caçador\|Executivo]]`), e a barra tem que sair. */
+export function alvoDoLink(s: string): string {
+  const m = /\[\[([^\]|#]+)/.exec(s)
+  return (m ? m[1]! : s).replace(/\\$/, '').trim()
+}
+
+/** Lista de um campo: separadores `,`, `;` e ` e `. Cada item vira alvo. */
+export function listaDeLinks(valor: string): string[] {
+  return valor
+    .split(/\s*[,;]\s*|\s+e\s+/)
+    .map((s) => alvoDoLink(s.replace(/\.$/, '')))
+    .filter(Boolean)
+}
+
+/** `Cz$ 40.000/mês` → 40000. Ponto e espaço são separador de milhar; o resto
+ *  da frase é prosa. Sem número, zero. */
+export function precoInteiro(s: string): number {
+  const m = /(\d[\d.\s]*)/.exec(s)
+  return m ? Number(m[1]!.replace(/[.\s]/g, '')) || 0 : 0
+}
 
 /** Alvo de um wikilink (`[[Caçador|Executivo]]` → `Caçador`); texto cru passa. */
 /** Classe CANÔNICA a partir do FM (wikilink ou texto) — a chave das tabelas
  *  por classe (regalias, tendência de classe social). */
 export function classeCanonica(s: string): string {
-  const m = /\[\[([^\]|#]+)/.exec(s)
-  return (m ? m[1]! : s).trim()
+  return alvoDoLink(s)
 }
 
 /** Corpo da nota → regalia por classe canônica. Heading sem wikilink de classe
@@ -73,11 +118,21 @@ export function parseRegalias(body: string): Map<string, RegaliaDeClasse> {
       }
       const resto = d[3]!.trim()
       const p = PRECO.exec(resto)
+      const c = CONCEDE.exec(resto)
+      const lg = LARGA.exec(resto)
+      const pg = PAGA.exec(resto)
+      const rd = RENDA.exec(resto)
+      // o texto vai até o PRIMEIRO campo declarado, seja ele qual for
+      const corte = [p, c, lg, pg, rd].reduce((menor, m) => (m && m.index < menor ? m.index : menor), resto.length)
       degraus.push({
         nivel: Number(d[1]),
         titulo: (d[2] ?? '').replace(/^[·:\-\s]+/, '').replace(/^\(|\)$/g, '').trim() || null,
-        texto: (p ? resto.slice(0, p.index) : resto).replace(/\s*[—-]\s*$/, '').trim(),
+        texto: resto.slice(0, corte).replace(/\s*[—-]\s*$/, '').trim(),
         preco: p ? p[1]!.trim() : null,
+        concede: c ? listaDeLinks(c[1]!) : [],
+        larga: lg ? listaDeLinks(lg[1]!) : [],
+        paga: pg ? pg[1]!.trim().replace(/\.$/, '') : null,
+        renda: rd ? precoInteiro(rd[1]!) : 0,
       })
     }
     if (!degraus.length) return

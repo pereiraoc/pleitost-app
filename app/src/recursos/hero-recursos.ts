@@ -56,6 +56,15 @@ export interface Divida {
   /** Saldo devedor (moeda do mundo). */
   saldo: number
 }
+/** O que a REGALIA da classe põe no mês. O cálculo mora em `concessoes.ts`;
+ *  aqui só se aplica. Opcional em toda API: ausente = o comportamento de antes
+ *  de 2026-09-13, bit a bit. */
+export interface RegaliaAtiva {
+  pisos: Partial<Record<Papel, { plano: Recurso; quem: string }>>
+  posse: ItemTido[]
+  renda: number
+}
+
 export interface RecursosDoHeroi {
   /** Plano (nome da nota) escolhido em cada eixo; null = classe 1 sem plano. */
   estilos: Record<Papel, string | null>
@@ -156,21 +165,23 @@ export function nomeNivel(cfg: RecursosCfg, n: number, papel?: Papel): string {
 /** O MAIOR do eixo (pedido 2026-09-12): entre o plano do mês e o que o herói
  *  tem de posse, a nota de degrau mais alto — empate desempata pelo preço de
  *  referência (compra, senão o do mês). É dela a figura que o sumário mostra. */
+/** O MAIOR de dois recursos do mesmo eixo: vence o degrau, e o preço de
+ *  referência (compra, senão o do mês) desempata. Usado pra escolher a figura
+ *  do sumário e, desde 2026-09-13, pra decidir o plano EFETIVO quando a
+ *  regalia garante um piso — assim "qual é o piso" e "qual figura aparece"
+ *  nunca divergem. */
+export function maisAlto(a: Recurso | null, b: Recurso | null): Recurso | null {
+  if (!a) return b
+  if (!b) return a
+  const ref = (x: Recurso) => x.compra ?? x.preco
+  const acima = (b.nivel ?? 0) - (a.nivel ?? 0)
+  return acima > 0 || (acima === 0 && ref(b) > ref(a)) ? b : a
+}
+
 export function melhorDoEixo(eixo: EixoDoMes): Recurso | null {
-  const candidatos = [eixo.plano, ...eixo.posse.map((p) => p.recurso)].filter(
-    (r): r is Recurso => r != null,
-  )
-  let melhor: Recurso | null = null
-  for (const r of candidatos) {
-    if (!melhor) {
-      melhor = r
-      continue
-    }
-    const ref = (x: Recurso) => x.compra ?? x.preco
-    const acima = (r.nivel ?? 0) - (melhor.nivel ?? 0)
-    if (acima > 0 || (acima === 0 && ref(r) > ref(melhor))) melhor = r
-  }
-  return melhor
+  return [eixo.plano, ...eixo.posse.map((p) => p.recurso)]
+    .filter((r): r is Recurso => r != null)
+    .reduce<Recurso | null>(maisAlto, null)
 }
 
 /** Rótulo de um degrau CROSS-EIXO (exigência de crédito, por exemplo): a classe
@@ -269,17 +280,32 @@ export function manutencaoDoItem(rec: Recurso | undefined, item: ItemTido, cfg?:
 }
 
 /** Vagas de veículo que o plano de moradia garante (FM `Vagas` da nota). */
-export function vagasDe(r: RecursosDoHeroi, porNome: Map<string, Recurso>, cfg: RecursosCfg): number {
+/** Vagas da moradia EFETIVA (a escolhida ou o piso da regalia, o que for
+ *  maior). Ler só o nome salvo faria o Apartamento concedido ao Ídolo não
+ *  contar, e o carro dele dormiria na rua dentro do próprio apartamento. */
+export function vagasDe(
+  r: RecursosDoHeroi,
+  porNome: Map<string, Recurso>,
+  cfg: RecursosCfg,
+  pisos?: RegaliaAtiva['pisos'],
+): number {
   const nome = r.estilos.moradia
-  const plano = nome ? porNome.get(nome) : undefined
-  return plano && isEstilo(cfg, plano) ? (plano.vagas ?? 0) : 0
+  const escolhido = nome ? porNome.get(nome) : undefined
+  const valido = escolhido && isEstilo(cfg, escolhido) ? escolhido : null
+  const plano = maisAlto(valido, pisos?.moradia?.plano ?? null)
+  return plano?.vagas ?? 0
 }
 
 /** Índices dos veículos que não couberam na garagem — dormem na rua e rolam
  *  o d6 de pane mesmo sendo novos (roubo de carro é o crime que mais paga). */
-export function naRua(r: RecursosDoHeroi, porNome: Map<string, Recurso>, cfg: RecursosCfg): number[] {
+export function naRua(
+  r: RecursosDoHeroi,
+  porNome: Map<string, Recurso>,
+  cfg: RecursosCfg,
+  pisos?: RegaliaAtiva['pisos'],
+): number[] {
   const aba = abaDoPapel(cfg, 'transporte')
-  const vagas = vagasDe(r, porNome, cfg)
+  const vagas = vagasDe(r, porNome, cfg, pisos)
   const fora: number[] = []
   let usadas = 0
   r.itens.forEach((item, indice) => {
@@ -300,6 +326,9 @@ export interface PosseDoMes {
   valor: number
   /** Sem vaga na moradia: dorme na rua e rola pane. */
   naRua: boolean
+  /** Cedida pela regalia: derivada, não está em `itens`, e por isso `indice`
+   *  vem -1 — não se vende, não se conserta, não ocupa vaga. */
+  concedido?: true
 }
 export interface EixoDoMes {
   papel: Papel
@@ -308,6 +337,11 @@ export interface EixoDoMes {
   planoValor: number
   /** Quem banca o plano (regalia de classe) — então ele não sai do saldo. */
   pagoPor?: string
+  /** Piso garantido pela regalia neste eixo (undefined = eixo sem regalia). */
+  piso?: { plano: Recurso; quem: string }
+  /** Quanto do plano o terceiro põe: o preço do piso, no máximo o do efetivo.
+   *  Com `pagoPor` manual, é o plano inteiro (o override do mestre). */
+  pagoPorValor: number
   posse: PosseDoMes[]
   posseValor: number
   /** Plano + manutenção da posse (o que o eixo custa, pago por quem for). */
@@ -339,6 +373,15 @@ export interface CustoMensal {
   ouro: number
   /** Classe do herói = menor eixo. */
   classe: number
+  /** RENDA da regalia neste mês (moeda do mundo). NÃO entra em `total`: netar
+   *  ali encolheria o teto de crédito (`tetoMeses × total`), e o Ídolo passaria
+   *  a poder pegar MENOS emprestado por ganhar mais. É linha à parte. */
+  renda: number
+  /** Renda em unidades da ficha, PRA BAIXO — dinheiro que entra nunca
+   *  arredonda a favor (o que sai arredonda pra cima, em `custoEmOuro`). */
+  rendaOuro: number
+  /** `total − renda`: o que falta (positivo) ou sobra (negativo) no mês. */
+  liquido: number
 }
 
 /** Arredonda pra cima na unidade da ficha (POA: o milhar). */
@@ -349,24 +392,48 @@ function aoMilhar(v: number, fator: number): number {
 
 /** Custo do mês: por eixo (plano + manutenção da posse) e as parcelas das
  *  dívidas. O plano cedido por terceiro aparece, mas não sai do bolso. */
-export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, fator: number, cfg: RecursosCfg): CustoMensal {
-  const fora = new Set(naRua(r, porNome, cfg))
+export function custoMensal(
+  r: RecursosDoHeroi,
+  porNome: Map<string, Recurso>,
+  fator: number,
+  cfg: RecursosCfg,
+  regalia?: RegaliaAtiva,
+): CustoMensal {
+  const fora = new Set(naRua(r, porNome, cfg, regalia?.pisos))
   const eixos: EixoDoMes[] = []
   for (const papel of PAPEIS) {
     const aba = abaDoPapel(cfg, papel)
     const nome = r.estilos[papel]
     const n = nome ? porNome.get(nome) : undefined
-    const plano = n && isEstilo(cfg, n) ? n : null
+    const escolhido = n && isEstilo(cfg, n) ? n : null
+    // PISO da regalia: o herói pode subir, nunca descer. O plano EFETIVO é o
+    // maior entre o que ele marcou e o que o terceiro garante.
+    const piso = regalia?.pisos[papel]
+    const plano = maisAlto(escolhido, piso?.plano ?? null)
     const posse: PosseDoMes[] = []
     r.itens.forEach((item, indice) => {
       if (item.aba !== aba) return
       const rec = porNome.get(item.nome)
       posse.push({ indice, item, recurso: rec, valor: manutencaoDoItem(rec, item, cfg), naRua: fora.has(indice) })
     })
+    // CEDIDAS pela regalia: derivadas, nunca gravadas — por isso `indice: -1`,
+    // que nenhum mutador aceita (`venderItem`/`consertar` leem `r.itens[i]`).
+    // Não ocupam vaga nem rolam pane: a Kombi é do sindicato e quem guarda e
+    // conserta é quem paga.
+    for (const cedida of regalia?.posse ?? []) {
+      if (cedida.aba !== aba || r.itens.some((i) => i.nome === cedida.nome)) continue
+      posse.push({ indice: -1, item: cedida, recurso: porNome.get(cedida.nome), valor: 0, naRua: false, concedido: true })
+    }
     // o plano do mês também é consumo taxado: o degrau alto custa mais
     // porque o Estado cobra mais dele, não porque a nota mudou de preço.
     const planoValor = comImposto(cfg, plano?.preco ?? 0, plano?.nivel)
-    const pagoPor = r.pagoPor[papel]
+    const manual = r.pagoPor[papel]
+    // O terceiro põe o valor do plano CONCEDIDO (no máximo o do efetivo) e o
+    // herói completa a diferença — subir acima do piso não faz a firma sumir.
+    // O `pagoPor` manual é o override do mestre e cobre o plano inteiro.
+    const pisoValor = piso ? comImposto(cfg, piso.plano.preco, piso.plano.nivel) : 0
+    const pagoPorValor = manual ? planoValor : Math.min(pisoValor, planoValor)
+    const pagoPor = manual ?? piso?.quem
     const posseValor = posse.reduce((a, p) => a + p.valor, 0)
     // quanto do eixo é tributo: a diferença entre o que se paga e o que se
     // pagaria num mundo sem imposto (o cedido não entra, porque já vale 0).
@@ -381,7 +448,9 @@ export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, f
       posse,
       posseValor,
       total: planoValor + posseValor,
-      doBolso: (pagoPor ? 0 : planoValor) + posseValor,
+      ...(piso ? { piso } : {}),
+      pagoPorValor,
+      doBolso: Math.max(0, planoValor - pagoPorValor) + posseValor,
       imposto: Math.max(0, planoValor + posseValor - semImposto),
       nivel: plano?.nivel ?? 1,
     })
@@ -394,7 +463,18 @@ export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, f
   })
   const parcelasTotal = parcelas.reduce((a, p) => a + p.total, 0)
   const total = eixos.reduce((a, e) => a + e.doBolso, 0) + parcelasTotal
-  return { eixos, parcelas, parcelasTotal, total, ouro: custoEmOuro(total, fator), classe: Math.min(...eixos.map((e) => e.nivel)) }
+  const renda = regalia?.renda ?? 0
+  return {
+    eixos,
+    parcelas,
+    parcelasTotal,
+    total,
+    ouro: custoEmOuro(total, fator),
+    renda,
+    rendaOuro: Math.floor(renda / Math.max(1, fator)),
+    liquido: total - renda,
+    classe: Math.min(...eixos.map((e) => e.nivel)),
+  }
 }
 
 /* ─────────────────────────── operações ───────────────────────────
@@ -550,18 +630,22 @@ export function abrirMes(
   ouro: number,
   fator: number,
   heroi: string,
+  regalia?: RegaliaAtiva,
 ): Resultado | null {
-  const custo = custoMensal(r, porNome, fator, cfg)
-  if (ouro < custo.ouro) return null
+  const custo = custoMensal(r, porNome, fator, cfg, regalia)
+  // A renda da regalia cai ANTES da checagem: o Profeta com 20.000/mês de
+  // doações não pode ser impedido de abrir o mês que a renda dele paga.
+  const caixa = ouro + custo.rendaOuro
+  if (caixa < custo.ouro) return null
   const dividas = custo.parcelas
     .map((p) => ({ ...p.divida, saldo: p.divida.saldo - p.amortizacao }))
     .filter((d) => d.saldo > 0)
   const mes = r.mes + 1
-  const fora = new Set(naRua(r, porNome, cfg))
+  const fora = new Set(naRua(r, porNome, cfg, regalia?.pisos))
   const itens = r.itens.map((item, indice) => {
     const arrisca = item.aba === abaDoPapel(cfg, 'transporte') && (item.estado === 'usado' || fora.has(indice))
     const pane = arrisca && Math.floor(rngDe(`${heroi}|${mes}|${indice}|${item.nome}`)() * 6) + 1 === 1
     return pane ? { ...item, pane: true } : item.pane ? { ...item, pane: false } : item
   })
-  return { recursos: { ...r, itens, dividas, mes }, ouro: ouro - custo.ouro }
+  return { recursos: { ...r, itens, dividas, mes }, ouro: caixa - custo.ouro }
 }

@@ -10,6 +10,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { setActiveContexto, reskinName } from '../src/data/reskin'
+import { parseRegalias } from '../src/recursos/regalias'
 import type { ContextoDef } from '../src/data/context-def'
 import type { IndexManifest } from '../src/data/types'
 
@@ -55,28 +56,44 @@ describe.skipIf(!temDataset)('planos concedidos pelas regalias', () => {
     expect([...quebrados]).toEqual([])
   })
 
-  it('todo plano do mês citado nas regalias é Estilo de Vida (escolhível na ficha)', () => {
-    // Os nomes que a nota cita como plano concedido — um por eixo e degrau.
-    const CONCEDIDOS = [
-      'Kitnet', 'TRI Ouro', 'Carro com Motorista',
-      'Cantina', 'Lancheria', 'Churrascaria',
-      'Barraco', 'Quarto', 'Marmita',
-      'TRI Bronze', 'TRI Platina', 'Apartamento', 'Sem Endereço',
-    ]
+  // 2026-09-13: a lista de concedidos deixou de ser escrita à mão aqui e passa
+  // a sair do campo `*Concede:*` da própria nota — ela é a fonte, e uma cópia
+  // em teste só serviria pra divergir em silêncio.
+  it('todo nome em *Concede:* e *Larga:* é nota de Recurso que existe', () => {
+    const doc = JSON.parse(fs.readFileSync(path.join(cyberDir, `${REGALIAS_ID}.json`), 'utf8')) as { body?: string }
     const porNome = new Map(manifest.docs.filter((d) => d.basename).map((d) => [d.basename!, d]))
-    const naoSelecionavel: string[] = []
-    for (const nome of CONCEDIDOS) {
-      const entrada = porNome.get(nome)
-      if (!entrada) {
-        naoSelecionavel.push(`${nome}: nota não existe`)
-        continue
+    const fmDe = (id: string) =>
+      (JSON.parse(fs.readFileSync(path.join(cyberDir, `${id}.json`), 'utf8')) as { frontmatter?: Record<string, unknown> })
+        .frontmatter ?? {}
+    const problemas: string[] = []
+    let total = 0
+    for (const regalia of parseRegalias(doc.body ?? '').values()) {
+      for (const d of regalia.degraus) {
+        for (const nome of [...d.concede, ...d.larga]) {
+          total++
+          const entrada = porNome.get(nome)
+          if (!entrada) {
+            problemas.push(`${regalia.classe} nv${d.nivel}: "${nome}" não existe`)
+            continue
+          }
+          if (String(fmDe(entrada.id)['categoria'] ?? '') !== 'Recurso') {
+            problemas.push(`${regalia.classe} nv${d.nivel}: "${nome}" não é Recurso`)
+          }
+        }
       }
-      const fm = (JSON.parse(fs.readFileSync(path.join(cyberDir, `${entrada.id}.json`), 'utf8')) as {
-        frontmatter?: Record<string, unknown>
-      }).frontmatter
-      const tipo = String(fm?.['Tipo'] ?? '')
-      if (tipo !== def.recursos!.tipos.estilo) naoSelecionavel.push(`${nome}: Tipo "${tipo}"`)
     }
-    expect(naoSelecionavel).toEqual([])
+    expect(problemas).toEqual([])
+    expect(total).toBeGreaterThan(20)
+  })
+
+  it('todo degrau que concede ou paga renda diz QUEM paga', () => {
+    const doc = JSON.parse(fs.readFileSync(path.join(cyberDir, `${REGALIAS_ID}.json`), 'utf8')) as { body?: string }
+    const semPagador: string[] = []
+    for (const regalia of parseRegalias(doc.body ?? '').values()) {
+      for (const d of regalia.degraus) {
+        if ((d.concede.length || d.renda > 0) && !d.paga) semPagador.push(`${regalia.classe} nv${d.nivel}`)
+      }
+    }
+    expect(semPagador).toEqual([])
   })
 })
