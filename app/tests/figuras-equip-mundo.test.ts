@@ -108,6 +108,22 @@ describe('sufixo de tier (A)/(E)/(M)', () => {
     expect(decodeURIComponent(url ?? '')).toContain('Armaduras/Jaqueta Reforçada')
   })
 
+  // 2026-09-13: o ingest passou a gravar WEBP (o site precisava caber no
+  // GitHub Pages). O acervo antigo é PNG, então a busca tem de aceitar os dois
+  // — antes ela fixava `.png` e uma arte nova simplesmente não aparecia.
+  it('acha a arte em webp, com o mesmo nome', () => {
+    setActiveContexto(defPoa)
+    const indice = idx(`${EQ}/Dublê.webp`)
+    const url = tesouroImageUrl('Anel Canário', 'A', indice)
+    expect(decodeURIComponent(url ?? '')).toContain('Equipamentos/Dublê.webp')
+  })
+
+  it('com png e webp lado a lado, o png ganha (o acervo antigo não muda de cara)', () => {
+    setActiveContexto(defPoa)
+    const indice = idx(`${EQ}/Dublê.webp`, `${EQ}/Dublê.png`)
+    expect(decodeURIComponent(tesouroImageUrl('Anel Canário', 'A', indice) ?? '')).toContain('Dublê.png')
+  })
+
   it('ARMADURA sem arte → null (o slot volta pro emoji, sem quebrar)', () => {
     setActiveContexto(defPoa)
     expect(armaduraImageUrlByName('[[Armadura Pesada]]', idx())).toBeNull()

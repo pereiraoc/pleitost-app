@@ -1722,7 +1722,20 @@ if (CODEX) {
 }
 
 // Pendente = marcado pra regerar OU sem arquivo final no layout flat.
-const pendente = (t) => !MANTER_FANTASIA.has(t.chave) && (REGERAR.has(t.chave) || !existsSync(t.out))
+// WEBP NO ACERVO (2026-09-13): a arte entra na vault já em webp. Um retrato de
+// 1024×1536 sai de ~3,4 MB em PNG pra ~350 KB, e é o que faz o site publicado
+// caber no GitHub Pages sem reencodar nada no deploy. q90 é praticamente
+// indistinguível do original em ilustração, e evita perda de geração: o
+// gen-thumbs pula o que já é webp e serve o próprio master.
+const WEBP_QUALIDADE = 90
+/** Destino final da arte: o mesmo caminho, em .webp. */
+const saidaWebp = (out) => out.replace(/\.[^.]+$/, '.webp')
+
+// Pendente = marcado pra regerar, ou sem arte em NENHUM dos dois formatos. O
+// acervo antigo é .png e não se remigra só por causa disto.
+const pendente = (t) =>
+  !MANTER_FANTASIA.has(t.chave) &&
+  (REGERAR.has(t.chave) || (!existsSync(t.out) && !existsSync(saidaWebp(t.out))))
 
 if (MANIFEST) {
   const entradas = trabalho.filter(pendente).map((t) => ({
@@ -1768,12 +1781,15 @@ if (INGEST) {
       const meta = await img.metadata()
       if (t.transparente && !meta.hasAlpha) avisos.push(`${t.chave}: SEM canal alfa — fundo provavelmente opaco, refazer?`)
       mkdirSync(dirname(t.out), { recursive: true })
-      // ARQUIVO ÚNICO: o original gerado É o final (sem resize e sem cópia
-      // arquivada — thumbnail é responsabilidade do app, decisão 2026-09-04).
-      await img.png().toFile(t.out)
+      // ARQUIVO ÚNICO: o gerado É o final, sem resize e sem cópia arquivada
+      // (thumbnail é responsabilidade do app, decisão 2026-09-04) — só que em
+      // WEBP, na mesma resolução. Se havia um .png do mesmo item, ele sai.
+      const destino = saidaWebp(t.out)
+      await img.webp({ quality: WEBP_QUALIDADE }).toFile(destino)
+      if (destino !== t.out && existsSync(t.out)) unlinkSync(t.out)
       unlinkSync(join(dir, f))
       REGERAR.delete(t.chave)
-      console.log(`ok: ${t.chave} → ${t.novo}.png`)
+      console.log(`ok: ${t.chave} → ${t.novo}.webp`)
       ok++
     }
   }

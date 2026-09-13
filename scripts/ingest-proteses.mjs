@@ -20,11 +20,19 @@ const FINAL = join(VAULT, 'Recursos e Mídia/Recursos de Contextos')
 const PASTAS = ['Equipamentos', 'Implementos', 'Armaduras']
 const W = 590
 const H = 420
+// WEBP (2026-09-13): a arte entra na vault já em webp, na mesma resolução — é
+// o que faz o site publicado caber no GitHub Pages. q90 é indistinguível em
+// ilustração, e o webp carrega o canal alfa que estas cartas precisam.
+const WEBP_QUALIDADE = 90
 const APLICAR = process.argv.includes('--aplicar')
 
 /** Arte antiga fica órfã quando existe pelo menos uma versão `(A|E|M)` da mesma
  *  peça. Enquanto não existir, ela é o fallback e NÃO pode ser apagada. */
-const semTier = (n) => n.replace(/ \((?:A|E|M)\)\.png$/, '.png').replace(/ (?:Adepto|Experiente|Mestre)\.png$/, '.png')
+const semTier = (n) =>
+  n
+    .replace(/ \((?:A|E|M)\)(\.\w+)$/, '$1')
+    .replace(/ (?:Adepto|Experiente|Mestre)(\.\w+)$/, '$1')
+    .replace(/\.\w+$/, '')
 
 let movidas = 0
 let semAlfa = 0
@@ -50,19 +58,22 @@ for (const pasta of PASTAS) {
       continue
     }
     if (!APLICAR) { movidas++; continue }
+    const destino = f.replace(/\.[^.]+$/, '.webp')
     await sharp(join(de, f))
       .resize(W, H, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .png()
-      .toFile(join(para, f))
+      .webp({ quality: WEBP_QUALIDADE })
+      .toFile(join(para, destino))
+    // se havia um .png do mesmo item, ele sai junto (senão ficariam os dois)
+    if (destino !== f && existsSync(join(para, f))) rmSync(join(para, f))
     rmSync(join(de, f))
     movidas++
   }
 
   // órfãs: a peça ganhou versão com tier, então a antiga sem tier sai
-  const finais = existsSync(para) ? readdirSync(para).filter((f) => f.endsWith('.png')) : []
-  const comTier = new Set(finais.filter((f) => / \((?:A|E|M)\)\.png$/.test(f)).map(semTier))
+  const finais = existsSync(para) ? readdirSync(para).filter((f) => /\.(png|webp)$/i.test(f)) : []
+  const comTier = new Set(finais.filter((f) => / \((?:A|E|M)\)\.\w+$/.test(f)).map(semTier))
   for (const f of finais) {
-    if (/ \((?:A|E|M)\)\.png$/.test(f)) continue
+    if (/ \((?:A|E|M)\)\.\w+$/.test(f)) continue
     if (comTier.has(semTier(f))) apagar.push(join(para, f))
   }
 }

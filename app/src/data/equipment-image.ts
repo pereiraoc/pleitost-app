@@ -51,9 +51,22 @@ const TIER_MASC: Record<'A' | 'E' | 'M', string> = { A: 'Adepto', E: 'Experiente
 // `small` (#280): as figuras de item aparecem SEMPRE pequenas (miniatura de
 // inventário/combate, selo de canto) ⇒ os helpers de equipamento thumbam por
 // padrão. O flag existe pra caso um contexto grande precise do cheio.
+/** Formatos aceitos, na ordem de preferência. O acervo antigo é PNG e o ingest
+ *  passou a gravar WEBP (2026-09-13, pra o site caber no GitHub Pages), então a
+ *  busca não pode fixar extensão — o `creature-image` já fazia assim. */
+const EXTS = ['.png', '.webp', '.jpg', '.jpeg'] as const
+
 function byPath(assets: AssetIndex, path: string, small = true): string | null {
-  const entry = assets.byPath.get(path.normalize('NFC'))
-  return entry ? assetUrlFor(entry, small) : null
+  const exato = assets.byPath.get(path.normalize('NFC'))
+  if (exato) return assetUrlFor(exato, small)
+  const ponto = path.lastIndexOf('.')
+  if (ponto < 0) return null
+  const semExt = path.slice(0, ponto)
+  for (const ext of EXTS) {
+    const entry = assets.byPath.get(`${semExt}${ext}`.normalize('NFC'))
+    if (entry) return assetUrlFor(entry, small)
+  }
+  return null
 }
 
 /** Figura da PROPRIEDADE/imbuição da arma. `base` = basename do wikilink
