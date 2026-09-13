@@ -21,6 +21,10 @@ const repoDir = path.dirname(appDir)
 const manifest = (dir: string) =>
   JSON.parse(fs.readFileSync(path.join(repoDir, dir, 'assets.json'), 'utf8')) as AssetsManifest
 const cyber = buildAssetIndex(manifest('vault-data-cyberpunk'))
+/** Índice de DOCS do mundo — pra varrer o bestiário inteiro. */
+const docsCyber = JSON.parse(
+  fs.readFileSync(path.join(repoDir, 'vault-data-cyberpunk', 'index.json'), 'utf8'),
+) as { docs: { type?: string; basename?: string }[] }
 const fantasia = buildAssetIndex(manifest('vault-data'))
 const defPoa = JSON.parse(
   fs.readFileSync(path.join(repoDir, 'vault-data-cyberpunk', 'contexto.json'), 'utf8'),
@@ -146,13 +150,28 @@ describe('bestiário do mundo', () => {
     expect(decodeURIComponent(url ?? '')).toContain('Imagens/Monstros/Cabo de Choque.png')
   })
 
-  it('hoje, sem arte própria, TODA criatura humana cai na mesma figura de raça', () => {
+  // Este teste afirmava o CONTRÁRIO até 2026-09-13: sem PNG por ficha, o Cabo
+  // de Choque e o Barão do Cartel mostravam a MESMA figura genérica de raça
+  // humana. Era o motivo declarado da leva de arte do bestiário — e agora que
+  // as 87 chegaram, ele passa a guardar o resultado em vez do problema.
+  it('cada criatura tem a própria cara: duas fichas humanas não repetem figura', () => {
     setActiveContexto(defPoa)
-    // É exatamente o motivo da leva de arte do bestiário: sem PNG por ficha,
-    // o Cabo de Choque e o Barão do Cartel mostram a MESMA imagem genérica.
     const a = creatureImageUrl(monstro('Cabo de Choque'), cyber)
     const b = creatureImageUrl(monstro('Barão do Cartel'), cyber)
-    expect(decodeURIComponent(a ?? '')).toContain('Imagens/Raças/Humano')
-    expect(a).toBe(b)
+    expect(decodeURIComponent(a ?? '')).toContain('Recursos de Contextos/Bestiário/Cabo de Choque')
+    expect(decodeURIComponent(b ?? '')).toContain('Recursos de Contextos/Bestiário/Barão do Cartel')
+    expect(a).not.toBe(b)
+  })
+
+  it('a leva cobre o bestiário inteiro: nenhuma ficha ficou sem arte própria', () => {
+    setActiveContexto(defPoa)
+    const semArte = docsCyber.docs
+      .filter((d) => d.type === 'Criatura' && d.basename)
+      .map((d) => d.basename!)
+      .filter((nome) => {
+        const url = creatureImageUrl(monstro(nome), cyber)
+        return !decodeURIComponent(url ?? '').includes('Recursos de Contextos/Bestiário/')
+      })
+    expect(semArte).toEqual([])
   })
 })
