@@ -174,41 +174,168 @@ const REGRA_PROTESE =
   ' o que era roupa virou peça de montar. Leitura MÉDICA-INDUSTRIAL de 1987 — peça de fábrica com número de lote, nunca gadget futurista.'
 
 const CONCEITO_EQUIP = {
-  'Amplificador Audiovisual': { desc: 'PAR DE IMPLANTES OCULARES avulsos mais uma peça auditiva, dispostos numa bandeja de instrumental: dois elementos de córnea de policarbonato transparente com anel espelhado na borda e micro-trilhas douradas, e um processador retroauricular bege com contatos de mastoide. Linha cívica Gradiente, com etiqueta de laudo; logotipo REAL da Gradiente no processador.' },
-  'Amplificador de Palco': { desc: 'RESSONADOR ESTERNAL avulso: placa curva de titânio escovado no formato do osso do peito, com membrana de ressonância central, captador de traqueia num cabo curto e flange de acoplamento. Linha Gradiente de palco: bege/cinza com grade metálica, logotipo REAL da Gradiente.' },
-  'Pernas Hidráulicas': { desc: 'PAR DE PRÓTESES DE PERNA avulsas, da coxa ao pé: reforço estrutural com pistão hidráulico no calcanhar, acumulador de fluido azul translúcido na canela e flanges de acoplamento no topo. Linha de jornada longa Tramontina: aço escovado, cabo emborrachado preto, logotipo REAL da Tramontina.' },
-  'Porta de Reagentes': { desc: 'PORTA DE INFUSÃO de antebraço avulsa: placa curva com um anel de CARTUCHOS de reagente lênico coloridos em volta, cânula de acesso venoso fina saindo por baixo e flange de acoplamento. Estética farmacêutica Panvel: branco/verde asséptico, lacre, logotipo REAL da Panvel.' },
-  'Reforço de Punho': { desc: 'PAR DE REFORÇOS ESTRUTURAIS DE PUNHO avulsos: cascos de polímero preto denso no formato do carpo, coxins de microporo cinza na face palmar, pinos de ancoragem óssea e flanges de acoplamento. Linha de carga Tramontina: aço escovado, rebites, logotipo REAL da Tramontina.' },
-  'Difusor de Silhueta': { desc: 'PLACA DIFUSORA DORSAL avulsa: painel fino e curvo no formato das escápulas, com fileiras de micro-bicos emissores, mangueira curta até um reservatório de lombar cinza e flange de acoplamento. Bancada pirata do Quarto Distrito: solda exposta, carcaça remendada, fita isolante, SEM marca nenhuma.' },
-  'Compartimento de Campo': { desc: 'TRÊS CÁPSULAS SELADAS avulsas montadas numa barra de ancoragem de crista ilíaca, cada uma com válvula de saída rosqueada e rótulo próprio (marcador químico, concentrado nutritivo, bússola de campo). Linha de campo Tramontina: aço escovado e lona, logotipo REAL da Tramontina.' },
-  'Comunicador de Pulso': { desc: 'TRANSCEPTOR SUBCLAVICULAR avulso: cápsula achatada de titânio no formato do osso da clavícula, com antena de fita enrolada, pastilha de condução óssea num cabo curto e flange de acoplamento. Selo de homologação gravado na carcaça com o logotipo REAL da Embratel.' },
-  'Diapasão Lênico': { desc: 'PAR DE HASTES DE ANCORAGEM ESTERNAL avulsas: diapasão cirúrgico com as duas hastes banhadas em resina selênica iridescente, base de fixação óssea com parafusos e etiqueta de calibragem individual escrita à mão. Artesanato de bancada lênica: solda aparente, sem marca de fábrica.' },
+  'Adaptador de Operador': {
+    desc: 'PLACA DE BARRAMENTO CRANIANO avulsa: placa EM ASA no formato da base do crânio, com um feixe de TRILHAS CHATAS saindo por baixo (as que descem pela nuca) e furos de fixação óssea nas pontas — é o implante pelo qual o Tecnologista roda rotinas. NÃO é peça de braço, NÃO é luva, NÃO tem contatos de dedo. Linha oficial Gradiente: bege/cinza, logotipo REAL da Gradiente.',
+    tiers: {
+      Adepto: 'de segunda mão, com dois parafusos grandes aparentes e as trilhas em fita colorida barata',
+      Experiente: 'linha de loja, parafusos de máquina e número de série gravado na placa',
+      Mestre: 'placa contínua polida, sem parafuso nenhum, com as trilhas em ouro',
+    },
+  },
+  'Amplificador Audiovisual': {
+    desc: 'ARCO CRANIANO avulso: UMA haste fina e longa curvada em arco, com um terminal ÓPTICO redondo numa ponta, um poste de ancoragem de mastoide na outra e um terminal coclear no meio do percurso. É uma peça só, em arco — NÃO é um par de implantes oculares soltos numa bandeja. Linha cívica Gradiente, com etiqueta de laudo; logotipo REAL da Gradiente no corpo do arco.',
+    tiers: {
+      Adepto: 'ferragem grossa, com luvas pretas de borracha nas emendas e um segmento de fita isolante laranja',
+      Experiente: 'arco de aço contínuo, com anéis dourados nas juntas',
+      Mestre: 'arco afinado quase a fio de cabelo, claro e sem junta visível',
+    },
+  },
+  'Amplificador de Palco': {
+    desc: 'RESSONADOR ESTERNAL avulso: placa curva no formato do osso do peito, com membrana de ressonância central, captador de traqueia na ponta de um pescoço flexível curto e furos de fixação. Linha Gradiente de palco: bege/cinza com grade metálica, logotipo REAL da Gradiente.',
+    tiers: {
+      Adepto: 'placa bruta e larga, com a tela do alto-falante à vista e quatro parafusos de cabeça chata',
+      Experiente: 'linha de palco, com TRÊS botões de equalização em fila e número de série na base',
+      Mestre: 'placa contínua de cerâmica branca, sem parafuso visível, com painel dourado',
+    },
+  },
+  'Aplicador Asséptico': {
+    desc: 'CAPAS DE POLPA DIGITAL avulsas, dispostas como jogo: capas brancas leitosas que substituem as pontas dos dedos, cada uma com um BICO ESTÉRIL metálico na extremidade e o tubo do reservatório de polímero saindo por trás; lacre farmacêutico intacto. Estética Panvel: branco/verde asséptico, logotipo REAL da Panvel.',
+    tiers: {
+      Adepto: 'DUAS capas, com o tubo do reservatório correndo por fora',
+      Experiente: 'QUATRO capas, com anel de rosca e número de lote',
+      Mestre: 'CINCO capas (as dez polpas nas duas mãos), translúcidas e de acabamento cirúrgico',
+    },
+  },
+  'Braço Hidráulico': {
+    desc: 'PRÓTESE DE ANTEBRAÇO COMPLETA avulsa: cilindro hidráulico no lugar do rádio e da ulna, mão mecânica de cinco dedos com torque de aperto regulável, um ALOJAMENTO vazio de módulo no dorso e flange de acoplamento no cotovelo. Linha de carga Tramontina: aço escovado, rebites, cabo emborrachado, logotipo REAL da Tramontina e número de lote estampado.',
+    tiers: {
+      Adepto: 'remontagem de ferro-velho, com mangueiras por fora presas por abraçadeira',
+      Experiente: 'linha de carga, articulação selada e manômetro de agulha na face',
+      Mestre: 'carcaça branca contínua, dedos afilados, sem parafuso à vista',
+    },
+  },
+  'Compartimento de Campo': {
+    desc: 'TRÊS CÁPSULAS SELADAS avulsas montadas numa barra de ancoragem de crista ilíaca, cada uma com válvula de saída rosqueada e rótulo próprio (marcador químico, concentrado nutritivo, bússola de campo). São TRÊS em todos os tiers. Linha de campo Tramontina: aço escovado e lona, logotipo REAL da Tramontina.',
+    tiers: {
+      Adepto: 'ferro fundido bruto, com as válvulas altas e a barra saltando',
+      Experiente: 'barra selada, válvulas rentes e número de lote gravado',
+      Mestre: 'carcaça branca contínua fechando sobre a barra',
+    },
+  },
+  'Transceptor Clavicular': {
+    desc: 'TRANSCEPTOR SUBCLAVICULAR avulso: cápsula achatada no formato do osso da clavícula, com antena de fita enrolada, pastilha de condução óssea na ponta de um pescoço curto e flange de acoplamento. Selo de homologação gravado na carcaça com o logotipo REAL da Embratel.',
+    tiers: {
+      Adepto: 'carcaça azul-escura com parafusos aparentes e número de série estampado',
+      Experiente: 'corpo liso de linha de loja, sem parafuso à vista',
+      Mestre: 'lâmina fina e selada, com a pastilha de condução já integrada ao corpo',
+    },
+  },
+  'Difusor de Ameaça': {
+    desc: 'PAR DE CÁPSULAS TERMOQUÍMICAS avulsas, uma de cada lado: cápsulas brancas com faixa verde no formato do ALTO DO OMBRO, com o pente de cargas de feromônio à vista por cima e bocais de descarga na borda de baixo; furos de fixação. NÃO é peça de esterno, NÃO é projetor de nuca. Estética farmacêutica Panvel, logotipo REAL da Panvel.',
+    tiers: {
+      Adepto: 'carcaça encardida e remendada, UMA carga por cápsula',
+      Experiente: 'pente de QUATRO cargas âmbar à mostra em cada cápsula, com número de lote',
+      Mestre: 'cápsula selada e lisa, com a janela âmbar do reservatório do mês',
+    },
+  },
+  'Difusor de Silhueta': {
+    desc: 'LÂMINA DÉRMICA DORSAL avulsa: painel fino e curvo no formato das costas, das escápulas ao meio do dorso, com BORDA DE SUTURA em volta, fileiras de bicos emissores na face e uma mangueira corrugada curta até um cilindro reservatório de lombar. A área é a MESMA nos três tiers — o que muda é cor e acabamento. Linha de saúde ocupacional Mercur: logotipo REAL da Mercur no cilindro.',
+    tiers: {
+      Adepto: 'lâmina translúcida, sutura grossa VERDE e cilindro de lata de oficina verde-oliva',
+      Experiente: 'trilhos AZUIS na borda e cilindro saído de caixa, com número de lote',
+      Mestre: 'lâmina PRETA opaca, sutura sumida sob a pele e cilindro preto liso',
+    },
+  },
+  'Dublê': {
+    desc: 'DISCO DE NUCA avulso da linha de áudio Gradiente: disco central bege com grade metálica de emissor direcional e microfone de leitura ambiente, montado numa base EM ASA que acompanha a base da nuca, com seletor mecânico de trilhas e saída dourada embaixo; flange de acoplamento atrás. Um CANÁRIO amarelo PINTADO em serigrafia na carcaça é a marca da linha (homenagem ao canário de mina). NÃO é peça de orelha nem de mastoide; NÃO é gaiola: nenhum pássaro vivo, nada de latão/steampunk — eletrônica de 1987 com o logotipo REAL da Gradiente.',
+    tiers: {
+      Adepto: 'carcaça grossa, com interruptor mecânico à vista ao lado da grade',
+      Experiente: 'asa mais estreita, com seletor de trilhas em disco',
+      Mestre: 'asa fina de marfim, quase rente, só a grade e o canário à vista',
+    },
+  },
   'Estabilizador Vestibular': {
-    desc: 'PRÓTESE VESTIBULAR avulsa, pronta pra montar (estilo implante coclear dos anos 80): disco retroauricular de titânio com micro-giroscópio visível, eletrodo espiral fino que ocupa o lugar do labirinto do ouvido interno, pinos de fixação óssea e contatos de acoplamento — leitura claramente MÉDICA/invasiva',
+    desc: 'PRÓTESE VESTIBULAR avulsa, pronta pra montar (estilo implante coclear dos anos 80): disco retroauricular com micro-giroscópio, eletrodo espiral fino que ocupa o lugar do labirinto do ouvido interno, pinos de fixação óssea e contatos de acoplamento — leitura claramente MÉDICA/invasiva.',
     tiers: {
-      Adepto: 'versão pirata de clínica clandestina — carcaça remendada e fita isolante',
-      Experiente: 'linha Gradiente bege com LED de status',
-      Mestre: 'grau cirúrgico polido, junção quase invisível',
+      Adepto: 'peça de segunda mão em suporte aparafusado, com grade de ventilação e um LED VERMELHO de teste aceso que ninguém tirou',
+      Experiente: 'tambor liso de linha de loja, SEM LED, com a junta ainda visível',
+      Mestre: 'asa fina de marfim com filete dourado, sem junta nenhuma',
     },
   },
-  'HUD Tático': { desc: 'PROJETOR DE RETINA avulso: módulo de nuca cinza-azulado com dissipador de calor, feixe de eletrodos occipitais e um par de emissores minúsculos, tudo numa bandeja. Linha militar de contrato do Exército: numeração estampada, número de série LIXADO e marcas de uso pesado.' },
+  'Gazua Integrada': {
+    desc: 'MULTIFERRAMENTA DE DORSO DA MÃO avulsa: corpo no formato do dorso da mão com BORDA DE SUTURA em volta e, na extremidade, um REVÓLVER de pontas que gira uma pra fora de cada vez (chave de fenda, Philips, estilete, pinça, lima, abridor), com uma gazua fina estendida. Linha de manutenção Tramontina: aço escovado, logotipo REAL da Tramontina.',
+    tiers: {
+      Adepto: 'corpo escuro remendado, com revólver de TRÊS pontas',
+      Experiente: 'roseta de SEIS pontas, giro selado e número de lote',
+      Mestre: 'corpo branco contínuo, com revólver de DOZE pontas e aro dourado',
+    },
+  },
   'Implante Subdérmico': {
-    desc: 'MALHA POLIMÉRICA SUBDÉRMICA avulsa, pronta pra cirurgia: tela anatômica flexível e translúcida no formato da parede abdominal, com trama hexagonal, portas de injeção e bordas de sutura — leitura claramente MÉDICA/invasiva, de peça que vai SOB a pele',
+    desc: 'MALHA POLIMÉRICA SUBDÉRMICA avulsa, pronta pra cirurgia: tela anatômica flexível no formato da parede abdominal INTEIRA, com trama hexagonal, portas de injeção e bordas de sutura — leitura claramente MÉDICA/invasiva, de peça que vai SOB a pele.',
     tiers: {
-      Adepto: 'placa única curta, acabamento de clínica clandestina',
-      Experiente: 'placa dupla com portas de injeção, acabamento Gradiente',
-      Mestre: 'conjunto completo polido de grau cirúrgico',
+      Adepto: 'malha inteira, mas peça única costurada à mão, com a borda festonada repuxando',
+      Experiente: 'DUAS metades presas a uma espinha central aparafusada, com número de lote legível no meio',
+      Mestre: 'malha inteira num aro de acabamento polido, com portas douradas',
     },
   },
-  'Adaptador de Operador': { desc: 'BARRAMENTO DE BRAÇO avulso: trilha condutora rígida que vai do cotovelo à ponta dos dedos, com cinco contatos de polpa dourados, placa de processador sobre o antebraço e flange de acoplamento no cotovelo — é o implante pelo qual o Tecnologista roda rotinas, não uma luva. Linha oficial Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
-  'Aplicador Asséptico': { desc: 'APLICADOR DE ANTEBRAÇO avulso: corpo branco leitoso com cinco bicos estéreis nas extremidades dos dedos, reservatório de polímero autoesterilizante translúcido na face interna e flange de acoplamento; lacre farmacêutico ainda intacto. Estética Panvel: branco/verde asséptico, logotipo REAL da Panvel.' },
-  'Gazua Integrada': { desc: 'FERRAMENTA DE ANTEBRAÇO avulsa, da família das lâminas retráteis militares: corpo preto fosco com mecanismo de mola exposto, uma GAZUA fina saindo da extremidade do indicador e cinco polpas de silicone escuro; flange de acoplamento sem numeração. Bancada do Quarto Distrito: solda irregular, SEM marca e SEM número de lote.' },
-  'Modulador de Voz': { desc: 'DUAS PEÇAS avulsas do mesmo conjunto, lado a lado: uma prótese auditiva pequena e uma prótese de LARINGE curva com o SLOT de cartucho de idioma exposto e UM cartucho colorido encaixado nele; flange de acoplamento nas duas. Linha executiva Gradiente: plástico bege, logotipo REAL da Gradiente.' },
-  'Projetor de Presença': { desc: 'PROJETOR DE NUCA E ESTERNO avulso, duas peças ligadas por um cabo: módulo occipital com luz de recorte vermelha acesa e placa esternal com mini-subgraves gêmeos, mais um difusor de feromônio com reservatório visível. Feitio pirata do Quarto Distrito: solda exposta, carcaça remendada, SEM marca.' },
-  'Sensor Canário': { desc: 'PEÇA DE MASTOIDE avulsa da linha de áudio Gradiente: disco retroauricular bege com grade metálica de emissor direcional, microfone de leitura ambiente, seletor mecânico de trilhas e reservatório de trilhas gravadas; flange de acoplamento atrás. Um CANÁRIO amarelo PINTADO em serigrafia na carcaça é a marca da linha (homenagem ao canário de mina). NÃO é gaiola: NENHUM pássaro vivo, NENHUMA gaiola, nada de latão/steampunk — eletrônica de 1987 com o logotipo REAL da Gradiente.' },
-  'Sensor Trônico': { desc: 'ANTENA ULNAR avulsa: haste farpada longa no formato do osso do antebraço, com as farpas sensoras em fileira, um galvanômetro de agulha miniatura na base e flange de acoplamento. Instrumento de inspeção Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
-  'Braço Hidráulico': { desc: 'PRÓTESE DE ANTEBRAÇO COMPLETA avulsa: cilindro hidráulico no lugar do rádio e da ulna, mão mecânica de cinco dedos com torque de aperto regulável, um ALOJAMENTO vazio de módulo no dorso e flange de acoplamento no cotovelo. Linha de carga Tramontina: aço escovado, rebites, cabo emborrachado, logotipo REAL da Tramontina e número de lote estampado.' },
+  'Modulador de Voz': {
+    desc: 'DUAS PEÇAS avulsas do mesmo conjunto, lado a lado: uma prótese auditiva pequena e uma prótese de LARINGE curva com o SLOT de cartucho de idioma exposto e UM cartucho colorido encaixado nele; flange de acoplamento nas duas. Linha executiva Gradiente: plástico bege, logotipo REAL da Gradiente.',
+    tiers: {
+      Adepto: 'carcaça com anéis pretos de borracha e UM cartucho no slot',
+      Experiente: 'corpo claro contínuo, com um cartucho de reserva ao lado do ativo na janela',
+      Mestre: 'laringe de cerâmica contínua, com a janela discreta e rente',
+    },
+  },
+  'Olho Tático': {
+    desc: 'GLOBO OCULAR PROTÉTICO avulso: esfera do tamanho de um olho com BARRIL DE LENTE cromado no lugar da pupila, retículo fino gravado no vidro, íris CINZA-FOSCA de fábrica e, atrás, o manguito do nervo e o conector de acoplamento. A esclera traz o logotipo REAL da Gradiente, o brasão do EXÉRCITO BRASILEIRO e o número de patrimônio gravado. NÃO é projetor de nuca, NÃO é visor.',
+    tiers: {
+      Adepto: 'esclera de porcelana branca e lisa, aro cromado e os dois parafusos do barril à vista — lê como máquina, e ninguém se engana',
+      Experiente: 'esclera amarelada com capilares pintados, aro corroído e mecanismo do barril à mostra — tenta passar por olho de verdade',
+      Mestre: 'esclera refeita com veia de verdade, feixe de nervo óptico orgânico no coto e aro dourado sem junta',
+    },
+  },
+  'Pernas Hidráulicas': {
+    desc: 'PAR DE REFORÇOS DE CANELA avulsos, do joelho ao tornozelo: carcaça no formato da canela com ACUMULADOR DE FLUIDO AZUL translúcido à vista, pistão hidráulico descendo até o calcanhar e articulação de tornozelo na base; flanges de acoplamento no topo. NÃO inclui coxa nem pé. Linha de jornada longa Tramontina: aço escovado, cabo emborrachado preto, logotipo REAL da Tramontina.',
+    tiers: {
+      Adepto: 'UM pistão por perna, mangueira por fora e acabamento azul-escuro remendado',
+      Experiente: 'DOIS pistões, acumulador selado e número de lote na placa',
+      Mestre: 'carcaça de marfim com filetes dourados e junta quase invisível',
+    },
+  },
+  'Porta de Reagentes': {
+    desc: 'PORTA DE INFUSÃO de braço avulsa: placa curva com uma FILA de CARTUCHOS de reagente lênico coloridos em pé sobre a face externa, cânula de acesso venoso fina saindo por baixo e flange de acoplamento. Estética farmacêutica Panvel: branco/verde asséptico, lacre, logotipo REAL da Panvel.',
+    tiers: {
+      Adepto: 'DOIS cartuchos, carcaça simples de balcão',
+      Experiente: 'QUATRO cartuchos, com lacre e número de lote',
+      Mestre: 'SEIS cartuchos, porta rente e acabamento verde selado',
+    },
+  },
+  'Reforço de Punho': {
+    desc: 'PAR DE REFORÇOS ESTRUTURAIS DE PUNHO avulsos: cascos no formato do carpo, com o COXIM DE MICROPORO cinza coroando a face DORSAL (nunca a palma), pinos de ancoragem óssea e flanges de acoplamento. Linha de carga Tramontina: aço escovado, rebites, logotipo REAL da Tramontina.',
+    tiers: {
+      Adepto: 'casco de polímero preto, com a borda de sutura repuxando',
+      Experiente: 'casco metálico que abraça o carpo inteiro, com coxins trocáveis',
+      Mestre: 'casco branco salpicado, com pinos dourados e sem borda visível',
+    },
+  },
+  'Sensor Trônico': {
+    desc: 'ANTENA ESPINHAL avulsa: haste longa e curva no formato da COLUNA, com FARPAS sensoras em fileira ao longo dela e um FREQUENCÍMETRO de agulha na base (o que fica na lombar); flange de acoplamento. NÃO é peça de antebraço. Instrumento de inspeção Gradiente: bege/cinza, logotipo REAL da Gradiente.',
+    tiers: {
+      Adepto: 'haste curta de lombar, com farpas grossas e poucas e carcaça remendada',
+      Experiente: 'haste subindo até as escápulas, com farpas finas em fileira cerrada',
+      Mestre: 'haste da lombar à nuca, clara e afilada, quase rente',
+    },
+  },
+  'Tampão de Fator': {
+    desc: 'RESERVATÓRIO DE SOLUÇÃO TAMPONANTE avulso: cilindro de VIDRO com a solução IRIDESCENTE dentro, montado numa haste curva de ancoragem de costela flutuante, com bocal de recarga rosqueado numa ponta e o número do laudo gravado na base. NÃO é diapasão, NÃO tem duas hastes vibrantes. Estética farmacêutica Panvel: branco/verde, logotipo REAL da Panvel.',
+    tiers: {
+      Adepto: 'UM reservatório, em haste de metal bruto com parafuso aparente',
+      Experiente: 'DOIS reservatórios ligados por mangueira verde, com números de série',
+      Mestre: 'DOIS reservatórios selados e lisos, com bocal dourado',
+    },
+  },
 }
+
 
 // Marcas/organizações com identidade REAL: o mundo é fantasia, mas as marcas
 // verdadeiras aparecem com seus logotipos atuais — senão o contexto confunde.
@@ -603,6 +730,9 @@ function promptFigura(sub, orig, novo) {
   // vale só pelo ESTILO de pintura; a forma nova é a do conceito.
   if (sub === 'Equipamentos') {
     const conceito = CONCEITO_EQUIP[semTier(novo)]
+    // Chave morta é silenciosa: 'HUD Tático' e outros três ficaram pra trás
+    // num rename e esses itens passaram meses gerando SEM conceito nenhum.
+    if (!conceito) SEM_CONCEITO.add(semTier(novo))
     if (conceito) {
       const tierEq = novo.match(/(Adept[ao]|Experiente|Mestre)$/)?.[1]
       const tierTxt = conceito.tiers?.[tierEq] ? ` Tier ${tierEq}: ${conceito.tiers[tierEq]}.` : ''
@@ -881,7 +1011,7 @@ const ANATOMIA_EQUIP = {
     peca: 'barra Tramontina com TRÊS cápsulas seladas e rotuladas, uma de marcador, uma de concentrado e uma de bússola',
     onde: 'ancorada na crista ilíaca, com as válvulas na linha da cintura',
   },
-  'Comunicador de Pulso': {
+  'Transceptor Clavicular': {
     peca: 'transceptor Embratel chato, com uma pastilha redonda de condução na ponta de um pescoço curto',
     onde: 'sob a clavícula, com a pastilha encostada no osso',
   },
@@ -952,6 +1082,7 @@ const ANATOMIA_VALVULA = {
 // (`*Trônico - implante ósseo (base do crânio)*`) — melhor que nada, e o aviso
 // no fim da geração diz quais faltam.
 const SEM_ANATOMIA = new Set()
+const SEM_CONCEITO = new Set()
 const fantasiaDe = (mundo) => [...notas].find(([, w]) => w === mundo)?.[0] ?? mundo
 function anatomiaVault(mundo) {
   const v = DESCRICOES[fantasiaDe(mundo)] ?? DESCRICOES[mundo]
@@ -1579,6 +1710,10 @@ if (CODEX) {
   mkdirSync(dirname(arquivo), { recursive: true })
   writeFileSync(arquivo, linhas.join('\n'))
   console.log(`${itens.length} prompts → ${arquivo}`)
+  if (SEM_CONCEITO.size)
+    console.warn(
+      `AVISO equipamento sem conceito em CONCEITO_EQUIP (chave morta?): ${[...SEM_CONCEITO].sort().join(', ')}`,
+    )
   if (SEM_ANATOMIA.size)
     console.warn(
       `AVISO equipamento sem anatomia (nem em ANATOMIA_EQUIP nem na linha de tipo do Contexto): ${[...SEM_ANATOMIA].sort().join(', ')}`,
