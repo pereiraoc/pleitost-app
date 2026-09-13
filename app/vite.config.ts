@@ -126,7 +126,12 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Estado do usuário: SEMPRE rede (nunca cachear — é a fonte durável).
-            urlPattern: ({ url }) => url.pathname.startsWith(`${base}app-state`),
+            // REGEX, não função: o workbox serializa a função como TEXTO pro
+            // sw.js, e um `${base}` dentro dela vira uma referência a uma
+            // variável que não existe lá — ReferenceError em toda requisição.
+            // Como esta rota é a PRIMEIRA avaliada, ela derrubava o handler
+            // inteiro e NENHUM dado chegava a ser cacheado (2026-09-13).
+            urlPattern: new RegExp(`${baseRe}app-state`),
             handler: 'NetworkOnly',
           },
           {
@@ -141,7 +146,7 @@ export default defineConfig({
             options: { cacheName: 'db-version' },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith(`${base}vault-data/`),
+            urlPattern: new RegExp(`${baseRe}vault-data/`),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'vault-data',
@@ -151,7 +156,7 @@ export default defineConfig({
           {
             // dataset do mundo cyberpunk (#519) — bucket próprio: o purge por
             // stamp de um mundo não derruba o cache do outro
-            urlPattern: ({ url }) => url.pathname.startsWith(`${base}vault-data-cyberpunk/`),
+            urlPattern: new RegExp(`${baseRe}vault-data-cyberpunk/`),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'vault-data-cyberpunk',
