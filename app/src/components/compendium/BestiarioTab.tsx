@@ -12,17 +12,50 @@ import { useMemo, type CSSProperties } from 'react'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
+import { useAssetIndex } from '../../data/assets'
+import { creatureImageUrl } from '../../data/creature-image'
 import { reskinName, reskinText } from '../../data/reskin'
 import { DetailLink } from '../DetailLink'
 import { clip } from '../ficha/bits'
+import { retratoCover } from '../retrato'
+import { EncounterLevelBar } from '../mestre/ui'
 import { useAtlasRelations } from './AtlasNav'
 import { criaturasEm, escoposDoLugar } from '../../mestre/bestiario-local'
-import { situacaoDe } from '../../mestre/encontro-meta'
+import { rosterComVelocidades, situacaoDe } from '../../mestre/encontro-meta'
+import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from '../../mestre/roster'
+import { computeEncounterDifficultyByLevel } from '../../mestre/encounter-compute'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
 
 const RANK = ['C', 'B', 'A', 'S']
+
+/** Figura da criatura ao lado da linha — mesmo desenho da miniatura da aba
+ *  Serviços (quadrado, cover, borda fina). Retrato ANCORA NO TERÇO SUPERIOR:
+ *  gente cortada mostra a cara, nunca o centro (`retratoCover`). Sem arte, o
+ *  quadro fica com o emoji de criatura em vez de buraco. */
+function FiguraDaCriatura({ doc }: { doc: VaultDoc | undefined }) {
+  const assets = useAssetIndex()
+  const src = doc ? creatureImageUrl(doc, assets, true) : null
+  return (
+    <span
+      data-criatura-figura={src ? 'img' : 'emoji'}
+      aria-hidden
+      style={{
+        display: 'inline-flex', flex: 'none', width: 40, height: 40,
+        borderRadius: 8, overflow: 'hidden', border: '1px solid var(--line2)',
+        background: 'var(--card)', alignItems: 'center', justifyContent: 'center',
+        fontSize: 18,
+      }}
+    >
+      {src ? (
+        <img src={src} alt="" loading="lazy" style={{ ...retratoCover, width: '100%', height: '100%' }} />
+      ) : (
+        '🐲'
+      )}
+    </span>
+  )
+}
 
 function tierDe(e: IndexDocEntry, docs: Map<string, VaultDoc> | undefined): number {
   const t = docs?.get(e.id)?.frontmatter?.['Tier']
@@ -68,6 +101,29 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
     })
   }, [catalog, docsCombate, escopos])
 
+  // DIFICULDADE POR NÍVEL (pedido do mestre, 2026-09-13): as mesmas barrinhas
+  // do Compêndio/Campanhas/Combates, pelo MESMO pipeline
+  // (rosterMonsterIds → resolveRosterEntries → combatantsFrom →
+  // computeEncounterDifficultyByLevel). Nada reimplementado aqui: o encontro
+  // tem que classificar igual nos dois lugares.
+  const rosters = useMemo(
+    () => combatesAqui.map((e) => ({ id: e.id, roster: rosterComVelocidades(docsCombate?.get(e.id)?.body) })),
+    [combatesAqui, docsCombate],
+  )
+  const monsterIds = useMemo(
+    () => [...new Set(rosters.flatMap((r) => rosterMonsterIds(r.roster, catalog)))],
+    [rosters, catalog],
+  )
+  const monsterDocs = useDocs(monsterIds)
+  const dificuldadeDe = useMemo(() => {
+    const m = new Map<string, ReturnType<typeof computeEncounterDifficultyByLevel>>()
+    for (const r of rosters) {
+      const itens = resolveRosterEntries(r.roster, catalog, monsterDocs).flatMap((x) => (x.item ? [x.item] : []))
+      m.set(r.id, computeEncounterDifficultyByLevel(combatantsFrom(itens, [])))
+    }
+    return m
+  }, [rosters, catalog, monsterDocs])
+
   const porTier = useMemo(() => {
     const m = new Map<number, IndexDocEntry[]>()
     for (const c of criaturas) {
@@ -100,12 +156,13 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
                 key={c.id}
                 data-criatura={c.basename}
                 style={{
-                  display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 10,
+                  display: 'grid', gridTemplateColumns: 'auto minmax(0,1fr) auto', gap: 10,
                   alignItems: 'start', padding: '8px 0', borderTop: '1px solid var(--line)',
                 }}
               >
+                <FiguraDaCriatura doc={docsCriaturas?.get(c.id)} />
                 <div style={{ minWidth: 0 }}>
-                  <DetailLink to={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
+                  <DetailLink id={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
                   {descricaoDe(c, docsCriaturas) ? (
                     <div style={{ fontSize: 11, lineHeight: 1.35, color: 'var(--muted)', marginTop: 2 }}>
                       {reskinText(descricaoDe(c, docsCriaturas))}
@@ -124,12 +181,17 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
           <div style={{ ...MONO, marginBottom: 8 }}>ENCONTROS PRONTOS</div>
           {combatesAqui.map((e) => (
             <div key={e.id} data-encontro={e.basename} style={{ padding: '6px 0', borderTop: '1px solid var(--line)' }}>
-              <DetailLink to={e.id}>{reskinName(e.basename ?? e.id)}</DetailLink>
+              <DetailLink id={e.id}>{reskinName(e.basename ?? e.id)}</DetailLink>
               {/* Descrição breve do encontro (FM `Situação`): o mestre escolhe
                   pelo que acontece, não pelo nome. */}
               {situacaoDe(docsCombate?.get(e.id)) ? (
                 <div style={{ fontSize: 11, lineHeight: 1.35, color: 'var(--muted)', marginTop: 2 }}>
                   {reskinText(situacaoDe(docsCombate?.get(e.id)))}
+                </div>
+              ) : null}
+              {dificuldadeDe.get(e.id)?.length ? (
+                <div style={{ marginTop: 4 }}>
+                  <EncounterLevelBar byLevel={dificuldadeDe.get(e.id)!} />
                 </div>
               ) : null}
             </div>

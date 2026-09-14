@@ -43,6 +43,12 @@ export function DetailLink({
 }) {
   const detail = useDetail()
   const docId = id ?? (to ? docIdFromPath(to) : undefined)
+  // `to` é HREF, `id` é ID DE DOC. Passar um id cru em `to` gera href RELATIVO,
+  // que o navegador gruda no caminho da página aberta — foi assim que o
+  // "Batida Grande" da aba Bestiário de Porto Alegre virou
+  // `/compendio/Atlas/Porto Alegre/Campanhas/Combates/Batida Grande`
+  // (2026-09-13). Dentro do app o clique disfarçava, porque o onClick abre o
+  // painel; o estrago aparecia em nova aba, ao recarregar e ao compartilhar.
   const href = to ?? (id ? docPath(id) : '#')
   if (detail && docId) {
     return (

@@ -67,6 +67,13 @@ import {
   ptAlpha,
   type CriterioBestiario,
 } from './agrupar-bestiario'
+import {
+  aplicaFiltro,
+  contaFiltrosAtivos,
+  FILTRO_VAZIO,
+  opcoesDeFiltro,
+  type FiltroBestiario,
+} from './filtro-bestiario'
 import { retratoCover } from '../retrato'
 import { idsLocaisDuplicados } from '../../data/local-vault-dupes'
 
@@ -206,6 +213,160 @@ function SeletorDeGrupo({
           {c.label}
         </button>
       ))}
+    </div>
+  )
+}
+
+/** Chip de opção do filtro — mesmo tom dos botões do SeletorDeGrupo. */
+function ChipFiltro({
+  rotulo,
+  marcado,
+  onToggle,
+}: {
+  rotulo: string
+  marcado: boolean
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={marcado}
+      onClick={onToggle}
+      style={{
+        fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.10em',
+        padding: '3px 8px', cursor: 'pointer',
+        background: marcado ? 'var(--accent)' : 'transparent',
+        color: marcado ? 'var(--ink)' : 'var(--muted)',
+        border: `1px solid ${marcado ? 'var(--accent)' : 'var(--line2)'}`,
+      }}
+    >
+      {rotulo}
+    </button>
+  )
+}
+
+/** Um grupo de opções do painel (TIER, MODIFICADOR, CLASSE, AFILIAÇÃO). */
+function GrupoDeFiltro({
+  titulo,
+  opcoes,
+  marcadas,
+  onToggle,
+}: {
+  titulo: string
+  opcoes: readonly string[]
+  marcadas: readonly string[]
+  onToggle: (v: string) => void
+}) {
+  if (opcoes.length === 0) return null
+  return (
+    <div role="group" aria-label={titulo} style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+      <span
+        style={{
+          fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.14em',
+          color: 'var(--muted)', minWidth: 86,
+        }}
+      >
+        {`// ${titulo}`}
+      </span>
+      {opcoes.map((o) => (
+        <ChipFiltro key={o} rotulo={o.toUpperCase()} marcado={marcadas.includes(o)} onToggle={() => onToggle(o)} />
+      ))}
+    </div>
+  )
+}
+
+/** FILTRO DO BESTIÁRIO (pedido do mestre, 2026-09-13) — as opções ficam atrás
+ *  de um botão "pra não ocupar muito espaço", como os Elementos de Regra da
+ *  nota. Fechado, o botão mostra quantas opções estão marcadas: filtro ligado
+ *  não pode ficar invisível. */
+function FiltroDeBestiario({
+  entries,
+  docs,
+  filtro,
+  onChange,
+}: {
+  entries: readonly IndexDocEntry[]
+  docs: Map<string, VaultDoc> | undefined
+  filtro: FiltroBestiario
+  onChange: (f: FiltroBestiario) => void
+}) {
+  const [aberto, setAberto] = useState(false)
+  const opcoes = useMemo(() => opcoesDeFiltro(entries, docs), [entries, docs])
+  const ativos = contaFiltrosAtivos(filtro)
+  const alterna = <K extends keyof FiltroBestiario>(chave: K, valor: FiltroBestiario[K][number]) => {
+    const atual = filtro[chave] as readonly (typeof valor)[]
+    const novo = atual.includes(valor) ? atual.filter((x) => x !== valor) : [...atual, valor]
+    onChange({ ...filtro, [chave]: novo } as FiltroBestiario)
+  }
+  return (
+    <div style={{ padding: '0 0 6px' }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <button
+          type="button"
+          aria-expanded={aberto}
+          aria-label="Filtrar bestiário"
+          onClick={() => setAberto((v) => !v)}
+          style={{
+            fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em',
+            padding: '3px 10px', cursor: 'pointer',
+            background: ativos ? 'var(--accent)' : 'transparent',
+            color: ativos ? 'var(--ink)' : 'var(--muted)',
+            border: `1px solid ${ativos ? 'var(--accent)' : 'var(--line2)'}`,
+          }}
+        >
+          {`${aberto ? '▾' : '▸'} FILTRAR${ativos ? ` (${ativos})` : ''}`}
+        </button>
+        {ativos ? (
+          <button
+            type="button"
+            onClick={() => onChange(FILTRO_VAZIO)}
+            style={{
+              fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em',
+              padding: '3px 8px', cursor: 'pointer', background: 'transparent',
+              color: 'var(--muted)', border: '1px solid var(--line2)',
+            }}
+          >
+            LIMPAR
+          </button>
+        ) : null}
+      </div>
+      {aberto ? (
+        <div
+          data-filtro-bestiario
+          style={{
+            display: 'flex', flexDirection: 'column', gap: 8,
+            marginTop: 8, padding: '10px 12px',
+            background: 'var(--panel)', border: '1px solid var(--line2)',
+            clipPath: clip(7),
+          }}
+        >
+          <GrupoDeFiltro
+            titulo="TIER"
+            opcoes={opcoes.tiers.map(String)}
+            marcadas={filtro.tiers.map(String)}
+            onToggle={(v) => alterna('tiers', Number(v))}
+          />
+          <GrupoDeFiltro
+            titulo="MODIFICADOR"
+            opcoes={opcoes.modificadores}
+            marcadas={filtro.modificadores}
+            onToggle={(v) => alterna('modificadores', v)}
+          />
+          <GrupoDeFiltro
+            titulo="CLASSE"
+            opcoes={opcoes.classes}
+            marcadas={filtro.classes}
+            onToggle={(v) => alterna('classes', v)}
+          />
+          <GrupoDeFiltro
+            titulo="AFILIAÇÃO"
+            opcoes={opcoes.afiliacoes}
+            marcadas={filtro.afiliacoes}
+            onToggle={(v) => alterna('afiliacoes', v)}
+          />
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -1557,21 +1718,33 @@ function NpcPanel({
   // #547: só o BESTIÁRIO oferece os três critérios; as outras abas seguem no
   // agrupamento único que sempre tiveram.
   const [criterio, setCriterio] = useState<CriterioBestiario>('tier')
+  const [filtro, setFiltro] = useState<FiltroBestiario>(FILTRO_VAZIO)
   const porTier = !tierNumerico || criterio === 'tier'
+  // O filtro é do BESTIÁRIO (como o seletor de agrupamento); nas outras abas
+  // `entries` passa reto. Filtra ANTES de agrupar, senão sobraria cabeçalho de
+  // grupo vazio na lista.
+  const visiveis = useMemo(
+    () => (tierNumerico ? aplicaFiltro(entries, docs, filtro) : entries),
+    [tierNumerico, entries, docs, filtro],
+  )
+  const escondidas = entries.length - visiveis.length
   return (
     <TrackPanel pad="0">
       <div className="npc-panel-inner">
         {prepend}
         {tierNumerico ? <SeletorDeGrupo valor={criterio} onChange={setCriterio} /> : null}
+        {tierNumerico ? (
+          <FiltroDeBestiario entries={entries} docs={docs} filtro={filtro} onChange={setFiltro} />
+        ) : null}
         {docs && tierOf
           ? // docs carregados: grupos por tier decrescente (issue #31);
             // lista achatada com key estável por card (vide HeroisPage).
             // #380: bestiário usa o Tier numérico do monstro (3→0).
             (!porTier
-              ? gruposPorChave(entries, docs, criterio)
+              ? gruposPorChave(visiveis, docs, criterio)
               : tierNumerico
-              ? tierGroupsMonstro(entries, docs)
-              : tierGroups(entries, docs, tierOf).map((g) => ({ ...g, color: undefined as string | undefined }))
+              ? tierGroupsMonstro(visiveis, docs)
+              : tierGroups(visiveis, docs, tierOf).map((g) => ({ ...g, color: undefined as string | undefined }))
             ).flatMap((group) => [
               porTier ? (
                 <TierKicker key={`tier-${group.letter}`} letter={group.letter} color={group.color} />
@@ -1588,7 +1761,7 @@ function NpcPanel({
               )),
             ])
           : // carregando (ou aba sem agrupamento): lista plana de antes
-            entries.map((entry) => (
+            visiveis.map((entry) => (
               <NpcCard
                 key={entry.id}
                 entry={entry}
@@ -1598,6 +1771,11 @@ function NpcPanel({
             ))}
         {entries.length === 0 ? (
           <div className="npc-empty">// NENHUM REGISTRO NESTA CATEGORIA</div>
+        ) : visiveis.length === 0 ? (
+          // Vazio POR FILTRO é outro estado: a categoria tem registro, o
+          // recorte é que não tem — e o texto precisa dizer isso, senão parece
+          // que o bestiário sumiu.
+          <div className="npc-empty">{`// NENHUMA CRIATURA NESTE FILTRO (${escondidas} ESCONDIDA${escondidas === 1 ? '' : 'S'})`}</div>
         ) : null}
       </div>
     </TrackPanel>
