@@ -163,58 +163,14 @@ describe('bestiário do mundo', () => {
     expect(a).not.toBe(b)
   })
 
-  // As treze que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
-  // não foram à leva de arte — os prompts estão em `Recursos e Mídia/Rascunhos/
-  // Prompt Codex — bestiário (pendentes).md`. A lista vale nos DOIS sentidos:
-  // quando uma ganhar o webp e ninguém tirar daqui, o teste quebra e cobra a
-  // limpeza, em vez de virar exceção permanente. Arte DESATUALIZADA (a ficha
-  // mudou DEPOIS da imagem) não se cobra aqui: quem sabe disso é o selo de
-  // prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
-  const AGUARDANDO_ARTE = [
-    'Agente de Fronteira',
-    'Arpoador do Cais',
-    'Arquivista da Delegacia',
-    'Auditor de Endereço',
-    'Braço da Caixinha',
-    'Cabo de Fiscalização',
-    'Canhão Orion',
-    'Chapa de Carroceria',
-    'Chaveiro Trônico',
-    'Chefe de Pátio',
-    'Cobrador de Fiança',
-    'Comando de Greve',
-    'Companhia de Choque',
-    'Conferente de Uniforme',
-    'Contato do Consulado',
-    'Corredor da Madrugada',
-    'Célula de Impressão',
-    'Delegado de Partida',
-    'Detonador do Clã',
-    'Diretor Clínico da Panvel',
-    'Dono do Ocidente',
-    'Enxertador de Simbionte',
-    'Erveiro do Mate Touro',
-    'Escuta da Embratel',
-    'Fiscal da Ordem dos Músicos',
-    'Fogueteiro da Boca',
-    'Gateiro de Poste',
-    'Interventor da CEEE',
-    'Leiturista de Poste',
-    'Mangueirista do Cais',
-    'Massagista do Beira-Rio',
-    'Motorista da Fruki',
-    'Olheiro do Olímpico',
-    'Piloto de Protótipo',
-    'Presidente do Sindicato',
-    'Puxador de Barril',
-    'Queimador do Itu',
-    'Rapa do Camelódromo',
-    'Segurança de Corredor',
-    'Sócio da Geral',
-    'Técnico de Módulo',
-    'Vaporizador',
-    'Vulcanizador',
-  ]
+  // Registro das criaturas que ainda não foram à leva de arte. A lista vale nos
+  // DOIS sentidos: quando uma ganhar o webp e ninguém tirar daqui, o teste
+  // quebra e cobra a limpeza, em vez de virar exceção permanente. Desde
+  // 2026-09-13 o bestiário está COMPLETO (130/130), então ela está vazia —
+  // criatura nova entra aqui até a arte dela chegar. Arte DESATUALIZADA (a
+  // ficha mudou DEPOIS da imagem) não se cobra aqui: quem sabe disso é o selo
+  // de prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
+  const AGUARDANDO_ARTE: string[] = []
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
