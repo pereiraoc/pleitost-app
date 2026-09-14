@@ -280,7 +280,7 @@ function GrupoDeFiltro({
  *  de um botão "pra não ocupar muito espaço", como os Elementos de Regra da
  *  nota. Fechado, o botão mostra quantas opções estão marcadas: filtro ligado
  *  não pode ficar invisível. */
-function FiltroDeBestiario({
+export function FiltroDeBestiario({
   entries,
   docs,
   filtro,

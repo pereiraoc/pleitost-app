@@ -22,13 +22,12 @@ import { EncounterLevelBar } from '../mestre/ui'
 import { useAtlasRelations } from './AtlasNav'
 import { criaturasEm, escoposDoLugar } from '../../mestre/bestiario-local'
 import { rosterComVelocidades, situacaoDe } from '../../mestre/encontro-meta'
+import { parseModificador } from '../../mestre/encounter-compute'
 import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from '../../mestre/roster'
 import { computeEncounterDifficultyByLevel } from '../../mestre/encounter-compute'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
-
-const RANK = ['C', 'B', 'A', 'S']
 
 /** Figura da criatura ao lado da linha — mesmo desenho da miniatura da aba
  *  Serviços (quadrado, cover, borda fina). Retrato ANCORA NO TERÇO SUPERIOR:
@@ -147,9 +146,10 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
 
       {porTier.map(([tier, lista]) => (
         <div key={tier} style={BOX}>
-          <div style={{ ...MONO, marginBottom: 8 }}>
-            TIER {tier} · RANK {RANK[tier] ?? '?'}
-          </div>
+          {/* Só o TIER: o "· RANK Y" que ficava aqui atrapalhava e estava
+              errado (report do mestre, 2026-09-13). A régua tier→rank é do
+              ENCONTRO, não da criatura. */}
+          <div style={{ ...MONO, marginBottom: 8 }}>TIER {tier}</div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {lista.map((c) => (
               <div
@@ -163,6 +163,19 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
                 <FiguraDaCriatura doc={docsCriaturas?.get(c.id)} />
                 <div style={{ minWidth: 0 }}>
                   <DetailLink id={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
+                  {/* Tarja do Modificador com as MESMAS classes da aba de
+                      Criaturas (.combate-monstro-mod, app.css) — competente,
+                      elite e solo na mesma cor dos dois lados, nada de cor
+                      nova inventada aqui. */}
+                  {parseModificador(docsCriaturas?.get(c.id)?.frontmatter ?? {}) ? (
+                    <span
+                      className={`combate-monstro-mod is-${parseModificador(docsCriaturas?.get(c.id)?.frontmatter ?? {})!.toLowerCase()}`}
+                      title="Modificador"
+                      style={{ marginLeft: 6, verticalAlign: 'middle' }}
+                    >
+                      {parseModificador(docsCriaturas?.get(c.id)?.frontmatter ?? {})}
+                    </span>
+                  ) : null}
                   {descricaoDe(c, docsCriaturas) ? (
                     <div style={{ fontSize: 11, lineHeight: 1.35, color: 'var(--muted)', marginTop: 2 }}>
                       {reskinText(descricaoDe(c, docsCriaturas))}

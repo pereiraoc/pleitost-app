@@ -112,6 +112,31 @@ describe.skipIf(!temDataset)('a aba mostra figura e dificuldade', () => {
     }
   })
 
+  // Report do mestre (2026-09-13): "ta aparecendo TIER X - RANK Y, só que essa
+  // parte de '- RANK Y' não precisa, só atrapalha, até porque ta errado. E ta
+  // faltando deixar o competente, elite e solo com aquelas tags da mesma cor
+  // que tu ta colocando na aba de criaturas/bestiário."
+  it('o cabeçalho do grupo é só o TIER, sem rank', async () => {
+    const { container } = montar()
+    await screen.findByText('Batida Grande')
+    expect(container.textContent).not.toContain('RANK')
+    expect(screen.getByText('TIER 0')).toBeTruthy()
+  })
+
+  it('competente, elite e solo levam a MESMA tarja da aba de Criaturas', async () => {
+    const { container } = montar()
+    await screen.findByText('Batida Grande')
+    const solo = container.querySelector('[data-criatura="O Despachante"] .combate-monstro-mod')
+    expect(solo?.className).toContain('is-solo')
+    expect(solo?.textContent).toBe('Solo')
+    const comp = container.querySelector('[data-criatura="Sargento de Pelotão"] .combate-monstro-mod')
+    expect(comp?.className).toContain('is-competente')
+    // criatura sem modificador não ganha tarja nenhuma
+    expect(
+      container.querySelector('[data-criatura="Brigadiano de Esquina"] .combate-monstro-mod'),
+    ).toBeNull()
+  })
+
   it('o encontro pronto traz a barrinha por nível, a mesma dos Combates', async () => {
     const { container } = montar()
     await screen.findByText('Batida Grande')
