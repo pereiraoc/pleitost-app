@@ -212,36 +212,36 @@ def checa_hospedagem(tesouro: str, host: str, dono: str):
                          f"(grupo {fm_h.get('grupo')}, tipo {fm_h.get('tipo')})")
 
 
-# ────────────────── o que a habilidade manual faz na ficha ───────────────────
-# As 19 habilidades de bestiário são prosa: não declaram `Elementos_de_Regra`.
-# As de HERÓI declaram — e são elas que uma criatura pega quando precisa de algo
-# fora do papel dela. [[Princípios Arcanos]] dá +2 de especialização em Trônicos
-# e +1 slot Adepto; [[Estilo de Combate (Arte Mágica)]] dá +1 de EM. Aplicar de
-# verdade evita a ficha dizer que tem a habilidade e não mostrar o efeito.
+# ───────────────── habilidade de criatura é de CRIATURA ──────────────────────
+# Regra do mestre (2026-09-13): "nunca tem que dar habilidades de heróis e
+# companheiros animais pra bestiário porque pode dar problema". E é verdade
+# mecânica, não só de gosto: a habilidade de herói carrega `Escolha_Habilidades`
+# (pede uma decisão que a ficha de monstro não tem onde guardar), `Alias Classe
+# Compor` e `Somar Papel.Lider` — que criaria no frontmatter uma chave que a
+# criatura não tem. Eu tinha pendurado [[Princípios Arcanos]] e [[Estilo de
+# Combate (Arte Mágica)]] em quatro criaturas; saíram.
+#
+# O que vale: as notas de `Sistema/Regras/Bestiário/Habilidades`. Quando várias
+# criaturas precisam do mesmo efeito, a saída é CRIAR a habilidade lá e reusar —
+# foi assim que nasceram as onze de 2026-09-12 e a Formação Trônica de hoje.
+#
+# As Essências Elementais são a exceção declarada, e não por conveniência: a
+# nota de classe da Artilharia orça a conjuração dela EM ESSÊNCIAS
+# (`Essências Elementais: 2A/3A/2E,1A/2M,1E,1A`). Sem elas a Artilharia não tem
+# como conjurar nada. Só concedem magia, não mexem em nada mais.
 
-HABILIDADES_HEROI = VAULT / "Sistema/Criação de Personagem/Habilidades"
-_CACHE_HAB: dict[str, list[str]] = {}
+HAB_BESTIARIO = REGRAS / "Habilidades"
 
 
-def regras_da_habilidade(nome: str) -> list[str]:
-    if nome not in _CACHE_HAB:
-        achado = next((p for p in HABILIDADES_HEROI.rglob(f"{nome}.md")), None)
-        fm = fm_da_nota(achado) if achado else {}
-        _CACHE_HAB[nome] = [str(e) for e in (fm.get("Elementos_de_Regra") or []) if e]
-    return _CACHE_HAB[nome]
-
-
-def aplicar_habilidades(fm: dict, nomes: list[str], tier: int) -> None:
-    """Só o que a FICHA DE CRIATURA tem onde guardar. `Somar Papel.Lider 1` é do
-    motor de papéis do herói e criaria uma chave que não existe aqui; verbo de
-    escolha (`Escolha_Habilidades`) e `Complementar` ficam de fora porque pedem
-    decisão, e a decisão está escrita no spec."""
-    for nome in nomes:
-        for e in regras_da_habilidade(nome):
-            raiz = re.sub(r"^(?:Tier \d+ )?\w+ ([A-Za-z_]+).*", r"\1", e.strip())
-            if raiz not in fm:
-                continue
-            aplicar([e], fm, tier, fm["Atributos"]["INT"])
+def checa_habilidades(spec: dict) -> None:
+    for nome in spec.get("habilidades", []):
+        if (HAB_BESTIARIO / f"{nome}.md").exists():
+            continue
+        raise SystemExit(
+            f"{spec['nome']}: '{nome}' não é habilidade de bestiário. Habilidade de "
+            f"herói ou de companheiro não entra em criatura — crie a equivalente em "
+            f"{HAB_BESTIARIO.relative_to(VAULT)} e reuse."
+        )
 
 
 # ───────────────────── a criatura alcança a própria arma? ─────────────────────
@@ -567,14 +567,6 @@ def distribui_magias(criaturas: list[dict]) -> list[str]:
     _reparte_tronica(tronicas, catalogo, postas)
     for s in tronicas:
         s["magias"] = list(s["magias_slot"])
-        if s.get("arcanista"):
-            # `Princípios Arcanos` entrega Raio Arcano de graça — é assim que a
-            # única Magia Especial ao alcance do bestiário chega numa ficha.
-            s["magias"].insert(0, ("Raio Arcano", "Regra.[[Princípios Arcanos]]"))
-        # Magia que vem de habilidade nomeada no spec (a do Bardo escolhe UMA
-        # das três; qual é decisão de quem escreve a criatura, não do gerador).
-        for magia, origem in s.get("magias_extra", []):
-            s["magias"].insert(0, (magia, f"Regra.[[{origem}]]"))
 
     checa_tecnologia(criaturas, essencias, catalogo)
     postas |= {m for s in criaturas if s.get("magias") for m, _ in s["magias"]}
@@ -673,6 +665,7 @@ def monta(spec: dict) -> dict:
     """spec → frontmatter derivado. A regra roda UMA vez, depois que as armas
     já estão na lista (senão o Bonus_Item delas não é atingido pelo `*`)."""
     fm = esqueleto()
+    checa_habilidades(spec)
     tier, papel, mod = spec["tier"], spec["papel"], spec.get("mod")
     fm["Tier"] = tier
     fm["Atributos"] = {"Principal": spec["principal"], **spec["atributos"]}
@@ -738,7 +731,12 @@ def monta(spec: dict) -> dict:
     fm["Descrição"] = spec.get("descricao", "")
     # AFILIAÇÃO: a organização (ou, pra bicho e avulso, o lugar) a que a
     # criatura responde. É o que agrupa o bestiário fora do tier.
-    fm["Afiliação"] = spec.get("org", "")
+    # AFILIAÇÃO pode ser mais de uma (2026-09-13): "pode ter uma criatura afiliada
+    # a mais de uma organização, se ela for genérica suficientemente pra isso".
+    # O campo é texto com wikilinks, como o `Onde` do Combate — assim o editor da
+    # ficha e o subtítulo do card seguem funcionando, e quem agrupa lê TODOS.
+    org = spec.get("org", "")
+    fm["Afiliação"] = " · ".join(org) if isinstance(org, (list, tuple)) else org
     fm["Bairros"] = spec.get("bairros", [])
 
     hab = [{"[[Evolução Básica de Monstro]]": f"Regra.[[{papel}]]"}]
@@ -749,10 +747,6 @@ def monta(spec: dict) -> dict:
         hab.append({f"[[{essencia}]]": "Manual.Essência"})
     # A porta da Utilitrônica. Sem ela a criatura não pode conhecer essencial —
     # é o que separa o Tecnologista formado do operador de rua.
-    if spec.get("arcanista"):
-        hab.append({"[[Princípios Arcanos]]": "Manual.Habilidade"})
-    for _, origem in spec.get("magias_extra", []):
-        hab.append({f"[[{origem}]]": "Manual.Habilidade"})
     for h in spec.get("habilidades", []):
         hab.append({f"[[{h}]]": "Manual.Habilidade"})
     if mod:
@@ -781,9 +775,7 @@ def monta(spec: dict) -> dict:
         if spec["escola"] != "Lênica":
             slots = MAGIAS_POR_TIER[tier]
             fm["Magias"]["Slots"] = {s: slots.get(s, 0) for s in ("B", "A", "E", "M")}
-    # As habilidades entram DEPOIS: é aqui que o +1 slot Adepto de Princípios
-    # Arcanos e o +1 de EM do Estilo de Combate (Arte Mágica) caem na ficha.
-    aplicar_habilidades(fm, [h for h in spec.get("habilidades_regra", [])], tier)
+
 
     inv = spec.get("inventario", {})
     if inv.get("armadura"):

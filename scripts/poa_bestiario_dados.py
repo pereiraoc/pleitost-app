@@ -71,7 +71,7 @@ def INV(armadura=None, escudo=None, tesouros=(), consumiveis=(), ouro=0, tier=0)
 
 def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
       mod=None, org="", bairros=(), habilidades=(), tipagem="O−", escola=None,
-      arcanista=False, magias_extra=(), elemento=None, raca=None, tamanho="Médio",
+      arcanista=False, elemento=None, raca=None, tamanho="Médio",
       descricao="", aliases=()):
     spec = {
         "nome": nome, "tier": tier, "papel": papel, "mod": mod, "principal": principal,
@@ -86,14 +86,10 @@ def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
     if escola:
         spec["escola"] = escola
         spec["elemento"] = elemento
+        # `arcanista` abre o pool da Utilitrônica; quem o declara carrega a
+        # habilidade de bestiário [[Formação Trônica]], que é o que a ficha
+        # mostra. Nada de habilidade de herói em criatura.
         spec["arcanista"] = arcanista
-        # (magia, habilidade que a concede) — Magia Especial não se escolhe em
-        # slot, vem de habilidade de herói, e qual delas é decisão da criatura.
-        spec["magias_extra"] = list(magias_extra)
-    # As de HERÓI têm Elementos_de_Regra e são aplicadas de verdade na ficha; as
-    # 19 de bestiário são prosa e não mexem em número nenhum.
-    spec["habilidades_regra"] = (["Princípios Arcanos"] if arcanista else []) + [
-        origem for _, origem in magias_extra]
     # Encantador e Supressor não operam por sangue: operam por IMPLANTE — a
     # tipagem deles é a linha trônica que rodam, não o Fator do RG.
     if papel == "Encantador":
@@ -145,7 +141,7 @@ CRIATURAS = [
       [("Atletismo", "A"), ("Acrobacia", "A"), ("Sobrevivência", "A"), ("Guerra", "A"), ("Malandragem", "A")],
       [A("Porrete"), A("Machadinha")],
       INV(armadura="Armadura Leve", consumiveis=["Poção da Velocidade"], ouro=1, tier=1),
-      org=B, bairros=["[[Cidade Baixa]]", "[[Praia de Belas]]", "[[Lago Guaíba]]"],
+      org=[B, "[[Gurgel]]"], bairros=["[[Cidade Baixa]]", "[[Praia de Belas]]", "[[Lago Guaíba]]"],
       habilidades=["Oportunista", "Pelo Telhado"], tipagem="B−",
       descricao="Chega pela água na tocaia da Cidade Baixa. Dirige, atropela e recua."),
     C("Sargento de Pelotão", 2, "Líder", "PRE", 2, 0, 1, 3,
@@ -177,7 +173,7 @@ CRIATURAS = [
       [A("Bacamarte Arcanônico"), A("Espada Curta", "Arma Obra-prima", 3)],
       INV(armadura="Armadura Pesada", escudo="Escudo",
           consumiveis=["Poção de Cura", "Poção de Cura"], ouro=20, tier=3),
-      mod="Elite", org="[[Governo Militar Brasileiro]]", bairros=["[[Costa e Silva]]", "[[Zona Deserta]]"],
+      mod="Elite", org="[[Governo Militar Brasileiro]]", bairros=["[[Costa e Silva]]", "[[Zona Deserta]]", "[[Canoas]]"],
       habilidades=["Restringir Movimento", "Parede de Escudo"], tipagem="O−",
       descricao="Tropa de quartel, com pólvora legal. Não negocia e não corre."),
     C("Oficial de Operações", 3, "Líder", "PRE", 1, 0, 2, 3,
@@ -186,7 +182,7 @@ CRIATURAS = [
       [A("Pistola Arcanônica"), A("Espada Curta", "Arma Obra-prima", 3)],
       INV(armadura=("Armadura Pesada", "Armadura Obra-prima"), tesouros=["Anel Mensageiro"],
           consumiveis=["Poção de Cura", "Poção de Cura"], ouro=40, tier=3),
-      mod="Solo", org="[[Governo Militar Brasileiro]]", bairros=["[[Costa e Silva]]", "[[Centro Histórico]]"],
+      mod="Solo", org="[[Governo Militar Brasileiro]]", bairros=["[[Costa e Silva]]", "[[Centro Histórico]]", "[[Canoas]]"],
       habilidades=["Ordem de Ataque", "Fechar Formação", "Não Recuem"], tipagem="A−",
       descricao="Coordena toque de recolher e apoio aéreo: a cena inteira é ele."),
     C("Coronel Luciana Prado", 3, "Líder", "PRE", 1, 0, 2, 3,
@@ -206,7 +202,7 @@ CRIATURAS += [
     C("Segurança de Crachá", 1, "Soldado", "FOR", 3, 1, 2, 0,
       [("Atletismo", "A"), ("Trônicos", "A"), ("Sociedades", "A"), ("Guerra", "A"), ("Diplomacia", "A"), ("Intimidação", "A")],
       [A("Porrete")], INV(armadura="Armadura Leve", ouro=2, tier=1),
-      org="[[Gradiente]]", bairros=["[[Moinhos de Vento]]", "[[Ipanema]]", "[[Centro Histórico]]"],
+      org=["[[Gradiente]]", "[[Banrisul]]"], bairros=["[[Moinhos de Vento]]", "[[Ipanema]]", "[[Centro Histórico]]"],
       tipagem="A−", descricao="Porteiro armado de prédio corporativo. Barra quem não tem crachá e chama a Brigada."),
     C("Drone de Vigilância", 1, "Batedor", "AGI", 0, 3, 2, 1,
       [("Furtividade", "A"), ("Acrobacia", "A"), ("Trônicos", "A"), ("Atletismo", "A"), ("Sociedades", "A"), ("Guerra", "A")],
@@ -218,7 +214,7 @@ CRIATURAS += [
       [("Trônicos", "E"), ("Sociedades", "E"), ("Enganação", "A"), ("Malandragem", "A"),
        ("Medicina", "A"), ("Diplomacia", "A"), ("Acrobacia", "A")],
       [A("Adaga")], INV(tesouros=["Luva do Arcanista", "Broche Artístico"], consumiveis=["Poção da Coragem"] * 2, ouro=12, tier=2),
-      mod="Competente", org="[[Gradiente]]", bairros=["[[Moinhos de Vento]]", "[[Centro Histórico]]"],
+      mod="Competente", org=["[[Gradiente]]", "[[Partido Comunista Chinês]]"], bairros=["[[Moinhos de Vento]]", "[[Centro Histórico]]"],
       habilidades=["Dose no Braço"], tipagem="AB−", escola="Positrônica",
       descricao="Roda rotina nos próprios colegas: o capanga ao lado dele fica melhor do que devia."),
     C("Escolta de Diretoria", 2, "Assassino", "AGI", 2, 3, 1, 0,
@@ -226,7 +222,7 @@ CRIATURAS += [
       [A("Pistola Arcanônica"), A("Punhal", "Arma Obra-prima", 2)],
       INV(armadura="Armadura Leve", tesouros=["Anel Canário"],
           consumiveis=["Poção de Cura"] * 2, ouro=15, tier=2),
-      mod="Competente", org="[[Gradiente]]", bairros=["[[Ipanema]]", "[[Moinhos de Vento]]"],
+      mod="Competente", org=["[[Gradiente]]", "[[Governo Americano]]"], bairros=["[[Ipanema]]", "[[Moinhos de Vento]]"],
       habilidades=["Alvo de Assassinato"], tipagem="O−",
       descricao="Terno, contrato estatal e porte legal. Escolhe UM da mesa e vai só nele."),
     C("Auditor de Campo", 3, "Supressor", "INT", 0, 1, 3, 2,
@@ -250,7 +246,7 @@ CRIATURAS += [
       [("Atletismo", "A"), ("Sociedades", "A"), ("Guerra", "A"), ("Sobrevivência", "A"), ("Intimidação", "A")],
       [A("Espada Curta", "Arma Obra-prima", 1)],
       INV(armadura="Armadura Leve", ouro=2, tier=1),
-      mod="Competente", org="[[Tramontina]]", bairros=["[[Petrópolis]]", "[[Nova Sarandi]]"],
+      mod="Competente", org=["[[Tramontina]]", "[[Renner]]"], bairros=["[[Petrópolis]]", "[[Nova Sarandi]]"],
       tipagem="O−", descricao="A firma que fabrica a lâmina também a carrega. Uniforme limpo, faca com número de série."),
     C("Protótipo de Exoesqueleto", 2, "Bruto", "FOR", 3, 1, 0, 2,
       [("Atletismo", "E"), ("Intimidação", "E"), ("Guerra", "A"), ("Acrobacia", "A")],
@@ -270,7 +266,7 @@ CRIATURAS += [
       [("Trônicos", "A"), ("Medicina", "A"), ("Sociedades", "A"), ("Enganação", "A"),
        ("Malandragem", "A"), ("Diplomacia", "A"), ("Furtividade", "A")],
       [A("Porrete")], INV(tesouros=["Luvas Purificadas"], consumiveis=["Poção da Nutrição"] * 2, ouro=3, tier=1),
-      org="[[Panvel]]", bairros=["[[Jardim Itu]]", "[[Bom Fim]]", "[[Restinga]]"],
+      org=["[[Panvel]]", "[[Prefeitura de Porto Alegre]]"], bairros=["[[Jardim Itu]]", "[[Bom Fim]]", "[[Restinga]]"],
       habilidades=["Queimar a Rota"], tipagem="B−", escola="Negatrônica",
       descricao="Fecha bancada clandestina. Não bate: derruba o químico e leva a dose."),
     C("Químico de Campo", 2, "Artilharia", "PRE", 0, 1, 2, 3,
@@ -286,7 +282,7 @@ CRIATURAS += [
       [A("Maça", "Arma Obra-prima", 2), A("Espada Curva", "Imbuição da Ventania", 2)],
       INV(armadura="Armadura Leve", tesouros=["Cinto dos Ermos"],
           consumiveis=["Poção da Velocidade"], ouro=8, tier=2),
-      mod="Competente", org="[[Zaffari]]", bairros=["[[Praia de Belas]]", "[[Nova Sarandi]]", "[[Lago Guaíba]]"],
+      mod="Competente", org=["[[Zaffari]]", "[[Fruki]]", "[[Polar]]", "[[Charrua]]"], bairros=["[[Praia de Belas]]", "[[Nova Sarandi]]", "[[Lago Guaíba]]", "[[Canoas]]"],
       habilidades=["Oportunista", "Pelo Telhado"], tipagem="O−",
       descricao="Protege carga em movimento. A luta dele é sempre em cima de algo que anda."),
 ]
@@ -295,7 +291,7 @@ CRIATURAS += [
     # ─────────────────────────── Facções ───────────────────────────
     C("Cobrador de Ponto", 0, "Soldado", "FOR", 3, 1, 0, 2,
       [("Atletismo", "A"), ("Malandragem", "A"), ("Intimidação", "A")],
-      [A("Manopla")], INV(tier=0), org="[[Aliança dos Fundadores]]", bairros=["[[Centro Histórico]]"],
+      [A("Manopla")], INV(tier=0), org=["[[Aliança dos Fundadores]]", "[[Sicredi]]"], bairros=["[[Centro Histórico]]"],
       tipagem="A−", descricao="Passa na banca toda sexta. Educado até a terceira semana sem pagamento."),
     C("Velho da Família", 2, "Líder", "PRE", 1, 0, 2, 3,
       [("Sociedades", "E"), ("Diplomacia", "E"), ("Enganação", "A"), ("Intimidação", "A"),
@@ -371,7 +367,7 @@ CRIATURAS += [
     C("Leão de Chácara", 1, "Bruto", "FOR", 3, 2, 0, 1,
       [("Intimidação", "A"), ("Atletismo", "A"), ("Sociedades", "A"), ("Acrobacia", "A")],
       [A("Manopla")], INV(tesouros=["Anel da Resistência"], armadura="Armadura Leve", consumiveis=["Poção da Coragem"], ouro=1, tier=1),
-      mod="Competente", org="[[Ordem dos Subsolos]]", bairros=["[[Quarto Distrito]]", "[[Bom Fim]]"],
+      mod="Competente", org=["[[Ordem dos Subsolos]]", "[[Grêmio Foot-Ball Porto Alegrense]]", "[[Sport Club Internacional]]"], bairros=["[[Quarto Distrito]]", "[[Bom Fim]]"],
       habilidades=["Bruto Aterrorizador", "Parede de Escudo"], tipagem="O−",
       descricao="Segura a porta do Teatro Quarto Distrito. O corredor é estreito de propósito."),
     C("Agulha da Ordem", 2, "Assassino", "AGI", 2, 3, 1, 0,
@@ -385,7 +381,7 @@ CRIATURAS += [
       [("Atletismo", "A"), ("Acrobacia", "A"), ("Malandragem", "A"), ("Sociedades", "A"), ("Sobrevivência", "A"), ("Intimidação", "A")],
       [A("Maça Estrela"), A("Alabarda")],
       INV(armadura="Armadura Leve", ouro=1, tier=1),
-      org="[[Consórcio das Bandeiras]]", bairros=["[[Praia de Belas]]", "[[Lago Guaíba]]"],
+      org=["[[Consórcio das Bandeiras]]", "[[Mercosul]]"], bairros=["[[Praia de Belas]]", "[[Lago Guaíba]]", "[[Canoas]]"],
       tipagem="O−", descricao="Briga de gancho e corrente no cais. Conhece cada contêiner do Porto Novo."),
     C("Chefe de Armazém", 2, "Líder", "PRE", 2, 0, 1, 3,
       [("Sociedades", "E"), ("Intimidação", "E"), ("Malandragem", "A"), ("Guerra", "A"), ("Diplomacia", "A")],
@@ -412,7 +408,7 @@ CRIATURAS += [
        ("Enganação", "A"), ("Diplomacia", "A"), ("Acrobacia", "A")],
       [A("Adaga", "Imbuição Incendiária", 1)],
       INV(tesouros=["Luva do Arcanista", "Ferramenta Obra-prima"], consumiveis=["Poção da Coragem"], ouro=3, tier=1),
-      mod="Competente", org="[[Círculo das Ligas]]", bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
+      mod="Competente", org=["[[Círculo das Ligas]]", "[[Partido Comunista Soviético]]"], bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
       habilidades=["Dose no Braço"], tipagem="AB−", escola="Positrônica",
       descricao="Liga módulo no capanga no meio da luta. Sem garantia: às vezes o capanga é que apaga."),
     C("Capanga de Oficina", 1, "Bruto", "FOR", 3, 2, 0, 1,
@@ -501,7 +497,7 @@ CRIATURAS += [
       [A("Pistola Arcanônica"), A("Espada Curta", "Arma Obra-prima", 2)],
       INV(armadura="Armadura Leve", tesouros=["Anel Mensageiro"],
           consumiveis=["Poção de Cura"], ouro=18, tier=2),
-      mod="Competente", org="[[Clube dos Sete Portos]]", bairros=["[[Ipanema]]"],
+      mod="Competente", org=["[[Clube dos Sete Portos]]", "[[Federação Gaúcha de Futebol]]"], bairros=["[[Ipanema]]"],
       habilidades=["Ordem de Ataque", "Fechar Formação"], tipagem="O−",
       descricao="Coordena as escoltas pelo rádio — e some quando a coisa aperta."),
     C("Saqueador de Vagão", 1, "Batedor", "AGI", 2, 3, 1, 0,
@@ -518,17 +514,17 @@ CRIATURAS += [
     C("Representante da Camisa 12", 0, "Bruto", "FOR", 3, 2, 0, 1,
       [("Atletismo", "A"), ("Intimidação", "A"), ("Sociedades", "A")],
       [A("Bordão"), A("Manopla")], INV(tier=0),
-      org="[[Camisa 12]]", bairros=["[[Praia de Belas]]", "[[Jardim Botânico]]"], tipagem="O−",
+      org=["[[Camisa 12]]", "[[Geral do Grêmio]]"], bairros=["[[Praia de Belas]]", "[[Jardim Botânico]]"], tipagem="O−",
       descricao="Vem em bando. Sozinho não é nada — e é por isso que nunca vem sozinho."),
     C("Cabeça de Torcida", 1, "Líder", "PRE", 2, 0, 1, 3,
       [("Intimidação", "A"), ("Sociedades", "A"), ("Atletismo", "A"), ("Malandragem", "A"), ("Diplomacia", "A")],
       [A("Maça Estrela")], INV(armadura="Armadura Leve", tesouros=["Diadema da Ameaça"], ouro=4, tier=1),
-      org="[[Camisa 12]]", bairros=["[[Praia de Belas]]", "[[Jardim Botânico]]"],
+      org=["[[Camisa 12]]", "[[Geral do Grêmio]]"], bairros=["[[Praia de Belas]]", "[[Jardim Botânico]]"],
       habilidades=["Apito", "Não Recuem"], tipagem="O−",
       descricao="Transforma o bando em problema: quem ele aponta, trinta perseguem."),
     C("Piquete", 0, "Bruto", "FOR", 3, 1, 0, 2,
       [("Atletismo", "A"), ("Sociedades", "A"), ("Intimidação", "A")],
-      [A("Azagaia"), A("Pique")], INV(tier=0), org="[[Sindicato dos Metalúrgicos]]",
+      [A("Azagaia"), A("Pique")], INV(tier=0), org=["[[Sindicato dos Metalúrgicos]]", "[[Marcopolo]]", "[[Mercur]]"],
       bairros=["[[Petrópolis]]", "[[Nova Sarandi]]"], habilidades=["Parede de Escudo"], tipagem="A−",
       descricao="Barra a Rua das Indústrias na greve. Não quer machucar — mas ninguém passa."),
     C("Sabotador", 1, "Supressor", "INT", 0, 2, 3, 1,
@@ -627,7 +623,7 @@ CRIATURAS += [
       [("Guerra", "M"), ("Lênicos", "M"), ("Furtividade", "E"), ("Trônicos", "E"),
        ("Atletismo", "A")],
       [A("Besta", "Imbuição Enraizante", 3)], INV(tesouros=["Bracelete Elemental", "Foco da Penetração"], tier=3),
-      mod="Elite", org="[[Embratel]]", bairros=["[[Costa e Silva]]", "[[Moinhos de Vento]]"],
+      mod="Elite", org="[[Embratel]]", bairros=["[[Costa e Silva]]", "[[Moinhos de Vento]]", "[[Canoas]]"],
       habilidades=["Tiro de Cobertura"], tipagem="B+", escola="Lênica", elemento="Vento",
       raca=INCOMUM, tamanho="Grande",
       descricao="A torre de escuta que também atira. Cobre o bairro inteiro e nunca está onde o grupo está."),
@@ -754,7 +750,7 @@ CRIATURAS += [
       [A("Adaga")],
       INV(tesouros=["Luvas do Ladrão"], consumiveis=["Poção da Coragem"], ouro=3, tier=1),
       org="[[Círculo das Ligas]]", bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
-      habilidades=["Dose no Braço"], escola="Positrônica", arcanista=True,
+      habilidades=["Formação Trônica", "Dose no Braço"], escola="Positrônica", arcanista=True,
       descricao="Abre o que for: porta, cofre, prontuário. Não briga — some com o que interessa enquanto tu briga."),
 
     C("Escuta da Embratel", 2, "Supressor", "INT", 0, 1, 3, 2,
@@ -765,7 +761,7 @@ CRIATURAS += [
           consumiveis=["Poção da Velocidade", "Poção da Velocidade"], ouro=15, tier=2),
       mod="Competente", org="[[Embratel]]",
       bairros=["[[Moinhos de Vento]]", "[[Centro Histórico]]"],
-      habilidades=["Queimar a Rota"], escola="Negatrônica", arcanista=True,
+      habilidades=["Formação Trônica", "Queimar a Rota"], escola="Negatrônica", arcanista=True,
       descricao="Escuta a cidade inteira e sabe onde o grupo esteve antes de o grupo chegar."),
 
     C("Arquivista da Delegacia", 3, "Encantador", "INT", 0, 1, 3, 2,
@@ -775,7 +771,7 @@ CRIATURAS += [
       INV(tesouros=["Luva do Arcanista", "Colar da Eloquência"],
           consumiveis=["Poção de Cura", "Poção de Cura"], ouro=40, tier=3),
       mod="Elite", org=B, bairros=["[[Centro Histórico]]"],
-      habilidades=["Dose no Braço"], escola="Positrônica", arcanista=True,
+      habilidades=["Formação Trônica", "Dose no Braço"], escola="Positrônica", arcanista=True,
       descricao="Não prende ninguém: identifica. Depois do fichamento, a cidade inteira conhece a cara do grupo."),
 
     # ── Cobertura das tecnologias, pelo modelo certo (essência × rank) ──
@@ -850,9 +846,6 @@ CRIATURAS += [
       mod="Competente", org="[[Ordem dos Músicos do Brasil]]",
       bairros=["[[Bom Fim]]", "[[Quarto Distrito]]", "[[Centro Histórico]]"],
       habilidades=["Dose no Braço"], escola="Positrônica",
-      # A do Bardo escolhe UMA das três Magias Especiais. Um fiscal que cobra
-      # carteira de músico com a voz amplificada leva a que faz barulho.
-      magias_extra=[("Ruído Estridente", "Estilo de Combate (Arte Mágica)")],
       descricao="Pede a carteira no meio do show. Quem não tem para de tocar — e, se insistir, para de ouvir."),
 ]
 
@@ -891,7 +884,7 @@ ENCONTROS = [
       "O Encantador liga módulo nos capangas: a luta piora sozinha.",
       [(5, "Capanga de Oficina", "lento"), (2, "Instalador Pirata", "rápido")],
       "FÁCIL"),
-    E("Batida Grande", 2, "Genérico — qualquer bairro, quando a Brigada decide fechar o quarteirão.",
+    E("Batida Grande", 2, "Genérico — qualquer bairro de [[Porto Alegre]], quando a Brigada fecha o quarteirão.",
       "A patrulha vira operação: o sargento faz os quatro valerem por oito.",
       [(2, "Sargento de Pelotão", "rápido"), (8, "Brigadiano de Esquina", "lento"), (3, "Guarda", "lento"), (2, "Cão de Brigada", "rápido")],
       "DIFICIL"),
@@ -1130,5 +1123,17 @@ ENCONTROS = [
       "Param o show pra pedir registro. A casa toda escolhe um lado, e a briga começa pela porta.",
       [(3, "Fiscal da Ordem dos Músicos", "lento"), (4, "Leão de Chácara", "lento"),
        (4, "Boêmio Armado", "rápido")],
+      "DIFICIL"),
+    # Canoas é a outra cidade do Atlas, e os dois pontos dela não tinham nem
+    # criatura nem combate — o único buraco de lugar que sobrava.
+    E("Portão da Base Aérea", 3, "[[Base Aérea de Canoas]] · [[Canoas]]",
+      "Fora de Porto Alegre a Brigada não vale nada, e quem manda aqui não negocia com civil.",
+      [(2, "Pelotão de Guarnição", "lento"), (1, "Oficial de Operações", "super rápido"),
+       (1, "Bateria da Torre", "lento")],
+      "LETAL"),
+    E("Carga Parada no Porto Seco", 2, "[[Porto Seco de Canoas]] · [[Canoas]]",
+      "A carga está retida na alfândega e alguém pagou pra ela sumir antes da vistoria.",
+      [(3, "Escolta de Comboio", "rápido"), (4, "Estivador de Confiança", "lento"),
+       (1, "Chefe de Armazém", "lento")],
       "DIFICIL"),
 ]

@@ -22,20 +22,34 @@ export const ptAlpha = new Intl.Collator('pt')
 
 /** ALVO do wikilink (não o alias): `[[Soldado|Soldado Competente]]` → "Soldado",
  *  pra o Competente e o comum caírem no mesmo balde de classe. */
-function alvoDoWikilink(v: unknown): string {
-  const texto = typeof v === 'string' ? v : ''
-  const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(texto)
-  return (m ? m[1]! : texto).trim()
+
+/** Chaves de agrupamento no vocabulário do mundo; [] = sem valor declarado.
+ *
+ *  AFILIAÇÃO É PLURAL (2026-09-13, pedido do mestre): "pode ter uma criatura
+ *  afiliada a mais de uma organização, se ela for genérica suficientemente pra
+ *  isso". O Estivador de Confiança responde ao Consórcio das Bandeiras e ao
+ *  Mercosul; o Leão de Chácara segura porta do Quarto Distrito, do Grêmio e do
+ *  Inter. Nesses casos a criatura aparece em CADA grupo — ler só o primeiro
+ *  wikilink escondia a organização do mestre que procura pela facção. */
+export function chavesDoCriterio(
+  doc: VaultDoc | undefined,
+  criterio: CriterioBestiario,
+): string[] {
+  const fm = doc?.frontmatter ?? {}
+  const campo = criterio === 'afiliacao' ? fm['Afiliação'] : fm['Classe']
+  const texto = typeof campo === 'string' ? campo : ''
+  const achados = [...texto.matchAll(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g)].map((m) => m[1]!.trim())
+  const nomes = achados.length ? achados : [texto.trim()].filter(Boolean)
+  return [...new Set(nomes.map((n) => reskinName(n)))]
 }
 
-/** Chave de agrupamento no vocabulário do mundo; '' = sem valor declarado. */
+/** A PRIMEIRA chave — a afiliação principal, pra quando cabe só uma (subtítulo,
+ *  ordenação). Agrupar usa `chavesDoCriterio`, que devolve todas. */
 export function chaveDoCriterio(
   doc: VaultDoc | undefined,
   criterio: CriterioBestiario,
 ): string {
-  const fm = doc?.frontmatter ?? {}
-  const bruto = alvoDoWikilink(criterio === 'afiliacao' ? fm['Afiliação'] : fm['Classe'])
-  return bruto ? reskinName(bruto) : ''
+  return chavesDoCriterio(doc, criterio)[0] ?? ''
 }
 
 /** Tier do monstro — FM `Tier`, a MESMA fonte do badge "TIER n" do card;
@@ -118,8 +132,10 @@ export function gruposPorChave(
 ): { letter: string; color?: string; entries: IndexDocEntry[] }[] {
   const porChave = new Map<string, IndexDocEntry[]>()
   for (const entry of entries) {
-    const chave = chaveDoCriterio(docs.get(entry.id), criterio)
-    porChave.set(chave, [...(porChave.get(chave) ?? []), entry])
+    const chaves = chavesDoCriterio(docs.get(entry.id), criterio)
+    for (const chave of chaves.length ? chaves : ['']) {
+      porChave.set(chave, [...(porChave.get(chave) ?? []), entry])
+    }
   }
   return [...porChave.keys()]
     .sort((a, b) => (a === '' ? 1 : b === '' ? -1 : ptAlpha.compare(a, b)))

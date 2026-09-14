@@ -205,15 +205,19 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
   // AS ESCOLAS NÃO SE MISTURAM (regra que o mestre apontou em 2026-09-13, e que
   // está escrita nas classes de herói): branca só branca, negra só negra — o
   // Mago é a exceção e não existe Mago no bestiário —, quem roda Anima não roda
-  // Arcana, e ESSENCIAL exige ser Arcanista. A porta é a habilidade
-  // [[Princípios Arcanos]], que diz que essenciais contam como magias da escola.
+  // Arcana, e ESSENCIAL exige formação. A porta é [[Formação Trônica]], a
+  // habilidade de BESTIÁRIO que diz que essenciais contam como magias da escola
+  // (habilidade de herói não entra em criatura).
   it('cada conjuradora só conhece tecnologia da própria escola', () => {
     const escola = escolaDaMagia()
     const erros: string[] = []
     for (const { nome, fm } of criaturas) {
       const habilidades = ((fm['Habilidades']?.['Lista'] ?? []) as Fm[])
         .map((d) => alvo(Object.keys(d)[0] ?? ''))
-      const arcanista = habilidades.includes('Princípios Arcanos')
+      // A porta da Utilitrônica é a habilidade de BESTIÁRIO [[Formação Trônica]].
+      // Era [[Princípios Arcanos]] até 2026-09-13, quando o mestre cortou
+      // habilidade de herói em criatura: "pode dar problema".
+      const arcanista = habilidades.includes('Formação Trônica')
       for (const linha of ((fm['Magias']?.['Lista'] ?? []) as Fm[])) {
         if (linha['Nome'] === 'Tesouros') continue   // item concede a quem quer que carregue
         const minha = { 'Arcana Branca': 'Positrônica', 'Arcana Negra': 'Negatrônica', Anima: 'Lênica' }[

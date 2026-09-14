@@ -64,7 +64,12 @@ const REGERAR = new Set(existsSync(REGERAR_PATH) ? JSON.parse(readFileSync(REGER
 // hoje não bate com o gravado, a peça entra em pendente sozinha.
 const PROMPTS_PATH = join(GERACAO, 'prompts.json')
 const PROMPTS = existsSync(PROMPTS_PATH) ? JSON.parse(readFileSync(PROMPTS_PATH, 'utf8')) : {}
-const selo = (prompt) => createHash('sha1').update(prompt).digest('hex').slice(0, 12)
+// O selo cobre o que a imagem TEM QUE MOSTRAR — arma na mão, prótese no lugar,
+// proteção no corpo, a quem responde. O `Fundo:` fica de fora de propósito: ele
+// lista alternativas ("Fundo: X ou Y"), o artista escolhe uma, e a criatura
+// ganhar mais um bairro onde aparece não torna errada a tela que já existe.
+const semFundo = (prompt) => String(prompt).replace(/ Fundo: [^.]*\./, '')
+const selo = (prompt) => createHash('sha1').update(semFundo(prompt)).digest('hex').slice(0, 12)
 const gravaSelos = () => {
   mkdirSync(GERACAO, { recursive: true })
   writeFileSync(PROMPTS_PATH, JSON.stringify(Object.fromEntries(Object.entries(PROMPTS).sort()), null, 1))
