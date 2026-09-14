@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Hotel Rua da Praia",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Hotel Rua da Praia.md",
+  "basename": "Hotel Rua da Praia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Dona Cléa Marchesan",
+    "Descrição": null,
+    "Serviços": [
+      "[[Diária no Hotel Rua da Praia]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hotel Rua da Praia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Hotel Rua da Praia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hotel Rua da Praia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hotel Rua da Praia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Diária com café e gerador; portaria anota quem entra e a Brigada confere o livro na terça.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fachada art déco com a marca da cheia, saguão alagado onde os barcos encostam, elevador que funciona no gerador e um porteiro de quepe.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Diária com café e gerador; portaria anota quem entra e a Brigada confere o livro na terça.",
+    "aparencia": "Fachada art déco com a marca da cheia, saguão alagado onde os barcos encostam, elevador que funciona no gerador e um porteiro de quepe.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

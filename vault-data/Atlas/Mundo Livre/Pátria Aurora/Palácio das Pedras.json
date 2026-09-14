@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Palácio das Pedras",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Palácio das Pedras.md",
+  "basename": "Palácio das Pedras",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Palácio das Pedras.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Palácio das Pedras.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Palácio das Pedras.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Mosteiro-fortaleza da Terra da [[Pátria Aurora]], cidadela de cantaria pesada no coração do maciço montanhoso central da ilha, alcançada por longas escadarias que sobem a serra desde os caminhos de [[Firmamentum]]. Um dos mosteiros elementais irmãos da nação, é a escola dos monges-canteiros: um canteiro de obras perpétuo onde se esculpe, se empilha e se ergue pedra — o palácio constrói a si mesmo e ensina a construir. É a sede do Mestre da Terra.\n> \n> 👁️**Aparência do Local:** Cidadela de cantaria megalítica cinza-ocre esculpida no topo de um penhasco maciço, acima da bruma: muralhas grossas de blocos aparentes, terraços escalonados ameados e escadarias largas, coroados por pavilhões de telhados em camadas com detalhes dourados. Por toda parte, os sinais do ofício — guindastes de madeira, pilhas de blocos, andaimes, bancadas de escultura — e a arte pronta: estátuas-guardiãs no portão, nichos com vultos de pedra, medalhões circulares lavrados no piso. Estandartes ocre-dourados de emblemas geométricos pendem das muralhas, e monges de hábito ocre trabalham a rocha em cada terraço. Ao fundo, agulhas de pedra, vales afundados em bruma e o oceano liso até o horizonte.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Mosteiro-fortaleza da Terra da [[Pátria Aurora]], cidadela de cantaria pesada no coração do maciço montanhoso central da ilha, alcançada por longas escadarias que sobem a serra desde os caminhos de [[Firmamentum]]. Um dos mosteiros elementais irmãos da nação, é a escola dos monges-canteiros: um canteiro de obras perpétuo onde se esculpe, se empilha e se ergue pedra — o palácio constrói a si mesmo e ensina a construir. É a sede do Mestre da Terra.",
+    "aparencia": "Cidadela de cantaria megalítica cinza-ocre esculpida no topo de um penhasco maciço, acima da bruma: muralhas grossas de blocos aparentes, terraços escalonados ameados e escadarias largas, coroados por pavilhões de telhados em camadas com detalhes dourados. Por toda parte, os sinais do ofício — guindastes de madeira, pilhas de blocos, andaimes, bancadas de escultura — e a arte pronta: estátuas-guardiãs no portão, nichos com vultos de pedra, medalhões circulares lavrados no piso. Estandartes ocre-dourados de emblemas geométricos pendem das muralhas, e monges de hábito ocre trabalham a rocha em cada terraço. Ao fundo, agulhas de pedra, vales afundados em bruma e o oceano liso até o horizonte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

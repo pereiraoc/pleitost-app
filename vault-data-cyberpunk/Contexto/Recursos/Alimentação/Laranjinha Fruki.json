@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Laranjinha Fruki",
+  "path": "Contexto/Recursos/Alimentação/Laranjinha Fruki.md",
+  "basename": "Laranjinha Fruki",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "[[Fruki]]",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Bom Fim]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "O refrigerante de laranja da Fruki na garrafinha de 290 ml — o irmão menos famoso do guaraná, mais barato no interior.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Laranjinha Fruki.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Laranjinha Fruki.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Laranjinha Fruki.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA laranjinha da [[Fruki]] divide o isopor com o guaraná e perde a briga todo dia — menos no verão, quando a\ngarrafinha gelada de 290 ml sai mais que tudo. Sabor de laranja de xarope, doce demais, e o gaúcho jura que é\nmelhor que a Fanta.\n\n> [!info] Especificação\n> **Garrafa:** 290 ml ('caçulinha'); 1 l retornável Cz$ 110\n> **Fábrica:** [[Fruki]], Lajeado\n> **Preço:** Cz$ 60; Cz$ 40 na boca de bairro\n> **Sabores da linha:** [[Guaraná Fruki]], laranja, limão\n"
+}

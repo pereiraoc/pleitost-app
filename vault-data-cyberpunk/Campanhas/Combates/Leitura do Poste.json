@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Leitura do Poste",
+  "path": "Campanhas/Combates/Leitura do Poste.md",
+  "basename": "Leitura do Poste",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Zona Deserta]] · [[Restinga]]",
+    "Situação": "Um anota o relógio, outro desvia o fio. Os dois não querem testemunha na viela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Leiturista de Poste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gateiro de Poste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Leiturista de Poste]] rápido\n- 3 [[Gateiro de Poste]] lento\n- 1 [[Catador Armado]] rápido\n```\n"
+}

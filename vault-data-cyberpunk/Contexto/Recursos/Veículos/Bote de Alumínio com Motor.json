@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Veículos/Bote de Alumínio com Motor",
+  "path": "Contexto/Recursos/Veículos/Bote de Alumínio com Motor.md",
+  "basename": "Bote de Alumínio com Motor",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Estaleiros do cais",
+    "Preço": 180000,
+    "Cobrança": "única",
+    "Usado": 60000,
+    "Manutenção": 2000,
+    "Nível": 3,
+    "Onde": [
+      "[[Praia de Belas]]",
+      "[[Cidade Baixa]]"
+    ],
+    "Resumo": "Bote de alumínio de cinco metros com motor de popa 15 HP: o carro de quem mora na água.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bote de Alumínio com Motor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estaleiro do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trapiche da Aliança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bote de Alumínio com Motor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Bote de Alumínio com Motor.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO bote de alumínio com motor de popa é o Carajás das palafitas: cinco metros, quatro pessoas, motor Yamaha de\n15 HP contrabandeado pelo [[Porto Novo]]. Com ele se mora na [[Cidade Baixa]] sem depender de barqueiro, se pesca\nna [[Cidade Baixa]] e se some pelo Guaíba quando a patrulha aparece.\n\n> [!info] Especificação\n> **Modelo:** bote de alumínio 5 m, 4 lugares, motor de popa 15 HP\n> **Motor:** Yamaha 15 HP 2 tempos (contrabando); 3 km/l\n> **Velocidade:** 30 km/h em água parada\n> **Novo:** [[Estaleiro do Cais]]\n> **Usado:** [[Trapiche da Aliança]], [[Estaleiro do Cais]]\n> **Manutenção:** Cz$ 2.000 por mês: gasolina em dólar, hélice, casco\n"
+}

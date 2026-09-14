@@ -1,0 +1,178 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Sensor Arcano",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Sensor Arcano.md",
+  "basename": "Sensor Arcano",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus de [[Arcana]]. Conjurar [[Detectar Magia]].",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Arcana. Pode conjurar Detectar Magia uma vez a cada 10 minutos. Amplia alcance de conjuradores natos para 10q.",
+      "experiente": "+2 de bônus de item em Arcana. A cada 10 minutos, pode ativar para permitir conjurar Detectar Magia por 1 minuto. Amplia alcance de conjuradores natos para 10q e permite deduzir local.",
+      "mestre": "+3 de bônus de item em Arcana. Pode conjurar Detectar Magia. Amplia alcance de conjuradores natos para 10q, permite deduzir local e efeito persiste por 1 minuto."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Arcana.Bonus_Item 3",
+      "Complementar Magias.Lista.Tesouros.Lista [[Detectar Magia]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Sensor Arcano",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Arcana.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Sensor Arcano",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Arcana.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Arcana.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Sensor Arcano",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Arcana.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Detectar Magia]]",
+      "parsed": [
+        {
+          "sourceNote": "Sensor Arcano",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Detectar Magia]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Detectar Magia]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - bracelete*\nEste bracelete ressona com energia entrópica, amplificando detalhes de manifestações arcanas. Ele amplifica sua sensibilidade as energias entrópicas.\n* Adepto: +1 de [[bônus de item]] em [[Arcana]]. Pode conjurar [[Detectar Magia]] uma vez a cada 10 minutos. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q.\n* Experiente: +2 de [[bônus de item]] em [[Arcana]]. Você pode ativar o sensor uma vez a cada 10 minutos, permitindo que você conjure [[Detectar Magia]] por 1 minuto. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q e você sabe o espaço com maior fonte de magia.\n* Mestre: +3 de [[bônus de item]] em [[Arcana]]. Pode conjurar [[Detectar Magia]]. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q, você sabe o espaço com maior fonte de magia e seu efeito dura por 1 minuto, continuamente te informando a presença ou não de magia, e sua posição mais intensa.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

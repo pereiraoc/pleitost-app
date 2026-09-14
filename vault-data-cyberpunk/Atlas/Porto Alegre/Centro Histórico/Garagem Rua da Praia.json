@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Garagem Rua da Praia",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Garagem Rua da Praia.md",
+  "basename": "Garagem Rua da Praia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Seu Adão Machado",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Fusca]]",
+      "[[Volkswagen Brasília]]",
+      "[[Chevrolet Chevette]] usado",
+      "[[Volkswagen Kombi]] usado",
+      "[[Honda CG 125]] usado",
+      "[[Fiat 147]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Garagem Rua da Praia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Brasília",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Chevette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiat 147",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Garagem Rua da Praia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Garagem Rua da Praia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Fusca, Brasília, Chevette, Kombi e CG de segunda mão, com ou sem documento; troca-se por dólar ou por dose.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão de concreto com carros enfileirados na penumbra, poça no chão, um cachorro e um caderno de placas.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fusca, Brasília, Chevette, Kombi e CG de segunda mão, com ou sem documento; troca-se por dólar ou por dose.",
+    "aparencia": "Salão de concreto com carros enfileirados na penumbra, poça no chão, um cachorro e um caderno de placas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

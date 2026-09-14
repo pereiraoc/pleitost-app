@@ -1,0 +1,73 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Personagens na Mesa",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Personagens na Mesa.md",
+  "basename": "Personagens na Mesa",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Herói",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ficha do Grupo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Personagens na Mesa"
+    },
+    {
+      "level": 2,
+      "text": "Tipos"
+    },
+    {
+      "level": 2,
+      "text": "Cards"
+    },
+    {
+      "level": 2,
+      "text": "Regra do claim — quem edita o quê"
+    },
+    {
+      "level": 2,
+      "text": "Inputs do Mestre"
+    },
+    {
+      "level": 2,
+      "text": "Como player edita o próprio char"
+    },
+    {
+      "level": 2,
+      "text": "Selecionar / alterar heroi (Player)"
+    },
+    {
+      "level": 2,
+      "text": "Adicionar criaturas (Mestre)"
+    },
+    {
+      "level": 2,
+      "text": "Player view de NPCs em combate"
+    },
+    {
+      "level": 2,
+      "text": "Placeholders do grupo"
+    },
+    {
+      "level": 2,
+      "text": "Companheiro nested"
+    }
+  ],
+  "body": "# Personagens na Mesa\n\nSeção do painel que lista heróis + companheiros + NPCs **fora de combate**. Quando o Mestre inicia um combate, os participantes migram pra dentro do \"Combate Ativo\" (ver [[Combate]]).\n\n## Tipos\n\n| Kind | Quem publica | FM esperado |\n|---|---|---|\n| `heroi` | Player (ou Mestre via Ficha do Grupo) | `subcategoria: Heroi` |\n| `companheiro` | Player (auto via grupo) | `subcategoria: Companheiro Animal` + `Tutor: \"[[Herói]]\"` |\n| `npc` | Mestre | `subcategoria: Monstro` ou heroi reaproveitado como NPC |\n| `invocação` | Derivado de heroi.state | (vive em `Interativa.Invocacoes_Ativas` do heroi) |\n\n## Cards\n\nCada card tem:\n\n- **Avatar** circular (hover = preview). Cascade: `fm.Imagem` → `Retratos/<nome>` → `Classes/<classe>` → ícone do kind (👤/🐾/👹/✨)\n- **Nome** + link supercharged (player não-dono ainda clica e abre a ficha, se ele tiver localmente)\n- **Toggle ❤/🛡️** vida ↔ stats\n- **Botão ✕** Mestre only (remover da sessão)\n- **Barra colorida** (vermelho=vita; azul=moral; cinza=perda)\n\nInvocações aparecem nested abaixo do invocador, com avatar 🌟 (Potência Mágica) + badge PM. Sem avatar real.\n\n## Regra do claim — quem edita o quê\n\n| Quem | Em qual char | Vida / m.temp / dano / condições |\n|---|---|---|\n| Player | Próprio heroi/companheiro/invocação | ✅ via Modo Interativa do autosheet |\n| Mestre | NPC do bestiário ou placeholder | ✅ direto no card |\n| Mestre | Heroi/companheiro com claim de player | ❌ Notice \"Só o dono pode mudar X\" |\n| Mestre | Companheiro de heroi claimed (lock transitivo) | ❌ idem |\n| Mestre | Invocação de heroi claimed (lock transitivo) | ❌ idem |\n\n**No card locked**, os controles Mestre somem visualmente (input de Dano sem aparecer; chip de condição perde ✕). O Mestre ainda pode: alterar visibilidade (👁️/👁️‍🗨️), revelar identidade em combate (❓/❗), e remover da sessão (✕).\n\n## Inputs do Mestre\n\nQuando o Mestre pode editar (NPCs/placeholders), os inputs aceitam:\n\n| Sintaxe | Efeito |\n|---|---|\n| `15` + Enter | Seta absoluto = 15 |\n| `+5` + Enter | Soma 5 |\n| `-3` + Enter | Tira 3 |\n| `5` na caixa Dano + Enter (🩸) | Aplica dano BFS (M.Temp → Moral → Vita) |\n\n## Como player edita o próprio char\n\nAbra a ficha (autosheet, Modo Interativa). Aplique dano/cura/condição pelos próprios controles do autosheet (combat-tracker dentro dele, ou pills de condição). O sync **detecta a mudança no FM** e propaga em <500ms pros outros.\n\n## Selecionar / alterar heroi (Player)\n\nNa lista de membros no topo, ao lado do seu nickname tem o botão **👤**:\n\n- **1ª vez**: file picker (`subcategoria: Heroi`, ordem alfabética, basename). Publica o heroi.\n- **Trocar**: mesmo botão. Confirm informa o destino do heroi antigo:\n  - Era do grupo → vira placeholder de novo (vida/condições preservadas)\n  - Não era do grupo → removido da sessão\n\nLimite: **1 heroi por player por sessão**. Companheiro animal vem auto via [[Ficha do Grupo]] quando você reivindica o heroi tutor.\n\n## Adicionar criaturas (Mestre)\n\n| Botão | O que faz |\n|---|---|\n| **+ Criatura do Bestiário** | File picker `subcategoria: Monstro` |\n| **+ NPC (Herói)** | Reaproveita ficha de heroi como NPC do Mestre (boss/aliado especial). Vira `kind=npc` |\n\n## Player view de NPCs em combate\n\nAnonimização default (ver [[Combate]]):\n\n- Nome = label genérico (Goblin 1, Goblin 2, Humano 1, Canino Médio 1)\n- Sem link clicável\n- Status tag colorida em vez de vita exata: **Impecável** (100%), **Saudável** (>50%), **Ferido** (>25%), **Gravemente Ferido** (≤25%), **Morto** (0)\n\nMestre clica 👁️ pra revelar identidade → player passa a ver fm.nome real (plain text, sem link). Stats (toggle 🛡️) sempre disponíveis — vêm do servidor.\n\n## Placeholders do grupo\n\nQuando Mestre seleciona a Ficha do Grupo, os membros (heróis + companheiros transitivos via Tutor) entram como placeholders com `memberId = Mestre`. Jogador clica 👤 e seleciona o placeholder → vira dele (e os companheiros tutorados pelo heroi vêm junto).\n\n## Companheiro nested\n\nCompanheiro animal aparece logo abaixo do tutor, indentado, card menor (`.is-companion-nested`). Não tem iniciativa própria (herda turno do tutor). Vida/condições continuam independentes.\n\nInvocação ativa segue mesma estética nested mas com cor roxa (`.is-invocation-nested`) — pode ter múltiplas instâncias por heroi, todas indented.\n"
+}

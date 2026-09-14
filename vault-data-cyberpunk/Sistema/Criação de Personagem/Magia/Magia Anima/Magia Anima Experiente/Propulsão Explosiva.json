@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Propulsão Explosiva",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Propulsão Explosiva.md",
+  "basename": "Propulsão Explosiva",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Propulsão Explosiva (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Fogo",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"[[Voar|Voe]] 10q em linha reta. Ataca [[Evasão]] de criaturas em 2q de você no início do voo com 1d6×potência de dano de fogo (metade na falha).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Voar",
+      "kind": "wikilink",
+      "alias": "Voe"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"[[Voar|Voe]] 10q em linha reta. Ataca [[Evasão]] de criaturas em 2q de você no início do voo com 1d6×potência de dano de fogo (metade na falha).\"\n%%\n# `= this.file.name` - `= this.custo`\n[[Voar|Voe]] 10q numa linha reta sem provocar reações e ignorando [[Terreno Difícil]]. Faça um Ataque Mágico contra [[Evasão]] das criaturas em até 2q de você no início do movimento.\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de fogo.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada."
+}

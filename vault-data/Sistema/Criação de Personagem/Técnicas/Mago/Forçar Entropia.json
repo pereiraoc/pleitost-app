@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Forçar Entropia",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Forçar Entropia.md",
+  "basename": "Forçar Entropia",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Pode usar [[Flexibilidade Arcana]] para conjurar Magia da mesma escola com custo de 4 [[Energia Vital|EV]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Flexibilidade Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Pode usar [[Flexibilidade Arcana]] para conjurar Magia da mesma escola com custo de 4 [[Energia Vital|EV]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê ganha mais flexibilidade no uso da sua energia mágica. Você tem uma opção adicional para [[Flexibilidade Arcana]]:\n* **Forçar Entropia:** Pode ser usado se você conjurou uma Magia não-básica de [[Magia Arcana Mista Limitada]] no seu turno anterior. Você sacrifica vitalidade, forçando mais entropia similar. Quando você conjura uma Magia Arcana não-básica da mesma escola da Magia previamente conjurada, você pode reduzir o custo dessa conjuração em 1 [[Energia Mágica|EM]] (permitindo que você conjure uma Magia Adepta tendo somente 1 EM, por exemplo). Você perde 4 [[Energia Vital|EV]] para ativar Forçar Entropia. Você então não pode usar Ciclar Entropia ou Forçar Entropia novamente até [[Descansar]].\n\n*Requer Flexibilidade Arcana*\n\n```autosheet-rules\n```\n"
+}

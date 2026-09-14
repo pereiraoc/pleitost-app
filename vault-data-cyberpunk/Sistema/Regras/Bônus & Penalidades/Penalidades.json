@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Bônus & Penalidades/Penalidades",
+  "path": "Sistema/Regras/Bônus & Penalidades/Penalidades.md",
+  "basename": "Penalidades",
+  "type": "Regra",
+  "subtype": "Penalidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "penalidade de circunstância",
+      "penalidade de item",
+      "penalidade de condição",
+      "penalidade de especialização"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Penalidade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Bônus & Penalidades]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bônus & Penalidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Bônus & Penalidades]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nPenalidades funcionam assim como bônus. Existem penalidades de circunstância (uma situação desvantajosa), de item (um item de má qualidade), de condição (um efeito negativo) e especialização (uma atividade especialmente dificil sem treinamento especial). Assim como bônus, penalidades do mesmo tipo não se acumulam, mas você pode aplicar um Bônus e uma Penalidade do mesmo tipo a mesma rolagem."
+}

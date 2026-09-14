@@ -1,0 +1,76 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel Tocantins",
+  "path": "Contexto/Recursos/Veículos/Gurgel Tocantins.md",
+  "basename": "Gurgel Tocantins",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 1500000,
+    "Cobrança": "única",
+    "Usado": 500000,
+    "Manutenção": 10000,
+    "Nível": 6,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Moinhos de Vento]]",
+      "[[Ipanema]]"
+    ],
+    "Resumo": "Utilitário 4×4 blindado da Gurgel, o carro da Brigada e da diretoria: passa por cima de alagado, barricada e gente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel Tocantins.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Concessionária Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Ipanema Motors",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel Tocantins.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel Tocantins.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Tocantins é o jipe grande da [[Gurgel]] com a blindagem que a [[Brigada Militar Metropolitana]] encomendou:\nvidro laminado, chapa nas portas, pneu que roda furado. A diretoria das megacorps comprou o mesmo pacote, com\ncouro. Usado, só o que a Brigada leiloa depois de um tiroteio — com os furos.\n\n> [!info] Especificação\n> **Modelo:** Gurgel Tocantins 1987, 4×4, blindagem nível Brigada, 5 lugares\n> **Motor:** Chevrolet 4.1 a gasolina, 140 cv; 5 km/l\n> **Velocidade:** 150 km/h; anda com 40 cm de água\n> **Novo:** [[Concessionária Gurgel]] sob encomenda; [[Revenda Ipanema Motors]] com couro\n> **Usado:** leilão da Brigada, com os furos\n> **Manutenção:** Cz$ 10.000 por mês: gasolina sem cota, seguro da [[Gradiente]], pneu de blindado\n"
+}

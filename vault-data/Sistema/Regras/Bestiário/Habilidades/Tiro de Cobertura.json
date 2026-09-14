@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Tiro de Cobertura",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Tiro de Cobertura.md",
+  "basename": "Tiro de Cobertura",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Inimigo que se mover em campo aberto na sua linha de tiro sofre um [[Atacar|Ataque]] a distância seu, como reação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Inimigo que se mover em campo aberto na sua linha de tiro sofre um [[Atacar|Ataque]] a distância seu, como reação.\"\n%%\n##### `= this.file.name`\nInimigo que se mover em campo aberto na sua linha de tiro sofre um [[Atacar|Ataque]] a distância seu, como reação.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,196 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida.md",
+  "basename": "Sintonia Ascendida",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Ascendida (Fogo)]]",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Ascendida (Água)]]",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Ascendida (Vento)]]",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Ascendida (Terra)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Seu poder transcende os limites corporais, recebendo benefícios de acordo com sua sintonia.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Ascendida (Fogo)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Fogo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Ascendida (Fogo)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Ascendida (Fogo)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Ascendida (Água)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Água]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Ascendida (Água)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Ascendida (Água)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Ascendida (Vento)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Vento]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Ascendida (Vento)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Ascendida (Vento)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Ascendida (Terra)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Terra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Ascendida (Terra)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Ascendida (Terra)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Ascendida (Fogo)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Ascendida (Água)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Ascendida (Vento)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Ascendida (Terra)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Ascendida (Fogo)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Ascendida (Água)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Ascendida (Vento)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Ascendida (Terra)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Mestre]]\n\nresumo:: \"Seu poder transcende os limites corporais, recebendo benefícios de acordo com sua sintonia.\"\n%%\n#### `= this.file.name`\nSeu poder transcende os limites corporais, recebendo benefícios de acordo com sua sintonia:\n![[Sintonia Ascendida (Fogo)#`= this.file.name`]]\n![[Sintonia Ascendida (Água)#`= this.file.name`]]\n![[Sintonia Ascendida (Vento)#`= this.file.name`]]\n![[Sintonia Ascendida (Terra)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

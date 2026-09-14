@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator O Negativo",
+  "path": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator O Negativo.md",
+  "basename": "Fator O Negativo",
+  "type": "Sintonia",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fator O Negativo",
+    "categoria": "Sintonia",
+    "subcategoria": null,
+    "sintonia": null,
+    "dg-publish": false
+  },
+  "inlineFields": {
+    "up": "[[Reatividade Selênica e Tipagem]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Fator O Negativo"
+    }
+  ],
+  "body": "%%\nup:: [[Reatividade Selênica e Tipagem]]\nprev:: \nnext:: \n%%\n### Fator O Negativo\nO sangue não reage a reagente selênico. Consome industrializado como todo mundo e segue a vida — o laudo da [[Panvel]] carimba o RG e fecha a porta dos programas de teste.\n"
+}

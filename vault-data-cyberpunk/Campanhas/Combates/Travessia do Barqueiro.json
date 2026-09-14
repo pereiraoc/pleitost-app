@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Travessia do Barqueiro",
+  "path": "Campanhas/Combates/Travessia do Barqueiro.md",
+  "basename": "Travessia do Barqueiro",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Lago Guaíba]] · [[Cidade Baixa]]",
+    "Situação": "O barqueiro cobra na metade do caminho. Brigar em cima d'água é o problema dele, não teu.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barqueiro Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mula do Cartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Barqueiro Armado]] rápido\n- 3 [[Mula do Cartel]] rápido\n```\n"
+}

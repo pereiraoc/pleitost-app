@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Regras/Condições/Invisível",
+  "path": "Sistema/Regras/Condições/Invisível.md",
+  "basename": "Invisível",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Positiva",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Positiva",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Praticamente translúcido, criaturas que saibam onde você está podem te atacar com 50% de chance de errar, uma criatura atenta que viu ficando invisível sabe a localização e pode acompanhar o movimento, [[Espreitar]] esconde sua localização\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Praticamente translúcido, criaturas que saibam onde você está podem te atacar com 50% de chance de errar, uma criatura atenta que viu ficando invisível sabe a localização e pode acompanhar o movimento, [[Espreitar]] esconde sua localização\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

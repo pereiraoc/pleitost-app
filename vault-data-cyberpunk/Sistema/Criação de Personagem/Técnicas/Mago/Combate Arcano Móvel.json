@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Combate Arcano Móvel",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Combate Arcano Móvel.md",
+  "basename": "Combate Arcano Móvel",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Ao realizar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Saltar]] ou dar um [[Passo de Ajuste]] como parte da mesma ação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Ao realizar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Saltar]] ou dar um [[Passo de Ajuste]] como parte da mesma ação.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você realiza [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Saltar]] ou dar um [[Passo de Ajuste]] como parte de [[Combinação Arcana]] ou [[Melhoramento Arcano]].\n*Requer Conjuração Móvel*\n\n```autosheet-rules\n```\n"
+}

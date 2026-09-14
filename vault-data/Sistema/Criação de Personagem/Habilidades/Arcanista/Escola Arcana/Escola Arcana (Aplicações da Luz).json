@@ -1,0 +1,173 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Escola Arcana/Escola Arcana (Aplicações da Luz)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Escola Arcana/Escola Arcana (Aplicações da Luz).md",
+  "basename": "Escola Arcana (Aplicações da Luz)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "Somar Magias.Slots.B 4",
+      "Somar Magias.Slots.A 3",
+      "Alias Classe Compor 1 \"Espiritualista\"",
+      "Somar Papel.Lider 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende quatro [[Magia Branca Básica|Magias Brancas Básicas]] e aprende três [[Magia Branca Adepta|Magias Brancas Adeptas]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Aplicações da Luz)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.B 4",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Aplicações da Luz)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "4"
+          },
+          "raw": "Somar Magias.Slots.B 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 3",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Aplicações da Luz)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "3"
+          },
+          "raw": "Somar Magias.Slots.A 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Espiritualista\"",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Aplicações da Luz)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Espiritualista"
+          },
+          "raw": "Alias Classe Compor 1 \"Espiritualista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 3",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Aplicações da Luz)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "3"
+          },
+          "raw": "Somar Papel.Lider 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Básica",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Básicas"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Adeptas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende quatro [[Magia Branca Básica|Magias Brancas Básicas]] e aprende três [[Magia Branca Adepta|Magias Brancas Adeptas]] de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Branca]], aprende quatro [[Magia Branca Básica|Magias Brancas Básicas]] e aprende três [[Magia Branca Adepta|Magias Brancas Adeptas]] de sua escolha. Arcanistas dessa escola muitas vezes são chamados de Espiritualistas.\n\n```autosheet-rules\n```\n"
+}

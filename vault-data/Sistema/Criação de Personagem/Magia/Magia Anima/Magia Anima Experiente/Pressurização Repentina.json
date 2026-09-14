@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Pressurização Repentina",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Pressurização Repentina.md",
+  "basename": "Pressurização Repentina",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Pressurização Repentina (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criatura em 10q com 1d8×potência de dano de contusão (metade na falha) e aplica [[Caído]] no sucesso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criatura em 10q com 1d8×potência de dano de contusão (metade na falha) e aplica [[Caído]] no sucesso.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Vigor]] de uma criatura em 6q:\n\n**Sucesso:** A criatura recebe 1d8×potência de dano de contusão e a criatura fica [[Caído|Caída]].\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** A criatura recebe metade de 1d8×potência de dano de contusão.\n**Falha Decisiva:** A criatura não é afetada."
+}

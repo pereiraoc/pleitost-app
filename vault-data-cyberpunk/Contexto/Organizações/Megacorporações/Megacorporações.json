@@ -1,0 +1,26 @@
+{
+  "id": "Contexto/Organizações/Megacorporações/Megacorporações",
+  "path": "Contexto/Organizações/Megacorporações/Megacorporações.md",
+  "basename": "Megacorporações",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Megacorporações.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Megacorporações.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "![[Megacorporações.png]]\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Organização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Organização\" and subcategoria=\"Megacorporação\"\nsort subcategoria asc\n```"
+}

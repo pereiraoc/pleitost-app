@@ -1,0 +1,159 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio.md",
+  "basename": "Estilo Próprio",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Próprio (Batedor)]]",
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Próprio (Artista Sombrio)]]",
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Próprio (Perito)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você personaliza suas habilidades específicas, recebendo os seguintes benefícios de acordo com seu estilo.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Próprio (Batedor)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Batedor)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Próprio (Batedor)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Próprio (Batedor)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Próprio (Artista Sombrio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Artista Sombrio)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Próprio (Artista Sombrio)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Próprio (Artista Sombrio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Próprio (Perito)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Perito)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Próprio (Perito)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Próprio (Perito)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio (Batedor)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Próprio (Artista Sombrio)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Próprio (Perito)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio (Batedor)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio (Perito)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\n\nresumo:: \"Você personaliza suas habilidades específicas, recebendo os seguintes benefícios de acordo com seu estilo.\"\n%%\n#### `= this.file.name`\nVocê personaliza suas habilidades específicas, recebendo os seguintes benefícios, dependendo do seu estilo:\n![[Estilo Próprio (Batedor)#`= this.file.name`]]\n![[Estilo Próprio (Artista Sombrio)#`= this.file.name`]]\n![[Estilo Próprio (Perito)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

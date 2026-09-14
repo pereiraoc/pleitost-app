@@ -1,0 +1,79 @@
+{
+  "id": "Sistema/Regras/Propriedades/Alcance",
+  "path": "Sistema/Regras/Propriedades/Alcance.md",
+  "basename": "Alcance",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Alcance X, Alcance 10, Alcance 15, Alcance 20",
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Atacar Além do Alcance",
+        "tipo": "Estado",
+        "origem": "Propriedade",
+        "escopo": {
+          "proprio": true,
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🎯",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "numerico",
+            "label": "Passos Além",
+            "min": 1,
+            "max": 10,
+            "step": 1
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "Ataque",
+            "valor": {
+              "porSeletor": "Passos Além",
+              "multiplicador": -2
+            },
+            "tipoBonus": "Circunstancia",
+            "quando": [
+              {
+                "propriedade": "Alcance"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"ataca em até Xq idealmente, pode atacar em 2Xq com -2 de [[Penalidades|penalidade de circunstância]] nos ataques, 3Xq com -4, e assim por diante (-2 por passo além).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n \nresumo:: \"ataca em até Xq idealmente, pode atacar em 2Xq com -2 de [[Penalidades|penalidade de circunstância]] nos ataques, 3Xq com -4, e assim por diante (-2 por passo além).\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

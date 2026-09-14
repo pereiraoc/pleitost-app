@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Cream Cracker Isabela",
+  "path": "Contexto/Recursos/Alimentação/Cream Cracker Isabela.md",
+  "basename": "Cream Cracker Isabela",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Isabela (Bento Gonçalves)",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]",
+      "[[Cidade Baixa]]"
+    ],
+    "Resumo": "Pacote de 400 g da bolacha da serra: a bolacha do chimarrão, do armazém e da criança da palafita.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cream Cracker Isabela.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cream Cracker Isabela.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cream Cracker Isabela.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Isabela faz bolacha em Bento Gonçalves desde 1954 e o pacote de cream cracker está em toda mesa de\nchimarrão da cidade. Cz$ 40 o pacote de 400 g no armazém — é o que a criança da palafita come na janta e o que\no operário leva na marmita quando a ração acaba.\n\n> [!info] Especificação\n> **Pacote:** 400 g, cream cracker; a de maisena custa o mesmo\n> **Fábrica:** Isabela, Bento Gonçalves, 1954\n> **Preço:** Cz$ 40; Cz$ 30 na boca de bairro\n> **Com:** chimarrão de [[Erva-Mate Charrua]], margarina, doce de leite quando tem\n"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Disco de Carga",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Disco de Carga.md",
+  "basename": "Disco de Carga",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria um disco flutuante por 8 horas que carrega até 2×potência itens e te segue a 1m do chão; você pode comandá-lo (Concentrar) para parar ou voltar a seguir. Dissipa se ficar a mais de 20q de você.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria um disco flutuante por 8 horas que carrega até 2×potência itens e te segue a 1m do chão; você pode comandá-lo (Concentrar) para parar ou voltar a seguir. Dissipa se ficar a mais de 20q de você.\"\n%%\n# `= this.file.name` - `= this.custo`\nCria disco flutuante que carrega até 2×potência itens por 8 horas. O disco segue seu conjurador flutuando a 1 metro do chão. Como uma ação livre (Concentrar) você pode comandar o disco para ficar parado ou voltar a te seguir. O disco dissipa se você estiver a mais de 20q dele.\n\n```autosheet-rules\n```\n"
+}

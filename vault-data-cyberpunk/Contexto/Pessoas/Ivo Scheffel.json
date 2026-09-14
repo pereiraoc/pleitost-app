@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Pessoas/Ivo Scheffel",
+  "path": "Contexto/Pessoas/Ivo Scheffel.md",
+  "basename": "Ivo Scheffel",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Seu Ivo"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sicredi]]",
+    "Função": "Presidente da cooperativa",
+    "Aparência": "Sessenta anos, mãos grossas, terno de domingo apertado, chapéu de feltro; desce a serra na [[Volkswagen Kombi]] da cooperativa uma vez por semana, com queijo pra gerente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ivo Scheffel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sicredi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ivo Scheffel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Ivo Scheffel.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

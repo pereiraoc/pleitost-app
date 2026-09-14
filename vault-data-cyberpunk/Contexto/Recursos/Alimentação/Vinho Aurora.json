@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Vinho Aurora",
+  "path": "Contexto/Recursos/Alimentação/Vinho Aurora.md",
+  "basename": "Vinho Aurora",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Cooperativa Aurora (Bento Gonçalves)",
+    "Preço": 200,
+    "Cobrança": "unidade",
+    "Nível": 4,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Petrópolis]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Tinto de mesa da serra em garrafa de 750 ml, da cooperativa de 1931: o vinho da janta de terça e do galeto de domingo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vinho Aurora.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vinho Aurora.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vinho Aurora.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO vinho da serra chega pela estrada de Bento Gonçalves em caminhão da cooperativa e pelo garrafão dos\nrestaurantes do [[Bom Fim]]. Tinto seco de mesa, garrafa de 750 ml, Cz$ 200 na banca do [[Mercado Público]].\nNos [[Moinhos de Vento]] o mesmo vinho ganha rótulo 'reserva' e custa Cz$ 300.\n\n> [!info] Especificação\n> **Vinho:** tinto seco de mesa, 750 ml, uva isabel e bordô\n> **Cooperativa:** Aurora, Bento Gonçalves, 1931 — a maior da serra\n> **Preço:** Cz$ 200; garrafão de 5 l Cz$ 800; 'reserva' nos Moinhos Cz$ 300\n> **Onde:** banca do [[Mercado Público]], restaurantes do [[Bom Fim]], galeterias de [[Petrópolis]]\n> **Sagu:** é com ele que se faz o [[Sagu de Vinho]]\n"
+}

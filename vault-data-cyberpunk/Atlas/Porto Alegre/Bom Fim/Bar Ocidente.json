@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Bar Ocidente",
+  "path": "Atlas/Porto Alegre/Bom Fim/Bar Ocidente.md",
+  "basename": "Bar Ocidente",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Tonho Ocidente",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Vinho Aurora]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]",
+      "[[Laranjinha Fruki]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bar Ocidente.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Laranjinha Fruki",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bar Ocidente.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bar Ocidente.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bar cultural alternativo inaugurado em 1982 no segundo piso de um casarão no [[Bom Fim]], reduto de músicos, artistas plásticos e ativistas durante a Ditadura.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Piso de tábuas gastas, luminárias pendentes com luz amarelada, palco improvisado no canto, bancos de madeira simples e cartazes colados anunciando shows e debates.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bar cultural alternativo inaugurado em 1982 no segundo piso de um casarão no [[Bom Fim]], reduto de músicos, artistas plásticos e ativistas durante a Ditadura.",
+    "aparencia": "Piso de tábuas gastas, luminárias pendentes com luz amarelada, palco improvisado no canto, bancos de madeira simples e cartazes colados anunciando shows e debates.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

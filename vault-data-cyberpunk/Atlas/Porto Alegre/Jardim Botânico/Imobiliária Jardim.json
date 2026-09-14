@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Imobiliária Jardim",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Imobiliária Jardim.md",
+  "basename": "Imobiliária Jardim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Dona Marlene Sperb",
+    "Descrição": null,
+    "Serviços": [
+      "[[Apartamento no Jardim Botânico]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária Jardim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento no Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária Jardim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária Jardim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Apartamentos de três dormitórios com garagem, aluguel ou compra; exige crachá de megacorp ou fiador.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de vitrine com plantas coloridas, maquete do prédio novo e uma corretora de tailleur.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Apartamentos de três dormitórios com garagem, aluguel ou compra; exige crachá de megacorp ou fiador.",
+    "aparencia": "Loja de vitrine com plantas coloridas, maquete do prédio novo e uma corretora de tailleur.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

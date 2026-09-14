@@ -1,0 +1,49 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Medo/Pavor",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Medo/Pavor.md",
+  "basename": "Pavor",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Intimidação]]",
+    "resumo": "\"Inimigo assustado sofre mentalmente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Intimidação]]\nresumo:: \"Inimigo assustado sofre mentalmente.\"\n%%\n### `= this.file.name`\n* Dano de Assustar sobe para 1d6+3 e inimigo também recebe e -1 de [[Penalidades|penalidade de condição]] em [[Ímpeto]] e [[Percepção]] por 1 turno.\n\n*Requer Medo*\n\n```autosheet-rules\n```\n"
+}

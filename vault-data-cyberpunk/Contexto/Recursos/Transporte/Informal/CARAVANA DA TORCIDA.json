@@ -1,0 +1,79 @@
+{
+  "id": "Contexto/Recursos/Transporte/Informal/CARAVANA DA TORCIDA",
+  "path": "Contexto/Recursos/Transporte/Informal/CARAVANA DA TORCIDA.md",
+  "basename": "CARAVANA DA TORCIDA",
+  "type": "Linha",
+  "subtype": "Caravana",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Caravana",
+    "Letreiro": "CARAVANA DA TORCIDA",
+    "Operador": "[[Camisa 12]]",
+    "Acesso": "Cz$ 200, uma dose ou o hino inteiro — não é TRI",
+    "Tarifa": "[[Caravana da Camisa 12]]",
+    "Qualidade": 1,
+    "Cor": "#d00000",
+    "Horário": "três horas antes do jogo",
+    "Circular": false,
+    "Paradas": [
+      "[[Sede da Camisa 12]]",
+      "[[Venda da Vila]]",
+      "[[Estação Jardim Botânico]]",
+      "[[Estádio Beira-Rio]]"
+    ],
+    "Aparência": "Caminhão vermelho de caçamba aberta cheio de gente com bandeira, isopor no meio, fumaça de churrasquinho, a Brigada olhando de longe.",
+    "Resumo": "O 1113 de caçamba aberta da Camisa 12: da sede ao portão 5 do Beira-Rio com cem pessoas em pé e a Brigada olhando de longe.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "CARAVANA DA TORCIDA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercedes-Benz 1113",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sede da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Venda da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caravana da Camisa 12",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "CARAVANA DA TORCIDA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[CARAVANA DA TORCIDA.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\n[[Mercedes-Benz 1113]] com carroceria de madeira e a bandeira do [[Sport Club Internacional]]. Sai da [[Sede da Camisa 12]] três horas antes do jogo, recolhe na [[Venda da Vila]], cruza a [[Estação Jardim Botânico]] cantando e para no portão 5 do [[Estádio Beira-Rio]]. Cem pessoas em pé, isopor no meio, churrasquinho na caçamba. A Brigada olha de longe — e cobra na volta.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

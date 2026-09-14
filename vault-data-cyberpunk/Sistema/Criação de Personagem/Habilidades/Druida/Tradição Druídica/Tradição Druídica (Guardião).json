@@ -1,0 +1,225 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica (Guardião)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica (Guardião).md",
+  "basename": "Tradição Druídica (Guardião)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+      "Somar Papel.Abatedor 1",
+      "Alias Classe Compor 1 \"Guardião\""
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Feral",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "oculto": true
+        },
+        "links": {
+          "filhos": [
+            "Forma Caçadora",
+            "Forma Espreitadora",
+            "Forma Brutal",
+            "Forma Fortificada"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Pode iniciar uma das suas formas conhecidas com uma ação caso não esteja em uma forma feral.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Guardião)",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Forma",
+              "choiceKey": "__esc_h_229b08d9",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Acoes.Lista",
+            "options": [
+              "[[Forma Caçadora]]",
+              "[[Forma Espreitadora]]",
+              "[[Forma Brutal]]",
+              "[[Forma Fortificada]]"
+            ],
+            "label": "Forma"
+          },
+          "raw": "Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 1",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Guardião)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Abatedor 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Guardião\"",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica (Guardião)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Guardião"
+          },
+          "raw": "Alias Classe Compor 1 \"Guardião\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Formas"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]]\n\nresumo:: \"Pode iniciar uma das suas formas conhecidas com uma ação caso não esteja em uma forma feral.\"\n%%\n#####  `= this.file.name`\nVocê é um druida guardião da floresta, capaz de transformar-se, assumindo uma [[Forma Feral]], com ataques naturais e habilidades de deslocamento. Você pode manifestar uma das suas formas conhecidas com uma ação caso não esteja em uma Forma Feral. Enquanto estiver sob efeito de uma Forma Feral, os seguintes fatores são aplicados:\n* Seu equipamento funde com sua forma, mantendo seus efeitos mas você não pode ativar efeitos que precisem [[Interagir]];\n* Você não pode empunhar armas, se estiver empunhando uma, ela se funde com você e volta a sua mão quando desfazer a forma;\n* Sua [[Defesa]] conta como defesa sem armadura;\n* Você pode usar sua [[Inteligência]] no lugar de [[Agilidade]] para o cálculo de [[Defesa]] da forma;\n* Você pode usar sua proficiência druídica no lugar da sua proficiência da [[Resistências|Resistência]] da forma (você ainda usa o atributo normalmente associado a resistência);\n* Sua [[Movimentação]] passa a ser a movimentação da forma, modificada pela sua [[Agilidade|AGI]];\n* Os únicos [[Ataques]] que pode fazer são os ataques naturais da forma (que contam como ataques desarmados que você é proficiente) e manobras de ataque da forma;\n* O dado de dano, dano base e [[Propriedades]] dos ataques naturais é definido pela sua [[Força|FOR]];\n* Você pode usar sua [[Inteligência]] no lugar de [[Força]] ou [[Agilidade]] para as jogadas de ataque dos ataques naturais da forma;\n* Você pode usar sua [[Inteligência]] no lugar de [[Força]] para as jogadas de ataque das manobras de ataque da forma;\n* Você recebe habilidades da forma, envolvendo ações especiais e/ou benefícios passivos;\n* Você pode usar sua proficiência druídica no lugar da sua proficiência da perícia para as ações de perícia que a forma se especializa;\n* Caso opte por usar a proficiência druídica para uma perícia, deve usar sua [[Inteligência]] como o atributo associado;\n* Você pode dissipar a forma com uma ação.\n\nVocê aprende uma Forma Feral de sua escolha.\n\n#### Formas\n![[Forma Feral#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

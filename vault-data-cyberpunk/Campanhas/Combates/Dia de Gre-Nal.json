@@ -1,0 +1,65 @@
+{
+  "id": "Campanhas/Combates/Dia de Gre-Nal",
+  "path": "Campanhas/Combates/Dia de Gre-Nal.md",
+  "basename": "Dia de Gre-Nal",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Estádio Beira-Rio]] · [[Estádio Olímpico Monumental]] · [[Praia de Belas]]",
+    "Situação": "Clássico. Metade do estádio quer brigar, e quem manda no jogo prefere que brigue longe da câmera.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Olheiro do Olímpico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Massagista do Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delegado de Partida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sócio da Geral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Representante da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabeça de Torcida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Olímpico Monumental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Olheiro do Olímpico]] rápido\n- 2 [[Massagista do Beira-Rio]] lento\n- 1 [[Delegado de Partida]] lento\n- 1 [[Sócio da Geral]] lento\n- 8 [[Representante da Camisa 12]] lento\n- 2 [[Cabeça de Torcida]] rápido\n```\n"
+}

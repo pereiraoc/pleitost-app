@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Serviços/Lotação VIP",
+  "path": "Contexto/Recursos/Serviços/Lotação VIP.md",
+  "basename": "Lotação VIP",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Passagem",
+    "Marca": "[[Embratel]]",
+    "Preço": 500,
+    "Cobrança": "viagem",
+    "Nível": 4,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Centro Histórico]]",
+      "[[Petrópolis]]"
+    ],
+    "Resumo": "Van com rádio da Embratel que conversa com as sinaleiras: não para em sinal, não para pra pobre.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lotação VIP.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lotação VIP.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lotação VIP.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA lotação VIP é o meio-termo entre o ônibus e o carro da empresa: doze poltronas, ar-condicionado e um rádio\n[[Embratel]] no painel que abre a sinaleira antes da van chegar. O motorista sabe o nome de todo mundo e anota\nquem entrou com quem.\n\n> [!info] Especificação\n> **Operador:** concessionárias privadas com tecnologia [[Embratel]]\n> **Veículo:** van Marcopolo sobre chassi Mercedes, 12 poltronas reclináveis\n> **Quem entra:** crachá de megacorp ou carteira PIRA destacada; o resto fica na calçada\n> **Percurso:** [[Moinhos de Vento]] → Centro → [[Petrópolis]] sem parar em sinal\n> **Pagamento:** TRI Platina (cartão prateado) ou Cz$ 500 na mão do motorista\n"
+}

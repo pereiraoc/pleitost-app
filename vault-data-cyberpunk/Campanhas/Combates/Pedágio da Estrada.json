@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Pedágio da Estrada",
+  "path": "Campanhas/Combates/Pedágio da Estrada.md",
+  "basename": "Pedágio da Estrada",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Restinga]]",
+    "Situação": "Posição fixa com fogo de cobertura; a Artilharia trava o avanço.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Miliciano da Estrada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarita da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Piloto de Racha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Miliciano da Estrada]] lento\n- 2 [[Guarita da Restinga]] lento\n- 3 [[Piloto de Racha]] rápido\n```\n"
+}

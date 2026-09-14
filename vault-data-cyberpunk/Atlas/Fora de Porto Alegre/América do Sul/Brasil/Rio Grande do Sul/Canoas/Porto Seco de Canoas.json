@@ -1,0 +1,37 @@
+{
+  "id": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Porto Seco de Canoas",
+  "path": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Porto Seco de Canoas.md",
+  "basename": "Porto Seco de Canoas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Canoas]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Terminal de carga multimodal interligado à ferrovia.\n> \n> 👁️**Aparência do Local:** Containers empilhados, guindastes, alcatifa de óleo no piso.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Terminal de carga multimodal interligado à ferrovia.",
+    "aparencia": "Containers empilhados, guindastes, alcatifa de óleo no piso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

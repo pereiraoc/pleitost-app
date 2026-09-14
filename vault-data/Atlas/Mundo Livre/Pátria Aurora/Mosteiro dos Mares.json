@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Mosteiro dos Mares",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Mosteiro dos Mares.md",
+  "basename": "Mosteiro dos Mares",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mosteiro dos Mares.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mosteiro dos Mares.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mosteiro dos Mares.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Mosteiro-fortaleza da Água da [[Pátria Aurora]], erguido nas falésias do leste da ilha, entre a [[Cúpula dos Céus]] e [[Velimaris]]. Um dos mosteiros elementais irmãos da nação, é a casa dos monges navegadores: aqui se ensina a arte da navegação, constroem-se barcos no estaleiro monástico e vigia-se o litoral. Sede do Mestre da Água, o mosteiro literalmente verte seu elemento — piscinas e canais transbordam em cascatas pelos muros e pelo penhasco abaixo.\n> \n> 👁️**Aparência do Local:** Complexo azul-e-ouro de mármore e cantaria clara em terraços balaustrados, no topo de um promontório acima da bruma; os edifícios têm telhados de telha azul em camadas com cumeeiras e esferas douradas. A água é elemento arquitetônico: fontes nos pátios, canais no claustro, a grande piscina turquesa sobre o portão — e cascatas que vazam dos terraços pelo penhasco em vários pontos. Estandartes azuis de âncoras e rosas-dos-ventos douradas marcam cada nível, e monges de azul circulam entre eles. Ao redor, agulhas de pedra clara com pinheiros retorcidos, gaivotas e o mar vivo batendo na base das falésias; o único acesso terrestre é a escadaria monumental que sobe da bruma até a Porta Maris.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Mosteiro-fortaleza da Água da [[Pátria Aurora]], erguido nas falésias do leste da ilha, entre a [[Cúpula dos Céus]] e [[Velimaris]]. Um dos mosteiros elementais irmãos da nação, é a casa dos monges navegadores: aqui se ensina a arte da navegação, constroem-se barcos no estaleiro monástico e vigia-se o litoral. Sede do Mestre da Água, o mosteiro literalmente verte seu elemento — piscinas e canais transbordam em cascatas pelos muros e pelo penhasco abaixo.",
+    "aparencia": "Complexo azul-e-ouro de mármore e cantaria clara em terraços balaustrados, no topo de um promontório acima da bruma; os edifícios têm telhados de telha azul em camadas com cumeeiras e esferas douradas. A água é elemento arquitetônico: fontes nos pátios, canais no claustro, a grande piscina turquesa sobre o portão — e cascatas que vazam dos terraços pelo penhasco em vários pontos. Estandartes azuis de âncoras e rosas-dos-ventos douradas marcam cada nível, e monges de azul circulam entre eles. Ao redor, agulhas de pedra clara com pinheiros retorcidos, gaivotas e o mar vivo batendo na base das falésias; o único acesso terrestre é a escadaria monumental que sobe da bruma até a Porta Maris.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Invocar Elemental Menor",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Invocar Elemental Menor.md",
+  "basename": "Invocar Elemental Menor",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": null,
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Conjura elemental com EV 5×potência que pode atacar e recebe ajuste elemental a sua escolha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Conjura elemental com EV 5×potência que pode atacar e recebe ajuste elemental a sua escolha.\"\n%%\n# `= this.file.name` - `= this.custo`\nConjura um pequeno elemental de um elemento a sua escolha em até 6q por 10t. Você pode comandar o elemental uma vez por turno com uma ação Concentrar, dando duas ações para ele. Você pode dissipá-lo como uma ação livre.\n\nOs atributos base do elemental são:\n* [[Energia Vital|EV]] 5×potência\n* [[Defesa]] 14 (16 se [[Experiente]] em [[Magia Anima]], 18 se [[Mestre]])\n* [[Vigor]], [[Evasão]] e [[Ímpeto]] 12 (14 se [[Experiente]] em [[Magia Anima]], 16 se [[Mestre]])\n* [[Percepção]] +2 (+4 se [[Mestre]] em [[Magia Anima]])\n* Ataque Elemental corpo-a-corpo com bônus de ataque igual ao seu Ataque Mágico, 1d6+3 dano (2d6+3 se [[Experiente]] em [[Magia Anima]], 3d6+3 se [[Mestre]])\n* Movimentação Terrestre 4q\n* Modificadores Elementais:\n    * Fogo: +2 em Vigor, pode fazer Ataque Elemental a distância com alcance 6q e dano 1d4+2, Dano de Fogo\n    * Água: +2 em Evasão, Ataque Furtivo +1d4, Dano de Frio\n    * Vento: +2 em Evasão, Movimentação +2q, Dano de Raio\n    * Terra: +2 em Vigor, +1 em Defesa, Dano Contusão/Corte/Perfuração\n"
+}

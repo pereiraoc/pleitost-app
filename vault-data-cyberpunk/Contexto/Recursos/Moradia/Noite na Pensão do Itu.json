@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão do Itu",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão do Itu.md",
+  "basename": "Noite na Pensão do Itu",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão do Itu]]",
+    "Preço": 150,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Itu]]",
+      "[[Pensão do Itu]]"
+    ],
+    "Resumo": "Quarto por noite na pensão dos operários da Itú Química: cheiro de éter, beliche e café com pão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão do Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão do Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão do Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão do Itu.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão do Itu]] aluga beliche por noite pra quem chegou pro turno sem casa e pra quem foi demitido da vila da fábrica. Cheiro de éter no corredor, rádio ligado e a dona que anota o nome no caderno da Itú.\n\n> [!info] Especificação\n> **Quarto:** beliche em quarto de quatro\n> **Inclui:** café com pão às cinco\n> **Regra:** a fábrica sabe quem dorme aqui\n> **Nível:** 2 — Classe Baixa\n"
+}

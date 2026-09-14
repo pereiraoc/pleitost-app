@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Modelo em Campo",
+  "path": "Campanhas/Combates/Modelo em Campo.md",
+  "basename": "Modelo em Campo",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Zona Deserta]] · [[Costa e Silva]]",
+    "Situação": "A encomenda do regime saiu do galpão pra um teste de campo. O campo é onde o grupo está.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Modelo Militar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pelotão de Guarnição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Modelo Militar]] lento\n- 2 [[Pelotão de Guarnição]] lento\n```\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Serviços/Álcool Combustível",
+  "path": "Contexto/Recursos/Serviços/Álcool Combustível.md",
+  "basename": "Álcool Combustível",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Combustível",
+    "Marca": "Ipiranga",
+    "Preço": 20,
+    "Cobrança": "litro",
+    "Nível": 3,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Cz$ 20 o litro: metade da frota roda a álcool do Pró-Álcool. Não pega no frio — a garrafinha de gasolina na partida.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Álcool Combustível.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Álcool Combustível.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Álcool Combustível.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nMetade dos Gurgel da cidade roda a álcool porque o governo mandou. É mais barato, faz o motor cheirar a\ncachaça e não pega em manhã de inverno de Porto Alegre sem a garrafinha de gasolina no injetor de partida.\nRacionado junto com a gasolina, na mesma caderneta.\n\n> [!info] Especificação\n> **Posto:** Ipiranga; bomba verde\n> **Racionamento:** mesma caderneta da gasolina: 20 litros por semana por placa\n> **Frio:** abaixo de 10 °C o motor não pega — a garrafinha de gasolina no injetor de partida resolve\n> **Consumo:** 30% pior que gasolina; o Carajás faz 6 km/l\n> **Mercado negro:** galão no [[Camelódromo]] por Cz$ 1.200 — às vezes é cachaça mesmo\n"
+}

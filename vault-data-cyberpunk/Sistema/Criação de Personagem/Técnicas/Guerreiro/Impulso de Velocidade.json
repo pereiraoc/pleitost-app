@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Impulso de Velocidade",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Impulso de Velocidade.md",
+  "basename": "Impulso de Velocidade",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"[[Mover|Mova-se]] duas vezes; para esses movimentos, seu deslocamento aumenta em 1q. Você só pode usar novamente após [[Descansar]].\"",
+    "usos_nome": "\"Impulso de Velocidade\"",
+    "usos_freq": "1/10min"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova-se"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"[[Mover|Mova-se]] duas vezes; para esses movimentos, seu deslocamento aumenta em 1q. Você só pode usar novamente após [[Descansar]].\"\n\nusos_nome:: \"Impulso de Velocidade\"\nusos_freq:: 1/10min\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Impulso de Velocidade.\n\n**Impulso de Velocidade - 1A**\n[[Mover|Mova]] duas vezes. Seu movimento é aumentado em 1q para essas ações. Você não pode usar essa habilidade novamente até [[Descansar]].\n\n```autosheet-rules\n```\n"
+}

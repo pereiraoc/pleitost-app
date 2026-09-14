@@ -1,0 +1,89 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/B12 PASSO D'AREIA",
+  "path": "Contexto/Recursos/Transporte/Ônibus/B12 PASSO D'AREIA.md",
+  "basename": "B12 PASSO D'AREIA",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "B12 PASSO D'AREIA",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#8e24aa",
+    "Horário": "5h–23h",
+    "Circular": true,
+    "Paradas": [
+      "[[Estação Passo D'Areia]]",
+      "[[Boteco Embaixo da Via]]",
+      "[[Estação Nogueiras]]",
+      "[[Shopping Iguatemi]]",
+      "[[Hospital Cristo Redentor]]",
+      "[[Posto Ipiranga da Assis Brasil]]"
+    ],
+    "Aparência": "Microônibus amarelo passando por baixo do viaduto de concreto do Aeromóvel, prédios de kitnet, boteco aceso, o vagão branco cruzando por cima.",
+    "Resumo": "A circular do Passo: da estação aos condomínios do Aeromóvel, ao posto e ao shopping, embaixo da via o tempo inteiro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "B12 PASSO D'AREIA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Boteco Embaixo da Via",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Nogueiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Hospital Cristo Redentor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Posto Ipiranga da Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "B12 PASSO D'AREIA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[B12 PASSO D'AREIA.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA circular do bairro, embaixo do viaduto do Aeromóvel o tempo inteiro. Da [[Estação Passo D'Areia]] pelo [[Boteco Embaixo da Via]] e pelos condomínios da [[Estação Nogueiras]], desce ao [[Shopping Iguatemi]] e volta pela Assis Brasil — [[Hospital Cristo Redentor]], [[Posto Ipiranga da Assis Brasil]] — até a estação. Leva o técnico da [[Marcopolo]] pra casa e a criança pro shopping; o vagão passa por cima a cada oito minutos.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

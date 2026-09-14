@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Hospital de Clínicas",
+  "path": "Atlas/Porto Alegre/Bom Fim/Hospital de Clínicas.md",
+  "basename": "Hospital de Clínicas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Dr. Hélio Brandão (diretor clínico)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hospital de Clínicas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hospital de Clínicas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hospital de Clínicas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pronto-socorro 24 h com fila de seis horas, enfermaria coletiva e residente que aprende no paciente; ferimento de bala vira boletim antes de virar prontuário.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bloco de concreto de dez andares com rampa de ambulância, fila na calçada, maca no corredor, brigadiano de prancheta na porta do PS.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pronto-socorro 24 h com fila de seis horas, enfermaria coletiva e residente que aprende no paciente; ferimento de bala vira boletim antes de virar prontuário.",
+    "aparencia": "Bloco de concreto de dez andares com rampa de ambulância, fila na calçada, maca no corredor, brigadiano de prancheta na porta do PS.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

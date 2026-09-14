@@ -1,0 +1,125 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição da Ventania",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição da Ventania.md",
+  "basename": "Imbuição da Ventania",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Arma que projeta seus ataques a distância.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 1/10min, faça ataque à distância (alcance 6q) usando seu modificador e dano corpo-a-corpo.",
+      "experiente": "+2 de bônus de item em Ataques. 1/10min, faça ataque à distância (alcance 10q) usando seu modificador e dano corpo-a-corpo.",
+      "mestre": "+3 de bônus de item em Ataques. 1/10min, ação livre para ativar: pode atacar à distância (alcance 10q) usando seu modificador e dano corpo-a-corpo."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição da Ventania",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - arma corpo-a-corpo que causa dano cortante*\nUma arma carregada do poder do vento, portando gemas verdes em sua extensão. Quando ativada, dispara uma onda de ar.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Usando uma ação, você pode realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 6q usando seu modificador e dano corpo-a-corpo. Esse ataque pode ser realizado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Usando uma ação, você pode realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 10q usando seu modificador e dano corpo-a-corpo. Esse ataque pode ser realizado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Como uma ação livre no seu turno, você pode ativar essa arma até o final do seu turno. Enquanto estiver ativada, você pode usar uma ação para realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 10q usando seu modificador e dano corpo-a-corpo. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Pegar Cobertura",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Pegar Cobertura.md",
+  "basename": "Pegar Cobertura",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Posiciona-se para potencializar cobertura, aumentando o bônus de circunstância proporcionado pela cobertura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Posiciona-se para potencializar cobertura, aumentando o bônus de circunstância proporcionado pela cobertura.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nPosiciona-se para potencializar cobertura, aumentando o [[bônus de circunstância]] proporcionado pela [[Cobertura]]. Uma cobertura que da +2 de bônus de circunstância na [[Defesa]] aumenta para +4 até o início do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

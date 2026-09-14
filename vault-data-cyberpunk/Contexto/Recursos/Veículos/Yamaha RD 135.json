@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Veículos/Yamaha RD 135",
+  "path": "Contexto/Recursos/Veículos/Yamaha RD 135.md",
+  "basename": "Yamaha RD 135",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Yamaha",
+    "Preço": 160000,
+    "Cobrança": "única",
+    "Usado": 60000,
+    "Manutenção": 1500,
+    "Nível": 4,
+    "Onde": [
+      "[[Quarto Distrito]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "A dois tempos que grita: a moto do racha da Voluntários, fumaça azul e velocidade de gente que não pensa no amanhã.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Yamaha RD 135.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moto Center Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem dos Rachas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Yamaha RD 135.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Yamaha RD 135.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA RD 135 é a moto de dois tempos que a molecada do [[Quarto Distrito]] envenena pra correr na Voluntários de\nmadrugada. Fumaça azul, barulho de serra, arrancada que assusta Carajás. A [[Ordem dos Subsolos]] aposta nelas;\na Brigada apreende uma por semana.\n\n> [!info] Especificação\n> **Modelo:** Yamaha RD 135 1986, 2 tempos\n> **Motor:** 135 cc, 17 cv; 25 km/l\n> **Velocidade:** 130 km/h de fábrica; envenenada, mais\n> **Novo:** [[Moto Center Assis Brasil]]\n> **Usado:** [[Garagem dos Rachas]], com o escape alterado\n> **Manutenção:** Cz$ 1.500 por mês: óleo dois tempos e pneu\n"
+}

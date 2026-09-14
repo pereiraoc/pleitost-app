@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Plano de Combate",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Plano de Combate.md",
+  "basename": "Plano de Combate",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Especial",
+  "frontmatter": {
+    "alias": "Plano de Combate",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Especial",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Especiais]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "resumo": "\"Por 1 minuto, se um combate começar, role [[Guerra]] uma vez para cada participante do plano (aliados + você), com -2 de [[Penalidades|penalidade de circunstância]] cumulativa a cada rolagem após a primeira; distribua os resultados para substituir a iniciativa de cada participante, enquanto os demais rolam iniciativa normalmente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Especiais]]\nprev:: \nnext:: \n\nclasse::\n\nresumo:: \"Por 1 minuto, se um combate começar, role [[Guerra]] uma vez para cada participante do plano (aliados + você), com -2 de [[Penalidades|penalidade de circunstância]] cumulativa a cada rolagem após a primeira; distribua os resultados para substituir a iniciativa de cada participante, enquanto os demais rolam iniciativa normalmente.\"\n%%\n\n### `= this.file.name` - `= this.custo`\nVocê prepara um plano rápido com seus aliados para um combate iminente. Pelo próximo minuto, se um combate iniciar, faça um número de testes de [[Guerra]] igual ao número de aliados mais 1 (você) que participaram do plano. O primeiro teste é feito normalmente e cada teste subsequente recebe -2 de [[Penalidades|penalidade de circunstância]] cumulativa (ex: para um modificador de Guerra +6 com 4 membros no grupo faça os testes em +6, +4, +2 e +0). Dos valores rolados, você atribui um para a iniciativa de cada personagem. Demais criaturas participando do combate rolam iniciativa normalmente.\n\n```autosheet-rules\n```\n"
+}

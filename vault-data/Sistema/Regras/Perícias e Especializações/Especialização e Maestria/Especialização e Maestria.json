@@ -1,0 +1,289 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Especialização e Maestria",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Especialização e Maestria.md",
+  "basename": "Especialização e Maestria",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Perícias de Ofício]]",
+    "next": "[[Sintonia|Sintonia]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink",
+      "alias": "Sintonia"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Impulso",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Travessia",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estabilidade",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Mobilidade",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Infiltração",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mecanismos",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Malandragem",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tática",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Truque Mágico",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contemporaneidades",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "História",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cuidados",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Emergência",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementalismo Básico",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animais",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Navegação",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajamento",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Negociação",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distração",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Influência",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medo",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Deboche",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Especialização e Maestria"
+    },
+    {
+      "level": 1,
+      "text": "Especializações"
+    },
+    {
+      "level": 2,
+      "text": "[[Atletismo]]:"
+    },
+    {
+      "level": 2,
+      "text": "[[Acrobacia]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Furtividade]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Ladinagem]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Guerra]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Arcana]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Sociedades]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Medicina]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Anima]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Sobrevivência]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Diplomacia]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Enganação]]"
+    },
+    {
+      "level": 2,
+      "text": "[[Intimidação]]"
+    },
+    {
+      "level": 1,
+      "text": "Maestrias"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Perícias de Ofício]]\nnext:: [[Sintonia|Sintonia]]\n%%\n# Especialização e Maestria\nQuando você aumenta a proficiência de uma perícia para [[Experiente]] ou [[Mestre]], recebe uma especialização ou maestria, respectivamente. As especializações e maestrias dão benefícios e ajustes referentes a um aspecto da [[Perícias|Perícia]] que você escolhe aperfeiçoar, exaltando o estilo do seu personagem quando realiza ações relacionadas a ela.\n\n# Especializações\n\n## [[Atletismo]]:\n![[Impulso#`= this.file.name`]]\n![[Travessia#`= this.file.name`]]\n\n## [[Acrobacia]]\n![[Estabilidade#`= this.file.name`]]\n![[Mobilidade#`= this.file.name`]]\n\n## [[Furtividade]]\n![[Escolta#`= this.file.name`]]\n![[Infiltração#`= this.file.name`]]\n\n## [[Ladinagem]]\n![[Mecanismos#`= this.file.name`]]\n![[Malandragem#`= this.file.name`]]\n\n## [[Guerra]]\n![[Estratégia#`= this.file.name`]]\n![[Tática#`= this.file.name`]]\n\n## [[Arcana]]\n![[Truque Mágico#`= this.file.name`]]\n\n## [[Sociedades]]\n![[Contemporaneidades#`= this.file.name`]]\n![[História#`= this.file.name`]]\n\n## [[Medicina]]\n![[Cuidados#`= this.file.name`]]\n![[Emergência#`= this.file.name`]]\n\n## [[Anima]]\n![[Elementalismo Básico#`= this.file.name`]]\n\n## [[Sobrevivência]]\n![[Animais#`= this.file.name`]]\n![[Navegação#`= this.file.name`]]\n\n## [[Diplomacia]]\n![[Encorajamento#`= this.file.name`]]\n![[Negociação#`= this.file.name`]]\n\n## [[Enganação]]\n![[Distração#`= this.file.name`]]\n![[Influência#`= this.file.name`]]\n \n## [[Intimidação]]\n![[Medo#`= this.file.name`]]\n![[Deboche#`= this.file.name`]]\n\n# Maestrias"
+}

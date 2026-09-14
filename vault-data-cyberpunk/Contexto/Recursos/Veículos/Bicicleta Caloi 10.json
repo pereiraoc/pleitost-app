@@ -1,0 +1,60 @@
+{
+  "id": "Contexto/Recursos/Veículos/Bicicleta Caloi 10",
+  "path": "Contexto/Recursos/Veículos/Bicicleta Caloi 10.md",
+  "basename": "Bicicleta Caloi 10",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Caloi",
+    "Preço": 12000,
+    "Cobrança": "única",
+    "Usado": 5000,
+    "Manutenção": 200,
+    "Nível": 2,
+    "Onde": [
+      "[[Camelódromo]]",
+      "[[Restinga]]",
+      "[[Bom Fim]]"
+    ],
+    "Resumo": "A Caloi 10 de dez marchas: nova na loja por Cz$ 12.000, usada (e provavelmente roubada) no Camelódromo por 5.000.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bicicleta Caloi 10.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bicicleta Caloi 10.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Bicicleta Caloi 10.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO transporte de quem não tem PIRA nem paciência pro ônibus. A Caloi 10 sobe a Independência com esforço e\ndesce a Borges sem freio. No [[Camelódromo]] vende sem nota, com o número do quadro lixado — provavelmente\nroubada na [[Redenção]] no domingo anterior.\n\n> [!info] Especificação\n> **Modelo:** Caloi 10 (1986), quadro de aço, 10 marchas, guidão de corrida\n> **Peso:** 14 kg — sobe escada de passarela no ombro\n> **Nova:** loja da Caloi na Rua da Praia, com nota\n> **Usada:** [[Camelódromo]] sem nota; número do quadro lixado\n> **Roubo:** cadeado de corrente Cz$ 300, e ainda assim some — a [[Restinga]] revende em dólar\n> **Manutenção:** câmara, corrente e pastilha na oficina de sucata: Cz$ 200 por mês\n"
+}

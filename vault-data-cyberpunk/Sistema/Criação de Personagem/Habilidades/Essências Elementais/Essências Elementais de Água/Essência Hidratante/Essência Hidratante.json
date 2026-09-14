@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Hidratante/Essência Hidratante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Hidratante/Essência Hidratante.md",
+  "basename": "Essência Hidratante",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Atadura d'Água]], adepta [[Hidrovitalizar]], experiente [[Corrente Restauradora]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atadura d'Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Hidrovitalizar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corrente Restauradora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Hidratante Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Atadura d'Água]], adepta [[Hidrovitalizar]], experiente [[Corrente Restauradora]]\"\n%%\n### `= this.file.name`\n![[Essência Hidratante Adepta#`= this.file.name`]]\n![[Essência Hidratante Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

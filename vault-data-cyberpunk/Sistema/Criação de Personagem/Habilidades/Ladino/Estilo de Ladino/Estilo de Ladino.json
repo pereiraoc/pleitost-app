@@ -1,0 +1,109 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino.md",
+  "basename": "Estilo de Ladino",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Estilo de Ladino (Batedor)]], [[Estilo de Ladino (Artista Sombrio)]], [[Estilo de Ladino (Perito)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você ganha os benefícios de um estilo de Ladino.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Estilo de Ladino (Batedor)]], [[Estilo de Ladino (Artista Sombrio)]], [[Estilo de Ladino (Perito)]])",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_99b13439",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Estilo de Ladino (Batedor)]]",
+              "[[Estilo de Ladino (Artista Sombrio)]]",
+              "[[Estilo de Ladino (Perito)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Estilo de Ladino (Batedor)]], [[Estilo de Ladino (Artista Sombrio)]], [[Estilo de Ladino (Perito)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto]]\n\nresumo:: \"Você ganha os benefícios de um estilo de Ladino.\"\n%%\n#### `= this.file.name`\nEscolha um estilo de ladino, você ganha benefícios dependendo do estilo escolhido.\n![[Estilo de Ladino (Batedor)#`= this.file.name`]]\n![[Estilo de Ladino (Artista Sombrio)#`= this.file.name`]]\n![[Estilo de Ladino (Perito)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

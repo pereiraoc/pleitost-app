@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Condições/Escondido",
+  "path": "Sistema/Regras/Condições/Escondido.md",
+  "basename": "Escondido",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Escondida",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criaturas não te veem.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Cego",
+      "kind": "wikilink",
+      "alias": "Cegas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Criaturas não te veem.\"\n%%\n## `= this.file.name`\nEscondido é sempre relativo a outras criaturas, você pode estar ou não Escondido contra cada criatura no ambiente. Criaturas que você está Escondido contra contam como [[Cego|Cegas]] para ações envolvendo você e suas ações envolvendo essas criaturas.\n\n```autosheet-rules\n```\n"
+}

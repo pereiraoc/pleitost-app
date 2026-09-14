@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Cambalhota",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Cambalhota.md",
+  "basename": "Cambalhota",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Acrobacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta passar pelo espaço ocupado por uma criatura hostil.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Acrobacia]]\"\npropriedades:: \nresumo:: \"Tenta passar pelo espaço ocupado por uma criatura hostil.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Acrobacia]] vs [[Evasão]] de uma criatura. Em caso de sucesso, move sua movimentação terrestre podendo passar pelos quadrados ocupados pela criatura, contando estes como [[Terreno Difícil]]. Um sucesso decisivo evita reações causadas por esse movimento. Caso falha, movimento acaba no quadrado antes de tentar passar pelo quadrado da criatura. Conta como uma ação de [[Ações Básicas de Movimento|Movimento]].\n\n```autosheet-rules\n```\n"
+}

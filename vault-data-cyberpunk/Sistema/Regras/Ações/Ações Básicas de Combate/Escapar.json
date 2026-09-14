@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Escapar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Escapar.md",
+  "basename": "Escapar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta escapar de um efeito que restringe seu movimento.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "ataque"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta escapar de um efeito que restringe seu movimento.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nFaça um [[Ataques|ataque]] contra a [[CD]] do efeito de imobilização. No sucesso, encerra o efeito, seja ele [[Preso]], [[Agarrado]] ou [[Imobilizado]]. Você pode usar seu modificador de ataque com ataque desarmado, [[Atletismo]] ou [[Acrobacia]] para Escapar.\n\n```autosheet-rules\n```\n"
+}

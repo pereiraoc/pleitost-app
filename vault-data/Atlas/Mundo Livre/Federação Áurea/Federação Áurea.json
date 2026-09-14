@@ -1,0 +1,74 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Federação Áurea",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Federação Áurea.md",
+  "basename": "Federação Áurea",
+  "type": "Localização",
+  "subtype": "Nação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": "Federação",
+    "categoria": "Localização",
+    "subcategoria": "Nação",
+    "Geolocalização": "[[Mundo Livre]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** \n> \n> ℹ️**Descrição:** Nação forjada na [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]], quando os líderes de [[Baar'Shava]], [[Iluminada]] e [[Safira]] uniram suas regiões — [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] — numa aliança militar e de prosperidade contra a [[Magna Pátria]]. A vitória transformou a aliança em governo permanente, administrado de [[Iluminada]], e os recursos combinados das três regiões ergueram o [[Grande Muro]], que até hoje sela a fronteira oeste. É a maior potência do [[Mundo Livre]]: três capitais, três povos e um único escudo. \n> \n> 👁️**Aparência do Local:** A Federação ocupa toda a metade norte do continente, em três faixas de terra que descem em degraus de clima: o deserto de dunas de [[Pedra Fina]] ao norte, guardado pelas Montanhas de Vidro; as planícies férteis do [[Campos do Provento]] no centro, cortadas pelo Rio Raio da Luz e marcadas pela cratera chamuscada do Meteorito; e os campos arborizados da [[Planaltina]] ao sul, entre a cordilheira escura do oeste e o maciço da Grande Mata no litoral leste. As divisas internas correm de oeste a leste entre as regiões, e a oeste tudo termina no [[Grande Muro]], a muralha de pedra que fecha a passagem das Montanhas de Vidro à cordilheira do sudoeste. A grande estrada federal costura as três capitais de norte a sul — [[Baar'Shava]] no deserto, [[Iluminada]] na planície, [[Safira]] na costa sudeste. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Federação Áurea\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Nação forjada na [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]], quando os líderes de [[Baar'Shava]], [[Iluminada]] e [[Safira]] uniram suas regiões — [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] — numa aliança militar e de prosperidade contra a [[Magna Pátria]]. A vitória transformou a aliança em governo permanente, administrado de [[Iluminada]], e os recursos combinados das três regiões ergueram o [[Grande Muro]], que até hoje sela a fronteira oeste. É a maior potência do [[Mundo Livre]]: três capitais, três povos e um único escudo.",
+    "aparencia": "A Federação ocupa toda a metade norte do continente, em três faixas de terra que descem em degraus de clima: o deserto de dunas de [[Pedra Fina]] ao norte, guardado pelas Montanhas de Vidro; as planícies férteis do [[Campos do Provento]] no centro, cortadas pelo Rio Raio da Luz e marcadas pela cratera chamuscada do Meteorito; e os campos arborizados da [[Planaltina]] ao sul, entre a cordilheira escura do oeste e o maciço da Grande Mata no litoral leste. As divisas internas correm de oeste a leste entre as regiões, e a oeste tudo termina no [[Grande Muro]], a muralha de pedra que fecha a passagem das Montanhas de Vidro à cordilheira do sudoeste. A grande estrada federal costura as três capitais de norte a sul — [[Baar'Shava]] no deserto, [[Iluminada]] na planície, [[Safira]] na costa sudeste.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

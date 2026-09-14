@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estação Porto Novo",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estação Porto Novo.md",
+  "basename": "Estação Porto Novo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Porto Novo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Porto Novo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Porto Novo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma sobre os armazéns; a escada dá no pátio de contêineres, com fiscal de prancheta na saída.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Viaduto passando por cima de guindastes e contêineres, estivadores subindo com capacete, balsa encostando no cais atrás.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma sobre os armazéns; a escada dá no pátio de contêineres, com fiscal de prancheta na saída.",
+    "aparencia": "Viaduto passando por cima de guindastes e contêineres, estivadores subindo com capacete, balsa encostando no cais atrás.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

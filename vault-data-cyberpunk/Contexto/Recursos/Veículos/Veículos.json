@@ -1,0 +1,24 @@
+{
+  "id": "Contexto/Recursos/Veículos/Veículos",
+  "path": "Contexto/Recursos/Veículos/Veículos.md",
+  "basename": "Veículos",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nO que se **compra e passa a ter**: carro, moto, bicicleta, barco, carroça. Paga manutenção por mês (o usado, uma vez e meia) e precisa de vaga na moradia, senão dorme na rua.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Veículo\", Marca AS \"Marca\", Nível AS \"Classe\", Preço AS \"Novo (Cz$)\", Usado AS \"Usado\", Manutenção AS \"Manutenção/mês\", Onde AS \"Onde\"\nFROM \"Contexto/Recursos/Veículos\"\nWHERE categoria = \"Recurso\"\nSORT Nível ASC, Preço ASC\n```\n"
+}

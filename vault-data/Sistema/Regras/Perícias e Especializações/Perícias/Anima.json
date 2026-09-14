@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Anima",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Anima.md",
+  "basename": "Anima",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Guerra]]",
+    "next": "[[Medicina]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Detectar Sintonia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Anima ([[Presença|PRE]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Guerra]]\nnext:: [[Medicina]]\n%%\n## Anima ([[Presença|PRE]])\n[[Detectar Sintonia]]. Anima rege o quão sensível é o personagem as forças elementais."
+}

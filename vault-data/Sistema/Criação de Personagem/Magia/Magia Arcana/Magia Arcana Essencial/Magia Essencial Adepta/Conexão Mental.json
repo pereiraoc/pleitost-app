@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Conexão Mental",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Conexão Mental.md",
+  "basename": "Conexão Mental",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Transfere instantaneamente para uma criatura adjacente informações equivalentes a 2 minutos×potência de conversa; o alvo só recebe se aceitar a conexão voluntariamente.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Transfere instantaneamente para uma criatura adjacente informações equivalentes a 2 minutos×potência de conversa; o alvo só recebe se aceitar a conexão voluntariamente.\"\n%%\n# `= this.file.name` - `= this.custo`\nTransfere instantaneamente informações que poderiam ser transmitidas em 2 minutos×potência via conversação para uma criatura adjacente. A criatura só é afetada se aceitar voluntariamente a conexão.\n\n```autosheet-rules\n```\n"
+}

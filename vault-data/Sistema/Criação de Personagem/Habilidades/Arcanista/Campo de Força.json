@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Campo de Força",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Campo de Força.md",
+  "basename": "Campo de Força",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Campo de Força",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "modificadores": [
+          {
+            "somar": "Defesa",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "recurso": "EM>=1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você cria um pequeno campo de força com seu poder arcano disponível. Você recebe +1 de [[Bônus de Especialização|bônus de especialização]] na [[Defesa]] enquanto possuir ao menos 1 de [[Energia Mágica|EM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\n\nresumo:: \"Você cria um pequeno campo de força com seu poder arcano disponível. Você recebe +1 de [[Bônus de Especialização|bônus de especialização]] na [[Defesa]] enquanto possuir ao menos 1 de [[Energia Mágica|EM]].\"\n%%\n#### `= this.file.name`\nVocê cria um pequeno campo de força com seu poder arcano disponível. Você recebe +1 de [[Bônus de Especialização|bônus de especialização]] na [[Defesa]] enquanto possuir ao menos 1 de [[Energia Mágica|EM]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,156 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Aspecto Feral",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Aspecto Feral.md",
+  "basename": "Aspecto Feral",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Técnica\" Complementar Técnicas Selecionar ([[Aspecto Indômito]], [[Aspecto Elemental]], [[Aspecto Ágil]], [[Aspecto Sagaz]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Permite encantar Formas Ferais com efeitos usando [[Energia Mágica|EM]]. Aprende uma técnica de Aspecto.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Técnica\" Complementar Técnicas Selecionar ([[Aspecto Indômito]], [[Aspecto Elemental]], [[Aspecto Ágil]], [[Aspecto Sagaz]])",
+      "parsed": [
+        {
+          "sourceNote": "Aspecto Feral",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica",
+              "choiceKey": "__esc_h_e0151b70",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Técnicas",
+            "options": [
+              "[[Aspecto Indômito]]",
+              "[[Aspecto Elemental]]",
+              "[[Aspecto Ágil]]",
+              "[[Aspecto Sagaz]]"
+            ],
+            "label": "Técnica"
+          },
+          "raw": "Escolha_Habilidades \"Técnica\" Complementar Técnicas Selecionar ([[Aspecto Indômito]], [[Aspecto Elemental]], [[Aspecto Ágil]], [[Aspecto Sagaz]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink",
+      "alias": "Brutal"
+    },
+    {
+      "target": "Visão no Escuro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink",
+      "alias": "Fortificada"
+    },
+    {
+      "target": "Aspecto Indômito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Sagaz",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Aspecto Adeptas"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]]\n\nresumo:: \"Permite encantar Formas Ferais com efeitos usando [[Energia Mágica|EM]]. Aprende uma técnica de Aspecto.\"\n%%\n####  `= this.file.name`\nQuando você manifesta uma [[Forma Feral]], você pode usar uma ação adicional para adicionar à forma aspectos que você conheça. Para isso, você consome um número de [[Energia Mágica|EM]] a sua escolha. Você então aloca esse número de [[Energia Mágica|EM]] para um conjunto de 1 ou mais aspectos que você conheça. Aspectos garantem benefícios dependendo da [[Energia Mágica|EM]] investida neles por uma duração ou até a forma ser Dissipada (o que ocorrer antes). Uma aspecto pode ser compatível com todas as formas, ou só formas específicas.\n\nVocê recebe uma Técnica Adepta de Aspecto a sua escolha.\n\n#### Técnicas de Aspecto Adeptas\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM \"Sistema/Criação de Personagem/Técnicas/Druida\"\nwhere categoria=\"Técnica\" AND subcategoria=\"Adepta\" AND contains(file.name, \"Aspecto\")\nsort rank asc\n```\n\n%%Você aprende Aspecto Selvagem, que empodera as características básicas da sua forma. Você pode aprender outros aspectos com técnicas de Druida.\n\n**Aspecto Selvagem (2 EM)** - Por 10 minutos, você recebe +2 de [[Bônus de Condição|bônus de condição]] em testes das ações de perícia da forma e +1q de [[bônus de condição]] na [[movimentação]] terrestre. Adicionalmente, seus ataques naturais causam 1 de dano adicional do mesmo tipo do ataque. Compatível com todas as formas.\n\nVocê aprende dois aspectos iniciais, Aspecto Predador e Aspecto Sagaz. Você pode aprender outros aspectos com técnicas de Druida.\n\n**Aspecto Predador (1 EM ou RM)** - Por 10 minutos, você recebe +2q de [[bônus de condição]] na [[movimentação]] terrestre e Faro com alcance 6q, seu Faro usa sua proficiência druídica e [[Presença|PRE]] como modificador. Compatível com [[Forma Caçadora]] e [[Forma Brutal|Brutal]].\n\n**Aspecto Sagaz (1 EM ou RM)** - Por 10 minutos, você recebe +2 de [[Bônus de Condição|bônus de condição]] em testes das ações de perícia da forma e os efeitos de [[Visão no Escuro]]. Adicionalmente, você pode usar sua proficiência druídica e [[Presença|PRE]] como modificador de [[Percepção]] quando o teste envolver visão. Compatível com [[Forma Espreitadora]] e [[Forma Fortificada|Fortificada]].\n\nUma forma só pode ter um aspecto ativo e ativar um novo aspecto Dissipa o aspecto anterior.%%\n\n```autosheet-rules\n```\n"
+}

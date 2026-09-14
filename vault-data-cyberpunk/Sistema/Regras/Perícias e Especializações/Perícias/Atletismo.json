@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Atletismo",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Atletismo.md",
+  "basename": "Atletismo",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Perícias|Perícias]]",
+    "next": "[[Acrobacia]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Arrombar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Atletismo ([[Força|FOR]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Perícias|Perícias]]\nnext:: [[Acrobacia]]\n%%\n## Atletismo ([[Força|FOR]])\n[[Arrombar]], [[Escalar]], [[Salto Longo]], [[Salto Alto]], [[Nadar]]. Atletismo rege feitos de força e habilidade física. Adicionalmente, Atletismo determina a manobra de combate [[Empurrar]]."
+}

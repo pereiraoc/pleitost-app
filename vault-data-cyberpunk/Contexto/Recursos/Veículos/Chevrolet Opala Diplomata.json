@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Veículos/Chevrolet Opala Diplomata",
+  "path": "Contexto/Recursos/Veículos/Chevrolet Opala Diplomata.md",
+  "basename": "Chevrolet Opala Diplomata",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Chevrolet",
+    "Preço": 900000,
+    "Cobrança": "única",
+    "Usado": 350000,
+    "Manutenção": 6000,
+    "Nível": 5,
+    "Onde": [
+      "[[Ipanema]]",
+      "[[Moinhos de Vento]]",
+      "[[Costa e Silva]]"
+    ],
+    "Resumo": "O Opala seis cilindros, o carro de coronel: bancos de veludo, motor que bebe e presença que abre blitz.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chevrolet Opala Diplomata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Ipanema Motors",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chevrolet Opala Diplomata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chevrolet Opala Diplomata.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Opala Diplomata é o carro oficial de quem manda sem crachá de megacorp: coronel, delegado, deputado da\n[[Aliança dos Fundadores]]. Seis cilindros, veludo, vidro elétrico, e a blitz da Brigada bate continência antes\nde olhar a placa. Usado, vem com histórias que ninguém conta.\n\n> [!info] Especificação\n> **Modelo:** Opala Diplomata 1987, 4 portas, 6 cilindros\n> **Motor:** GM 4.1 gasolina, 171 cv; 6 km/l\n> **Velocidade:** 180 km/h\n> **Novo:** [[Revenda Ipanema Motors]], [[Revenda Moinhos]]\n> **Usado:** leilão de repartição, Cz$ 350.000\n> **Manutenção:** Cz$ 6.000 por mês: gasolina sem cota e seguro\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Magia Feral",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Magia Feral.md",
+  "basename": "Magia Feral",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Na mesma ação, combine [[Magia Anima]] (de 2 ou 3 ações) com transformação: ou conjure a magia e manifeste uma [[Forma Feral]], ou dissipe a [[Forma Feral]] e conjure a magia (gastando o mesmo número de ações).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Na mesma ação, combine [[Magia Anima]] (de 2 ou 3 ações) com transformação: ou conjure a magia e manifeste uma [[Forma Feral]], ou dissipe a [[Forma Feral]] e conjure a magia (gastando o mesmo número de ações).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Feral.\n\n**Magia Feral - 2A ou 3A**\nEscolha:\n* Conjure uma [[Magia Anima]] de 2 ou 3 ações (o mesmo numero de ações utilizadas para ativar Magia Feral) e manifeste uma [[Forma Feral]];\n* Dissipe uma [[Forma Feral]] e conjure uma [[Magia Anima]] de 2 ou 3 ações (o mesmo numero de ações utilizadas para ativar Magia Feral).\n\n```autosheet-rules\n```\n"
+}

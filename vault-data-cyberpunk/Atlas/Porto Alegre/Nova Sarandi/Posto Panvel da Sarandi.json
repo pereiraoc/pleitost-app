@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Posto Panvel da Sarandi",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Posto Panvel da Sarandi.md",
+  "basename": "Posto Panvel da Sarandi",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Farmacêutica Loreni Kunz",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Posto Panvel da Sarandi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Posto Panvel da Sarandi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Posto Panvel da Sarandi.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Farmacêutica que costura e aplica, médico duas manhãs por semana, laudo de Reatividade na fila; remédio fiado contra o crédito de racionamento.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja estreita com o logo da Panvel torto, balcão de fórmica, fila de macacão, sala dos fundos com maca e um cartaz da PIRA.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Farmacêutica que costura e aplica, médico duas manhãs por semana, laudo de Reatividade na fila; remédio fiado contra o crédito de racionamento.",
+    "aparencia": "Loja estreita com o logo da Panvel torto, balcão de fórmica, fila de macacão, sala dos fundos com maca e um cartaz da PIRA.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

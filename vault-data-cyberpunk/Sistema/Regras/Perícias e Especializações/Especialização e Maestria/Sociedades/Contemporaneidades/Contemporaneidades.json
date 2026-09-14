@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/Contemporaneidades/Contemporaneidades",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/Contemporaneidades/Contemporaneidades.md",
+  "basename": "Contemporaneidades",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Pedir Favor e Melhorar Atitude via Sociedades",
+        "tipo": "AçãoDePericia",
+        "origem": "Especialização",
+        "acoes": [
+          "[[Pedir Favor]]",
+          "[[Melhorar Atitude]]"
+        ],
+        "detalhe": "(contra autoridades legais)"
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sociedades]]",
+    "resumo": "\"Pode [[Pedir Favor]] e [[Melhorar Atitude]] de autoridades com [[Sociedades]]. +2 para Conhecimento atual.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedir Favor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhorar Atitude",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext::\n\npericia:: [[Sociedades]]\nresumo:: \"Pode [[Pedir Favor]] e [[Melhorar Atitude]] de autoridades com [[Sociedades]]. +2 para Conhecimento atual.\"\n%%\n### `= this.file.name`\n* Você pode [[Pedir Favor]] e [[Melhorar Atitude]] de autoridades legais utilizando seu modificador de [[Sociedades]].\n* Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] para testes de Conhecimento sobre autoridades legais, figuras políticas ou pessoas famosas do período atual.\n\n```autosheet-rules\n```\n"
+}

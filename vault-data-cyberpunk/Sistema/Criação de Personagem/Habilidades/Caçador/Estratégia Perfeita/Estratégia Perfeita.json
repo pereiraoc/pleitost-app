@@ -1,0 +1,122 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita.md",
+  "basename": "Estratégia Perfeita",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Domador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Domador)]]",
+      "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Rastreador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Rastreador)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você aperfeiçoa sua estratégia de caça.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Domador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Domador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Perfeita",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estratégia de Caça (Domador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratégia Perfeita (Domador)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Domador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Domador)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Rastreador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Rastreador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Perfeita",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estratégia de Caça (Rastreador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratégia Perfeita (Rastreador)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estratégia de Caça (Rastreador)]]) Complementar Habilidades.Lista [[Estratégia Perfeita (Rastreador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Perfeita (Domador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia Perfeita (Rastreador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Perfeita (Domador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Rastreador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Perfeita (Rastreador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\n\nresumo:: \"Você aperfeiçoa sua estratégia de caça.\"\n%%\n#### `= this.file.name`\nVocê aperfeiçoa sua estratégia de caça, recebendo os seguintes benefícios, dependendo da sua estratégia:\n\n![[Estratégia Perfeita (Domador)#`= this.file.name`]]\n![[Estratégia Perfeita (Rastreador)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

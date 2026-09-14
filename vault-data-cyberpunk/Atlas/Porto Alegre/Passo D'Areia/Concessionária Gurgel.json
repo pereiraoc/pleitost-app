@@ -1,0 +1,100 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Concessionária Gurgel",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Concessionária Gurgel.md",
+  "basename": "Concessionária Gurgel",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "[[Gurgel]] (gerente Dr. Ubirajara Ceccato)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Gurgel Carajás]]",
+      "[[Gurgel Carajás Picape]]",
+      "[[Gurgel X-12 Anfíbio]]",
+      "[[Gurgel Motomachine]]",
+      "[[Gurgel de Aluguel]]",
+      "[[Gurgel XEF]]",
+      "[[Gurgel BR-800]]",
+      "[[Gurgel Tocantins]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Concessionária Gurgel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás Picape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel X-12 Anfíbio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel de Aluguel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel XEF",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel BR-800",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Tocantins",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Concessionária Gurgel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Concessionária Gurgel.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Concessionária [[Gurgel]] com pátio de fibra reluzente, financiamento só via megacorp e fila de seis meses pro X-12 anfíbio (a Brigada compra primeiro).\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão de zinco branco com bandeirolas, vitrine com um Carajás girando num tablado e um vendedor de gravata fina que sabe o nome do seu chefe.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Concessionária [[Gurgel]] com pátio de fibra reluzente, financiamento só via megacorp e fila de seis meses pro X-12 anfíbio (a Brigada compra primeiro).",
+    "aparencia": "Galpão de zinco branco com bandeirolas, vitrine com um Carajás girando num tablado e um vendedor de gravata fina que sabe o nome do seu chefe.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

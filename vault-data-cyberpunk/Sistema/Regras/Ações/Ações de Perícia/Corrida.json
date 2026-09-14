@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Corrida",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Corrida.md",
+  "basename": "Corrida",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "3A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Usa de força para mover mais em linha reta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Usa de força para mover mais em linha reta.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Atletismo]]. Mova um número de quadrados em uma linha reta igual a 2 + o resultado do teste, até um máximo de 21q. Se você tiver algum bônus na [[Movimentação]], aumente o movimento total em três vezes o valor desse bônus (depois de limitar em 21q, caso o teste extrapole esse valor). Se você tiver alguma penalidade na [[Movimentação]], reduza o movimento total em três vezes o valor desse bônus. Caso o valor obtido seja menor que três vezes sua [[Movimentação]] normal, você pode mover três vezes sua movimentação. Você não pode realizar Corrida se estiver [[Fadigado]].\n\nVocê pode usar Corrida um número de vezes igual a 1+[[Força|FOR]] até [[Descansar]] sem dificuldades. Após isso, depois de realizar uma Corrida, faça um teste de [[Vigor]] (modificador igual ao seu [[Vigor]] - 10) contra CD 12. Em caso de falha, você fica [[Fadigado]]. Em caso de sucesso, a CD para uma próxima corrida aumenta em 2 de forma cumulativa. A CD volta a ser 12 após [[Descansar]].\n\n```autosheet-rules\n```\n"
+}

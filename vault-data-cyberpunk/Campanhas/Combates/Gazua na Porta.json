@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Gazua na Porta",
+  "path": "Campanhas/Combates/Gazua na Porta.md",
+  "basename": "Gazua na Porta",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Petrópolis]] · [[Quarto Distrito]]",
+    "Situação": "A briga é distração: enquanto o grupo troca soco, a porta dos fundos está sendo aberta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chaveiro Trônico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capanga de Oficina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instalador Pirata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Chaveiro Trônico]] rápido\n- 4 [[Capanga de Oficina]] lento\n- 1 [[Instalador Pirata]] rápido\n```\n"
+}

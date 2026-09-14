@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Furtividade",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Furtividade.md",
+  "basename": "Furtividade",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Acrobacia]]",
+    "next": "[[Ladinagem]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ocultar Objeto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Furtividade ([[Agilidade|AGI]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Acrobacia]]\nnext:: [[Ladinagem]]\n%%\n## Furtividade ([[Agilidade|AGI]])\n[[Esconder-se]], [[Espreitar]], [[Ocultar Objeto]]. Furtividade rege a habilidade de impedir detecção."
+}

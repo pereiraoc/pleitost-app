@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva Adepta.md",
+  "basename": "Essência Explosiva Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Fogo",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Estouro]]",
+      "Complementar Magias.Lista [[Coluna de Fogo]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Estouro]], adepta [[Coluna de Fogo]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Estouro]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Explosiva Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Estouro]]"
+          },
+          "raw": "Complementar Magias.Lista [[Estouro]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Coluna de Fogo]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Explosiva Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Coluna de Fogo]]"
+          },
+          "raw": "Complementar Magias.Lista [[Coluna de Fogo]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coluna de Fogo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Estouro]], adepta [[Coluna de Fogo]]\"\n%%\n#### `= this.file.name`\n* basica [[Estouro]]\n* adepta [[Coluna de Fogo]]\n\n```autosheet-rules\n```\n"
+}

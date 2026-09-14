@@ -1,0 +1,104 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/CAMPUS DO VALE — CENTRO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/CAMPUS DO VALE — CENTRO.md",
+  "basename": "CAMPUS DO VALE — CENTRO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "ZONA LESTE",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 1,
+    "Cor": "#a0522d",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Campus do Vale da UFRGS]]",
+      "[[Venda da Vila]]",
+      "[[Sede da Camisa 12]]",
+      "[[Sede da Tramontina]]",
+      "[[Parque Moinhos]]",
+      "[[Galeteria de Petrópolis]]",
+      "[[Redenção]]",
+      "[[Campus Centro da UFRGS]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "O radial das vilas: do Campus do Vale ao portão da Tramontina e, pela Bento Gonçalves, até o Centro — o ônibus do turno de quem mora de costas pra cidade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "CAMPUS DO VALE — CENTRO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campus do Vale da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Venda da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sede da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sede da Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parque Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeteria de Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "CAMPUS DO VALE — CENTRO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[CAMPUS DO VALE — CENTRO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO radial das vilas. Sai do [[Campus do Vale da UFRGS]] antes das cinco com estudante e catador, enche na [[Venda da Vila]] e na porta da [[Sede da Camisa 12]], deixa metade do ônibus no portão da [[Sede da Tramontina]] e segue pela Bento Gonçalves — [[Parque Moinhos]], [[Galeteria de Petrópolis]] — até a [[Redenção]], o portão do [[Campus Centro da UFRGS]] e a [[Estação Central]]. [[TRI Bronze]] no turno; lota tanto que o cobrador viaja na porta. É a única forma da vila do Botânico chegar ao Centro sem pagar Kombi.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

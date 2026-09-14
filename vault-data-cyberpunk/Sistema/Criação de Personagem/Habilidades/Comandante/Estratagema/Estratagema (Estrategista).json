@@ -1,0 +1,210 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema/Estratagema (Estrategista)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema/Estratagema (Estrategista).md",
+  "basename": "Estratagema (Estrategista)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Restringir Atributos.Principal INT",
+      "Definir Pericias.Lista.Guerra.Bonus_Especial 2",
+      "Definir Ataques.Lista.*.Bonus_Especial 1",
+      "Definir Inventario.Armas.Lista.*.Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Estrategista\"",
+      "Somar Papel.Lider 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Aliados que você consegue ver em até 10q de você contam como em sua área de influência. Quando seu turno começa, você pode realizar [[Análise de Combate]] como uma ação livre. Esse uso de Análise de Combate não conta para o limite de usos por turno. Adicionalmente, você recebe +2 de [[bônus de especialização]] em [[Guerra]] e +1 de [[Bônus de Especialização|bônus de especialização]] em [[Atacar|Ataques]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Restringir Atributos.Principal INT",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "INT"
+            ]
+          },
+          "raw": "Restringir Atributos.Principal INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Guerra.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Pericias.Lista.Guerra.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Lista.*.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Ataques.Lista.*.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Inventario.Armas.Lista.*.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Inventario.Armas.Lista.*.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Estrategista\"",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Estrategista"
+          },
+          "raw": "Alias Classe Compor 1 \"Estrategista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Estrategista)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto]]\n\nresumo:: \"Aliados que você consegue ver em até 10q de você contam como em sua área de influência. Quando seu turno começa, você pode realizar [[Análise de Combate]] como uma ação livre. Esse uso de Análise de Combate não conta para o limite de usos por turno. Adicionalmente, você recebe +2 de [[bônus de especialização]] em [[Guerra]] e +1 de [[Bônus de Especialização|bônus de especialização]] em [[Atacar|Ataques]].\"\n%%\n##### `= this.file.name`\nVocê manipula a batalha como um jogo de xadrez. Seu atributo de classe deve ser [[Inteligência|INT]]. Aliados que você consegue ver em até 10q de você contam como em sua área de influência. Quando seu turno começa, você pode realizar [[Análise de Combate]] como uma ação livre. Esse uso de Análise de Combate não conta para o limite de usos por turno. Adicionalmente, você recebe +2 de [[bônus de especialização]] em [[Guerra]] e +1 de [[Bônus de Especialização|bônus de especialização]] em [[Atacar|Ataques]].\n\n```autosheet-rules\n```\n"
+}

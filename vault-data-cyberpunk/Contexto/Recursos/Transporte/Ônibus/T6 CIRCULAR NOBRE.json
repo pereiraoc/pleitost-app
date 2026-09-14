@@ -1,0 +1,99 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/T6 CIRCULAR NOBRE",
+  "path": "Contexto/Recursos/Transporte/Ônibus/T6 CIRCULAR NOBRE.md",
+  "basename": "T6 CIRCULAR NOBRE",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "T6 CIRCULAR NOBRE",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 4,
+    "Cor": "#b8860b",
+    "Horário": "6h–22h",
+    "Circular": false,
+    "Paradas": [
+      "[[Praça da Encol]]",
+      "[[Estação Moinhos]]",
+      "[[Padre Chagas]]",
+      "[[Estação Independência]]",
+      "[[Colégio Rosário]]",
+      "[[Campus Centro da UFRGS]]",
+      "[[Armazém Sarmento Leite]]",
+      "[[Estação Centro Corporativo]]"
+    ],
+    "Aparência": "Marcopolo Torino novo, branco e verde, com cortina e ar-condicionado, motorista de gravata, moto da Brigada escoltando, árvores da Padre Chagas.",
+    "Resumo": "O anel dos bairros nobres: Praça da Encol, Moinhos, Padre Chagas, Bom Fim, UFRGS e o deck do Centro Corporativo, ônibus novo com ar e a Brigada de moto atrás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "T6 CIRCULAR NOBRE.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praça da Encol",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armazém Sarmento Leite",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "T6 CIRCULAR NOBRE.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[T6 CIRCULAR NOBRE.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO anel dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Praça da Encol]] pela [[Estação Moinhos]], pela [[Padre Chagas]] e pela [[Estação Independência]], pelo [[Colégio Rosário]], pelo portão do [[Campus Centro da UFRGS]] e pela esquina do [[Armazém Sarmento Leite]] até o deck da [[Estação Centro Corporativo]] — e volta pelo mesmo caminho, sem entrar nem no Passo nem na Petrópolis. A Brigada acompanha de moto; o motorista \"não vê\" o TRI Prata quando o passageiro sobe nos Moinhos.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

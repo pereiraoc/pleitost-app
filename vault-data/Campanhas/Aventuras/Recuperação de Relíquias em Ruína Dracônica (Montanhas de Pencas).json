@@ -1,0 +1,32 @@
+{
+  "id": "Campanhas/Aventuras/Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)",
+  "path": "Campanhas/Aventuras/Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas).md",
+  "basename": "Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)",
+  "type": "Aventura",
+  "subtype": "Recuperação de Relíquia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Recuperação de Relíquia",
+    "rank": "C",
+    "disponivel": [
+      "[[Pencas]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Recuperação de Relíquias em Ruína Dracônica\n\nRecompensa:\n- Marcas: {min: 1, max: 10}\n- Ouro: {min: 125, max: 125}\nObjetivo:\n- \"Recuperar as duas relíquias da ruína dracônica e entregá-las à [[Sociedade Aberta]].\"\nLocal:\n- \"[[Pencas]] (Ruína Dracônica a 1h ao Norte da cidade, perto de montanhas)\"\nContato: \"Roger Schlow\"\nFinanciador: \"Eli Cohen\"\n```"
+}

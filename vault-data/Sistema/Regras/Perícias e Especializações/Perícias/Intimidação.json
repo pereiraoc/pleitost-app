@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Intimidação",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Intimidação.md",
+  "basename": "Intimidação",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Enganação]]",
+    "next": "[[Perícias de Ofício]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Coagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Intimidação ([[Presença|PRE]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Enganação]]\nnext:: [[Perícias de Ofício]]\n%%\n## Intimidação ([[Presença|PRE]])\n[[Coagir]]. Intimidação rege a capacidade de manipular pessoas com ameaças. Adicionalmente, Intimidação determina a manobra de combate [[Assustar]].\n"
+}

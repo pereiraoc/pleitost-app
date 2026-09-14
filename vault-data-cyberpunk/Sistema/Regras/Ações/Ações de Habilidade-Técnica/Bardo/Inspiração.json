@@ -1,0 +1,115 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Inspiração",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Inspiração.md",
+  "basename": "Inspiração",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Inspiração",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Ato Inspirador]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Inspiração",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Habilidade",
+        "escopo": {
+          "aplicaEm": "Aliados",
+          "compartilharGrupo": true
+        },
+        "visual": {
+          "iconeLigado": "🎵",
+          "iconeDesligado": "🚫",
+          "realceEspecial": "performance-bardica"
+        },
+        "links": {
+          "ativa": [
+            "Performance Bárdica Ativa"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "Ataque",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Aliados em 10q recebem +1 de condição em jogadas de ataque até o início do seu próximo turno."
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Inspirador]]",
+      "parsed": [
+        {
+          "sourceNote": "Inspiração",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Inspirador]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Inspirador]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Ato Inspirador",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Ato Inspirador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Aliados em 10q recebem +1 de condição em jogadas de ataque até o início do seu próximo turno.\n%%\n### `= this.file.name` - `= this.custo`\nAliados em 10q recebem +1 de [[Bônus de Condição|bônus de condição]] em [[Atacar|Ataques]] até o início do seu próximo turno.\n\n![[Ato Inspirador#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

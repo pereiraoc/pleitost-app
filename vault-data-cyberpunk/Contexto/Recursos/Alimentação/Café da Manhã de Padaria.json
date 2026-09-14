@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Café da Manhã de Padaria",
+  "path": "Contexto/Recursos/Alimentação/Café da Manhã de Padaria.md",
+  "basename": "Café da Manhã de Padaria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Padaria de esquina",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Bom Fim]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Cacetinho, café passado e manteiga no balcão da padaria às seis da manhã, antes do turno. Fiado só pra freguês.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Café da Manhã de Padaria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Café da Manhã de Padaria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Café da Manhã de Padaria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO gaúcho chama o pão francês de cacetinho e come dois com manteiga e café passado no balcão, em pé, às seis da\nmanhã. É o primeiro preço do dia em qualquer bairro — Cz$ 30 na [[Jardim Botânico]], Cz$ 45 nos [[Moinhos de Vento]].\n\n> [!info] Especificação\n> **Prato:** 2 cacetinhos, manteiga [[Zaffari]] (ou margarina), café passado no coador de pano\n> **Hora:** 6h, antes do turno; às 7h30 acabou o pão\n> **Fiado:** só pra freguês com nome no caderno\n> **Nos Moinhos:** Cz$ 45 e o pão vem em cestinha\n"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Reponderar Análise",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Reponderar Análise.md",
+  "basename": "Reponderar Análise",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Se sua última ação foi uma [[Análise de Combate]] que falhou, você pode fazer uma nova [[Análise de Combate]] com -2 de [[Penalidades|penalidade de especialização]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Se sua última ação foi uma [[Análise de Combate]] que falhou, você pode fazer uma nova [[Análise de Combate]] com -2 de [[Penalidades|penalidade de especialização]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Reponderar Análise.\n\n**Reponderar Análise - R**\nSe sua última ação foi uma [[Análise de Combate]] que resultou em uma falha, faça uma nova [[Análise de Combate]] com -2 de [[Penalidades|penalidade de especialização]].\n\n```autosheet-rules\n```\n"
+}

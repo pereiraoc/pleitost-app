@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Fonte Entrópica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Fonte Entrópica.md",
+  "basename": "Fonte Entrópica",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Pode perder [[Energia Vital|EV]] para técnicas e magias de Arcanista mesmo abaixo de 1 EV, ficando negativo e [[Morrendo]] a partir de 0.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "Perder EVs",
+      "subpath": "Energia Vital como Recurso"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Pode perder [[Energia Vital|EV]] para técnicas e magias de Arcanista mesmo abaixo de 1 EV, ficando negativo e [[Morrendo]] a partir de 0.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSeu corpo é treinado para gerar energia entrópica até a ultima gota de sangue. Você pode [[Energia Vital#Energia Vital como Recurso|Perder EVs]] para técnicas e magias de Arcanista mesmo se o resultado te deixaria com menos de 1 [[Energia Vital|EV]]. Você fica com [[Energia Vital|EV]] negativa e fica [[Morrendo]] a partir de 0 EV como normalmente quando faz isso.\n\n```autosheet-rules\n```\n"
+}

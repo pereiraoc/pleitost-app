@@ -1,0 +1,35 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator B Negativo",
+  "path": "Sistema/Criação de Personagem/Sintonia/Tipagens/Fator B Negativo.md",
+  "basename": "Fator B Negativo",
+  "type": "Sintonia",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fator B Negativo",
+    "categoria": "Sintonia",
+    "subcategoria": null,
+    "sintonia": null,
+    "dg-publish": false
+  },
+  "inlineFields": {
+    "up": "[[Reatividade Selênica e Tipagem]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Fator B Negativo"
+    }
+  ],
+  "body": "%%\nup:: [[Reatividade Selênica e Tipagem]]\nprev:: \nnext:: \n%%\n### Fator B Negativo\nNegativo: nenhuma linha de reagente pega. Na doutrina Nomi das megacorps, é o registro que ninguém comenta.\n"
+}

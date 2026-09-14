@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Distração/Lá e Cá",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Distração/Lá e Cá.md",
+  "basename": "Lá e Cá",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Enganação]]",
+    "resumo": "\"Finta muito doida.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Enganação]]\nresumo:: \"Finta muito doida.\"\n%%\n### `= this.file.name`\n* Quando você [[Finta]], pode fazer duas Fintas, contra dois inimigos diferentes que estejam no seu alcance e adjacentes um ao outro.\n\n*Requer Distração*\n\n```autosheet-rules\n```\n"
+}

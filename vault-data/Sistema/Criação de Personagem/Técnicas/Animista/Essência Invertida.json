@@ -1,0 +1,538 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Invertida",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Invertida.md",
+  "basename": "Essência Invertida",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]])",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]])",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]])",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]])",
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]])",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]])",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]])",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_c710f8a1",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental do Fogo]]"
+              },
+              {
+                "kind": "name-contains",
+                "slotProp": "Classe",
+                "needle": "[[Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Adepta]]",
+              "[[Essência Hidratante Adepta]]",
+              "[[Essência Torrencial Adepta]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_23bf8fb1",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental da Água]]"
+              },
+              {
+                "kind": "name-contains",
+                "slotProp": "Classe",
+                "needle": "[[Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_04dfa504",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental da Terra]]"
+              },
+              {
+                "kind": "name-contains",
+                "slotProp": "Classe",
+                "needle": "[[Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_afda452c",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental do Vento]]"
+              },
+              {
+                "kind": "name-contains",
+                "slotProp": "Classe",
+                "needle": "[[Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Enraizante Adepta]]",
+              "[[Essência Mineral Adepta]]",
+              "[[Essência Sísmica Adepta]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Classe,[[Animista]] Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_cfbccf41",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental do Fogo]]"
+              },
+              {
+                "kind": "props-contains",
+                "slotProp": "Habilidades.Lista",
+                "needle": "[[Treinamento de Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Menor]]",
+              "[[Essência Hidratante Menor]]",
+              "[[Essência Torrencial Menor]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_4768a9bd",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental da Água]]"
+              },
+              {
+                "kind": "props-contains",
+                "slotProp": "Habilidades.Lista",
+                "needle": "[[Treinamento de Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Menor]]",
+              "[[Essência Flamejante Menor]]",
+              "[[Essência Incendiária Menor]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_850073ce",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental da Terra]]"
+              },
+              {
+                "kind": "props-contains",
+                "slotProp": "Habilidades.Lista",
+                "needle": "[[Treinamento de Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Ciclonal Menor]]",
+              "[[Essência Relampejante Menor]]",
+              "[[Essência Ventania Menor]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Invertida",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Invertida",
+              "choiceKey": "__esc_h_70b58eb4",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "and",
+            "checks": [
+              {
+                "kind": "name-contains",
+                "slotProp": "Sintonia",
+                "needle": "[[Traço Elemental do Vento]]"
+              },
+              {
+                "kind": "props-contains",
+                "slotProp": "Habilidades.Lista",
+                "needle": "[[Treinamento de Animista]]"
+              }
+            ]
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Enraizante Menor]]",
+              "[[Essência Mineral Menor]]",
+              "[[Essência Sísmica Menor]]"
+            ],
+            "label": "Essência Invertida"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Invertida\" Complementar Habilidades.Lista Selecionar ([[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manipular uma essência oposta usando sua sintonia. Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência. \n\nOs efeitos das formas conjuradas dessa essência funcionam normalmente, mas você manifesta essa força elemental de forma fora do usual. Um Animista de Água pode manifestar uma essência de Fogo fazendo vapor quente, um Animista de Terra manifestaria uma essência de vento manipulando areia, etc...\n\nSe você conjura Anima como classe secundária ([[Treinamento de Animista]]), a essência invertida entra na sua linha de conjuração secundária (forma Menor).\n\n| Sintonia | Elemento Oposto |\n| -------- | --------------- |\n| Fogo     | Água            | \n| Água     | Fogo            |\n| Vento    | Terra           |\n| Terra    | Vento           |\n\n```autosheet-rules\n```\n"
+}

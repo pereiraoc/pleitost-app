@@ -1,0 +1,592 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Animista/Avatar",
+  "path": "Sistema/Criação de Personagem/Habilidades/Animista/Avatar.md",
+  "basename": "Avatar",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 5",
+      "Somar Vida.Moral 10",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Definir Magias.Lista.Anima.Proficiencia M",
+      "Definir Magias.Potencia 8",
+      "Definir Magias.EM 7",
+      "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "Nivel 8 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "Nivel 9 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "Nivel 7 Alias Classe Compor 0 \"Avatar\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica, e permite conjurar a forma experiente de 2 [[Essências Elementais]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 5",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "5"
+          },
+          "raw": "Somar Vida.Vitalidade 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 10",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "10"
+          },
+          "raw": "Somar Vida.Moral 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 8",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "8"
+          },
+          "raw": "Definir Magias.Potencia 8",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 7",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "7"
+          },
+          "raw": "Definir Magias.EM 7",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Mestre",
+              "choiceKey": "__esc_h_3680ea1a",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Mestre]]",
+              "[[Essência Hidratante Mestre]]",
+              "[[Essência Torrencial Mestre]]",
+              "[[Essência Explosiva Mestre]]",
+              "[[Essência Flamejante Mestre]]",
+              "[[Essência Incendiária Mestre]]",
+              "[[Essência Enraizante Mestre]]",
+              "[[Essência Mineral Mestre]]",
+              "[[Essência Sísmica Mestre]]",
+              "[[Essência Ciclonal Mestre]]",
+              "[[Essência Relampejante Mestre]]",
+              "[[Essência Ventania Mestre]]",
+              "[[Essência de Criação Mestre]]"
+            ],
+            "label": "Essência Elemental Mestre"
+          },
+          "raw": "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Mestre",
+              "choiceKey": "__esc_h_3780ebad",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Mestre]]",
+              "[[Essência Hidratante Mestre]]",
+              "[[Essência Torrencial Mestre]]",
+              "[[Essência Explosiva Mestre]]",
+              "[[Essência Flamejante Mestre]]",
+              "[[Essência Incendiária Mestre]]",
+              "[[Essência Enraizante Mestre]]",
+              "[[Essência Mineral Mestre]]",
+              "[[Essência Sísmica Mestre]]",
+              "[[Essência Ciclonal Mestre]]",
+              "[[Essência Relampejante Mestre]]",
+              "[[Essência Ventania Mestre]]",
+              "[[Essência de Criação Mestre]]"
+            ],
+            "label": "Essência Elemental Mestre"
+          },
+          "raw": "Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 8 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 8
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Mestre",
+              "choiceKey": "__esc_h_3e2bcb40",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Mestre]]",
+              "[[Essência Hidratante Mestre]]",
+              "[[Essência Torrencial Mestre]]",
+              "[[Essência Explosiva Mestre]]",
+              "[[Essência Flamejante Mestre]]",
+              "[[Essência Incendiária Mestre]]",
+              "[[Essência Enraizante Mestre]]",
+              "[[Essência Mineral Mestre]]",
+              "[[Essência Sísmica Mestre]]",
+              "[[Essência Ciclonal Mestre]]",
+              "[[Essência Relampejante Mestre]]",
+              "[[Essência Ventania Mestre]]",
+              "[[Essência de Criação Mestre]]"
+            ],
+            "label": "Essência Elemental Mestre"
+          },
+          "raw": "Nivel 8 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 9 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 9
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Mestre",
+              "choiceKey": "__esc_h_ed44caf4",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Mestre]]",
+              "[[Essência Hidratante Mestre]]",
+              "[[Essência Torrencial Mestre]]",
+              "[[Essência Explosiva Mestre]]",
+              "[[Essência Flamejante Mestre]]",
+              "[[Essência Incendiária Mestre]]",
+              "[[Essência Enraizante Mestre]]",
+              "[[Essência Mineral Mestre]]",
+              "[[Essência Sísmica Mestre]]",
+              "[[Essência Ciclonal Mestre]]",
+              "[[Essência Relampejante Mestre]]",
+              "[[Essência Ventania Mestre]]",
+              "[[Essência de Criação Mestre]]"
+            ],
+            "label": "Essência Elemental Mestre"
+          },
+          "raw": "Nivel 9 Escolha_Habilidades \"Essência Elemental Mestre\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Mestre]], [[Essência Hidratante Mestre]], [[Essência Torrencial Mestre]], [[Essência Explosiva Mestre]], [[Essência Flamejante Mestre]], [[Essência Incendiária Mestre]], [[Essência Enraizante Mestre]], [[Essência Mineral Mestre]], [[Essência Sísmica Mestre]], [[Essência Ciclonal Mestre]], [[Essência Relampejante Mestre]], [[Essência Ventania Mestre]], [[Essência de Criação Mestre]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Alias Classe Compor 0 \"Avatar\"",
+      "parsed": [
+        {
+          "sourceNote": "Avatar",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Avatar"
+          },
+          "raw": "Nivel 7 Alias Classe Compor 0 \"Avatar\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "|Essência Elemental"
+    },
+    {
+      "target": "Essência Congelante Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica, e permite conjurar a forma experiente de 2 [[Essências Elementais]].\"\n%%\n#### `= this.file.name`\nVocê é a força da natureza encarnado como humano. Animistas que atingem esse nível de experiência são conhecidos como Avatares, seres que tem a fúria das forças elementais nas suas mãos. \n* Sua [[Energia Vital|EV]] máxima aumenta em 5;\n* Sua [[Energia Heroica|EH]] máxima aumenta em 10;\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Mestre]] em [[Ímpeto]];\n* Você se torna [[Experiente]] em [[Vigor]] e [[Evasão]];\n* Você se torna [[Mestre]] em [[Intuição]];\n* Você se torna [[Experiente]] em [[Percepção]];\n* Você se torna [[Mestre]] em [[Magia Anima]];\n* Sua potência mágica para magias de Animista aumenta para 8;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 7;\n* Escolha 1 [[Essências Elementais||Essência Elemental]] que você tem acesso, você pode conjurar a forma Mestre dela. Essa escolha deve ser referente a sua sintonia.\n\n```autosheet-rules\n```\n"
+}

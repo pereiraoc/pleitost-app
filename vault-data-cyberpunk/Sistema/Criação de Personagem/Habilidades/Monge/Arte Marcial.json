@@ -1,0 +1,170 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Arte Marcial",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Arte Marcial.md",
+  "basename": "Arte Marcial",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Ataques.Lista [[Pontos de Pressão]]",
+      "Complementar Ataques.Lista [[Garra de Tigre]]",
+      "Complementar Ataques.Lista [[Presas de Lobo]]",
+      "Complementar Ataques.Lista [[Cauda de Dragão]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você ganha acesso e proficiência em ataques desarmados especiais que tem dano e propriedades alteradas, caso satisfaça o mínimo de [[Força|FOR]] necessária para cada ataque desarmado. Adicionalmente, seus [[ataque desarmado|ataques desarmados]] podem causar dano letal sem penalidades a sua escolha. \""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Ataques.Lista [[Pontos de Pressão]]",
+      "parsed": [
+        {
+          "sourceNote": "Arte Marcial",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Pontos de Pressão]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Pontos de Pressão]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Garra de Tigre]]",
+      "parsed": [
+        {
+          "sourceNote": "Arte Marcial",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Garra de Tigre]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Garra de Tigre]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Presas de Lobo]]",
+      "parsed": [
+        {
+          "sourceNote": "Arte Marcial",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Presas de Lobo]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Presas de Lobo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Cauda de Dragão]]",
+      "parsed": [
+        {
+          "sourceNote": "Arte Marcial",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Cauda de Dragão]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Cauda de Dragão]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "ataque desarmado",
+      "kind": "wikilink",
+      "alias": "ataques desarmados"
+    },
+    {
+      "target": "Pontos de Pressão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garra de Tigre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas de Lobo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cauda de Dragão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você ganha acesso e proficiência em ataques desarmados especiais que tem dano e propriedades alteradas, caso satisfaça o mínimo de [[Força|FOR]] necessária para cada ataque desarmado. Adicionalmente, seus [[ataque desarmado|ataques desarmados]] podem causar dano letal sem penalidades a sua escolha. \"\n%%\n#### `= this.file.name`\nSeu treinamento transforma seu corpo numa arma letal. Você ganha acesso e proficiência em ataques desarmados especiais que tem dano e propriedades alteradas, caso satisfaça o mínimo de [[Força|FOR]] necessária para cada ataque desarmado. Adicionalmente, seus [[ataque desarmado|ataques desarmados]] podem causar dano letal sem penalidades a sua escolha. \n\n| Ataque                | FOR | Dano |   Tipo   | Propriedades                 |\n| --------------------- |:---:|:----:|:--------:| ---------------------------- |\n| [[Pontos de Pressão]] |  0  | d4+2 | contusão | [[Precisa]], [[Apunhalante]] |\n| [[Garra de Tigre]]    |  1  | d6+3 | contusão | [[Precisa]]                  |\n| [[Presas de Lobo]]    |  2  | d6+3 | contusão | [[Precisa]], [[Apunhalante]] |\n| [[Cauda de Dragão]]   |  3  | d8+4 | contusão |                              |\n\n```autosheet-rules\n```\n"
+}

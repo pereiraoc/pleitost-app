@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Especiarias a Granel",
+  "path": "Contexto/Recursos/Alimentação/Especiarias a Granel.md",
+  "basename": "Especiarias a Granel",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Armazém de Secos e Molhados",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Colorau, cominho, pimenta-do-reino e louro nos potes de vidro do armazém — o saquinho que salva a comida de ração.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nUma parede inteira de potes de vidro com rótulo escrito à mão: colorau, cominho, pimenta-do-reino, louro, cravo, canela em pau. O balconista mede na colherinha e fecha no saquinho de papel. Quem vive de [[Ração PIRA]] compra aqui o gosto que a ração não tem.\n\n> [!info] Especificação\n> **Unidade:** o saquinho, 50 g\n> **Mais pedidos:** colorau e pimenta-do-reino\n> **Importadas:** noz-moscada e açafrão só por encomenda, Cz$ 200\n"
+}

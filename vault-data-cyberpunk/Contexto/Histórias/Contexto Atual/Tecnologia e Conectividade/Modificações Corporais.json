@@ -1,0 +1,406 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Modificações Corporais",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Modificações Corporais.md",
+  "basename": "Modificações Corporais",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A integração de implantes cibernéticos e seus impactos sociais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Modificações Corporais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Diagrama-Adaptador-Selênicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Círculo das Ligas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina-Modificações-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "Químico"
+    },
+    {
+      "target": "Bracelete Elemental",
+      "kind": "wikilink",
+      "alias": "Porta de Reagentes"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink",
+      "alias": "Modulador de Voz"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Consistência",
+      "kind": "wikilink",
+      "alias": "Consistência"
+    },
+    {
+      "target": "Foco da Intensificação",
+      "kind": "wikilink",
+      "alias": "Intensificação"
+    },
+    {
+      "target": "Foco da Penetração",
+      "kind": "wikilink",
+      "alias": "Precisão"
+    },
+    {
+      "target": "Foco da Repetição",
+      "kind": "wikilink",
+      "alias": "Repetição"
+    },
+    {
+      "target": "Acesso a Tecnologia",
+      "kind": "wikilink",
+      "subpath": "🔧 Onde se instala módulo e válvula"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink",
+      "alias": "Pirata"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trônica e Lênica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink",
+      "alias": "Reatividade"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência\\",
+      "kind": "wikilink",
+      "alias": "Braço Hidráulico"
+    },
+    {
+      "target": "Botas Fluídicas\\",
+      "kind": "wikilink",
+      "alias": "Pernas Hidráulicas"
+    },
+    {
+      "target": "Braceletes de Pedra\\",
+      "kind": "wikilink",
+      "alias": "Reforço de Punho"
+    },
+    {
+      "target": "Luvas do Ladrão\\",
+      "kind": "wikilink",
+      "alias": "Gazua Integrada"
+    },
+    {
+      "target": "Luvas Purificadas\\",
+      "kind": "wikilink",
+      "alias": "Aplicador Asséptico"
+    },
+    {
+      "target": "Anel da Resistência\\",
+      "kind": "wikilink",
+      "alias": "Implante Subdérmico"
+    },
+    {
+      "target": "Cinto dos Ermos\\",
+      "kind": "wikilink",
+      "alias": "Compartimento de Campo"
+    },
+    {
+      "target": "Bracelete Elemental\\",
+      "kind": "wikilink",
+      "alias": "Porta de Reagentes"
+    },
+    {
+      "target": "Diapasão Elemental\\",
+      "kind": "wikilink",
+      "alias": "Tampão de Fator"
+    },
+    {
+      "target": "Capa Discreta\\",
+      "kind": "wikilink",
+      "alias": "Difusor de Silhueta"
+    },
+    {
+      "target": "Anel do Equilíbrio\\",
+      "kind": "wikilink",
+      "alias": "Estabilizador Vestibular"
+    },
+    {
+      "target": "Luva do Arcanista\\",
+      "kind": "wikilink",
+      "alias": "Adaptador de Operador"
+    },
+    {
+      "target": "Anel Mensageiro\\",
+      "kind": "wikilink",
+      "alias": "Transceptor Clavicular"
+    },
+    {
+      "target": "Colar da Eloquência\\",
+      "kind": "wikilink",
+      "alias": "Modulador de Voz"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broche Artístico\\",
+      "kind": "wikilink",
+      "alias": "Amplificador de Palco"
+    },
+    {
+      "target": "Anel Canário\\",
+      "kind": "wikilink",
+      "alias": "Dublê"
+    },
+    {
+      "target": "Sensor Arcano\\",
+      "kind": "wikilink",
+      "alias": "Sensor Trônico"
+    },
+    {
+      "target": "Diadema da Ameaça\\",
+      "kind": "wikilink",
+      "alias": "Difusor de Ameaça"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brasão Tático\\",
+      "kind": "wikilink",
+      "alias": "Olho Tático"
+    },
+    {
+      "target": "Modificações Corporais",
+      "kind": "wikilink",
+      "alias": "prótese de todo dia",
+      "subpath": "🧩 Prótese de todo dia"
+    },
+    {
+      "target": "Broche Artístico",
+      "kind": "wikilink",
+      "alias": "Amplificador de Palco"
+    },
+    {
+      "target": "Diadema da Ameaça",
+      "kind": "wikilink",
+      "alias": "Difusor de Ameaça"
+    },
+    {
+      "target": "Foco da Consistência\\",
+      "kind": "wikilink",
+      "alias": "Válvula de Consistência"
+    },
+    {
+      "target": "Foco da Intensificação\\",
+      "kind": "wikilink",
+      "alias": "de Intensificação"
+    },
+    {
+      "target": "Foco da Penetração\\",
+      "kind": "wikilink",
+      "alias": "da Precisão"
+    },
+    {
+      "target": "Foco da Repetição\\",
+      "kind": "wikilink",
+      "alias": "de Repetição"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink",
+      "alias": "Olho Tático"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercur",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo Completo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Criar Runa",
+      "kind": "wikilink",
+      "alias": "Gravar Cartucho"
+    },
+    {
+      "target": "Embratel-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Modificações Corporais.png",
+      "from": "body"
+    },
+    {
+      "target": "Diagrama-Adaptador-Selênicos.png",
+      "from": "body"
+    },
+    {
+      "target": "Oficina-Modificações-trabalhadores.png",
+      "from": "body"
+    },
+    {
+      "target": "Corpo Completo.png",
+      "from": "body"
+    },
+    {
+      "target": "Gurgel-trabalhadores.png",
+      "from": "body"
+    },
+    {
+      "target": "Embratel-trabalhadores.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "💎 Implantes Selênicos"
+    },
+    {
+      "level": 4,
+      "text": "🔌 O que se pluga no adaptador"
+    },
+    {
+      "level": 5,
+      "text": "🔧 O Módulo é fundido, e não sai"
+    },
+    {
+      "level": 4,
+      "text": "🦿 O que uma prótese diz de quem a usa"
+    },
+    {
+      "level": 5,
+      "text": "⚙️ A disciplina"
+    },
+    {
+      "level": 5,
+      "text": "🧍 A linha de fábrica"
+    },
+    {
+      "level": 5,
+      "text": "🩻 Onde a peça mora"
+    },
+    {
+      "level": 4,
+      "text": "💠 O quanto do corpo a peça já tomou"
+    },
+    {
+      "level": 4,
+      "text": "🏢 Quem fabrica"
+    },
+    {
+      "level": 4,
+      "text": "🧩 Prótese de todo dia"
+    },
+    {
+      "level": 4,
+      "text": "🧍‍♂️ Conhecimento Público"
+    },
+    {
+      "level": 4,
+      "text": "🛠 Alternativas de Baixa Tecnologia"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Modificações Corporais.png]]\n\n#### 💎 Implantes Selênicos\n\nA tecnologia do implante selênico funciona em duas etapas:\n\n1. **Instalação do Adaptador (ambiente hospitalar ou clínica clandestina):**\n\t- Um adaptador é implantado em contato com os nervos do corpo.\n\t- Ele contém um processador baseado em selênica, capaz de interpretar impulsos neurais com enorme plasticidade.\n\t- Esse processador se ajusta organicamente à biologia do usuário, criando uma ponte silenciosa entre o cérebro e o implante.\n\t- Durante o primeiro ou segundo ano, usuários relatam fadiga acima do normal para operar o implante — conhecida como *fase de adaptação*.\n\t- Após esse período, o controle passa a ser praticamente natural.\n2. **Instalação do Implante (em casa ou até na rua):**\n- O implante se conecta de forma mecânica e elétrica ao adaptador já instalado.\n- A instalação pode ser feita por técnicos comuns ou até de maneira improvisada, como a colocação de uma prótese externa.\n\n![[Diagrama-Adaptador-Selênicos.png]]\n\n> 🧯 Existem boatos entre técnicos e usuários experientes de que, em alguns casos graves de alteração de comportamento, ao abrir o adaptador foi observado que o chip selênico havia \"vazado\" pela placa, como se estivesse se expandindo ou tentando crescer fora do espaço original. Não há confirmação oficial sobre isso, e especialistas ligados ao governo tratam como histeria coletiva ou erro de manutenção.\n\n> 🔓 Algumas pessoas realizam *jailbreaks* no adaptador, substituindo o chip selênico por uma versão eletrônica muito inferior — que demanda maior esforço mental e motor, e não oferece as mesmas respostas rápidas. É o atalho de quem não passa no laudo, e é o que o [[Círculo das Ligas]] vende no [[Quarto Distrito]] por Cz$ 20.000 a 40.000.\n\n![[Oficina-Modificações-trabalhadores.png|500]]\n\n#### 🔌 O que se pluga no adaptador\nO adaptador não serve só pra prótese. Ele é a tomada do corpo, e três coisas\ndiferentes entram nela — quem confunde as três paga caro na oficina errada.\n\n**Cartucho** é rotina gravada, de uso único: pluga, executa, descarta. É o que a\ncidade inteira usa, porque não exige nada além do adaptador. A palavra, porém,\nserve pra qualquer coisa que pluga, queima e se joga fora, e no balcão isso dá\nconfusão: existe o cartucho de **rotina**, que é o que o [[Animista|Químico]]\nprepara na bancada e qualquer um dispara; o cartucho de **reagente**, que é\nrecarga da [[Bracelete Elemental|Porta de Reagentes]], encomendado aos Químicos\ndo [[Jardim Itu]]; e o cartucho de **idioma**, que é avulso do\n[[Colar da Eloquência|Modulador de Voz]] e se acha no Centro. Quem pede \"um\ncartucho\" sem dizer de quê é reconhecido na hora como quem nunca plugou nada.\n\n**Válvula selênica** é o cilindro de reagente montado no antebraço, com o visor\nde vidro à mostra. Carrega sozinha no descanso e drena na execução, pra ela sair\nmais forte, mais certa ou repetida — equipamento de quem opera de verdade. Tem\nnúmero de patrimônio quando é da [[Gradiente]], e queima reagente que precisa\nser reposto. São quatro linhas: a [[Foco da Consistência|Consistência]], que os\noperadores de bancada chamam de seguro; a\n[[Foco da Intensificação|Intensificação]], que empurra a execução acima do que a\nlinha aguentava; a [[Foco da Penetração|Precisão]], calibrada pra vencer\nblindagem; e a [[Foco da Repetição|Repetição]], que guarda o molde da última\nexecução e repete de graça.\n\n**Módulo** não vai no corpo: vai na arma. Onde se instala cada um dos três, com\nque laudo e por quanto, está em\n[[Acesso a Tecnologia#🔧 Onde se instala módulo e válvula]].\n\n##### 🔧 O Módulo é fundido, e não sai\nO Módulo não vai aparafusado em nada: é peça **fundida no ferro da arma**, e\nquem instala é bancada de oficina, não clínica. Quando entra, **só sai quebrando\na arma e o módulo junto** — não se transfere pra outra arma, não se revende, não\nse recupera. Uma arma modulada é uma arma nova, e perder uma é perder as duas.\n\nÉ por isso que ninguém empresta módulo. O que a [[Gradiente]] registra é a\ninstalação, não uma peça que volta pro estoque; e quando o\n[[Círculo das Ligas]] banca a fusão pro [[Mago|Pirata]], o que fica com o\nCírculo é a arma no papel e a dívida ([[Regalias de Classe]]). Subir de versão\nquer dizer fundir de novo, em ferro novo.\n\nO soquete que algumas armas têm é pra cartucho, que sai porque queima — nunca\npra módulo. Quem leva módulo pra clínica, ou pede pra tirar o módulo de uma arma\ne pôr em outra, é reconhecido na hora como quem nunca pegou em arma modificada.\n\n#### 🦿 O que uma prótese diz de quem a usa\nQuem entende do assunto lê três coisas numa peça antes de perguntar o preço: de\nque disciplina ela é, de que linha de fábrica saiu, e onde no corpo ela mora.\n\n##### ⚙️ A disciplina\n**Trônica** é a selênica eletrônica — chips e rotinas. **Lênica** é a química:\nreagentes e doses, e cada elemento é uma linha de reagente própria. Peça sem\nselênica nenhuma é só ferragem, e ainda existe muita. A teoria das duas está em\n[[Trônica e Lênica]]; operar Lênica de verdade exige Fator positivo, o que se\ndescobre no laudo de [[Reatividade Selênica e Tipagem|Reatividade]].\n\n##### 🧍 A linha de fábrica\nPeça **cívica** saiu de linha comercial, com um uso legítimo que se sustenta\nsozinho. Peça **militar** saiu de contrato do Exército ou da\n[[Brigada Militar Metropolitana|Brigada]] — e isso não tem a ver com ser legal\nnem com ser caro: prótese militar desviada é vendida no [[Camelódromo]] como\nqualquer outra, só que sem laudo e com o patrimônio lixado. O que muda é que\ncontrato não se compra. Quase tudo que se vê num corpo comum é cívico, porque o\narsenal do Exército continua no Exército.\n\nDentro de cada linha, a peça faz uma de três coisas: age no **corpo** (força,\ncarga, movimento), roda **rotina** (comando, comunicação, execução) ou trabalha\no **sentido** (o que se vê, se ouve, se mede).\n\n> [!note]- Onde cada peça se encaixa nas duas leituras\n> | | **Corpo** | **Rotina** | **Sentido** |\n> |---|---|---|---|\n> | **Cívica** | [[Pulseira da Potência\\|Braço Hidráulico]] · [[Botas Fluídicas\\|Pernas Hidráulicas]] · [[Braceletes de Pedra\\|Reforço de Punho]] · [[Luvas do Ladrão\\|Gazua Integrada]] · [[Luvas Purificadas\\|Aplicador Asséptico]] · [[Anel da Resistência\\|Implante Subdérmico]] · [[Cinto dos Ermos\\|Compartimento de Campo]] · [[Bracelete Elemental\\|Porta de Reagentes]] · [[Diapasão Elemental\\|Tampão de Fator]] · [[Capa Discreta\\|Difusor de Silhueta]] · [[Anel do Equilíbrio\\|Estabilizador Vestibular]] | [[Luva do Arcanista\\|Adaptador de Operador]] · [[Anel Mensageiro\\|Transceptor Clavicular]] · [[Colar da Eloquência\\|Modulador de Voz]] · as quatro Válvulas | [[Amplificador Audiovisual]] · [[Broche Artístico\\|Amplificador de Palco]] · [[Anel Canário\\|Dublê]] · [[Sensor Arcano\\|Sensor Trônico]] |\n> | **Militar** | [[Diadema da Ameaça\\|Difusor de Ameaça]] — linha de contenção [[Panvel]], contrato com a Brigada | — | [[Brasão Tático\\|Olho Tático]] — fábrica [[Gradiente]] sob contrato do Exército |\n>\n> As militares que se vê na rua são desvio de lote ou peça que não foi devolvida\n> no fim do contrato. O resto do que o Exército usa não circula: está em\n> [[Modificações Corporais#🧩 Prótese de todo dia|prótese de todo dia]], junto\n> com o exoesqueleto de choque e o link neural de pelotão.\n\n##### 🩻 Onde a peça mora\nComo todo implante tem que conviver com todos os outros, cada peça tem um lugar\ne uma profundidade: na derme, entre a pele e o osso, dentro do osso, ou no lugar\nda parte que ela substituiu. **Duas peças só brigam quando coincidem nas duas\ncoisas** — é por isso que o [[Broche Artístico|Amplificador de Palco]], que é\nplaca no osso do esterno porque é o osso que ressoa, convive com o\n[[Diadema da Ameaça|Difusor de Ameaça]], que é cápsula sob a pele do mesmo\nesterno porque precisa ventilar pelos poros.\n\n> [!note]- Peça por peça, do crânio aos pés\n> | Região | Prótese | Disciplina | Profundidade |\n> |---|---|---|---|\n> | base do crânio | [[Luva do Arcanista\\|Adaptador de Operador]] | Trônica | no osso |\n> | nuca | [[Anel Canário\\|Dublê]] | Lênica (Vento) | no osso |\n> | olho dominante | [[Brasão Tático\\|Olho Tático]] | Trônica | substituição |\n> | do olho à orelha | [[Amplificador Audiovisual]] | Trônica | sob a pele |\n> | ouvido interno | [[Anel do Equilíbrio\\|Estabilizador Vestibular]] | Trônica | substituição |\n> | laringe e conduto auditivo | [[Colar da Eloquência\\|Modulador de Voz]] | Trônica | substituição |\n> | sob a clavícula | [[Anel Mensageiro\\|Transceptor Clavicular]] | Lênica (Vento) | no osso |\n> | esterno | [[Broche Artístico\\|Amplificador de Palco]] | Trônica | no osso |\n> | ombros (par) | [[Diadema da Ameaça\\|Difusor de Ameaça]] | Lênica (Fogo) | sob a pele |\n> | dorso, escápulas à lombar | [[Capa Discreta\\|Difusor de Silhueta]] | Lênica (Vento) | na derme |\n> | ao longo da coluna | [[Sensor Arcano\\|Sensor Trônico]] | Trônica | sob a pele |\n> | costelas flutuantes | [[Diapasão Elemental\\|Tampão de Fator]] | Lênica | no osso |\n> | parede abdominal | [[Anel da Resistência\\|Implante Subdérmico]] | Trônica | sob a pele |\n> | crista ilíaca | [[Cinto dos Ermos\\|Compartimento de Campo]] | Lênica (Terra) | no osso |\n> | braço, acima do cotovelo | [[Bracelete Elemental\\|Porta de Reagentes]] | Lênica | sob a pele |\n> | antebraço | [[Pulseira da Potência\\|Braço Hidráulico]] | Trônica | substituição |\n> | porta do antebraço | [[Foco da Consistência\\|Válvula de Consistência]] · [[Foco da Intensificação\\|de Intensificação]] · [[Foco da Penetração\\|da Precisão]] · [[Foco da Repetição\\|de Repetição]] | Trônica | encaixe |\n> | carpo | [[Braceletes de Pedra\\|Reforço de Punho]] | Lênica (Terra) | no osso |\n> | dorso da mão | [[Luvas do Ladrão\\|Gazua Integrada]] | Lênica (Água) | sob a pele |\n> | polpas dos dedos | [[Luvas Purificadas\\|Aplicador Asséptico]] | Lênica (Água) | substituição |\n> | panturrilha e tornozelo | [[Botas Fluídicas\\|Pernas Hidráulicas]] | Lênica (Água) | sob a pele |\n\n#### 💠 O quanto do corpo a peça já tomou\nO que separa uma prótese de outra não é só o que ela faz — é **o quanto do corpo\nela já tomou**, e isso se lê de longe. Uma pluga num adaptador que a pessoa já\ntem: minutos, técnico comum, na rua, e sai inteira pra vender pelo preço cheio.\nOutra vai enxertada sob a pele, em clínica, num dia — sai em clínica, e usada\nvale metade. A última ocupa o lugar de uma parte: cirurgia, internação, e não\nsai sem abrir.\n\nAs três versões de uma mesma peça sobem por essa escada. A mais barata pluga ou\naparafusa por fora; a do meio é enxertada; a de cima é cirurgia de integração,\ncom osso, nervo ou músculo crescendo por cima.\n\nO visual de premium é a **ausência de junta** — a barata mostra como foi\nmontada, a caríssima esconde. Mas esconder a ferragem não é esconder o dinheiro:\na de cima é titânio polido, cerâmica branca e anel dourado na junta, com a placa\nda marca discreta e o vidro de laboratório embutido. De longe ninguém vê\nparafuso; vê que aquilo custou. E ela fica mais perene, não maior — nunca invade\na região da vizinha.\n\nUma peça escapa dessa regra: o [[Brasão Tático|Olho Tático]]. A cirurgia é o aro\nda órbita e o manguito do nervo, feita uma vez; o olho em si troca como peça até\nna versão mais cara, porque o Exército precisa recuperá-lo quando o contrato\nacaba.\n\nCada empresa dá o seu nome à versão, e é esse nome que está na caixa:\n\n| Fabricante | Entrada | Intermediária | Topo de linha |\n|---|---|---|---|\n| [[Gradiente]] | Compo | Prestige | Concert |\n| [[Tramontina]] | Basic | PRO | PRO MAX |\n| [[Panvel]] | *(sem sufixo)* | Plus | AP |\n| [[Mercur]] | Verde | Azul | Preta |\n| [[Embratel]] | Classe C | Classe B | Classe A |\n| Gradiente sob contrato do Exército | MK-I | MK-II | MK-III |\n\n![[Corpo Completo.png]]\n> Prancha de catálogo: o mesmo corpo com o equipamento completo nos três graus.\n> O pobre carrega a prótese por fora; o rico carrega a dele polida.\n\n#### 🏢 Quem fabrica\nNada neste mundo nasce sem marca. Toda peça sai de uma empresa, com um uso\nlegítimo que se sustenta sozinho, e o *jailbreak* é sempre modificação de algo\nque já existia — nunca a origem. \"Envenenado\" é gíria de rua pra unidade\nadulterada, não um selo de fábrica.\n\n- **[[Tramontina]]** — próteses de carga e de jornada, armas brancas, coletes.\n  Contratos com a ditadura pra armamento e prótese militar; o programa de\n  trabalho desconta em folha.\n- **[[Gradiente]]** — chips, rotinas, focos, sensores; as Escolas Trônicas que\n  formam operadores, e a válvula selênica de prateleira. Sob contrato do\n  Exército, é ela que fabrica a linha MK.\n- **[[Panvel]]** — injetores, doses, portas de infusão e os laudos da PIRA.\n  Também a linha de contenção que a Brigada compra por contrato.\n- **[[Mercur]]** — lâmina dérmica e saúde ocupacional; gradua por cor.\n- **[[Embratel]]** — transceptores homologados. Ela escuta, o que todo mundo\n  sabe e ninguém comenta no ar.\n- **[[Quarto Distrito]] (sem marca)** — módulos piratas e jailbreak. Não\n  fabrica: adultera o que as outras fizeram.\n\n![[Gurgel-trabalhadores.png|500]]\n\n#### 🧩 Prótese de todo dia\n> A cidade tem muito mais implante no corpo do que aparece numa briga.\n\nA maior parte do que Porto Alegre carrega não serve pra vantagem nenhuma: serve\npra trabalhar, pra viver e pra parecer. É o braço hidráulico do estivador, o\nfiltro visual do soldador, o assistente de memória do tecnocrata, o exoesqueleto\nque a colônia usa pra levantar peso parado. Ninguém chama isso de equipamento —\nchama de emprego.\n\nVale a mesma lei das outras: tudo tem fabricante e uso legítimo. E o que a\nperiferia usa não é menos prótese por ser de sucata — é só mais barulhenta, mais\nmanual e com manutenção toda semana.\n\n> [!note]- O catálogo do que a rua usa\n> | Modificação | Linha · O que faz | Quem faz | Quem usa |\n> |---|---|---|---|\n> | Braço hidráulico industrial | cívica · corpo | [[Tramontina]] (programa de trabalho) | estivador, chapa, metalúrgico |\n> | Perna com reforço estrutural | cívica · corpo | Tramontina | quem faz jornada em pé |\n> | Exoesqueleto agrícola | cívica · corpo | Tramontina | colônia, cinturão verde |\n> | Prótese analógica de sucata | cívica · corpo | ferro-velho do [[Clã da Ferrugem]] | [[Restinga]], [[Cidade Baixa]] |\n> | Implante ocular com filtro visual | cívica · sentido | [[Gradiente]] | soldador, inspetor, motorista noturno |\n> | Prótese auditiva com tradução | cívica · sentido | Gradiente (linha executiva) | escritório, portaria, hotel |\n> | Assistente cognitivo de memória e foco | cívica · rotina | Gradiente | tecnocrata, estudante do [[Colégio Rosário]] |\n> | Conexão criptografada de elite | cívica · rotina | [[Embratel]] | diretoria, [[Ipanema]], [[Moinhos de Vento]] |\n> | Exoesqueleto de choque | militar · corpo | Tramontina (contrato) | BOPE corporativo, [[Petrópolis]] |\n> | Membro de força ampliada, ferramenta integrada (maçarico, lâmina retrátil) | militar · corpo | Tramontina (linha militar) | tropa, segurança de refino |\n> | Interface de comando por pensamento | militar · rotina | Gradiente sob contrato | oficialato, inteligência |\n> | Link neural de voz sem fala | militar · rotina | Gradiente / Embratel | pelotão, escuta |\n> | Sensor de variação térmica e emocional | militar · sentido | Gradiente sob contrato | interrogatório, triagem |\n> | Jailbreak do adaptador | — | [[Círculo das Ligas]], [[Quarto Distrito]] | quem não passa no laudo |\n\n> [!note]- Na mesa — o que entra na ficha e o que é só mundo\n> **A fronteira é a vantagem.** Se a peça dá bônus em teste, ataque, defesa ou\n> perícia, ela é **item**: tem preço, tem as três versões, ocupa lugar e\n> profundidade no corpo e entra na ficha do personagem. Se ela só faz alguém\n> trabalhar, viver ou parecer, é **mundo**: cor de cena, sem linha na ficha e\n> sem número nenhum. Toda modificação da tabela acima é mundo.\n>\n> Isso resolve a pergunta que sempre volta quando alguém inventa um implante na\n> mesa, e vale também pra três casos que passam perto da fronteira sem cruzar:\n> o **filtro visual** filtra claridade e não faz ver no escuro; a **tradução em\n> tempo real** traduz conversa e não dá bônus social nem de perícia; o\n> **assistente cognitivo** lembra agenda e não melhora teste nenhum. O\n> **exoesqueleto de choque** e as peças de tropa existem como equipamento de\n> NPC — quem enfrenta um vê a ficha no bestiário, não na loja.\n>\n> **Dos três que plugam no adaptador**, só o cartucho de rotina é item: é o que\n> o [[Animista|Químico]] produz com [[Criar Runa|Gravar Cartucho]], e é o que o\n> sistema trata como pergaminho. Cartucho de reagente e de idioma são recarga e\n> acessório — a munição do item, não um item. A válvula e o módulo são itens, e\n> o módulo, uma vez fundido, morre com a arma.\n\n![[Embratel-trabalhadores.png|500]]\n\n> ⚠️ Muitos dos implantes considerados \"cognitivos\" têm suas comunicações interceptadas e gravadas pelo governo ou empresas terceirizadas, o que levanta preocupações entre usuários críticos do regime.\n\n#### 🧍‍♂️ Conhecimento Público\n> A população sabe dos riscos, mas o sistema os minimiza.\n\n- **Boatos populares:**  “O chip que sussurra”, “A droga que olha de volta”, “Gente que some depois do terceiro Omega.\n- **Empresas e governo:**  Divulgam estudos sobre “casos isolados”, sugerem moderação, mas aumentam metas e cargas horárias.\n- **Campanhas públicas:** \"selênico é produtividade”, “Quem avança não dorme.”\n\n#### 🛠 Alternativas de Baixa Tecnologia\n> Para quem recusa os selênicos, a vida é mais difícil, mas possível.\n\n- **Café ultraconcentrado e drogas pré-selênicas** são usados por “selênico-céticos”.\n- **Próteses analógicas:** braços hidráulicos, engrenagens ruidosas, controle manual — exigem manutenção constante.\n- **Comunidades alternativas** desenvolvem tecnologias limitadas porém “limpas”, vivendo às margens da megacidade.\n"
+}

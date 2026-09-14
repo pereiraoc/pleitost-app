@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Xis",
+  "path": "Contexto/Recursos/Alimentação/Xis.md",
+  "basename": "Xis",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Lancheria de esquina",
+    "Preço": 100,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Cidade Baixa]]",
+      "[[Shopping Iguatemi]]"
+    ],
+    "Resumo": "O cheeseburger gaúcho: pão, hambúrguer, ovo, presunto, queijo, milho, ervilha e maionese, tudo prensado na chapa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Xis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Xis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Xis.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPorto Alegre não come hambúrguer, come xis. Pão de hambúrguer, carne, ovo frito, presunto, queijo, alface,\ntomate, milho, ervilha e maionese, prensado na chapa até virar um bloco que não cabe na boca. Xis-coração\n(com coração de galinha) é o pedido de quem acabou de sair do turno.\n\n> [!info] Especificação\n> **O que é:** pão, hambúrguer, ovo, presunto, queijo, milho, ervilha, maionese — prensado\n> **Variantes:** xis-salada Cz$ 100, xis-coração Cz$ 120, xis-calabresa Cz$ 110\n> **Onde:** lancheria de esquina do [[Bom Fim]] e da [[Cidade Baixa]]; no [[Shopping Iguatemi]] custa Cz$ 200 e é menor\n> **Bebida:** [[Guaraná Fruki]] 290 ml ou [[Polar Tradicional]]\n> **Hora:** madrugada: a lancheria é o último lugar aberto antes do toque\n"
+}

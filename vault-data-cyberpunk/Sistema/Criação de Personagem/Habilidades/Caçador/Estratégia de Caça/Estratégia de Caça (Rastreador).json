@@ -1,0 +1,162 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça (Rastreador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça (Rastreador).md",
+  "basename": "Estratégia de Caça (Rastreador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "Alias Classe Compor 1 \"Rastreador\"",
+      "Somar Papel.Abatedor 1"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Primeiro Ataque",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "🎯",
+          "iconeDesligado": "🚫",
+          "ancorar": "AtaquesEAcoes"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtraPorNivel",
+            "valor": {
+              "porNivel": {
+                "1": "d6",
+                "4": "d10",
+                "7": "d12"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "estado": "Alvo de Caça"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Furtividade]]. A primeira vez em cada um dos seus turnos que você acerta um [[Atacar|Ataque]] contra seu alvo de caça, você causa 1d6 de dano adicional como dano de precisão. Você recebe +2 de [[bônus de circunstância]] para [[Rastrear]] seu alvo de caça.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Rastreador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Rastreador\"",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Rastreador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Rastreador"
+          },
+          "raw": "Alias Classe Compor 1 \"Rastreador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça (Rastreador)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Abatedor 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Furtividade]]. A primeira vez em cada um dos seus turnos que você acerta um [[Atacar|Ataque]] contra seu alvo de caça, você causa 1d6 de dano adicional como dano de precisão. Você recebe +2 de [[bônus de circunstância]] para [[Rastrear]] seu alvo de caça.\"\n%%\n##### `= this.file.name`\nVocê busca, isola e foca em derrotar sua presa. Você se torna [[Adepto]] em [[Furtividade]]. A primeira vez em cada um dos seus turnos que você acerta um [[Atacar|Ataque]] contra seu alvo de caça, você causa 1d6 de dano adicional como dano de precisão. Você recebe +2 de [[bônus de circunstância]] para [[Rastrear]] seu alvo de caça.\n\n```autosheet-rules\n```\n"
+}

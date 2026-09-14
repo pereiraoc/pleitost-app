@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Acompanhar Marca",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Acompanhar Marca.md",
+  "basename": "Acompanhar Marca",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando seu alvo de caça move, mova-se o mesmo numero de quadrados, acompanhando a criatura, como reação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "move"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando seu alvo de caça move, mova-se o mesmo numero de quadrados, acompanhando a criatura, como reação.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Acompanhar Marca.\n*Requer Estratégia de Caça Rastreador*\n\n**Acompanhar Marca - R**\nVocê mantêm seu alvo de caça na distância planejada, rastreando-o mesmo em combate. Quando seu alvo de caça se [[Mover|move]], você pode, como reação, [[Mover]] o mesmo número de quadrados movidos pela criatura (até um máximo da sua movimentação) assim que ela terminar o movimento dela. Você deve terminar seu movimento mais perto do seu alvo de caça do que você estava antes de iniciar seu movimento.\n\n```autosheet-rules\n```\n"
+}
