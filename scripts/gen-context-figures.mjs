@@ -33,7 +33,7 @@
 //
 // Credencial (só pro caminho API): OPENAI_API_KEY ou ~/.secrets/openai.key.
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlinkSync } from 'node:fs'
-import { join, basename, dirname } from 'node:path'
+import { join, basename, dirname, extname } from 'node:path'
 import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
@@ -1708,18 +1708,13 @@ const CABECALHO_CODEX = {
   ],
 }
 
-// Pendente = marcado pra regerar OU sem arquivo final no layout flat.
-// WEBP NO ACERVO (2026-09-13): a arte entra na vault já em webp. Um retrato de
-// 1024×1536 sai de ~3,4 MB em PNG pra ~350 KB, e é o que faz o site publicado
-// caber no GitHub Pages sem reencodar nada no deploy. q90 é praticamente
-// indistinguível do original em ilustração, e evita perda de geração: o
-// gen-thumbs pula o que já é webp e serve o próprio master.
-const WEBP_QUALIDADE = 90
-/** Destino final da arte: o mesmo caminho, em .webp. */
+/** O mesmo caminho em .webp — só pra CONFERIR se a arte existe. A vault guarda
+ *  o master no formato original (PNG); quem gera webp é o deploy, no dist. Duas
+ *  peças antigas já estão em webp, e por isso a checagem aceita os dois. */
 const saidaWebp = (out) => out.replace(/\.[^.]+$/, '.webp')
 
-// Pendente = marcado pra regerar, ou sem arte em NENHUM dos dois formatos. O
-// acervo antigo é .png e não se remigra só por causa disto.
+// Pendente = marcado pra regerar, sem arte em NENHUM dos dois formatos, ou com
+// a ficha mexida depois da imagem.
 const temArte = (t) => existsSync(t.out) || existsSync(saidaWebp(t.out))
 /** A ficha mudou depois que a arte foi feita? Só vale pra peça que já foi
  *  selada — arte antiga sem selo não se acusa de nada. */
@@ -1836,15 +1831,20 @@ if (INGEST) {
       if (t.transparente && !meta.hasAlpha) avisos.push(`${t.chave}: SEM canal alfa — fundo provavelmente opaco, refazer?`)
       mkdirSync(dirname(t.out), { recursive: true })
       // ARQUIVO ÚNICO: o gerado É o final, sem resize e sem cópia arquivada
-      // (thumbnail é responsabilidade do app, decisão 2026-09-04) — só que em
-      // WEBP, na mesma resolução. Se havia um .png do mesmo item, ele sai.
-      const destino = saidaWebp(t.out)
-      await img.webp({ quality: WEBP_QUALIDADE }).toFile(destino)
-      if (destino !== t.out && existsSync(t.out)) unlinkSync(t.out)
+      // (thumbnail é responsabilidade do app, decisão 2026-09-04) — e NO FORMATO
+      // ORIGINAL.
+      //
+      // A VAULT GUARDA O MASTER (decisão do mestre, 2026-09-13): "manter os PNG
+      // fonte na vault e fazer os webp no pleitost-app quando for fazer deploy".
+      // Quem encolhe é o `gen-thumbs`, que reencoda no DIST — 3 GB de acervo
+      // viram 293 MB servidos sem a vault perder um pixel. Converter aqui
+      // trocaria o master por uma versão com perda, e não teria volta.
+      const destino = t.out.replace(/\.[^.]+$/, extname(f).toLowerCase())
+      await img.toFile(destino)
       unlinkSync(join(dir, f))
       REGERAR.delete(t.chave)
       PROMPTS[t.chave] = selo(t.prompt)
-      console.log(`ok: ${t.chave} → ${t.novo}.webp`)
+      console.log(`ok: ${t.chave} → ${basename(destino)}`)
       ok++
     }
   }

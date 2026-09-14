@@ -14,7 +14,7 @@
 import { useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
-import { assetUrl, useAssetIndex } from '../../data/assets'
+import { assetUrl, resolveAsset, useAssetIndex } from '../../data/assets'
 import { docPath } from '../../paths'
 import { listLocalizacoes } from '../../rules/naturalidade'
 import type { RegionMap } from '../../data/region-maps'
@@ -179,7 +179,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
 
   const map = useMapView()
   const gridPath = useMemo(() => hexGridPath(), [])
-  const mapEntry = assets?.byPath.get(region.mapAsset) ?? null
+  // `resolveAsset` em vez de `byPath.get`: o literal diz `.png` e o acervo é webp.
+  const mapEntry = assets ? resolveAsset(assets, region.mapAsset) : null
 
   const drawingLasso = mode === 'regioes' && lasso && !!pendingArea
 

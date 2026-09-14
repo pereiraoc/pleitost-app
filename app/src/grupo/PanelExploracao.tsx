@@ -984,8 +984,10 @@ export function PanelExploracao({
     return parts.join('\n')
   }
 
-  const mapEntry = assets?.byPath.get(MAPA_MUNDO_ASSET) ?? null
-  const overlayEntry = assets?.byPath.get(ATLAS_OVERLAY_ASSET) ?? null
+  // `resolveAsset` em vez de `byPath.get`: as constantes dizem `.png` e o acervo
+  // migrou pra webp — fixar extensão apagava o mapa sem erro nenhum.
+  const mapEntry = assets ? resolveAsset(assets, MAPA_MUNDO_ASSET) : null
+  const overlayEntry = assets ? resolveAsset(assets, ATLAS_OVERLAY_ASSET) : null
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {

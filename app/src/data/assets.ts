@@ -88,11 +88,28 @@ export function assetUrlFor(entry: AssetEntry, small: boolean): string {
  * embed e apagava a imagem quando um sprite homônimo entrava na vault.
  * Inexistente → null.
  */
+/** Formatos aceitos, na ordem de preferência. MIGRAÇÃO WEBP (2026-09-13): o
+ *  acervo inteiro virou `.webp`, mas o caminho escrito na nota (e o literal no
+ *  código, como o mapa do mundo) pode seguir dizendo `.png`. Resolver por
+ *  extensão é o que impede a imagem de sumir em silêncio quando o formato muda
+ *  — a mesma política que `equipment-image` e `creature-image` já usavam. */
+const EXTS = ['.png', '.webp', '.jpg', '.jpeg'] as const
+
+/** Variantes do mesmo alvo trocando só a extensão (a original vem primeiro). */
+function comOutrasExtensoes(alvo: string): string[] {
+  const ponto = alvo.lastIndexOf('.')
+  if (ponto < 0) return [alvo]
+  const semExt = alvo.slice(0, ponto)
+  return [alvo, ...EXTS.map((e) => `${semExt}${e}`).filter((x) => x !== alvo)]
+}
+
 export function resolveAsset(index: AssetIndex, target: string): AssetEntry | null {
   const clean = target.trim().normalize('NFC')
-  const exact = index.byPath.get(clean)
-  if (exact) return exact
-  const candidates = index.byBasename.get(clean) ?? []
+  for (const variante of comOutrasExtensoes(clean)) {
+    const exact = index.byPath.get(variante)
+    if (exact) return exact
+  }
+  const candidates = comOutrasExtensoes(clean).flatMap((v) => index.byBasename.get(v) ?? [])
   if (candidates.length === 0) return null
   if (candidates.length === 1) return candidates[0]!
   return [...candidates].sort(

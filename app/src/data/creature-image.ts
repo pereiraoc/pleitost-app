@@ -173,7 +173,7 @@ export function weaponImageUrl(
   // Sistema/ compartilhado — o embed dele aponta pra figura da FANTASIA
   // (e o desempate por basename do resolveAsset também cai nela).
   const base = fileName.replace(/\.png$/i, '')
-  const mundo = assets.byPath.get(`${CTX_ARMAS}/${reskinName(base)}.png`.normalize('NFC'))
+  const mundo = resolveAsset(assets, `${CTX_ARMAS}/${reskinName(base)}.png`)
   if (mundo) return assetUrlFor(mundo, small)
 
   const embed = doc.images[0]?.target
@@ -183,6 +183,6 @@ export function weaponImageUrl(
     if (entry) return assetUrlFor(entry, small)
   }
 
-  const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`.normalize('NFC'))
+  const figura = resolveAsset(assets, `${FIGURA_ARMAS}/${fileName}`)
   return figura ? assetUrlFor(figura, small) : null
 }
