@@ -68,14 +68,23 @@ describe('índice de assets no mundo cyberpunk (união)', () => {
 
   it('asset só da fantasia segue herdado, com URL do dataset base', async () => {
     setContext('cyberpunk')
+    // O fork da POA herda as imagens de sistema, então hoje NENHUM arquivo
+    // existe só na fantasia — o último que existia era um `.excalidraw.png`
+    // que vazava de pasta de andaime e saiu do dataset quando o walk passou a
+    // aplicar `isScaffolding` também nas imagens. Depender daquele arquivo era
+    // depender de um vazamento; o que importa aqui é o ROTEAMENTO, então a
+    // herança é simulada deixando um rel real FORA do registro do mundo.
+    const herdado = manifestCyber.assets.find((a) =>
+      a.copiedTo.endsWith('Embratel-trabalhadores.png'),
+    )!
     setWorldDataset(
       'cyberpunk',
-      manifestCyber.assets.flatMap((a) => [a.copiedTo, thumbCopiedTo(a.copiedTo)]),
+      manifestCyber.assets
+        .filter((a) => a.copiedTo !== herdado.copiedTo)
+        .flatMap((a) => [a.copiedTo, thumbCopiedTo(a.copiedTo)]),
     )
     const index = await fetchAssetIndex()
-    // único asset presente SÓ na fantasia (o fork da POA herda as imagens de
-    // sistema, então quase tudo existe nos dois datasets)
-    const entry = resolveAsset(index, 'Companion App Draft.excalidraw.png')
+    const entry = resolveAsset(index, 'Embratel-trabalhadores.png')
     expect(entry).not.toBeNull()
     expect(assetUrl(entry!).startsWith('/vault-data/assets/')).toBe(true)
   })

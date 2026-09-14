@@ -61,6 +61,13 @@ export async function walkVault(vaultRoot) {
         if (/\.md$/i.test(ent.name)) {
           docs.push({ absPath: abs, relPath: rel, kind: isScaffolding(rel) ? "scaffolding" : "content" });
         } else if (IMG_EXT.test(ent.name)) {
+          // Andaime vale pra IMAGEM também. Antes só os `.md` consultavam
+          // `isScaffolding`, e a Inbox de Imagens (a área de staging de arte,
+          // que guarda cópia do que já foi oficializado e o que foi rejeitado)
+          // ia inteira pro dataset e pro gh-pages. Também tirava do caminho os
+          // `.excalidraw.png`, que são reexportados a cada interação e não
+          // cabem no webp.
+          if (isScaffolding(rel)) continue;
           images.push({ absPath: abs, relPath: rel, basename: ent.name });
         }
       }
