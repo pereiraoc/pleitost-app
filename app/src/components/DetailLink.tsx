@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { docPath } from '../paths'
-import { useDetail } from '../data/detail-context'
+import { useDetail, type DetailTarget } from '../data/detail-context'
 
 /** id do doc a partir de um caminho /doc/<segmentos codificados> (inverso do docPath). */
 function docIdFromPath(to: string): string | undefined {
@@ -24,6 +24,11 @@ function docIdFromPath(to: string): string | undefined {
  * (DetailContext), o clique abre o doc NELA — sem sair da tela atual (ex.: fico
  * na ficha e vejo a imbuição na direita). Fora dela, navega pro /doc/* de
  * sempre. Aceita `id` (do doc) OU `to` (/doc/...).
+ *
+ * `detailKind` escolhe a FACE do painel. O href não muda: continua `/doc/<id>`,
+ * porque abrir em nova aba, recarregar e compartilhar têm que seguir caindo na
+ * página do doc. Quem tem ficha resumo (criatura, herói) pede `resumo`; o resto
+ * fica no `doc`, que é o corpo da nota.
  */
 export function DetailLink({
   id,
@@ -31,11 +36,14 @@ export function DetailLink({
   className,
   children,
   dataLinkIcon,
+  detailKind = 'doc',
 }: {
   id?: string
   to?: string
   className?: string
   children: ReactNode
+  /** Face do painel de DETALHES aberta no clique (o href segue `/doc/<id>`). */
+  detailKind?: DetailTarget['kind']
   /** #303: emoji supercharged do doc-alvo → vai como data-link-icon no <a> (o CSS
    *  a[data-link-icon]::before o prepende). Sem repassar isto, o ícone se perdia
    *  no render dos wikilinks (o override do MarkdownBody só passava href/children). */
@@ -58,7 +66,7 @@ export function DetailLink({
         data-link-icon={dataLinkIcon || undefined}
         onClick={(e) => {
           e.preventDefault()
-          detail.open({ kind: 'doc', id: docId })
+          detail.open({ kind: detailKind, id: docId })
         }}
       >
         {children}

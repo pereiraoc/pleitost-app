@@ -123,6 +123,37 @@ export function creatureImageUrl(
   }
 }
 
+/** Pasta da arte do MUNDO ativo (#519) — o retrato padrão de grupo daqui vence
+ *  o default do sistema. Sem subpasta: o grupo não é categoria de item. */
+const CTX_RAIZ = 'Recursos e Mídia/Recursos de Contextos'
+
+/** Basename do retrato padrão de grupo, nos dois lugares. */
+export const DEFAULT_GROUP_BASENAME = 'Grupo de Criaturas'
+
+/**
+ * Retrato PADRÃO de grupo (o último degrau do fallback), ciente do mundo.
+ *
+ * `Imagens/Retratos/Grupo de Criaturas` é figura do PADRÃO DO SISTEMA e vale
+ * pros dois mundos — trocá-la pela arte da POA trocava o default da fantasia
+ * junto. Por isso a arte do mundo vive em `Recursos de Contextos/` e vence
+ * aqui, e a escolha é DIRIGIDA POR DADOS como a das Classes: o arquivo só
+ * existe no índice de assets do mundo que o tem, então na fantasia o passo
+ * não casa e cai no default de sempre.
+ *
+ * Isto troca só o DEFAULT: o retrato próprio de um grupo
+ * (`Retratos/<nome do grupo>`) é mais específico e continua ganhando.
+ */
+export function defaultGroupImageUrl(
+  assets: AssetIndex | undefined,
+  small = false,
+): string | null {
+  if (!assets) return null
+  return (
+    tryFolder(assets, CTX_RAIZ, DEFAULT_GROUP_BASENAME, small) ??
+    tryFolder(assets, RETRATOS, DEFAULT_GROUP_BASENAME, small)
+  )
+}
+
 /** Imagem de um GRUPO: Retratos/<basename do grupo> (existem na vault). */
 export function groupImageUrl(
   basename: string | undefined,

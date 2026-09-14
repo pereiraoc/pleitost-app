@@ -9,13 +9,12 @@
 import { useMemo } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
-import { groupImageUrl } from '../data/creature-image'
+import { defaultGroupImageUrl } from '../data/creature-image'
 import { useDoc } from '../data/useDoc'
 import { useEntityImageUrl } from '../data/images'
 import { useLiveSession } from '../data/session-repo/live-session'
 import { resolveGroupImageUrl } from './group-image'
 
-const DEFAULT_GROUP_BASENAME = 'Grupo de Criaturas'
 
 /** Grupo PERSISTENTE da mesa: o primeiro grupo que os personagens publicados
  *  referenciam no FM `grupo` (fmBlob). Fonte única da ponte mesa↔grupo — usada
@@ -52,6 +51,6 @@ export function useMesaGroupImageUrl(): string | null {
   return (
     live?.state?.grupoImagem ??
     inherited ??
-    groupImageUrl(DEFAULT_GROUP_BASENAME, assets)
+    defaultGroupImageUrl(assets)
   )
 }

@@ -8,7 +8,7 @@
 // Abaixo das criaturas, os ENCONTROS prontos (`categoria: Combate`) cujo campo
 // `Onde` cita este lugar ou um ancestral — dali o mestre abre o registro com o
 // roster e a barra de dificuldade.
-import { useMemo, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent } from 'react'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
@@ -16,6 +16,7 @@ import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { reskinName, reskinText } from '../../data/reskin'
 import { DetailLink } from '../DetailLink'
+import { Lightbox } from '../Lightbox'
 import { clip } from '../ficha/bits'
 import { retratoCover } from '../retrato'
 import { EncounterLevelBar } from '../mestre/ui'
@@ -33,18 +34,40 @@ const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', b
  *  Serviços (quadrado, cover, borda fina). Retrato ANCORA NO TERÇO SUPERIOR:
  *  gente cortada mostra a cara, nunca o centro (`retratoCover`). Sem arte, o
  *  quadro fica com o emoji de criatura em vez de buraco. */
-function FiguraDaCriatura({ doc }: { doc: VaultDoc | undefined }) {
+function FiguraDaCriatura({ doc, nome }: { doc: VaultDoc | undefined; nome: string }) {
   const assets = useAssetIndex()
   const src = doc ? creatureImageUrl(doc, assets, true) : null
+  // CLIQUE AMPLIA (report do mestre, 2026-09-14) — mesmo idioma do RecursoThumb:
+  // o `stopPropagation` impede que o clique na miniatura vaze pra linha e abra
+  // o painel de detalhes por baixo do lightbox. Sem arte não há o que ampliar,
+  // então o quadro do emoji segue decoração (`aria-hidden`, sem role).
+  const cheia = doc ? creatureImageUrl(doc, assets, false) : null
+  const [aberta, setAberta] = useState(false)
+  const abre = (e: ReactMouseEvent | ReactKeyboardEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (cheia) setAberta(true)
+  }
+  const zoom = cheia
+    ? {
+        role: 'button' as const,
+        tabIndex: 0,
+        'aria-label': `Ampliar imagem de ${nome}`,
+        onClick: abre,
+        onKeyDown: (e: ReactKeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') abre(e)
+        },
+      }
+    : { 'aria-hidden': true as const }
   return (
     <span
       data-criatura-figura={src ? 'img' : 'emoji'}
-      aria-hidden
+      {...zoom}
       style={{
         display: 'inline-flex', flex: 'none', width: 40, height: 40,
         borderRadius: 8, overflow: 'hidden', border: '1px solid var(--line2)',
         background: 'var(--card)', alignItems: 'center', justifyContent: 'center',
-        fontSize: 18,
+        fontSize: 18, cursor: cheia ? 'zoom-in' : undefined,
       }}
     >
       {src ? (
@@ -52,6 +75,7 @@ function FiguraDaCriatura({ doc }: { doc: VaultDoc | undefined }) {
       ) : (
         '🐲'
       )}
+      {aberta && cheia ? <Lightbox src={cheia} alt={nome} onClose={() => setAberta(false)} /> : null}
     </span>
   )
 }
@@ -155,14 +179,15 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
               <div
                 key={c.id}
                 data-criatura={c.basename}
+                data-criatura-id={c.id}
                 style={{
                   display: 'grid', gridTemplateColumns: 'auto minmax(0,1fr) auto', gap: 10,
                   alignItems: 'start', padding: '8px 0', borderTop: '1px solid var(--line)',
                 }}
               >
-                <FiguraDaCriatura doc={docsCriaturas?.get(c.id)} />
+                <FiguraDaCriatura doc={docsCriaturas?.get(c.id)} nome={reskinName(c.basename ?? c.id)} />
                 <div style={{ minWidth: 0 }}>
-                  <DetailLink id={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
+                  <DetailLink id={c.id} detailKind="resumo">{reskinName(c.basename ?? c.id)}</DetailLink>
                   {/* Tarja do Modificador com as MESMAS classes da aba de
                       Criaturas (.combate-monstro-mod, app.css) — competente,
                       elite e solo na mesma cor dos dois lados, nada de cor
