@@ -179,7 +179,10 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     expect(within(familia).getByText('Mãe')).toBeTruthy()
   })
 
-  it('#443 clicar numa Pessoa abre um resumo COERENTE (Relação/Organização), não VIDA/atributos', async () => {
+  // Report 4bdc3927 (2026-09-17) SUBSTITUI o comportamento do #443: clicar
+  // numa Pessoa abre a NOTA dela (DocView com os campos), não mais o resumo.
+  // O espírito do #443 permanece: nada de VIDA/atributos de criatura.
+  it('#443/4bdc3927 clicar numa Pessoa abre a NOTA dela, não VIDA/atributos', async () => {
     const pid = createLocalEntity('Pessoa', 'Zeca do Bar', {
       Relação: 'Amigo',
       Organização: 'Taverna do Cão',
@@ -193,12 +196,11 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     renderAnotacoes(id)
     fireEvent.click(await screen.findByText('PESSOAS'))
     fireEvent.click(await screen.findByRole('button', { name: 'Zeca do Bar' }))
-    await waitFor(() => expect(document.querySelector('[data-pessoa-resumo]')).toBeTruthy())
-    // mostra os campos de PESSOA…
-    expect(screen.getByText('// PESSOA')).toBeTruthy()
-    expect(screen.getByText('Taverna do Cão')).toBeTruthy()
+    // a NOTA da pessoa (DocView) abre nos detalhes, com os campos dela…
+    await waitFor(() => expect(screen.getByText('Taverna do Cão')).toBeTruthy())
     expect(screen.getByText('Sabe de tudo que rola na cidade.')).toBeTruthy()
-    // …e NÃO o resumo de criatura (VIDA/atributos)
+    // …e NÃO o resumo de criatura (VIDA/atributos) nem o resumo de pessoa
+    expect(document.querySelector('[data-pessoa-resumo]')).toBeNull()
     expect(screen.queryByText('// VIDA')).toBeNull()
     expect(screen.queryByText('// ATRIBUTOS')).toBeNull()
   })

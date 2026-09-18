@@ -373,6 +373,19 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
     save(rows.filter((_, i) => i !== idx))
   }
   const abrirResumo = (id: string) => detail?.open({ kind: 'resumo', id })
+  // Report 4bdc3927: clicar numa PESSOA abre a NOTA dela (DocView/PessoaView
+  // completa — retrato, campos, descrição), não o resumo (que só re-mostra as
+  // anotações Relação/Org/Posição/Detalhes). Criaturas (heróis/CAs/monstros,
+  // membros de grupo) continuam no resumo de ficha — lá o resumo é a ficha.
+  const ehPessoa = (id: string) => {
+    if (id.startsWith('local:Pessoa:')) return true
+    if (id.startsWith('local:')) return false
+    const entry = catalog.entryById.get(id)
+    const tipo = entry?.type ?? entry?.subtype
+    return tipo === 'Pessoa' || entry?.subtype === 'Pessoa'
+  }
+  const abrirAlvo = (id: string) =>
+    ehPessoa(id) ? detail?.open({ kind: 'doc', id }) : abrirResumo(id)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -430,7 +443,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
                   key={`${r.Alvo ?? r.Nome}-${idx}`}
                   row={r}
                   badge={g.badge}
-                  onResumo={r.Alvo ? () => abrirResumo(r.Alvo!) : undefined}
+                  onResumo={r.Alvo ? () => abrirAlvo(r.Alvo!) : undefined}
                   onEdit={() => setModal({ t: 'editar', idx })}
                   onDelete={() => removePessoa(idx)}
                 />
