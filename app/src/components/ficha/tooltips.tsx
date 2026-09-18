@@ -23,7 +23,7 @@ import {
   type ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { esquerdaDoTip } from '../tip-posicao'
+import { corrigeAposMedida, esquerdaDoTip } from '../tip-posicao'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
 import { num, profLetter, resistenciaRow, str, type ProfRow } from './hero-model'
 import { stripSharedFrom } from '../../interativa/apply'
@@ -656,6 +656,8 @@ interface BuiltTip {
   left: string
   top: string
   tf: string
+  /** X do cursor — o pós-medida re-decide o lado (report 58401c49). */
+  xCursor: number
 }
 
 /** Posicionamento — mesmo buildGtip do design portado em gtip.tsx:43-64
@@ -674,23 +676,30 @@ function buildTip(t: TipState | null): BuiltTip | null {
     left: left + 'px',
     top: (below ? t.y + 18 : t.y - 14) + 'px',
     tf: below ? 'none' : 'translateY(-100%)',
+    xCursor: t.x,
   }
 }
 
-/** ref do buildGtip (gtip.tsx:67-74): corrige o top pra caber na viewport. */
-function clampRef(el: HTMLDivElement | null) {
+/** ref pós-render: MEDE o tooltip e re-decide a posição pela largura REAL
+ *  (report 58401c49 — o 1º paint usa o maxWidth e flipava caixa estreita pra
+ *  longe do cursor) + o clamp vertical de sempre. */
+function clampRef(el: HTMLDivElement | null, xCursor: number) {
   if (!el) return
   const r = el.getBoundingClientRect()
-  let dy = 0
-  if (r.top < 8) dy = 8 - r.top
-  else if (r.bottom > window.innerHeight - 8) dy = window.innerHeight - 8 - r.bottom
+  const { left, dy } = corrigeAposMedida(
+    { left: r.left, width: r.width, top: r.top, bottom: r.bottom },
+    xCursor,
+    window.innerWidth,
+    window.innerHeight,
+  )
+  if (r.width > 0 && left !== r.left) el.style.left = left + 'px'
   if (dy) el.style.top = parseFloat(el.style.top) + dy + 'px'
 }
 
 function TipOverlay({ tip }: { tip: BuiltTip }) {
   return (
     <div
-      ref={clampRef}
+      ref={(el) => clampRef(el, tip.xCursor)}
       className="dv-breakdown-tip floating"
       style={{ left: tip.left, top: tip.top, transform: tip.tf, maxWidth: tip.w }}
       dangerouslySetInnerHTML={{ __html: tip.html }}

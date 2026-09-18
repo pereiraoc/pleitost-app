@@ -17,3 +17,20 @@ export function esquerdaDoTip(x: number, w: number, vw: number): number {
   if (esquerda >= 12) return esquerda
   return Math.max(12, vw - 12 - w)
 }
+
+/** Correção PÓS-MEDIDA (puro, testável — report 58401c49): re-decide o lado
+ *  do cursor com a largura REAL renderizada (o primeiro paint usa o maxWidth,
+ *  que num tooltip estreito flipava a caixa pra longe do mouse) e devolve o
+ *  ajuste vertical pra caber na viewport (mesmo 8px de sempre). */
+export function corrigeAposMedida(
+  r: { left: number; width: number; top: number; bottom: number },
+  xCursor: number,
+  vw: number,
+  vh: number,
+): { left: number; dy: number } {
+  const left = esquerdaDoTip(xCursor, r.width, vw)
+  let dy = 0
+  if (r.top < 8) dy = 8 - r.top
+  else if (r.bottom > vh - 8) dy = vh - 8 - r.bottom
+  return { left, dy }
+}
