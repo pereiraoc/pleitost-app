@@ -16,7 +16,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { useEntityImageUrl } from '../../data/images'
 import { useDocs } from '../../data/useDoc'
-import { useGroupMembers } from '../../data/local-entities'
+import { isLocalId, setLocalEntityFm, useGroupMembers } from '../../data/local-entities'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
 import { clip, PanelTrack } from '../ficha/bits'
@@ -35,6 +35,7 @@ import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider
 import { loginGitHub, logoutSessao } from '../../data/session-repo/auth-state'
 import { generateSessionCode } from '../../data/session-repo/contract'
 import type { SessionCharacter, SessionRepo, SessionRealtime } from '../../data/session-repo/contract'
+import { decideBackflow, novoRev, pendenciaResolvida } from '../../data/session-repo/vida-sync'
 import {
   buildCharacterState,
   buildCharacterSummary,
@@ -78,7 +79,7 @@ import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/grou
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
-import { applyFmEdits, getHeroEdits, onHeroWrite } from '../../data/hero-store'
+import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../data/hero-store'
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
 import { Lightbox } from '../Lightbox'
@@ -300,6 +301,10 @@ function usePublicacao(
   const version = useLocalStoreVersion()
   const charId = meuChar?.id ?? null
   const heroId = meuChar?.characterPath ?? null
+  // Report 5464acaf: revs dos MEUS pushes (echo/stale não voltam) e revs
+  // estrangeiros já aplicados no local (idempotência do backflow).
+  const meusRevs = useRef(new Set<string>())
+  const revsAplicados = useRef(new Set<string>())
   // #323/#326: publica o STATE com o FM DERIVADO — o corrente de vida/moral cai no
   // MÁX quando ausente (ficha nova), e o máx vem das regras da classe, não do 0
   // do FM cru. Deriva (async, cacheado) antes de mandar.
@@ -315,7 +320,13 @@ function usePublicacao(
     }
     pushLog('publish', `pushState char=${cId} fmBlob=${publishFmBlob}`)
     void effectiveFmForPublish(doc, catalog).then((efm) => {
-      repo?.updateCharacterState(cId, buildCharacterState(doc, efm)).catch(() => {})
+      // rev do write (report 5464acaf): marca o state como NOSSO — o backflow
+      // ignora o echo e a mesa reconhece que uma escrita pousou.
+      const state = buildCharacterState(doc, efm)
+      const rev = novoRev()
+      meusRevs.current.add(rev)
+      state.recursosRestantes.rev = rev
+      repo?.updateCharacterState(cId, state).catch(() => {})
       // #323/#326: RE-PUBLICA o SUMMARY (vida/defesas MÁX derivados). Heróis que
       // entraram na sessão ANTES do fix ficaram com o summary salvo no servidor
       // com máx 0 (→ "24/0", "0/0"); só o JOIN publicava summary. Ao dono abrir a
@@ -344,6 +355,37 @@ function usePublicacao(
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repo, sessionId, charId, heroId])
+  // BACKFLOW (report 5464acaf): dano/cura aplicado pela MESA direto no
+  // servidor entra no FM local do dono — sem isso, o próximo push do dono
+  // (recomputado do local) atropelava a escrita da mesa. Só rev estrangeiro
+  // novo aplica; o próximo push re-publica o valor convergido com rev nosso.
+  const baselineDe = useRef<string | null>(null)
+  useEffect(() => {
+    if (!heroId || !meuChar) return
+    const rr = meuChar.state.recursosRestantes
+    if (!rr) return
+    // BASELINE: o state que já estava no servidor quando este cliente montou
+    // não flui — o push de mount publica a verdade local (comportamento de
+    // sempre; edição offline não pode ser revertida por um rev antigo). Só
+    // escritas DEPOIS do mount fazem backflow.
+    if (baselineDe.current !== meuChar.id) {
+      baselineDe.current = meuChar.id
+      if (rr.rev) revsAplicados.current.add(rr.rev)
+      return
+    }
+    if (decideBackflow({ rev: rr.rev, meusRevs: meusRevs.current, aplicados: revsAplicados.current }) !== 'aplicar') return
+    revsAplicados.current.add(rr.rev!)
+    pushLog('publish', `backflow mesa→local rev=${rr.rev} vit=${rr.vitalidade}`)
+    if (isLocalId(heroId)) {
+      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Vitalidade', rr.vitalidade)
+      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Moral', rr.moral)
+      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Moral_Temporaria', rr.moralTemp)
+    } else {
+      writeHeroEdit(heroId, 'fm', 'Interativa.Recursos_Restantes.Vitalidade', rr.vitalidade, { channel: 'imediato', origem: 'sync' })
+      writeHeroEdit(heroId, 'fm', 'Interativa.Recursos_Restantes.Moral', rr.moral, { channel: 'imediato', origem: 'sync' })
+      writeHeroEdit(heroId, 'fm', 'Interativa.Recursos_Restantes.Moral_Temporaria', rr.moralTemp, { channel: 'imediato', origem: 'sync' })
+    }
+  }, [meuChar, heroId])
 }
 
 /** #327: CURA summaries velhos (vitalidadeMax 0 publicado ANTES do fix) sem
@@ -856,7 +898,11 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const [statsView, setStatsView] = useState<ReadonlySet<string>>(new Set())
   // #390: alvo pendente do EV por NPC (acumula taps em rajada) — hook ANTES
   // do guard de early-return (Rules of Hooks).
-  const evPendente = useRef(new Map<string, number>())
+  // Report 5464acaf: a pendência guarda também a BASE (vida no momento do
+  // write) — solta quando o live alcança o alvo OU muda em relação à base
+  // (alguma escrita pousou); antes só a igualdade exata soltava e a tela
+  // congelava se o dono escrevesse outro valor no meio.
+  const evPendente = useRef(new Map<string, { alvo: number; base: number }>())
   // #487: taps em rajada não podem esperar round-trip — o display mostra o alvo
   // pendente na hora (evBump re-renderiza) e os writes coalescem num só, ~350ms
   // depois do último clique (evTimers). A pendência só solta quando o LIVE
@@ -866,10 +912,12 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // #487: caixinha ±X ao lado dos steppers (texto por NPC; aplica no Enter).
   const [evBox, setEvBox] = useState<Record<string, string>>({})
   useEffect(() => {
-    for (const [id, alvo] of evPendente.current) {
+    for (const [id, p] of evPendente.current) {
       if (evTimers.current.has(id)) continue
       const cc = live?.characters.find((x) => x.id === id)
-      if (cc?.state.recursosRestantes?.vitalidade === alvo) evPendente.current.delete(id)
+      const vit = cc?.state.recursosRestantes?.vitalidade
+      if (vit !== undefined && pendenciaResolvida({ alvo: p.alvo, base: p.base, vitLive: vit }))
+        evPendente.current.delete(id)
     }
   }, [live])
   const toggleStats = (id: string) =>
@@ -1125,17 +1173,19 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     if (!repo) return
     const max = c.summary.vitalidadeMax
     const rr0 = c.state.recursosRestantes
-    const base = evPendente.current.get(c.id) ?? rr0?.vitalidade ?? max
-    const next = Math.max(0, Math.min(max, base + delta))
-    if (next === base) return
-    evPendente.current.set(c.id, next)
+    const atual = rr0?.vitalidade ?? max
+    const pend = evPendente.current.get(c.id)
+    const anterior = pend?.alvo ?? atual
+    const next = Math.max(0, Math.min(max, anterior + delta))
+    if (next === anterior) return
+    evPendente.current.set(c.id, { alvo: next, base: pend?.base ?? atual })
     evBump() // display otimista: a linha mostra o alvo na hora
     clearTimeout(evTimers.current.get(c.id))
     evTimers.current.set(
       c.id,
       setTimeout(() => {
         evTimers.current.delete(c.id)
-        const alvo = evPendente.current.get(c.id)
+        const alvo = evPendente.current.get(c.id)?.alvo
         if (alvo == null) return
         repo
           .updateCharacterState(c.id, {
@@ -1144,6 +1194,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               moral: rr0?.moral ?? (c.summary.moralMax ?? 0),
               em: rr0?.em ?? 0,
               moralTemp: rr0?.moralTemp ?? 0,
+              // rev de MESA (report 5464acaf): estrangeiro pro dono → backflow
+              rev: novoRev(),
             },
           })
           .catch(() => {
@@ -1164,7 +1216,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const status = vitaStatusOf(c)
     const rr = c.state.recursosRestantes
     // #487: vida exibida = alvo pendente dos steppers (otimista) > live > max
-    const vitExib = evPendente.current.get(c.id) ?? rr?.vitalidade ?? c.summary.vitalidadeMax
+    const vitExib = evPendente.current.get(c.id)?.alvo ?? rr?.vitalidade ?? c.summary.vitalidadeMax
     const mostraReal = !npc || isGm || revelado
     // #486: jogador só ABRE o resumo de NPC se o GM liberou a ficha (fmBlob
     // publicado pelo toggle 📖) — revelar identidade não libera a ficha.

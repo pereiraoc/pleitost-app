@@ -47,6 +47,9 @@ export interface CharacterState {
     moral: number
     em: number
     moralTemp: number
+    /** Nonce do cliente que ESCREVEU (report 5464acaf): o dono do herói só
+     *  faz backflow de rev que não é dele — echo/stale nunca revertem. */
+    rev?: string
   }
   condicoesAtivas: Record<string, unknown>
   efeitosAtivos: Record<string, unknown>
