@@ -72,7 +72,10 @@ const mongeFm = () => ({
   ...(emptyHeroFrontmatter() as Record<string, unknown>),
   Classe: '[[Monge]]',
   'Nível': 3,
-  Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+  // FOR 3: qualifica pros 4 golpes — desde 2026-09-18 a Arte Marcial gate-ia
+  // por FOR mínima (tabela da própria nota); o gate tem teste dedicado em
+  // monge-golpes-por-forca.test.ts.
+  Atributos: { FOR: 3, AGI: 3, INT: 1, PRE: 1 },
   Habilidades: { Lista: [{ '[[Arte Marcial]]': 'Regra.[[Monge]]' }] },
 })
 

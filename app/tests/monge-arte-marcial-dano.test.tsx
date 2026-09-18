@@ -41,7 +41,17 @@ function makeStorage(): Storage {
 }
 
 const KENJI = 'Sistema/Criaturas/Heróis/Kenji'
-const GOLPES = ['Pontos de Pressão', 'Garra de Tigre', 'Presas de Lobo', 'Cauda de Dragão']
+// FOR mínima por golpe (tabela do Arte Marcial — desde 2026-09-18 a regra
+// gate-ia por Condicional FOR,N). O Kenji tem FOR 1: só os golpes elegíveis
+// aparecem na ficha; o gate em si tem teste em monge-golpes-por-forca.test.ts.
+const GOLPES_FOR: Array<[string, number]> = [
+  ['Pontos de Pressão', 0],
+  ['Garra de Tigre', 1],
+  ['Presas de Lobo', 2],
+  ['Cauda de Dragão', 3],
+]
+const KENJI_FOR = 1
+const GOLPES = GOLPES_FOR.filter(([, minimo]) => KENJI_FOR >= minimo).map(([g]) => g)
 
 describe.skipIf(!temMundo)('Arte Marcial: todo golpe mostra o dano', () => {
   const manifest = JSON.parse(

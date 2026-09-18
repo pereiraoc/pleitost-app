@@ -143,7 +143,7 @@ describe('validação de cobertura/sintaxe (#251)', () => {
 
   it('DocRuleElements: doc REAL com elementos (mestre) rende a seção com cobertura', async () => {
     const animista = (await loadDoc(ANIMISTA)) as VaultDoc
-    expect(animista.ruleElements?.length).toBe(19)
+    expect(animista.ruleElements?.length).toBe(20)
     render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter>
@@ -156,7 +156,7 @@ describe('validação de cobertura/sintaxe (#251)', () => {
     const sec = document.querySelector('[data-rule-elements]') as HTMLElement
     expect(sec).toBeTruthy()
     expect(sec.querySelector('[data-coverage]')).toBeTruthy()
-    expect(sec.querySelectorAll('[data-rule-element]').length).toBe(19)
+    expect(sec.querySelectorAll('[data-rule-element]').length).toBe(20)
   })
 
   it('na FICHA do Animista (mestre): seção presente com resumo de cobertura', async () => {
@@ -168,13 +168,14 @@ describe('validação de cobertura/sintaxe (#251)', () => {
       expect(el).toBeTruthy()
       return el
     })
-    // contagem dos elementos reais (19)
-    expect(within(sec).getByText('19')).toBeTruthy()
+    // contagem dos elementos reais (20 — Avatar no nv7 entrou em 2026-09-18;
+    // getAllByText: "20" também aparece no valor de outra regra)
+    expect(within(sec).getAllByText('20').length).toBeGreaterThanOrEqual(1)
     // resumo de cobertura (ok ou com problemas — determinístico pelos dados)
     const cov = sec.querySelector('[data-coverage]')
     expect(cov).toBeTruthy()
     // cada card de elemento tem o RAW
-    expect(sec.querySelectorAll('[data-rule-element]').length).toBe(19)
+    expect(sec.querySelectorAll('[data-rule-element]').length).toBe(20)
   })
 
   it('cards com problema ganham marcador data-rule-issue', () => {
