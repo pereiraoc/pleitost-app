@@ -1,0 +1,173 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Escola Arcana/Escola Arcana (Estudos do Vazio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Escola Arcana/Escola Arcana (Estudos do Vazio).md",
+  "basename": "Escola Arcana (Estudos do Vazio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "Somar Magias.Slots.B 4",
+      "Somar Magias.Slots.A 3",
+      "Alias Classe Compor 1 \"Bruxo\"",
+      "Somar Papel.Controlador 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende quatro [[Magia Negra Básica|Magias Negras Básicas]] e aprende três [[Magia Negra Adepta|Magias Negras Adeptas]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Estudos do Vazio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.B 4",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Estudos do Vazio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "4"
+          },
+          "raw": "Somar Magias.Slots.B 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 3",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Estudos do Vazio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "3"
+          },
+          "raw": "Somar Magias.Slots.A 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Bruxo\"",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Estudos do Vazio)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Bruxo"
+          },
+          "raw": "Alias Classe Compor 1 \"Bruxo\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Controlador 3",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana (Estudos do Vazio)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Controlador",
+            "valueRaw": "3"
+          },
+          "raw": "Somar Papel.Controlador 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Básica",
+      "kind": "wikilink",
+      "alias": "Magias Negras Básicas"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink",
+      "alias": "Magias Negras Adeptas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende quatro [[Magia Negra Básica|Magias Negras Básicas]] e aprende três [[Magia Negra Adepta|Magias Negras Adeptas]] de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Negra]], aprende quatro [[Magia Negra Básica|Magias Negras Básicas]] e aprende três [[Magia Negra Adepta|Magias Negras Adeptas]] de sua escolha. Arcanistas dessa escola muitas vezes são chamados de Bruxos.\n\n```autosheet-rules\n```\n"
+}

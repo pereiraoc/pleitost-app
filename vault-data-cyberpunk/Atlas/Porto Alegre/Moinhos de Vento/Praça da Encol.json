@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Praça da Encol",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Praça da Encol.md",
+  "basename": "Praça da Encol",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "[[Resistência Urbana Gaúcha]] (a feira é deles)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Parque"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Praça da Encol.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Praça da Encol.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Praça da Encol.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Feira de sábado com artesanato, livro por baixo e selênico de laudo; palco improvisado pra poesia; a Brigada ronda mas não entra quando tem gente dos Moinhos.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Praça arborizada com chafariz seco, barracas de lona, gente de casaco lendo poesia num banco, prédios de vidro dos Moinhos ao fundo, Carajás da Brigada parado na esquina.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Feira de sábado com artesanato, livro por baixo e selênico de laudo; palco improvisado pra poesia; a Brigada ronda mas não entra quando tem gente dos Moinhos.",
+    "aparencia": "Praça arborizada com chafariz seco, barracas de lona, gente de casaco lendo poesia num banco, prédios de vidro dos Moinhos ao fundo, Carajás da Brigada parado na esquina.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

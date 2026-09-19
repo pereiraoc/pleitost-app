@@ -1,0 +1,27 @@
+{
+  "id": "Sistema/Regras/Conjuração Mágica/Reserva Mágica",
+  "path": "Sistema/Regras/Conjuração Mágica/Reserva Mágica.md",
+  "basename": "Reserva Mágica",
+  "type": "Regra",
+  "subtype": "Reserva Mágica",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "RM"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Reserva Mágica",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "Reserva Mágica"
+    }
+  ],
+  "body": "#### Reserva Mágica\nReserva Mágica (RM) é o potencial mágico completo do conjurador, vindo da parte mais interior do seu ser. Um conjurador tipicamente é capaz de manter um valor razoável de RM no seu corpo, mas precisa de um descanso completo para recarregá-la. Você recarrega sua RM completamente no início do dia, após dormir."
+}

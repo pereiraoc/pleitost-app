@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Diplomacia",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Diplomacia.md",
+  "basename": "Diplomacia",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Sobrevivência]]",
+    "next": "[[Enganação]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Obter Informação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedir Favor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barganhar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhorar Atitude",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Diplomacia ([[Presença|PRE]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Sobrevivência]]\nnext:: [[Enganação]]\n%%\n## Diplomacia ([[Presença|PRE]])\n[[Obter Informação]], [[Pedir Favor]], [[Barganhar]], [[Melhorar Atitude]]. Diplomacia rege a capacidade de manipular pessoas via negociação e tato social. Adicionalmente, Diplomacia determina a manobra de combate [[Encorajar]]."
+}

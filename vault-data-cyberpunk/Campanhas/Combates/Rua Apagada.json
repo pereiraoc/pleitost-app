@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Rua Apagada",
+  "path": "Campanhas/Combates/Rua Apagada.md",
+  "basename": "Rua Apagada",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Zona Deserta]] · [[Quarto Distrito]]",
+    "Situação": "A luz do quarteirão cai de uma vez. Eles enxergam no escuro porque o escuro é deles.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gateiro de Poste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Gateiro de Poste]] rápido\n- 5 [[Catador Armado]] lento\n```\n"
+}

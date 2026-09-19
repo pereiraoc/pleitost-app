@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Posto Ipiranga da Assis Brasil",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Posto Ipiranga da Assis Brasil.md",
+  "basename": "Posto Ipiranga da Assis Brasil",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Seu Pedrinho Ferrão",
+    "Descrição": null,
+    "Serviços": [
+      "[[Gasolina Ipiranga]]",
+      "[[Álcool Combustível]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Posto Ipiranga da Assis Brasil.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gasolina Ipiranga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Álcool Combustível",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Posto Ipiranga da Assis Brasil.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Posto Ipiranga da Assis Brasil.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vende gasolina e álcool racionados (20 litros por semana por placa) e, por baixo, galão sem caderneta pelo triplo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bombas amarelas e azuis, fila de Carajás dobrando a esquina, um frentista com a caderneta na mão e um Motomachine parado no lava-jato.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vende gasolina e álcool racionados (20 litros por semana por placa) e, por baixo, galão sem caderneta pelo triplo.",
+    "aparencia": "Bombas amarelas e azuis, fila de Carajás dobrando a esquina, um frentista com a caderneta na mão e um Motomachine parado no lava-jato.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Pessoas/Argemiro Fontoura",
+  "path": "Contexto/Pessoas/Argemiro Fontoura.md",
+  "basename": "Argemiro Fontoura",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Fontoura"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Charrua]]",
+    "Função": "Presidente da Charrua",
+    "Aparência": "Cinquenta e poucos anos, bigode grisalho, lenço vermelho no pescoço em dia de festa e terno cinza no resto; mãos grossas de quem já colheu erva.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Argemiro Fontoura.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Charrua",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Argemiro Fontoura.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Argemiro Fontoura.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

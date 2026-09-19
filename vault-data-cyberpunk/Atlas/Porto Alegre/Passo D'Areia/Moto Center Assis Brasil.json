@@ -1,0 +1,83 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Moto Center Assis Brasil",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Moto Center Assis Brasil.md",
+  "basename": "Moto Center Assis Brasil",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Seu Wilson Prates",
+    "Descrição": null,
+    "Serviços": [
+      "[[Honda CG 125]]",
+      "[[Yamaha RD 135]]",
+      "[[Honda CB 450]]",
+      "[[Agrale 27.5]]",
+      "[[Mobilete Caloi]]",
+      "[[Honda CG 125]] usado",
+      "[[Yamaha RD 135]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Moto Center Assis Brasil.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Yamaha RD 135",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CB 450",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agrale 27.5",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Moto Center Assis Brasil.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Moto Center Assis Brasil.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** CG 125, RD 135, CB 450, Agrale e Mobilete, novas e usadas; capacete de brinde e financiamento em doze vezes.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de vidro com motos em fila, cheiro de óleo dois tempos e um mecânico na calçada.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "CG 125, RD 135, CB 450, Agrale e Mobilete, novas e usadas; capacete de brinde e financiamento em doze vezes.",
+    "aparencia": "Loja de vidro com motos em fila, cheiro de óleo dois tempos e um mecânico na calçada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

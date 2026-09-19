@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Estação Jardim Botânico",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Estação Jardim Botânico.md",
+  "basename": "Estação Jardim Botânico",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Jardim Botânico.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Jardim Botânico.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Jardim Botânico.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma coberta com jardineira e bancos inteiros; catraca com menos fila e uma padaria em frente.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Viaduto terminando entre copas de árvore, plataforma limpa com família de domingo, estufa de vidro do parque ao fundo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma coberta com jardineira e bancos inteiros; catraca com menos fila e uma padaria em frente.",
+    "aparencia": "Viaduto terminando entre copas de árvore, plataforma limpa com família de domingo, estufa de vidro do parque ao fundo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

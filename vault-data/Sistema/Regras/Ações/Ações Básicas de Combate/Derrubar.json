@@ -1,0 +1,77 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Derrubar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Derrubar.md",
+  "basename": "Derrubar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta derrubar uma criatura, dificultando movimento e facilitando ataque corpo-a-corpo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta derrubar uma criatura, dificultando movimento e facilitando ataque corpo-a-corpo.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um [[Ataques|Ataque]] contra a [[Evasão]] de uma criatura adjacente. Você recebe -2 de [[Penalidades|penalidade de circunstância]] para alvejar uma criatura uma categoria de tamanho maior que você e não pode alvejar uma criatura duas ou mais categorias de tamanho maior. Você precisa de uma mão livre para Derrubar.\n\n**Sucesso:** A criatura fica [[Caído|Caída]].\n**Sucesso Decisivo:** Como sucesso, e a criatura recebe 1 de dano de contusão mais 1 para cada nível de [[Proficiência]] que você tenha em [[Ataques]] (totalizando 2 para [[Adepto]], 3 para [[Experiente]] e 4 para [[Mestre]]).\n**Falha:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

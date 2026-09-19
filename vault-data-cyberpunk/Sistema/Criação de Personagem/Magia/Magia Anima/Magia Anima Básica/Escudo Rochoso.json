@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Escudo Rochoso",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Escudo Rochoso.md",
+  "basename": "Escudo Rochoso",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Básica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria [[Escudo Rochoso]] até o início do seu próximo turno: +1 [[bônus de circunstância]] na [[Defesa]]. Pode reagir para bloquear dano de corte/perfuração/contusão, destruindo o escudo e reduzindo o dano em 4 (6 [[Experiente]], 8 [[Mestre]]); após bloquear, não pode conjurar de novo até [[Descansar]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Escudo Rochoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria [[Escudo Rochoso]] até o início do seu próximo turno: +1 [[bônus de circunstância]] na [[Defesa]]. Pode reagir para bloquear dano de corte/perfuração/contusão, destruindo o escudo e reduzindo o dano em 4 (6 [[Experiente]], 8 [[Mestre]]); após bloquear, não pode conjurar de novo até [[Descansar]].\"\n%%\n# `= this.file.name` - `= this.custo`\nCria um escudo de rochas no braço do conjurador até o início de seu próximo turno, garantindo +1 [[bônus de circunstância]] na [[Defesa]]. Pode ser usado como uma reação para bloquear um ataque que causa dano de corte, perfuração ou contusão, destruindo o escudo e reduzindo o dano em 4 (6 Experiente, 8 Mestre). Depois de usar essa reação, você não pode conjurar Escudo Rochoso até [[Descansar]]. "
+}

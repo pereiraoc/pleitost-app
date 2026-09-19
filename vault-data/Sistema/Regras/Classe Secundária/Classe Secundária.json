@@ -1,0 +1,28 @@
+{
+  "id": "Sistema/Regras/Classe Secundária/Classe Secundária",
+  "path": "Sistema/Regras/Classe Secundária/Classe Secundária.md",
+  "basename": "Classe Secundária",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Treinamento de Classe Secundária",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Classe Secundária"
+    }
+  ],
+  "body": "# Classe Secundária\n\nAs vezes um herói quer desenvolver suas habilidades em outros ramos, divergindo do seu arquétipo de classe heroica e expandindo sua versatilidade. A maneira de fazer isso é obtendo uma classe secundária.\n\nQuando um herói de 2º ou 3º nível adquire uma técnica da sua classe, esse pode optar por obter uma classe secundária que não seja a mesma de sua classe base no lugar dessa técnica.\n\n![[Treinamento de Classe Secundária#`= this.file.name` - `= this.rank`]]"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Pensão do Itu",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Pensão do Itu.md",
+  "basename": "Pensão do Itu",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Dona Cleusa Bortolini",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Pensão do Itu]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão do Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão do Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão do Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão do Itu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Beliche por noite ou quarto por mês pra operário sem vila e demitido sem casa; café com pão às cinco e o caderno de nomes que a fábrica consulta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sobrado de reboco descascado ao lado do muro da fábrica, beliches de ferro, varal na frente, cheiro de éter no corredor.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Beliche por noite ou quarto por mês pra operário sem vila e demitido sem casa; café com pão às cinco e o caderno de nomes que a fábrica consulta.",
+    "aparencia": "Sobrado de reboco descascado ao lado do muro da fábrica, beliches de ferro, varal na frente, cheiro de éter no corredor.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

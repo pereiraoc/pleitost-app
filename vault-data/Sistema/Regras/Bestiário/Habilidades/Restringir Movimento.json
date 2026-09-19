@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Restringir Movimento",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Restringir Movimento.md",
+  "basename": "Restringir Movimento",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataque que limita movimentação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Ataque que limita movimentação.\"\n%%\n##### `= this.file.name`\nCriatura pode usar Restringir Movimento.\n\n**Restringir Movimento - 2A**\nFaça um [[Atacar|Ataque]], caso sucesso, além do dano normal, reduza a [[Movimentação]] do alvo em 2q por 1 turno. Em caso de sucesso decisivo, o alvo também fica [[Atordoado|Atordoado 1]].\n\n```autosheet-rules\n```\n"
+}

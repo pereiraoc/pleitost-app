@@ -1,0 +1,74 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rio Raio da Luz",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rio Raio da Luz.md",
+  "basename": "Rio Raio da Luz",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rio Raio da Luz.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rio Raio da Luz.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rio Raio da Luz.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** O único grande rio do Mundo Livre, que atravessa o [[Campos do Provento]] inteiro de leste a oeste: passa ao sul de [[Iluminada]], contorna [[Líciae]], corre entre [[Forte Norte]] e [[Forte Sul]] e mergulha sob o [[Grande Muro]] rumo às terras da [[Magna Pátria]]. Deve o nome ao rastro contínuo e ofuscante que sua lâmina d'água forma ao refletir o sol — um raio de luz cortando a savana. Fonte de água das lavouras e pastos da região, guarda ainda trechos inteiramente selvagens, sem ponte, barco ou telhado à vista.\n> \n> 👁️**Aparência do Local:** Curso largo e sinuoso de água azul-turquesa clara serpenteando por uma savana dourado-esverdeada intocada, com galerias de árvores de copa larga acompanhando as duas margens. Em vários trechos o rio se entrança em múltiplos braços e canais que se separam e reencontram, criando ilhotas e bancos de areia e capim; corredeiras suaves encrespam a água em espuma branca entre pedras e afloramentos rochosos. Maciços escarpados fecham o vale dos dois lados, cordilheiras azuladas o horizonte, e o sol baixo irrompe entre nuvens carregadas em feixes que incendeiam o reflexo no rio. Em toda a extensão, nenhuma cerca, estrada ou construção — só capim alto, árvores isoladas e a luz.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "O único grande rio do Mundo Livre, que atravessa o [[Campos do Provento]] inteiro de leste a oeste: passa ao sul de [[Iluminada]], contorna [[Líciae]], corre entre [[Forte Norte]] e [[Forte Sul]] e mergulha sob o [[Grande Muro]] rumo às terras da [[Magna Pátria]]. Deve o nome ao rastro contínuo e ofuscante que sua lâmina d'água forma ao refletir o sol — um raio de luz cortando a savana. Fonte de água das lavouras e pastos da região, guarda ainda trechos inteiramente selvagens, sem ponte, barco ou telhado à vista.",
+    "aparencia": "Curso largo e sinuoso de água azul-turquesa clara serpenteando por uma savana dourado-esverdeada intocada, com galerias de árvores de copa larga acompanhando as duas margens. Em vários trechos o rio se entrança em múltiplos braços e canais que se separam e reencontram, criando ilhotas e bancos de areia e capim; corredeiras suaves encrespam a água em espuma branca entre pedras e afloramentos rochosos. Maciços escarpados fecham o vale dos dois lados, cordilheiras azuladas o horizonte, e o sol baixo irrompe entre nuvens carregadas em feixes que incendeiam o reflexo no rio. Em toda a extensão, nenhuma cerca, estrada ou construção — só capim alto, árvores isoladas e a luz.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Água Mineral em Galão",
+  "path": "Contexto/Recursos/Alimentação/Água Mineral em Galão.md",
+  "basename": "Água Mineral em Galão",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Fonte Sarandi",
+    "Preço": 50,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Restinga]]",
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "Galão de 20 litros da fonte de Sarandi: Cz$ 50 no armazém, o dobro em dia de corte, um dólar por dois na Restinga.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Água Mineral em Galão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Acesso a Recursos Básicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Água Mineral em Galão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Água Mineral em Galão.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nCom duas horas de água por dia na periferia ([[Acesso a Recursos Básicos]]), o galão de 20 litros virou moeda.\nFonte Sarandi, água do interior em galão azul, Cz$ 50 no armazém — Cz$ 100 em dia de corte, um dólar por dois\nna [[Restinga]]. O filtro de barro em casa é pra água da chuva.\n\n> [!info] Especificação\n> **Galão:** 20 litros, retornável, Fonte Sarandi (interior do estado)\n> **Preço:** Cz$ 50; ×2 em dia de corte da CEEE/DMAE; US$ 1 por dois na Restinga\n> **Entrega:** carroça do [[Sindicato dos Catadores]] ou o próprio ombro\n> **Alternativa:** cisterna da [[Resistência Urbana Gaúcha]] e filtro de barro\n"
+}

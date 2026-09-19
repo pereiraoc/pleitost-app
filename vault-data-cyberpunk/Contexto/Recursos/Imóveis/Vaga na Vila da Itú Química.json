@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vaga na Vila da Itú Química",
+  "path": "Contexto/Recursos/Imóveis/Vaga na Vila da Itú Química.md",
+  "basename": "Vaga na Vila da Itú Química",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Fábrica Itú Química",
+    "Preço": 2000,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Jardim Itu]]",
+      "[[Fábrica Itú Química]]"
+    ],
+    "Resumo": "Casa geminada na vila da fábrica de remédios genéricos: desconto em folha, cheiro de éter e laudo mensal.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaga na Vila da Itú Química.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vaga na Vila da Itú Química.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vaga na Vila da Itú Química.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Fábrica Itú Química]] aloja o operário na vila atrás do galpão: casa geminada de dois cômodos, água da\nfábrica, cheiro de éter que não sai da roupa. Desconto em folha; perdeu o emprego, perdeu a casa — e o laudo de\nReatividade é mensal.\n\n> [!info] Especificação\n> **Casa:** geminada de 38 m², dois cômodos\n> **Pagamento:** desconto em folha da fábrica\n> **Inclui:** água e luz da fábrica, ração em crédito\n> **Classe:** Classe Média Baixa\n"
+}

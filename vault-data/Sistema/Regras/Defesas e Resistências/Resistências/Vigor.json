@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Resistências/Vigor",
+  "path": "Sistema/Regras/Defesas e Resistências/Resistências/Vigor.md",
+  "basename": "Vigor",
+  "type": "Regra",
+  "subtype": "Defesas-e-Resistências",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Defesas-e-Resistências",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Resistências]]",
+    "prev": "[[Resistências]]",
+    "next": "[[Evasão]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Vigor"
+    }
+  ],
+  "body": "%%\nup:: [[Resistências]]\nprev:: [[Resistências]]\nnext:: [[Evasão]]\n%%\n### Vigor\nVigor permite ao personagem resistir efeitos que afetam seu corpo e sua fisicalidade, seja por resistência física ou pura força de personalidade para tolerar a dor.\nSeu Vigor é calculado como: 10 + [[Proficiência|Proficiência]] + [[Força|FOR]] ou [[Presença|PRE]].\n"
+}

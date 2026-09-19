@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Bicharada da Restinga",
+  "path": "Campanhas/Combates/Bicharada da Restinga.md",
+  "basename": "Bicharada da Restinga",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Restinga]] · [[Zona Deserta]]",
+    "Situação": "O rebanho solto não foge: fecha o caminho e vem de cabeça baixa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bode da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carneiro do Morro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Bode da Restinga]] rápido\n- 1 [[Carneiro do Morro]] lento\n```\n"
+}

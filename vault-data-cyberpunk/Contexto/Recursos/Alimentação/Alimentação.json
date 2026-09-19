@@ -1,0 +1,29 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Alimentação",
+  "path": "Contexto/Recursos/Alimentação/Alimentação.md",
+  "basename": "Alimentação",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Serviços",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nO que se **come e bebe** — refeição, mantimento, bebida, refrigerante, salgado e guloseima, com a marca de verdade sempre que a época tem uma. O padrão do mês está em [[Serviços]].\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Recurso\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Nível AS \"Classe\"\nFROM \"Contexto/Recursos/Alimentação\"\nWHERE categoria = \"Recurso\"\nSORT Tipo ASC, Preço ASC\n```\n"
+}

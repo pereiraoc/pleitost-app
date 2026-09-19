@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Estação Itu",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Estação Itu.md",
+  "basename": "Estação Itu",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Trensurb + [[Fábrica Itú Química]]",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Itu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Estação de um andar só, com chuveiro de descontaminação na saída e um detector que apita quando alguém passa com reagente no bolso.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Estrutura de metal pintada de amarelo desbotado, cartaz de segurança dos anos 70, poça permanente embaixo do chuveiro, químico de jaleco com crachá na corrente.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Estação de um andar só, com chuveiro de descontaminação na saída e um detector que apita quando alguém passa com reagente no bolso.",
+    "aparencia": "Estrutura de metal pintada de amarelo desbotado, cartaz de segurança dos anos 70, poça permanente embaixo do chuveiro, químico de jaleco com crachá na corrente.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

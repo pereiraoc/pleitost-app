@@ -1,0 +1,48 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Pastel da Banca do Mercado",
+  "path": "Contexto/Recursos/Alimentação/Pastel da Banca do Mercado.md",
+  "basename": "Pastel da Banca do Mercado",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Banca 40 — Mercado Público",
+    "Preço": 50,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Pastel de carne ou queijo frito na hora, massa fina, caldo de cana do lado — a banca de 1927 no mesmo canto do Mercado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pastel da Banca do Mercado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sanduíche de Mortadela do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pastel da Banca do Mercado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Pastel da Banca do Mercado.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA banca de pastel do [[Mercado Público]] está no mesmo canto desde 1927 e a fila é de feirante, estivador e\nbrigadiano. Massa fina, recheio de carne ou queijo, frito na hora, embrulhado em papel pardo. Caldo de cana\nCz$ 30 e a fofoca da cidade de graça.\n\n> [!info] Especificação\n> **Pastel:** carne ou queijo, massa fina, frito na hora; palmito Cz$ 70\n> **Caldo de cana:** Cz$ 30, com limão\n> **Fila:** das 7h às 15h; feirante come em pé, brigadiano fura\n> **Preço:** Cz$ 50; ×2 em dia de Gre-Nal\n> **Ao lado:** a banca vizinha faz o [[Sanduíche de Mortadela do Mercado]]\n"
+}

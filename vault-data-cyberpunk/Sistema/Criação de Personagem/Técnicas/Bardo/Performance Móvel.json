@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Móvel",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Móvel.md",
+  "basename": "Performance Móvel",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A ou 2A",
+    "resumo": "\"[[Mover|Move]] metade do movimento e faz [[Performance Bárdica|Performance ou Ato]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Performance ou Ato"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Ato Bárdico"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: 1A ou 2A\n\nresumo:: \"[[Mover|Move]] metade do movimento e faz [[Performance Bárdica|Performance ou Ato]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Performance Móvel.\n\n**Performance Móvel - 1A ou 2A**\n[[Mover|Mova]] metade do seu movimento e inicie uma [[Performance Bárdica]] ou realize um [[Performance Bárdica|Ato Bárdico]] que requer 1 ou 2 ações (mesmo número que você usou para ativar Performance Móvel).\n\n```autosheet-rules\n```\n"
+}

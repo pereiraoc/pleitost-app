@@ -1,0 +1,53 @@
+{
+  "id": "Campanhas/Combates/Sucata Fechada",
+  "path": "Campanhas/Combates/Sucata Fechada.md",
+  "basename": "Sucata Fechada",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Zona Deserta]] · [[Oficina de Sucata]] · [[Restinga]]",
+    "Situação": "O dono do ferro negocia primeiro. Quando para de negociar, já cercou.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mestre de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferro-Velho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Mestre de Sucata]] lento\n- 5 [[Ferro-Velho]] lento\n- 6 [[Catador Armado]] rápido\n```\n"
+}

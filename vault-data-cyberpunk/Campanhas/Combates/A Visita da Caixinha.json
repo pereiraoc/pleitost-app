@@ -1,0 +1,37 @@
+{
+  "id": "Campanhas/Combates/A Visita da Caixinha",
+  "path": "Campanhas/Combates/A Visita da Caixinha.md",
+  "basename": "A Visita da Caixinha",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "Genérico — onde o grupo marcou de receber alguém.",
+    "Situação": "Ainda dá pra resolver conversando. Eles vieram justamente pra descobrir se dá.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Braço da Caixinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agulha de Beco",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Braço da Caixinha]] rápido\n- 2 [[Agulha de Beco]] rápido\n```\n"
+}

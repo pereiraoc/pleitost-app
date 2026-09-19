@@ -1,0 +1,196 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda.md",
+  "basename": "Sintonia Profunda",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Profunda (Fogo)]]",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Profunda (Água)]]",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Profunda (Vento)]]",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Profunda (Terra)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprimora a relação entre sua sintonia e o corpo material, recebendo benefícios de acordo com sua sintonia.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Profunda (Fogo)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Fogo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Profunda (Fogo)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Sintonia Profunda (Fogo)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Profunda (Água)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Água]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Profunda (Água)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Sintonia Profunda (Água)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Profunda (Vento)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Vento]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Profunda (Vento)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Sintonia Profunda (Vento)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Profunda (Terra)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Terra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sintonia Profunda (Terra)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Sintonia Profunda (Terra)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Fogo)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Profunda (Água)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Profunda (Vento)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sintonia Profunda (Terra)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Fogo)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Água)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Vento)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Terra)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprimora a relação entre sua sintonia e o corpo material, recebendo benefícios de acordo com sua sintonia.\"\n%%\n#### `= this.file.name`\nVocê aprimora a relação entre sua sintonia e o corpo material, recebendo os seguintes benefícios, dependendo da sua sintonia:\n![[Sintonia Profunda (Fogo)#`= this.file.name`]]\n![[Sintonia Profunda (Água)#`= this.file.name`]]\n![[Sintonia Profunda (Vento)#`= this.file.name`]]\n![[Sintonia Profunda (Terra)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

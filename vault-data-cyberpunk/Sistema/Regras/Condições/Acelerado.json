@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Condições/Acelerado",
+  "path": "Sistema/Regras/Condições/Acelerado.md",
+  "basename": "Acelerado",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Positiva",
+  "frontmatter": {
+    "alias": "Acelerado X, Acelerado 1, Acelerado 2, Acelerado 3, Acelerada, Acelaradas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Positiva",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Aumenta o número de [[Ações|Ações]] no turno em X.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Aumenta o número de [[Ações|Ações]] no turno em X.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

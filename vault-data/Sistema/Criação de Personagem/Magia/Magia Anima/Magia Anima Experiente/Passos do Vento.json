@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Passos do Vento",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Passos do Vento.md",
+  "basename": "Passos do Vento",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Passos do Vento (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Alcance 2q. Criatura pode andar no ar como se em solo firme por 10 minutos. Pode subir e descer num ângulo de 45 graus como se subindo ou descendo uma rampa.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Alcance 2q. Criatura pode andar no ar como se em solo firme por 10 minutos. Pode subir e descer num ângulo de 45 graus como se subindo ou descendo uma rampa.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura pode andar no ar como se em solo firme por 10 minutos. Pode subir e descer num ângulo de 45 graus como se subindo ou descendo uma rampa."
+}

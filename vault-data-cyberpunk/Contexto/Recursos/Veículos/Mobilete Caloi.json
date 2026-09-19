@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Mobilete Caloi",
+  "path": "Contexto/Recursos/Veículos/Mobilete Caloi.md",
+  "basename": "Mobilete Caloi",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Caloi",
+    "Preço": 40000,
+    "Cobrança": "única",
+    "Usado": 15000,
+    "Manutenção": 400,
+    "Nível": 2,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Jardim Botânico]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "A bicicleta motorizada de 50 cc: pedala pra pegar, faz 30 por hora e leva o padeiro pro trabalho sem carteira.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mobilete Caloi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bicicletaria do Alemão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moto Center Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mobilete Caloi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Mobilete Caloi.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Mobilete é o degrau entre a bicicleta e a moto: motorzinho de 50 cc que se liga pedalando, sem carteira, sem\nplaca, sem seguro. É o transporte do padeiro, do estudante e da dona de armazém; a Brigada nem olha.\n\n> [!info] Especificação\n> **Modelo:** Caloi Mobilete 1986, motor auxiliar\n> **Motor:** 50 cc, 2 tempos; 50 km/l\n> **Velocidade:** 35 km/h\n> **Novo:** [[Bicicletaria do Alemão]], [[Moto Center Assis Brasil]]\n> **Usado:** Cz$ 15.000\n> **Manutenção:** Cz$ 400 por mês\n"
+}

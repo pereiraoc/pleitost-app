@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Deboche/Deboche",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Deboche/Deboche.md",
+  "basename": "Deboche",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Intimidação]]",
+    "resumo": "\"Pode provocar em vez de [[Assustar]] para reduzir [[Defesa]] em 1. Pode mitigar falhas em [[Coagir]] se for a primeira tentativa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Intimidação]]\nresumo:: \"Pode provocar em vez de [[Assustar]] para reduzir [[Defesa]] em 1. Pode mitigar falhas em [[Coagir]] se for a primeira tentativa.\"\n%%\n### `= this.file.name`\n* Quando você tem sucesso em [[Assustar]] e teria deixado o alvo [[Abalado]] por 1 ou 2t, você pode escolher aplicar [[Nervoso]] e -1 de [[Penalidades|penalidade de condição]] na [[Defesa]] e nas [[Resistências]] do alvo por 1 ou 2t (dependendo do resultado inicial).\n* Quando você falha em [[Coagir]], você pode transformar a ameaça numa piada, fazendo com que a criatura não fique hostil. Isso funciona uma vez por criatura por dia.\n\n```autosheet-rules\n```\n"
+}

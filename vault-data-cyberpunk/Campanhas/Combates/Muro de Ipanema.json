@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Muro de Ipanema",
+  "path": "Campanhas/Combates/Muro de Ipanema.md",
+  "basename": "Muro de Ipanema",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Ipanema]] · [[Clube de Golfe de Ipanema]]",
+    "Situação": "A guarita barra, o rádio chama, e o chefe aparece quando já é tarde.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Segurança de Condomínio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chefe de Segurança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube de Golfe de Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Segurança de Condomínio]] lento\n- 2 [[Chefe de Segurança]] rápido\n```\n"
+}

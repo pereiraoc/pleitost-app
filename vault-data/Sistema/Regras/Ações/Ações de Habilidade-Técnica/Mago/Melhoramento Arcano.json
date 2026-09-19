@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Melhoramento Arcano",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Melhoramento Arcano.md",
+  "basename": "Melhoramento Arcano",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Mago]]\"",
+    "resumo": "\"Você conjura uma magia não-básica (2 ações) de [[Magia Arcana Mista Limitada]] que alveje você ou um objeto em sua posse e faz um [[Atacar|Ataque]] com sua [[arma arcana]] (em qualquer ordem); a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Mago]]\"\n\nresumo:: \"Você conjura uma magia não-básica (2 ações) de [[Magia Arcana Mista Limitada]] que alveje você ou um objeto em sua posse e faz um [[Atacar|Ataque]] com sua [[arma arcana]] (em qualquer ordem); a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê conjura uma magia não-básica que requer 2 ações usando [[Magia Arcana Mista Limitada]] e faz um [[Atacar|Ataque]] com sua [[arma arcana]]. A Magia precisa alvejar você ou um objeto em sua posse. Você escolhe qual das ações realizar antes. A Magia conjurada durante Melhoramento Arcano não provoca reações do alvo do Ataque. Melhoramento Arcano conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Ponto da Kombi do Itu",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Ponto da Kombi do Itu.md",
+  "basename": "Ponto da Kombi do Itu",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Cooperativa dos Kombeiros (Seu Elói)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Lotação Clandestina]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto da Kombi do Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto da Kombi do Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto da Kombi do Itu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Lotação clandestina de Kombi pro Centro e pra Nova Sarandi; Cz$ 80 na mão, o dobro depois do toque.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Três Kombis encostadas na calçada, um homem gritando o destino e a fila de macacão.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Lotação clandestina de Kombi pro Centro e pra Nova Sarandi; Cz$ 80 na mão, o dobro depois do toque.",
+    "aparencia": "Três Kombis encostadas na calçada, um homem gritando o destino e a fila de macacão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Cobrança na Banca",
+  "path": "Campanhas/Combates/Cobrança na Banca.md",
+  "basename": "Cobrança na Banca",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Centro Histórico]] · [[Palafitas do Mercado]]",
+    "Situação": "Briga com testemunha: bater na frente do mercado tem preço social.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cobrador de Ponto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chefe de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Cobrador de Ponto]] lento\n- 1 [[Chefe de Esquina]] rápido\n```\n"
+}

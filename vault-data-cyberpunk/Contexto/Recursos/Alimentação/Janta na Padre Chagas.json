@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Janta na Padre Chagas",
+  "path": "Contexto/Recursos/Alimentação/Janta na Padre Chagas.md",
+  "basename": "Janta na Padre Chagas",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Restaurantes da Padre Chagas",
+    "Preço": 1000,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Padre Chagas]]"
+    ],
+    "Resumo": "Filé, camarão importado e sobremesa francesa com manobrista, gerador e garçom que não aceita nota miúda.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Janta na Padre Chagas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Janta na Padre Chagas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Janta na Padre Chagas.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Padre Chagas]] é a rua onde a elite janta. Filé ao molho, camarão que chegou de contêiner, sobremesa com\nnome francês. Manobrista, gerador próprio pra nenhum apagão apagar a vela, segurança da [[Gradiente]] na\nporta — e um garçom que devolve nota de Cz$ 50 com olhar de nojo.\n\n> [!info] Especificação\n> **Prato:** filé ao molho madeira, camarão importado, risoto; sobremesa francesa\n> **Bebida:** [[Uísque de Contrabando]] com selo (Cz$ 800 a dose), champanhe, [[Uísque de Contrabando]] sob encomenda\n> **Serviço:** manobrista, gerador, segurança [[Gradiente]]\n> **Régua:** ×1,5 já incluso — o cardápio é dos Moinhos\n> **Reserva:** com nome de crachá; sem crachá, 'lotado'\n"
+}

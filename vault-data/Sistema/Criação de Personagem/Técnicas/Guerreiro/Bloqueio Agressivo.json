@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Bloqueio Agressivo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Bloqueio Agressivo.md",
+  "basename": "Bloqueio Agressivo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "L",
+    "resumo": "\"Ao [[Bloquear com Escudo]], você pode [[Empurrar]] ou [[Desarmar]] (mesmo com as mãos ocupadas) o inimigo cujo ataque foi bloqueado; [[Empurrar]] dessa forma não provoca [[Ataque de Oportunidade]] do alvo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: L\n\nresumo:: \"Ao [[Bloquear com Escudo]], você pode [[Empurrar]] ou [[Desarmar]] (mesmo com as mãos ocupadas) o inimigo cujo ataque foi bloqueado; [[Empurrar]] dessa forma não provoca [[Ataque de Oportunidade]] do alvo.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Bloqueio Agressivo.\n*Requer Usar Escudo*\n\n**Bloqueio Agressivo - L**\nAo [[Bloquear com Escudo]], pode [[Empurrar]] ou [[Desarmar]] como ação livre, mesmo que esteja com as mãos ocupadas, o inimigo que teve o ataque bloqueado. Empurrar dessa forma não provoca [[Ataque de Oportunidade]] do alvo.\n\n```autosheet-rules\n```\n"
+}

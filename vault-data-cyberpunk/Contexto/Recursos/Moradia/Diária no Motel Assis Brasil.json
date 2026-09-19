@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Moradia/Diária no Motel Assis Brasil",
+  "path": "Contexto/Recursos/Moradia/Diária no Motel Assis Brasil.md",
+  "basename": "Diária no Motel Assis Brasil",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "Motéis da Assis Brasil",
+    "Preço": 400,
+    "Cobrança": "noite",
+    "Nível": 3,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Garagem individual, sem recepção, paga na portinhola: dormir, sumir ou fechar negócio sem testemunha.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diária no Motel Assis Brasil.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diária no Motel Assis Brasil.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diária no Motel Assis Brasil.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs motéis da avenida Assis Brasil servem pra tudo que precisa de garagem fechada e portinhola: dormir, sumir,\nfechar negócio sem testemunha, trocar de carro. Diária de 12 horas, pagamento sem rosto, e a [[Brigada Militar Metropolitana]] só entra com mandado — ou com propina.\n\n> [!info] Especificação\n> **Quarto:** suíte com garagem individual, chuveiro quente e TV com duas emissoras\n> **Pagamento:** na portinhola, sem rosto; Cz$ 400 por 12 horas\n> **Uso:** dormir, sumir, reunião da [[A Caixinha|Caixinha]], troca de carro do [[Cartel dos Eixos]]\n> **Discrição:** a Brigada só entra com mandado; o gerente vende a lista, mas caro\n> **Nível:** 3 — Classe Média Baixa\n"
+}

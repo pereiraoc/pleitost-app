@@ -1,0 +1,84 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Dados de Dano",
+  "path": "Sistema/Regras/Regra Básica/Dados de Dano.md",
+  "basename": "Dados de Dano",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "dados de dano da arma",
+      "dado de dano da arma"
+    ],
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armas",
+      "kind": "wikilink",
+      "alias": "arma"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque básico"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Especializada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Rastreador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Poderoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encantar Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Dados de Dano"
+    }
+  ],
+  "body": "## Dados de Dano\nO número de dados de dano da arma em um ataque é definido pela sua proficiência com a [[Armas|arma]] e em [[Ataques]], se é um [[Atacar|Ataque básico]], um [[Ataque de Oportunidade]], e nesse caso, se há alguma técnica que garante dados de dano da arma (como por exemplo [[Oportunidade Especializada]]), ou outro tipo de ataque com número definido de dados de dano. Danos adicionais como [[Ataque Furtivo]], [[Estratégia de Caça (Rastreador)]], [[Ataque Poderoso]] e [[Encantar Arma]] não contam como dados de dano da arma.\n\nComo exemplo, um personagem [[Experiente]] em [[Ataques]] fazendo um [[Atacar|Ataque]] com uma [[Adaga]] que é proficiente causa 2d4+2 de dano, contendo 2 dados de dano da arma (2d4). Caso esse mesmo personagem tivesse um sucesso decisivo, causando 3d4+2 de dano, esse ataque teria 3 dados de dano da arma (3d4). Em um [[Ataque de Oportunidade]], esse personagem causaria 2 de dano, o que não contem nenhum dado de dano da arma, mas se esse [[Ataque de Oportunidade|AdO]] tivesse um sucesso decisivo (o que adiciona um dado de dano da arma), o ataque causaria 1d4+2 de dano, contendo 1 dado de dano da arma.\n\n```autosheet-rules\n```\n"
+}

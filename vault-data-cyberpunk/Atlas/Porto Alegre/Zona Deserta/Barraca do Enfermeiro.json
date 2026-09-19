@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Barraca do Enfermeiro",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Barraca do Enfermeiro.md",
+  "basename": "Barraca do Enfermeiro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "Bira Enfermeiro (desertor do Exército)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraca do Enfermeiro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraca do Enfermeiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Barraca do Enfermeiro.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Curativo, sutura, morfina do Complexo Orion e antídoto improvisado; paga em sucata, dose ou favor; o Clã garante que o Exército não vem.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Barraca de lona militar remendada, maca de porta sobre tambores, caixa de morfina com selo do Exército, poeira e sol.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Curativo, sutura, morfina do Complexo Orion e antídoto improvisado; paga em sucata, dose ou favor; o Clã garante que o Exército não vem.",
+    "aparencia": "Barraca de lona militar remendada, maca de porta sobre tambores, caixa de morfina com selo do Exército, poeira e sol.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

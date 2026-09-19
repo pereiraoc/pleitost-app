@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Vitalidade/Vitalidade",
+  "path": "Sistema/Regras/Vitalidade/Vitalidade.md",
+  "basename": "Vitalidade",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Vitalidade",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Proficiência|Proficiência]]",
+    "next": "[[Defesas e Resistências|Defesas e Resistências]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Defesas e Resistências",
+      "kind": "wikilink",
+      "alias": "Defesas e Resistências"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "embed",
+      "subpath": "Energia Vital (EV)"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "embed",
+      "subpath": "Energia Heroica (EH)"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Vitalidade"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Proficiência|Proficiência]]\nnext:: [[Defesas e Resistências|Defesas e Resistências]]\n%%\n# Vitalidade\n![[Energia Vital#Energia Vital (EV)]]\n![[Energia Heroica#Energia Heroica (EH)]]\n\n```autosheet-rules\n```\n"
+}

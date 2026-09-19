@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana.md",
+  "basename": "Magia Arcana",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink",
+      "alias": "Arcanistas"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "embed",
+      "subpath": "Magia Branca"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "embed",
+      "subpath": "Magia Negra"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "embed",
+      "subpath": "Magia Essencial"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Magia Arcana"
+    },
+    {
+      "level": 1,
+      "text": "Lista de Magias Arcana"
+    }
+  ],
+  "body": "## Magia Arcana\n[[Magia Arcana]] é a forma calculada e planejada da magia. Muitas vezes chamada de Magia Entrópica, a Magia Arcana acontece quando uma diferença elemental é criada. [[Magia Arcana Negra]] foca em suprimir os elementos, tornando seus alvos mais vulneráveis e menos capazes, já a [[Magia Arcana Branca]] é usada para potencializar os elementos, ampliando a capacidade dos seus alvos. O estudo de Magia Arcana também engloba efeitos que podem ser criados de forma entrópica no geral, chamados de [[Magia Arcana Essencial]], mas só os praticantes mais dedicados conseguem reproduzi-los.  [[Arcanista|Arcanistas]] são os principais conjuradores de Magia Arcana, mas como essa pode ser estudada e aplicada, muitas vezes outras classes trazem Magia Arcana ao seu repertório de habilidades.\n\n# Lista de Magias Arcana\n![[Magia Arcana Branca#Magia Branca]]\n![[Magia Arcana Negra#Magia Negra]]\n![[Magia Arcana Essencial#Magia Essencial]]"
+}

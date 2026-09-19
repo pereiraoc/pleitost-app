@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Carne de Segunda do Açougue",
+  "path": "Contexto/Recursos/Alimentação/Carne de Segunda do Açougue.md",
+  "basename": "Carne de Segunda do Açougue",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Açougues do Mercado Público",
+    "Preço": 220,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Músculo, acém e costela no quilo — a carne que o açougue do Mercado vende a quem não compra o corte especial da Zaffari.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs açougues do Mercado vendem as duas carnes da cidade: o [[Corte Especial Zaffari]] no balcão da frente, com etiqueta, e a carne de segunda no gancho dos fundos, sem etiqueta. Músculo, acém, costela e miúdo. O açougueiro corta na serra e embrulha em jornal; quem pede fiado, ele sabe o nome.\n\n> [!info] Especificação\n> **Unidade:** o quilo\n> **Cortes:** músculo, acém, costela; miúdo pela metade do preço\n> **Fiado:** só pra freguês antigo, anotado no caderno\n"
+}

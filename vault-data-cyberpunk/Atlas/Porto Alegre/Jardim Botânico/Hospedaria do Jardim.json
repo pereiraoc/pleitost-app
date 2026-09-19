@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Hospedaria do Jardim",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Hospedaria do Jardim.md",
+  "basename": "Hospedaria do Jardim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Família Weber (Dona Gisela)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Hospedaria do Jardim]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hospedaria do Jardim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Hospedaria do Jardim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hospedaria do Jardim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hospedaria do Jardim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Diária pra técnico de fora, família em visita e quem paga pra dormir em bairro monitorado; registro com documento, café da padaria.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casa de dois andares com jardim cercado, interfone no portão, varanda com cadeira de vime, a copa do parque por cima do muro.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Diária pra técnico de fora, família em visita e quem paga pra dormir em bairro monitorado; registro com documento, café da padaria.",
+    "aparencia": "Casa de dois andares com jardim cercado, interfone no portão, varanda com cadeira de vime, a copa do parque por cima do muro.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

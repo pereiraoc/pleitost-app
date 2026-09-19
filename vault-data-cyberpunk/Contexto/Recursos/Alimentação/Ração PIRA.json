@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Ração PIRA",
+  "path": "Contexto/Recursos/Alimentação/Ração PIRA.md",
+  "basename": "Ração PIRA",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "PIRA / [[Zaffari]]",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Cidade Baixa]]"
+    ],
+    "Resumo": "Barra prensada de soja, farinha de pescado e selênico traço, com o carimbo PIRA e uma data que ninguém lê. Grátis em crédito.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ração PIRA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ração PIRA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Ração PIRA.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA ração do programa PIRA é o que o operário come no turno e o que a rua compra vencido. Barra de 200 g, papel\nparafinado, carimbo e data. Não estraga porque já nasceu estragada. Tem selênico traço — o suficiente pra\nmanter o turno em pé e o laudo positivo.\n\n> [!info] Especificação\n> **Composição:** soja prensada, farinha de pescado do Guaíba, selênico traço, sal\n> **Embalagem:** papel parafinado com o carimbo PIRA e a data de validade (ignorada)\n> **Crédito:** grátis no balcão da empresa; Cz$ 20 na rua, vencida\n> **Sabor:** papelão molhado com fundo de metal\n> **Distribuição:** [[Zaffari]] entrega, [[Panvel]] dosa o selênico\n"
+}

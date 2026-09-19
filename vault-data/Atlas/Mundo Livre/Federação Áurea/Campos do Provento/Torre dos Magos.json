@@ -1,0 +1,113 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Torre dos Magos",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Torre dos Magos.md",
+  "basename": "Torre dos Magos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Pedra Estelar",
+      "[[Sensor Arcano]]",
+      "[[Colar da Eloquência]]",
+      "[[Luva do Arcanista]]",
+      "[[Amplificador Audiovisual]]",
+      "[[Pulseira da Potência]]",
+      "[[Anel do Equilíbrio]]",
+      "[[Anel da Resistência]]",
+      "[[Foco da Repetição]]",
+      "[[Foco da Penetração]]",
+      "[[Foco da Consistência]]",
+      "[[Foco da Intensificação]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Torre dos Magos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sensor Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luva do Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Repetição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Penetração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Consistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Intensificação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Torre dos Magos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Torre dos Magos.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** A academia arcana do [[Campos do Provento]]: uma torre-colégio colossal de nove andares plantada sozinha na estepe, onde se formam os magos da [[Federação Áurea]] — das salas de aula básicas à Câmara do Arquimago, no alto. Um eixo de energia azul atravessa o núcleo do edifício, do salão de prática aos cristais gigantes da cobertura, os focos estáticos que alimentam as oficinas de criação arcana e os artefatos que dela saem. A única estrada nasce em sua escadaria e desce para o sul, rumo a [[Líciae]]; de todas as outras direções chegam apenas trilhas de aprendizes e peregrinos.\n> \n> 👁️**Aparência do Local:** Torre cilíndrica de pedra parda em estilo gótico, levemente escalonada — cada tambor um pouco mais estreito que o de baixo —, com nervuras, janelas em lanceta e pináculos entre os andares, tão alta que o topo fica literalmente entre as nuvens. Assenta num morrote rochoso em meio a uma estepe semiárida de capim seco, arbustos e afloramentos, com badlands erodidas a oeste e cordilheiras fechando o horizonte dos dois lados; a única entrada é a larga escadaria externa de pedra do térreo, para onde convergem trilhas de terra vindas de toda a planície. Os andares baixos brilham em luz quente de lanternas, enquanto janelas altas, cristais e o eixo central de energia tingem de azul os pisos arcanos. A cobertura é uma coroa de pináculos e torreões-lanterna cravejada de cristais gigantes — um grande cristal azul no ápice e um cristal âmbar num torreão à parte.\n> \n\n> [!info] Locais de Interesse\n> - **Recepção Inferior** *(térreo)*: salão de entrada gótico de portal ogival monumental, com balcão de recepção entre estantes de frascos e livros.\n> - **Salas de Aula Básicas** *(2º andar)*: fileiras de mesas e bancos voltados a um estrado, onde os aprendizes começam.\n> - **Oficinas de Criação Arcana** *(3º andar)*: bancadas abarrotadas de instrumentos, engenhos e cristais de brilho azul, onde alunos e artífices trabalham.\n> - **Recepção Administrativa** *(4º andar)*: escritório de escrivaninhas em fileiras, papéis, armários e balcões — a burocracia da torre.\n> - **Câmara de Prática Mágica** *(5º andar)*: salão circular com círculos mágicos brilhantes no chão — dourado, azul e violeta — onde grupos praticam; do círculo central sobe o feixe do eixo de energia.\n> - **Salas de Aula Superiores** *(6º andar)*: salas de estudo avançado sob janelas altas de vitral e brilho azul.\n> - **Aposentos dos Docentes** *(7º andar)*: alojamentos dos mestres, com camas, escrivaninhas e estantes de livros.\n> - **Câmara do Arquimago** *(8º andar)*: câmara grandiosa onde a coluna de energia azul sobe por um poço balaustrado, entre cápsulas e vitrines altas de cristal.\n> - **Telhado dos Focos Estáticos** *(topo)*: coroa de pináculos e torreões-lanterna cravejada de cristais gigantes — os focos estáticos que coroam a torre.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "A academia arcana do [[Campos do Provento]]: uma torre-colégio colossal de nove andares plantada sozinha na estepe, onde se formam os magos da [[Federação Áurea]] — das salas de aula básicas à Câmara do Arquimago, no alto. Um eixo de energia azul atravessa o núcleo do edifício, do salão de prática aos cristais gigantes da cobertura, os focos estáticos que alimentam as oficinas de criação arcana e os artefatos que dela saem. A única estrada nasce em sua escadaria e desce para o sul, rumo a [[Líciae]]; de todas as outras direções chegam apenas trilhas de aprendizes e peregrinos.",
+    "aparencia": "Torre cilíndrica de pedra parda em estilo gótico, levemente escalonada — cada tambor um pouco mais estreito que o de baixo —, com nervuras, janelas em lanceta e pináculos entre os andares, tão alta que o topo fica literalmente entre as nuvens. Assenta num morrote rochoso em meio a uma estepe semiárida de capim seco, arbustos e afloramentos, com badlands erodidas a oeste e cordilheiras fechando o horizonte dos dois lados; a única entrada é a larga escadaria externa de pedra do térreo, para onde convergem trilhas de terra vindas de toda a planície. Os andares baixos brilham em luz quente de lanternas, enquanto janelas altas, cristais e o eixo central de energia tingem de azul os pisos arcanos. A cobertura é uma coroa de pináculos e torreões-lanterna cravejada de cristais gigantes — um grande cristal azul no ápice e um cristal âmbar num torreão à parte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

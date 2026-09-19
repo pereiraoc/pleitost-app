@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Regras/Vitalidade/Energia Heroica",
+  "path": "Sistema/Regras/Vitalidade/Energia Heroica.md",
+  "basename": "Energia Heroica",
+  "type": "Regra",
+  "subtype": "Moral",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "EH"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Moral",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Vitalidade|Vitalidade]]",
+    "prev": "[[Energia Vital]]",
+    "next": "[[Defesas e Resistências|Defesas e Resistências]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink",
+      "alias": "Vitalidade"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesas e Resistências",
+      "kind": "wikilink",
+      "alias": "Defesas e Resistências"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Pele de Pedra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria Profunda",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Energia Heroica (EH)"
+    },
+    {
+      "level": 4,
+      "text": "Energia Heroica Temporária"
+    }
+  ],
+  "body": "%%\nup:: [[Vitalidade|Vitalidade]]\nprev:: [[Energia Vital]]\nnext:: [[Defesas e Resistências|Defesas e Resistências]]\n%%\n## Energia Heroica (EH)\nEnergia Heroica é uma forma de resistência que aparece apenas em poucos indivíduos. A capacidade de desafiar o perigo, escapar de golpes mortais no último instante, encarar de frente a baforada de um dragão, enfim, rir em face à morte. Somente heróis (os jogadores) possuem Energia Heroica. Quando um personagem recebe dano, ele reduz sua Energia Heroica antes de reduzir sua [[Energia Vital]].\n\n#### Energia Heroica Temporária\nDiversos efeitos garantem Energia Heroica temporária. Essa EH temporária é totalmente a parte da sua EH normal, sendo administrada separadamente. Quando você recebe dano, reduza da EH temporária antes de reduzir sua EH normal ou sua [[Energia Vital|EV]]. \n\nNão existe um máximo de EH temporária que você pode possuir e EH temporária de fontes diferentes acumulam. Ao receber EH temporária originando de um mesmo efeito, renove sua duração e fique com o maior valor entre as duas aplicações. Um mesmo efeito é definido pelo nome da magia, habilidade ou técnica que garante a EH temporária. Como exemplos, [[Pele de Pedra]] não acumula com outra conjuração, mesmo que oriunda de conjuradores diferentes e a EH temporária de [[Fúria]] acumula com a de [[Fúria Profunda]], mesmo que venha do mesmo personagem e tenham nomes parecidos. Caso você tenha mais de uma fonte de EH temporária, ao receber dano, reduza a EH temporária que tem a menor duração corrente. Se as durações forem idênticas, reduza do efeito aplicado mais recentemente."
+}

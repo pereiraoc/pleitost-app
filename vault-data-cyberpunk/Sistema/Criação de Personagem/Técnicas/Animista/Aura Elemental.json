@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Aura Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Aura Elemental.md",
+  "basename": "Aura Elemental",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"Melhora magia para causar efeitos nos aliados.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"Melhora magia para causar efeitos nos aliados.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Aura Elemental.\n\n**Aura Elemental - 1A**\nSe sua próxima ação for conjurar uma Magia Anima, você causa efeitos adicionais que duram até o início do seu próximo turno, dependendo do elemento da magia.\n* Fogo - Aliados em 10q recebem +1 de [[Bônus de Condição|bônus de condição]] em [[Atacar|Ataques]];\n* Água - Aliados em 10q recebem +1 de [[Bônus de Condição|bônus de condição]] nas [[Resistências]];\n* Vento - Aliados em 10q recebem +1q de [[Bônus de Condição|bônus de condição]] na [[Movimentação]];\n* Terra - Aliados em 10q recebem 8 de [[Energia Heroica|EH]] temporária.\n\n```autosheet-rules\n```\n"
+}

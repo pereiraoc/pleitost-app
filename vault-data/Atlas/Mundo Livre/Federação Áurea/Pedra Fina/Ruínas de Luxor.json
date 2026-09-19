@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Ruínas de Luxor",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Ruínas de Luxor.md",
+  "basename": "Ruínas de Luxor",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ruínas de Luxor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ruínas de Luxor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ruínas de Luxor.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Cidade morta engolida pelas dunas do norte de [[Pedra Fina]] — uma metrópole mourisca de outra era, da qual só as estruturas monumentais ainda rompem a areia. Ninguém vive ali e nenhuma estrada leva até ela: o sítio jaz isolado no deserto, a pouca distância da costa norte, longe de qualquer rota de caravana. O nível variável das dunas sugere que boa parte da cidade permanece intacta sob a areia — e o que mais dorme lá embaixo, ninguém sabe dizer.\n> \n> 👁️**Aparência do Local:** Arquitetura mourisca homogênea em arenito dourado-claro, corroída pelo vento até ter a mesma cor da areia que a engole. Do mar de dunas emergem apenas os monumentos: um grande mausoléu de cúpula bulbosa nervurada enterrado até meia altura, minaretes partidos — um deles, ricamente lavrado de balcões, quase intacto com a base afogada na duna —, um complexo de mesquita com cúpula sobre uma elevação no horizonte e um portal monumental inclinado, de arco ogival com arquivoltas esculpidas, com uma rampa de areia acumulada contra o vão escuro. No centro, uma avenida rebaixada entre duas muralhas arruinadas paralelas ainda é transitável, semiassoreada, terminando num portal-nicho em arco ogival. Não há sinal de vida algum — nem figuras, nem vegetação, nem água; apenas véus de areia soprando entre as pedras e, tomando todo o horizonte, uma muralha de tempestade de areia avançando sobre as ruínas sob um céu de bruma dourada.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cidade morta engolida pelas dunas do norte de [[Pedra Fina]] — uma metrópole mourisca de outra era, da qual só as estruturas monumentais ainda rompem a areia. Ninguém vive ali e nenhuma estrada leva até ela: o sítio jaz isolado no deserto, a pouca distância da costa norte, longe de qualquer rota de caravana. O nível variável das dunas sugere que boa parte da cidade permanece intacta sob a areia — e o que mais dorme lá embaixo, ninguém sabe dizer.",
+    "aparencia": "Arquitetura mourisca homogênea em arenito dourado-claro, corroída pelo vento até ter a mesma cor da areia que a engole. Do mar de dunas emergem apenas os monumentos: um grande mausoléu de cúpula bulbosa nervurada enterrado até meia altura, minaretes partidos — um deles, ricamente lavrado de balcões, quase intacto com a base afogada na duna —, um complexo de mesquita com cúpula sobre uma elevação no horizonte e um portal monumental inclinado, de arco ogival com arquivoltas esculpidas, com uma rampa de areia acumulada contra o vão escuro. No centro, uma avenida rebaixada entre duas muralhas arruinadas paralelas ainda é transitável, semiassoreada, terminando num portal-nicho em arco ogival. Não há sinal de vida algum — nem figuras, nem vegetação, nem água; apenas véus de areia soprando entre as pedras e, tomando todo o horizonte, uma muralha de tempestade de areia avançando sobre as ruínas sob um céu de bruma dourada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

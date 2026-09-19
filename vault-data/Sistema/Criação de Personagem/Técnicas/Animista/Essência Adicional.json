@@ -1,0 +1,258 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Adicional",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Adicional.md",
+  "basename": "Essência Adicional",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]], [[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "P",
+    "resumo": "\"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]], [[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Adicional",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_6163d399",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Magias Anima]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Adepta]]",
+              "[[Essência Hidratante Adepta]]",
+              "[[Essência Torrencial Adepta]]",
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]",
+              "[[Essência Enraizante Adepta]]",
+              "[[Essência Mineral Adepta]]",
+              "[[Essência Sísmica Adepta]]",
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]",
+              "[[Essência de Criação Adepta]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Adepta]], [[Essência Hidratante Adepta]], [[Essência Torrencial Adepta]], [[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Enraizante Adepta]], [[Essência Mineral Adepta]], [[Essência Sísmica Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Essência Adicional",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_c7ef2d23",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Animista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Menor]]",
+              "[[Essência Hidratante Menor]]",
+              "[[Essência Torrencial Menor]]",
+              "[[Essência Explosiva Menor]]",
+              "[[Essência Flamejante Menor]]",
+              "[[Essência Incendiária Menor]]",
+              "[[Essência Enraizante Menor]]",
+              "[[Essência Mineral Menor]]",
+              "[[Essência Sísmica Menor]]",
+              "[[Essência Ciclonal Menor]]",
+              "[[Essência Relampejante Menor]]",
+              "[[Essência Ventania Menor]]",
+              "[[Essência de Criação Menor]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Magias Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: P\n\nresumo:: \"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\n\n```autosheet-rules\n```\n"
+}

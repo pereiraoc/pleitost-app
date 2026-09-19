@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sobrevivência/Animais/Animais",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sobrevivência/Animais/Animais.md",
+  "basename": "Animais",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ações contra animais",
+        "tipo": "AçãoDePericia",
+        "origem": "Especialização",
+        "acoes": [
+          "[[Assustar]]",
+          "[[Distrair]]",
+          "[[Finta]]"
+        ],
+        "detalhe": "(contra animais)"
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sobrevivência]]",
+    "resumo": "\"Recebe um [[Animais Treinados|animal treinado]]. Pode [[Assustar]], [[Distrair]] e [[Finta|Fintar]] animais com [[Sobrevivência]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animais Treinados",
+      "kind": "wikilink",
+      "alias": "animal treinado"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink",
+      "alias": "Fintar"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Sobrevivência]]\nresumo:: \"Recebe um [[Animais Treinados|animal treinado]]. Pode [[Assustar]], [[Distrair]] e [[Finta|Fintar]] animais com [[Sobrevivência]].\"\n%%\n### `= this.file.name`\n* Você é capaz de treinar animais, recebendo um [[Animais Treinados|animal treinado]].\n* Você pode usar [[Assustar]], [[Distrair]] e [[Finta]] usando seu modificador de [[Sobrevivência]] contra animais.\n\n```autosheet-rules\n```\n"
+}

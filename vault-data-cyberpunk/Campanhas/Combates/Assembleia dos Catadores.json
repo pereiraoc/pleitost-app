@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Assembleia dos Catadores",
+  "path": "Campanhas/Combates/Assembleia dos Catadores.md",
+  "basename": "Assembleia dos Catadores",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Zona Deserta]] · [[Restinga]]",
+    "Situação": "Trezentas famílias na mesma rua e um homem no megafone. Se ele apontar, todo mundo aponta junto.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Presidente do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferro-Velho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Presidente do Sindicato]] lento\n- 10 [[Catador Armado]] rápido\n- 2 [[Ferro-Velho]] lento\n```\n"
+}

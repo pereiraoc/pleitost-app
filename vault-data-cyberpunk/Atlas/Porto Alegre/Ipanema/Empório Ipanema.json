@@ -1,0 +1,91 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Empório Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Empório Ipanema.md",
+  "basename": "Empório Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Seu Carlito Mattos",
+    "Descrição": null,
+    "Serviços": [
+      "[[Corte Especial Zaffari]]",
+      "[[Vinho Aurora]]",
+      "[[Coca-Cola]]",
+      "[[Doce de Leite Colonial]]",
+      "[[Chocolate Neugebauer]]",
+      "[[Água Mineral em Galão]]",
+      "[[Uísque de Contrabando]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Empório Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Empório Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Empório Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Corte especial, vinho, Coca de lata, doce de leite colonial em pote de vidro e chocolate; entrega em casa com nota.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de madeira escura, adega de vidro, balcão de frios com selo do Zaffari e um menino de entrega de bicicleta.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Corte especial, vinho, Coca de lata, doce de leite colonial em pote de vidro e chocolate; entrega em casa com nota.",
+    "aparencia": "Loja de madeira escura, adega de vidro, balcão de frios com selo do Zaffari e um menino de entrega de bicicleta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

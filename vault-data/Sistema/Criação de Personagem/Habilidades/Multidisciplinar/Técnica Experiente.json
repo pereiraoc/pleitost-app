@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Técnica Experiente",
+  "path": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Técnica Experiente.md",
+  "basename": "Técnica Experiente",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você recebe uma Técnica Experiente da sua classe de sua escolha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse::\nrank:: [[Experiente]]\n\nresumo:: \"Você recebe uma Técnica Experiente da sua classe de sua escolha.\"\n%%\n#### `= this.file.name`\nVocê recebe uma Técnica Experiente da sua classe de sua escolha.\n\n```autosheet-rules\n```\n"
+}

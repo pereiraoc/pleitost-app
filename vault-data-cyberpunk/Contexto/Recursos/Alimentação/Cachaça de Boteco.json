@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Cachaça de Boteco",
+  "path": "Contexto/Recursos/Alimentação/Cachaça de Boteco.md",
+  "basename": "Cachaça de Boteco",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Alambique da serra",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Praia de Belas]]",
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "Dose de 50 ml no copo americano, garrafão sem rótulo: esquenta, não cura.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cachaça de Boteco.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cachaça de Boteco.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cachaça de Boteco.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA cachaça do garrafão sem rótulo, vinda de algum alambique da serra dentro de um caminhão do [[Zaffari]]. Dose\nde 50 ml no copo americano, Cz$ 30, em todo boteco da cidade. O estivador toma antes do turno e o brigadiano\ndepois — no mesmo balcão, sem se olhar.\n\n> [!info] Especificação\n> **Dose:** 50 ml no copo americano\n> **Origem:** alambique da serra, garrafão de 5 l sem rótulo\n> **Preço:** Cz$ 30; Cz$ 20 na boca de bairro; nos Moinhos vira 'cachaça artesanal' a Cz$ 150\n> **Com limão:** caipirinha, Cz$ 80\n"
+}

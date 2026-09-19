@@ -1,0 +1,488 @@
+{
+  "id": "Contexto/Recursos/Transporte/Malha de Transportes",
+  "path": "Contexto/Recursos/Transporte/Malha de Transportes.md",
+  "basename": "Malha de Transportes",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Malha de Transportes.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Transporte e Mobilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Transporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ônibus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Informal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "LINHA EXECUTIVA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Ipanema",
+      "kind": "wikilink",
+      "alias": "Ipanema"
+    }
+  ],
+  "images": [
+    {
+      "target": "Malha de Transportes.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Malha de Transportes"
+    },
+    {
+      "level": 2,
+      "text": "Mapa esquemático"
+    }
+  ],
+  "body": "# Malha de Transportes\n![[Malha de Transportes.png]]\n\nPorto Alegre 1987 linha a linha: cada linha é uma nota (`categoria: Linha`) com **paradas em ordem**, **acesso** (o plano TRI mínimo, ou \"na mão\" quando o TRI não vale), **tarifa avulsa**, **qualidade** (★ precário · ★★ funciona, feio · ★★★ regular · ★★★★ bom, vigiado · ★★★★★ vitrine do regime), **horário** e **aparência** pra imagem. O contexto — quem manda, a geografia do alagado, quem chega onde por plano — está em [[Transporte e Mobilidade]]; os preços, em [[Custo de Vida]] e nas notas de [[Transporte]].\n\n- [[Aeromóvel]] — o trilho elevado da Trensurb (Linhas 1 e 2, Executiva, ramal morto)\n- [[Ônibus]] — radiais, transversais (T), circulares de bairro (B) e anfíbios (A) da Marcopolo\n- [[Lotação]] — as vans VIP com rádio Embratel e as Kombis clandestinas\n- [[Água]] — a balsa de carga da Zaffari (o barqueiro e a lancha da Gradiente não são coletivo: estão em [[Transporte]] como corrida)\n- [[Informal]] — a caravana da torcida (o que mais roda sem letreiro está nas notas de [[Transporte]])\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n\n<!-- malha-mapa:inicio -->\n## Mapa esquemático\nO app desenha a malha como mapa de metrô a partir das **posições** abaixo (grade: x cresce pro leste, y pro norte; entre duas paradas consecutivas o traço faz a parte diagonal e a parte reta). Parada compartilhada por duas linhas = **baldeação**. Ao sul da Praia de Belas não há malha: só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]]. Táxi, carro, barqueiro e a lancha da Gradiente não entram — isto é o transporte coletivo.\n```malha\nparada: Estação Central, 0, 0, esquerda\nparada: Praça da Alfândega, -1, 0, esquerda\nparada: Galeria Malcom, -2, 0, esquerda\nparada: Duque de Caxias, -3, -1, esquerda\nparada: Salgado Filho, -3, -2, esquerda\nparada: Santa Casa, -4, -2, esquerda\nparada: Viaduto da Borges, -1, -1, direita\nparada: Estação Centro Corporativo, 0, -1, direita\nparada: Usina do Gasômetro, -3, -4, esquerda\nparada: Delta Radioativo, -5, 3, esquerda\nparada: Trapiche da Aliança, 0, -4, direita\nparada: Lancheria da Cidade Baixa, 0, -3, esquerda\nparada: Estação Cidade Baixa, 1, -4, direita\nparada: Estação Férrea de Belas, 1, -5, direita\nparada: Estação Porto Novo, -1, -5, esquerda\nparada: Estação Praia de Belas, -2, -6, esquerda\nparada: Estação Estádios, 1, -7, direita\nparada: Estádio Beira-Rio, 2, -8, direita\nparada: Mercado de Frutos do Mar, 0, -8, esquerda\nparada: Estação Ipanema, -2, -10, esquerda\nparada: Estação Jardim Botânico, 6, -7, esquerda\nparada: Estação PUCRS, 5, -8, direita\nparada: Campus do Vale da UFRGS, 8, -9, esquerda\nparada: Galeria do Rosário, 1, 1, direita\nparada: Ponto da Kombi da Voluntários, 0, 2, esquerda\nparada: Farrapos, 1, 2, direita\nparada: Teatro Quarto Distrito, 2, 3, direita\nparada: Velha Indústria, 3, 4, direita\nparada: Estação Independência, 3, 0, direita\nparada: Colégio Rosário, 3, 1, direita\nparada: Armazém Sarmento Leite, 2, -3, direita\nparada: Redenção, 3, -3, direita\nparada: Bar Ocidente, 2, -5, esquerda\nparada: Pensão Farroupilha, 4, -5, direita\nparada: Hospital de Clínicas, 4, -6, direita\nparada: Campus Saúde da UFRGS, 5, -6, direita\nparada: Campus Centro da UFRGS, 2, -2, esquerda\nparada: Estação Moinhos, 6, 0, direita\nparada: Praça da Encol, 7, 0, direita\nparada: Estação Concorde, 6, 1, inclinado\nparada: Padre Chagas, 5, 1, esquerda\nparada: Parque Moinhos, 8, -2, direita\nparada: Galeteria de Petrópolis, 6, -4, direita\nparada: Sede da Tramontina, 9, -2, direita\nparada: Estação Tramontina, 10, -2, direita\nparada: Estação Itu, 10, 0, direita\nparada: Estação Campus do Vale, 9, -9, esquerda\nparada: Sede da Camisa 12, 10, -7, direita\nparada: Venda da Vila, 9, -7, esquerda\nparada: Oficina do Borracheiro, 10, -8, direita\nparada: Padaria da Vila, 9, -8, esquerda\nparada: Vila Militar do Paraguassu, 15, 5, direita\nparada: Rádio Farroupilha, 14, 4, direita\nparada: Hospital de Guarnição, 14, 5, esquerda\nparada: Estação Zaffari, 7, 7, direita\nparada: Estação Sarandi, 7, 6, esquerda\nparada: Rua da Sarandi, 8, 6, direita\nparada: Posto Ipiranga da Assis Brasil, 9, 5, direita\nparada: Estação Nogueiras, 9, 3, esquerda\nparada: Estação Passo D'Areia, 10, 3, direita\nparada: Boteco Embaixo da Via, 10, 4, direita\nparada: Shopping Iguatemi, 11, 2, direita\nparada: Concessionária Gurgel, 12, 3, direita\nparada: Motel Assis Brasil, 13, 3, direita\nparada: Hospital Cristo Redentor, 11, 4, direita\nparada: Rua da Antiga Indústria, 9, 1, direita\nparada: Fábrica Itú Química, 10, 1, direita\nparada: Ponto da Kombi do Itu, 8, 1, esquerda\n```\n<!-- malha-mapa:fim -->\n",
+  "malha": {
+    "paradas": [
+      {
+        "nome": "Estação Central",
+        "x": 0,
+        "y": 0,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Praça da Alfândega",
+        "x": -1,
+        "y": 0,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Galeria Malcom",
+        "x": -2,
+        "y": 0,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Duque de Caxias",
+        "x": -3,
+        "y": -1,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Salgado Filho",
+        "x": -3,
+        "y": -2,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Santa Casa",
+        "x": -4,
+        "y": -2,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Viaduto da Borges",
+        "x": -1,
+        "y": -1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Centro Corporativo",
+        "x": 0,
+        "y": -1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Usina do Gasômetro",
+        "x": -3,
+        "y": -4,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Delta Radioativo",
+        "x": -5,
+        "y": 3,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Trapiche da Aliança",
+        "x": 0,
+        "y": -4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Lancheria da Cidade Baixa",
+        "x": 0,
+        "y": -3,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Cidade Baixa",
+        "x": 1,
+        "y": -4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Férrea de Belas",
+        "x": 1,
+        "y": -5,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Porto Novo",
+        "x": -1,
+        "y": -5,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Praia de Belas",
+        "x": -2,
+        "y": -6,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Estádios",
+        "x": 1,
+        "y": -7,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estádio Beira-Rio",
+        "x": 2,
+        "y": -8,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Mercado de Frutos do Mar",
+        "x": 0,
+        "y": -8,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Ipanema",
+        "x": -2,
+        "y": -10,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Jardim Botânico",
+        "x": 6,
+        "y": -7,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação PUCRS",
+        "x": 5,
+        "y": -8,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Campus do Vale da UFRGS",
+        "x": 8,
+        "y": -9,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Galeria do Rosário",
+        "x": 1,
+        "y": 1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Ponto da Kombi da Voluntários",
+        "x": 0,
+        "y": 2,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Farrapos",
+        "x": 1,
+        "y": 2,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Teatro Quarto Distrito",
+        "x": 2,
+        "y": 3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Velha Indústria",
+        "x": 3,
+        "y": 4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Independência",
+        "x": 3,
+        "y": 0,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Colégio Rosário",
+        "x": 3,
+        "y": 1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Armazém Sarmento Leite",
+        "x": 2,
+        "y": -3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Redenção",
+        "x": 3,
+        "y": -3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Bar Ocidente",
+        "x": 2,
+        "y": -5,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Pensão Farroupilha",
+        "x": 4,
+        "y": -5,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Hospital de Clínicas",
+        "x": 4,
+        "y": -6,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Campus Saúde da UFRGS",
+        "x": 5,
+        "y": -6,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Campus Centro da UFRGS",
+        "x": 2,
+        "y": -2,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Moinhos",
+        "x": 6,
+        "y": 0,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Praça da Encol",
+        "x": 7,
+        "y": 0,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Concorde",
+        "x": 6,
+        "y": 1,
+        "rotulo": "inclinado"
+      },
+      {
+        "nome": "Padre Chagas",
+        "x": 5,
+        "y": 1,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Parque Moinhos",
+        "x": 8,
+        "y": -2,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Galeteria de Petrópolis",
+        "x": 6,
+        "y": -4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Sede da Tramontina",
+        "x": 9,
+        "y": -2,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Tramontina",
+        "x": 10,
+        "y": -2,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Itu",
+        "x": 10,
+        "y": 0,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Campus do Vale",
+        "x": 9,
+        "y": -9,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Sede da Camisa 12",
+        "x": 10,
+        "y": -7,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Venda da Vila",
+        "x": 9,
+        "y": -7,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Oficina do Borracheiro",
+        "x": 10,
+        "y": -8,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Padaria da Vila",
+        "x": 9,
+        "y": -8,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Vila Militar do Paraguassu",
+        "x": 15,
+        "y": 5,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Rádio Farroupilha",
+        "x": 14,
+        "y": 4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Hospital de Guarnição",
+        "x": 14,
+        "y": 5,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Zaffari",
+        "x": 7,
+        "y": 7,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Sarandi",
+        "x": 7,
+        "y": 6,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Rua da Sarandi",
+        "x": 8,
+        "y": 6,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Posto Ipiranga da Assis Brasil",
+        "x": 9,
+        "y": 5,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Estação Nogueiras",
+        "x": 9,
+        "y": 3,
+        "rotulo": "esquerda"
+      },
+      {
+        "nome": "Estação Passo D'Areia",
+        "x": 10,
+        "y": 3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Boteco Embaixo da Via",
+        "x": 10,
+        "y": 4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Shopping Iguatemi",
+        "x": 11,
+        "y": 2,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Concessionária Gurgel",
+        "x": 12,
+        "y": 3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Motel Assis Brasil",
+        "x": 13,
+        "y": 3,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Hospital Cristo Redentor",
+        "x": 11,
+        "y": 4,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Rua da Antiga Indústria",
+        "x": 9,
+        "y": 1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Fábrica Itú Química",
+        "x": 10,
+        "y": 1,
+        "rotulo": "direita"
+      },
+      {
+        "nome": "Ponto da Kombi do Itu",
+        "x": 8,
+        "y": 1,
+        "rotulo": "esquerda"
+      }
+    ]
+  }
+}

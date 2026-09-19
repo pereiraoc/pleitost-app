@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Sociedade e Cultura",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Sociedade e Cultura.md",
+  "basename": "Sociedade e Cultura",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Educação e Conhecimento",
+      "kind": "embed"
+    },
+    {
+      "target": "Entretenimento e Escapismo",
+      "kind": "embed"
+    },
+    {
+      "target": "Expressão Artística",
+      "kind": "embed"
+    },
+    {
+      "target": "Subculturas e Grupos Marginalizados",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Educação e Conhecimento]]\n![[Entretenimento e Escapismo]]\n![[Expressão Artística]]\n![[Subculturas e Grupos Marginalizados]]"
+}

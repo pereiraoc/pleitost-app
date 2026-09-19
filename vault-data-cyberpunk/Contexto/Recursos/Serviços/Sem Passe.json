@@ -1,0 +1,69 @@
+{
+  "id": "Contexto/Recursos/Serviços/Sem Passe",
+  "path": "Contexto/Recursos/Serviços/Sem Passe.md",
+  "basename": "Sem Passe",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Sem Plano Mensal de Transporte"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Nível": 1,
+    "Onde": null,
+    "Resumo": "Sem cartão: anda a pé, pega carona e paga tarifa avulsa quando não tem jeito.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sem Passe.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink",
+      "alias": "barqueiro"
+    },
+    {
+      "target": "Lotação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "BALSA ZAFFARI",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sem Passe.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sem Passe.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNenhum cartão TRI. Anda a pé, atravessa o alagado pela passarela quando a Aliança deixa, pega carona no caminhão do [[Sindicato dos Catadores]], uma Kombi ou o [[Lancha do Barqueiro|barqueiro]] na mão. Quando precisa MESMO de um ônibus, paga a tarifa avulsa do bolso — e o Mestre desconta da ficha.\n\nSem TRI, o coletivo que roda é o que não aceita TRI: as Kombis ([[Lotação]]) e a [[BALSA ZAFFARI]]; barqueiro e caminhão do Sindicato são corrida ([[Lancha do Barqueiro]], [[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** nenhum\n> **Dá acesso a:** nada — passarela, carona, Kombi e barqueiro pagos na mão\n> **Quem usa:** catador, palafita, quem perdeu o emprego\n> **Classe:** Sem Plano Mensal\n"
+}

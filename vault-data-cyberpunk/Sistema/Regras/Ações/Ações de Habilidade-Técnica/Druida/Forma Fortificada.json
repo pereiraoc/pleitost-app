@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Fortificada",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Fortificada.md",
+  "basename": "Forma Fortificada",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Fortificada",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "iconeLigado": "🐢",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "pai": "Forma Feral"
+        },
+        "forma": {
+          "movimento": 4,
+          "ataques": [
+            "Mordida",
+            "Pancada"
+          ],
+          "manobras": [
+            "Desarmar"
+          ],
+          "resistencia": "Vigor",
+          "pericias": [
+            "Nadar",
+            "Equilibrar-se",
+            "Empurrar",
+            "Assustar"
+          ],
+          "habilidades": [
+            "Proteção Natural"
+          ],
+          "beneficios": "Quando um inimigo adjacente tem uma falha decisiva em um Ataque contra você, você pode Empurrar ou Desarmar o inimigo como uma reação. Empurrar dessa forma não provoca Ataque de Oportunidade do alvo."
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Pancada); [[Desarmar]]; resistência [[Vigor]]; ações: [[Nadar]], [[Equilibrar-se]], [[Empurrar]], [[Assustar]]; habilidade [[Proteção Natural]]; quando um inimigo adjacente tiver falha decisiva em um [[Atacar|Ataque]] contra você, você pode reagir para [[Empurrar]] ou [[Desarmar]] (o [[Empurrar]] não provoca [[Ataque de Oportunidade]] do alvo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proteção Natural",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Pancada); [[Desarmar]]; resistência [[Vigor]]; ações: [[Nadar]], [[Equilibrar-se]], [[Empurrar]], [[Assustar]]; habilidade [[Proteção Natural]]; quando um inimigo adjacente tiver falha decisiva em um [[Atacar|Ataque]] contra você, você pode reagir para [[Empurrar]] ou [[Desarmar]] (o [[Empurrar]] não provoca [[Ataque de Oportunidade]] do alvo).\"\n%%\n### `= this.file.name` - `= this.custo`\n* [[Movimentação]] 4+[[Agilidade|AGI]]\n* Ataques naturais \n\t* Mordida\n\t* Pancada\n* Manobras de ataque\n\t* [[Desarmar]]\n* Resistência\n\t* [[Vigor]]\n* Ações de Perícia\n\t* [[Nadar]]\n\t* [[Equilibrar-se]]\n\t* [[Empurrar]]\n\t* [[Assustar]]\n* Habilidades\n\t* [[Proteção Natural]]\n\t* Quando um inimigo adjacente tem uma falha decisiva em um [[Atacar|Ataque]] contra você, você pode [[Empurrar]] ou [[Desarmar]] o inimigo como uma reação. Empurrar dessa forma não provoca [[Ataque de Oportunidade]] do alvo.\n\n```autosheet-rules\n```\n"
+}

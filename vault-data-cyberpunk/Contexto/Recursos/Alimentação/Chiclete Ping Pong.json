@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Chiclete Ping Pong",
+  "path": "Contexto/Recursos/Alimentação/Chiclete Ping Pong.md",
+  "basename": "Chiclete Ping Pong",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Ping Pong",
+    "Preço": 10,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]",
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Tablete rosa com figurinha de futebol: Cz$ 10 — a figurinha do Gre-Nal vale mais que o chiclete.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chiclete Ping Pong.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chiclete Ping Pong.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chiclete Ping Pong.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Ping Pong é o chiclete de tablete rosa que vem com figurinha de jogador — e a figurinha vale mais. No\npátio das escolas da [[Jardim Botânico]] a do goleiro do [[Sport Club Internacional]] se troca por cinco do\n[[Grêmio Foot-Ball Porto Alegrense]], ou o contrário, dependendo da escola. Cz$ 10, o menor preço do balcão.\n\n> [!info] Especificação\n> **Tablete:** chiclete rosa de hortelã com figurinha de futebol\n> **Preço:** Cz$ 10 — empata com o pedágio do deck como menor preço da cidade\n> **Figurinha:** álbum do Gauchão; a do goleiro vale cinco\n> **Onde:** banca, armazém, camelô do ônibus\n"
+}

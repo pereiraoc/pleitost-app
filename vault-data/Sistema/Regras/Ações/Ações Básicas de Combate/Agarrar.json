@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Agarrar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Agarrar.md",
+  "basename": "Agarrar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta agarrar uma criatura, impedindo movimento.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink",
+      "alias": "Agarrada"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink",
+      "alias": "Imobilizada"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta agarrar uma criatura, impedindo movimento.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nFaz um [[Ataques|Ataque]] contra o [[Vigor]] de uma criatura adjacente. Você recebe -2 de [[Penalidades|penalidade de circunstância]] para alvejar uma criatura uma categoria de tamanho maior que você e não pode alvejar uma criatura duas ou mais categorias de tamanho maior. Você precisa de uma mão livre para Agarrar e manter uma criatura Agarrada.\n\n**Sucesso:** A criatura fica [[Agarrado|Agarrada]] até o final do seu próximo turno.\n**Sucesso Decisivo:** A criatura fica [[Imobilizado|Imobilizada]] até o final do seu próximo turno.\n**Falha:** A criatura não é afetada.\n\nSe você se mover por qualquer motivo, encerram-se os efeitos de Agarrar. Alvo pode tentar Escapar contra [[CD]] de Agarrar.\n\n```autosheet-rules\n```\n"
+}

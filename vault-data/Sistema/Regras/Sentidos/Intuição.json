@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Regras/Sentidos/Intuição",
+  "path": "Sistema/Regras/Sentidos/Intuição.md",
+  "basename": "Intuição",
+  "type": "Regra",
+  "subtype": "Sentido",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Sentido",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Sentidos|Sentidos]]",
+    "prev": "[[Percepção]]",
+    "next": "[[Movimentação|Movimentação]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink",
+      "alias": "Movimentação"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Intuição"
+    }
+  ],
+  "body": "%%\nup:: [[Sentidos|Sentidos]]\nprev:: [[Percepção]]\nnext:: [[Movimentação|Movimentação]]\n%%\n### Intuição\nIntuição é a capacidade de estar ciente do estado e intenções das criaturas ao seu redor. Testes de Intuição são necessários para detectar uma mentira, perceber que tem algo errado com o comportamento de uma criatura ou ou se dar conta que uma criatura parece esconder algo.\nSeu modificador de Intuição é sua [[Proficiência|Proficiência]] em Intuição + [[Presença|PRE]]."
+}

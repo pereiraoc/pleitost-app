@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Conjuração Mista",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Conjuração Mista.md",
+  "basename": "Conjuração Mista",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "custo": "3A",
+    "resumo": "\"Conjure uma Magia Arcana Branca Adepta e uma Magia Arcana Negra Adepta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Flexibilidade Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\ncusto:: 3A\n\nresumo:: \"Conjure uma Magia Arcana Branca Adepta e uma Magia Arcana Negra Adepta.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Conjuração Mista.\n\n**Conjuração Mista - 3A**\nConjure uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]] de duas ações cada oriundas de [[Magia Arcana Mista Limitada]]. Você gasta [[Energia Mágica|EM]] normalmente para cada magia e não se beneficia de [[Flexibilidade Arcana]].\n\n```autosheet-rules\n```\n"
+}

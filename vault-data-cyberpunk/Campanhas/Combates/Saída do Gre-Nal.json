@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Saída do Gre-Nal",
+  "path": "Campanhas/Combates/Saída do Gre-Nal.md",
+  "basename": "Saída do Gre-Nal",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Estádio Beira-Rio]] · [[Estádio Olímpico Monumental]]",
+    "Situação": "Dia de jogo. Derrubar o cabeça dispersa o bando.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Representante da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabeça de Torcida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Olímpico Monumental",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 7 [[Representante da Camisa 12]] lento\n- 2 [[Cabeça de Torcida]] rápido\n```\n"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "Campanhas/Aventuras/Teste de Classe B Pega Bandeira",
+  "path": "Campanhas/Aventuras/Teste de Classe B Pega Bandeira.md",
+  "basename": "Teste de Classe B Pega Bandeira",
+  "type": "Aventura",
+  "subtype": "Teste de Classe",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Teste de Classe",
+    "rank": "B",
+    "disponivel": [
+      "[[Canto Alto]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Teste de Classe B - Pega Bandeira\n\nRecompensa:\n- Promoção: B\nObjetivo:\n- \"Competição de Pega Bandeira para promoção de Classe B.\"\nLocal: \"Desconhecido\"\nContato: \"Arcanista de Classe A (Grão Espiritualista)\"\nFinanciador: \"Gremiação de Aventureiros\"\n```\n"
+}

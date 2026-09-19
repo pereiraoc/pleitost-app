@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Crédito/Agiota da Facção",
+  "path": "Contexto/Recursos/Crédito/Agiota da Facção.md",
+  "basename": "Agiota da Facção",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "Facções de bairro",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 20,
+    "Nível": 1,
+    "Onde": [
+      "[[Consórcio das Bandeiras]]",
+      "[[Clã da Ferrugem]]",
+      "[[Camisa 12]]"
+    ],
+    "Resumo": "Empresta pra qualquer um que tenha Marca, na hora, sem papel — e cobra 20% ao mês, na moto primeiro e na pele depois.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "wikilink",
+      "subpath": "Caixinha por rank"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO agiota não pergunta endereço, não pede laudo e não abre cadastro: pergunta quem te indicou e quanto vale a tua Marca. O dinheiro sai do bolso dele pro teu na mesma conversa, e a conta começa a correr naquele minuto — vinte por cento ao mês, e os piores cobram cinco por semana pra parecer menos.\n\nNão existe atraso: existe uma visita. Primeiro some a moto, depois o que tu guarda em casa, e por último tu vira uma caixinha aberta contra ti mesmo — alguém do teu rank recebe pra te achar. É o único crédito que a cidade dá a quem não tem nada, e é por isso que a cidade toda deve pra ele.\n\n> [!info] Especificação\n> **Quem consegue:** qualquer classe, desde que tenha Marca ([[A Caixinha]])\n> **Teto:** uma caixinha do teu rank ([[Mercado de Trabalho#Caixinha por rank]])\n> **Juros:** 20% ao mês — 5% por semana com os piores\n> **Garantia:** a Marca, a posse, o corpo\n> **Se atrasa:** capangas; a posse some (a moto primeiro); vira caixinha aberta contra ti\n"
+}

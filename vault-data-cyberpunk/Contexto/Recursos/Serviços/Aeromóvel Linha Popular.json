@@ -1,0 +1,71 @@
+{
+  "id": "Contexto/Recursos/Serviços/Aeromóvel Linha Popular",
+  "path": "Contexto/Recursos/Serviços/Aeromóvel Linha Popular.md",
+  "basename": "Aeromóvel Linha Popular",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Passagem",
+    "Marca": "Trensurb / [[Companhia Estadual de Energia Elétrica|CEEE]]",
+    "Preço": 200,
+    "Cobrança": "viagem",
+    "Nível": 3,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Centro Histórico]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "O vagão a ar comprimido no viaduto de concreto: futurista, superlotado e vigiado — grátis com carteira PIRA.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aeromóvel Linha Popular.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aeromóvel Linha Popular.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Aeromóvel Linha Popular.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nInaugurado em 1983 depois de jornadas de trabalho forçado ([[Inauguração da Malha de Transporte Aeromóvel]]),\no Aeromóvel é a vitrine do regime. A linha popular leva o operário do [[Passo D'Areia]] e de [[Nova Sarandi]]\nao Centro em doze minutos — em pé, prensado, com um brigadiano em cada plataforma. Flagrante ali não é\nfurto: é subversão.\n\n> [!info] Especificação\n> **Sistema:** Aeromóvel (projeto Coester, 1983) — vagão leve empurrado por ar comprimido dentro do viaduto\n> **Gratuidade:** carteira PIRA na catraca; sem carteira, Cz$ 200 no TRI\n> **Lotação:** 300 por composição; no turno, 500\n> **Vigilância:** [[Brigada Militar Metropolitana]] ostensiva; câmeras da [[Embratel]] nas plataformas\n> **Energia:** compressores da [[Companhia Estadual de Energia Elétrica|CEEE]] — quando corta a periferia, o Aeromóvel continua\n"
+}

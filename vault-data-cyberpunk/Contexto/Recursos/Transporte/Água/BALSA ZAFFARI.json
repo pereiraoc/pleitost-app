@@ -1,0 +1,71 @@
+{
+  "id": "Contexto/Recursos/Transporte/Água/BALSA ZAFFARI",
+  "path": "Contexto/Recursos/Transporte/Água/BALSA ZAFFARI.md",
+  "basename": "BALSA ZAFFARI",
+  "type": "Linha",
+  "subtype": "Balsa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Balsa",
+    "Letreiro": "BALSA ZAFFARI",
+    "Operador": "[[Zaffari]]",
+    "Acesso": "Cz$ 100 a pessoa em cima da carga, Cz$ 1.000 o volume — não é TRI",
+    "Tarifa": "[[Balsa de Carga Zaffari]]",
+    "Qualidade": 3,
+    "Cor": "#2a9d8f",
+    "Horário": "6h e 18h em ponto",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Zaffari]]",
+      "[[Delta Radioativo]]",
+      "[[Usina do Gasômetro]]",
+      "[[Estação Porto Novo]]"
+    ],
+    "Aparência": "Balsa de chapa cinza cheia de contêiner com o esquilo da Zaffari, fiscal de prancheta, brigadiano contando caixa, gente sentada em cima dos sacos de arroz, guindaste do porto atrás.",
+    "Resumo": "A balsa de carga da Zaffari: do cais do depósito, pelo rio e pelo Delta, até o Porto Novo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "BALSA ZAFFARI.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usina do Gasômetro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Balsa de Carga Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "BALSA ZAFFARI.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[BALSA ZAFFARI.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nBalsa de 20 m com empurrador, 40 toneladas. Sai do cais embaixo da [[Estação Zaffari]] às seis e às dezoito em ponto, desce o rio rente ao [[Delta Radioativo]] (para no cais do Sindicato só de dia), contorna a ponta da [[Usina do Gasômetro]] e descarrega no cais da [[Estação Porto Novo]]. Não desce mais: a Restinga e a orla sul ficaram fora da rota desde que o enclave parou de pagar. Gente viaja em cima dos sacos de arroz: Cz$ 100 a pessoa, Cz$ 1.000 o volume, fiscal de prancheta e brigadiano contando caixa.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

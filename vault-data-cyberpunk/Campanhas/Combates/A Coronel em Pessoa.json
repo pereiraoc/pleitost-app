@@ -1,0 +1,50 @@
+{
+  "id": "Campanhas/Combates/A Coronel em Pessoa",
+  "path": "Campanhas/Combates/A Coronel em Pessoa.md",
+  "basename": "A Coronel em Pessoa",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Centro Histórico]] · [[Bom Fim]]",
+    "Situação": "Quando a Operação Silêncio vira pessoal. Ela assina, e agora aparece.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sistema/Criaturas/Bestiário/Coronel Luciana Prado",
+      "kind": "wikilink",
+      "alias": "Coronel Luciana Prado"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Franco-Atirador da Brigada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Sistema/Criaturas/Bestiário/Coronel Luciana Prado|Coronel Luciana Prado]] super rápido\n- 2 [[Cabo de Choque]] lento\n- 1 [[Franco-Atirador da Brigada]] rápido\n```\n"
+}

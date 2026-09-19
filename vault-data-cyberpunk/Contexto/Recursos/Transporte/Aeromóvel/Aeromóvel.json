@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/Aeromóvel",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/Aeromóvel.md",
+  "basename": "Aeromóvel",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aeromóvel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Ponto de Interesse"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aeromóvel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Aeromóvel"
+    }
+  ],
+  "body": "# Aeromóvel\n![[Aeromóvel.png]]\n\nViaduto de concreto de 1983 com vagões leves empurrados por ar comprimido (projeto Coester, demonstração de 1978 no [[Passo D'Areia]]; [[Inauguração da Malha de Transporte Aeromóvel]]). Compressores da [[Companhia Estadual de Energia Elétrica|CEEE]] em subestações ao longo da via — prioridade absoluta: corta a periferia antes de cortar o trilho. Duas linhas populares, uma executiva e um ramal morto; cada estação é um [[Porto Alegre|Ponto de Interesse]] no mapa da cidade.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte/Aeromóvel\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n"
+}

@@ -1,0 +1,184 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate (Arte Mágica)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate (Arte Mágica).md",
+  "basename": "Estilo de Combate (Arte Mágica)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Magia\" Complementar Magias.Lista Selecionar ([[Ruído Estridente]], [[Palavras Cortantes]], [[Projétil Telecinético]])",
+      "Alias Classe Compor 2 \"de Arte Mágica\"",
+      "Somar Magias.EM 1",
+      "Somar Papel.Lider 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Aprende Magias especiais de [[Atuação]], que realizam [[Performance Bárdica|Performances]]. [[Energia Mágica|EM]] adicional."
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Magia\" Complementar Magias.Lista Selecionar ([[Ruído Estridente]], [[Palavras Cortantes]], [[Projétil Telecinético]])",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Arte Mágica)",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Magia",
+              "choiceKey": "__esc_h_15064843",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Magias.Lista",
+            "options": [
+              "[[Ruído Estridente]]",
+              "[[Palavras Cortantes]]",
+              "[[Projétil Telecinético]]"
+            ],
+            "label": "Magia"
+          },
+          "raw": "Escolha_Habilidades \"Magia\" Complementar Magias.Lista Selecionar ([[Ruído Estridente]], [[Palavras Cortantes]], [[Projétil Telecinético]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 2 \"de Arte Mágica\"",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Arte Mágica)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 2,
+            "fragment": "de Arte Mágica"
+          },
+          "raw": "Alias Classe Compor 2 \"de Arte Mágica\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.EM 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Arte Mágica)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.EM 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Arte Mágica)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Performances"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataque Mágico"
+    },
+    {
+      "target": "Ruído Estridente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palavras Cortantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Projétil Telecinético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: Aprende Magias especiais de [[Atuação]], que realizam [[Performance Bárdica|Performances]]. [[Energia Mágica|EM]] adicional.\n%%\n##### `= this.file.name`\nSua arte é focada em fenômenos mágicos, recebendo os seguintes benefícios:\n* Sua [[Energia Mágica|EM]] máxima é acrescida de 1 (totalizando 3 no 1º nível, 4 no 4º e 5 no 7º);\n* Você aprende uma Magia Básica especial, referente ao seu tipo preferido de performance, que conta como uma Magia Básica do seu método. Você deve usar seu modificador de [[Atuação]] para o [[Magia|Ataque Mágico]] dessas magias. Escolha uma entre:\n\t* [[Ruído Estridente]]\n\t* [[Palavras Cortantes]]\n\t* [[Projétil Telecinético]]\n* Quando você conjura [[Ruído Estridente]], [[Palavras Cortantes]] ou [[Projétil Telecinético]], você pode iniciar uma [[Performance Bárdica]] como ação livre.\n\n```autosheet-rules\n```\n"
+}

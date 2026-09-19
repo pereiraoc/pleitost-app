@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Mineral/Essência Mineral",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Mineral/Essência Mineral.md",
+  "basename": "Essência Mineral",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Escudo Rochoso]], adepta [[Barreira de Pedra]], experiente [[Pele de Pedra]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Rochoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barreira de Pedra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pele de Pedra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Mineral Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Escudo Rochoso]], adepta [[Barreira de Pedra]], experiente [[Pele de Pedra]]\"\n%%\n### `= this.file.name`\n![[Essência Mineral Adepta#`= this.file.name`]]\n![[Essência Mineral Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

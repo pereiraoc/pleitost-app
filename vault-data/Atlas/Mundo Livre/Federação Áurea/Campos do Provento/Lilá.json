@@ -1,0 +1,62 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Lilá",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Lilá.md",
+  "basename": "Lilá",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lilá.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lilá.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lilá.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade pesqueira da costa leste do [[Campos do Provento]], responsável por prover a região de peixes — desembarcados, defumados e vendidos no Mercado do Peixe. Seu porto, porém, vai além da pesca: o Porto de Lilá recebe navios de maior porte e escoa mercadorias rumo a [[Iluminada]] pela estrada de [[Rharos]], fazendo da cidade a porta marítima da capital. A [[Sociedade Aberta]] mantém ali sua casa de estandarte azul, junto ao mercado.\n>\n> 👁️**Aparência do Local:** Cidade aberta, sem muralha nem portões, plantada num litoral de falésias: o casario de pedra e madeira, de telhados em tons frios de azul, roxo e cinza, desce da Colina da Vigia e do Alto das Conchas até convergir na Praça do Mercado. A metade sul avança sobre o mar numa malha enorme de píeres, passarelas e palafitas de madeira, com armazéns, estaleiro e dezenas de barcos de pesca atracados ou circulando. No alto da colina, a torre esguia do Mirante da Vigia vigia a costa; no promontório rochoso do nordeste, o Farol da Enseada guia os navios entre as falésias. Fora do casario, campos cercados, bosques e casebres rurais espalham-se para oeste, e faixas de lavoura coroam as falésias do norte.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Colina da Vigia** *(dourado — norte)* — o distrito cívico, no alto da colina.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade pesqueira da costa leste do [[Campos do Provento]], responsável por prover a região de peixes — desembarcados, defumados e vendidos no Mercado do Peixe. Seu porto, porém, vai além da pesca: o Porto de Lilá recebe navios de maior porte e escoa mercadorias rumo a [[Iluminada]] pela estrada de [[Rharos]], fazendo da cidade a porta marítima da capital. A [[Sociedade Aberta]] mantém ali sua casa de estandarte azul, junto ao mercado.",
+    "aparencia": "Cidade aberta, sem muralha nem portões, plantada num litoral de falésias: o casario de pedra e madeira, de telhados em tons frios de azul, roxo e cinza, desce da Colina da Vigia e do Alto das Conchas até convergir na Praça do Mercado. A metade sul avança sobre o mar numa malha enorme de píeres, passarelas e palafitas de madeira, com armazéns, estaleiro e dezenas de barcos de pesca atracados ou circulando. No alto da colina, a torre esguia do Mirante da Vigia vigia a costa; no promontório rochoso do nordeste, o Farol da Enseada guia os navios entre as falésias. Fora do casario, campos cercados, bosques e casebres rurais espalham-se para oeste, e faixas de lavoura coroam as falésias do norte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Colina da Vigia** *(dourado — norte)* — o distrito cívico, no alto da colina.",
+    "leaflet": null
+  }
+}

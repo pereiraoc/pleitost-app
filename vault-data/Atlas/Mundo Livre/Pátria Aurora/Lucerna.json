@@ -1,0 +1,108 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Lucerna",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Lucerna.md",
+  "basename": "Lucerna",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lucerna.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lucerna.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lucerna.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Capital da [[Pátria Aurora]] e coração militar da nação: uma cidade altamente militarizada, onde arsenal, campos de treino e quartéis convivem com fóruns e mosteiros sob a mesma muralha. Seu porto interno é destinado exclusivamente a navios militares — a bacia murada abriga as galeras de guerra da esquadra, e nenhuma nau mercante atraca ali. É também o polo da avançada tecnologia naval da Pátria, formada e desenvolvida na Academia Navalis. A cidade pertence tanto aos monges quanto aos oficiais, e toda a sua toponímia é escrita em latim.\n>\n> 👁️**Aparência do Local:** Cidade cercada por uma muralha monumental em arcada dupla — como um aqueduto fortificado de dois pisos de arcos — pontuada de torres quadradas, inclusive na frente d'água. A arquitetura funde a base romana de colunatas, fóruns, termas e aquedutos com pagodes monásticos de telhados dourados e vermelhos em camadas: no centro-norte, a acrópole sobe em anéis de terraços colunados até o Palatium Lucernae, o palácio-pagode dourado que domina o skyline ao lado da águia dourada da Praça das Águias. Um canal navegável serpenteia do distrito dos aquedutos, a leste, pelo centro da cidade, e deságua na bacia do porto militar, abarrotada de galeras pesadas de múltiplos conveses. Fora das muralhas, campos em retalhos, pomares e granjas cercam a cidade ao norte, e campos em socalcos descem ao mar pelo sul.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Arx Lucernae** *(marrom-ferrugem — acrópole central-norte)* — o distrito do poder, esculpido em anéis de terraços colunados que sobem ao palácio.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)",
+    "descricao": "Capital da [[Pátria Aurora]] e coração militar da nação: uma cidade altamente militarizada, onde arsenal, campos de treino e quartéis convivem com fóruns e mosteiros sob a mesma muralha. Seu porto interno é destinado exclusivamente a navios militares — a bacia murada abriga as galeras de guerra da esquadra, e nenhuma nau mercante atraca ali. É também o polo da avançada tecnologia naval da Pátria, formada e desenvolvida na Academia Navalis. A cidade pertence tanto aos monges quanto aos oficiais, e toda a sua toponímia é escrita em latim.",
+    "aparencia": "Cidade cercada por uma muralha monumental em arcada dupla — como um aqueduto fortificado de dois pisos de arcos — pontuada de torres quadradas, inclusive na frente d'água. A arquitetura funde a base romana de colunatas, fóruns, termas e aquedutos com pagodes monásticos de telhados dourados e vermelhos em camadas: no centro-norte, a acrópole sobe em anéis de terraços colunados até o Palatium Lucernae, o palácio-pagode dourado que domina o skyline ao lado da águia dourada da Praça das Águias. Um canal navegável serpenteia do distrito dos aquedutos, a leste, pelo centro da cidade, e deságua na bacia do porto militar, abarrotada de galeras pesadas de múltiplos conveses. Fora das muralhas, campos em retalhos, pomares e granjas cercam a cidade ao norte, e campos em socalcos descem ao mar pelo sul.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Arx Lucernae** *(marrom-ferrugem — acrópole central-norte)* — o distrito do poder, esculpido em anéis de terraços colunados que sobem ao palácio.",
+    "leaflet": null
+  }
+}

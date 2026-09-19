@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Regras/Sentidos/Sentidos",
+  "path": "Sistema/Regras/Sentidos/Sentidos.md",
+  "basename": "Sentidos",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Sentidos, Sentido",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Defesas e Resistências|Defesas e Resistências]]",
+    "next": "[[Movimentação|Movimentação]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesas e Resistências",
+      "kind": "wikilink",
+      "alias": "Defesas e Resistências"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink",
+      "alias": "Movimentação"
+    },
+    {
+      "target": "Percepção",
+      "kind": "embed",
+      "subpath": "Percepção"
+    },
+    {
+      "target": "Intuição",
+      "kind": "embed",
+      "subpath": "Intuição"
+    },
+    {
+      "target": "Faro",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Sentidos"
+    },
+    {
+      "level": 3,
+      "text": "Sentidos Especiais"
+    },
+    {
+      "level": 4,
+      "text": "Faro"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Defesas e Resistências|Defesas e Resistências]]\nnext:: [[Movimentação|Movimentação]]\n%%\n# Sentidos\nToda criatura tem sentidos que permitem a ela perceber o ambiente, outras criaturas, física e mentalmente.\n\n![[Percepção#Percepção]]\n![[Intuição#Intuição]]\n\n### Sentidos Especiais\nCertas criaturas tem sentidos especiais. Certas técnicas, habilidades ou efeitos podem te dar acesso a esses sentidos.\n#### Faro\n![[Faro#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

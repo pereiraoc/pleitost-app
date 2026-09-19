@@ -1,0 +1,61 @@
+{
+  "id": "Contexto/Recursos/Recursos",
+  "path": "Contexto/Recursos/Recursos.md",
+  "basename": "Recursos",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Serviços",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Transporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Veículos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imóveis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moradia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ofícios",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Crédito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nTudo que se compra, contrata ou consome em Porto Alegre 1987. **A pasta diz o que a mão faz com a coisa; o FM `subcategoria` diz o eixo do mês que a ficha soma** (Moradia, Transporte, Alimentação) — por isso um plano TRI mora em [[Serviços]] e continua sendo do eixo Transporte.\n\n| Pasta | O que é | Do que se paga |\n|---|---|---|\n| [[Serviços]] | os planos do mês e o que se paga por uso pra andar | mensalidade adiantada, ou na hora |\n| [[Transporte]] | as LINHAS da cidade, por modo (`categoria: Linha`) | não se paga: é por onde se anda |\n| [[Veículos]] | o que se compra e passa a ter | à vista, e manutenção por mês |\n| [[Imóveis]] | moradia com endereço: aluguel e compra | por mês, ou à vista com manutenção |\n| [[Moradia]] | teto por noite, sem contrato | por noite |\n| [[Alimentação]] | o que se come e bebe | na hora |\n| [[Ofícios]] | o que se contrata no balcão: barbeiro, chaveiro, conserto, despachante | na hora — não entra no mês (`subcategoria: Ofício`) |\n| [[Crédito]] | onde se pega emprestado | juros por mês |\n\nA regra do mês, a classe e o empréstimo estão em [[Custo de Vida]].\n\n```dataview\nTABLE WITHOUT ID\n  file.link AS \"Recurso\",\n  subcategoria AS \"Eixo do mês\",\n  Tipo AS \"Tipo\",\n  Marca AS \"Marca\",\n  Preço AS \"Cz$\",\n  Cobrança AS \"Cobrança\",\n  Nível AS \"Classe\"\nFROM \"Contexto/Recursos\"\nWHERE categoria = \"Recurso\"\nSORT subcategoria ASC, Tipo ASC, Nível ASC, Preço ASC\n```\n"
+}

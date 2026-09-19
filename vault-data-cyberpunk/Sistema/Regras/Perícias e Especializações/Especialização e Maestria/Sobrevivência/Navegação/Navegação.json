@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sobrevivência/Navegação/Navegação",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sobrevivência/Navegação/Navegação.md",
+  "basename": "Navegação",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sobrevivência]]",
+    "resumo": "\"Você [[Rastrear|Rastreia]] sem penalidade de movimento. Melhora [[Obter Sustento]] em um grau. Viaja 1 km/h mais rápido."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink",
+      "alias": "Rastreia"
+    },
+    {
+      "target": "Obter Sustento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Retomar Fôlego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Obter Sustento",
+      "kind": "wikilink",
+      "alias": "Obtêm Sustento"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Sobrevivência]]\nresumo:: \"Você [[Rastrear|Rastreia]] sem penalidade de movimento. Melhora [[Obter Sustento]] em um grau. Viaja 1 km/h mais rápido.\n%%\n### `= this.file.name`\n* Você pode [[Mover]] metade do seu movimento como parte de [[Retomar Fôlego]].\n* Você não reduz sua movimentação ao [[Rastrear]].\n* Quando você [[Obter Sustento|Obtêm Sustento]] usando [[Sobrevivência]], melhore o resultado em um grau.\n* Considere a [[Movimentação]] do seu grupo como 1 km/h maior ao viajar.\n\n```autosheet-rules\n```\n"
+}

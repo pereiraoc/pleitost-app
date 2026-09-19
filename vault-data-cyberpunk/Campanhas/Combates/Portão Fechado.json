@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Portão Fechado",
+  "path": "Campanhas/Combates/Portão Fechado.md",
+  "basename": "Portão Fechado",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Rua das Indústrias]] · [[Petrópolis]]",
+    "Situação": "Greve no terceiro dia. De um lado o portão, do outro a tropa, e no meio quem precisa passar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Comando de Greve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Piquete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua das Indústrias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Comando de Greve]] lento\n- 8 [[Piquete]] lento\n- 2 [[Cabo de Choque]] lento\n```\n"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "Contexto/Recursos/Veículos/Volkswagen Fusca",
+  "path": "Contexto/Recursos/Veículos/Volkswagen Fusca.md",
+  "basename": "Volkswagen Fusca",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Volkswagen",
+    "Preço": 90000,
+    "Cobrança": "única",
+    "Manutenção": 1500,
+    "Nível": 3,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Jardim Botânico]]",
+      "[[Costa e Silva]]"
+    ],
+    "Resumo": "O Fusca 1300 que sobrou de antes da Gurgel: só usado, pega sempre, todo mecânico de esquina conhece o motor.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Volkswagen Fusca.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Volkswagen Fusca.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Volkswagen Fusca.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Volkswagen parou de fazer o Fusca em 1986 e a cidade continua andando nele: motor a ar de 1300 que pega em qualquer\ninverno, peça em toda oficina, lataria que a umidade come devagar. É o carro do servente que juntou um ano de\nsalário, do padre e do brigadiano que não quer chamar atenção.\n\n> [!info] Especificação\n> **Modelo:** Fusca 1300/1500 (1970–1986), 4 lugares, 2 portas\n> **Motor:** VW 1.3/1.5 a ar, 46 cv; 10 km/l\n> **Velocidade:** 120 km/h descendo\n> **Só usado:** garagens de bairro e [[Camelódromo]]; Cz$ 90.000 com lataria boa, Cz$ 60.000 com bolha\n> **Manutenção:** Cz$ 1.500 por mês: peça barata, gasolina de cota, IPVA quase nada\n"
+}

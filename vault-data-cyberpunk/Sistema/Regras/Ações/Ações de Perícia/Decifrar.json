@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Decifrar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Decifrar.md",
+  "basename": "Decifrar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Sociedades]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta decifrar escritos antigos ou línguas desconhecidas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Sociedades]]\"\npropriedades:: \nresumo:: \"Tenta decifrar escritos antigos ou línguas desconhecidas.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê tenta decifrar texto num idioma desconhecido, literatura específica num dialeto antigo ou texto codificado. Isso tipicamente toma 1 minuto por frase. Faça um teste de [[Sociedades]] contra a [[CD]] do texto. Em caso de sucesso, você entende a ideia geral por trás da frase, mas sem tradução palavra por palavra. Com um sucesso decisivo, você consegue traduzir a frase completamente. Na falha você não consegue decifrar o significado e recebe -2 de [[Penalidades|penalidade de especialização]] para próximas tentativas de Decifrar o mesmo texto, essa penalidade acumula (-2, -4, -6...) em falhas subsequentes. Na falha decisiva, você acha que decifrou, mas recebe um resultado falso.\n\n```autosheet-rules\n```\n"
+}

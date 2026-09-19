@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Pessoas/Lourdes Marimon",
+  "path": "Contexto/Pessoas/Lourdes Marimon.md",
+  "basename": "Lourdes Marimon",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Dona Lourdes"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Banrisul]]",
+    "Função": "Gerente da agência da Praça da Alfândega",
+    "Aparência": "Cinquenta anos, cabelo preso, tailleur bege com o broche do banco, carimbo na mão; guichê no piso flutuante da agência da [[Praça da Alfândega]], com vista pro pedágio da passarela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praça da Alfândega",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

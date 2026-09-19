@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco Curto",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco Curto.md",
+  "basename": "Arco Curto",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-marcial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-marcial",
+    "dg-publish": true,
+    "dano": "d6+3",
+    "tipo": "perfuração",
+    "mãos": "1+",
+    "propriedades": [
+      "[[Alcance|Alcance 10]]",
+      "[[Propulsão|Propulsão 6]]"
+    ],
+    "ordem": 3,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Distância Marcial|Marcial]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Marcial"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 10"
+    },
+    {
+      "target": "Propulsão",
+      "kind": "wikilink",
+      "alias": "Propulsão 6"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Distância Marcial|Marcial]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

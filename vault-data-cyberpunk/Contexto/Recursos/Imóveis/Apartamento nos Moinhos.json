@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Apartamento nos Moinhos",
+  "path": "Contexto/Recursos/Imóveis/Apartamento nos Moinhos.md",
+  "basename": "Apartamento nos Moinhos",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Imobiliárias dos Moinhos",
+    "Preço": 18000,
+    "Cobrança": "mês",
+    "Compra": 2000000,
+    "Manutenção": 5000,
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Parcão]]"
+    ],
+    "Resumo": "Três dormitórios com sacada pro Parcão, segurança Gradiente 24h, gerador e poço próprio. Tudo ao redor custa ×1,5.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Apartamento nos Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Parcão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Apartamento nos Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Apartamento nos Moinhos.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nMorar nos [[Moinhos de Vento]] é morar atrás da segurança da [[Gradiente]]: guarita, câmera, gerador e poço\nartesiano pra não depender da [[Companhia Estadual de Energia Elétrica|CEEE]] nem do racionamento. A sacada dá\npro [[Parcão]]; o bar da esquina cobra Cz$ 500 na cerveja importada e o garçom não aceita moeda miúda.\n\n> [!info] Especificação\n> **Imóvel:** 3 dormitórios, 110 m², sacada, 2 vagas\n> **Inclui:** segurança [[Gradiente]] 24h, gerador próprio, água de poço, telefone [[Embratel]] prioritário\n> **Exigência:** fiador com crachá de megacorp ou farda de oficial\n> **Régua:** tudo no bairro custa ×1,5 — do pão ao táxi\n> **Compra:** Cz$ 2.000.000\n> **Nível:** 5 — Classe Média Alta\n"
+}

@@ -1,0 +1,99 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate.md",
+  "basename": "Estilo de Combate",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Estilo de Combate (Luta Artística)]], [[Estilo de Combate (Arte Mágica)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Seu estilo de combate é definido entre ser um duelista ou focar em arte mágica."
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Estilo de Combate (Luta Artística)]], [[Estilo de Combate (Arte Mágica)]])",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_a9332e41",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Estilo de Combate (Luta Artística)]]",
+              "[[Estilo de Combate (Arte Mágica)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Estilo de Combate (Luta Artística)]], [[Estilo de Combate (Arte Mágica)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: Seu estilo de combate é definido entre ser um duelista ou focar em arte mágica.\n%%\n#### `= this.file.name`\nAlguns bardos são grandes duelistas enquanto outros focam na sua arte mágica. Escolha um estilo de combate.\n\n![[Estilo de Combate (Luta Artística)#`= this.file.name`]]\n![[Estilo de Combate (Arte Mágica)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

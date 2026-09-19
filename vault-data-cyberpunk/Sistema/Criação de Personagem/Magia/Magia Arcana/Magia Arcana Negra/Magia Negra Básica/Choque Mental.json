@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Choque Mental",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Choque Mental.md",
+  "basename": "Choque Mental",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Choque Mental (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "Escola": "Negra",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Ímpeto]] de criatura em 6q para causar dano mental 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Arcana]], 3d4+2 se [[Mestre]]) e -1 em [[Ímpeto]] e [[Percepção]] por 1 turno. No sucesso decisivo, +1d4 e [[Pasmo]]; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink",
+      "alias": "Pasma"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Ímpeto]] de criatura em 6q para causar dano mental 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Arcana]], 3d4+2 se [[Mestre]]) e -1 em [[Ímpeto]] e [[Percepção]] por 1 turno. No sucesso decisivo, +1d4 e [[Pasmo]]; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nAgride a mente de uma criatura. Faça um Ataque Mágico contra [[Ímpeto]] de uma criatura em 6q.\n\n**Sucesso:** A criatura recebe 1d4+2 de dano mental e -1 de [[Penalidades|penalidade de condição]] em [[Ímpeto]] e [[Percepção]] por 1 turno.\n**Sucesso Decisivo:** A criatura recebe 2d4+2 de dano mental e fica [[Pasmo|Pasma]] por 1 turno.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d4+2 (3d4+2 se decisivo) ao se tornar [[Experiente]] com [[Magia Arcana]] e 3d4+2 (4d4+2 se decisivo) ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

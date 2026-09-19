@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Travessia/Travessia",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Travessia/Travessia.md",
+  "basename": "Travessia",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Atletismo]]",
+    "resumo": "\"Percorre 1q a mais para [[Escalar]] e [[Nadar]]. [[Empurrar]] não provoca [[Ataque de Oportunidade|AdO]] do alvo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink",
+      "alias": "Escala"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink",
+      "alias": "Nada"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Atletismo]]\nresumo:: \"Percorre 1q a mais para [[Escalar]] e [[Nadar]]. [[Empurrar]] não provoca [[Ataque de Oportunidade|AdO]] do alvo.\"\n%%\n### `= this.file.name`\n* Quando você [[Escalar|Escala]], aumente a distância percorrida em 1q para todos os resultados exceto falha crítica.\n* Quando você [[Nadar|Nada]], aumente a distância percorrida em 1q para todos os resultados exceto falha crítica.\n* [[Empurrar]] não provoca [[Ataque de Oportunidade]] do alvo.\n\n```autosheet-rules\n```\n"
+}

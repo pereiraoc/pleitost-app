@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Contexto Atual",
+  "path": "Contexto/Histórias/Contexto Atual/Contexto Atual.md",
+  "basename": "Contexto Atual",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ambiente e Sustentabilidade",
+      "kind": "embed"
+    },
+    {
+      "target": "Cultura de Substâncias e Dependência",
+      "kind": "embed"
+    },
+    {
+      "target": "Economia e Sobrevivência",
+      "kind": "embed"
+    },
+    {
+      "target": "Infraestrutura Urbana",
+      "kind": "embed"
+    },
+    {
+      "target": "Poder e Controle",
+      "kind": "embed"
+    },
+    {
+      "target": "Segurança e Crime",
+      "kind": "embed"
+    },
+    {
+      "target": "Sociedade e Cultura",
+      "kind": "embed"
+    },
+    {
+      "target": "Tecnologia e Conectividade",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "# `= this.file.name`\n![[Ambiente e Sustentabilidade]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Cultura de Substâncias e Dependência]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Economia e Sobrevivência]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Infraestrutura Urbana]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Poder e Controle]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Segurança e Crime]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Sociedade e Cultura]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Tecnologia e Conectividade]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Contexto Atual\",\n  Assunto as \"Assunto\"\nwhere categoria=\"Contexto\" and subcategoria=\"Atualidade\"\nsort subcategoria asc\n```\n\n\n"
+}

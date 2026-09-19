@@ -1,0 +1,130 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Combat Tracker",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Combat Tracker.md",
+  "basename": "Combat Tracker",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Escudo do Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Piromante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X\\",
+      "kind": "wikilink",
+      "alias": "Alias"
+    },
+    {
+      "target": "Carlos, Dante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Combat Tracker"
+    },
+    {
+      "level": 2,
+      "text": "Onde usar"
+    },
+    {
+      "level": 2,
+      "text": "Os 4 tipos de bloco"
+    },
+    {
+      "level": 2,
+      "text": "Sintaxe do bloco"
+    },
+    {
+      "level": 3,
+      "text": "Decimais nas iniciativas"
+    },
+    {
+      "level": 3,
+      "text": "Grupos"
+    },
+    {
+      "level": 2,
+      "text": "Estado salvo no bloco"
+    },
+    {
+      "level": 2,
+      "text": "Funcionalidades"
+    },
+    {
+      "level": 3,
+      "text": "Adicionar combatentes"
+    },
+    {
+      "level": 3,
+      "text": "Stats com condições"
+    },
+    {
+      "level": 3,
+      "text": "Ficha Resumo inline"
+    },
+    {
+      "level": 3,
+      "text": "Aplicar condições"
+    },
+    {
+      "level": 3,
+      "text": "Condições derivadas"
+    },
+    {
+      "level": 3,
+      "text": "Edição numérica `+5`/`-3`"
+    },
+    {
+      "level": 3,
+      "text": "Vitalidade negativa"
+    },
+    {
+      "level": 3,
+      "text": "Drag-drop pra reordenar iniciativa"
+    },
+    {
+      "level": 3,
+      "text": "Botão delay (🕒)"
+    },
+    {
+      "level": 3,
+      "text": "Persistência"
+    },
+    {
+      "level": 3,
+      "text": "Auto-save"
+    },
+    {
+      "level": 3,
+      "text": "Dificuldade do encontro"
+    },
+    {
+      "level": 2,
+      "text": "Snippet rápido"
+    }
+  ],
+  "body": "# Combat Tracker\n\nTracker de combate inline em qualquer nota — escreve um bloco\n`combat-marker` (ou alias) num arquivo Markdown e o plugin renderiza\no tracker no lugar.\n\n> Antes da v1.1.0 isso era o plugin separado `pleitost-combat-marker`.\n> Foi absorvido pelo `pleitost-autosheet` pra centralizar lógica de\n> regras, fórmulas de stats e cálculo de condições. Os blocos `combat-marker*`\n> existentes continuam funcionando sem mudanças.\n\n## Onde usar\n\nQualquer nota. Exemplos típicos: `[[Escudo do Mestre]]`, notas de\nsessão, planejamento de encontros.\n\n## Os 4 tipos de bloco\n\n| Fence | O que faz |\n|---|---|\n| `combat-marker` | Tracker completo (com painel de adicionar combatentes) |\n| `combat-tracker` | Alias de `combat-marker` (mesma coisa) |\n| `combat-marker-small` | Compacto: esconde painel de adicionar (encontros pré-configurados) |\n| `combat-tracker-small` | Alias de `combat-marker-small` |\n\n## Sintaxe do bloco\n\n````markdown\n```combat-marker\n- [[Carlos, Dante, Mera, Pind, Thoren]]\n- 3 [[Goblin]] 15, 13, 10\n- 2 [[Goblin Piromante]] 10, 12\n```\n````\n\nCada linha do roster:\n\n```text\n- [quantidade] alvo [iniciativas separadas por vírgula]\n```\n\n| Parte | Detalhe |\n|---|---|\n| `quantidade` | Opcional. Default 1. |\n| `alvo` | Wikilink (`[[X]]` ou `[[X\\|Alias]]`) — criatura individual ou grupo. |\n| `iniciativas` | Opcional. Lista separada por vírgula, distribuídas na ordem de criação. Faltando → vazio. |\n\n### Decimais nas iniciativas\n\nUse ponto (`.`) como separador decimal (`12.5`). Vírgula sempre é\nseparador de lista. Sinal explícito (`+5`/`-3`) também aceito.\n\n### Grupos\n\nSe o alvo tem `categoria: Grupo` no FM, o tracker expande em todas as\ncriaturas que apontam pra esse grupo via FM `grupo:`.\n\n## Estado salvo no bloco\n\nAo clicar 💾 **Salvar**, o tracker reescreve o conteúdo do bloco com\numa seção `@estado`:\n\n````markdown\n```combat-marker\n- 3 [[Goblin]] 15, 13, 10\n\n@estado\niniciado: sim\nrodada: 2\nvez: 1\n\n1: src=Sistema/Criaturas/Goblin | gen=nao | nome= | init=15 | vit=8/8 | moral=0/0+0 | status=active | morto=nao | cond= # Goblin\n2: src=Sistema/Criaturas/Goblin | gen=nao | nome= | init=13 | vit=5/8 | moral=0/0+0 | status=active | morto=nao | cond= # Goblin\n3: src=Sistema/Criaturas/Goblin | gen=nao | nome= | init=10 | vit=8/8 | moral=0/0+0 | status=active | morto=nao | cond= # Goblin\n```\n````\n\n| Campo | Significado |\n|---|---|\n| `iniciado: sim/nao` | Encontro em andamento? |\n| `rodada: N` | Round atual (incrementa quando avança turno passando do último combatente) |\n| `vez: N` | Posição (1-indexed) do combatente do turno atual |\n| `1: ...` | State por combatente (parsed por `splitBlockSource` + `parseStateSection`) |\n\nVocê raramente edita isso à mão — o tracker faz tudo via UI. Mas pode\najustar `iniciativa: nao` rapidinho pra resetar um encontro sem\nlimpar.\n\n## Funcionalidades\n\n### Adicionar combatentes\n\nPainel topo (não aparece em `-small`):\n\n- **Adicionar criatura**: filtre digitando no 🔎, selecione, clique\n  Adicionar. `quantidade` opcional. Lê stats/vit/moral do FM da criatura.\n- **Adicionar grupo**: mesmo padrão; cria 1 combatente por membro.\n\nAction bar tem **🧍 Adicionar genérico** (criatura nameable sem source\n— pra \"Bandido sem nome\" ou similar; stats editáveis no próprio\nstatpill).\n\n### Stats com condições\n\nCada combatente mostra Defesa/Vigor/Evasão/Ímpeto/Movimento/Percepção/\nIntuição. Stats vêm do FM (cálculo via `calcResistencia/calcSentido/\ncalcMovimento` do autosheet — mesma fonte da Ficha Editável).\n\n**Quando uma condição modifica um stat:**\n\n- O statpill ganha **borda verde** (buff: total > base) ou **borda\n  vermelha** (debuff: total < base). Mesma paleta usada nos diamonds\n  do modo Interativa.\n- O **tooltip** (hover) mostra o breakdown: `Base: 12`, depois cada\n  condição com seu delta (`💫 Lento (-2)`).\n- Posição do tooltip segue o cursor — mesma infra (`attachBreakdown`)\n  usada pra Defesa/Vigor/Atributos no modo Interativa da ficha.\n\n### Ficha Resumo inline\n\nCombatentes que referenciam uma nota (criaturas — não os genéricos) têm\num botão **🪪** à esquerda do nome. Clique → a ficha **Resumo** daquela\ncriatura expande logo abaixo da linha; clique de novo → recolhe.\n\nÉ a mesma ficha Resumo do `autosheet-ref`, embutida — útil pra consultar\nstats, ataques e habilidades de um combatente sem sair do tracker. Cada\nficha é montada uma vez (abrir/fechar depois é instantâneo). O estado\naberto/fechado não é salvo — reabrir a nota recolhe tudo.\n\n### Aplicar condições\n\nCada combatente tem um pill **💫 N** (N = condições ativas). Clique pra\nabrir o seletor de condições, **agrupado** pra facilitar achar:\n\n- Duas colunas: **Negativas** e **Positivas**.\n- Dentro de cada, sub-seções por categoria (Ataque, Defesa, Sentidos,\n  Mobilidade, …) — os mesmos grupos da Lista de Condições da Ficha\n  Interativa.\n- Clique no **➕** de uma condição pra aplicá-la. Condições já ativas\n  saem do seletor.\n\n### Condições derivadas\n\nAlgumas condições derivam outras (ex: Atordoado pode derivar Lento\nvia `Elementos_de_Regra: [\"Derivar Condicao Lento\"]`). O tracker\naplica BFS — se você marca **Atordoado** explicitamente, **Lento**\naparece automaticamente com `*` no nome (chip \"Lento*\") e tooltip\n\"Derivada de: Atordoado\".\n\nAliases também: se a condição \"Atordoamento\" tem alias `Atordoado`,\nderives podem usar qualquer um — resolve case/accent-insensitive.\n\n### Edição numérica `+5`/`-3`\n\nInputs de vit, moral, moral_temp, init e (genérico) stats aceitam\ndeltas relativos:\n\n| Você digita | Resultado |\n|---|---|\n| `12` | Define como 12 |\n| `+5` | Soma 5 ao valor atual |\n| `-3` | Subtrai 3 |\n| `12,5` ou `12.5` | Decimal pt-BR (vírgula → ponto automaticamente) |\n\n### Vitalidade negativa\n\nVit pode ir até `-vit_max` (clamp legacy). A barra abaixo mostra\no overflow em vermelho/marrom (`vita-empty neg-half1/2`).\n\nQuando vit ≤ 0 OU vit ≤ -vit_max, **💀 skull** aparece ao lado do nome\n— clique pra marcar morto. Combatentes mortos pulam turnos.\n\n### Drag-drop pra reordenar iniciativa\n\nArraste o ☰ de um combatente sobre outro:\n- Linha drop **antes** ou **depois** (metade superior/inferior do alvo)\n- Visual: classes `gm-enc-row-drop-before`/`-after` durante hover\n- Initiative recalculada automaticamente (step 0.1 ou 0.5 conforme\n  decimal do target)\n\nArraste de pendente pra Combate → vira `active`. Arraste pra reordenar\ncombatentes ativos → init recalculada pra ficar entre vizinhos.\n\n### Botão delay (🕒)\n\nAo lado do init de combatente em combate → muda pra `delayed` (sai\nda ordem, init zerada, fica em \"Aguardando\" até user reentrar pelo\ndrag-drop).\n\n### Persistência\n\n- **No bloco** (preferido): se a nota tem o bloco identificado por\n  posição (linha), o save reescreve o source do bloco com `@estado`\n  atualizado.\n- **No FM** (fallback): se a posição do bloco não pôde ser\n  determinada, fallback escreve `Encounter_Started`/`Encounter_Round`/\n  `Encounter_Current`/`Encounter_Combatants` no FM da nota host.\n\nBotão Salvar (💾) só fica habilitado quando há mudanças não-salvas;\nele pulsa em laranja pra chamar atenção.\n\n### Auto-save\n\nEm **Settings → Pleitost Autosheet → Combat Tracker**, ligue **Auto-salvar\nCombat Tracker**: qualquer alteração passa a ser salva automaticamente, com\num pequeno atraso pra coalescer cliques rápidos. O botão 💾 Salvar fica\noculto (o save é automático) — o aviso \"Salvo.\" / \"Alterações não salvas.\"\ncontinua comunicando o estado.\n\nO auto-save **espera você terminar de digitar**: enquanto o cursor está num\ncampo (ex.: o filtro do card de adicionar criaturas), ele adia o save e só\nsalva quando você sai do campo. Assim dá pra buscar e adicionar várias\ncriaturas em sequência sem o save interromper a digitação.\n\n### Dificuldade do encontro\n\nCard \"Combate\" mostra:\n\n- **Badge** (TRIVIAL / FÁCIL / DIFÍCIL / LETAL) com ratio %\n  (monstros vs heróis).\n- **Barra de níveis** (10 segments, 4 tiers): mostra como o encontro\n  classificaria pra um grupo de 4 heróis em cada nível 1-10. Tooltip\n  do segment: \"Nivel N (TX · 4 herois): LABEL · RATIO%\".\n\nCálculo:\n- Monstro tier 0/1/2/3 → 5/10/25/40 pontos.\n- Modificadores: Solo ×3, Elite ×2, Competente/sem ×1.2.\n- Herói/Jogador nível 1-10 → 10/11/12/25/27/29/40/44/48/52 pontos.\n- Ratio = monstros / heróis × 100. <50 TRIVIAL, ≤75 FÁCIL,\n  ≤100 DIFÍCIL, >100 LETAL.\n\n## Snippet rápido\n\n````markdown\n```combat-marker-small\n- [[Carlos, Dante]]\n- 3 [[Goblin]] 15, 12, 9\n\n@estado\niniciado: nao\nrodada: 0\nvez: 0\n```\n````\n"
+}

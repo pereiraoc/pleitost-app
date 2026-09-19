@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Transporte/Transporte",
+  "path": "Contexto/Recursos/Transporte/Transporte.md",
+  "basename": "Transporte",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ônibus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Informal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Atlas"
+    },
+    {
+      "target": "Serviços",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Veículos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nAs **linhas** que movem Porto Alegre: uma nota por linha (`categoria: Linha`), agrupadas pelo modo — [[Aeromóvel]], [[Ônibus]], [[Lotação]], [[Água]] e [[Informal]]. Parada a parada, com o plano de acesso, a tarifa, o horário e a cara do veículo; o mapa esquemático e o planejador de trajeto estão em [[Malha de Transportes]].\n\nAs paradas em si são lugares do [[Porto Alegre|Atlas]], dentro de cada bairro. O que se PAGA pra andar (passagem, corrida, aluguel por dia, combustível e o plano TRI do mês) está em [[Serviços]]; o que se compra e passa a ter, em [[Veículos]].\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n"
+}
