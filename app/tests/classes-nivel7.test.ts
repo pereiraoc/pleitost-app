@@ -41,3 +41,32 @@ describe('concessões de nível 7 (tabela da classe = regra)', () => {
     expect(m6).not.toContain('Transcendente')
   })
 })
+
+// Report a10b4d50 (2026-09-18, @thallesagm): "A defesa do Samuel Altima …
+// não está sendo somado ao meu avatar. O ataque não está somando também."
+// O CORPO do Avatar promete "Experiente em Ataques" e "Experiente em
+// Defesa", mas o FM de regras omitia exatamente esses dois (o resto — Ímpeto
+// M, Vigor/Reflexo E, Intuição M, Potência 8 — estava lá).
+describe('Avatar concede Ataques E e Defesa E (report a10b4d50)', () => {
+  it('nv7: Ataques e Defesa sobem pra E; nv6 ficam como eram', async () => {
+    const at = { Atributos: { Principal: 'PRE', FOR: 0, AGI: 2, INT: 1, PRE: 3 } }
+    const fmDe = async (nivel: number) => {
+      const fm = { Classe: '[[Animista]]', 'Nível': nivel, Defesas_Resistencias: { Lista: [
+        { Nome: 'Defesa', Atributo: 'AGI', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+        { Nome: 'Vigor', Atributo: 'FOR', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+        { Nome: 'Reflexo', Atributo: 'AGI', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+        { Nome: 'Ímpeto', Atributo: 'PRE', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+      ] }, ...at }
+      const { projection } = await projectHeroRules(fm as Record<string, unknown>, catalog, load)
+      return projection.derivedFm as Record<string, any>
+    }
+    const d7 = await fmDe(7)
+    const defesa7 = (d7['Defesas_Resistencias']?.Lista as Array<Record<string, unknown>>).find((r) => r['Nome'] === 'Defesa')
+    expect(d7['Ataques']?.Proficiencia).toBe('E')
+    expect(defesa7?.['Proficiencia']).toBe('E')
+    const d6 = await fmDe(6)
+    const defesa6 = (d6['Defesas_Resistencias']?.Lista as Array<Record<string, unknown>>).find((r) => r['Nome'] === 'Defesa')
+    expect(d6['Ataques']?.Proficiencia).toBe('A')
+    expect(defesa6?.['Proficiencia']).toBe('A')
+  })
+})
