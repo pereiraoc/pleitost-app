@@ -1417,14 +1417,17 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
           <span
             style={{
               fontFamily: 'var(--mono)',
-              fontSize: 12.5,
-              minWidth: 24,
+              // #568: a QUANTIDADE é o dado do painel — número grande, tier
+              // pequeno ao lado (report anônimo 2026-09-22: "não fica evidente").
+              fontSize: 17,
+              minWidth: 32,
               textAlign: 'center',
+              lineHeight: 1,
               opacity: zero ? 0.45 : 1,
             }}
           >
             <span style={{ color: 'var(--text)', fontWeight: 700 }}>{value}</span>
-            <span style={{ color: 'var(--muted)', fontSize: 9 }}>{tier}</span>
+            <span style={{ color: 'var(--muted)', fontSize: 10, marginLeft: 1 }}>{tier}</span>
           </span>
         </ConsumivelHover>
         <span
