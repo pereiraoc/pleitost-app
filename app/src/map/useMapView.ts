@@ -83,6 +83,14 @@ export function useMapView(): UseMapView {
    *  celular; mesmo efeito nos taps de hex da exploração). Touch usa slop de
    *  plataforma (~12px); mouse/caneta seguem precisos em 3px. */
   const touchRef = useRef(false)
+  /** #572: PINÇA por TOUCH EVENTS nativos (touchstart/touchmove no viewport,
+   *  non-passive). Fallback dos pointer events: no Firefox Android a pinça
+   *  não chegava como dois pointers ao hook — os `touches` do TouchEvent
+   *  chegam sempre. Enquanto uma pinça de touch está ativa, o ramo de pinça
+   *  por pointer é ignorado (senão aplicaria duas vezes onde os dois chegam). */
+  const touchPinch = useRef<{ d: number; mx: number; my: number; view: MapView } | null>(null)
+  const viewRef = useRef<MapView>(IDENTITY)
+  viewRef.current = view
 
   /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
    *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
@@ -147,6 +155,75 @@ export function useMapView(): UseMapView {
 
   const resetView = useCallback(() => setView(IDENTITY), [])
 
+  /** Aplica a pinça: escala pela razão de distância a partir da view BASE,
+   *  ancorada no ponto-médio (o âncora acompanha o pan dos dedos). A fração
+   *  sob o âncora é medida na view base (largura base = rect/scale atual),
+   *  então não deriva ao longo do gesto. */
+  const aplicarPinca = useCallback(
+    (base: { d: number; mx: number; my: number; view: MapView }, a: PointerRec, b: PointerRec) => {
+      const d = dist(a, b)
+      if (base.d <= 0) return
+      movedRef.current = true
+      const cur = viewRef.current
+      const scale = clampScale(base.view.scale * (d / base.d))
+      const rect = mapRef.current?.getBoundingClientRect()
+      if (rect && rect.width > 0) {
+        const mx = (a.x + b.x) / 2
+        const my = (a.y + b.y) / 2
+        const baseLeft = rect.left - cur.tx
+        const baseTop = rect.top - cur.ty
+        const baseW = rect.width / cur.scale
+        const baseH = rect.height / cur.scale
+        // fração da imagem sob o ponto-médio INICIAL, medida na view base
+        const u = (base.mx - (baseLeft + base.view.tx)) / (baseW * base.view.scale)
+        const w = (base.my - (baseTop + base.view.ty)) / (baseH * base.view.scale)
+        setView(clampView(cur, { scale, tx: mx - u * baseW * scale - baseLeft, ty: my - w * baseH * scale - baseTop }))
+      } else {
+        setView((v) => clampView(v, { ...v, scale }))
+      }
+    },
+    [clampView],
+  )
+
+  const onTouchStart = useCallback((e: TouchEvent) => {
+    if (e.touches.length < 2) return
+    e.preventDefault()
+    const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
+    const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
+    touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: viewRef.current }
+    panBase.current = null
+    movedRef.current = true
+  }, [])
+  const onTouchMove = useCallback(
+    (e: TouchEvent) => {
+      const base = touchPinch.current
+      if (!base || e.touches.length < 2) return
+      e.preventDefault()
+      aplicarPinca(
+        base,
+        { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY },
+        { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY },
+      )
+    },
+    [aplicarPinca],
+  )
+  const onTouchEnd = useCallback((e: TouchEvent) => {
+    if (!touchPinch.current) return
+    if (e.touches.length >= 2) {
+      const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
+      const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
+      touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: viewRef.current }
+      return
+    }
+    touchPinch.current = null
+    // o dedo que sobrou vira pan a partir de onde está (sem salto)
+    if (e.touches.length === 1) {
+      const t = e.touches[0]!
+      panBase.current = { x: t.clientX, y: t.clientY, tx: viewRef.current.tx, ty: viewRef.current.ty }
+      for (const [id, p] of pointers.current) pointers.current.set(id, { ...p, x: t.clientX, y: t.clientY })
+    }
+  }, [])
+
   const onWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault()
@@ -160,18 +237,37 @@ export function useMapView(): UseMapView {
   const viewportRef = useCallback(
     (el: HTMLDivElement | null) => {
       const prev = viewportElRef.current
-      if (prev) prev.removeEventListener('wheel', onWheel)
+      if (prev) {
+        prev.removeEventListener('wheel', onWheel)
+        prev.removeEventListener('touchstart', onTouchStart)
+        prev.removeEventListener('touchmove', onTouchMove)
+        prev.removeEventListener('touchend', onTouchEnd)
+        prev.removeEventListener('touchcancel', onTouchEnd)
+      }
       viewportElRef.current = el
-      if (el) el.addEventListener('wheel', onWheel, { passive: false })
+      if (el) {
+        el.addEventListener('wheel', onWheel, { passive: false })
+        // #572: pinça por touch nativo (non-passive pra bloquear o zoom da página)
+        el.addEventListener('touchstart', onTouchStart, { passive: false })
+        el.addEventListener('touchmove', onTouchMove, { passive: false })
+        el.addEventListener('touchend', onTouchEnd)
+        el.addEventListener('touchcancel', onTouchEnd)
+      }
     },
-    [onWheel],
+    [onWheel, onTouchStart, onTouchMove, onTouchEnd],
   )
   useEffect(() => {
     return () => {
       const el = viewportElRef.current
-      if (el) el.removeEventListener('wheel', onWheel)
+      if (el) {
+        el.removeEventListener('wheel', onWheel)
+        el.removeEventListener('touchstart', onTouchStart)
+        el.removeEventListener('touchmove', onTouchMove)
+        el.removeEventListener('touchend', onTouchEnd)
+        el.removeEventListener('touchcancel', onTouchEnd)
+      }
     }
-  }, [onWheel])
+  }, [onWheel, onTouchStart, onTouchMove, onTouchEnd])
 
   const fracAtClient = useCallback((clientX: number, clientY: number): Frac | null => {
     const rect = mapRef.current?.getBoundingClientRect()
@@ -206,33 +302,14 @@ export function useMapView(): UseMapView {
     const pts = [...pointers.current.values()]
 
     // PINÇA (2+ ponteiros): escala pela razão de distância, ancorada no
-    // ponto-médio inicial (que também acompanha o pan dos dedos).
+    // ponto-médio inicial (que também acompanha o pan dos dedos). Se a pinça
+    // por TOUCH nativo está ativa (#572), ela é quem aplica.
     if (pts.length >= 2 && pinchBase.current) {
-      const a = pts[0]! // pts.length >= 2
-      const b = pts[1]!
-      const d = dist(a, b)
-      const base = pinchBase.current
-      if (base.d > 0) {
-        movedRef.current = true
-        const scale = clampScale(base.view.scale * (d / base.d))
-        const rect = mapRef.current?.getBoundingClientRect()
-        if (rect && rect.width > 0) {
-          const mx = (a.x + b.x) / 2
-          const my = (a.y + b.y) / 2
-          // âncora = ponto-médio ATUAL; parte da view base pra evitar deriva.
-          const u = (base.mx - (rect.left - view.tx + base.view.tx)) / rect.width
-          const w = (base.my - (rect.top - view.ty + base.view.ty)) / rect.height
-          const nextW = (rect.width / view.scale) * scale
-          const nextH = (rect.height / view.scale) * scale
-          const baseLeft = rect.left - view.tx
-          const baseTop = rect.top - view.ty
-          setView(clampView(view, { scale, tx: mx - u * nextW - baseLeft, ty: my - w * nextH - baseTop }))
-        } else {
-          setView((v) => clampView(v, { ...v, scale }))
-        }
-      }
+      if (!touchPinch.current) aplicarPinca(pinchBase.current, pts[0]!, pts[1]!)
       return
     }
+    // um dedo mexendo enquanto a pinça de touch está ativa: nada de pan
+    if (touchPinch.current) return
 
     // PAN (1 ponteiro).
     const start = panBase.current
@@ -244,7 +321,7 @@ export function useMapView(): UseMapView {
     const slop = touchRef.current ? 12 : 3
     if (Math.hypot(dx, dy) > slop) movedRef.current = true
     if (movedRef.current) setView((v) => clampView(v, { ...v, tx: start.tx + dx, ty: start.ty + dy }))
-  }, [view, clampView])
+  }, [clampView, aplicarPinca])
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
     pointers.current.delete(e.pointerId)
