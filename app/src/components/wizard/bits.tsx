@@ -16,6 +16,26 @@ export function docIdOf(catalog: Catalog, wikilink: string): string | null {
   return r.kind === 'doc' ? r.id : null
 }
 
+/** Tier "metálico" por quantidade de estrelas (idioma das imbuições —
+ *  TIER_STYLE): 3★ ouro (M), 2★ prata (E), 1★ aço (A); 0 = nenhum. */
+export function tierPorEstrelas(n: number): 'A' | 'E' | 'M' | null {
+  return n >= 3 ? 'M' : n === 2 ? 'E' : n === 1 ? 'A' : null
+}
+
+/** Polígono de uma FAIXA de largura `w` colada à borda ESQUERDA e à borda
+ *  INFERIOR de um card cortado por clip(n): desce pela esquerda, contorna a
+ *  diagonal inferior-esquerda e segue por baixo até a direita. A borda
+ *  interna da diagonal é a paralela deslocada em w (interseções em
+ *  (w, H − n − 0.414w) e (n + 0.414w, H − w)). */
+export function clipBanda(w: number, n: number): string {
+  const d = (0.414 * w).toFixed(2)
+  return (
+    `polygon(0 0,${w}px 0,${w}px calc(100% - ${n}px - ${d}px),` +
+    `calc(${n}px + ${d}px) calc(100% - ${w}px),100% calc(100% - ${w}px),` +
+    `100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
+  )
+}
+
 export const wizTitulo: CSSProperties = {
   fontFamily: 'var(--mono)',
   fontSize: 12,

@@ -91,7 +91,11 @@ describe('Animista: variantes por SINTONIA, nunca as Essências (report 2026-09-
     renderPasso({ Classe: '', Sintonia: '' })
     await waitFor(() => expect(screen.getByText('Animista')).toBeTruthy(), { timeout: 15000 })
     fireEvent.click(screen.getByRole('button', { name: /filtrar por controlador/i }))
-    await waitFor(() => expect(screen.getAllByText(/controle e proteção/).length).toBe(2), { timeout: 15000 })
+    // Animista ★★ traz as 4 sintonias como barras (Terra só existe aqui — o
+    // Monge chega a Controlador só pela Água); sem classe clicada, sem chamada
+    await waitFor(() => expect(screen.getByRole('option', { name: 'Terra' })).toBeTruthy(), { timeout: 15000 })
+    expect(screen.getAllByRole('option', { name: 'Água' }).length).toBeGreaterThanOrEqual(1)
+    expect(screen.queryByText(/controle e proteção/)).toBeNull()
     expect(screen.queryByText(/Essência/)).toBeNull()
   }, 30000)
 })
@@ -122,6 +126,22 @@ describe('filtro por papel no passo CLASSE', () => {
     expect(screen.queryByText('CONJURADOR')).toBeNull()
     // com o filtro, TODAS as barras de classe mostram a faixa de possibilidades
     expect(screen.getAllByTestId('possibilidades').length).toBeGreaterThanOrEqual(4)
+    // DETALHE DE TIER (2026-09-24): cada card do grupo leva a faixa metálica
+    // do quão bom ele é naquele papel — ★★★ ouro (M), ★★ prata (E), ★ aço (A)
+    const tierDe = (el: Element) => el.querySelector('[data-tier]')?.getAttribute('data-tier') ?? null
+    const guerreiros = screen.getAllByRole('option', { name: 'Guerreiro' })
+    expect(guerreiros.map(tierDe)).toEqual(['M', 'A'])
+    expect(tierDe(screen.getByRole('option', { name: 'Arcos' }))).toBe('M')
+    expect(tierDe(screen.getByRole('option', { name: 'Lâminas' }))).toBe('A')
+    expect(tierDe(screen.getByRole('option', { name: 'Mago' }))).toBe('E')
+    // CHAMADAS com filtro: só na classe CLICADA (Guerreiro) e nas opções dela;
+    // Caçador/Rastreador (não clicados) ficam sem resumo
+    // (a classe clicada aparece nos DOIS grupos — chamada em ambos)
+    expect(screen.getAllByText(/Empunhe armas com maestria/)).toHaveLength(2)
+    expect(screen.getByText(/Acerte de longe com arcos curtos/)).toBeTruthy()
+    expect(screen.getByText(/Domine as espadas, da curta ao montante/)).toBeTruthy()
+    expect(screen.queryByText(/Marque e abata seus inimigos/)).toBeNull()
+    expect(screen.queryByText(/Busque, isole, e foque sua presa/)).toBeNull()
 
     // toque de novo: filtro sai, lista volta ao normal
     fireEvent.click(screen.getByRole('button', { name: /filtrar por abatedor/i }))
@@ -129,6 +149,9 @@ describe('filtro por papel no passo CLASSE', () => {
     expect(screen.getByText('Arcanista')).toBeTruthy()
     expect(screen.getByText('CONJURADOR')).toBeTruthy()
     expect(screen.getAllByText('Guerreiro')).toHaveLength(1)
+    // sem filtro: nenhuma faixa de tier; as opções da classe clicada voltam com chamada
+    expect(document.querySelector('[data-tier]')).toBeNull()
+    expect(screen.getByText(/Acerte de longe com arcos curtos/)).toBeTruthy()
   }, 30000)
 
   it('LÍDER: Bardo ★★★ só com Inspirador + Arte Mágica; Guerreiro some', async () => {

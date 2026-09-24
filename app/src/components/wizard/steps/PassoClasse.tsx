@@ -45,7 +45,7 @@ import {
   type EscolhaPapel,
 } from '../class-roles-preview'
 import { linhasComPicks, linhasHabilidades, picksAtuais, type Pick } from '../picks'
-import { docIdOf, WizChamada, WizSecao, WizThumb, wizTitulo } from '../bits'
+import { clipBanda, docIdOf, tierPorEstrelas, WizChamada, WizSecao, WizThumb, wizTitulo } from '../bits'
 import { chamadaDe, chamadaSintoniaDe } from '../chamada'
 import { shortSintoniaName, shortSubclassName } from '../../../rules/projection'
 import type { WizardCtx } from '../steps'
@@ -177,6 +177,7 @@ function Barra({
   indent,
   onClick,
   ariaLabel,
+  tier,
   children,
 }: {
   on: boolean
@@ -186,6 +187,11 @@ function Barra({
    *  mesmo visual, mas não clicável nem focável. */
   onClick?: () => void
   ariaLabel: string
+  /** FILTRO POR PAPEL (2026-09-24): faixa metálica do tier na borda esquerda
+   *  contornando a diagonal de baixo até a direita — o quão bom ESTE grupo é
+   *  no papel filtrado (★★★ ouro, ★★ prata, ★ aço). Visível também com o card
+   *  selecionado (fica por cima do tint de accent). */
+  tier?: 'A' | 'E' | 'M' | null
   children: React.ReactNode
 }) {
   // Barra INFORMATIVA (#452 r13): o idioma de "não clicável" do app é o do
@@ -200,6 +206,7 @@ function Barra({
       onClick={onClick}
       disabled={informativa}
       style={{
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         gap: 10,
@@ -223,6 +230,19 @@ function Barra({
         clipPath: clip(8),
       }}
     >
+      {tier ? (
+        <span
+          aria-hidden
+          data-tier={tier}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            background: TIER_STYLE[tier].grad,
+            clipPath: clipBanda(4, 8),
+          }}
+        />
+      ) : null}
       {children}
     </button>
   )
@@ -385,18 +405,23 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   /** Barra de UMA OPÇÃO de subclasse: clicável em qualquer classe — escolhe a
    *  classe junto (com os picks do caminho até aqui). ✓ quando é o pick
    *  gravado da classe selecionada. */
-  const barraOpcao = (item: Item, on: boolean, caminho: Pick[], nivel: number) => {
+  /** Visual de um grupo do filtro: faixa do tier + chamadas SÓ quando a
+   *  classe está selecionada (com filtro, nada de resumo até clicar na classe
+   *  ou numa subclasse dela; sem filtro, sempre). */
+  type Visual = { tier: 'A' | 'E' | 'M' | null; comChamada: boolean }
+  const barraOpcao = (item: Item, on: boolean, caminho: Pick[], nivel: number, visual: Visual) => {
     const pick = caminho[caminho.length - 1]!
     const d = docOpcao(pick.alvo)
     const rotulo = reskinName(shortSubclassName(pick.alvo))
     const optOn = on && picks.get(pick.parent) === pick.alvo
-    const c = chamadaDe(d)
+    const c = visual.comChamada ? chamadaDe(d) : null
     return (
       <Barra
         key={pick.alvo}
         on={optOn}
         indent={nivel}
         ariaLabel={rotulo}
+        tier={visual.tier}
         onClick={() => escolher(item, caminho, pick.alvo)}
       >
         <span style={linhaNome}>
@@ -412,7 +437,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   /** Barras INFORMATIVAS de sintonia sob a classe (#452 r9/r11): trocar é lá
    *  no passo 1; a escolhida já marcada, com o "+★" que cada uma adiciona PRA
    *  ESTA classe e a chamada por elemento (FM `Chamada_Sintonia`). */
-  const barrasSintonia = (doc: VaultDoc | undefined, alvos: string[], nivel: number) => {
+  const barrasSintonia = (doc: VaultDoc | undefined, alvos: string[], nivel: number, visual: Visual) => {
     const somaSintonia = somaPapeisPorSintonia(regrasDe(doc))
     const opts = (rules?.sintonias ?? []).filter((opt) => alvos.includes(wikiTarget(opt.value)))
     if (!opts.length || rules?.sintoniaRuleLocked) return null
@@ -423,9 +448,9 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
           const alvo = wikiTarget(opt.value)
           const optOn = alvo === wikiTarget(str(fm['Sintonia']))
           const ic = sintoniaEmojiDe(opt.value)
-          const c = chamadaSintoniaDe(doc, shortSintoniaName(alvo))
+          const c = visual.comChamada ? chamadaSintoniaDe(doc, shortSintoniaName(alvo)) : null
           return (
-            <Barra key={opt.value} on={optOn} indent={nivel} ariaLabel={reskinName(opt.label)}>
+            <Barra key={opt.value} on={optOn} indent={nivel} ariaLabel={reskinName(opt.label)} tier={visual.tier}>
               <span style={linhaNome}>
                 <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
@@ -454,6 +479,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     combos: ComboPapel[],
     depth: number,
     caminho: Pick[],
+    visual: Visual,
   ): React.ReactNode => {
     const niveis = niveisDeCombo(combos, depth)
     const sint = sintoniasDoNivel(combos, depth)
@@ -466,14 +492,14 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
               const pick = { parent: n.parent, alvo: n.alvo }
               return (
                 <div key={n.alvo} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {barraOpcao(item, on, [...caminho, pick], depth + 1)}
-                  {renderArvore(item, on, doc, n.filhos, depth + 1, [...caminho, pick])}
+                  {barraOpcao(item, on, [...caminho, pick], depth + 1, visual)}
+                  {renderArvore(item, on, doc, n.filhos, depth + 1, [...caminho, pick], visual)}
                 </div>
               )
             })}
           </div>
         ) : null}
-        {sint.length ? barrasSintonia(doc, sint, depth + 1) : null}
+        {sint.length ? barrasSintonia(doc, sint, depth + 1, visual) : null}
       </>
     )
   }
@@ -504,7 +530,12 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
           : []
       : []
     const atuais = gruposHl.length ? indicesDoBuildAtual(builds, gruposHl) : []
-    const chamada = chamadaDe(doc)
+    // Com filtro: faixa do tier do grupo em todos os cards da entrada e
+    // chamadas só se a classe está selecionada. Sem filtro: como sempre.
+    const visual: Visual = entrada
+      ? { tier: tierPorEstrelas(entrada.estrelas), comChamada: on }
+      : { tier: null, comChamada: true }
+    const chamada = visual.comChamada ? chamadaDe(doc) : null
 
     // Embaixo da classe. Sem filtro: só na selecionada — cada escolha com
     // TODAS as opções (clicáveis) e, nas classes sem escolha que variam por
@@ -513,11 +544,11 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     // (Círculo Druídico) com todas as opções.
     const embaixo = entrada ? (
       <>
-        {renderArvore(o, on, doc, entrada.combos, 0, [])}
+        {renderArvore(o, on, doc, entrada.combos, 0, [], visual)}
         {escolhasSemPapel(escolhas).map((e) => (
           <div key={e.parent} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {cabecalho(e.parent, 1)}
-            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1))}
+            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1, visual))}
           </div>
         ))}
       </>
@@ -526,16 +557,16 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
         {escolhas.map((e) => (
           <div key={e.parent} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {cabecalho(e.parent, 1)}
-            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1))}
+            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1, visual))}
           </div>
         ))}
-        {!escolhas.length && somaSintonia.size > 0 ? barrasSintonia(doc, sintoniaTargets, 1) : null}
+        {!escolhas.length && somaSintonia.size > 0 ? barrasSintonia(doc, sintoniaTargets, 1, visual) : null}
       </>
     ) : null
 
     return (
       <div key={chave} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <Barra on={on} onClick={() => escolher(o, [])} ariaLabel={reskinName(o.label)}>
+        <Barra on={on} onClick={() => escolher(o, [])} ariaLabel={reskinName(o.label)} tier={visual.tier}>
           {img ? (
             <WizThumb img={img} imgFull={creatureImageUrl(doc, assets, false)} size={44} cover />
           ) : null}
@@ -653,7 +684,7 @@ function PapeisPreview({
           const nome = ROLE_NAME_BY_ID.get(p) ?? p
           const meta = ROLE_NAME_BY_ID.has(p) ? ROLE_META[ROLE_NAME_BY_ID.get(p)!] : null
           const valor = valores[p]
-          const tier = valor >= 3 ? 'M' : valor === 2 ? 'E' : valor === 1 ? 'A' : null
+          const tier = tierPorEstrelas(valor)
           const t = tier ? TIER_STYLE[tier] : null
           const roleName = ROLE_NAME_BY_ID.get(p) ?? null
           const ativo = roleName !== null && filtro === roleName
