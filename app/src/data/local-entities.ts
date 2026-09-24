@@ -647,6 +647,21 @@ export function setLocalEntityFm(id: string, path: string, value: unknown): void
   replaceEntity(id, { ...rec, frontmatter, basename })
 }
 
+/** Grava VÁRIOS paths do FM local numa escrita só (um persist + um bump) —
+ *  troca de classe no wizard zera ~8 paths de uma vez; gravar um a um
+ *  serializava o store inteiro 9× por clique (report 2026-09-24: "demora"). */
+export function setLocalEntityFmMany(id: string, pairs: Array<[string, unknown]>): void {
+  const rec = getLocalEntity(id)
+  if (!rec || !pairs.length) return
+  let frontmatter = rec.frontmatter
+  let basename = rec.basename
+  for (const [path, value] of pairs) {
+    frontmatter = deepSet(frontmatter, path.split('.'), value)
+    if (path === 'nome' && typeof value === 'string' && value.trim()) basename = value.trim()
+  }
+  replaceEntity(id, { ...rec, frontmatter, basename })
+}
+
 export function getLocalEntitySession(id: string): Record<string, unknown> {
   return getLocalEntity(id)?.session ?? {}
 }

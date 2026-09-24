@@ -34,9 +34,12 @@ export function equipamentoResets(): Array<[string, unknown]> {
  *  ANTES da classe por decisão do usuário — trocar de classe não pode descartar
  *  essa escolha explícita. Se uma regra da nova classe DEFINIR a Sintonia,
  *  o derivado/sintoniaRuleLocked prevalece na exibição de qualquer forma. */
+export function pairsOnClasseChange(): Array<[string, unknown]> {
+  return [...classChangeResets(), ...equipamentoResets()].filter(([path]) => path !== 'Sintonia')
+}
+
+/** Uma escrita só (setMany): trocar de classe zerava ~8 paths um a um e cada
+ *  um serializava/notificava o store — o clique "demorava" (2026-09-24). */
 export function resetOnClasseChange(model: HeroModel): void {
-  for (const [path, value] of [...classChangeResets(), ...equipamentoResets()]) {
-    if (path === 'Sintonia') continue
-    model.set(path, value)
-  }
+  model.setMany(pairsOnClasseChange())
 }

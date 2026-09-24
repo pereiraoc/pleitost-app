@@ -333,7 +333,12 @@ describe('class-roles-preview (#452 r4) — somas e highlight', () => {
 describe('reset de dependentes ao trocar de CLASSE (#454)', () => {
   it('resetOnClasseChange = classChangeResets (menos Sintonia, #461) + equipamento do wizard', () => {
     const aplicados: Array<[string, unknown]> = []
-    const model = { set: (p: string, v: unknown) => aplicados.push([p, v]) } as unknown as HeroModel
+    // 2026-09-24: os resets saem numa escrita só (setMany) — o clique na classe
+    // deixou de serializar o store ~9× (report de lentidão)
+    const model = {
+      set: (p: string, v: unknown) => aplicados.push([p, v]),
+      setMany: (pares: Array<[string, unknown]>) => aplicados.push(...pares),
+    } as unknown as HeroModel
     resetOnClasseChange(model)
     const paths = aplicados.map(([p]) => p)
     // os resets centrais da ficha (magias/subclasse/técnicas/escolhas)…

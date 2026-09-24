@@ -11,7 +11,7 @@
 //
 // TROCAR de classe dispara resetOnClasseChange (reset.ts — classChangeResets
 // central + equipamento; preserva a Sintonia por decisão da nova ordem).
-import { useMemo, useState } from 'react'
+import { startTransition, useMemo, useState } from 'react'
 import { reskinName, reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
@@ -19,26 +19,31 @@ import { useDocs } from '../../../data/useDoc'
 import { useAssetIndex } from '../../../data/assets'
 import { creatureImageUrl } from '../../../data/creature-image'
 import { sintoniaDisplay, str, wikiTarget } from '../../ficha/hero-model'
-import { applySubclassPick } from '../../ficha/HabilidadesTab'
 import { PAPEIS, papelValuesFromFm, sintoniaEmojiDe } from '../../../grupo/party'
 import { StarCell } from '../../../grupo/panel-ui'
 import { ROLE_META, type RoleName } from '../../../markdown/class-roles/role-meta'
 import { slugify } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
 import { TIER_STYLE } from '../../item-card'
-import { resetOnClasseChange } from '../reset'
+import { pairsOnClasseChange } from '../reset'
 import {
   aliasesDeCompose,
   buildsDoCorpo,
   complementaresNivel1,
   entradasPorPapel,
+  escolhasSemPapel,
   indicesDoBuildAtual,
+  niveisDeCombo,
   opcoesSelecionar,
+  sintoniasDoNivel,
   somaPapeis,
   somaPapeisPorSintonia,
   variantesDePapel,
+  type ComboPapel,
+  type EntradaPapel,
   type EscolhaPapel,
 } from '../class-roles-preview'
+import { linhasComPicks, linhasHabilidades, picksAtuais, type Pick } from '../picks'
 import { docIdOf, WizChamada, WizSecao, WizThumb, wizTitulo } from '../bits'
 import { chamadaDe, chamadaSintoniaDe } from '../chamada'
 import { shortSintoniaName, shortSubclassName } from '../../../rules/projection'
@@ -174,7 +179,8 @@ function Barra({
   children,
 }: {
   on: boolean
-  indent?: boolean
+  /** Níveis de indentação (26px cada) — subclasse = 1, escolha aninhada = 2. */
+  indent?: number
   /** Sem onClick a barra é INFORMATIVA (sintonia sob a classe, #452 r11):
    *  mesmo visual, mas não clicável nem focável. */
   onClick?: () => void
@@ -197,7 +203,7 @@ function Barra({
         alignItems: 'center',
         gap: 10,
         padding: '9px 12px',
-        marginLeft: indent ? 26 : 0,
+        marginLeft: (indent ?? 0) * 26,
         textAlign: 'left',
         fontFamily: 'inherit',
         fontSize: 14,
@@ -228,6 +234,9 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   const assets = useAssetIndex()
   const classeAtual = wikiTarget(str(fm['Classe']))
   const sintoniaCurta = sintoniaDisplay(str(fm['Sintonia']))
+  // Picks de subclasse GRAVADOS (Habilidades.Lista) — lidos do FM na hora, sem
+  // esperar a re-projeção das regras (responsividade, 2026-09-24).
+  const picks = picksAtuais(fm)
 
   // Classes da projeção agrupadas pela SUBCATEGORIA do doc (fonte: catálogo).
   const grupos = useMemo(() => {
@@ -256,42 +265,11 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   const regrasDe = (doc: VaultDoc | undefined): unknown =>
     (doc?.frontmatter as Record<string, unknown> | undefined)?.['Elementos_de_Regra']
 
-  // Docs das OPÇÕES de subclasse — os builds do class-roles nomeiam pelas
-  // composições de alias ("Estudos do Vazio" compõe "Bruxo"); o match usa
-  // rótulo + aliases (aliasesDeCompose sobre os ruleElements da nota).
-  // Com a re-extração NO AR (classe recém-trocada, `stale`) as escolhas ainda
-  // são da classe ANTERIOR — esconde em vez de piscar as opções erradas por
-  // um instante embaixo da nova classe (#452 r9).
-  const escolhasAll = rules && !rules.stale ? rules.subclassChoices : []
-  const opcaoIds = useMemo(
-    () =>
-      escolhasAll
-        .flatMap((c) => c.options.map((o) => docIdOf(catalog, o.value)))
-        .filter((x): x is string => !!x),
-    [escolhasAll, catalog],
-  )
-  const opcaoDocs = useDocs(opcaoIds)
-  const textosDe = (valor: string, rotulo: string): string[] => {
-    const id = docIdOf(catalog, valor)
-    const d = id ? opcaoDocs?.get(id) : undefined
-    const aliases = aliasesDeCompose(regrasDe(d))
-    return [rotulo, ...aliases]
-  }
-
-  const escolherClasse = (value: string) => {
-    if (wikiTarget(value) !== classeAtual) resetOnClasseChange(model)
-    model.set('Classe', value)
-    const id = docIdOf(catalog, value)
-    if (id) detail?.open({ kind: 'doc', id })
-  }
-
-  // FILTRO POR PAPEL (2026-09-23): tocar num card de PAPEL NO GRUPO lista só
-  // as classes que podem ter ≥★ daquele papel, agrupadas por quantidade de
-  // estrelas e mostrando com QUAL subclasse/sintonia chegam lá. Os totais
-  // vêm das REGRAS (class-roles-preview: variantesDePapel) — pra isso as
-  // escolhas de nível 1 de TODAS as classes são carregadas em dois saltos:
-  // classe → notas de escolha (Selecionar) → notas de opção (Somar Papel).
-  const [filtroPapel, setFiltroPapel] = useState<RoleName | null>(null)
+  // ESCOLHAS de nível 1 de TODAS as classes, em dois saltos de docs: classe →
+  // notas de escolha (Selecionar) → notas de opção (Somar Papel/Chamada). É a
+  // fonte das barras de subclasse (sem esperar a projeção — ela só volta
+  // depois do BFS das regras, e era isso que "demorava" ao clicar) e do
+  // FILTRO POR PAPEL (variantesDePapel: os totais vêm das regras).
   const idDe = (alvo: string) => docIdOf(catalog, `[[${alvo}]]`)
   const escolhaIds = useMemo(
     () =>
@@ -302,7 +280,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     [classIds, classDocs, catalog],
   )
   const escolhaDocs = useDocs(escolhaIds)
-  const opcaoFiltroIds = useMemo(
+  const opcaoIds = useMemo(
     () =>
       escolhaIds
         .flatMap((id) => opcoesSelecionar(regrasDe(escolhaDocs?.get(id))).map(idDe))
@@ -310,10 +288,10 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [escolhaIds, escolhaDocs, catalog],
   )
-  const opcaoFiltroDocs = useDocs(opcaoFiltroIds)
-  const docOpcaoFiltro = (alvo: string): VaultDoc | undefined => {
+  const opcaoDocs = useDocs(opcaoIds)
+  const docOpcao = (alvo: string): VaultDoc | undefined => {
     const id = idDe(alvo)
-    return id ? opcaoFiltroDocs?.get(id) : undefined
+    return id ? opcaoDocs?.get(id) : undefined
   }
   /** Escolhas de nível 1 da classe com o que cada opção SOMA de papel. */
   const escolhasDaClasse = (doc: VaultDoc | undefined): EscolhaPapel[] =>
@@ -325,18 +303,43 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
         if (!alvos.length) return null
         return {
           parent: d?.basename ?? alvo,
-          opcoes: alvos.map((a) => ({ alvo: a, soma: somaPapeis(regrasDe(docOpcaoFiltro(a))) })),
+          opcoes: alvos.map((a) => ({ alvo: a, soma: somaPapeis(regrasDe(docOpcao(a))) })),
         }
       })
       .filter((e): e is EscolhaPapel => e !== null)
   const sintoniaTargets = (rules?.sintonias ?? []).map((o) => wikiTarget(o.value))
+  /** Aliases de Compor da opção (highlight da possibilidade atual). */
+  const textosDe = (alvo: string): string[] => [
+    shortSubclassName(alvo),
+    ...aliasesDeCompose(regrasDe(docOpcao(alvo))),
+  ]
 
   type Item = { value: string; label: string; id: string | null }
-  type Entrada = ReturnType<typeof entradasPorPapel>[number]
+
+  /** ESCOLHER: classe (+ picks de subclasse) numa escrita só. Classe nova →
+   *  resets centrais + Classe + linhas frescas dos picks; mesma classe → só
+   *  troca as linhas das escolhas tocadas. Abrir os DETALHES fica em
+   *  transição pra marcação da barra pintar antes (2026-09-24). */
+  const escolher = (item: Item, novos: Pick[], abrir?: string) => {
+    if (wikiTarget(item.value) !== classeAtual) {
+      const pares: Array<[string, unknown]> = [...pairsOnClasseChange(), ['Classe', item.value]]
+      if (novos.length) pares.push(['Habilidades.Lista', linhasComPicks([], novos)])
+      model.setMany(pares)
+    } else if (novos.length) {
+      model.set('Habilidades.Lista', linhasComPicks(linhasHabilidades(fm), novos))
+    }
+    const id = abrir ? idDe(abrir) : docIdOf(catalog, item.value)
+    if (id) startTransition(() => detail?.open({ kind: 'doc', id }))
+  }
+
+  // FILTRO POR PAPEL (2026-09-23): tocar num card de PAPEL NO GRUPO lista só
+  // as classes que podem ter ≥★ daquele papel, agrupadas por quantidade de
+  // estrelas e mostrando com QUAL combinação de subclasse/sintonia chegam lá.
+  const [filtroPapel, setFiltroPapel] = useState<RoleName | null>(null)
   /** Grupos do filtro: estrelas (desc) → [classe + a entrada dela]. */
-  const gruposFiltro = useMemo((): [number, { item: Item; entrada: Entrada }[]][] | null => {
+  const gruposFiltro = useMemo((): [number, { item: Item; entrada: EntradaPapel }[]][] | null => {
     if (!filtroPapel) return null
-    const porEstrelas = new Map<number, { item: Item; entrada: Entrada }[]>()
+    const porEstrelas = new Map<number, { item: Item; entrada: EntradaPapel }[]>()
     for (const item of grupos.flatMap(([, itens]) => itens)) {
       const doc = item.id ? classDocs?.get(item.id) : undefined
       const regras = regrasDe(doc)
@@ -353,7 +356,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     }
     return [...porEstrelas.entries()].sort((a, b) => b[0] - a[0])
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtroPapel, grupos, classDocs, escolhaDocs, opcaoFiltroDocs, rules?.sintonias])
+  }, [filtroPapel, grupos, classDocs, escolhaDocs, opcaoDocs, rules?.sintonias])
 
   const pendente = !classeCompleta(ctx)
 
@@ -367,35 +370,127 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     rowGap: 4,
   }
   const check = <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>
+  const cabecalho = (texto: string, nivel: number) => (
+    <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 * nivel }}>{reskinName(texto).toUpperCase()}</span>
+  )
 
-  /** Uma CLASSE da lista (barra + subclasses/sintonias indentadas). No modo
+  /** Barra de UMA OPÇÃO de subclasse: clicável em qualquer classe — escolhe a
+   *  classe junto (com os picks do caminho até aqui). ✓ quando é o pick
+   *  gravado da classe selecionada. */
+  const barraOpcao = (item: Item, on: boolean, caminho: Pick[], nivel: number) => {
+    const pick = caminho[caminho.length - 1]!
+    const d = docOpcao(pick.alvo)
+    const rotulo = reskinName(shortSubclassName(pick.alvo))
+    const optOn = on && picks.get(pick.parent) === pick.alvo
+    const c = chamadaDe(d)
+    return (
+      <Barra
+        key={pick.alvo}
+        on={optOn}
+        indent={nivel}
+        ariaLabel={rotulo}
+        onClick={() => escolher(item, caminho, pick.alvo)}
+      >
+        <span style={linhaNome}>
+          <span style={{ fontWeight: 600, marginRight: 'auto' }}>{rotulo}</span>
+          <MaisEstrelas nome={pick.alvo} roles={somaPapeis(regrasDe(d))} />
+          {c ? <WizChamada>{c}</WizChamada> : null}
+        </span>
+        {optOn ? check : null}
+      </Barra>
+    )
+  }
+
+  /** Barras INFORMATIVAS de sintonia sob a classe (#452 r9/r11): trocar é lá
+   *  no passo 1; a escolhida já marcada, com o "+★" que cada uma adiciona PRA
+   *  ESTA classe e a chamada por elemento (FM `Chamada_Sintonia`). */
+  const barrasSintonia = (doc: VaultDoc | undefined, alvos: string[], nivel: number) => {
+    const somaSintonia = somaPapeisPorSintonia(regrasDe(doc))
+    const opts = (rules?.sintonias ?? []).filter((opt) => alvos.includes(wikiTarget(opt.value)))
+    if (!opts.length || rules?.sintoniaRuleLocked) return null
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {cabecalho(reskinText('Sintonia'), nivel)}
+        {opts.map((opt) => {
+          const alvo = wikiTarget(opt.value)
+          const optOn = alvo === wikiTarget(str(fm['Sintonia']))
+          const ic = sintoniaEmojiDe(opt.value)
+          const c = chamadaSintoniaDe(doc, shortSintoniaName(alvo))
+          return (
+            <Barra key={opt.value} on={optOn} indent={nivel} ariaLabel={reskinName(opt.label)}>
+              <span style={linhaNome}>
+                <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
+                  {sintoniaDisplay(opt.value)}
+                </span>
+                <MaisEstrelas nome={opt.label} roles={somaSintonia.get(alvo) ?? {}} />
+                {c ? <WizChamada>{c}</WizChamada> : null}
+              </span>
+              {optOn ? check : null}
+            </Barra>
+          )
+        })}
+      </div>
+    )
+  }
+
+  /** ÁRVORE das combinações de uma entrada do filtro: as opções do nível
+   *  `depth` (cabeçalho da escolha uma vez), cada uma com a próxima escolha
+   *  ANINHADA embaixo (Bardo: Inspirador → Luta Artística) — só as
+   *  combinações que chegam à quantidade do grupo. As sintonias entram no
+   *  nível em que a combinação termina. */
+  const renderArvore = (
+    item: Item,
+    on: boolean,
+    doc: VaultDoc | undefined,
+    combos: ComboPapel[],
+    depth: number,
+    caminho: Pick[],
+  ): React.ReactNode => {
+    const niveis = niveisDeCombo(combos, depth)
+    const sint = sintoniasDoNivel(combos, depth)
+    return (
+      <>
+        {niveis.length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {cabecalho(niveis[0]!.parent, depth + 1)}
+            {niveis.map((n) => {
+              const pick = { parent: n.parent, alvo: n.alvo }
+              return (
+                <div key={n.alvo} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {barraOpcao(item, on, [...caminho, pick], depth + 1)}
+                  {renderArvore(item, on, doc, n.filhos, depth + 1, [...caminho, pick])}
+                </div>
+              )
+            })}
+          </div>
+        ) : null}
+        {sint.length ? barrasSintonia(doc, sint, depth + 1) : null}
+      </>
+    )
+  }
+
+  /** Uma CLASSE da lista (barra + o que fica indentado embaixo). No modo
    *  filtro a mesma classe pode aparecer em mais de um grupo — `chave` é
-   *  única por grupo, `entrada` restringe as opções/sintonias mostradas e
-   *  a faixa de possibilidades aparece em TODAS as barras. */
-  const renderClasse = (o: Item, chave: string, entrada: Entrada | null) => {
+   *  única por grupo, `entrada` traz as combinações daquele grupo e a faixa
+   *  de possibilidades aparece em TODAS as barras. */
+  const renderClasse = (o: Item, chave: string, entrada: EntradaPapel | null) => {
     const on = wikiTarget(o.value) === classeAtual
     const doc = o.id ? classDocs?.get(o.id) : undefined
     const builds = buildsDe(o.id)
     const img = creatureImageUrl(doc, assets, true)
-    // O que a CLASSE adiciona (+★, Somar Papel dos elementos dela).
     const somaClasse = somaPapeis(regrasDe(doc))
-    // Papéis definidos TAMBÉM pela sintonia (Condicional Sintonia no
-    // doc — Monge/Animista): o que cada sintonia adiciona pra ESTA
-    // classe (#452 r9).
     const somaSintonia = somaPapeisPorSintonia(regrasDe(doc))
-    // HIGHLIGHT da possibilidade mapeada pelas escolhas atuais: picks
-    // (com aliases de Compor) nas classes com subclasse; SINTONIA nas
-    // sem (Monge). Só na classe selecionada.
+    const escolhas = escolhasDaClasse(doc)
+    // HIGHLIGHT da possibilidade mapeada pelos picks atuais (com aliases de
+    // Compor) — ou pela SINTONIA nas classes sem escolha (Monge). Só na
+    // classe selecionada.
     const gruposHl: string[][] = on
-      ? escolhasAll.length
-        ? escolhasAll
-            .filter((c) => c.pick)
-            .map((c) => {
-              // o pick pode vir como wikilink/alias cru — casa a
-              // OPÇÃO correspondente e usa rótulo + aliases dela.
-              const optPicked = c.options.find((o) => wikiTarget(o.value) === wikiTarget(c.pick!))
-              return optPicked ? textosDe(optPicked.value, optPicked.label) : [c.pick!]
-            })
+      ? escolhas.length
+        ? escolhas
+            .map((e) => picks.get(e.parent))
+            .filter((alvo): alvo is string => !!alvo)
+            .map(textosDe)
         : sintoniaCurta
           ? [[sintoniaCurta]]
           : []
@@ -403,133 +498,36 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     const atuais = gruposHl.length ? indicesDoBuildAtual(builds, gruposHl) : []
     const chamada = chamadaDe(doc)
 
-    // SUBCLASSES indentadas. Sem filtro: só na classe selecionada, as
-    // escolhas da projeção (clicáveis). Com filtro: as opções que chegam à
-    // quantidade do grupo, em qualquer classe — informativas (tracejadas)
-    // na classe não selecionada; na selecionada, clicáveis quando a
-    // projeção tem a opção correspondente.
-    const subclasses = entrada
-      ? [...entrada.opcoesPorEscolha.entries()].map(([parent, alvos]) => (
-          <div key={parent} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>{reskinName(parent).toUpperCase()}</span>
-            {alvos.map((alvo) => {
-              const d = docOpcaoFiltro(alvo)
-              const rotulo = reskinName(shortSubclassName(alvo))
-              const escolha = on
-                ? escolhasAll.find((c) => c.options.some((opt) => wikiTarget(opt.value) === alvo))
-                : undefined
-              const opt = escolha?.options.find((opt) => wikiTarget(opt.value) === alvo)
-              const optOn = !!escolha && wikiTarget(escolha.pick ?? '') === alvo
-              const c = chamadaDe(d)
-              return (
-                <Barra
-                  key={alvo}
-                  on={optOn}
-                  indent
-                  ariaLabel={rotulo}
-                  onClick={
-                    escolha && opt
-                      ? () => {
-                          applySubclassPick(model, fm, escolha.parent, opt.value)
-                          const id = idDe(alvo)
-                          if (id) detail?.open({ kind: 'doc', id })
-                        }
-                      : undefined
-                  }
-                >
-                  <span style={linhaNome}>
-                    <span style={{ fontWeight: 600, marginRight: 'auto' }}>{rotulo}</span>
-                    <MaisEstrelas nome={alvo} roles={somaPapeis(regrasDe(d))} />
-                    {c ? <WizChamada>{c}</WizChamada> : null}
-                  </span>
-                  {optOn ? check : null}
-                </Barra>
-              )
-            })}
+    // Embaixo da classe. Sem filtro: só na selecionada — cada escolha com
+    // TODAS as opções (clicáveis) e, nas classes sem escolha que variam por
+    // sintonia, as barras de sintonia. Com filtro: em toda classe listada, a
+    // ÁRVORE das combinações do grupo + as escolhas que não somam papel
+    // (Círculo Druídico) com todas as opções.
+    const embaixo = entrada ? (
+      <>
+        {renderArvore(o, on, doc, entrada.combos, 0, [])}
+        {escolhasSemPapel(escolhas).map((e) => (
+          <div key={e.parent} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {cabecalho(e.parent, 1)}
+            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1))}
           </div>
-        ))
-      : on
-        ? escolhasAll.map((c) => (
-            <div key={c.choiceKey} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>
-                {reskinName(c.parent).toUpperCase()}
-              </span>
-              {c.options.map((opt) => {
-                const optOn = wikiTarget(opt.value) === wikiTarget(c.pick ?? '')
-                const optId = docIdOf(catalog, opt.value)
-                const d = optId ? opcaoDocs?.get(optId) : undefined
-                // #452 r4: a subclasse mostra o que ELA ADICIONA
-                // (Somar Papel da própria nota), não o total.
-                const optSoma = somaPapeis(regrasDe(d))
-                // chamada da OPÇÃO sempre visível: é aqui que se compara
-                // uma subclasse com a outra.
-                const cOpt = chamadaDe(d)
-                return (
-                  <Barra
-                    key={opt.value}
-                    on={optOn}
-                    indent
-                    ariaLabel={reskinName(opt.label)}
-                    onClick={() => {
-                      applySubclassPick(model, fm, c.parent, opt.value)
-                      const id = docIdOf(catalog, opt.value)
-                      if (id) detail?.open({ kind: 'doc', id })
-                    }}
-                  >
-                    <span style={linhaNome}>
-                      <span style={{ fontWeight: 600, marginRight: 'auto' }}>{reskinName(opt.label)}</span>
-                      <MaisEstrelas nome={opt.label} roles={optSoma} />
-                      {cOpt ? <WizChamada>{cOpt}</WizChamada> : null}
-                    </span>
-                    {optOn ? check : null}
-                  </Barra>
-                )
-              })}
-            </div>
-          ))
-        : null
-
-    // SINTONIA indentada (#452 r9/r11): classe cujos papéis também dependem
-    // da sintonia mostra as opções como barras INFORMATIVAS (não clicáveis —
-    // trocar é lá no passo 1), com a escolhida já marcada e o "+★" que cada
-    // uma adiciona PRA ESTA classe. Com filtro: só as sintonias que chegam à
-    // quantidade do grupo, em qualquer classe.
-    const sintoniasVisiveis = entrada
-      ? (rules?.sintonias ?? []).filter((opt) => entrada.sintonias.includes(wikiTarget(opt.value)))
-      : on && !escolhasAll.length
-        ? (rules?.sintonias ?? [])
-        : []
-    const sintonias =
-      somaSintonia.size > 0 && !rules?.sintoniaRuleLocked && sintoniasVisiveis.length ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>{reskinText('Sintonia').toUpperCase()}</span>
-          {sintoniasVisiveis.map((opt) => {
-            const optOn = wikiTarget(opt.value) === wikiTarget(str(fm['Sintonia']))
-            const soma = somaSintonia.get(wikiTarget(opt.value)) ?? {}
-            const ic = sintoniaEmojiDe(opt.value)
-            // como a classe joga NESTA sintonia — FM `Chamada_Sintonia` da
-            // classe, por elemento.
-            const c = chamadaSintoniaDe(doc, shortSintoniaName(wikiTarget(opt.value)))
-            return (
-              <Barra key={opt.value} on={optOn} indent ariaLabel={reskinName(opt.label)}>
-                <span style={linhaNome}>
-                  <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                    {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
-                    {sintoniaDisplay(opt.value)}
-                  </span>
-                  <MaisEstrelas nome={opt.label} roles={soma} />
-                  {c ? <WizChamada>{c}</WizChamada> : null}
-                </span>
-                {optOn ? check : null}
-              </Barra>
-            )
-          })}
-        </div>
-      ) : null
+        ))}
+      </>
+    ) : on ? (
+      <>
+        {escolhas.map((e) => (
+          <div key={e.parent} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {cabecalho(e.parent, 1)}
+            {e.opcoes.map((op) => barraOpcao(o, on, [{ parent: e.parent, alvo: op.alvo }], 1))}
+          </div>
+        ))}
+        {!escolhas.length && somaSintonia.size > 0 ? barrasSintonia(doc, sintoniaTargets, 1) : null}
+      </>
+    ) : null
 
     return (
       <div key={chave} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={reskinName(o.label)}>
+        <Barra on={on} onClick={() => escolher(o, [])} ariaLabel={reskinName(o.label)}>
           {img ? (
             <WizThumb img={img} imgFull={creatureImageUrl(doc, assets, false)} size={44} cover />
           ) : null}
@@ -551,8 +549,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
           </span>
           {on ? check : null}
         </Barra>
-        {subclasses}
-        {sintonias}
+        {embaixo}
       </div>
     )
   }

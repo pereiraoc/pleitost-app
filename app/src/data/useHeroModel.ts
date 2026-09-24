@@ -20,6 +20,7 @@ import {
   isLocalId,
   setLocalEntityExtras,
   setLocalEntityFm,
+  setLocalEntityFmMany,
   setLocalEntitySession,
   useLocalStoreVersion,
 } from './local-entities'
@@ -33,6 +34,9 @@ export interface HeroModel {
   extras: { armas: string[]; tesouros: string[] }
   /** Grava um path do FM NA HORA (abas editáveis — write-through). */
   set: (path: string, value: unknown) => void
+  /** Grava VÁRIOS paths de uma vez (uma escrita/notificação no store local;
+   *  na vault, um edit por path). Mesma semântica do `set`. */
+  setMany: (pairs: Array<[string, unknown]>) => void
   /** Grava um path do FM com autosave debounced (aba COMBATE — `Interativa.*`,
    *  semântica do autoSaveInterativa do plugin). A UI reflete na hora. */
   setVolatile: (path: string, value: unknown) => void
@@ -63,6 +67,7 @@ function useLocalHeroModel(heroId: string, localVersion: number): HeroModel {
       edits: { fm: {}, session, extras: extras as unknown as Record<string, unknown> },
       extras,
       set: (path, value) => setLocalEntityFm(heroId, path, value),
+      setMany: (pairs) => setLocalEntityFmMany(heroId, pairs),
       setVolatile: (path, value) => setLocalEntityFm(heroId, path, value),
       setSession: (path, value) => setLocalEntitySession(heroId, path, value),
       session: (path) => session[path],
@@ -83,6 +88,7 @@ function readonlyModel(doc: VaultDoc): HeroModel {
     edits: { fm: {}, session: {}, extras: {} },
     extras: { armas: [], tesouros: [] },
     set: noop,
+    setMany: noop,
     setVolatile: noop,
     setSession: noop,
     session: () => undefined,
@@ -117,6 +123,15 @@ export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
           origem,
           valorAntigo: getAtPath(fm, path),
         }),
+      setMany: (pairs) => {
+        for (const [path, value] of pairs) {
+          writeHeroEdit(heroId, 'fm', path, value, {
+            channel: 'imediato',
+            origem,
+            valorAntigo: getAtPath(fm, path),
+          })
+        }
+      },
       setVolatile: (path, value) =>
         writeHeroEdit(heroId, 'fm', path, value, {
           channel: 'autosave',

@@ -51,7 +51,7 @@ const CLASSES = ['Guerreiro', 'Caçador', 'Mago', 'Arcanista', 'Monge', 'Bardo']
   label: c,
 }))
 
-function renderPasso(fm: Record<string, unknown>) {
+function renderPasso(fm: Record<string, unknown>, model: Record<string, unknown> = { set: () => {}, setMany: () => {} }) {
   const ctx = {
     fm,
     rules: {
@@ -63,7 +63,7 @@ function renderPasso(fm: Record<string, unknown>) {
       subclassChoices: [],
     },
     doc: { id: 'local:Heroi:x', basename: 'Novo Herói' },
-    model: { set: () => {} },
+    model,
     refs: {},
   } as unknown as WizardCtx
   return render(
@@ -122,10 +122,54 @@ describe('filtro por papel no passo CLASSE', () => {
     expect(screen.getAllByText('LÍDERES')).toHaveLength(3)
     expect(screen.queryByText('Guerreiro')).toBeNull()
     // a entrada de ★★★ só com Inspirador e Arte Mágica
+    const [grupoTres, grupoDois] = screen.getAllByTestId('filtro-grupo')
+    expect(grupoTres!.textContent).toContain('Inspirador')
+    expect(grupoTres!.textContent).toContain('Arte Mágica')
+    expect(grupoTres!.textContent).not.toContain('Manipulador')
+    expect(grupoTres!.textContent).not.toContain('Luta Artística')
+    // ★★: a segunda escolha ANINHADA sob a primeira, só as combinações reais
+    // (Manipulador → Arte Mágica; Inspirador → Luta Artística) — nunca as
+    // quatro opções soltas como se qualquer par valesse
+    const opcoesDois = [...grupoDois!.querySelectorAll('[role="option"]')].map((el) => ({
+      nome: el.getAttribute('aria-label'),
+      nivel: Math.round(parseFloat((el as HTMLElement).style.marginLeft || '0') / 26),
+    }))
+    // (ordem = a do Selecionar da nota: Manipulador vem antes de Inspirador)
+    expect(opcoesDois).toEqual([
+      { nome: 'Bardo', nivel: 0 },
+      { nome: 'Manipulador', nivel: 1 },
+      { nome: 'Arte Mágica', nivel: 2 },
+      { nome: 'Inspirador', nivel: 1 },
+      { nome: 'Luta Artística', nivel: 2 },
+    ])
+  }, 30000)
+
+  it('tocar numa opção sob classe NÃO selecionada escolhe a classe junto, numa escrita só', async () => {
+    const chamadas: Array<[string, unknown]>[] = []
+    renderPasso(
+      { Classe: '[[Guerreiro]]', Sintonia: '[[Traço Elemental da Água|Água]]' },
+      { set: () => {}, setMany: (pares: Array<[string, unknown]>) => chamadas.push(pares) },
+    )
+    await waitFor(() => expect(screen.getByText('Bardo')).toBeTruthy(), { timeout: 15000 })
+    fireEvent.click(screen.getByRole('button', { name: /filtrar por líder/i }))
+    await waitFor(() => expect(screen.getAllByText('Bardo')).toHaveLength(3), { timeout: 15000 })
+    // ★★★ do Bardo: Inspirador → Arte Mágica (nível 2) — clicar na aninhada
+    // grava classe + os DOIS picks do caminho
     const grupoTres = screen.getAllByTestId('filtro-grupo')[0]!
-    expect(grupoTres.textContent).toContain('Inspirador')
-    expect(grupoTres.textContent).toContain('Arte Mágica')
-    expect(grupoTres.textContent).not.toContain('Manipulador')
-    expect(grupoTres.textContent).not.toContain('Luta Artística')
+    const arteMagica = [...grupoTres.querySelectorAll('[role="option"]')].find(
+      (el) => el.getAttribute('aria-label') === 'Arte Mágica',
+    ) as HTMLElement
+    expect(arteMagica.hasAttribute('disabled')).toBe(false)
+    fireEvent.click(arteMagica)
+    expect(chamadas).toHaveLength(1)
+    const pares = new Map(chamadas[0]!)
+    expect(pares.get('Classe')).toBe('[[Bardo]]')
+    expect(pares.get('Habilidades.Lista')).toEqual([
+      { '[[Método Artístico (Inspirador)]]': 'Escolha.[[Método Artístico]]' },
+      { '[[Estilo de Combate (Arte Mágica)]]': 'Escolha.[[Estilo de Combate]]' },
+    ])
+    // resets centrais vêm junto (Sintonia preservada — escolhida antes)
+    expect(pares.has('Magias')).toBe(true)
+    expect(pares.has('Sintonia')).toBe(false)
   }, 30000)
 })

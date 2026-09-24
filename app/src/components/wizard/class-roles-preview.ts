@@ -230,13 +230,14 @@ export function variantesDePapel({
   )
 }
 
+export type ComboPapel = { picks: VariantePapel['picks']; sintonia: string | null }
+
 export interface EntradaPapel {
   estrelas: number
-  /** parent → alvos das opções que participam de alguma combinação com
-   *  ESTA quantidade de estrelas (ordem de leitura das variantes). */
-  opcoesPorEscolha: Map<string, string[]>
-  /** Targets dos Traços que chegam a esta quantidade (classes por sintonia). */
-  sintonias: string[]
+  /** As COMBINAÇÕES (na ordem das variantes) que chegam a esta quantidade —
+   *  o render as aninha por nível de escolha (Bardo: Inspirador → Luta
+   *  Artística), nunca cruza opções de combinações diferentes. */
+  combos: ComboPapel[]
 }
 
 /** Agrupa as variantes pela quantidade de estrelas do papel (≥ 1), maior
@@ -249,15 +250,53 @@ export function entradasPorPapel(variantes: VariantePapel[], papel: RoleName): E
     if (n < 1) continue
     let e = porEstrelas.get(n)
     if (!e) {
-      e = { estrelas: n, opcoesPorEscolha: new Map(), sintonias: [] }
+      e = { estrelas: n, combos: [] }
       porEstrelas.set(n, e)
     }
-    for (const p of v.picks) {
-      const l = e.opcoesPorEscolha.get(p.parent) ?? []
-      if (!l.includes(p.alvo)) l.push(p.alvo)
-      e.opcoesPorEscolha.set(p.parent, l)
-    }
-    if (v.sintonia && !e.sintonias.includes(v.sintonia)) e.sintonias.push(v.sintonia)
+    e.combos.push({ picks: v.picks, sintonia: v.sintonia })
   }
   return [...porEstrelas.values()].sort((a, b) => b.estrelas - a.estrelas)
+}
+
+/** Escolhas em que NENHUMA opção soma papel (Círculo Druídico): ficam fora
+ *  das combinações, mas seguem sendo escolhas da classe — o render lista
+ *  todas as opções delas sob a classe. */
+export function escolhasSemPapel(escolhas: EscolhaPapel[]): EscolhaPapel[] {
+  return escolhas.filter((e) => !e.opcoes.some((o) => somaAlgum(o.soma)))
+}
+
+export interface NivelCombo {
+  parent: string
+  alvo: string
+  /** Combinações que passam por esta opção neste nível. */
+  filhos: ComboPapel[]
+}
+
+/** As opções distintas do nível `depth` das combinações (ordem de
+ *  aparição), cada uma com as combinações que continuam por ela. */
+export function niveisDeCombo(combos: ComboPapel[], depth: number): NivelCombo[] {
+  const out: NivelCombo[] = []
+  const idx = new Map<string, number>()
+  for (const c of combos) {
+    const p = c.picks[depth]
+    if (!p) continue
+    let i = idx.get(p.alvo)
+    if (i === undefined) {
+      i = out.length
+      idx.set(p.alvo, i)
+      out.push({ parent: p.parent, alvo: p.alvo, filhos: [] })
+    }
+    out[i]!.filhos.push(c)
+  }
+  return out
+}
+
+/** Sintonias (targets) das combinações que TERMINAM neste nível. */
+export function sintoniasDoNivel(combos: ComboPapel[], depth: number): string[] {
+  const out: string[] = []
+  for (const c of combos) {
+    if (c.picks.length !== depth || !c.sintonia) continue
+    if (!out.includes(c.sintonia)) out.push(c.sintonia)
+  }
+  return out
 }

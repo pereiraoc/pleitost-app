@@ -5,9 +5,15 @@ import { describe, expect, it } from 'vitest'
 import {
   complementaresNivel1,
   entradasPorPapel,
+  escolhasSemPapel,
+  niveisDeCombo,
   opcoesSelecionar,
+  sintoniasDoNivel,
   variantesDePapel,
 } from '../src/components/wizard/class-roles-preview'
+
+const alvos = (combos: { picks: { alvo: string }[] }[], depth: number) =>
+  niveisDeCombo(combos, depth).map((n) => n.alvo)
 
 const SINTONIAS = [
   'Traço Elemental da Água',
@@ -60,13 +66,12 @@ describe('variantesDePapel + entradasPorPapel', () => {
     expect(variantes).toHaveLength(3)
     const abatedor = entradasPorPapel(variantes, 'Abatedor')
     expect(abatedor.map((e) => e.estrelas)).toEqual([3, 1])
-    expect(abatedor[0]!.opcoesPorEscolha.get('Especialização em Arma')).toEqual([
+    expect(alvos(abatedor[0]!.combos, 0)).toEqual([
       'Especialização em Arma (Arcos)',
       'Especialização em Arma (Bestas)',
     ])
-    expect(abatedor[1]!.opcoesPorEscolha.get('Especialização em Arma')).toEqual([
-      'Especialização em Arma (Lâminas)',
-    ])
+    expect(niveisDeCombo(abatedor[0]!.combos, 0)[0]!.parent).toBe('Especialização em Arma')
+    expect(alvos(abatedor[1]!.combos, 0)).toEqual(['Especialização em Arma (Lâminas)'])
     expect(entradasPorPapel(variantes, 'Vanguarda').map((e) => e.estrelas)).toEqual([2])
     expect(entradasPorPapel(variantes, 'Líder')).toEqual([])
   })
@@ -96,45 +101,55 @@ describe('variantesDePapel + entradasPorPapel', () => {
     expect(variantes).toHaveLength(4)
     const lider = entradasPorPapel(variantes, 'Líder')
     expect(lider.map((e) => e.estrelas)).toEqual([3, 2, 1])
-    expect(lider[0]!.opcoesPorEscolha.get('Método Artístico')).toEqual(['Método Artístico (Inspirador)'])
-    expect(lider[0]!.opcoesPorEscolha.get('Estilo de Combate')).toEqual(['Estilo de Combate (Arte Mágica)'])
-    expect(lider[2]!.opcoesPorEscolha.get('Método Artístico')).toEqual(['Método Artístico (Manipulador)'])
+    // ★★★: só Inspirador → Arte Mágica
+    expect(alvos(lider[0]!.combos, 0)).toEqual(['Método Artístico (Inspirador)'])
+    expect(alvos(niveisDeCombo(lider[0]!.combos, 0)[0]!.filhos, 1)).toEqual(['Estilo de Combate (Arte Mágica)'])
+    // ★★: Inspirador → Luta Artística e Manipulador → Arte Mágica — nunca cruzado
+    const n2 = niveisDeCombo(lider[1]!.combos, 0)
+    expect(n2.map((n) => n.alvo)).toEqual(['Método Artístico (Inspirador)', 'Método Artístico (Manipulador)'])
+    expect(alvos(n2[0]!.filhos, 1)).toEqual(['Estilo de Combate (Luta Artística)'])
+    expect(alvos(n2[1]!.filhos, 1)).toEqual(['Estilo de Combate (Arte Mágica)'])
+    // ★: Manipulador → Luta Artística
+    expect(alvos(lider[2]!.combos, 0)).toEqual(['Método Artístico (Manipulador)'])
     // Controlador só com Manipulador (★), nos dois estilos
     const ctrl = entradasPorPapel(variantes, 'Controlador')
     expect(ctrl.map((e) => e.estrelas)).toEqual([1])
-    expect(ctrl[0]!.opcoesPorEscolha.get('Estilo de Combate')).toEqual([
+    expect(alvos(niveisDeCombo(ctrl[0]!.combos, 0)[0]!.filhos, 1)).toEqual([
       'Estilo de Combate (Arte Mágica)',
       'Estilo de Combate (Luta Artística)',
     ])
   })
 
-  it('escolha que não soma papel (Círculo Druídico) não multiplica variantes', () => {
+  it('Druida: o Círculo não soma papel (não multiplica, fica listado à parte); a Tradição decide', () => {
+    const escolhas = [
+      {
+        parent: 'Círculo Druídico',
+        opcoes: [
+          { alvo: 'Círculo do Sol (Fogo e Terra)', soma: {} },
+          { alvo: 'Círculo da Lua (Água e Vento)', soma: {} },
+        ],
+      },
+      {
+        parent: 'Tradição Druídica',
+        opcoes: [
+          { alvo: 'Tradição Druídica (Guardião)', soma: { Abatedor: 1 } },
+          { alvo: 'Tradição Druídica (Xamã)', soma: { Controlador: 1 } },
+        ],
+      },
+    ]
     const variantes = variantesDePapel({
       somaClasse: { Vanguarda: 1, Controlador: 1 },
       somaSintonia: new Map(),
-      escolhas: [
-        {
-          parent: 'Círculo Druídico',
-          opcoes: [
-            { alvo: 'Círculo do Sol (Fogo e Terra)', soma: {} },
-            { alvo: 'Círculo da Lua (Água e Vento)', soma: {} },
-          ],
-        },
-        {
-          parent: 'Tradição Druídica',
-          opcoes: [
-            { alvo: 'Tradição Druídica (Guardião)', soma: {} },
-            { alvo: 'Tradição Druídica (Xamã)', soma: {} },
-          ],
-        },
-      ],
+      escolhas,
       sintonias: SINTONIAS,
     })
-    expect(variantes).toHaveLength(1)
+    expect(variantes).toHaveLength(2)
     const ctrl = entradasPorPapel(variantes, 'Controlador')
-    expect(ctrl.map((e) => e.estrelas)).toEqual([1])
-    expect(ctrl[0]!.opcoesPorEscolha.size).toBe(0)
-    expect(entradasPorPapel(variantes, 'Abatedor')).toEqual([])
+    expect(ctrl.map((e) => e.estrelas)).toEqual([2, 1])
+    expect(alvos(ctrl[0]!.combos, 0)).toEqual(['Tradição Druídica (Xamã)'])
+    expect(alvos(ctrl[1]!.combos, 0)).toEqual(['Tradição Druídica (Guardião)'])
+    expect(alvos(entradasPorPapel(variantes, 'Abatedor')[0]!.combos, 0)).toEqual(['Tradição Druídica (Guardião)'])
+    expect(escolhasSemPapel(escolhas).map((e) => e.parent)).toEqual(['Círculo Druídico'])
   })
 
   it('Monge: a sintonia é a variante (Vanguarda ★★★ Fogo/Terra, ★★ Água/Vento)', () => {
@@ -152,8 +167,8 @@ describe('variantesDePapel + entradasPorPapel', () => {
     expect(variantes).toHaveLength(4)
     const vang = entradasPorPapel(variantes, 'Vanguarda')
     expect(vang.map((e) => e.estrelas)).toEqual([3, 2])
-    expect(vang[0]!.sintonias).toEqual(['Traço Elemental da Terra', 'Traço Elemental do Fogo'])
-    expect(vang[1]!.sintonias).toEqual(['Traço Elemental da Água', 'Traço Elemental do Vento'])
-    expect(entradasPorPapel(variantes, 'Controlador')[0]!.sintonias).toEqual(['Traço Elemental da Água'])
+    expect(sintoniasDoNivel(vang[0]!.combos, 0)).toEqual(['Traço Elemental da Terra', 'Traço Elemental do Fogo'])
+    expect(sintoniasDoNivel(vang[1]!.combos, 0)).toEqual(['Traço Elemental da Água', 'Traço Elemental do Vento'])
+    expect(sintoniasDoNivel(entradasPorPapel(variantes, 'Controlador')[0]!.combos, 0)).toEqual(['Traço Elemental da Água'])
   })
 })

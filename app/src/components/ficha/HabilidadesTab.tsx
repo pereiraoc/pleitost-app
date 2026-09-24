@@ -305,16 +305,22 @@ function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto:
  *  resolve-choices/serialize do plugin — o item picado vive na lista com
  *  source `Escolha.[[<parent>]]`). Compartilhado entre o ClasseNivelPanel e o
  *  wizard de criação (#452 passo 1.2). */
-export function applySubclassPick(
-  model: HeroModel,
-  fm: Record<string, unknown>,
+/** Tag de origem de uma linha de escolha de subclasse: `Escolha.[[Parent]]`
+ *  (ou `Escolha.N.[[Parent]]`). */
+export function subclassChoiceTag(parent: string): RegExp {
+  const esc = parent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
+}
+
+/** Núcleo PURO do pick: troca a linha da escolha `parent` pelo novo alvo (ou
+ *  acrescenta se não havia). Reusado pelo wizard (várias escolhas numa
+ *  escrita só). */
+export function withSubclassPick(
+  habRows: Record<string, unknown>[],
   parent: string,
   pickValue: string,
-): void {
-  if (!pickValue) return
-  const habRows = (fmPath(fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]
-  const esc = parent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
+): Record<string, unknown>[] {
+  const tagRx = subclassChoiceTag(parent)
   const newKey = `[[${wikiTarget(pickValue)}]]`
   let replaced = false
   const next = habRows.map((row) => {
@@ -328,7 +334,18 @@ export function applySubclassPick(
     return row
   })
   if (!replaced) next.push({ [newKey]: `Escolha.[[${parent}]]` })
-  model.set('Habilidades.Lista', next)
+  return next
+}
+
+export function applySubclassPick(
+  model: HeroModel,
+  fm: Record<string, unknown>,
+  parent: string,
+  pickValue: string,
+): void {
+  if (!pickValue) return
+  const habRows = (fmPath(fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]
+  model.set('Habilidades.Lista', withSubclassPick(habRows, parent, pickValue))
 }
 
 export function ClasseNivelPanel({
