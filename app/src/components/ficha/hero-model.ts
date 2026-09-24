@@ -346,6 +346,24 @@ export function usosFreqPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'
   return f && usosMax(f) !== null ? f : null
 }
 
+/** Máximo de usos de uma frequência textual ("4/dia" → 4, "1/10min" → 1;
+ *  sem número → 1) — espelho de parseFreqMax do plugin (usos.ts:240). */
+export function parseFreqMax(freq: string): number {
+  const m = freq.trim().match(/^(\d+)\s*\//)
+  return m ? parseInt(m[1]!, 10) : 1
+}
+
+/** USOS de uma habilidade/técnica (#152 do plugin, #570): `usos_nome::` +
+ *  `usos_freq::` inline no corpo (Herbalismo Prático → "Curativo Herbal"
+ *  4/dia). `passivo`/ausente → null. O rótulo vem sem as aspas do inline. */
+export function usosDeNota(doc: VaultDoc | undefined): { rotulo: string; freq: string; max: number } | null {
+  const f = doc?.inlineFields as Record<string, unknown> | undefined
+  const freq = str(f?.['usos_freq']).trim()
+  if (!freq || /^passivo$/i.test(freq)) return null
+  const rotulo = str(f?.['usos_nome']).trim().replace(/^["']|["']$/g, '') || (doc?.basename ?? '')
+  return { rotulo, freq, max: parseFreqMax(freq) }
+}
+
 /** cargas_<tier> N do doc (Focos/Implementos) — contador iniciado em 0. */
 export function cargasPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
   if (!doc) return null

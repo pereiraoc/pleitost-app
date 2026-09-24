@@ -16,10 +16,12 @@ import type { VaultDoc } from '../../data/types'
 import {
   cargasPorTier,
   fmPath,
+  listaEntries,
   num,
   parseItemAlias,
   str,
   tierLetter,
+  usosDeNota,
   usosFreqPorTier,
   usosPorTier,
 } from './hero-model'
@@ -36,6 +38,24 @@ export interface DescansoUsoItem {
   freq: string
   /** Focos/Implementos com cargas_<tier> — init 0, Dormir descarrega. */
   isCarga?: boolean
+  /** #570: habilidade/técnica com `usos_nome::` — rótulo do uso ("Curativo
+   *  Herbal"), a nota de origem e se ancora na Recuperação (Efeitos_Interativos
+   *  `visual.ancorar: Recuperacao`, como o plugin #205). */
+  label?: string
+  origem?: 'arma' | 'tesouro' | 'habilidade' | 'tecnica'
+  nota?: string
+  ancorado?: boolean
+}
+
+/** A nota ancora um efeito na Recuperação? (plugin #205: itens ancorados
+ *  aparecem na coluna de Recuperação, não na lista geral de usos). */
+function ancoraRecuperacao(doc: VaultDoc | undefined): boolean {
+  const blocos = (doc?.frontmatter as Record<string, unknown> | undefined)?.['Efeitos_Interativos']
+  if (!Array.isArray(blocos)) return false
+  return blocos.some((b) => {
+    const visual = (b as Record<string, unknown> | null)?.['visual'] as Record<string, unknown> | undefined
+    return str(visual?.['ancorar']) === 'Recuperacao'
+  })
 }
 
 /** Itens com uso controlado que o APP rastreia em Usos_Recursos — espelho de
@@ -77,6 +97,25 @@ export function buildDescansoUsoItems(
     const max = usosPorTier(tDoc, tier)
     if (!freq || !max) continue
     out.push({ key, max, freq })
+  }
+  // #570 (paridade #152 do plugin): habilidades e técnicas aprendidas com
+  // `usos_nome::`/`usos_freq::` — chave `hab:<nota>` / `tec:<nota>` (a mesma
+  // que o plugin grava; a Mera já tinha `tec:Herbalismo Prático: 3`).
+  const vistos = new Set<string>()
+  for (const [lista, origem] of [
+    [fmPath(fm, 'Habilidades', 'Lista'), 'habilidade'],
+    [fmPath(fm, 'Tecnicas', 'Lista'), 'tecnica'],
+  ] as const) {
+    for (const entry of listaEntries(lista)) {
+      const d = refDoc(entry.raw)
+      const uso = usosDeNota(d)
+      if (!uso) continue
+      const nota = d?.basename ?? entry.target
+      const key = `${origem === 'habilidade' ? 'hab' : 'tec'}:${nota}`
+      if (vistos.has(key)) continue
+      vistos.add(key)
+      out.push({ key, max: uso.max, freq: uso.freq, label: uso.rotulo, origem, nota, ancorado: ancoraRecuperacao(d) })
+    }
   }
   return out
 }

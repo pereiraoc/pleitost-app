@@ -637,6 +637,17 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
   const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
   const interState = interativa(fm)
+  // #570: usos de habilidades/técnicas aprendidas (Curativo Herbal 4/dia…) —
+  // contados em Interativa.Usos_Recursos com a chave que o plugin grava.
+  const usosHabTec = useMemo(
+    () =>
+      buildDescansoUsoItems(fm, refs.refDoc).filter(
+        (it) => it.origem === 'habilidade' || it.origem === 'tecnica',
+      ),
+    [fm, refs],
+  )
+  const setUsoHab = (key: string, next: number) =>
+    model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
   const [pop, setPop] = useState<null | 'cond' | 'efeitos' | 'recup'>(null)
 
   // Delta da Interativa por key numérica (defesas/sentidos) — mesmas
@@ -1386,6 +1397,48 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                 </span>
               ))}
             </div>
+            {/* #570 (paridade #152/#205 do plugin): USOS de habilidades e
+                técnicas (`usos_nome::`/`usos_freq::` — Curativo Herbal 4/dia),
+                contados em Interativa.Usos_Recursos[`tec:`/`hab:`] como o
+                plugin grava; Descansar/Dormir restauram pelo sufixo da freq. */}
+            {usosHabTec.length ? (
+              <div>
+                <div
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: 9.5,
+                    letterSpacing: '.14em',
+                    color: 'var(--muted)',
+                    marginBottom: 9,
+                  }}
+                >
+                  USOS DE HABILIDADES E TÉCNICAS
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {usosHabTec.map((it) => {
+                    const cur = interState.usos[it.key] !== undefined ? num(interState.usos[it.key]) : it.max
+                    return (
+                      <div
+                        key={it.key}
+                        data-uso={it.key}
+                        style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}
+                      >
+                        <ItemHover doc={refs.refDoc(`[[${it.nota}]]`)} fullBody>
+                          <span style={{ fontWeight: 600, fontSize: 13 }}>{reskinName(it.label ?? it.nota ?? it.key)}</span>
+                        </ItemHover>
+                        <span style={{ fontSize: 11, color: 'var(--muted)' }}>{reskinName(it.nota ?? '')}</span>
+                        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--muted)', marginLeft: 'auto' }}>
+                          {it.freq}
+                        </span>
+                        <span data-dots="">
+                          <UsoDots cur={cur} max={it.max} onToggle={(next) => setUsoHab(it.key, next)} />
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ) : null}
             <div>
               <div
                 style={{
