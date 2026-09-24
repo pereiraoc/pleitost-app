@@ -172,6 +172,17 @@ export function opcoesSelecionar(ruleElements: unknown): string[] {
   return []
 }
 
+/** A nota é uma ESCOLHA DE SUBCLASSE? Espelho do `isSubclass` da projeção
+ *  (projection.ts): nota-pai com `subcategoria: Subclasse` E um Selecionar de
+ *  Habilidades.Lista. Uma habilidade de nível 1 com Selecionar mas sem a
+ *  subcategoria (Magias Anima → Essências) NÃO é subclasse (report
+ *  2026-09-24: o Animista listava todas as Essências). */
+export function ehEscolhaDeSubclasse(fm: Record<string, unknown> | undefined): boolean {
+  if (!fm) return false
+  const sub = String(fm['subcategoria'] ?? '').trim()
+  return sub === 'Subclasse' && opcoesSelecionar(fm['Elementos_de_Regra']).length > 0
+}
+
 export interface OpcaoPapel {
   alvo: string
   soma: Soma

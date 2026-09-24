@@ -46,7 +46,7 @@ const SINTONIAS = [
   { value: '[[Traço Elemental do Fogo|Fogo]]', label: 'Fogo' },
   { value: '[[Traço Elemental do Vento|Vento]]', label: 'Vento' },
 ]
-const CLASSES = ['Guerreiro', 'Caçador', 'Mago', 'Arcanista', 'Monge', 'Bardo'].map((c) => ({
+const CLASSES = ['Guerreiro', 'Caçador', 'Mago', 'Arcanista', 'Monge', 'Bardo', 'Animista'].map((c) => ({
   value: `[[${c}]]`,
   label: c,
 }))
@@ -76,6 +76,25 @@ function renderPasso(fm: Record<string, unknown>, model: Record<string, unknown>
     </CatalogProvider>,
   )
 }
+
+describe('Animista: variantes por SINTONIA, nunca as Essências (report 2026-09-24)', () => {
+  it('selecionado sem filtro: barras das 4 sintonias e nenhuma Essência', async () => {
+    renderPasso({ Classe: '[[Animista]]', Sintonia: '[[Traço Elemental do Fogo|Fogo]]' })
+    await waitFor(() => expect(screen.getAllByText(/controle e proteção/)).toHaveLength(2), { timeout: 15000 })
+    expect(screen.getAllByText(/destruição e alcance/)).toHaveLength(2)
+    // Magias Anima tem um Selecionar de Essências (não é subclasse) — fora
+    expect(screen.queryByText(/Essência/)).toBeNull()
+    expect(screen.queryByText('MAGIAS ANIMA')).toBeNull()
+  }, 30000)
+
+  it('filtro CONTROLADOR: Animista ★★ com as quatro sintonias, sem Essências', async () => {
+    renderPasso({ Classe: '', Sintonia: '' })
+    await waitFor(() => expect(screen.getByText('Animista')).toBeTruthy(), { timeout: 15000 })
+    fireEvent.click(screen.getByRole('button', { name: /filtrar por controlador/i }))
+    await waitFor(() => expect(screen.getAllByText(/controle e proteção/).length).toBe(2), { timeout: 15000 })
+    expect(screen.queryByText(/Essência/)).toBeNull()
+  }, 30000)
+})
 
 describe('filtro por papel no passo CLASSE', () => {
   it('ABATEDOR: grupos ★★★/★★/★, Guerreiro em dois grupos, Arcanista some; toque de novo desfaz', async () => {

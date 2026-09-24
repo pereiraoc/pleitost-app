@@ -4,6 +4,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   complementaresNivel1,
+  ehEscolhaDeSubclasse,
   entradasPorPapel,
   escolhasSemPapel,
   niveisDeCombo,
@@ -34,6 +35,22 @@ describe('parse das escolhas de nível 1', () => {
       ]),
     ).toEqual(['Evolução Básica', 'Escola Arcana'])
     expect(complementaresNivel1(undefined)).toEqual([])
+  })
+
+  it('ehEscolhaDeSubclasse: só nota-pai com subcategoria Subclasse E Selecionar (espelho do isSubclass da projeção)', () => {
+    const sel = ['Complementar Habilidades.Lista Selecionar ([[Escola Arcana (Estudos do Vazio)]], [[Escola Arcana (Aplicações da Luz)]])']
+    expect(ehEscolhaDeSubclasse({ subcategoria: 'Subclasse', Elementos_de_Regra: sel })).toBe(true)
+    // Magias Anima: Selecionar de Essências (condicional por sintonia) SEM subcategoria Subclasse
+    expect(
+      ehEscolhaDeSubclasse({
+        subcategoria: null,
+        Elementos_de_Regra: [
+          'Condicional Sintonia,[[Traço Elemental do Fogo]] Escolha_Habilidades "Essência Elemental Adepta" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]])',
+        ],
+      }),
+    ).toBe(false)
+    expect(ehEscolhaDeSubclasse({ subcategoria: 'Subclasse', Elementos_de_Regra: ['Somar Papel.Lider 1'] })).toBe(false)
+    expect(ehEscolhaDeSubclasse(undefined)).toBe(false)
   })
 
   it('opcoesSelecionar: alvos do Selecionar (…) — [] quando a nota não é escolha', () => {

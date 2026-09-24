@@ -30,6 +30,7 @@ import {
   aliasesDeCompose,
   buildsDoCorpo,
   complementaresNivel1,
+  ehEscolhaDeSubclasse,
   entradasPorPapel,
   escolhasSemPapel,
   indicesDoBuildAtual,
@@ -283,7 +284,11 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   const opcaoIds = useMemo(
     () =>
       escolhaIds
-        .flatMap((id) => opcoesSelecionar(regrasDe(escolhaDocs?.get(id))).map(idDe))
+        .flatMap((id) => {
+          const d = escolhaDocs?.get(id)
+          if (!ehEscolhaDeSubclasse(d?.frontmatter as Record<string, unknown> | undefined)) return []
+          return opcoesSelecionar(regrasDe(d)).map(idDe)
+        })
         .filter((x): x is string => !!x),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [escolhaIds, escolhaDocs, catalog],
@@ -293,12 +298,15 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
     const id = idDe(alvo)
     return id ? opcaoDocs?.get(id) : undefined
   }
-  /** Escolhas de nível 1 da classe com o que cada opção SOMA de papel. */
+  /** Escolhas de SUBCLASSE de nível 1 da classe (nota-pai `subcategoria:
+   *  Subclasse` com Selecionar — mesmo critério do isSubclass da projeção)
+   *  com o que cada opção SOMA de papel. */
   const escolhasDaClasse = (doc: VaultDoc | undefined): EscolhaPapel[] =>
     complementaresNivel1(regrasDe(doc))
       .map((alvo) => {
         const id = idDe(alvo)
         const d = id ? escolhaDocs?.get(id) : undefined
+        if (!ehEscolhaDeSubclasse(d?.frontmatter as Record<string, unknown> | undefined)) return null
         const alvos = opcoesSelecionar(regrasDe(d))
         if (!alvos.length) return null
         return {
