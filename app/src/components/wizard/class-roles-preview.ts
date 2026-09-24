@@ -129,3 +129,135 @@ export function aliasesDeCompose(ruleElements: unknown): string[] {
 
 
 
+
+// ---------------------------------------------------------------------------
+// FILTRO POR PAPEL (2026-09-23): "quais classes podem ter ao menos ★ deste
+// papel, e com qual subclasse/sintonia". Os TOTAIS por combinação vêm das
+// REGRAS — `Somar Papel` da classe + da opção de cada escolha de nível 1 +
+// `Condicional Sintonia` da classe (Monge/Animista) — a mesma soma que o
+// cartão PAPEL NO GRUPO faz sobre o FM derivado depois das escolhas reais.
+// (O bloco class-roles segue sendo só a FAIXA de possibilidades exibida.)
+
+type Soma = Partial<Record<RoleName, number>>
+
+const WIKI_RE = /\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g
+const alvosDe = (texto: string): string[] => {
+  const out: string[] = []
+  for (const m of texto.matchAll(WIKI_RE)) out.push(m[1]!.trim())
+  return out
+}
+
+/** Alvos dos `Nivel 1 Complementar Habilidades.Lista [[X]]` de uma CLASSE —
+ *  candidatos a escolha de subclasse (a nota-alvo diz se é, via Selecionar). */
+export function complementaresNivel1(ruleElements: unknown): string[] {
+  const lista = Array.isArray(ruleElements) ? ruleElements : []
+  const out: string[] = []
+  for (const el of lista) {
+    const m = /^\s*Nivel\s+1\s+Complementar\s+Habilidades\.Lista\s+(\[\[[^\]]+\]\])\s*$/i.exec(String(el))
+    if (m) out.push(...alvosDe(m[1]!))
+  }
+  return out
+}
+
+/** Opções de uma nota de ESCOLHA (`Complementar Habilidades.Lista Selecionar
+ *  ([[A]], [[B]])`). Vazio = a nota não é escolha. */
+export function opcoesSelecionar(ruleElements: unknown): string[] {
+  const lista = Array.isArray(ruleElements) ? ruleElements : []
+  for (const el of lista) {
+    const texto = String(el)
+    const i = texto.search(/Complementar\s+Habilidades\.Lista\s+Selecionar/i)
+    if (i === -1) continue
+    return alvosDe(texto.slice(i))
+  }
+  return []
+}
+
+export interface OpcaoPapel {
+  alvo: string
+  soma: Soma
+}
+export interface EscolhaPapel {
+  /** Basename da nota de escolha (rótulo da seção — "Escola Arcana"). */
+  parent: string
+  opcoes: OpcaoPapel[]
+}
+export interface VariantePapel {
+  picks: { parent: string; alvo: string }[]
+  /** Target do Traço quando a classe varia por sintonia; null senão. */
+  sintonia: string | null
+  total: Soma
+}
+
+const somar = (a: Soma, b: Soma): Soma => {
+  const out: Soma = { ...a }
+  for (const [k, v] of Object.entries(b) as [RoleName, number][]) out[k] = (out[k] ?? 0) + v
+  return out
+}
+const somaAlgum = (s: Soma) => Object.values(s).some((v) => (v ?? 0) > 0)
+
+/** Todas as COMBINAÇÕES de papéis que uma classe pode ter: produto das
+ *  escolhas que somam papel (escolha em que nenhuma opção soma — Círculo
+ *  Druídico — não multiplica) × sintonias (só quando a classe tem
+ *  condicionais de sintonia). */
+export function variantesDePapel({
+  somaClasse,
+  somaSintonia,
+  escolhas,
+  sintonias,
+}: {
+  somaClasse: Soma
+  somaSintonia: Map<string, Soma>
+  escolhas: EscolhaPapel[]
+  sintonias: string[]
+}): VariantePapel[] {
+  const relevantes = escolhas.filter((e) => e.opcoes.some((o) => somaAlgum(o.soma)))
+  let combos: { picks: VariantePapel['picks']; total: Soma }[] = [{ picks: [], total: { ...somaClasse } }]
+  for (const e of relevantes) {
+    combos = combos.flatMap((c) =>
+      e.opcoes.map((o) => ({
+        picks: [...c.picks, { parent: e.parent, alvo: o.alvo }],
+        total: somar(c.total, o.soma),
+      })),
+    )
+  }
+  if (somaSintonia.size === 0) return combos.map((c) => ({ ...c, sintonia: null }))
+  return combos.flatMap((c) =>
+    sintonias.map((s) => ({
+      picks: c.picks,
+      sintonia: s,
+      total: somar(c.total, somaSintonia.get(s) ?? {}),
+    })),
+  )
+}
+
+export interface EntradaPapel {
+  estrelas: number
+  /** parent → alvos das opções que participam de alguma combinação com
+   *  ESTA quantidade de estrelas (ordem de leitura das variantes). */
+  opcoesPorEscolha: Map<string, string[]>
+  /** Targets dos Traços que chegam a esta quantidade (classes por sintonia). */
+  sintonias: string[]
+}
+
+/** Agrupa as variantes pela quantidade de estrelas do papel (≥ 1), maior
+ *  primeiro — uma classe pode render várias entradas (Guerreiro ★★★ com
+ *  Arcos/Bestas e ★ com o resto). */
+export function entradasPorPapel(variantes: VariantePapel[], papel: RoleName): EntradaPapel[] {
+  const porEstrelas = new Map<number, EntradaPapel>()
+  for (const v of variantes) {
+    const n = v.total[papel] ?? 0
+    if (n < 1) continue
+    let e = porEstrelas.get(n)
+    if (!e) {
+      e = { estrelas: n, opcoesPorEscolha: new Map(), sintonias: [] }
+      porEstrelas.set(n, e)
+    }
+    for (const p of v.picks) {
+      const l = e.opcoesPorEscolha.get(p.parent) ?? []
+      if (!l.includes(p.alvo)) l.push(p.alvo)
+      e.opcoesPorEscolha.set(p.parent, l)
+    }
+    if (v.sintonia && !e.sintonias.includes(v.sintonia)) e.sintonias.push(v.sintonia)
+  }
+  return [...porEstrelas.values()].sort((a, b) => b.estrelas - a.estrelas)
+}
