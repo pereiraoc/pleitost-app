@@ -34,7 +34,9 @@ import {
   somaPapeis,
   somaPapeisPorSintonia,
 } from '../class-roles-preview'
-import { docIdOf, WizSecao, WizThumb, wizTitulo } from '../bits'
+import { docIdOf, WizChamada, WizSecao, WizThumb, wizTitulo } from '../bits'
+import { chamadaDe, chamadaSintoniaDe } from '../chamada'
+import { shortSintoniaName } from '../../../rules/projection'
 import type { WizardCtx } from '../steps'
 import type { Build } from '../../../markdown/class-roles/parse'
 
@@ -350,6 +352,10 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                           <MaisEstrelas nome={o.label} roles={somaClasse} />
                         </>
                       ) : null}
+                      {/* CHAMADA (2026-09-23): o resumo curto da classe, discreto,
+                          só na classe SELECIONADA — FM `Chamada` da nota (ou o
+                          override do mundo), ver wizard/chamada.ts. */}
+                      {on && chamadaDe(doc) ? <WizChamada>{chamadaDe(doc)}</WizChamada> : null}
                     </span>
                     {on ? <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span> : null}
                   </Barra>
@@ -386,6 +392,12 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto' }}>{reskinName(opt.label)}</span>
                                   <MaisEstrelas nome={opt.label} roles={optSoma} />
+                                  {/* chamada da OPÇÃO sempre visível: é aqui que
+                                      se compara uma subclasse com a outra. */}
+                                  {(() => {
+                                    const c = chamadaDe(optId ? opcaoDocs?.get(optId) : undefined)
+                                    return c ? <WizChamada>{c}</WizChamada> : null
+                                  })()}
                                 </span>
                                 {optOn ? (
                                   <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>
@@ -419,6 +431,12 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                                     {sintoniaDisplay(opt.value)}
                                   </span>
                                   <MaisEstrelas nome={opt.label} roles={soma} />
+                                  {/* como a classe joga NESTA sintonia — FM
+                                      `Chamada_Sintonia` da classe, por elemento. */}
+                                  {(() => {
+                                    const c = chamadaSintoniaDe(doc, shortSintoniaName(wikiTarget(opt.value)))
+                                    return c ? <WizChamada>{c}</WizChamada> : null
+                                  })()}
                                 </span>
                                 {optOn ? (
                                   <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>

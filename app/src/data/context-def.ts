@@ -35,6 +35,12 @@ export interface ContextoDef {
     /** Corpo do MUNDO por nota (#538): substitui o display do corpo canônico
      *  (Sistema/ segue byte-idêntico). Markdown; fences sobrevivem. */
     descricoes?: Record<string, string>
+    /** CHAMADAS do wizard (2026-09-23): resumo curto por nota (classe/opção
+     *  de subclasse) que substitui o FM `Chamada` canônico no mundo. */
+    chamadas?: Record<string, string>
+    /** Idem por ELEMENTO de sintonia (FM `Chamada_Sintonia` — Monge/Animista):
+     *  basename → { Água: …, Terra: …, Fogo: …, Vento: … }. */
+    chamadasSintonia?: Record<string, Record<string, string>>
   }
   /** Ajustes de REGRA do mundo (#544 — semente do C7). */
   regras?: {

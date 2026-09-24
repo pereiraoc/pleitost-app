@@ -288,3 +288,46 @@ test("transporte: parâmetros de tempo (cidade, sinuosidade, atraso, períodos, 
     /transporte\.cidade|atraso_por_qualidade|velocidade/,
   );
 });
+
+test("reskin.chamadas / chamadas_sintonia (resumo do wizard por mundo): validados como basenames", () => {
+  const reskin = {
+    notas: {},
+    notas_futuras: {},
+    termos: {},
+    excecoes: [],
+    chamadas: { "Poção de Cura": "Cura de balcão, tarja amarela." },
+    chamadas_sintonia: { "Espada Longa": { Água: "Fio frio.", Fogo: "Fio quente." } },
+  };
+  const art = compileContexto({
+    worldId: "poa-1987",
+    defs: [defPoa({ reskin }), defBase()],
+    basenames: BASENAMES,
+  });
+  assert.equal(art.reskin.chamadas["Poção de Cura"], "Cura de balcão, tarja amarela.");
+  assert.deepEqual(art.reskin.chamadasSintonia["Espada Longa"], { Água: "Fio frio.", Fogo: "Fio quente." });
+
+  // sem o bloco: mapas vazios (o app cai no FM canônico da nota)
+  const semBloco = compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES });
+  assert.deepEqual(semBloco.reskin.chamadas, {});
+  assert.deepEqual(semBloco.reskin.chamadasSintonia, {});
+
+  // basename inexistente quebra o extract (como descricoes/notas)
+  assert.throws(
+    () =>
+      compileContexto({
+        worldId: "poa-1987",
+        defs: [defPoa({ reskin: { ...reskin, chamadas: { Inexistente: "x" } } }), defBase()],
+        basenames: BASENAMES,
+      }),
+    /reskin\.chamadas: "Inexistente" não existe/,
+  );
+  assert.throws(
+    () =>
+      compileContexto({
+        worldId: "poa-1987",
+        defs: [defPoa({ reskin: { ...reskin, chamadas_sintonia: { Inexistente: { Água: "x" } } } }), defBase()],
+        basenames: BASENAMES,
+      }),
+    /reskin\.chamadas_sintonia: "Inexistente" não existe/,
+  );
+});

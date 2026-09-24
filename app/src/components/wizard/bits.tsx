@@ -130,11 +130,61 @@ export function ProfChip({ ic, nome, onClick }: { ic: string; nome: string; onCl
   )
 }
 
+/** Linha DISCRETA de chamada dentro de uma barra/card do wizard (o resumo
+ *  curto da classe/subclasse) — quebra pra linha própria dentro de um
+ *  flex-wrap (flexBasis 100%). Texto muted, menor que o nome. */
+export function WizChamada({ children }: { children: ReactNode }) {
+  return (
+    <span
+      data-wiz-chamada=""
+      style={{
+        display: 'block',
+        flexBasis: '100%',
+        fontSize: 12,
+        fontWeight: 400,
+        color: 'var(--muted)',
+        lineHeight: 1.45,
+        textWrap: 'pretty',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
+
+/** TAG pequena e neutra (tendência da sintonia): mono, sem accent — fica ao
+ *  lado das irmãs sem competir com o título do card. */
+export function WizTag({ children }: { children: ReactNode }) {
+  return (
+    <span
+      data-wiz-tag=""
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        fontFamily: 'var(--mono)',
+        fontSize: 10,
+        fontWeight: 700,
+        letterSpacing: '.06em',
+        padding: '2px 7px',
+        color: 'var(--muted)',
+        background: 'color-mix(in srgb,var(--muted) 9%,transparent)',
+        border: '1px solid color-mix(in srgb,var(--muted) 35%,var(--line2))',
+        clipPath: clip(4),
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
+
 export interface WizCardItem {
   id: string
   titulo: string
   /** Linha secundária (ex.: subtítulo/resumo curto). */
   sub?: string
+  /** Tags sempre visíveis sob o título (ex.: tendências da sintonia). */
+  tags?: string[]
   /** Emoji/ícone à esquerda. */
   ic?: string
   /** Imagem (thumb) à esquerda — tem precedência sobre `ic` (ex.: retrato da
@@ -202,6 +252,13 @@ export function WizCardLista({
               <span style={{ display: 'block', fontWeight: 700 }}>{it.titulo}</span>
               {it.sub ? (
                 <span style={{ display: 'block', fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>{it.sub}</span>
+              ) : null}
+              {it.tags?.length ? (
+                <span style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 5 }}>
+                  {it.tags.map((t) => (
+                    <WizTag key={t}>{t}</WizTag>
+                  ))}
+                </span>
               ) : null}
             </span>
             {it.badge ? (

@@ -129,6 +129,17 @@ export function reskinDescricao(basename: string): string | null {
   return ativo?.def?.reskin.descricoes?.[basename] ?? null
 }
 
+/** CHAMADA do mundo pra uma nota (wizard, 2026-09-23) — null = usa o FM
+ *  `Chamada` canônico (passado pela cascata de termos por quem exibe). */
+export function reskinChamada(basename: string): string | null {
+  return ativo?.def?.reskin.chamadas?.[basename] ?? null
+}
+
+/** Chamada do mundo por ELEMENTO de sintonia (FM `Chamada_Sintonia`). */
+export function reskinChamadaSintonia(basename: string, elemento: string): string | null {
+  return ativo?.def?.reskin.chamadasSintonia?.[basename]?.[elemento] ?? null
+}
+
 /** Ajustes de regra do mundo ativo (#544). */
 export function contextoRegras(): NonNullable<ContextoDef['regras']> {
   return ativo?.def?.regras ?? {}

@@ -131,6 +131,22 @@ export function renderContextoDoc(contexto, typeByBasename) {
       ["Nota", "Display"],
     ),
   );
+  out.push(
+    ...tabela(
+      "Chamadas do mundo (resumo do wizard substituído; FM Chamada intocado)",
+      Object.keys(c.reskin?.chamadas ?? {}).sort((a, b) => a.localeCompare(b, "pt-BR")).map((k) => [k, "chamada própria do mundo"]),
+      ["Nota", "Display"],
+    ),
+  );
+  out.push(
+    ...tabela(
+      "Chamadas por sintonia do mundo (FM Chamada_Sintonia intocado)",
+      Object.entries(c.reskin?.chamadas_sintonia ?? {})
+        .sort((a, b) => a[0].localeCompare(b[0], "pt-BR"))
+        .map(([k, v]) => [k, Object.keys(v ?? {}).join(", ")]),
+      ["Nota", "Elementos"],
+    ),
+  );
 
   // Ajustes de regra do mundo (#544)
   if (c.regras?.companheiro_animal) {

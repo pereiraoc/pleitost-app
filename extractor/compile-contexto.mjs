@@ -461,6 +461,34 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     descricoes[de] = texto;
   }
 
+  // CHAMADAS do wizard por mundo (2026-09-23): resumo curto de classe/opção
+  // de subclasse (`chamadas`) e por elemento de sintonia (`chamadas_sintonia`
+  // — Monge/Animista). Mesmo contrato do descricoes: basename validado, o FM
+  // `Chamada`/`Chamada_Sintonia` da vault segue intocado; ausente = o app usa
+  // o canônico passado pela cascata de termos.
+  const chamadas = {};
+  for (const [de, texto] of Object.entries(reskinIn.chamadas ?? {})) {
+    if (typeof texto !== "string" || texto.trim() === "") continue;
+    if (!basenames.has(de)) {
+      problems.push(`reskin.chamadas: "${de}" não existe como basename na vault`);
+      continue;
+    }
+    chamadas[de] = texto;
+  }
+  const chamadasSintonia = {};
+  for (const [de, porElemento] of Object.entries(reskinIn.chamadas_sintonia ?? {})) {
+    if (!isPlainObject(porElemento)) continue;
+    if (!basenames.has(de)) {
+      problems.push(`reskin.chamadas_sintonia: "${de}" não existe como basename na vault`);
+      continue;
+    }
+    const mapa = {};
+    for (const [elemento, texto] of Object.entries(porElemento)) {
+      if (typeof texto === "string" && texto.trim() !== "") mapa[elemento] = texto;
+    }
+    if (Object.keys(mapa).length > 0) chamadasSintonia[de] = mapa;
+  }
+
   // Ajustes de regra do mundo (#544 — semente do C7). Shape validado leve;
   // fantasia sem o bloco mantém o comportamento canônico.
   const regrasIn = isPlainObject(def.regras) ? def.regras : {};
@@ -494,7 +522,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     moeda: { simbolo: moeda.simbolo, nome: moeda.nome, fator },
     atlas: { raiz: atlas.raiz, mapa: atlas.mapa ?? null },
     pericias,
-    reskin: { notas, notasFuturas, termos, excecoes, descricoes },
+    reskin: { notas, notasFuturas, termos, excecoes, descricoes, chamadas, chamadasSintonia },
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
     ...(recursos ? { recursos } : {}),
     ...(transporte ? { transporte } : {}),

@@ -6,11 +6,14 @@
 // da ficha de grupo). SEM o pareamento de atributos (decisão do usuário:
 // aquilo é legado). Se uma REGRA define a Sintonia (sintoniaRuleLocked), o
 // passo vira informativo e o gate libera.
+import { useMemo } from 'react'
 import { sintoniaDisplay, str, wikiTarget } from '../../ficha/hero-model'
 import { reskinName, reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
+import { useDocs } from '../../../data/useDoc'
 import { sintoniaEmojiDe } from '../../../grupo/party'
 import { docIdOf, WizCardLista, WizSecao } from '../bits'
+import { tendenciasDe } from '../chamada'
 import type { WizardCtx } from '../steps'
 
 /** Lore de abertura do passo (texto do usuário, verbatim). */
@@ -32,6 +35,14 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
   const catalog = useCatalog()
   const atual = wikiTarget(str(fm['Sintonia']))
   const docIdDe = (wikilink: string) => docIdOf(catalog, wikilink)
+  // Docs dos Traços — as TENDÊNCIAS (FM `Tendencias`) viram tags sempre
+  // visíveis no card, pra comparar as sintonias sem clicar em cada uma.
+  const tracoIds = useMemo(
+    () => (rules?.sintonias ?? []).map((o) => docIdDe(o.value)).filter((x): x is string => !!x),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rules?.sintonias, catalog],
+  )
+  const tracoDocs = useDocs(tracoIds)
 
   if (rules?.sintoniaRuleLocked) {
     return (
@@ -73,6 +84,10 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
           titulo: sintoniaDisplay(o.value),
           // Emoji do ELEMENTO (registro central, o mesmo da ficha de grupo).
           ic: sintoniaEmojiDe(o.value) ?? undefined,
+          tags: (() => {
+            const id = docIdDe(o.value)
+            return tendenciasDe(id ? tracoDocs?.get(id) : undefined)
+          })(),
           detalheId: docIdDe(o.value),
         }))}
         selecionado={
