@@ -9,7 +9,7 @@
 // (img+svg); `getBoundingClientRect` dele já vem pós-transform, então o
 // hit-test é imune ao zoom/pan. `viewportRef` é a área que captura ponteiros +
 // roda. `containerRef` é o elemento que entra em tela cheia.
-import { useCallback, useEffect, useRef, useState, type RefObject } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 
 export interface MapView {
   scale: number
@@ -55,6 +55,60 @@ export interface UseMapView {
   toggleFullscreen: () => void
 }
 
+/** Geometria da viewport e da imagem BASE (sem transform), em px de cliente. */
+interface Geo {
+  vpLeft: number
+  vpTop: number
+  vpW: number
+  vpH: number
+  baseW: number
+  baseH: number
+  /** posição centrada do div (invariante ao pan) relativa à viewport */
+  layoutLeft: number
+  layoutTop: number
+}
+
+/** Escala que está PINTADA no elemento (o rAF pode estar um quadro atrás do
+ *  liveRef) — lida do transform computado/inline; fallback = `padrao`. */
+function escalaPintada(el: HTMLElement, padrao: number): number {
+  const t = (typeof getComputedStyle === 'function' ? getComputedStyle(el).transform : '') || el.style.transform || ''
+  const m = /matrix\(([^,]+),/.exec(t)
+  if (m) {
+    const a = Number(m[1])
+    return Number.isFinite(a) && a > 0 ? a : padrao
+  }
+  const sc = /scale\(([^)]+)\)/.exec(t)
+  if (sc) {
+    const a = Number(sc[1])
+    return Number.isFinite(a) && a > 0 ? a : padrao
+  }
+  return padrao
+}
+
+/** Restringe a translação pra o mapa NUNCA sair da viewport: quando a imagem
+ *  cobre um eixo, a borda não pode entrar; quando é menor, centraliza. */
+function clampComGeo(g: Geo, next: MapView): MapView {
+  const sw = next.scale * g.baseW
+  const sh = next.scale * g.baseH
+  let tx = next.tx
+  let ty = next.ty
+  if (sw >= g.vpW) {
+    const maxTx = -g.layoutLeft
+    const minTx = g.vpW - sw - g.layoutLeft
+    tx = Math.min(maxTx, Math.max(minTx, tx))
+  } else {
+    tx = (g.vpW - sw) / 2 - g.layoutLeft
+  }
+  if (sh >= g.vpH) {
+    const maxTy = -g.layoutTop
+    const minTy = g.vpH - sh - g.layoutTop
+    ty = Math.min(maxTy, Math.max(minTy, ty))
+  } else {
+    ty = (g.vpH - sh) / 2 - g.layoutTop
+  }
+  return { scale: next.scale, tx, ty }
+}
+
 function clampScale(s: number): number {
   return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, s))
 }
@@ -89,71 +143,149 @@ export function useMapView(): UseMapView {
    *  chegam sempre. Enquanto uma pinça de touch está ativa, o ramo de pinça
    *  por pointer é ignorado (senão aplicaria duas vezes onde os dois chegam). */
   const touchPinch = useRef<{ d: number; mx: number; my: number; view: MapView } | null>(null)
-  const viewRef = useRef<MapView>(IDENTITY)
-  viewRef.current = view
+  /** View AO VIVO (report "pinch lerdo", 2026-09-24): durante pan/pinça o
+   *  transform vai DIRETO no DOM (rAF) e o estado React — que re-renderiza
+   *  rótulos, bairros e pinos — só sincroniza a cada ~120 ms e no fim do
+   *  gesto. `liveRef` é sempre a view mais recente; `view` pode estar até
+   *  120 ms atrás durante um gesto. */
+  const liveRef = useRef<MapView>(IDENTITY)
+  const gestoRef = useRef(false)
+  const rafRef = useRef<number | null>(null)
+  const commitRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  /** Geometria medida UMA vez no início do gesto (base = sem transform):
+   *  evita getBoundingClientRect a cada movimento (layout forçado). */
+  const geoRef = useRef<Geo | null>(null)
 
   /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
    *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
    *  viewport, centraliza. Deriva o tamanho-base do rect ATUAL (mr/cur.scale) —
    *  independe do aspecto específico do mapa. `cur` = view pintada (o rect
    *  bate com ela); `next` = view proposta. */
-  const clampView = useCallback((cur: MapView, next: MapView): MapView => {
+  /** Mede a geometria base a partir do que está PINTADO agora (rect ÷ escala
+   *  pintada; a translação pintada é a do liveRef quando o rAF já rodou, senão
+   *  a anterior — por isso lê a escala do transform e a translação do rect). */
+  const medirGeo = useCallback((): Geo | null => {
     const vpEl = viewportElRef.current
     const mapEl = mapRef.current
-    if (!vpEl || !mapEl) return next
+    if (!vpEl || !mapEl) return null
     const vp = vpEl.getBoundingClientRect()
     const mr = mapEl.getBoundingClientRect()
-    if (!vp.width || !mr.width || !cur.scale) return next
-    const baseW = mr.width / cur.scale
-    const baseH = mr.height / cur.scale
-    const layoutLeft = mr.left - vp.left - cur.tx // posição centrada do div (invariante ao pan)
-    const layoutTop = mr.top - vp.top - cur.ty
-    const sw = next.scale * baseW
-    const sh = next.scale * baseH
-    let tx = next.tx
-    let ty = next.ty
-    if (sw >= vp.width) {
-      const maxTx = -layoutLeft
-      const minTx = vp.width - sw - layoutLeft
-      tx = Math.min(maxTx, Math.max(minTx, tx))
-    } else {
-      tx = (vp.width - sw) / 2 - layoutLeft
+    if (!vp.width || !mr.width) return null
+    const scale = escalaPintada(mapEl, liveRef.current.scale)
+    const baseW = mr.width / scale
+    const baseH = mr.height / scale
+    // translação pintada: o rect já a inclui; a centralização base é o resto.
+    const txPintado = liveRef.current.tx
+    const tyPintado = liveRef.current.ty
+    return {
+      vpLeft: vp.left,
+      vpTop: vp.top,
+      vpW: vp.width,
+      vpH: vp.height,
+      baseW,
+      baseH,
+      layoutLeft: mr.left - vp.left - txPintado,
+      layoutTop: mr.top - vp.top - tyPintado,
     }
-    if (sh >= vp.height) {
-      const maxTy = -layoutTop
-      const minTy = vp.height - sh - layoutTop
-      ty = Math.min(maxTy, Math.max(minTy, ty))
-    } else {
-      ty = (vp.height - sh) / 2 - layoutTop
-    }
-    return { scale: next.scale, tx, ty }
   }, [])
+
+  const clampView = useCallback(
+    (_cur: MapView, next: MapView): MapView => {
+      const g = geoRef.current ?? medirGeo()
+      return g ? clampComGeo(g, next) : next
+    },
+    [medirGeo],
+  )
+
+  /** Escreve o transform AO VIVO no DOM (rAF) e agenda o commit do React. */
+  const aplicarAoVivo = useCallback((next: MapView) => {
+    liveRef.current = next
+    gestoRef.current = true
+    if (rafRef.current === null && typeof requestAnimationFrame === 'function') {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null
+        const el = mapRef.current
+        if (!el) return
+        const v = liveRef.current
+        el.style.willChange = 'transform'
+        el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
+      })
+    }
+    if (commitRef.current === null) {
+      commitRef.current = setTimeout(() => {
+        commitRef.current = null
+        setView(liveRef.current)
+      }, 120)
+    }
+  }, [])
+
+  /** Fim do gesto: commit imediato do React e solta o will-change. */
+  const encerrarGesto = useCallback(() => {
+    if (commitRef.current !== null) {
+      clearTimeout(commitRef.current)
+      commitRef.current = null
+    }
+    gestoRef.current = false
+    geoRef.current = null
+    const el = mapRef.current
+    if (el) el.style.willChange = ''
+    setView(liveRef.current)
+  }, [])
+
+  // Depois de cada render num gesto vivo, o React pode ter escrito o transform
+  // COMMITADO (atrasado) — reaplica o vivo pra não dar salto pra trás.
+  useLayoutEffect(() => {
+    if (!gestoRef.current) return
+    const el = mapRef.current
+    if (!el) return
+    const v = liveRef.current
+    el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
+  })
+  useEffect(
+    () => () => {
+      if (rafRef.current !== null && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(rafRef.current)
+      if (commitRef.current !== null) clearTimeout(commitRef.current)
+    },
+    [],
+  )
 
   /** Zoom ancorado num ponto de cliente (roda/pinça/botões) — mesma conta de
    *  antes: leva a fração sob o âncora a permanecer sob ela. */
+  /** Commit direto (roda/botões/reset): live e React juntos. */
+  const commitView = useCallback((next: MapView) => {
+    liveRef.current = next
+    setView(next)
+  }, [])
+
   const zoomBy = useCallback(
     (factor: number, cx?: number, cy?: number) => {
-      setView((v) => {
-        const scale = clampScale(v.scale * factor)
-        if (scale === v.scale) return v
-        if (scale === ZOOM_MIN) return IDENTITY
-        const rect = mapRef.current?.getBoundingClientRect()
-        if (!rect || rect.width <= 0) return { ...v, scale }
-        const ax = cx ?? rect.left + rect.width / 2
-        const ay = cy ?? rect.top + rect.height / 2
-        const u = (ax - rect.left) / rect.width
-        const w = (ay - rect.top) / rect.height
-        const nextW = (rect.width / v.scale) * scale
-        const nextH = (rect.height / v.scale) * scale
-        const baseLeft = rect.left - v.tx
-        const baseTop = rect.top - v.ty
-        return clampView(v, { scale, tx: ax - u * nextW - baseLeft, ty: ay - w * nextH - baseTop })
-      })
+      const v = liveRef.current
+      const scale = clampScale(v.scale * factor)
+      if (scale === v.scale) return
+      if (scale === ZOOM_MIN) {
+        commitView(IDENTITY)
+        return
+      }
+      const rect = mapRef.current?.getBoundingClientRect()
+      if (!rect || rect.width <= 0) {
+        commitView({ ...v, scale })
+        return
+      }
+      const ax = cx ?? rect.left + rect.width / 2
+      const ay = cy ?? rect.top + rect.height / 2
+      const u = (ax - rect.left) / rect.width
+      const w = (ay - rect.top) / rect.height
+      const nextW = (rect.width / v.scale) * scale
+      const nextH = (rect.height / v.scale) * scale
+      const baseLeft = rect.left - v.tx
+      const baseTop = rect.top - v.ty
+      geoRef.current = null
+      commitView(clampView(v, { scale, tx: ax - u * nextW - baseLeft, ty: ay - w * nextH - baseTop }))
     },
-    [clampView],
+    [clampView, commitView],
   )
 
-  const resetView = useCallback(() => setView(IDENTITY), [])
+  const resetView = useCallback(() => commitView(IDENTITY), [commitView])
 
   /** Aplica a pinça: escala pela razão de distância a partir da view BASE,
    *  ancorada no ponto-médio (o âncora acompanha o pan dos dedos). A fração
@@ -164,25 +296,23 @@ export function useMapView(): UseMapView {
       const d = dist(a, b)
       if (base.d <= 0) return
       movedRef.current = true
-      const cur = viewRef.current
+      const cur = liveRef.current
       const scale = clampScale(base.view.scale * (d / base.d))
-      const rect = mapRef.current?.getBoundingClientRect()
-      if (rect && rect.width > 0) {
+      const g = geoRef.current ?? (geoRef.current = medirGeo())
+      if (g) {
         const mx = (a.x + b.x) / 2
         const my = (a.y + b.y) / 2
-        const baseLeft = rect.left - cur.tx
-        const baseTop = rect.top - cur.ty
-        const baseW = rect.width / cur.scale
-        const baseH = rect.height / cur.scale
+        const baseLeft = g.vpLeft + g.layoutLeft
+        const baseTop = g.vpTop + g.layoutTop
         // fração da imagem sob o ponto-médio INICIAL, medida na view base
-        const u = (base.mx - (baseLeft + base.view.tx)) / (baseW * base.view.scale)
-        const w = (base.my - (baseTop + base.view.ty)) / (baseH * base.view.scale)
-        setView(clampView(cur, { scale, tx: mx - u * baseW * scale - baseLeft, ty: my - w * baseH * scale - baseTop }))
+        const u = (base.mx - (baseLeft + base.view.tx)) / (g.baseW * base.view.scale)
+        const w = (base.my - (baseTop + base.view.ty)) / (g.baseH * base.view.scale)
+        aplicarAoVivo(clampComGeo(g, { scale, tx: mx - u * g.baseW * scale - baseLeft, ty: my - w * g.baseH * scale - baseTop }))
       } else {
-        setView((v) => clampView(v, { ...v, scale }))
+        aplicarAoVivo({ ...cur, scale })
       }
     },
-    [clampView],
+    [medirGeo, aplicarAoVivo],
   )
 
   const onTouchStart = useCallback((e: TouchEvent) => {
@@ -190,10 +320,11 @@ export function useMapView(): UseMapView {
     e.preventDefault()
     const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
     const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
-    touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: viewRef.current }
+    touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: liveRef.current }
+    if (!geoRef.current) geoRef.current = medirGeo()
     panBase.current = null
     movedRef.current = true
-  }, [])
+  }, [medirGeo])
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
       const base = touchPinch.current
@@ -212,17 +343,19 @@ export function useMapView(): UseMapView {
     if (e.touches.length >= 2) {
       const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
       const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
-      touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: viewRef.current }
+      touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: liveRef.current }
       return
     }
     touchPinch.current = null
     // o dedo que sobrou vira pan a partir de onde está (sem salto)
     if (e.touches.length === 1) {
       const t = e.touches[0]!
-      panBase.current = { x: t.clientX, y: t.clientY, tx: viewRef.current.tx, ty: viewRef.current.ty }
+      panBase.current = { x: t.clientX, y: t.clientY, tx: liveRef.current.tx, ty: liveRef.current.ty }
       for (const [id, p] of pointers.current) pointers.current.set(id, { ...p, x: t.clientX, y: t.clientY })
+    } else {
+      encerrarGesto()
     }
-  }, [])
+  }, [encerrarGesto])
 
   const onWheel = useCallback(
     (e: WheelEvent) => {
@@ -278,23 +411,28 @@ export function useMapView(): UseMapView {
     return { fx, fy }
   }, [])
 
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
-    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
-    movedRef.current = false
-    touchRef.current = e.pointerType === 'touch'
-    setDragging(true)
-    const pts = [...pointers.current.values()]
-    if (pts.length >= 2) {
-      // Início de pinça: baseline de distância/ponto-médio + view atual.
-      const a = pts[0]! // pts.length >= 2
-      const b = pts[1]!
-      pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
-      panBase.current = null
-    } else {
-      panBase.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty }
-    }
-  }, [view])
+  const onPointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+      movedRef.current = false
+      touchRef.current = e.pointerType === 'touch'
+      setDragging(true)
+      if (!geoRef.current) geoRef.current = medirGeo()
+      const view = liveRef.current
+      const pts = [...pointers.current.values()]
+      if (pts.length >= 2) {
+        // Início de pinça: baseline de distância/ponto-médio + view atual.
+        const a = pts[0]! // pts.length >= 2
+        const b = pts[1]!
+        pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
+        panBase.current = null
+      } else {
+        panBase.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty }
+      }
+    },
+    [medirGeo],
+  )
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!pointers.current.has(e.pointerId)) return
@@ -320,25 +458,30 @@ export function useMapView(): UseMapView {
     // penalizava tremida diagonal e ainda comia taps de ~10px).
     const slop = touchRef.current ? 12 : 3
     if (Math.hypot(dx, dy) > slop) movedRef.current = true
-    if (movedRef.current) setView((v) => clampView(v, { ...v, tx: start.tx + dx, ty: start.ty + dy }))
-  }, [clampView, aplicarPinca])
+    if (movedRef.current) aplicarAoVivo(clampView(liveRef.current, { ...liveRef.current, tx: start.tx + dx, ty: start.ty + dy }))
+  }, [clampView, aplicarPinca, aplicarAoVivo])
 
-  const onPointerUp = useCallback((e: React.PointerEvent) => {
-    pointers.current.delete(e.pointerId)
-    const pts = [...pointers.current.values()]
-    if (pts.length >= 2) {
-      const a = pts[0]! // pts.length >= 2
-      const b = pts[1]!
-      pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
-    } else if (pts.length === 1) {
-      pinchBase.current = null
-      panBase.current = { x: pts[0]!.x, y: pts[0]!.y, tx: view.tx, ty: view.ty }
-    } else {
-      pinchBase.current = null
-      panBase.current = null
-      setDragging(false)
-    }
-  }, [view])
+  const onPointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      pointers.current.delete(e.pointerId)
+      const view = liveRef.current
+      const pts = [...pointers.current.values()]
+      if (pts.length >= 2) {
+        const a = pts[0]! // pts.length >= 2
+        const b = pts[1]!
+        pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
+      } else if (pts.length === 1) {
+        pinchBase.current = null
+        panBase.current = { x: pts[0]!.x, y: pts[0]!.y, tx: view.tx, ty: view.ty }
+      } else {
+        pinchBase.current = null
+        panBase.current = null
+        setDragging(false)
+        if (gestoRef.current) encerrarGesto()
+      }
+    },
+    [encerrarGesto],
+  )
 
   const consumeMoved = useCallback(() => {
     const m = movedRef.current
