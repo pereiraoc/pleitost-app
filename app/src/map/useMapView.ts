@@ -10,6 +10,7 @@
 // hit-test é imune ao zoom/pan. `viewportRef` é a área que captura ponteiros +
 // roda. `containerRef` é o elemento que entra em tela cheia.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import { marcarSuperficieDeGesto } from '../components/layout/gesture-surface'
 
 export interface MapView {
   scale: number
@@ -384,6 +385,9 @@ export function useMapView(): UseMapView {
       }
       viewportElRef.current = el
       if (el) {
+        // #572: o viewport é dono dos próprios toques — o swipe dos drawers
+        // não pode armar num pan/pinça que começa aqui.
+        marcarSuperficieDeGesto(el)
         el.addEventListener('wheel', onWheel, { passive: false })
         // #572: pinça por touch nativo (non-passive pra bloquear o zoom da página)
         el.addEventListener('touchstart', onTouchStart, { passive: false })

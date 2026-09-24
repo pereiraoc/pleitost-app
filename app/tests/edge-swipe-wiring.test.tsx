@@ -127,4 +127,62 @@ describe('useEdgeSwipe (#259 wiring)', () => {
     pointer('pointerup', 90, 305)
     expect(spy.closeLeft).toHaveBeenCalledTimes(1)
   })
+
+  // #572 — pinça/pan no MAPA dentro do painel de detalhes fechava o painel: o
+  // gesto arma em qualquer pointerdown com drawer aberto e, na solta, um dedo
+  // que andou na horizontal (metade de toda pinça) vira "close-right". O mapa
+  // some debaixo do dedo e nenhum gesto seguinte chega nele.
+  describe('superfície de gesto (mapa) e multi-toque (#572)', () => {
+    /** Abre o drawer direito por swipe (estado real do Harness). */
+    function abrirDireita(spy: ReturnType<typeof makeSpy>) {
+      pointer('pointerdown', 386, 300)
+      pointer('pointerup', 250, 305)
+      expect(spy.openRight).toHaveBeenCalledTimes(1)
+    }
+    /** Dispara no ELEMENTO (borbulha até o document, como no browser). */
+    function pointerEm(el: Element, type: string, x: number, y: number, id = 1) {
+      const ev = new MouseEvent(type, { clientX: x, clientY: y, bubbles: true }) as unknown as {
+        pointerId: number
+        pointerType: string
+      }
+      ev.pointerId = id
+      ev.pointerType = 'touch'
+      act(() => {
+        el.dispatchEvent(ev as unknown as Event)
+      })
+    }
+
+    it('pan de um dedo que começa numa superfície de gesto NÃO fecha o drawer', () => {
+      const spy = makeSpy()
+      const { container } = render(
+        <>
+          <Harness spy={spy} />
+          <div data-gesture-surface="" />
+        </>,
+      )
+      abrirDireita(spy)
+      const mapa = container.querySelector('[data-gesture-surface]')!
+      pointerEm(mapa, 'pointerdown', 200, 300)
+      pointerEm(mapa, 'pointermove', 280, 302)
+      pointerEm(mapa, 'pointerup', 330, 305)
+      expect(spy.closeRight).not.toHaveBeenCalled()
+    })
+
+    it('segundo ponteiro (pinça) em qualquer lugar desarma o swipe', () => {
+      const spy = makeSpy()
+      render(<Harness spy={spy} />)
+      abrirDireita(spy)
+      pointer('pointerdown', 200, 300, { id: 1 })
+      pointer('pointerdown', 240, 300, { id: 2 })
+      // os dois dedos abrem: o ÚLTIMO a soltar anda 120 px pra direita (seria
+      // "close-right" se o gesto ainda estivesse armado)
+      pointer('pointerup', 80, 302, { id: 1 })
+      pointer('pointerup', 360, 302, { id: 2 })
+      expect(spy.closeRight).not.toHaveBeenCalled()
+      // e o gesto seguinte, de um dedo só, volta a funcionar normalmente
+      pointer('pointerdown', 200, 300, { id: 3 })
+      pointer('pointerup', 330, 305, { id: 3 })
+      expect(spy.closeRight).toHaveBeenCalledTimes(1)
+    })
+  })
 })

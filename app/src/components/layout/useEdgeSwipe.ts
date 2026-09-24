@@ -5,6 +5,7 @@
 // faz nada (as sidebars são colunas/collapse, não drawers).
 import { useEffect, useRef } from 'react'
 import { detectEdgeSwipe, HORIZONTAL_DOMINANCE, type DrawerState, type SwipePoint } from './edge-swipe'
+import { startsInGestureSurface } from './gesture-surface'
 
 /** Larguras de corte espelhadas do app.css (drawer off-canvas). */
 const LEFT_DRAWER_MAX = 819
@@ -55,15 +56,26 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
   useEffect(() => {
     if (typeof window === 'undefined') return
     let start: (SwipePoint & { id: number }) | null = null
+    /** Ponteiros no chão agora: 2+ ao mesmo tempo = pinça, nunca swipe (#572). */
+    const ativos = new Set<number>()
 
     const isNarrowEnough = () => window.innerWidth <= RIGHT_DRAWER_MAX
 
     const EDGE_ZONE = 32 // px — faixa de borda pra ABRIR um drawer
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === 'mouse') return
+      ativos.add(e.pointerId)
+      // #572: segundo dedo no chão = pinça — desarma o que estava armado e
+      // não arma de novo enquanto houver mais de um ponteiro.
+      if (ativos.size > 1) {
+        start = null
+        return
+      }
       if (!isNarrowEnough()) return
-      // NÃO arma sobre scrollers horizontais de conteúdo (carrosséis/abas/tabelas).
+      // NÃO arma sobre scrollers horizontais de conteúdo (carrosséis/abas/tabelas)
+      // nem sobre superfícies que tratam o próprio gesto (viewport de mapa, #572).
       if (startsInHorizontalScroller(e.target)) return
+      if (startsInGestureSurface(e.target)) return
       // #N3: só ARMA perto da BORDA da tela (abrir) ou se já há drawer aberto
       // (fechar arrastando). Antes armava de QUALQUER ponto e roubava o swipe do
       // carrossel (PanelTrack é transform, não é scroller de overflow) — no tablet
@@ -78,6 +90,7 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
     }
 
     const onUp = (e: PointerEvent) => {
+      ativos.delete(e.pointerId)
       if (!start || e.pointerId !== start.id) return
       const from = start
       start = null
@@ -122,7 +135,8 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
       }
     }
 
-    const onCancel = () => {
+    const onCancel = (e: PointerEvent) => {
+      ativos.delete(e.pointerId)
       start = null
     }
 

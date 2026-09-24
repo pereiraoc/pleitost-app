@@ -123,3 +123,12 @@ describe('#572 — dragging cobre a pinça nativa por toque', () => {
     vi.useRealTimers()
   })
 })
+
+describe('#572 — o viewport do mapa é superfície de gesto', () => {
+  it('viewportRef marca o elemento com data-gesture-surface (o swipe dos drawers ignora)', () => {
+    const { result } = renderHook(() => useMapView())
+    const viewport = document.createElement('div')
+    act(() => result.current.viewportRef(viewport))
+    expect(viewport.hasAttribute('data-gesture-surface')).toBe(true)
+  })
+})
