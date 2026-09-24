@@ -15,6 +15,7 @@
 // breakdown das fontes no title. Toggles do design agora escrevem o estado
 // REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
+import { formulaCtxDeMagia, type FormulaCtx } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties } from 'react'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
@@ -2728,6 +2729,8 @@ interface MagiaRow {
   ic: string
   acao: string
   doc?: VaultDoc
+  /** #466: potência do bloco + MOD da escola — o hover interpola as fórmulas. */
+  formulaCtx?: FormulaCtx
 }
 
 /** Agrupa as magias aprendidas por rank (Slot.X → rank do doc; Tesouro.* → Tesouros). */
@@ -2750,6 +2753,7 @@ export function magiaGroups(
         ic: magiaEmoji(spellFm),
         acao: custoEmoji(spellFm['custo']),
         doc: spellDoc ?? undefined,
+        formulaCtx: formulaCtxDeMagia(fm, str(escola['Nome'])),
       }
       const list = porGrupo.get(grupo) ?? []
       list.push(row)
@@ -3050,7 +3054,7 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
               }}
             >
               <span style={{ fontSize: 17, flex: 'none' }}>{m.ic}</span>
-              <ItemHover doc={m.doc} fullBody>
+              <ItemHover doc={m.doc} fullBody formulaCtx={m.formulaCtx}>
                 <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{reskinName(m.n)}</span>
               </ItemHover>
               <span

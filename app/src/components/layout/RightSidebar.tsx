@@ -5,16 +5,17 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
 import { useDetail } from '../../data/detail-context'
+import type { FormulaCtx } from '../../interativa/formulas'
 import { DocView } from '../compendium/DocPage'
 import { LiveSessionBridge, SessaoPage } from '../sessao/SessaoPage'
 import { LocalDetail } from '../detail/LocalDetail'
 import { ResumoDetail, ResumoSessaoDetail } from '../detail/ResumoDetail'
 import { CommerceDetail } from '../detail/CommerceDetail'
 
-function DocDetail({ id }: { id: string }) {
+function DocDetail({ id, formulaCtx }: { id: string; formulaCtx?: FormulaCtx }) {
   const { doc } = useDoc(id)
   if (!doc) return <div className="loading">Carregando…</div>
-  return <DocView doc={doc} sidebar />
+  return <DocView doc={doc} sidebar formulaCtx={formulaCtx} />
 }
 
 /** Face DETALHES: renderiza o alvo atual do DetailContext. */
@@ -42,7 +43,7 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
         {/* Feedback do mestre: sem botão × no bar de DETALHES (não faz sentido). */}
       </div>
       {target.kind === 'doc' ? (
-        <DocDetail id={target.id} />
+        <DocDetail id={target.id} formulaCtx={target.formulaCtx} />
       ) : target.kind === 'local' ? (
         <LocalDetail id={target.id} />
       ) : target.kind === 'resumo' ? (

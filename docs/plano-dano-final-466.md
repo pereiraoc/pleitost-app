@@ -3,7 +3,12 @@
 > Sugestão via app (2026-08-14): "Mostrar dano final de habilidades usando os
 > valores dos status dos personagens, ao invés de termos genéricos. Ex:
 > Sussurro sombrio = 1d6 x 4 (potência) ao invés de somente '1d6 x potência'."
-> Estudo em 2026-09-24. Nada implementado ainda.
+> Estudo em 2026-09-24. **Implementado no mesmo dia (fases F1–F3)** — ver
+> `app/src/interativa/formulas.ts` / `formula-ctx.ts` e os testes
+> `formulas-466`, `formulas-cobertura-466`, `formulas-costura-466`.
+> Decisão final do formato (mestre): a potência multiplica a QUANTIDADE de
+> dados e o original fica entre parênteses — `4d6 (potência × 1d6)`,
+> `8d6+8 (potência × [1d6+(MOD/2)])`, `2d6+3 (2d6+MOD)`.
 
 ## 1. O que existe hoje
 
@@ -49,9 +54,9 @@ intacta, é o idioma do app.
 
 ## 2. Decisões a confirmar com o mestre
 
-1. **Formato.** `1d6×4 (potência)`: mantém a estrutura da frase, troca o
-   termo pelo número e nomeia o termo entre parênteses. Não vira `4d6` — a
-   multiplicação é por dado rolado, não por quantidade de dados.
+1. **Formato.** ~~`1d6×4 (potência)`~~ → decidido `4d6 (potência × 1d6)`:
+   a potência multiplica a quantidade de dados; a expressão original fica
+   entre parênteses. `[expr]×potência` distribui (dados ×k, constantes ×k).
 2. **MOD.** = valor do atributo de conjuração da escola da magia
    (`Magias.Lista.<Escola>.Atributo` → `Atributos.<X>` do FM derivado).
    `MOD/2` arredonda pra baixo. Ex.: `[1d6+(MOD/2)]×potência` com INT 3 e

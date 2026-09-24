@@ -2,6 +2,7 @@
 // (doc do compêndio, local do mapa, comércio) que a RightSidebar renderiza na
 // face DETALHES, SEM sair da tela atual. Pilha simples pra "voltar". Modelo do
 // TipCtx (contexto local via Provider), não um store global.
+import type { FormulaCtx } from '../interativa/formulas'
 import {
   createContext,
   useCallback,
@@ -17,6 +18,9 @@ import {
 export interface DetailTarget {
   kind: 'doc' | 'local' | 'comercio' | 'resumo' | 'resumo-sessao'
   id: string
+  /** #466: doc aberto A PARTIR da ficha (magia de um bloco) — o corpo nos
+   *  DETALHES interpola as fórmulas com os valores do herói. */
+  formulaCtx?: FormulaCtx
 }
 
 export interface DetailCtl {

@@ -3,6 +3,7 @@ import { reskinDescricao } from '../data/reskin'
 import ReactMarkdown, { defaultUrlTransform, type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
+import { interpolarFormulas, type FormulaCtx } from '../interativa/formulas'
 import { useCatalog } from '../data/CatalogContext'
 import type { VaultDoc } from '../data/types'
 import { VaultImage } from '../components/compendium/VaultImage'
@@ -38,9 +39,13 @@ export function MarkdownBody({
   hideLeadingTitle,
   context,
   heroTarget,
+  formulaCtx,
 }: {
   doc: VaultDoc
   hideLeadingTitle?: boolean
+  /** #466: fórmulas da prosa ("1d6×potência") com os valores do herói —
+   *  só quando o corpo é aberto a partir da ficha. */
+  formulaCtx?: FormulaCtx
   /** Contexto de render — liga supressões específicas (ex.: dataview na folder-note). */
   context?: MarkdownContext
   /** Alvo da imagem-herói (FM Imagem) já exibida FORA do corpo — o embed dela no
@@ -67,8 +72,11 @@ export function MarkdownBody({
     const titled = hideLeadingTitle ? stripLeadingTitle(publico, doc.basename ?? '') : publico
     // #275: colapsa a `#subpath` das transclusões de nota ANTES do parse (senão
     // o inline code da seção fragmenta o embed e nada casa).
-    return normalizeNoteEmbeds(titled)
-  }, [doc.body, doc.basename, hideLeadingTitle, mestre])
+    // #466: valores do herói nas fórmulas (depois do reskin, antes do parse).
+    const comFormulas = formulaCtx ? interpolarFormulas(titled, formulaCtx).texto : titled
+    return normalizeNoteEmbeds(comFormulas)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doc.body, doc.basename, hideLeadingTitle, mestre, formulaCtx?.potencia, formulaCtx?.mod])
 
   const plugins = useMemo(
     () => [

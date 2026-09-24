@@ -5,6 +5,7 @@ import { linkIconForEntry } from '../../markdown/link-icon'
 import { reskinName, reskinText } from '../../data/reskin'
 import { tokens } from '../ficha/registry'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
+import type { FormulaCtx } from '../../interativa/formulas'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
@@ -24,14 +25,25 @@ function escolaIcon(basename: string): string {
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
-export function DocView({ doc, sidebar, embedded }: { doc: VaultDoc; sidebar?: boolean; embedded?: boolean }) {
+export function DocView({
+  doc,
+  sidebar,
+  embedded,
+  formulaCtx,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+  /** #466: doc aberto a partir da ficha — fórmulas com os valores do herói. */
+  formulaCtx?: FormulaCtx
+}) {
   // FIGURAS DA CAMPANHA: um doc DESTRAVADO carrega os arquivos cifrados dele
   // (`arquivos`) — publicados aqui, no ponto único de render de doc, pra que
   // qualquer embed abaixo (registro, cena, corpo) ache a imagem. Doc sem eles
   // não cria contexto.
   return (
     <ArquivosCifradosProvider doc={doc}>
-      <DocViewCorpo doc={doc} sidebar={sidebar} embedded={embedded} />
+      <DocViewCorpo doc={doc} sidebar={sidebar} embedded={embedded} formulaCtx={formulaCtx} />
     </ArquivosCifradosProvider>
   )
 }
@@ -40,10 +52,12 @@ function DocViewCorpo({
   doc,
   sidebar,
   embedded,
+  formulaCtx,
 }: {
   doc: VaultDoc
   sidebar?: boolean
   embedded?: boolean
+  formulaCtx?: FormulaCtx
 }) {
   // Visualizador dedicado do tipo (registro), senão o markdown genérico.
   const viewer = resolveDocView(doc)
@@ -73,7 +87,7 @@ function DocViewCorpo({
       {/* hideLeadingTitle: o header acima já mostra o nome — um corpo que abre
           com `# Título`/`# = this.file.name` duplicava o título (report
           2026-08-29, notas-índice da POA). */}
-      <MarkdownBody doc={doc} heroTarget={hero?.target} hideLeadingTitle />
+      <MarkdownBody doc={doc} heroTarget={hero?.target} hideLeadingTitle formulaCtx={formulaCtx} />
       <DocRuleElements doc={doc} />
     </article>
   )

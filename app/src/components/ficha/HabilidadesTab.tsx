@@ -9,6 +9,7 @@
 //   stacks: modKind std10 (Defesas/Sentidos: 10+attr+PB+item+especial),
 //   move (4+attr+item+especial, SEM PB), none (Combate); flags showProf/
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
+import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { reskinName, reskinText } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
@@ -3659,7 +3660,7 @@ export function MagiasHabPanel({
                                 {custoDigits(spellFm['custo'])}
                               </span>
                               <span style={{ fontSize: 13, flex: 'none' }}>{magiaEmoji(spellFm)}</span>
-                              <ItemHover doc={refs.refDoc(e.target)} fullBody>
+                              <ItemHover doc={refs.refDoc(e.target)} fullBody formulaCtx={formulaCtxDeMagia(mfm, nome)}>
                                 <span
                                   style={{
                                     fontWeight: 600,
@@ -3804,7 +3805,7 @@ export function MagiasHabPanel({
                                 <span style={{ fontSize: 13, flex: 'none' }}>
                                   {magiaEmoji(d.frontmatter as Record<string, unknown>)}
                                 </span>
-                                <ItemHover doc={d} fullBody>
+                                <ItemHover doc={d} fullBody formulaCtx={formulaCtxDeMagia(mfm, nome)}>
                                   <span
                                     style={{
                                       fontWeight: 600,

@@ -15,6 +15,7 @@ import {
 import { tokens } from './ficha/registry'
 import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data/commerce'
 import { isArtefatoId, precoPO } from '../grupo/wealth'
+import { interpolarFormulas, type FormulaCtx } from '../interativa/formulas'
 import { formatMoeda } from '../data/moeda'
 import { reskinDescricao, reskinName, reskinText } from '../data/reskin'
 import type { VaultDoc } from '../data/types'
@@ -436,6 +437,20 @@ export function bodyHtml(
  *  `showTier`: mostra "(Qualidade)" no nome — só a PROPRIEDADE (imbuição/obra-prima
  *  /material) ou o item avulso têm qualidade; a ARMA base não (a qualidade vem da
  *  propriedade). O FUNDO do tier fica em ambos (classe tier-*). */
+/** #466: fórmulas da prosa ("1d6×potência") com os VALORES do herói no HTML
+ *  do card — valor com tooltip do porquê + a expressão original entre
+ *  parênteses. Sem contexto, HTML intacto. Roda sobre o HTML já escapado (os
+ *  padrões não têm `<`/`>`/`&`). */
+export function comFormulasHtml(html: string, ctx: FormulaCtx | undefined): string {
+  if (!ctx) return html
+  return interpolarFormulas(
+    html,
+    ctx,
+    (calc, orig, motivo) =>
+      `<span class="shc-formula" title="${esc(motivo)}">${esc(calc)}</span> <span class="shc-formula-orig">(${orig})</span>`,
+  ).texto
+}
+
 export function itemCardHtml(
   doc: VaultDoc,
   tier: Tier,
@@ -444,6 +459,9 @@ export function itemCardHtml(
   fullBody = false,
   assets?: ReturnType<typeof useAssetIndex>,
   cutAfterTable = false,
+  /** #466: contexto do herói (potência do bloco, MOD da escola) — interpola
+   *  as fórmulas da descrição/corpo. */
+  formulaCtx?: FormulaCtx,
 ): string {
   const f = (doc.inlineFields ?? {}) as Record<string, unknown>
   // Alguns tipos (magia) guardam os campos no FRONTMATTER, não no inline —
@@ -523,10 +541,13 @@ export function itemCardHtml(
           .join('')
       : ''
   // fullBody (#110/#117/#125): a PROSA completa da regra (HTML) em vez do resumo.
-  const descHtml = fullBody
-    ? bodyHtml(doc, assets, { cutAfterTable })
-    : esc(reskinText(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc))) +
-      abilitiesHtml
+  const descHtml = comFormulasHtml(
+    fullBody
+      ? bodyHtml(doc, assets, { cutAfterTable })
+      : esc(reskinText(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc))) +
+          abilitiesHtml,
+    formulaCtx,
+  )
   const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
   // Borda: itens de rank (magia/hab/téc/ação) básicos → azul (tier-B); os demais
   // seguem a qualidade/tier (aço/prata/ouro).
@@ -590,6 +611,8 @@ export const ITEM_CARD_CSS = `
 .shc-card--wide{width:284px;max-height:60vh;overflow:hidden}
 .shc-card--table{width:max-content;max-width:min(92vw,600px);max-height:70vh;overflow:auto}
 .shc-body-img{float:right;width:88px;margin:0 0 5px 9px;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.4)}
+.shc-formula{font-weight:700;border-bottom:1px dotted currentColor;cursor:help}
+.shc-formula-orig{opacity:.72}
 .shc-body{opacity:.95}
 .shc-body::after{content:"";display:block;clear:both}
 .shc-body p{margin:0 0 5px 0}
@@ -640,12 +663,16 @@ export function ItemHover({
   style,
   fullBody,
   clickToOpen,
+  formulaCtx,
 }: {
   doc?: VaultDoc
   propDoc?: VaultDoc
   tier?: Tier
   children: ReactNode
   style?: CSSProperties
+  /** #466: contexto do herói pra interpolar as fórmulas do card (e dos
+   *  DETALHES abertos por ele). */
+  formulaCtx?: FormulaCtx
   /** Mostra a PROSA COMPLETA da regra (não o resumo) — ficha em edição. */
   fullBody?: boolean
   /** #bug11/#3c: clicar abre o doc no painel de DETALHES (direita) — a ficha
@@ -669,12 +696,12 @@ export function ItemHover({
     const cards: string[] = []
     if (propDoc) {
       // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade).
-      cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), false, fullBody, assets, cut))
-      cards.push(itemCardHtml(propDoc, t, docImageUrl(propDoc, t, assets), true, fullBody, assets))
+      cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), false, fullBody, assets, cut, formulaCtx))
+      cards.push(itemCardHtml(propDoc, t, docImageUrl(propDoc, t, assets), true, fullBody, assets, false, formulaCtx))
     } else {
       // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier).
       cards.push(
-        itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', fullBody, assets, cut),
+        itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', fullBody, assets, cut, formulaCtx),
       )
     }
     html = `<div class="shc-wrap">${cards.join('')}</div>`
@@ -687,7 +714,7 @@ export function ItemHover({
       html={html}
       style={style}
       always
-      onActivate={canOpen ? () => detail!.open({ kind: 'doc', id: doc!.id }) : undefined}
+      onActivate={canOpen ? () => detail!.open({ kind: 'doc', id: doc!.id, ...(formulaCtx ? { formulaCtx } : {}) }) : undefined}
     >
       {children}
     </TipHover>
