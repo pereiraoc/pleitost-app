@@ -89,3 +89,37 @@ describe('#572 — pinça por TOUCH EVENTS nativos (fallback: Firefox Android n�
     expect(um.defaultPrevented).toBe(false)
   })
 })
+
+describe('#572 — dragging cobre a pinça nativa por toque', () => {
+  it('touchstart com 2 dedos liga dragging; pointercancel no meio não desliga; touchend desliga', () => {
+    vi.useFakeTimers()
+    const { result } = renderHook(() => useMapView({ minScale: 1, maxScale: 8 }))
+    const viewport = document.createElement('div')
+    const mapa = document.createElement('div')
+    viewport.appendChild(mapa)
+    Object.defineProperty(viewport, 'clientWidth', { value: 400 })
+    Object.defineProperty(viewport, 'clientHeight', { value: 300 })
+    act(() => {
+      result.current.viewportRef(viewport)
+      ;(result.current.mapRef as { current: HTMLDivElement | null }).current = mapa
+    })
+    const toque = (tipo: string, pts: Array<[number, number]>) => {
+      const ev = new Event(tipo, { bubbles: true, cancelable: true }) as unknown as TouchEvent & { touches: unknown }
+      ;(ev as { touches: unknown }).touches = pts.map(([x, y]) => ({ clientX: x, clientY: y }))
+      viewport.dispatchEvent(ev as Event)
+    }
+    act(() => toque('touchstart', [[100, 100], [200, 100]]))
+    expect(result.current.dragging).toBe(true)
+    // o navegador cancela os pointers no meio: não pode encerrar o gesto
+    act(() => {
+      result.current.onPointerUp({ pointerId: 1 } as unknown as React.PointerEvent)
+    })
+    expect(result.current.dragging).toBe(true)
+    act(() => toque('touchmove', [[50, 100], [250, 100]]))
+    act(() => toque('touchend', []))
+    act(() => { vi.advanceTimersByTime(150) })
+    expect(result.current.dragging).toBe(false)
+    expect(result.current.view.scale).toBeGreaterThan(1)
+    vi.useRealTimers()
+  })
+})

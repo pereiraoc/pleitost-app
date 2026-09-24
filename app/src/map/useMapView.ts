@@ -230,6 +230,10 @@ export function useMapView(): UseMapView {
     const el = mapRef.current
     if (el) el.style.willChange = ''
     setView(liveRef.current)
+    // `dragging` = "há gesto em curso" (o viewer troca pra imagem MÉDIA com
+    // ele, #572): só apaga aqui, no único fim de gesto — inclusive da pinça
+    // nativa por toque, que não passa por pointerup.
+    setDragging(false)
   }, [])
 
   // Depois de cada render num gesto vivo, o React pode ter escrito o transform
@@ -324,6 +328,7 @@ export function useMapView(): UseMapView {
     if (!geoRef.current) geoRef.current = medirGeo()
     panBase.current = null
     movedRef.current = true
+    setDragging(true)
   }, [medirGeo])
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
@@ -476,6 +481,9 @@ export function useMapView(): UseMapView {
       } else {
         pinchBase.current = null
         panBase.current = null
+        // pointercancel no meio da pinça nativa (o navegador desiste dos
+        // pointers quando o 2º dedo pousa) NÃO encerra o gesto: o touchend faz.
+        if (touchPinch.current) return
         setDragging(false)
         if (gestoRef.current) encerrarGesto()
       }

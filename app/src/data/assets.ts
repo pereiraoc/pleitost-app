@@ -63,6 +63,19 @@ export function thumbUrl(entry: AssetEntry): string {
   return vaultUrl(thumbCopiedTo(entry.copiedTo).split('/').map(encodeURIComponent).join('/'))
 }
 
+/** MÉDIO (#572): `assets-medio/….webp` — versão com lado maior de 4000 px que o
+ *  deploy gera SÓ pras imagens gigantes (mapas, lado > 4096 px). Espelha
+ *  medioDestFor() do gen-thumbs. O viewer de mapa usa com onError → cheio
+ *  (imagem sem versão média 404a uma vez e fica na cheia). */
+export function medioCopiedTo(copiedTo: string): string {
+  const ext = copiedTo.split('.').pop()?.toLowerCase() ?? ''
+  if (!copiedTo.startsWith('assets/') || !THUMB_RASTER_EXTENSIONS.has(ext)) return copiedTo
+  return `assets-medio/${copiedTo.slice('assets/'.length)}.webp`
+}
+export function medioUrl(entry: AssetEntry): string {
+  return vaultUrl(medioCopiedTo(entry.copiedTo).split('/').map(encodeURIComponent).join('/'))
+}
+
 /**
  * true quando o app deve PREFERIR thumbs (build de produção). Em dev os thumbs
  * não existem (só nascem no build) — background-image não tem onError pra cair

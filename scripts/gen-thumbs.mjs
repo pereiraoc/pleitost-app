@@ -67,6 +67,22 @@ const RASTER_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif', '.bmp'])
  * `assets-thumb/<p>.<ext>.webp`. Retorna null pra caminhos que não ganham thumb
  * (fora de assets/ ou extensão não-raster). Puro — a base dos testes.
  */
+/** MÉDIO (#572 "pinch lerdo"): só imagens GIGANTES (lado maior > MEDIO_MIN_SIDE
+ *  — os mapas, 4352×5888 e 7440 px) ganham `assets-medio/<p>.<ext>.webp` com o
+ *  lado maior em MEDIO_MAX_SIDE px. 4000 fica abaixo do limite de textura de
+ *  4096 px de GPU de celular: uma camada maior que isso o navegador fatia ou
+ *  rasteriza por software a cada frame da pinça. O viewer de mapa usa o médio
+ *  durante pan/pinça e em zoom baixo; a cheia só parada em zoom alto.
+ *  Espelha medioCopiedTo() em src/data/assets.ts. */
+export const MEDIO_MAX_SIDE = 4000
+export const MEDIO_MIN_SIDE = 4096
+export function medioDestFor(relFromVaultData) {
+  const rel = relFromVaultData.split(path.sep).join('/')
+  const ext = path.extname(rel).toLowerCase()
+  if (!rel.startsWith('assets/') || !RASTER_EXTS.has(ext)) return null
+  return `assets-medio/${rel.slice('assets/'.length)}.webp`
+}
+
 export function thumbDestFor(relFromVaultData) {
   const rel = relFromVaultData.split(path.sep).join('/')
   const ext = path.extname(rel).toLowerCase()
@@ -186,6 +202,10 @@ async function main() {
 
   // 2) THUMBS
   let generated = 0
+  // 3) MÉDIOS (#572): só as gigantes — decide pela LARGURA lida do header
+  //    (sharp.metadata é barato, não decodifica). Idempotente por mtime.
+  let medios = 0
+  let mediosPulados = 0
   let skipped = 0
   let passed = 0 // não-raster (svg/gif) — sem thumb, seguem no cheio
   let stripped = 0 // #283: imagens com frontmatter mascarado no dist
@@ -213,9 +233,30 @@ async function main() {
       stripped++
     }
 
-    // Idempotência: thumb já existe e é ≥ recente que o original → pula.
+    // Idempotência: thumb já existe e é ≥ recente que o original → pula (mas o
+    // MÉDIO ainda pode faltar — deploys antigos não o geravam).
     if (fs.existsSync(destAbs) && fs.statSync(destAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
       skipped++
+      const medioRel = medioDestFor(relFromVaultData)
+      if (medioRel) {
+        const medioAbs = path.join(datasetDir, medioRel)
+        if (!(fs.existsSync(medioAbs) && fs.statSync(medioAbs).mtimeMs >= fs.statSync(abs).mtimeMs)) {
+          try {
+            const meta = await sharp(srcBuf).metadata()
+            if (Math.max(meta.width ?? 0, meta.height ?? 0) > MEDIO_MIN_SIDE) {
+              const mbuf = await sharp(srcBuf)
+                .resize({ width: MEDIO_MAX_SIDE, height: MEDIO_MAX_SIDE, fit: 'inside', withoutEnlargement: true })
+                .webp({ quality: FULL_QUALITY })
+                .toBuffer()
+              fs.mkdirSync(path.dirname(medioAbs), { recursive: true })
+              fs.writeFileSync(medioAbs, mbuf)
+              medios++
+            }
+          } catch (err) {
+            console.warn(`[gen-thumbs] médio falhou em ${relFromVaultData}: ${err.message}`)
+          }
+        } else mediosPulados++
+      }
       continue
     }
 
@@ -230,6 +271,25 @@ async function main() {
       fs.mkdirSync(path.dirname(destAbs), { recursive: true })
       fs.writeFileSync(destAbs, buf)
       generated++
+      // MÉDIO só pras gigantes (mapas): o header diz a largura sem decodificar.
+      const medioRel = medioDestFor(relFromVaultData)
+      if (medioRel) {
+        const medioAbs = path.join(datasetDir, medioRel)
+        if (fs.existsSync(medioAbs) && fs.statSync(medioAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
+          mediosPulados++
+        } else {
+          const meta = await sharp(srcBuf).metadata()
+          if (Math.max(meta.width ?? 0, meta.height ?? 0) > MEDIO_MIN_SIDE) {
+            const mbuf = await sharp(srcBuf)
+              .resize({ width: MEDIO_MAX_SIDE, height: MEDIO_MAX_SIDE, fit: 'inside', withoutEnlargement: true })
+              .webp({ quality: FULL_QUALITY })
+              .toBuffer()
+            fs.mkdirSync(path.dirname(medioAbs), { recursive: true })
+            fs.writeFileSync(medioAbs, mbuf)
+            medios++
+          }
+        }
+      }
     } catch (err) {
       // Imagem corrompida/formato exótico: não derruba o deploy — o app cai no
       // cheio (VaultImage onError) ou mostra o fallback do slot.
@@ -243,6 +303,7 @@ async function main() {
       `${passed} sem thumb (svg/gif/erro), ${stripped} com frontmatter mascarado (#283). ` +
       `Alvo: ≤${THUMB_MAX_WIDTH}px webp q${WEBP_QUALITY}.`,
   )
+  console.log(`[gen-thumbs] médios (lado > ${MEDIO_MIN_SIDE}px → ${MEDIO_MAX_SIDE}px): ${medios} gerados, ${mediosPulados} já existiam.`)
 }
 
 // Só roda o main quando executado direto (não quando importado por testes).

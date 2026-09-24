@@ -23,7 +23,8 @@ import { docPath } from '../paths'
 import { reskinName } from '../data/reskin'
 import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
-import { useAssetIndex, assetUrl, resolveAsset } from '../data/assets'
+import { useAssetIndex, assetUrl, medioUrl, preferThumb, resolveAsset } from '../data/assets'
+import { escolherSrcMapa } from './mapa-src'
 import type { VaultDoc } from '../data/types'
 import { leafletZoom, markerVisivel, markerGlyph } from './leaflet-local'
 import { MapControls, fullscreenContainerStyle } from './MapControls'
@@ -126,6 +127,9 @@ export function MapaLocal({
   const [larguraNaTela, setLarguraNaTela] = useState(0)
   const entry = assets ? resolveAsset(assets, leaflet.image) : null
   const url = entry ? assetUrl(entry) : null
+  // #572: médio durante o gesto/zoom baixo, cheia parada em zoom alto.
+  const [medioFalhou, setMedioFalhou] = useState(false)
+  const srcMedio = entry ? medioUrl(entry) : null
   useEffect(() => {
     const el = map.mapRef.current
     if (!el || typeof ResizeObserver === 'undefined') return
@@ -325,9 +329,21 @@ export function MapaLocal({
           }}
         >
           <img
-            src={assetUrl(entry)}
+            src={escolherSrcMapa({
+              cheia: assetUrl(entry),
+              medio: srcMedio,
+              gesto: map.dragging,
+              scale: map.view.scale,
+              medioFalhou,
+              prod: preferThumb,
+            })}
             alt={`Mapa: ${leaflet.image}`}
             draggable={false}
+            onError={(e) => {
+              // só o MÉDIO cai pro cheio (imagem sem versão média); a cheia
+              // falhando não tem pra onde ir.
+              if (srcMedio && e.currentTarget.getAttribute('src') === srcMedio) setMedioFalhou(true)
+            }}
             style={{ height: '100%', width: 'auto', display: 'block' }}
           />
           {idxBairros ? <RealceBairro idx={idxBairros} bairro={realce} /> : null}
