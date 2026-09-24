@@ -530,6 +530,23 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
           : []
       : []
     const atuais = gruposHl.length ? indicesDoBuildAtual(builds, gruposHl) : []
+    // #569: com filtro, a FAIXA mostra só os builds das combinações do grupo
+    // (mesmo match por rótulo/aliases de Compor + sintonia curta do highlight);
+    // classe cujos builds não casam com nome nenhum (Guerreiro: "Corpo-a-Corpo")
+    // mantém a faixa inteira — não dá pra discriminar.
+    const buildsFaixa = (() => {
+      if (!entrada) return builds
+      const idx = new Set<number>()
+      for (const c of entrada.combos) {
+        const grupos = [
+          ...c.picks.map((p) => textosDe(p.alvo)),
+          ...(c.sintonia ? [[shortSintoniaName(c.sintonia)]] : []),
+        ]
+        for (const i of indicesDoBuildAtual(builds, grupos)) idx.add(i)
+      }
+      return idx.size ? builds.filter((_, i) => idx.has(i)) : builds
+    })()
+    const atuaisFaixa = entrada ? [] : atuais
     // Com filtro: faixa do tier do grupo em todos os cards da entrada e
     // chamadas só se a classe está selecionada. Sem filtro: como sempre.
     const visual: Visual = entrada
@@ -577,7 +594,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                 compara). */}
             {on || entrada ? (
               <>
-                <Possibilidades builds={builds} atuais={atuais} />
+                <Possibilidades builds={buildsFaixa} atuais={atuaisFaixa} />
                 <MaisEstrelas nome={o.label} roles={somaClasse} />
               </>
             ) : null}

@@ -184,6 +184,16 @@ describe('filtro por papel no passo CLASSE', () => {
       { nome: 'Inspirador', nivel: 1 },
       { nome: 'Luta Artística', nivel: 2 },
     ])
+    // #569: a FAIXA de possibilidades do Bardo em ★★ mostra só os 2 builds do
+    // grupo (não os 4 do bloco class-roles)
+    const faixaDoBardo = (grupo: Element) => {
+      const bar = [...grupo.querySelectorAll('[role="option"]')].find((el) => el.getAttribute('aria-label') === 'Bardo')!
+      return [...bar.querySelectorAll('[data-testid="possibilidades"] [title]')].map(
+        (el) => el.getAttribute('title')!.split(':')[0],
+      )
+    }
+    expect(faixaDoBardo(grupoDois!).sort()).toEqual(['Arte Mágica Manipulador', 'Luta Artística Inspirador'])
+    expect(faixaDoBardo(grupoTres!)).toEqual(['Arte Mágica Inspirador'])
   }, 30000)
 
   it('tocar numa opção sob classe NÃO selecionada escolhe a classe junto, numa escrita só', async () => {
