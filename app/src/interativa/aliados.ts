@@ -15,7 +15,14 @@
 import { useMemo } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
-import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../data/local-entities'
+import {
+  getLocalDoc,
+  groupIdsWithMember,
+  isLocalId,
+  localEntriesOfKind,
+  resolveGroupMembers,
+  useLocalStoreVersion,
+} from '../data/local-entities'
 import type { VaultDoc } from '../data/types'
 import { fmOf, fmPath, num, str, wikiTarget } from '../components/ficha/hero-model'
 import { blocoParaDescritor, blocoTier, type EffectDescriptor } from './descriptor'
@@ -101,43 +108,73 @@ export function useSharedAllyDescriptors(
   )
   const selfBase = selfDoc.basename ?? selfDoc.id.split('/').pop()!
 
-  // Candidatos: toda criatura do catálogo (scan do plugin é Sistema/Criaturas/
-  // inteiro) menos a própria ficha. Docs são pequenos e ficam no cache.
+  // #561: grupos por INTEGRANTES — herói nascido no app entra num grupo pelo
+  // override `add` do grupo (setGroupMember), sem FM `grupo`; e um grupo pode
+  // ter integrantes locais além dos do FM. Une os ids de grupo do FM (que
+  // resolvem numa nota) com os grupos cujo override inclui o herói, e lista os
+  // integrantes finais de cada um (base ∪ add \ remove) — vault e locais.
+  const groupIds = useMemo(() => {
+    const ids = new Set<string>(groupIdsWithMember(selfDoc.id))
+    for (const g of myGroups) {
+      const r = catalog.resolve(g)
+      if (r.kind === 'doc') ids.add(r.id)
+    }
+    return [...ids]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myGroups, catalog, selfDoc.id, localVersion])
+  const memberIds = useMemo(
+    () =>
+      [...new Set(groupIds.flatMap((gid) => resolveGroupMembers(catalog, gid).map((e) => e.id)))].filter(
+        (id) => id !== selfDoc.id,
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [groupIds, catalog, localVersion],
+  )
+  const temGrupo = myGroups.size > 0 || groupIds.length > 0
+
   const candidateIds = useMemo(() => {
-    if (!myGroups.size) return []
-    return catalog.content
-      .filter((e) => e.id.startsWith('Sistema/Criaturas/') && e.id !== selfDoc.id)
-      .map((e) => e.id)
-  }, [catalog, myGroups, selfDoc.id])
+    if (!temGrupo) return []
+    const scan = myGroups.size
+      ? catalog.content
+          .filter((e) => e.id.startsWith('Sistema/Criaturas/') && e.id !== selfDoc.id)
+          .map((e) => e.id)
+      : []
+    return [...new Set([...scan, ...memberIds.filter((id) => !isLocalId(id))])]
+  }, [catalog, myGroups, selfDoc.id, memberIds, temGrupo])
   const candDocs = useDocs(candidateIds)
 
-  // Aliado = criatura com grupo em comum. Dedup por basename (uma cópia LOCAL
-  // importada do próprio herói não é aliada de si mesma; vault + local do
-  // mesmo aliado conta uma vez).
   const allies = useMemo(() => {
-    if (!myGroups.size) return []
+    if (!temGrupo) return []
     const out: VaultDoc[] = []
     const seen = new Set<string>([selfBase])
-    const consider = (d: VaultDoc | undefined) => {
+    const aceitar = (d: VaultDoc | undefined) => {
       if (!d) return
       const base = d.basename ?? d.id
       if (seen.has(base)) return
-      const groups = groupBasenamesOf(fmOf(d))
-      let match = false
-      for (const g of groups) if (myGroups.has(g)) match = true
-      if (!match) return
       seen.add(base)
       out.push(d)
     }
-    for (const d of candDocs?.values() ?? []) consider(d)
-    for (const kind of ['Heroi', 'CompanheiroAnimal'] as const)
-      for (const e of localEntriesOfKind(kind)) consider(getLocalDoc(e.id))
+    // Integrantes resolvidos dos grupos (FM-resolvido ∪ membership).
+    const membros = new Set(memberIds)
+    for (const id of memberIds) aceitar(isLocalId(id) ? getLocalDoc(id) : candDocs?.get(id))
+    // Interseção por basename do FM `grupo` (caminho original — cobre grupo
+    // referenciado no FM que não resolve numa nota).
+    const consider = (d: VaultDoc | undefined) => {
+      if (!d || membros.has(d.id)) return
+      const groups = groupBasenamesOf(fmOf(d))
+      let match = false
+      for (const g of groups) if (myGroups.has(g)) match = true
+      if (match) aceitar(d)
+    }
+    if (myGroups.size) {
+      for (const d of candDocs?.values() ?? []) consider(d)
+      for (const kind of ['Heroi', 'CompanheiroAnimal'] as const)
+        for (const e of localEntriesOfKind(kind)) consider(getLocalDoc(e.id))
+    }
     return out
-    // localVersion: re-descobre aliados quando entidades locais mudam.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [candDocs, myGroups, selfBase, localVersion])
+  }, [candDocs, myGroups, selfBase, localVersion, memberIds, temGrupo])
 
-  // Docs de efeito de cada aliado (mesma coleta de alvos da própria ficha).
   const allyTargets = useMemo(
     () =>
       allies.map((ally) => {
@@ -154,7 +191,7 @@ export function useSharedAllyDescriptors(
   const targetDocs = useDocs(flatIds)
 
   return useMemo(() => {
-    if (!myGroups.size) return { descriptors: [], loaded: true }
+    if (!temGrupo) return { descriptors: [], loaded: true }
     if (candDocs === undefined || targetDocs === undefined) return { descriptors: [], loaded: false }
     const descriptors = allyTargets.flatMap(({ ally, ids }) =>
       sharedAllyDescriptors(

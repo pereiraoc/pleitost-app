@@ -841,6 +841,17 @@ export function resolveGroupMembers(catalog: Catalog, groupId: string): IndexDoc
   return ids.map((id) => memberEntry(catalog, id)).filter((e): e is IndexDocEntry => e !== null)
 }
 
+/** Grupos cujo override `add` inclui o integrante (#561): herói NASCIDO NO
+ *  APP entra num grupo por aqui (setGroupMember), não pelo FM `grupo` — quem
+ *  procura aliados precisa olhar os dois lados. */
+export function groupIdsWithMember(memberId: string): string[] {
+  const out: string[] = []
+  for (const [gid, m] of hydrateMembership()) {
+    if (m.add.includes(memberId) && !m.remove.includes(memberId)) out.push(gid)
+  }
+  return out
+}
+
 /** Hook reativo dos integrantes de um grupo (uma chamada por render — GrupoView). */
 export function useGroupMembers(catalog: Catalog, groupId: string): IndexDocEntry[] {
   const v = useLocalStoreVersion()
