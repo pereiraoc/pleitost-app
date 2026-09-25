@@ -46,6 +46,7 @@ import {
   type HexCell,
   type Pt,
 } from '../../grupo/exploracao'
+import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 
@@ -181,6 +182,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
   const gridPath = useMemo(() => hexGridPath(), [])
   // `resolveAsset` em vez de `byPath.get`: o literal diz `.png` e o acervo é webp.
   const mapEntry = assets ? resolveAsset(assets, region.mapAsset) : null
+  // #572: atlas 7440×5262 px — versão MÉDIA (ver mapa-src)
+  const imagemMapa = useSrcDoMapa(mapEntry)
 
   const drawingLasso = mode === 'regioes' && lasso && !!pendingArea
 
@@ -557,7 +560,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                   }}
                 >
                   <img
-                    src={assetUrl(mapEntry)}
+                    src={imagemMapa.src ?? assetUrl(mapEntry)}
+                    onError={imagemMapa.onError}
                     alt={mapEntry.basename}
                     draggable={false}
                     style={{ height: '100%', width: 'auto', display: 'block' }}

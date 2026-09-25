@@ -50,6 +50,7 @@ import { useHexMap } from '../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
 import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
+import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
@@ -988,6 +989,9 @@ export function PanelExploracao({
   // migrou pra webp — fixar extensão apagava o mapa sem erro nenhum.
   const mapEntry = assets ? resolveAsset(assets, MAPA_MUNDO_ASSET) : null
   const overlayEntry = assets ? resolveAsset(assets, ATLAS_OVERLAY_ASSET) : null
+  // #572: o atlas tem 7440×5262 px — no gesto vai a versão MÉDIA (ver mapa-src)
+  const imagemMapa = useSrcDoMapa(mapEntry)
+  const imagemOverlay = useSrcDoMapa(overlayEntry)
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
@@ -1264,7 +1268,8 @@ export function PanelExploracao({
                 }}
               >
                 <img
-                  src={assetUrl(mapEntry)}
+                  src={imagemMapa.src ?? assetUrl(mapEntry)}
+                  onError={imagemMapa.onError}
                   alt={mapEntry.basename}
                   draggable={false}
                   data-mapa-img=""
@@ -1309,7 +1314,8 @@ export function PanelExploracao({
                       </defs>
                       <image
                         data-overlay-desabilitado=""
-                        href={assetUrl(overlayEntry)}
+                        href={imagemOverlay.src ?? assetUrl(overlayEntry)}
+                        onError={imagemOverlay.onError}
                         x={0}
                         y={0}
                         width={ATLAS_GRID_W}

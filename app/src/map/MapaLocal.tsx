@@ -23,8 +23,8 @@ import { docPath } from '../paths'
 import { reskinName } from '../data/reskin'
 import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
-import { useAssetIndex, assetUrl, medioUrl, preferThumb, resolveAsset } from '../data/assets'
-import { srcDoMapa } from './mapa-src'
+import { useAssetIndex, assetUrl, resolveAsset } from '../data/assets'
+import { useSrcDoMapa } from './mapa-src'
 import type { VaultDoc } from '../data/types'
 import { leafletZoom, markerVisivel, markerGlyph } from './leaflet-local'
 import { MapControls, fullscreenContainerStyle } from './MapControls'
@@ -128,8 +128,7 @@ export function MapaLocal({
   const entry = assets ? resolveAsset(assets, leaflet.image) : null
   const url = entry ? assetUrl(entry) : null
   // #572: imagem gigante mostra SÓ a versão média (sem troca de src no gesto).
-  const [medioFalhou, setMedioFalhou] = useState(false)
-  const srcMedio = entry ? medioUrl(entry) : null
+  const imagem = useSrcDoMapa(entry)
   useEffect(() => {
     const el = map.mapRef.current
     if (!el || typeof ResizeObserver === 'undefined') return
@@ -326,17 +325,16 @@ export function MapaLocal({
             flex: 'none',
             transform: map.transform,
             transformOrigin: '0 0',
+            // #572: rótulos/pinos contra-escalam por esta var — o gesto a
+            // escreve no DOM junto com o transform, sem passar pelo React.
+            ['--map-escala' as string]: map.view.scale,
           }}
         >
           <img
-            src={srcDoMapa({ cheia: assetUrl(entry), medio: srcMedio, medioFalhou, prod: preferThumb })}
+            src={imagem.src ?? assetUrl(entry)}
             alt={`Mapa: ${leaflet.image}`}
             draggable={false}
-            onError={(e) => {
-              // só o MÉDIO cai pro cheio (imagem sem versão média); a cheia
-              // falhando não tem pra onde ir.
-              if (srcMedio && e.currentTarget.getAttribute('src') === srcMedio) setMedioFalhou(true)
-            }}
+            onError={imagem.onError}
             style={{ height: '100%', width: 'auto', display: 'block' }}
           />
 
@@ -510,7 +508,7 @@ function NomeDoBairro({
         position: 'absolute',
         left: `${(rotulo.tx / largura) * 100}%`,
         top: `${(rotulo.ty / altura) * 100}%`,
-        transform: `translate(-50%, -50%) scale(${1 / escala})`,
+        transform: `translate(-50%, -50%) scale(calc(1 / var(--map-escala, ${escala})))`,
         transformOrigin: '50% 50%',
         fontFamily: 'var(--mono)',
         fontSize: 9.5,
@@ -552,7 +550,7 @@ function Pino({
         position: 'absolute',
         left: `${fx * 100}%`,
         top: `${fy * 100}%`,
-        transform: `translate(-50%, -100%) scale(${1 / escala})`,
+        transform: `translate(-50%, -100%) scale(calc(1 / var(--map-escala, ${escala})))`,
         transformOrigin: '50% 100%',
         display: 'flex',
         flexDirection: 'column',

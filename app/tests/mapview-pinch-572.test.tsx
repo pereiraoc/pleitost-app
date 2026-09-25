@@ -8,8 +8,8 @@ import { act, renderHook } from '@testing-library/react'
 import { useMapView } from '../src/map/useMapView'
 
 const el = { setPointerCapture: () => {} } as unknown as HTMLElement
-// O React só sincroniza a view a cada 120 ms durante o gesto (o DOM recebe o
-// transform direto): os testes avançam o relógio pra ler o estado.
+// O React NÃO sincroniza a view no meio do gesto (o DOM recebe o transform
+// direto e `view` só muda no fim): no meio, os testes leem readLiveView().
 beforeEach(() => vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame'] }))
 afterEach(() => vi.useRealTimers())
 const tick = () => act(() => { vi.advanceTimersByTime(150) })
@@ -24,10 +24,12 @@ describe('#572 — pinça com dois ponteiros de toque', () => {
     act(() => result.current.onPointerDown(ev(2, 200, 100))) // distância 100
     act(() => result.current.onPointerMove(ev(2, 300, 100))) // distância 200 → ×2
     tick()
-    expect(result.current.view.scale).toBeCloseTo(2, 5)
+    expect(result.current.readLiveView().scale).toBeCloseTo(2, 5)
+    // no meio do gesto o estado React NÃO muda (nada de re-render por toque)
+    expect(result.current.view.scale).toBe(1)
     act(() => result.current.onPointerMove(ev(2, 250, 100))) // distância 150 → ×1.5
     tick()
-    expect(result.current.view.scale).toBeCloseTo(1.5, 5)
+    expect(result.current.readLiveView().scale).toBeCloseTo(1.5, 5)
     // solta o 2º dedo: o 1º segue como pan, sem mexer na escala; soltar o 1º
     // encerra o gesto e comita NA HORA (sem esperar o relógio)
     act(() => result.current.onPointerUp(ev(2, 250, 100)))
@@ -43,8 +45,8 @@ describe('#572 — pinça com dois ponteiros de toque', () => {
     act(() => result.current.onPointerDown(ev(2, 200, 100)))
     act(() => result.current.onPointerMove(ev(1, 90, 100))) // distância 110 → ×1.1
     tick()
-    expect(result.current.view.scale).toBeCloseTo(1.1, 5)
-    expect(result.current.view.tx).toBeCloseTo(0, 5)
+    expect(result.current.readLiveView().scale).toBeCloseTo(1.1, 5)
+    expect(result.current.readLiveView().tx).toBeCloseTo(0, 5)
   })
 })
 
@@ -71,14 +73,17 @@ describe('#572 — pinça por TOUCH EVENTS nativos (fallback: Firefox Android n�
     act(() => { vp.dispatchEvent(start) })
     expect(start.defaultPrevented).toBe(true)
     act(() => { vp.dispatchEvent(touchEv('touchmove', [[100, 100], [300, 100]])) })
-    // o DOM recebe o transform no próximo quadro, antes do commit do React
+    // o DOM recebe o transform (e a var de contra-escala) no próximo quadro;
+    // o React NÃO re-renderiza no meio do gesto (data-scale segue em 1)
     act(() => { vi.advanceTimersByTime(20) })
-    expect((container.querySelector('[data-scale]') as HTMLElement).style.transform).toContain('scale(2)')
+    const mapa = container.querySelector('[data-scale]') as HTMLElement
+    expect(mapa.style.transform).toContain('scale(2)')
+    expect(mapa.style.getPropertyValue('--map-escala')).toBe('2')
     tick()
-    expect(escala()).toBeCloseTo(2, 5)
+    expect(escala()).toBe(1)
     act(() => { vp.dispatchEvent(touchEv('touchmove', [[100, 100], [250, 100]])) })
-    tick()
-    expect(escala()).toBeCloseTo(1.5, 5)
+    act(() => { vi.advanceTimersByTime(20) })
+    expect(mapa.style.transform).toContain('scale(1.5)')
     act(() => { vp.dispatchEvent(touchEv('touchend', [[100, 100]])) })
     act(() => { vp.dispatchEvent(touchEv('touchmove', [[120, 100]])) })
     act(() => { vp.dispatchEvent(touchEv('touchend', [])) })

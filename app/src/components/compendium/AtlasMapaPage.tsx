@@ -23,6 +23,7 @@ import { LOCALIZACAO_TYPE } from '../../data/atlas-nav'
 import { localEntriesOfKind } from '../../data/local-entities'
 import { useSettings } from '../../settings'
 import { useMesaGrupoPersistenteId } from '../../grupo/use-mesa-group-image'
+import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import {
@@ -163,7 +164,13 @@ export function AtlasMapaPage() {
     catalog.entryById.get(localId)?.basename ?? localId.split('/').pop() ?? localId
 
   const mapEntry = assets ? resolveAsset(assets, ATLAS_MAPA_ASSET) : null
+
+  // #572: atlas 7440×5262 px — versão MÉDIA (ver mapa-src)
+
+  const imagemMapa = useSrcDoMapa(mapEntry)
+
   const overlayEntry = assets ? resolveAsset(assets, ATLAS_OVERLAY_ASSET) : null
+  const imagemOverlay = useSrcDoMapa(overlayEntry)
 
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
@@ -284,7 +291,8 @@ export function AtlasMapaPage() {
               }}
             >
               <img
-                src={assetUrl(mapEntry)}
+                src={imagemMapa.src ?? assetUrl(mapEntry)}
+                onError={imagemMapa.onError}
                 alt="Mapa do mundo"
                 draggable={false}
                 style={{ height: '100%', width: 'auto', display: 'block' }}
@@ -313,7 +321,8 @@ export function AtlasMapaPage() {
                     </defs>
                     <image
                       data-overlay-desabilitado=""
-                      href={assetUrl(overlayEntry)}
+                      href={imagemOverlay.src ?? assetUrl(overlayEntry)}
+                      onError={imagemOverlay.onError}
                       x={0}
                       y={0}
                       width={ATLAS_MAPA_W}

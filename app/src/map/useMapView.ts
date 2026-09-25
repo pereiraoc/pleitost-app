@@ -11,6 +11,7 @@
 // roda. `containerRef` é o elemento que entra em tela cheia.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { marcarSuperficieDeGesto } from '../components/layout/gesture-surface'
+import { pushLog } from '../data/debug-log'
 
 export interface MapView {
   scale: number
@@ -45,6 +46,9 @@ export interface UseMapView {
   /** ref do div transformado (img+svg) — base do hit-test. */
   mapRef: RefObject<HTMLDivElement | null>
   transform: string
+  /** View sendo PINTADA agora: durante um gesto vai na frente de `view`, que
+   *  só sincroniza no fim (#572 — nada de re-render no meio da pinça). */
+  readLiveView: () => MapView
   fracAtClient: (clientX: number, clientY: number) => Frac | null
   onPointerDown: (e: React.PointerEvent) => void
   onPointerMove: (e: React.PointerEvent) => void
@@ -152,10 +156,13 @@ export function useMapView(): UseMapView {
   const liveRef = useRef<MapView>(IDENTITY)
   const gestoRef = useRef(false)
   const rafRef = useRef<number | null>(null)
-  const commitRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   /** Geometria medida UMA vez no início do gesto (base = sem transform):
    *  evita getBoundingClientRect a cada movimento (layout forçado). */
   const geoRef = useRef<Geo | null>(null)
+  /** Resumo do gesto pro log de debug (#572): quantas entradas chegaram,
+   *  quantos quadros o rAF pintou e o maior buraco entre eles — é o que
+   *  distingue "o evento não chega" de "o quadro não sai" no aparelho. */
+  const gestoStats = useRef<{ t0: number; entradas: number; quadros: number; tQuadro: number; gapMax: number; gapSoma: number; escala0: number } | null>(null)
 
   /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
    *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
@@ -198,10 +205,21 @@ export function useMapView(): UseMapView {
     [medirGeo],
   )
 
-  /** Escreve o transform AO VIVO no DOM (rAF) e agenda o commit do React. */
+  const agora = () => (typeof performance !== 'undefined' ? performance.now() : Date.now())
+
+  /** Escreve o transform AO VIVO no DOM (rAF). O React NÃO re-renderiza no
+   *  meio do gesto (#572: cada commit re-renderizava o painel inteiro do mapa
+   *  e atrasava o toque seguinte); `view` sincroniza só no encerrarGesto.
+   *  Rótulos/pinos contra-escalam pela var CSS `--map-escala`, escrita aqui. */
   const aplicarAoVivo = useCallback((next: MapView) => {
+    const anterior = liveRef.current
     liveRef.current = next
-    gestoRef.current = true
+    if (!gestoRef.current) {
+      gestoRef.current = true
+      gestoStats.current = { t0: agora(), entradas: 0, quadros: 0, tQuadro: 0, gapMax: 0, gapSoma: 0, escala0: anterior.scale }
+    }
+    const st = gestoStats.current
+    if (st) st.entradas++
     if (rafRef.current === null && typeof requestAnimationFrame === 'function') {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null
@@ -210,26 +228,43 @@ export function useMapView(): UseMapView {
         const v = liveRef.current
         el.style.willChange = 'transform'
         el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
+        el.style.setProperty('--map-escala', String(v.scale))
+        const st2 = gestoStats.current
+        if (st2) {
+          const t = agora()
+          if (st2.quadros > 0) {
+            const gap = t - st2.tQuadro
+            st2.gapSoma += gap
+            if (gap > st2.gapMax) st2.gapMax = gap
+          }
+          st2.quadros++
+          st2.tQuadro = t
+        }
       })
-    }
-    if (commitRef.current === null) {
-      commitRef.current = setTimeout(() => {
-        commitRef.current = null
-        setView(liveRef.current)
-      }, 120)
     }
   }, [])
 
   /** Fim do gesto: commit imediato do React e solta o will-change. */
   const encerrarGesto = useCallback(() => {
-    if (commitRef.current !== null) {
-      clearTimeout(commitRef.current)
-      commitRef.current = null
-    }
     gestoRef.current = false
     geoRef.current = null
     const el = mapRef.current
     if (el) el.style.willChange = ''
+    const st = gestoStats.current
+    gestoStats.current = null
+    if (st && st.entradas > 0) {
+      const ms = Math.round(agora() - st.t0)
+      pushLog('mapa', 'gesto', {
+        ms,
+        entradas: st.entradas,
+        quadros: st.quadros,
+        gapMedio: st.quadros > 1 ? Math.round(st.gapSoma / (st.quadros - 1)) : 0,
+        gapMax: Math.round(st.gapMax),
+        escala: [Number(st.escala0.toFixed(2)), Number(liveRef.current.scale.toFixed(2))],
+        dpr: typeof devicePixelRatio === 'number' ? devicePixelRatio : 1,
+        vp: viewportElRef.current ? `${viewportElRef.current.clientWidth}x${viewportElRef.current.clientHeight}` : '?',
+      })
+    }
     setView(liveRef.current)
     // `dragging` = "há gesto em curso" (o viewer troca pra imagem MÉDIA com
     // ele, #572): só apaga aqui, no único fim de gesto — inclusive da pinça
@@ -245,11 +280,11 @@ export function useMapView(): UseMapView {
     if (!el) return
     const v = liveRef.current
     el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
+    el.style.setProperty('--map-escala', String(v.scale))
   })
   useEffect(
     () => () => {
       if (rafRef.current !== null && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(rafRef.current)
-      if (commitRef.current !== null) clearTimeout(commitRef.current)
     },
     [],
   )
@@ -345,20 +380,29 @@ export function useMapView(): UseMapView {
     [aplicarPinca],
   )
   const onTouchEnd = useCallback((e: TouchEvent) => {
-    if (!touchPinch.current) return
-    if (e.touches.length >= 2) {
-      const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
-      const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
-      touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: liveRef.current }
-      return
+    if (touchPinch.current) {
+      if (e.touches.length >= 2) {
+        const a = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY }
+        const b = { x: e.touches[1]!.clientX, y: e.touches[1]!.clientY }
+        touchPinch.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view: liveRef.current }
+        return
+      }
+      touchPinch.current = null
+      // o dedo que sobrou vira pan a partir de onde está (sem salto)
+      if (e.touches.length === 1) {
+        const t = e.touches[0]!
+        panBase.current = { x: t.clientX, y: t.clientY, tx: liveRef.current.tx, ty: liveRef.current.ty }
+        for (const [id, p] of pointers.current) pointers.current.set(id, { ...p, x: t.clientX, y: t.clientY })
+        return
+      }
     }
-    touchPinch.current = null
-    // o dedo que sobrou vira pan a partir de onde está (sem salto)
-    if (e.touches.length === 1) {
-      const t = e.touches[0]!
-      panBase.current = { x: t.clientX, y: t.clientY, tx: liveRef.current.tx, ty: liveRef.current.ty }
-      for (const [id, p] of pointers.current) pointers.current.set(id, { ...p, x: t.clientX, y: t.clientY })
-    } else {
+    // Último dedo fora = fim do gesto, MESMO sem pointerup (Firefox Android
+    // nem sempre entrega os pointers do toque): sem isto a view nunca
+    // sincronizava e `dragging` ficava preso depois de pinça → pan → soltar.
+    if (e.touches.length === 0 && gestoRef.current) {
+      pointers.current.clear()
+      panBase.current = null
+      pinchBase.current = null
       encerrarGesto()
     }
   }, [encerrarGesto])
@@ -540,6 +584,7 @@ export function useMapView(): UseMapView {
   return {
     view,
     dragging,
+    readLiveView: () => liveRef.current,
     fullscreen,
     containerRef,
     viewportRef,
