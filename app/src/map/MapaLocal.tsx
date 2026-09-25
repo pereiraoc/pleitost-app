@@ -24,7 +24,7 @@ import { reskinName } from '../data/reskin'
 import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex, assetUrl, medioUrl, preferThumb, resolveAsset } from '../data/assets'
-import { camadasDoMapa } from './mapa-src'
+import { srcDoMapa } from './mapa-src'
 import type { VaultDoc } from '../data/types'
 import { leafletZoom, markerVisivel, markerGlyph } from './leaflet-local'
 import { MapControls, fullscreenContainerStyle } from './MapControls'
@@ -127,19 +127,9 @@ export function MapaLocal({
   const [larguraNaTela, setLarguraNaTela] = useState(0)
   const entry = assets ? resolveAsset(assets, leaflet.image) : null
   const url = entry ? assetUrl(entry) : null
-  // #572: base = MÉDIA sempre montada; a CHEIA só por cima, parada em zoom alto.
+  // #572: imagem gigante mostra SÓ a versão média (sem troca de src no gesto).
   const [medioFalhou, setMedioFalhou] = useState(false)
   const srcMedio = entry ? medioUrl(entry) : null
-  const camadas = entry
-    ? camadasDoMapa({
-        cheia: assetUrl(entry),
-        medio: srcMedio,
-        gesto: map.dragging,
-        scale: map.view.scale,
-        medioFalhou,
-        prod: preferThumb,
-      })
-    : null
   useEffect(() => {
     const el = map.mapRef.current
     if (!el || typeof ResizeObserver === 'undefined') return
@@ -339,7 +329,7 @@ export function MapaLocal({
           }}
         >
           <img
-            src={camadas!.base}
+            src={srcDoMapa({ cheia: assetUrl(entry), medio: srcMedio, medioFalhou, prod: preferThumb })}
             alt={`Mapa: ${leaflet.image}`}
             draggable={false}
             onError={(e) => {
@@ -349,16 +339,7 @@ export function MapaLocal({
             }}
             style={{ height: '100%', width: 'auto', display: 'block' }}
           />
-          {camadas!.detalhe ? (
-            <img
-              data-mapa-detalhe=""
-              src={camadas!.detalhe}
-              alt=""
-              aria-hidden
-              draggable={false}
-              style={{ position: 'absolute', inset: 0, height: '100%', width: '100%', display: 'block', pointerEvents: 'none' }}
-            />
-          ) : null}
+
           {idxBairros ? <RealceBairro idx={idxBairros} bairro={realce} /> : null}
           {quadro && overlay ? overlay({ ...quadro, escala: map.view.scale }) : null}
           {idxBairros
