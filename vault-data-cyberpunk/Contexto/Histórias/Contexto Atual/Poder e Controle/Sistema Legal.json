@@ -1,0 +1,50 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Controle/Sistema Legal",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Controle/Sistema Legal.md",
+  "basename": "Sistema Legal",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As leis vigentes e os direitos civis garantidos (ou negados) pelo sistema de justiça.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sistema Legal.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Sistema Legal.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Tribunais Militares"
+    },
+    {
+      "level": 4,
+      "text": "Legislação Penal Rígida"
+    },
+    {
+      "level": 4,
+      "text": "Oficiais de Execução Autônoma"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Sistema Legal.png]]\n\nEm Porto Alegre, no ano de 1987, o sistema legal encontra-se fortemente militarizado e integrado às estruturas de poder autoritário do regime vigente. A separação tradicional entre os poderes foi dissolvida, resultando em um judiciário completamente subordinado ao poder militar.\n#### Tribunais Militares\nCivis acusados de qualquer crime, especialmente relacionados à segurança nacional ou \"terrorismo industrial\", são julgados diretamente em tribunais militares. Esses tribunais operam com o princípio de presunção de culpa, negando direitos fundamentais como o devido processo legal e a ampla defesa. O habeas corpus encontra-se suspenso para crimes classificados como ameaças à segurança industrial e política.\n#### Legislação Penal Rígida\nAs leis penais foram endurecidas com o intuito de proteger empreendimentos estratégicos, especialmente aqueles relacionados à produção e comércio dos selênicos. Qualquer atividade considerada prejudicial às megacorporações ou aos interesses econômicos e políticos do Estado é enquadrada rapidamente como crime de terrorismo industrial, acarretando penas severas e imediatas.\n#### Oficiais de Execução Autônoma\nUma classe especial de oficiais militares foi criada com poderes judiciais extraordinários. Esses oficiais têm autonomia para julgar, sentenciar e executar penalidades no local, especialmente em situações consideradas de emergência, como protestos ou atos subversivos. Tal prática agiliza a repressão a grupos dissidentes e garante uma resposta rápida do Estado contra qualquer forma de oposição organizada ou manifestação pública."
+}

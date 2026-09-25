@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Casa em Petrópolis",
+  "path": "Contexto/Recursos/Imóveis/Casa em Petrópolis.md",
+  "basename": "Casa em Petrópolis",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Imobiliárias de Petrópolis",
+    "Preço": 20000,
+    "Cobrança": "mês",
+    "Compra": 4000000,
+    "Manutenção": 4000,
+    "Nível": 5,
+    "Onde": [
+      "[[Petrópolis]]"
+    ],
+    "Resumo": "Casa de 1960 com três dormitórios, pátio com churrasqueira, muro alto e cachorro. Telhado e gerador por sua conta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Casa em Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Casa em Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Casa em Petrópolis.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA casa de família de [[Petrópolis]]: 1960, três dormitórios, pátio com churrasqueira e um muro que subiu um\nmetro depois de 1986. O aluguel é caro e a manutenção é sua — telhado, gerador, a cerca elétrica que a\n[[Gradiente]] instala e cobra. A [[Tramontina]] tem oficina móvel na esquina; isso conta como vantagem.\n\n> [!info] Especificação\n> **Imóvel:** casa de 1960, 3 dormitórios, 160 m², pátio com churrasqueira e garagem pra 2\n> **Inclui:** muro alto, portão de ferro, cachorro do inquilino anterior\n> **Não inclui:** telhado, gerador (Cz$ 15.000 usado), cerca elétrica da [[Gradiente]]\n> **Vizinhança:** churrascaria, galeteria, [[Tramontina]] na esquina\n> **Compra:** Cz$ 4.000.000\n> **Nível:** 5 — Classe Média Alta\n"
+}

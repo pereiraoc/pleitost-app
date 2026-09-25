@@ -1,0 +1,181 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.1-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.1-alpha.md",
+  "basename": "Release Notes v0.5.1-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iniciar Sessão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Personagens na Mesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ficha do Grupo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Configuração",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.1-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🧰 Imbuições — rework mecânico (12 itens)"
+    },
+    {
+      "level": 3,
+      "text": "🔮 Foco da Consistência (Implemento) — destrava pra qualquer magia"
+    },
+    {
+      "level": 3,
+      "text": "🪙 Tesouros de Perícia — mesma onda"
+    },
+    {
+      "level": 3,
+      "text": "⚡ Coordenar — alcance e ações ampliadas"
+    },
+    {
+      "level": 3,
+      "text": "🌑 Magia Negra: Escuridão → Névoa Sombria"
+    },
+    {
+      "level": 3,
+      "text": "👁️ Condição Cego — penalidade ampliada"
+    },
+    {
+      "level": 3,
+      "text": "🔇 Condição Ensurdecido — alias corrigido"
+    },
+    {
+      "level": 3,
+      "text": "⏱️ Tempo — fim de efeito esclarecido"
+    },
+    {
+      "level": 3,
+      "text": "🃏 Cartas de Armas Especiais e Naturais — imagens novas"
+    },
+    {
+      "level": 3,
+      "text": "🌿 Curativo Herbal (Herbalismo Prático) — agora no painel Recuperação"
+    },
+    {
+      "level": 3,
+      "text": "🪙 Botão de Moedas voltou pra Interativa"
+    },
+    {
+      "level": 3,
+      "text": "💤 Dormir — link + cap EV consistente"
+    },
+    {
+      "level": 3,
+      "text": "💚 Cluster Vida — polish"
+    },
+    {
+      "level": 3,
+      "text": "⚔️ Dificuldade de encounter recalculada"
+    },
+    {
+      "level": 2,
+      "text": "🌐 Pleitost Sync — plugin novo"
+    },
+    {
+      "level": 3,
+      "text": "Modelo: a verdade é do dono do claim"
+    },
+    {
+      "level": 3,
+      "text": "Bidi sync — ficha reflete a sessão em tempo real"
+    },
+    {
+      "level": 3,
+      "text": "Initial sync ao entrar/reabrir"
+    },
+    {
+      "level": 3,
+      "text": "Combate integrado com o combat-tracker"
+    },
+    {
+      "level": 3,
+      "text": "Ficha do grupo + auto-publish"
+    },
+    {
+      "level": 3,
+      "text": "Trocar heroi preserva placeholder do grupo"
+    },
+    {
+      "level": 3,
+      "text": "Multi-sessão"
+    },
+    {
+      "level": 3,
+      "text": "Outras features"
+    },
+    {
+      "level": 3,
+      "text": "Aventura exemplo: Emboscada de Goblins (Exemplo Sync)"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Mudanças de mecânica"
+    },
+    {
+      "level": 3,
+      "text": "Conteúdo novo / atualizado"
+    },
+    {
+      "level": 3,
+      "text": "Schema novo no FM"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Releases dos plugins"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.0-alpha...v0.5.1-alpha\n\n# 📦 Release Notes — Pleitost v0.5.1-alpha\n\n**Período coberto:** 2026-05-25 → 2026-05-30\n\n**Foco:** **Imbuições reescritas** (12 itens + Foco da Consistência) e **4 Tesouros de Perícia** seguindo o paradigma activatable 1/10min estabelecido em v0.5.0 + **Escuridão → Névoa Sombria** (com Cego mais punitivo) + **Pleitost Sync**, plugin novo de sessões multi-jogador em tempo real via Supabase. **Imagens novas** pras cartas de Armas Especiais e Naturais (issue #78 fechada).\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🧰 Imbuições — rework mecânico (12 itens)\n\nSegunda onda do paradigma activatable iniciado em v0.5.0. Padrão geral:\n\n- **Frequência uniforme**: tudo que era 1/dia virou **1/10min** — utilizável dentro de uma cena/combate, não \"guarda pra emergência\".\n- **Efeitos mais ativos**: reações ao acertar, teleportes, ataques extras, replicação direta de magia — substituem o modelo antigo de \"1/dia conjurar X\" que ficava sem usar.\n- **Magnitudes balanceadas** pra compensar a frequência maior.\n\n| Imbuição | Mecânica em 0.5.1 |\n|---|---|\n| **Flamejante** | Replica **Cone de Fogo** ativando direto na arma (mod = ataque corpo-a-corpo; área 3q/4q/6q; potência 2/3/4 por tier). Se a última ação foi atacar, ativa com 1A mirando na direção do alvo. |\n| **Sísmica** | Replica **Tremor** com o mesmo padrão (ativa direto na arma, mod = ataque, escala por tier). |\n| **Congelante** | Encantar Arma (potência 2/3/4) — dano extra vira **frio** + -1q de Movimento por 1 turno na vítima. |\n| **Incendiária** | Encantar Arma (potência 2/3/4) — dano extra vira **fogo** + criaturas que iniciarem turno **adjacentes a você** sofrem 2 de fogo enquanto durar. |\n| **Ciclonal** | Após acertar com esta arma, **1 ataque extra como ação livre** (conta PAM). |\n| **da Ventania** | **Ataque à distância (6q)** usando seu modificador e dano corpo-a-corpo. |\n| **Enraizante** | Após acertar, ativar 1A pra reduzir movimento da vítima em 3q. |\n| **Explosiva** | Reação após acertar — **+2d4 dano de fogo**. |\n| **Mineral** | Reação ao sofrer dano físico (corte/contusão/perfuração): reduz em 5. |\n| **Relampejante** | Arma arremessada **volta pra sua mão**; reação ao acertar à distância: **teleporta adjacente ao alvo**. |\n| **Torrencial** | Após acertar corpo-a-corpo, **teleporta pra outro espaço adjacente ao alvo**. |\n| **Hidratante** | Ataque à distância com VdC contra aliado: no sucesso, recupera Moral igual ao dano da arma (sem dano). |\n\nTodos os tiers escalam (bônus +1/+2/+3, magnitudes e recarga consistentes). Polish menor em **Imbuição Sísmica** (correção de resumo).\n\n### 🔮 Foco da Consistência (Implemento) — destrava pra qualquer magia\n\nAntes (tier Experiente/Mestre): \"re-role 1s de **dano/cura da magia do foco**\" — limitava ao efeito interno do Implemento, criando ambiguidade.\n\nAgora (todos os tiers): re-role 1s de **dano/cura de qualquer magia**, com Adepto 2 dados / Experiente 3 / Mestre 4. Implemento puro de consistência mágica sem cláusula confusa.\n\n### 🪙 Tesouros de Perícia — mesma onda\n\nMesmo paradigma aplicado em 4 Tesouros de Perícia. Bônus de item da perícia (+1/+2/+3 por tier) inalterado.\n\n| Tesouro | Mecânica em 0.5.1 |\n|---|---|\n| **Anel Canário** (Enganação) | **Reação** ao ataque de aliado pra garantir [[Vantagem de Combate]] (3q/6q/10q por tier). Experiente/Mestre também podem ativar pra dar 50% de chance do inimigo errar; Mestre nega o dano mesmo após o inimigo ter acertado. |\n| **Brasão Tático** (Guerra) | **Coordenar como ação livre**. Experiente: aliado coordenado recebe 4 EH temporária por 1 turno. Mestre: 6 EH temporária + resultado sobe um grau. |\n| **Diadema da Ameaça** (Intimidação) | Ação pra **Abalar** uma criatura que recebeu dano seu na última ação. Experiente também Desprevende; Mestre força a vítima a fugir com a reação. |\n| **Sensor Arcano** (Arcana) | Amplia alcance de Detectar Magia pra **10q** (se sabe conjurar). Experiente: ativa pra conjurar por 1 minuto + deduzir o espaço de maior fonte. Mestre: efeito passivo contínuo. |\n\n### ⚡ Coordenar — alcance e ações ampliadas\n\nAlcance **3q → 4q**. Em **sucesso decisivo**, o aliado adianta **até duas ações** do próximo turno (antes era sempre uma). Penalidade no turno do aliado inalterada.\n\n### 🌑 Magia Negra: Escuridão → Névoa Sombria\n\n| Antes | Depois |\n|---|---|\n| **Escuridão** (Magia Negra Adepta) — criava zona escura | Removida (referências corrigidas no Grimório de Magia Arcana) |\n| — | **Névoa Sombria** (Magia Negra **Experiente**) — zona nebulosa raio 4q, alcance 10q, 10 turnos. Quem está dentro fica **Cego + Escondido pra quem está fora**. |\n| **Ofuscação** (Magia Negra Adepta) — sem alteração mecânica | Mesma estrutura, pequenos ajustes de texto. |\n\nPind Bund (Magia Arcana Negra Experiente) é o impactado direto — agora tem Névoa Sombria pra mira de zona.\n\n### 👁️ Condição Cego — penalidade ampliada\n\nAntes: \"Não vê, [[Desprevenido]], 50% de chance de errar ataques.\"\n\nAgora:\n- Todo terreno conta como **[[Terreno Difícil]]**\n- Mantém [[Desprevenido]]\n- **Ataques, Manobras de Ataque E Ataques Mágicos de alvo único** = 50% de chance de falha\n\nA regra de 50% miss agora inclui explicitamente magia — antes a leitura era ambígua e magia escapava da penalidade.\n\n### 🔇 Condição Ensurdecido — alias corrigido\n\nFM declarava `alias: Cegos, Cega, Cegas` (copy-paste do Cego). Agora declara corretamente `Ensurdecida, Ensurdecidos, Ensurdecidas`. Wikilinks à condição passam a resolver.\n\n### ⏱️ Tempo — fim de efeito esclarecido\n\nRegra nova: efeitos com duração de **X turnos terminam no início do mesmo turno em que foram criados**. Exemplo: criatura Abalada por 1 turno por uma Assustar — quando a iniciativa voltar ao turno do conjurador, o efeito acaba.\n\n### 🃏 Cartas de Armas Especiais e Naturais — imagens novas\n\n**Issue #78 fechada.** 30 imagens novas pra cartas (figura central):\n\n- **Caudas (6)** — Cauda, Cauda Grande, Cauda Enorme, Cauda Colossal, Cauda Pesada, Cauda de Dragão\n- **Chifres (5)** — Chifres, Chifres Grandes, Chifres Enormes, Chifres Colossais, Chifres Letais\n- **Garras (6)** — Garras, Garras Afiadas, Garras Grandes, Garras Enormes, Garras Colossais, Garra de Tigre\n- **Mandíbulas (5)** — Mandíbula, Mandíbula Afiada, Mandíbula Grande, Mandíbula Enorme, Mandíbula Colossal\n- **Presas (6)** — Presas, Presas Grandes, Presas Enormes, Presas Colossais, Presas Letais, Presas de Lobo\n- **Outros (2)** — Escudada, Pontos de Pressão\n\nAs cartas (impressão A4 e inline nas notas dos itens) consomem essas imagens automaticamente pelo plugin `pleitost-views`.\n\n### 🌿 Curativo Herbal (Herbalismo Prático) — agora no painel Recuperação\n\n**Issue #205 fechada.** Antes Curativo Herbal aparecia só na section \"Usos\" da aba Recursos, longe do contexto onde Dormir/Descansar restaurava ele. Agora aparece **inline no painel Recuperação** (sidebar Vida v2), ao lado de Descansar/Dormir e dos consumíveis de cura, com visual de pílulas toggle on↔off (padrão Tesouros).\n\n### 🪙 Botão de Moedas voltou pra Interativa\n\n**Issue #204 fechada.** Botão de transferir moedas entre Vault/Carteira voltou pra ser acessível pela Modo Interativa do autosheet.\n\n### 💤 Dormir — link + cap EV consistente\n\n**Issue #206 fechada.** Link de Dormir resolvendo corretamente + cap EV restaurada por Dormir alinhada ao padrão 6/9/12 por tier de Constituição.\n\n### 💚 Cluster Vida — polish\n\n- **Layout simétrico** — diamonds extras agora ficam acima E abaixo da Vida central (não só abaixo).\n- **Cores unificadas** — diamonds do cluster Vida compartilham slate-blue tone-extras pra coerência visual.\n- **Mobile (Obsidian-mobile)** — botões counter ajustados; headers no compact layout do extras-panel.\n\n### ⚔️ Dificuldade de encounter recalculada\n\n`getMonsterContribution` aplicava × 1.2 indevidamente pra monstros Normal E Competente. Agora **Normal = base × 1.0** (5/10/25/40 pts por tier) e **Competente = tabela hardcoded** (6/12/28/48 pts por tier). Elite × 2 e Solo × 3 inalterados.\n\n**Combates anteriores eram superestimados** (a dificuldade aparecia mais alta do que deveria). Exemplo: 3 Orc Arqueiros tier 1 Normal agora valem **30 pts** (eram 36 antes). Vale revisar tooltips de combates Preparados antes de iniciar — alguns que pareciam \"Difíceis\" podem ser \"Médios\".\n\n---\n\n## 🌐 Pleitost Sync — plugin novo\n\nPlugin NOVO. **Mesa virtual com sincronização em tempo real** via Supabase realtime — Mestre cria sessão, jogadores entram com código, mudanças em vida/condições/recursos/nivel sincronizam em <500ms entre todos.\n\nNão substitui o autosheet — trabalha em paralelo, compartilhando o estado das fichas.\n\n### Modelo: a verdade é do dono do claim\n\nCada personagem com claim é editado **apenas pelo dono** (via Modo Interativa do autosheet). Mestre aplica dano/condição direto no painel **apenas em NPCs e placeholders**. Tentativa do Mestre de mexer em ficha claimed → Notice \"Só o dono pode mudar X\".\n\nCompanheiro animal e invocação ativa **herdam o lock do tutor heroi** — se a Mera é da Player A, tudo dela (Metis, Amálgama das Sombras invocada) só a Player A altera.\n\n### Bidi sync — ficha reflete a sessão em tempo real\n\nQuando alguém atualiza algo no servidor, os FMs locais de **todas as máquinas conectadas** são escritos automaticamente (debounce 200ms pra agrupar rajadas de combate). Modo Interativa do autosheet reflete o estado da Mesa sem reload.\n\nPlayer B editando ficha alheia (caso raro) → watcher detecta + **reverte FM** com snapshot do servidor. Input \"salta de volta\" visualmente.\n\n### Initial sync ao entrar/reabrir\n\nCompara FM local com estado do servidor. Se divergem (sessão rolou enquanto você estava offline, etc), escreve FM ← DB com Notice descritivo (\"Sincronizando Mera com a sessão (30→15)\"). Ficha começa alinhada.\n\n### Combate integrado com o combat-tracker\n\nAction-bar do combat-tracker (autosheet) ganha botão **🔗 Adicionar à Sessão**. Click → combate vai pra \"Combates Preparados\" no painel sync. Mestre clica \"Iniciar Combate\" → heróis/companheiros migram pra \"Combate Ativo\"; NPCs do roster são criados.\n\n| Visão | Player |\n|---|---|\n| Heroi/companheiro de player conectado | Nome real + supercharged link |\n| NPC GM-controlled sem reveal | Label genérico (`Goblin 1`, `Goblin 2`…) + status tag colorida (Impecável/Saudável/Ferido/Gravemente Ferido) |\n| NPC com reveal (❓/❗ do Mestre) | Nome real plain text, sem link |\n\n### Ficha do grupo + auto-publish\n\nMestre seleciona uma nota `categoria: Grupo` → membros declarados (heróis com `fm.grupo` apontando pra ficha) entram como placeholders. **Companheiros transitivos** (cujo `Tutor` resolve pra heroi do grupo) entram junto. Jogador clica 👤 ao lado do nickname e reivindica o placeholder → companheiros tutorados vêm junto em cascata.\n\n### Trocar heroi preserva placeholder do grupo\n\nQuando você troca de heroi, se o antigo era do grupo, ele **volta a ser placeholder** (vida/condições/recursos preservados) — outro jogador pode reivindicar depois. Se não era do grupo, sai da sessão.\n\n### Multi-sessão\n\nHome view com lista de recents (cap 10). Você pode estar em N sessões no servidor (ex: Mestre da Mesa A + player na Mesa B) — painel mostra 1 de cada vez. Trocar sai da atual sem encerrar.\n\n### Outras features\n\n- **Log opt-in ao encerrar sessão** — gera `Aventuras/Logs de Sessão/Sessao-YYYY-MM-DD-HHMM.md` com membros + estado final dos personagens + encounters\n- **OAuth GitHub** (recomendado) + fallback email+senha\n- **Backend padrão público** (mantido pelo autor) — ou aponte pra projeto Supabase próprio via override em settings\n- **Toggle \"Sincronizar fichas com a sessão\"** (default ON) — kill switch que desativa o bidi sync; sessão fica isolada do FM\n- **Status indicator** (🟢/🔴) no painel pra mostrar conexão\n\n### Aventura exemplo: Emboscada de Goblins (Exemplo Sync)\n\n`Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync).md` — encounter pronto pra demonstrar o fluxo completo do sync (preparar combate → iniciar → resolver → encerrar).\n\nDoc completa: **[[Como Funciona]]**, **[[Iniciar Sessão]]**, **[[Personagens na Mesa]]**, **[[Combate]]**, **[[Ficha do Grupo]]**, **[[Configuração]]** em `Recursos e Mídia/Documentação Adicional/Sync Plugin/`.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Mudanças de mecânica\n\n- **12 Imbuições + Foco da Consistência + 4 Tesouros de Perícia** — paradigma activatable 1/10min (Anel Canário, Brasão Tático, Diadema da Ameaça, Sensor Arcano)\n- **Escuridão** removida; **Névoa Sombria** nova (Magia Arcana Negra Experiente)\n- **Cego** — Terreno Difícil + miss em magia\n- **Ensurdecido** — alias corrigido\n- **Coordenar** — alcance 3q → 4q, sucesso decisivo permite 2 ações adiantadas\n- **Tempo** — regra nova esclarecendo que efeitos \"X turnos\" terminam no mesmo turno em que começaram\n\n### Conteúdo novo / atualizado\n\n- **Pátria Aurora** (Atlas): recursos do grupo atualizados — adiciona Bordão, Espada Bastarda + Imbuições alinhadas (Sísmica/Explosiva/Torrencial específicas)\n- **Disponibilidade de Tesouros**: ajuste menor\n- **Grimórios de Magia Arcana** (Rascunhos): referência a Escuridão substituída por Névoa Sombria\n- **Combates**: Vila de Goblins + **Três Arqueiros Verdes** (novo)\n- **Estado de jogo**: Carlos Facão (Ouro 7→15, vita 4→18, moral 36→6, condições Encantar Arma + Vantagem de Combate + Acerto Decisivo), Thoren (Azagaia → Arco de Guerra)\n\n### Schema novo no FM\n\n- **Âncora `Recuperacao`** em `Efeitos_Interativos.visual.ancorar` — notas com efeito de cura que deve aparecer no painel Recuperação (ao lado de Descansar/Dormir) declaram essa âncora. Curativo Herbal é o primeiro consumidor.\n\n---\n\n## ✅ Issues fechadas\n\n- **#78** — Cartas de Armas Especiais e Naturais ganham imagens (Caudas, Chifres, Garras, Mandíbulas, Presas, Escudada, Pontos de Pressão).\n- **#181** — Imbuição Torrencial agora permite escolher pra qual espaço adjacente ao alvo o personagem teleporta.\n- **#186** — Estabilizar reescrita (alcance 6q → 2q + mecânica passa a usar Primeiros Socorros com Ataque Mágico, não mais auto-stabilize).\n- **#204** — Botão de Moedas voltou pra Modo Interativa.\n- **#205** — Curativo Herbal no painel Recuperação (Herbalismo Prático).\n- **#206** — Dormir link + cap EV 6/9/12.\n- **#208** — Interação Azagaia + Imbuição Relampejante Experiente esclarecida no rework das imbuições.\n\n---\n\n## 🛠️ Releases dos plugins\n\nDetalhes completos no CHANGELOG de cada plugin (acessível pelo sistema de arquivos / GitHub).\n\n| Plugin | Versão | Highlights |\n|---|---|---|\n| `pleitost-autosheet` | **2.0.3 → 2.0.12** | 10 patches: fixes (#204 botão Moedas, #205 Curativo Herbal Recuperação, #206 Dormir + cap EV) + cluster Vida polish (simétrico, tablet, cores unificadas) + hook `window.pleitostSyncBridge` no combat-tracker pra integração com o sync + emojis `IdentidadeOculta`/`IdentidadeRevelada` no registry compartilhado + fix `mountMagiaPanel` não propagava `onMetaChange` (invocações inline por escola não persistiam). [`CHANGELOG`](.obsidian/plugins/pleitost-autosheet/CHANGELOG.md) |\n| `pleitost-sync` | **NOVO — 0.3.0** | Plugin de sessões multi-jogador via Supabase realtime. Bidi sync FM ↔ DB com regra do claim, initial sync ao entrar/reabrir, revert de edit não-autorizado, lock transitivo (companheiro/invocação herdam do tutor heroi), integração com combat-tracker do autosheet, ficha do grupo com auto-publish + claim, multi-sessão, OAuth GitHub. [`CHANGELOG`](.obsidian/plugins/pleitost-sync/CHANGELOG.md) |\n| `pleitost-views` | 0.4.1 (sem bump) | Estável; consome as 27 imagens novas de Armas Naturais/Especiais automaticamente via plugin. |\n"
+}

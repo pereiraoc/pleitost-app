@@ -1,0 +1,45 @@
+{
+  "id": "Recursos e Mídia/Ferramentas de GM/Escudo do Mestre",
+  "path": "Recursos e Mídia/Ferramentas de GM/Escudo do Mestre.md",
+  "basename": "Escudo do Mestre",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Economia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disponibilidade de Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Escudo do Mestre"
+    },
+    {
+      "level": 2,
+      "text": "Combate"
+    }
+  ],
+  "body": "# Escudo do Mestre\n\n[[CD]]\n[[Economia]]\n[[Disponibilidade de Tesouros]]\n\n## Combate\n```combat-marker\n- [[Carlos, Dante, Mera, Pind, Thoren]]\n- 5 [[Goblin]]\n\n@estado\niniciado: nao\nrodada: 0\nvez: 0\n\n1: src=Sistema/Criaturas/Heróis/Carlos Facão de Andradas | gen=nao | nome= | init= | vit=18/18 | moral=36/36+0 | status=pending | morto=nao | cond= # Carlos Facão de Andradas\n2: src=Sistema/Criaturas/Heróis/Dante | gen=nao | nome= | init= | vit=18/18 | moral=36/36+0 | status=pending | morto=nao | cond= # Dante\n3: src=Sistema/Criaturas/Heróis/Mera | gen=nao | nome= | init= | vit=22/22 | moral=45/45+0 | status=pending | morto=nao | cond= # Mera\n4: src=Sistema/Criaturas/Heróis/Pind Bund | gen=nao | nome= | init= | vit=15/15 | moral=30/30+0 | status=pending | morto=nao | cond= # Pind Bund\n5: src=Sistema/Criaturas/Heróis/Thoren | gen=nao | nome= | init= | vit=22/22 | moral=45/45+0 | status=pending | morto=nao | cond= # Thoren\n6: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init= | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n7: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init= | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n8: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init= | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n```\n\n"
+}

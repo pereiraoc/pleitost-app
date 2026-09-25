@@ -1,0 +1,105 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.3.0-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.3.0-alpha.md",
+  "basename": "Release Notes v0.3.0-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Nome da nota",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.3.0-alpha"
+    },
+    {
+      "level": 2,
+      "text": "✨ Destaques"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas / iniciativas entregues nesta versão"
+    },
+    {
+      "level": 3,
+      "text": "Relação de entregas e issues"
+    },
+    {
+      "level": 2,
+      "text": "🧠 Autosheet Automática (Rule Elements)"
+    },
+    {
+      "level": 3,
+      "text": "Adicionado / Melhorado"
+    },
+    {
+      "level": 2,
+      "text": "⚔️ Ficha Interativa de Jogador"
+    },
+    {
+      "level": 3,
+      "text": "Adicionado / Melhorado"
+    },
+    {
+      "level": 2,
+      "text": "🐾 Companheiro Animal"
+    },
+    {
+      "level": 2,
+      "text": "🐲 Monstros & Bestiário"
+    },
+    {
+      "level": 2,
+      "text": "👥 Grupos de Criaturas"
+    },
+    {
+      "level": 2,
+      "text": "📋 Ficha de grupo (party sheet)"
+    },
+    {
+      "level": 2,
+      "text": "🗂️ Sistema de Aventuras"
+    },
+    {
+      "level": 2,
+      "text": "🛡️ Combat Tracker"
+    },
+    {
+      "level": 2,
+      "text": "🔧 Sistema & Mecânicas"
+    },
+    {
+      "level": 3,
+      "text": "Balanceamento"
+    },
+    {
+      "level": 3,
+      "text": "Progressão"
+    },
+    {
+      "level": 3,
+      "text": "Suporte a novas propriedades"
+    },
+    {
+      "level": 2,
+      "text": "🗺️ Atlas & Contexto"
+    },
+    {
+      "level": 2,
+      "text": "🏗️ Arquitetura & Organização"
+    },
+    {
+      "level": 2,
+      "text": "👥 Commits (visão geral)"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.2.2-alpha...v0.3.0-alpha\n\n# 📦 Release Notes — Pleitost v0.3.0-alpha\n\n**Período coberto:** Dez/2025 → Abr/2026  \n**Foco:** autosheet automática com rule elements + combat tracker + grupos de criaturas + ficha interativa de monstros + migração para plugin pleitost-autosheet + melhorias massivas de usabilidade em mesa + expansão de conteúdo (magias mestre, progressão nível 7, atlas).\n\n---\n\n## ✨ Destaques\n\n- **Autosheet Automática** — nova família de ficha orientada por `Elementos de Regra`, capaz de calcular e aplicar o estado esperado da ficha a partir de seleções (classe, habilidades, técnicas, magias, etc.), com diff e save protegido.\n- **Ficha Interativa de Jogador** — agora exibe valores calculados em tempo real considerando qualquer efeito ativo: condições do sistema, formas de druida, magias ativas, performances de bardo, modos de empunhadura e outros efeitos de classe. Inclui tooltips de modificadores para rastreabilidade completa.\n- **UI estreita (celular)** — todas as fichas de jogador são navegáveis e interagíveis em telas narrow.\n- **Grupos de Criaturas** — buffs de um grupo podem ser selecionados por outros membros do grupo, melhorando sinergia e facilitando o uso de magias de suporte entre companheiros.\n- **Ficha automatizada para Monstro** — nova família `Monstro` com suporte a criação de raças e classes customizadas para expansão do bestiário.\n- **Ficha Resumo de Monstro** — visualização compacta para uso rápido em mesa.\n- **Combat Tracker** — sistema completo de rastreamento de combate inline, com versão resumida (para aventuras) e versão detalhada (com edição em tempo real de combatentes, condições e vida).\n- **Sistema de Aventuras** — templates e estrutura dedicados para criação rápida de aventuras pelo Mestre.\n- **Plugin pleitost-autosheet** — fichas migradas para plugin próprio, com criação rápida de fichas e referência simplificada a fichas existentes.\n- **Ficha de grupo (party sheet)** — bloco `autosheet-grupo` no plugin **Pleitost Views**: visão consolidada do grupo (integrantes, stats, perícias, magias, balanceamento de papéis, riqueza da mesa), com wikilink ou palavra-chave `grupo` para usar a nota atual. Ver [#71](https://github.com/sfynz/pleitost/issues/71).\n- **Release de Mestre e Jogador** — sistema automatizado de publicação dos dois pacotes para facilitar criação de conteúdo sem expor spoilers aos jogadores.\n- **Progressão até Nível 7** — Arcanista, Bardo, Caçador e Ladino recebem progressão completa até o nível 7, incluindo novas magias de patamar Mestre.\n- **Atlas expandido** — informações de localização de recursos e pontos de interesse documentados.\n\n---\n\n## ✅ Issues fechadas / iniciativas entregues nesta versão\n\n\n### Relação de entregas e issues\n\n- **Autosheet automática com DSL de rule elements** — cobre [#1](https://github.com/sfynz/pleitost/issues/1), [#2](https://github.com/sfynz/pleitost/issues/2), [#3](https://github.com/sfynz/pleitost/issues/3), [#4](https://github.com/sfynz/pleitost/issues/4), [#5](https://github.com/sfynz/pleitost/issues/5)\n- **Ficha interativa com efeitos ativos dinâmicos (condições, formas de druida, magias, performances, empunhadura, efeitos de classe)** — [#43](https://github.com/sfynz/pleitost/issues/43), [#40](https://github.com/sfynz/pleitost/issues/40)\n- **UI responsiva (tela estreita / celular) para fichas de jogador** — [#72](https://github.com/sfynz/pleitost/issues/72), [#68](https://github.com/sfynz/pleitost/issues/68), [#67](https://github.com/sfynz/pleitost/issues/67), [#66](https://github.com/sfynz/pleitost/issues/66)\n- **Grupos de Criaturas para buffs compartilhados** — [#63](https://github.com/sfynz/pleitost/issues/63)\n- **Ficha de grupo (party sheet) no plugin pleitost-views** — [#71](https://github.com/sfynz/pleitost/issues/71)\n- **Autosheet automática para Companheiro Animal** — [#72](https://github.com/sfynz/pleitost/issues/72), [#68](https://github.com/sfynz/pleitost/issues/68), [#67](https://github.com/sfynz/pleitost/issues/67)\n- **Autosheet automática para Monstro (raças + classes)** — [#61](https://github.com/sfynz/pleitost/issues/61)\n- **Ficha Resumo para Monstro** — [#61](https://github.com/sfynz/pleitost/issues/61)\n- **Plugin pleitost-autosheet com referência embutida de fichas** — [#144](https://github.com/sfynz/pleitost/issues/144)\n- **Referência de ficha em modo Interativa com alteração de recursos sem sobrescrever a ficha-base** — [#144](https://github.com/sfynz/pleitost/issues/144)\n- **Tooltips de modificadores na ficha interativa** — [#144](https://github.com/sfynz/pleitost/issues/144)\n- **Texto descritivo para resistências e defesas** — [#144](https://github.com/sfynz/pleitost/issues/144)\n- **Modo de debug no plugin pleitost-autosheet (Ctrl+Shift+I)** — [#144](https://github.com/sfynz/pleitost/issues/144)\n- **Sistema de Aventuras** — [#95](https://github.com/sfynz/pleitost/issues/95)\n- **Combat Tracker (resumido + detalhado, edição ao vivo)** — [#140](https://github.com/sfynz/pleitost/issues/140), [#76](https://github.com/sfynz/pleitost/issues/76)\n- **Integração de condições e vida no Combat Tracker** — [#63](https://github.com/sfynz/pleitost/issues/63)\n- **Fichas de personagens jogados em diferentes mesas** — _sem issue específica, sugerido criar_\n- **Ajuste de resumos para caber nas cartas** — [#20](https://github.com/sfynz/pleitost/issues/20)\n\n---\n\n## 🧠 Autosheet Automática (Rule Elements)\n\n### Adicionado / Melhorado\n\n- **Nova família de ficha: Automática** — gerada a partir de `Elementos de Regra` declarados nas notas selecionadas (classe, habilidades, técnicas, sintonia, companheiro).\n- **DSL de rule elements** — cada nota do sistema pode declarar regras que modificam atributos, perícias, defesas, recursos, progressão, proficiências, magias e mais.\n- **Diff automático** — compara estado atual da ficha com estado esperado pelos rule elements e sinaliza divergências.\n- **Save protegido** — validação, canonicalização e serialização por tipo antes de persistir.\n- **Suporte a marcas e reconhecimentos** — contagem desses recursos agora é rastreada via autosheet.\n- **Migração para plugin pleitost-autosheet** — fichas agora criadas e referenciadas via plugin dedicado, sem necessidade de texto manual extenso.\n- **Referência embutida** — possibilidade de referenciar uma ficha já criada diretamente no plugin.\n\n---\n\n## ⚔️ Ficha Interativa de Jogador\n\n### Adicionado / Melhorado\n\n- **Efeitos ativos dinâmicos** — ficha interativa recalcula valores exibidos ao jogador com base em qualquer efeito ativo selecionado:\n  - Condições do sistema (aplicadas via seletor inline)\n  - Formas de Druida (usando **INT** como atributo-base)\n  - Magias ativas com modificadores de duração\n  - Performances de Bardo\n  - Modos de empunhadura de arma\n  - Outros efeitos de classe ativos (ex: postura de Guerreiro, stance de Monge, etc.)\n- **Tooltips de modificadores** — cada valor calculado (defesas, perícias, recursos) exibe a origem de cada bônus/penalidade aplicado.\n- **Texto descritivo para Resistências e Defesas** — melhor visibilidade em mesa.\n- **UI estreita (celular)** — todas as fichas de jogador são navegáveis em telas narrow.\n\n---\n\n## 🐾 Companheiro Animal\n\n- **Autosheet Automática** — ficha orientada por rule elements para companheiro animal, em paridade com a ficha de jogador.\n- **Referência em modo Interativa** — possibilidade de referenciar a ficha de um companheiro em notas de aventura e alterar recursos (vida) sem sobrescrever o arquivo-base.\n\n---\n\n## 🐲 Monstros & Bestiário\n\n- **Nova família de ficha: Monstro Automática** — ficha gerada a partir de rule elements com suporte a:\n  - Criação de **novas raças** de monstro\n  - Criação de **novas classes** de monstro\n- **Ficha Resumo de Monstro** — visão compacta para uso rápido em mesa (roadmap: expandir para Jogador e Companheiro Animal em versões futuras).\n- **Suporte a diferentes tipos de raça** — distinção entre raças humanoides, bestas, mortos-vivos, elementais e outros.\n- **Suporte a diferentes tamanhos** — Minúsculo, Pequeno, Médio, Grande, Enorme, Colossal.\n- **Referência em modo Interativa** — alterar recursos (vida) de um monstro durante a campanha sem sobrescrever a ficha.\n\n---\n\n## 👥 Grupos de Criaturas\n\n- **Sistema de Grupos** — novas notas em `Sistema/Criaturas/Grupos de Criaturas/`.\n- Buffs declarados em um grupo ficam disponíveis para seleção por outros membros do grupo na ficha interativa.\n- Facilita sinergia de time e uso de magias de suporte (ex: buff de Druida acessível pelo Guerreiro do grupo).\n\n---\n\n## 📋 Ficha de grupo (party sheet)\n\n- **Plugin Pleitost Views** — novo bloco de código `autosheet-grupo` que renderiza a ficha de grupo no modo leitura do Obsidian.\n- **Nota do grupo** — indicada por wikilink `[[Nome da nota]]` na primeira linha do bloco, ou pela palavra-chave `grupo` sozinha para usar **a nota onde o bloco está** (apenas notas `.md`).\n- **Conteúdo agregado** — integrantes ligados por `grupo` no frontmatter, vida/defesas/sentidos/movimento, perícias e ofícios (top 2), magias (top 2), ataques do grupo, balanceamento de papéis (tiers e estrelas) e riqueza da mesa (comparativo com economia esperada).\n- **Documentação** — `.obsidian/plugins/pleitost-views/README.md` (secção `autosheet-grupo`).\n- **Issue** — implementação e escopo em [#71](https://github.com/sfynz/pleitost/issues/71).\n\n---\n\n## 🗂️ Sistema de Aventuras\n\n- **Templates de Aventura** em `Recursos e Mídia/Templates/Templates de Aventuras/`.\n- Estrutura padronizada com seções de setup, encontros, NPCs e loot.\n- Notas de aventura existentes migradas para o novo formato em `Campanhas/Aventuras/`.\n\n---\n\n## 🛡️ Combat Tracker\n\n- **Versão resumida** — para embutir dentro de notas de aventura.\n- **Versão detalhada** — com lista de combatentes editável em tempo real (adicionar/remover).\n- **Interação com condições** — aplicar e visualizar condições diretamente pelo tracker.\n- **Interação com vida** — alteração de HP ao vivo, com rastreamento de estado de cada combatente.\n- Disponível em `Recursos e Mídia/Ferramentas de GM/Escudo do Mestre.md`.\n\n---\n\n## 🔧 Sistema & Mecânicas\n\n### Balanceamento\n\n- **Status effects** — rework geral: praticamente todos os efeitos de condição agora aplicam **-2** de forma padronizada.\n- **Druida** agora utiliza **INT** como atributo-base (anteriormente PRE).\n- **Cooldown de poção** — adicionada mecânica de cooldown entre usos de poção.\n\n### Progressão\n\n- **Nível 7** — Arcanista, Bardo, Caçador e Ladino recebem progressão completa de nível 7 (habilidades, técnicas e recursos).\n- **Magias de patamar Mestre** — novas magias adicionadas para os patamares Mestre das escolas existentes.\n\n### Suporte a novas propriedades\n\n- **Novos tipos de movimento** — Escalar, Nadar, Voar e variantes especiais documentadas e suportadas nas fichas.\n- **Diferentes tamanhos** — Minúsculo, Pequeno, Médio, Grande, Enorme, Colossal — suporte completo nas fichas automáticas e interativas.\n- **Diferentes tipos de raça de monstro** — humanoides, bestas, mortos-vivos, elementais e outros.\n\n---\n\n## 🗺️ Atlas & Contexto\n\n- **Atlas expandido** — informações sobre localização de recursos, pontos de interesse e regiões documentados em `Atlas/`.\n- **Personagens jogados** — fichas de personagens que participaram de diferentes mesas do sistema adicionadas em `Sistema/Criaturas/Jogadores/`.\n\n---\n\n## 🏗️ Arquitetura & Organização\n\n- **Propriedades nested** — propriedades de frontmatter de todos os tipos de ficha (`Jogador`, `Companheiro Animal`, `Monstro`) reorganizadas com lógica aninhada para melhor legibilidade e arquitetura.\n- **Plugin pleitost-autosheet** — fichas de criatura migradas para plugin próprio.\n- **Sistema de Release GM/Jogador** — scripts e lógica de exclusão de conteúdo sensível automatizados no plugin `pleitost-views`.\n- **Plugin pleitost-views** — bloco `autosheet-grupo` (ficha de grupo) documentado no README do plugin; ver [#71](https://github.com/sfynz/pleitost/issues/71).\n- **Modo de debug no plugin pleitost-autosheet** — ativação do console de debug via `Ctrl+Shift+I` para facilitar diagnóstico e desenvolvimento.\n\n---\n\n## 👥 Commits (visão geral)\n\n- **Dez/2025–Jan/2026:** Base da autosheet automática, rule elements, migração para plugin.\n- **Fev/2026:** Grupos de criaturas, ficha automática de companheiro animal, ficha automática de monstros.\n- **Mar/2026:** UI estreita, combat tracker, sistema de aventuras, ficha resumo de monstro.\n- **Abr/2026:** Rework de status effects, progressão nível 7, magias mestre, efeitos ativos dinâmicos, tooltips, atlas, personagens jogados, arquitetura nested, ficha de grupo (`autosheet-grupo`).\n\n---\n"
+}

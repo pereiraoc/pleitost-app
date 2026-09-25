@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Propriedades/Precisa",
+  "path": "Sistema/Regras/Propriedades/Precisa.md",
+  "basename": "Precisa",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Pode usar [[Agilidade]] em vez de [[Força]] na jogada de ataque.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Pode usar [[Agilidade]] em vez de [[Força]] na jogada de ataque.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n```autosheet-rules\n```\n"
+}

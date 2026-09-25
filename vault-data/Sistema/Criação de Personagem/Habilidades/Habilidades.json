@@ -1,0 +1,28 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Habilidades",
+  "path": "Sistema/Criação de Personagem/Habilidades/Habilidades.md",
+  "basename": "Habilidades",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Habilidade",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Habilidades"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n%%\n# Habilidades\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Habilidade\",\n  classe AS \"Classes\"\nFROM \"Sistema/Criação de Personagem/Habilidades\"\nSORT file.name ASC\nWHERE categoria=\"Habilidade\"\n```"
+}

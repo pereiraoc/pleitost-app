@@ -1,0 +1,59 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Barraco de Metal da Restinga",
+  "path": "Contexto/Recursos/Imóveis/Barraco de Metal da Restinga.md",
+  "basename": "Barraco de Metal da Restinga",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "[[Movimento Restinga Livre]]",
+    "Preço": 1000,
+    "Cobrança": "mês",
+    "Compra": 80000,
+    "Manutenção": 200,
+    "Nível": 2,
+    "Onde": [
+      "[[Restinga]]",
+      "[[Mercado da Restinga]]"
+    ],
+    "Resumo": "Chapa e viga de sucata soldada, torre de vigia ao lado: US$ 10 por mês, a lei do Renato Livre e água a Cz$ 50 o galão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraco de Metal da Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado da Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraco de Metal da Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Barraco de Metal da Restinga.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNa [[Restinga]] o barraco é de metal: chapa de contêiner e viga soldada pelo [[Clã da Ferrugem]], com uma torre\nde vigia a cada quarteirão. O aluguel se paga em dólar — dez por mês — pro [[Movimento Restinga Livre]], que\nem troca garante que nenhum brigadiano entra sem tiro. A água é o problema: galão a Cz$ 50, sempre.\n\n> [!info] Especificação\n> **Estrutura:** contêiner cortado sobre viga de sucata; teto de zinco, chão de chapa\n> **Pagamento:** US$ 10 por mês (Cz$ 1.000 no câmbio de esquina)\n> **Inclui:** a lei do Renato Livre, o [[Mercado da Restinga]] na porta, sucata de graça\n> **Água:** galão a Cz$ 50 — US$ 1 por dois; não tem encanada\n> **Compra:** Cz$ 80.000 (US$ 800), com a bênção do Movimento\n> **Nível:** 2 — Classe Baixa\n"
+}

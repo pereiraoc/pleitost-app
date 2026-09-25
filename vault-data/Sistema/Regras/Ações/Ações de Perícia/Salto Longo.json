@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Salto Longo",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Salto Longo.md",
+  "basename": "Salto Longo",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Salta mais longe, pegando impulso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Salte"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gatuno",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voadora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Salta mais longe, pegando impulso.\"\n%%\n### `= this.file.name` - `= this.custo`\n[[Mover|Mova]] e [[Saltar|Salte]]. Se você Saltar numa direção diferente dos últimos 2q do movimento, você Salta normalmente. Se o Salto segue a mesma direção dos últimos 2q de movimento, faça um teste de [[Atletismo]] antes do Salto. Você pode aumentar a distância percorrida pelo Salto em até 1q para cada 2 acima de 10 do resultado do seu teste. O máximo que você pode Saltar no total é a sua [[Movimentação]] terrestre.\n\n| Resultado   | Distância do Salto (limitada pela movimentação) |\n| ----------- | ----------------------------------------------- |\n| 11 ou menos | 2q                                              |\n| 12 ou 13    | 3q                                              |\n| 14 ou 15    | 4q                                              |\n| 16 ou 17    | 5q                                              |\n| 18 ou 19    | 6q                                              |\n| 20 ou 21    | 7q                                              |\n| 22 ou 23    | 8q                                              |\n| 24 ou 25    | 9q                                              |\n\n*A tabela acima é somente uma referência e assume que não há nenhum bônus (como [[Gatuno]] ou [[Voadora]]) ou penalidade de movimentação em Saltar*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Um Olho para cada Presa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Um Olho para cada Presa.md",
+  "basename": "Um Olho para cada Presa",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"[[Marca do Caçador]] pode escolher dois alvos e pode ter duas marcas ativas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"[[Marca do Caçador]] pode escolher dois alvos e pode ter duas marcas ativas.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você usa a habilidade [[Marca do Caçador]], pode escolher dois alvos. Você pode ter dois alvos de caça simultâneos. Se você já tiver algum alvo de caça, pode escolher um único alvo ao realizar Marca do Caçador, mantendo um dos seus alvos de caça ativos.\n\n```autosheet-rules\n```\n"
+}

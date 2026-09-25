@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Revolta da Terra",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Revolta da Terra.md",
+  "basename": "Revolta da Terra",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Revolta da Terra (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Mestre",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] em circulo de 4q em 10q com 1d6×potência de dano de perfuração (metade na falha). Preso se decisivo. Área vira terreno difícil e causa 3 de dano de corte ao mover.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] em circulo de 4q em 10q com 1d6×potência de dano de perfuração (metade na falha). Preso se decisivo. Área vira terreno difícil e causa 3 de dano de corte ao mover.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] das criaturas em um círculo de raio 4q em até 10q.\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de perfuração.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior e a criatura fica [[Preso|Presa]] por 1 turno.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\nIndependentemente do resultado dos ataques mágicos, a área da magia fica coberta de rochas afiadas e um emaranhado de vinhas por 10 turnos, se tornando [[Terreno Difícil]] e causando 3 de dano de corte para cada quadrado movido dentro da área por uma criatura."
+}

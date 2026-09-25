@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Grapette",
+  "path": "Contexto/Recursos/Alimentação/Grapette.md",
+  "basename": "Grapette",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "Grapette",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Restinga]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Uva artificial roxa em garrafinha de 200 ml — a marca que a Coca comprou pra matar sobrevive na periferia e no dente roxo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grapette.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Grapette.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Grapette.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Grapette era o refrigerante de uva do Brasil inteiro até a Coca-Cola comprar a marca pra deixar morrer. Em\nPorto Alegre sobrevive na periferia, engarrafada por uma fábrica de fundo de quintal em [[Nova Sarandi]] que\nninguém fiscaliza. Roxa, doce, deixa o dente roxo o dia inteiro — a criança da [[Jardim Botânico]] adora.\n\n> [!info] Especificação\n> **Garrafa:** 200 ml, roxa, tampa de rosca reaproveitada\n> **Fábrica:** fundo de quintal em [[Nova Sarandi]]; a marca 'oficial' sumiu em 1985\n> **Preço:** Cz$ 60; Cz$ 40 na boca de bairro; na Restinga, 2 por um dólar\n> **Efeito:** dente roxo o dia inteiro; sem selênico, garante o dono\n"
+}

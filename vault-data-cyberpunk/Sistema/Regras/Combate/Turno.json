@@ -1,0 +1,37 @@
+{
+  "id": "Sistema/Regras/Combate/Turno",
+  "path": "Sistema/Regras/Combate/Turno.md",
+  "basename": "Turno",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Turnos",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Iniciativa]]",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iniciativa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Turno"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Iniciativa]]\nnext:: \n%%\n## Turno\nQuando o turno de uma criatura começa, ela ganha o uso de 3 ações e sua reação. Algumas condições podem aumentar ou diminuir o número de ações no início do turno de uma criatura. A criatura então realiza suas ações e seu turno termina, só podendo realizar sua reação até que seu turno comece novamente.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Destrancar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Destrancar.md",
+  "basename": "Destrancar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Ladinagem]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta destrancar uma porta, trava, cadeado ou algo similar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Ladinagem]]\"\npropriedades:: \nresumo:: \"Tenta destrancar uma porta, trava, cadeado ou algo similar.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Ladinagem]] contra a [[CD]] da tranca. Algumas trancas mais complexas precisam de mais de um sucesso para Destrancar com sucesso.\n\n**Sucesso:** Você destranca a tranca ou progride um sucesso de uma tranca complexa.\n**Sucesso Decisivo:** Destranca ou progride dois sucessos de uma tranca complexa.\n**Falha:** Você não progride na tranca.\n**Falha Decisiva:** Você perde todos os sucessos que tinha conseguido numa tranca complexa e quebra suas ferramentas de ladinagem.\n\n```autosheet-rules\n```\n"
+}

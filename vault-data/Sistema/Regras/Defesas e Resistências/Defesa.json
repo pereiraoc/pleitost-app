@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Defesa",
+  "path": "Sistema/Regras/Defesas e Resistências/Defesa.md",
+  "basename": "Defesa",
+  "type": "Regra",
+  "subtype": "Defesas-e-Resistências",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Defesas-e-Resistências",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Defesas e Resistências|Defesas e Resistências]]",
+    "prev": "[[Defesas e Resistências|Defesas e Resistências]]",
+    "next": "[[Resistências]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesas e Resistências",
+      "kind": "wikilink",
+      "alias": "Defesas e Resistências"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Defesa"
+    }
+  ],
+  "body": "%%\nup:: [[Defesas e Resistências|Defesas e Resistências]]\nprev:: [[Defesas e Resistências|Defesas e Resistências]]\nnext:: [[Resistências]]\n%%\n## Defesa\nDefesa é a capacidade básica do personagem de evitar. aparar ou proteger-se de um ataque físico feito com uma arma ou implemento similar.\n\nSua Defesa é calculada dependendo se está vestindo armadura e o tipo dela:\n* Sem Armadura e Armadura Leve: 10 + [[Proficiência|Proficiência]] + [[Agilidade|AGI]]\n* Armadura Pesada: 10 + [[Proficiência|Proficiência]] + [[Força|FOR]]"
+}

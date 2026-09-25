@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Multidisciplinar",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Multidisciplinar.md",
+  "basename": "Ataque Multidisciplinar",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo com arma de 1 mão e, contra o mesmo alvo, tente [[Agarrar]], [[Derrubar]] ou [[Desarmar]] com uma mão livre (aplicando [[Penalidade por Ataque Múltiplo|PAM]] normalmente); se o ataque acertar, a manobra recebe +2 de [[bônus de circunstância]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo com arma de 1 mão e, contra o mesmo alvo, tente [[Agarrar]], [[Derrubar]] ou [[Desarmar]] com uma mão livre (aplicando [[Penalidade por Ataque Múltiplo|PAM]] normalmente); se o ataque acertar, a manobra recebe +2 de [[bônus de circunstância]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Multidisciplinar.\n\n**Ataque Multidisciplinar - 2A**\nFaça um [[Atacar|Ataque]] corpo-a-corpo com uma arma de uma mão seguido de uma tentativa de [[Agarrar]], [[Derrubar]] ou [[Desarmar]] usando uma mão livre contra o mesmo alvo. Aplique a [[Penalidade por Ataque Múltiplo|PAM]] normalmente para esses ataques. Caso o primeiro ataque corpo-a-corpo tenha sucesso, a manobra subsequente recebe +2 de [[bônus de circunstância]].\n\n%%ataque multifacetado/multiforme%%\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,101 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Repertório Expandido/Repertório Expandido (Duas Adeptas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Repertório Expandido/Repertório Expandido (Duas Adeptas).md",
+  "basename": "Repertório Expandido (Duas Adeptas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 2",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Repertório Expandido]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto|Adepta]]",
+    "resumo": "\"Você aprende duas Magias Adeptas de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Duas Adeptas)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Classe",
+            "needle": "[[Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Duas Adeptas)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Repertório Expandido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Repertório Expandido]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto|Adepta]]\n\nresumo:: \"Você aprende duas Magias Adeptas de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê aprende duas Magias Adeptas de sua escolha.\n"
+}

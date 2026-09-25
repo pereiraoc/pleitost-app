@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Implementos/Foco da Intensificação",
+  "path": "Sistema/Equipamento/Tesouros/Implementos/Foco da Intensificação.md",
+  "basename": "Foco da Intensificação",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]",
+      "[[Magia Anima|Anima]]"
+    ],
+    "resumo": "Permite aumentar a potência mágica para magias.",
+    "preço": "60 PO",
+    "descrição": {
+      "adepto": "Acumula cargas para aumentar a potência de magias Adeptas em até 1.",
+      "experiente": "Acumula cargas para aumentar a potência de magias Adeptas e Experientes em até 2.",
+      "mestre": "Acumula cargas para aumentar a potência de magias Adeptas, Experientes e Mestre em até 3."
+    },
+    "cargas": {
+      "adepto": 1,
+      "experiente": 2,
+      "mestre": 3
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink",
+      "alias": "Anima"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano/Anima - implemento*\nUm implemento construído para empoderar a eficácia de magias. Esse implemento armazena energia mágica para ser disparada com poder elevado em um momento crítico.\n\n**Carga Cadencial - L:** Uma vez por turno, quando você conjura uma magia básica de duas ações ou mais, você pode adicionar 1 Carga nesse foco. Essas Cargas são perdidas no final do seu próximo turno.\n**Carga Entrópica - L:** Uma vez por turno, você pode perder 4 [[Energia Vital|EV]] para adicionar 1 Carga nesse foco.\n\n**Drenar - L:** Quando você conjura uma magia não-básica, gaste um número de cargas do Foco e aumente sua potência mágica para essa magia igual ao número de cargas consumidas. As categorias de magia que podem ser intensificadas dependem da categoria do Foco.\n\n* Adepto: O Foco armazena até 1 Carga e afeta magias Adeptas.\n* Experiente: O Foco armazena até 2 Cargas e afeta magias Adeptas e Experientes.\n* Mestre: O Foco armazena até 3 Cargas e afeta magias Adeptas, Experientes e Mestre.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: implementos\n```\n\n```autosheet-rules\n```"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Ouvido Absoluto",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Ouvido Absoluto.md",
+  "basename": "Ouvido Absoluto",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Vento]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Ouvido Absoluto"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Vento]]\nprev::\nnext::\n%%\n### Ouvido Absoluto\nVocê percebe melhor os sons ao vento. Você também recebe +2 de [[bônus de circunstância]] em [[Percepção]] numa situação que som seja um fator."
+}

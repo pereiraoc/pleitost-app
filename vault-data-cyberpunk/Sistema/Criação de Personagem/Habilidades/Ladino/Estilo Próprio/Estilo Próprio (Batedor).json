@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio (Batedor)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio (Batedor).md",
+  "basename": "Estilo Próprio (Batedor)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo Aprimorado (Batedor)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você pode realizar [[Calcular Ataque]] como ação livre.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo Aprimorado (Batedor)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio (Batedor)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo Aprimorado (Batedor)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo Aprimorado (Batedor)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Calcular Ataque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Batedor)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\n\nresumo:: \"Você pode realizar [[Calcular Ataque]] como ação livre.\"\n\n%%\n##### `= this.file.name`\nSua mente calcula ângulos de ataque e estima o futuro o tempo todo. Você pode realizar [[Calcular Ataque]] como ação livre.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,75 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Depósito Zaffari",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Depósito Zaffari.md",
+  "basename": "Depósito Zaffari",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "[[Zaffari]] (chefe de pátio Seu Ramão)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Balsa de Carga Zaffari]]",
+      "[[Cesta Básica Zaffari]]",
+      "[[Marmita Congelada Zaffari]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Depósito Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Balsa de Carga Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Depósito Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Depósito Zaffari.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Grande armazém de alimentos e insumos industriais.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Prateleiras metálicas, empilhadeiras, cheiro de grãos e metal.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Grande armazém de alimentos e insumos industriais.",
+    "aparencia": "Prateleiras metálicas, empilhadeiras, cheiro de grãos e metal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

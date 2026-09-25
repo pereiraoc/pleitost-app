@@ -1,0 +1,426 @@
+{
+  "id": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Ave",
+  "path": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Ave.md",
+  "basename": "Companheiro Animal Ave",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 0 \"Ave\"",
+      "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "Definir Atributos.FOR 0",
+      "Definir Atributos.AGI 3",
+      "Definir Atributos.INT 2",
+      "Definir Atributos.PRE 1",
+      "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "Complementar Ataques.Lista [[Presas]]",
+      "Complementar Ataques.Lista [[Garras]]",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo FOR",
+      "Definir Movimento.Lista.Terrestre.Bonus_Especial -2",
+      "Complementar Movimento.Lista Aereo",
+      "Definir Movimento.Lista.Aereo.Atributo AGI",
+      "Definir Movimento.Lista.Aereo.Bonus_Especial 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Seu companheiro animal é do tipo ave.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 0 \"Ave\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Ave"
+          },
+          "raw": "Alias Classe Compor 0 \"Ave\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Companheiro Animal]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.FOR 0",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "0"
+          },
+          "raw": "Definir Atributos.FOR 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.AGI 3",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.AGI",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Atributos.AGI 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.INT 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.INT",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Atributos.INT 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.PRE 1",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.PRE",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Atributos.PRE 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Presas]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Presas]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Presas]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Garras]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Garras]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Garras]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo FOR",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "FOR"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo FOR",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Bonus_Especial -2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Bonus_Especial",
+            "valueRaw": "-2"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Bonus_Especial -2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Aereo",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 12,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Aereo"
+          },
+          "raw": "Complementar Movimento.Lista Aereo",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Aereo.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 13,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Aereo",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Aereo.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Aereo.Bonus_Especial 3",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ave",
+          "occurrenceIndex": 14,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Aereo",
+            "field": "Bonus_Especial",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Movimento.Lista.Aereo.Bonus_Especial 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas",
+      "kind": "wikilink",
+      "alias": "Bico"
+    },
+    {
+      "target": "Garras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Seu companheiro animal é do tipo ave.\"\n%%\n##### `= this.file.name`\n* [[Força|FOR]] 0, [[Agilidade|AGI]] 3, [[Inteligência|INT]] 2, [[Presença|PRE]] 1\n* [[Adepto]] em [[Furtividade]]\n* [[Movimentação]] Terrestre 2, Aéreo 10\n* [[Presas|Bico]]\n* [[Garras]]\n\n```autosheet-rules\n```\n"
+}

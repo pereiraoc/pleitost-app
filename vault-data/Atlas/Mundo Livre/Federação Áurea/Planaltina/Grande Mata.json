@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Grande Mata",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Grande Mata.md",
+  "basename": "Grande Mata",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Safira"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Mata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Mineradores",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Grande Mata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Grande Mata.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Maciço de floresta densa que cobre o promontório costeiro do leste de [[Planaltina]] — uma ilha de mata úmida e fechada, cercada pela estepe seca a oeste e pelo mar a leste. Sob seu dossel correm os veios de safira que sustentam a economia da capital [[Safira]]: é mata adentro que trabalham as expedições do [[Campo de Mineradores]], o único assentamento em suas bordas. Fora as trilhas dos mineradores, não há estradas, clareiras artificiais nem qualquer sinal de ocupação — terreno de expedição, caça e do que quer que viva sob a névoa. \n> \n> 👁️**Aparência do Local:** Um dossel contínuo de árvores frondosas em muitos tons de verde, pontuado por emergentes mais altas e coberto por fiapos de névoa — de longe, uma mancha impenetrável sem estradas nem construções. As únicas quebras do dossel são uma boca de caverna no centro-leste, emoldurada de rocha cinzenta e com chão de terra batida à entrada sugerindo passagem — o único acesso subterrâneo visível —, e, mais a nordeste, uma lagoa escondida de água cinza-esverdeada numa clareirinha apertada, com uma única árvore isolada na margem e névoa por cima. Da borda oeste emerge um riacho que serpenteia para sudoeste pela estepe pedregosa, entre matacões, árvores isoladas e cristas de rocha pontiaguda. A leste, a mata encontra o mar numa costa recortada de falésias, enseadas e agulhas de pedra batidas por espuma branca — em trechos as próprias árvores chegam à linha d'água, e não há embarcações, cais nem sinal algum de ocupação na costa. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Maciço de floresta densa que cobre o promontório costeiro do leste de [[Planaltina]] — uma ilha de mata úmida e fechada, cercada pela estepe seca a oeste e pelo mar a leste. Sob seu dossel correm os veios de safira que sustentam a economia da capital [[Safira]]: é mata adentro que trabalham as expedições do [[Campo de Mineradores]], o único assentamento em suas bordas. Fora as trilhas dos mineradores, não há estradas, clareiras artificiais nem qualquer sinal de ocupação — terreno de expedição, caça e do que quer que viva sob a névoa.",
+    "aparencia": "Um dossel contínuo de árvores frondosas em muitos tons de verde, pontuado por emergentes mais altas e coberto por fiapos de névoa — de longe, uma mancha impenetrável sem estradas nem construções. As únicas quebras do dossel são uma boca de caverna no centro-leste, emoldurada de rocha cinzenta e com chão de terra batida à entrada sugerindo passagem — o único acesso subterrâneo visível —, e, mais a nordeste, uma lagoa escondida de água cinza-esverdeada numa clareirinha apertada, com uma única árvore isolada na margem e névoa por cima. Da borda oeste emerge um riacho que serpenteia para sudoeste pela estepe pedregosa, entre matacões, árvores isoladas e cristas de rocha pontiaguda. A leste, a mata encontra o mar numa costa recortada de falésias, enseadas e agulhas de pedra batidas por espuma branca — em trechos as próprias árvores chegam à linha d'água, e não há embarcações, cais nem sinal algum de ocupação na costa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

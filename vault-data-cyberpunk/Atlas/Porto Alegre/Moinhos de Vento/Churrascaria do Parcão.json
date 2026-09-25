@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Churrascaria do Parcão",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Churrascaria do Parcão.md",
+  "basename": "Churrascaria do Parcão",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Seu Osmar Boff",
+    "Descrição": null,
+    "Serviços": [
+      "[[Churrasco de Costela]]",
+      "[[Polar Tradicional]]",
+      "[[Vinho Aurora]]",
+      "[[Coca-Cola]]",
+      "[[Sagu de Vinho]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Churrascaria do Parcão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasco de Costela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Churrascaria do Parcão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Churrascaria do Parcão.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Costela de oito horas, espeto corrido, sal grosso e nada mais; estacionamento vigiado e conta que a empresa paga.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fogo de chão à vista, garçons de bombacha, mesa de madeira maciça e uma vitrine de carne com selo do Zaffari.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Costela de oito horas, espeto corrido, sal grosso e nada mais; estacionamento vigiado e conta que a empresa paga.",
+    "aparencia": "Fogo de chão à vista, garçons de bombacha, mesa de madeira maciça e uma vitrine de carne com selo do Zaffari.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

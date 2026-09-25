@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Mestre/Aceleração em Massa",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Mestre/Aceleração em Massa.md",
+  "basename": "Aceleração em Massa",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Aceleração em Massa (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Mestre",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Até 4 criaturas em 6q ficam [[Acelerado|Aceleradas 1]] por 10 turnos, ganhando 1 ação extra por turno que só pode ser usada em atividades de 1 ação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acelerado",
+      "kind": "wikilink",
+      "alias": "Aceleradas 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Até 4 criaturas em 6q ficam [[Acelerado|Aceleradas 1]] por 10 turnos, ganhando 1 ação extra por turno que só pode ser usada em atividades de 1 ação.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Até 4 criaturas no alcance ficam [[Acelerado|Aceleradas 1]] por 10 turnos, recebendo uma ação extra por turno. Essa ação só pode ser usada para atividades de uma ação, não podendo ser combinada com outras ações em atividades maiores.\n\n```autosheet-rules\n```\n"
+}

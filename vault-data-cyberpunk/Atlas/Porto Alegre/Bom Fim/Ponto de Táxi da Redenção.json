@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Ponto de Táxi da Redenção",
+  "path": "Atlas/Porto Alegre/Bom Fim/Ponto de Táxi da Redenção.md",
+  "basename": "Ponto de Táxi da Redenção",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Zé da Redenção (chefe do ponto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto de Táxi da Redenção.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto de Táxi da Redenção.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto de Táxi da Redenção.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Seis táxis Gurgel em fila; o Zé sabe o preço de tudo e o endereço de todo mundo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Guarita de madeira com telefone, banco de praça e os taxistas jogando canastra no capô.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Seis táxis Gurgel em fila; o Zé sabe o preço de tudo e o endereço de todo mundo.",
+    "aparencia": "Guarita de madeira com telefone, banco de praça e os taxistas jogando canastra no capô.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

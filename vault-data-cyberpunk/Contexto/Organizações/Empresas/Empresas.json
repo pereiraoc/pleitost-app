@@ -1,0 +1,26 @@
+{
+  "id": "Contexto/Organizações/Empresas/Empresas",
+  "path": "Contexto/Organizações/Empresas/Empresas.md",
+  "basename": "Empresas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Empresas.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Empresas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "![[Empresas.png]]\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Organização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Organização\" and subcategoria=\"Empresa\"\nsort subcategoria asc\n```"
+}

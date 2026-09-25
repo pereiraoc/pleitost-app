@@ -1,0 +1,110 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/L3 CORPORATIVA",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/L3 CORPORATIVA.md",
+  "basename": "L3 CORPORATIVA",
+  "type": "Linha",
+  "subtype": "Aeromóvel",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Aeromóvel",
+    "Letreiro": "L3 CORPORATIVA",
+    "Operador": "Trensurb; consórcio [[Gradiente]] · [[Tramontina]] · [[Zaffari]]",
+    "Acesso": "[[TRI Ouro]]",
+    "Tarifa": "[[Aeromóvel Linha Popular]]",
+    "Qualidade": 4,
+    "Cor": "#7b4fa8",
+    "Horário": "5h30–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Centro Corporativo]]",
+      "[[Estação Moinhos]]",
+      "[[Estação Itu]]",
+      "[[Estação Tramontina]]",
+      "[[Estação Passo D'Areia]]"
+    ],
+    "Aparência": "Vagão cinza-chumbo com faixa roxa e adesivo das três empresas na porta, poltrona de courvin cinza sem rasgo, ar-condicionado que funciona, gente de crachá lendo relatório, ninguém em pé porque não deixam.",
+    "Resumo": "A linha do crachá: liga as sedes que pagam o trilho — Centro Corporativo, Moinhos, o polo químico do Itu e a Tramontina — em vinte minutos que o ônibus faz em duas horas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "L3 CORPORATIVA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro Corporativo"
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sede da Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua das Indústrias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ônibus",
+      "kind": "wikilink",
+      "alias": "ônibus"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "L3 CORPORATIVA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[L3 CORPORATIVA.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🚏**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso`\n> 💰**Tarifa:** `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade`\n> 🕐**Horário:** `= this.Horário`\n> 📍**Paradas:** `= this.Paradas`\n> 👁️**Aparência:** `= this.Aparência`\n> 📝**Resumo:** `= this.Resumo`\n\nA L3 não existe pra mover a cidade: existe pra mover **funcionário graduado entre sedes**. As três megacorporações rachavam o custo de levar engenheiro do [[Centro Histórico|Centro Corporativo]] até a [[Fábrica Itú Química]] e a [[Sede da Tramontina]], e em 1986 pararam de rachar táxi e compraram um ramal.\n\nEntra quem tem [[TRI Ouro]] — o que na prática quer dizer crachá, porque o Ouro sai caro demais pra quem não tem a empresa pagando. A catraca lê o crachá antes de ler o cartão, e a segurança da [[Gradiente]] anota quem desce onde. Não há vendedor ambulante, não há gente em pé e não há atraso: quando o trilho quebra, a manutenção vem de helicóptero.\n\nPra quem está de fora, a L3 é a prova visível de que a cidade tem dois andares. Ela passa por cima da [[Rua das Indústrias]] na altura do terceiro piso, e o operário que espera o [[Ônibus|ônibus]] embaixo vê o vagão roxo cruzar sem parar.\n"
+}

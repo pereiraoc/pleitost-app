@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Governo Militar Brasileiro",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Governo Militar Brasileiro.md",
+  "basename": "Governo Militar Brasileiro",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Governo Militar"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Emílio Garrastazu Médici|Marechal Emílio Garrastazu Médici]]",
+    "Descrição": null,
+    "Resumo": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governo Militar Brasileiro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Emílio Garrastazu Médici",
+      "kind": "wikilink",
+      "alias": "Marechal Emílio Garrastazu Médici"
+    }
+  ],
+  "images": [
+    {
+      "target": "Governo Militar Brasileiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Governo Militar Brasileiro.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Coordena alianças com megacorporações e supervisiona as forças militares."
+}

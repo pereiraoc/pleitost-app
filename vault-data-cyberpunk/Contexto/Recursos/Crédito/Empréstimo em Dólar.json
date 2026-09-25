@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Crédito/Empréstimo em Dólar",
+  "path": "Contexto/Recursos/Crédito/Empréstimo em Dólar.md",
+  "basename": "Empréstimo em Dólar",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "Bancos privados",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 3,
+    "Nível": 6,
+    "Onde": [
+      "[[Clube dos Sete Portos]]"
+    ],
+    "Resumo": "O crédito da elite: 3% ao mês em dólar, contra patrimônio — barato no papel, porque o dólar sobe por fora.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Empréstimo em Dólar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moeda e Sistemas de Troca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Sete Portos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Empréstimo em Dólar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Empréstimo em Dólar.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNão tem agência nem fila: tem uma sala, um café e alguém que já sabe quanto tu tem. Empresta-se contra patrimônio — um imóvel teu fica no papel — e o juro é três por cento ao mês, o mais baixo da cidade. A conta, porém, é em dólar, e o dólar de esquina sobe quinze por cento ao mês por conta própria ([[Moeda e Sistemas de Troca]]): quem ganha em Cruzado e deve em dólar está correndo atrás de uma escada rolante.\n\nQuem empresta assim não quer o teu dinheiro de volta. Quer estar dentro do que tu tem quando a conta virar. O [[Clube dos Sete Portos]] faz isso com quem vem de fora, e a diretoria faz com os próprios pares.\n\n> [!info] Especificação\n> **Quem consegue:** Classe Alta\n> **Teto:** contra patrimônio — até o valor de um imóvel teu\n> **Juros:** 3% ao mês, em dólar — o dólar sobe por fora\n> **Garantia:** o imóvel\n> **Se atrasa:** a diretoria vira sócia do problema: fica com o imóvel, ou contigo\n"
+}

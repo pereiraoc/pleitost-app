@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Xis da Vila",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Xis da Vila.md",
+  "basename": "Xis da Vila",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Seu Cacaio Lopes",
+    "Descrição": null,
+    "Serviços": [
+      "[[Xis]]",
+      "[[Guaraná Fruki]]",
+      "[[Laranjinha Fruki]]",
+      "[[Polar Tradicional]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Xis da Vila.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Laranjinha Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Xis da Vila.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Xis da Vila.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Xis, refrigerante, Polar e café; em dia de jogo, o xis vai pra caravana.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de porta de ferro, chapa na frente, banquetas e um rádio no jogo.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Xis, refrigerante, Polar e café; em dia de jogo, o xis vai pra caravana.",
+    "aparencia": "Loja de porta de ferro, chapa na frente, banquetas e um rádio no jogo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

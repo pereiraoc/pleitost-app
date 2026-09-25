@@ -1,0 +1,130 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado (Inspirador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado (Inspirador).md",
+  "basename": "Método Aprimorado (Inspirador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Método Artístico (Inspirador)]]",
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "Somar Magias.Slots.E 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende uma [[Magia Branca Experiente]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Método Artístico (Inspirador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Inspirador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Método Artístico (Inspirador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Método Artístico (Inspirador)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Inspirador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Inspirador)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Inspirador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende uma [[Magia Branca Experiente]].\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende uma [[Magia Branca Experiente]].\n\n```autosheet-rules\n```\n"
+}

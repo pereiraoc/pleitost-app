@@ -1,0 +1,83 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Controle/Propaganda e Controle da Informação",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Controle/Propaganda e Controle da Informação.md",
+  "basename": "Propaganda e Controle da Informação",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A narrativa dominante e quem controla os meios de comunicação.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propaganda e Controle da Informação.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rádio Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Biblioteca Verde",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Propaganda e Controle da Informação.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Propaganda Visual"
+    },
+    {
+      "level": 4,
+      "text": "Acesso à Informação"
+    },
+    {
+      "level": 5,
+      "text": "Jornais Oficiais"
+    },
+    {
+      "level": 5,
+      "text": "Rádios Corporativas"
+    },
+    {
+      "level": 5,
+      "text": "Rádios Clandestinas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Propaganda e Controle da Informação.png]]\n\nEm Porto Alegre de 1987, o controle da informação é uma peça central no funcionamento do regime autoritário. A comunicação pública está sob rígido monitoramento estatal, sendo utilizada como ferramenta essencial para reforçar a narrativa dominante de produtividade e ordem.\n\n#### Propaganda Visual\nOutdoors eletrônicos estrategicamente posicionados em áreas centrais exibem slogans constantes sobre produtividade, eficiência e ordem social, frequentemente associados ao uso positivo e obrigatório dos selênicos. Imagens idealizadas do regime e das megacorporações são projetadas continuamente para reforçar uma realidade fabricada.\n#### Acesso à Informação\n##### Jornais Oficiais\nJornais como o **Jornal do Comércio** e outras publicações impressas passam por rigorosa censura exercida pela [[Embratel]]. Artigos e colunas de opinião são submetidos à revisão prévia, assegurando que qualquer crítica ou menção negativa ao regime, suas políticas ou às megacorporações seja eliminada antes da impressão.\n##### Rádios Corporativas\nEstações como a **[[Rádio Farroupilha]]** transmitem boletins informativos rigidamente controlados pelo [[Governo Militar Brasileiro|Governo Militar]]. As transmissões incluem jingles produzidos pela megacorporação [[Gradiente]], reforçando constantemente mensagens governamentais, horários precisos de programas educativos oficiais e informações cuidadosamente filtradas.\n##### Rádios Clandestinas\nEm oposição à comunicação oficial, surgem emissoras piratas operadas pela [[Resistência Urbana Gaúcha]]. Essas rádios clandestinas difundem notícias livres da censura oficial, oferecendo relatos verdadeiros sobre a realidade social e política. Além disso, atuam na coordenação de protestos e distribuição de informações estratégicas.\n\nTransmissores caseiros são discretamente instalados em locais estratégicos como galpões abandonados e parques urbanos, incluindo pontos conhecidos como a [[Biblioteca Verde]]. Frequentemente, essas emissoras mudam suas frequências para escapar da interferência e bloqueios impostos pela [[Embratel]], garantindo a continuidade do acesso à informação independente."
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite no Barraco do Clã",
+  "path": "Contexto/Recursos/Moradia/Noite no Barraco do Clã.md",
+  "basename": "Noite no Barraco do Clã",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Clã da Ferrugem]]",
+    "Preço": 50,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Zona Deserta]]",
+      "[[Barraco de Aluguel do Clã]]"
+    ],
+    "Resumo": "Uma noite num barraco de chapa da Zona Deserta, com a bênção do Clã da Ferrugem: cinquenta cruzados ou sucata equivalente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite no Barraco do Clã.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Barraco de Aluguel do Clã",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite no Barraco do Clã.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite no Barraco do Clã.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO [[Barraco de Aluguel do Clã]] cede um barraco vazio por noite a quem ficou na Zona Deserta depois do caminhão das cinco. Chão de terra, lona, e a palavra do [[Clã da Ferrugem]] de que ninguém mexe.\n\n> [!info] Especificação\n> **Barraco:** chapa e lona, chão de terra\n> **Pagamento:** Cz$ 50 ou sucata\n> **Regra:** sai antes do caminhão das cinco\n> **Nível:** 1 — Miserável\n"
+}

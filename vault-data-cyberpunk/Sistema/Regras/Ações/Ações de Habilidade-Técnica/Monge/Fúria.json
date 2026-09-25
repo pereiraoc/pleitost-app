@@ -1,0 +1,112 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Fúria",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Fúria.md",
+  "basename": "Fúria",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Fúria",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "visual": {
+          "iconeLigado": "🔥",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "especial"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "especial"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Monge]]\"",
+    "resumo": "Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] em dano com ataques corpo-a-corpo durante a fúria. Você recebe 4 [[Energia Heroica|EH]] temporária, que dura até o fim da fúria."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Monge]]\"\n\nresumo::  Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] em dano com ataques corpo-a-corpo durante a fúria. Você recebe 4 [[Energia Heroica|EH]] temporária, que dura até o fim da fúria.\n%%\n\n### `= this.file.name` - `= this.custo`\nVocê externaliza seu furor interior, entrando em um frenesi por 10t. Durante a fúria, seus ataques desarmados e armas corpo-a-corpo tem o dado de dano aumentado em 1 passo e o dano base aumentado em 1 (até um máximo de d12+6). Você recebe 4 [[Energia Heroica|EH]] temporária, que dura até o fim da fúria. Se você entrar em fúria novamente sem ter se passado 1 minuto da ultima vez, você fica [[Fadigado]]. Você só pode entrar em fúria se estiver sem armadura e não estiver [[Fadigado]]. A [[Energia Heroica|EH]] temporária aumenta para 6 no 4º nível e para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

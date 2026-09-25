@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Estação Central",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Estação Central.md",
+  "basename": "Estação Central",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Central.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Central.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Central.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma dupla sobre o Mercado; escada de ferro desce direto na passarela flutuante; catraca de crachá separa a Estação Centro Corporativo, do outro lado.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Viaduto de concreto passando sobre o telhado do Mercado Público, plataforma lotada, água barrenta embaixo, passarela de tábua, cartaz 'PIRA — PRODUTIVIDADE É LIBERDADE'.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma dupla sobre o Mercado; escada de ferro desce direto na passarela flutuante; catraca de crachá separa a Estação Centro Corporativo, do outro lado.",
+    "aparencia": "Viaduto de concreto passando sobre o telhado do Mercado Público, plataforma lotada, água barrenta embaixo, passarela de tábua, cartaz 'PIRA — PRODUTIVIDADE É LIBERDADE'.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

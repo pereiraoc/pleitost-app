@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Coragem",
+  "path": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Coragem.md",
+  "basename": "Poção da Coragem",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Garante [[Energia Heroica|EH]] temporário.",
+    "preço": "5 PO",
+    "tipo_efeito": "Moral",
+    "descrição": {
+      "adepto": "Você ganha 10 de Moral temporária por 10 minutos.",
+      "experiente": "Você ganha 15 de Moral temporária por 1 hora.",
+      "mestre": "Você ganha 20 de Moral temporária por 8 horas."
+    },
+    "efeito": {
+      "adepto": "+10",
+      "experiente": "+15",
+      "mestre": "+20"
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Fogo) - consumível*\nEssa poção infla o espírito e da um ímpeto adicional para lutar.\n* Adepto: Você ganha 10 [[Energia Heroica|EH]] temporário por 10 minutos.\n* Experiente: Você ganha 15 [[Energia Heroica|EH]] temporário por 1 hora.\n* Mestre: Você ganha 20 [[Energia Heroica|EH]] temporário por 8 horas.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: consumiveis\n```\n\n```autosheet-rules\n```\n"
+}

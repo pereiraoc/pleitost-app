@@ -1,0 +1,70 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Resort Nova Porto Alegre",
+  "path": "Atlas/Porto Alegre/Ipanema/Resort Nova Porto Alegre.md",
+  "basename": "Resort Nova Porto Alegre",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "[[Gradiente]] e sócios",
+    "Descrição": null,
+    "Serviços": [
+      "[[Diária no Resort Nova Porto Alegre]]",
+      "[[Uísque de Contrabando]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resort Nova Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Resort Nova Porto Alegre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Resort Nova Porto Alegre.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Complexo de lazer e conferências para altos escalões.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Piscinas aquecidas, espelhos d’água, aroma de spa, murmúrios discretos.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo de lazer e conferências para altos escalões.",
+    "aparencia": "Piscinas aquecidas, espelhos d’água, aroma de spa, murmúrios discretos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

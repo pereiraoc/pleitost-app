@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Arcanônicas/Bacamarte Arcanônico",
+  "path": "Sistema/Equipamento/Armas/Armas Arcanônicas/Bacamarte Arcanônico.md",
+  "basename": "Bacamarte Arcanônico",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-arcanonico",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-arcanonico",
+    "dg-publish": true,
+    "dano": "d8+4",
+    "tipo": "perfuração",
+    "mãos": 2,
+    "propriedades": [
+      "[[Alcance|Alcance 10]]",
+      "[[Recarga]]",
+      "[[Inteligência X|Inteligência 2]]",
+      "[[Fatal]]"
+    ],
+    "ordem": 2,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armas Arcanônicas|Arcanônicas]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armas Arcanônicas",
+      "kind": "wikilink",
+      "alias": "Arcanônicas"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 10"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência X",
+      "kind": "wikilink",
+      "alias": "Inteligência 2"
+    },
+    {
+      "target": "Fatal",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Arcanônicas|Arcanônicas]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "Contexto/Recursos/Serviços/Lancha do Barqueiro",
+  "path": "Contexto/Recursos/Serviços/Lancha do Barqueiro.md",
+  "basename": "Lancha do Barqueiro",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Corrida",
+    "Marca": "[[Aliança Livre das Palafitas]]",
+    "Preço": 200,
+    "Cobrança": "viagem",
+    "Longa": 1000,
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Lago Guaíba]]"
+    ],
+    "Resumo": "Bote de alumínio com motor de popa contrabandeado: travessia curta Cz$ 200, Guaíba acima Cz$ 1.000. Aceita dose.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lancha do Barqueiro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lancha do Barqueiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lancha do Barqueiro.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOnde o ônibus anfíbio não chega, chega o barqueiro da [[Aliança Livre das Palafitas]]. Ele conhece cada canal\nentre as palafitas da [[Cidade Baixa]] e sabe onde a patrulha fluvial da Brigada não passa. Desde que a patrulha\ndobrou, o preço dobrou.\n\n> [!info] Especificação\n> **Barco:** bote de alumínio de 5 m com motor de popa Yamaha 15 HP (contrabando pelo [[Porto Novo]])\n> **Travessia curta:** Cz$ 200 — entre palafitas, Cidade Baixa ↔ Centro alagado\n> **Guaíba acima:** Cz$ 1.000 — [[Ipanema]], ilhas, [[Delta Radioativo]] (esse só de dia)\n> **Pagamento:** cruzado, dólar redondo ou uma dose\n> **Patrulha:** fluvial da [[Brigada Militar Metropolitana]] — o barqueiro apaga a lanterna e espera\n"
+}

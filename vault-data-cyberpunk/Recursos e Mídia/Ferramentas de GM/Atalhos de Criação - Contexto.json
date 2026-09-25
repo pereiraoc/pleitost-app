@@ -1,0 +1,15 @@
+{
+  "id": "Recursos e Mídia/Ferramentas de GM/Atalhos de Criação - Contexto",
+  "path": "Recursos e Mídia/Ferramentas de GM/Atalhos de Criação - Contexto.md",
+  "basename": "Atalhos de Criação - Contexto",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "**Atlas**\n```button\nname NOVO: Bairro de Porto Alegre 📌\ntype command\naction QuickAdd: NOVO: Bairro de Porto Alegre\n```\n^button-criar-novo-bairro-poa\n\n```button\nname NOVO: Ponto de Interesse em Porto Alegre 📍\ntype command\naction QuickAdd: NOVO: Ponto de Interesse em Porto Alegre\n```\n^button-criar-novo-pdi-poa\n\n**Contexto**\n```button\nname NOVO: Contexto Histórico 📖\ntype command\naction QuickAdd: NOVO: Contexto Histórico\n```\n^button-criar-novo-contexto-historico\n\n```button\nname NOVO: Contexto Atual 📒\ntype command\naction QuickAdd: NOVO: Contexto Atual\n```\n^button-criar-novo-contexto-atual\n\n```button\nname NOVA: Facção 🏴‍☠️\ntype command\naction QuickAdd: NOVA: Facção\n```\n^button-criar-nova-faccao\n\n```button\nname NOVA: Força do Estado Brasileiro 🛡️\ntype command\naction QuickAdd: NOVA: Força do Estado\n```\n^button-criar-nova-forca-do-estado\n\n```button\nname NOVO: Governo Internacional 🏛️\ntype command\naction QuickAdd: NOVO: Governo Internacional\n```\n^button-criar-novo-governo\n\n```button\nname NOVA: Megacorporação 🏦\ntype command\naction QuickAdd: NOVA: Megacorporação\n```\n^button-criar-nova-megacorporacao\n\n```button\nname NOVA: Empresa 🏢\ntype command\naction QuickAdd: NOVA: Empresa\n```\n^button-criar-nova-empresa\n\n```button\nname NOVA: Pessoa 👤\ntype command\naction QuickAdd: NOVA: Pessoa\n```\n^button-criar-nova-pessoa\n"
+}

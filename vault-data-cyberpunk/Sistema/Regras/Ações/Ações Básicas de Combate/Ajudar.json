@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Ajudar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Ajudar.md",
+  "basename": "Ajudar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta ajudar ação de perícia do aliado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta ajudar ação de perícia do aliado.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nPrepara-se para ajudar um aliado em uma tarefa. Usa uma reação quando o aliado realiza a ação. Faça um teste/ataque usando a mesma perícia do teste/ataque do aliado contra a mesma [[CD]].\n\n**Sucesso:** A criatura recebe +1 de [[Bônus de Circunstância|bônus de circunstância]] no teste/ataque do aliado.\n**Sucesso Decisivo:** Como sucesso, mas o bônus é +2.\n**Falha:** Nada acontece.\n**Falha Decisiva:** Você mais atrapalha do que ajuda, garantindo -1 de [[Penalidades|penalidade de circunstância]] no teste/ataque do aliado.\n\n```autosheet-rules\n```\n"
+}

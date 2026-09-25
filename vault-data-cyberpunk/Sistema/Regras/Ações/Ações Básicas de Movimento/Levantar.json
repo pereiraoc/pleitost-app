@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Levantar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Levantar.md",
+  "basename": "Levantar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Deixa de estar [[Caído]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Deixa de estar [[Caído]].\"\n\n%%\n### `= this.file.name` - `= this.custo`\nDeixa de estar [[Caído]]. Reações causadas por esse movimento acontecem depois da condição [[Caído]] ser removida.\n\n```autosheet-rules\n```\n"
+}

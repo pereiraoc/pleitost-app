@@ -1,0 +1,85 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Portaria da Tramontina",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Portaria da Tramontina.md",
+  "basename": "Portaria da Tramontina",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "[[Tramontina]] (chefe da portaria Sr. Adalberto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vila Operária PIRA]]",
+      "[[Ração PIRA]]",
+      "[[Marmita Congelada Zaffari]]",
+      "[[Mate Gelado Charrua]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Portaria da Tramontina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vila Operária PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Portaria da Tramontina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Portaria da Tramontina.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Aloja o operário na vila geminada, distribui ração PIRA e marmita em crédito e vende mate gelado e café no balcão do relógio de ponto.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Guarita de concreto, catraca com leitor de carteira, relógio de ponto e um balcão de lata com latas de mate gelado empilhadas.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Aloja o operário na vila geminada, distribui ração PIRA e marmita em crédito e vende mate gelado e café no balcão do relógio de ponto.",
+    "aparencia": "Guarita de concreto, catraca com leitor de carteira, relógio de ponto e um balcão de lata com latas de mate gelado empilhadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

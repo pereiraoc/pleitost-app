@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Gambito de Combate",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Gambito de Combate.md",
+  "basename": "Gambito de Combate",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Faça dois testes de Guerra contra a [[CD|CD-Nível]] da maior criatura em conflito com o grupo. Você recebe -2 de [[Penalidades|penalidade de especialização]] para esses testes. Caso tenha sucesso nos dois testes, você recebe dois dados de comando d6. Para cada sucesso decisivo, converta um dos d6 em d8.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Faça dois testes de Guerra contra a [[CD|CD-Nível]] da maior criatura em conflito com o grupo. Você recebe -2 de [[Penalidades|penalidade de especialização]] para esses testes. Caso tenha sucesso nos dois testes, você recebe dois dados de comando d6. Para cada sucesso decisivo, converta um dos d6 em d8.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Gâmbito de Combate.\n\n**Gambito de Combate - 1A**\nFaça dois testes de Guerra contra a [[CD|CD-Nível]] da maior criatura em conflito com o grupo. Você recebe -2 de [[Penalidades|penalidade de especialização]] para esses testes. Caso tenha sucesso nos dois testes, você recebe dois dados de comando d6. Para cada sucesso decisivo, converta um dos d6 em d8. Essa habilidade conta como um uso de [[Análise de Combate]] para a limitação de uma por turno.\n\n```autosheet-rules\n```\n"
+}

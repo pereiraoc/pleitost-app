@@ -1,0 +1,91 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Triunfo!",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Triunfo!.md",
+  "basename": "Triunfo!",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "L",
+    "resumo": "\"Quando derrota um inimigo ou tem sucesso decisivo com [[Atacar|Ataque]] ou [[Estilo de Combate (Arte Mágica)|Magias Básicas de Arte Mágica]], pode como uma ação livre realizar [[Encorajar]] ou [[Assustar]] com +2 de bônus, ou receber EH temporária.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink",
+      "alias": "Magias Básicas de Arte Mágica"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palavras Cortantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruído Estridente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Projétil Telecinético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: L\n\nresumo:: \"Quando derrota um inimigo ou tem sucesso decisivo com [[Atacar|Ataque]] ou [[Estilo de Combate (Arte Mágica)|Magias Básicas de Arte Mágica]], pode como uma ação livre realizar [[Encorajar]] ou [[Assustar]] com +2 de bônus, ou receber EH temporária.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Triunfo!.\n\n**Triunfo! - L**\nQuando, com um [[Atacar|Ataque]], [[Palavras Cortantes]], [[Ruído Estridente]] ou [[Projétil Telecinético]], você reduz a [[Energia Vital|EV]] de um inimigo a 0 ou tem um sucesso decisivo, você pode, como uma ação livre, realizar uma das opções:\n* Você recebe 4 de [[Energia Heroica|EH]] temporária por 1 minuto. (6 no 4º nível e 8 no 7º nível)\n* Você pode [[Encorajar]], com +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste\n* Você pode [[Assustar]], com +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste\n\nVocê só pode utilizar Triunfo! uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

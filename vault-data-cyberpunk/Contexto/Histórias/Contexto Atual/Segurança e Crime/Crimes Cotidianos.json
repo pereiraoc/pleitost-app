@@ -1,0 +1,151 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Crimes Cotidianos",
+  "path": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Crimes Cotidianos.md",
+  "basename": "Crimes Cotidianos",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A rotina de violência, roubos e outros delitos comuns.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Crimes Cotidianos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Geral do Grêmio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lagoa do Pinheiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Crimes Cotidianos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Roubo de Implantes e Componentes"
+    },
+    {
+      "level": 4,
+      "text": "Assaltos por Dinheiro, Drogas e Subsistência"
+    },
+    {
+      "level": 4,
+      "text": "Corrupção Policial e Proteção de Facções"
+    },
+    {
+      "level": 4,
+      "text": "Criminalidade nas Fronteiras Urbanas"
+    },
+    {
+      "level": 4,
+      "text": "Mercado Negro e Revenda"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Crimes Cotidianos.png]]\n\nEm Porto Alegre 1987, quem anda com implante à mostra vira alvo. Roubar prótese virou rotina, seja para revender no [[Camelódromo]] ou usar como passe para áreas restritas da cidade. Assaltos a farmácias [[Panvel]] e feiras [[Zaffari]] são diários, com criminosos buscando drogas de tarja preta ou comida. A polícia, quando não está de olho fechado, vende proteção ou fecha os olhos em troca de selênicos e dinheiro. Facções como [[Camisa 12]], [[Clã da Ferrugem]] e [[Restinga]] Livre dominam territórios à bala, sempre negociando favores com agentes do Estado. Quem sobrevive é porque aprendeu a negociar com todo mundo — ou a correr muito rápido.\n#### Roubo de Implantes e Componentes\nA explosão do mercado de próteses físicas e neurais ([[Tramontina]], [[Gradiente]]) criou um novo tipo de crime urbano: o **assalto para roubo de implantes**.\n\n- **Alvos:** Trabalhadores que circulam em áreas industriais (Passo D’Areia, [[Petrópolis]]), estudantes universitários com chips cognitivos ([[Bom Fim]], [[Centro Histórico]]) e técnicos da [[Restinga]] ou do [[Camelódromo]].\n- **Motivações:** Alguns implantes servem como **chave de acesso a áreas restritas** — quem os rouba pode revendê-los para quadrilhas especializadas ou usá-los para infiltração em fábricas e clínicas.\n- **Mercado negro:** O [[Clã da Ferrugem]] atua como principal refinador, desmontando implantes para reaproveitamento ou “jailbreak”. Camelódromos e oficinas de sucata na [[Restinga]] e [[Zona Deserta]] são pontos de venda de peças roubadas.\n#### Assaltos por Dinheiro, Drogas e Subsistência\nO dinheiro em espécie (Cruzeiro ou Dólar [[Restinga]]) tem menos valor do que acesso a selênicos, remédios e alimentos.\n\n- **Assaltos a farmácias [[Panvel]], feiras [[Zaffari]] e quiosques do [[Mercado Público]]** são comuns, com bandos visando estoques de drogas de tarja amarela e preta.\n- **Ônibus e passarelas do [[Centro Histórico]] e [[Cidade Baixa]]** sofrem ataques frequentes para roubo de bolsas com kits de selênicos, seringas, ou até mantimentos racionados.\n- **Conflitos armados em galpões de [[Nova Sarandi]] e [[Praia de Belas]]** surgem quando carregamentos clandestinos de substâncias são descobertos por grupos rivais ([[Camisa 12]], [[Restinga]] Livre).\n#### Corrupção Policial e Proteção de Facções\nA [[Brigada Militar Metropolitana]], sobrecarregada e fragmentada, age tanto como força repressora quanto como parceira oculta do crime organizado.\n\n- **Subornos:** Facções como [[Camisa 12]], [[Geral do Grêmio]] e [[Clã da Ferrugem]] frequentemente subornam policiais para garantir “blindagem” em certas regiões.\n- **Regiões com proteção vendida:** O [[Quarto Distrito]] e parte da [[Cidade Baixa]] veem patrulhas ignorando denúncias em troca de pagamentos regulares ou favores (manutenção de veículos [[Gurgel]], doação de implantes “excedentes”).\n- **Acordos pontuais:** Em períodos de tensão política (manifestações, Gre-Nal), a polícia fecha os olhos para pequenos furtos e cobra taxas extras de comerciantes para garantir “segurança” temporária.\n#### Criminalidade nas Fronteiras Urbanas\n- **[[Restinga]] e [[Zona Deserta]]**: Áreas de trânsito de sucata, drogas e refugiados, controladas por barricadas improvisadas e “pedágios” impostos por grupos locais, muitas vezes com conivência ou medo da [[Brigada Militar Metropolitana|Brigada Militar]].\n- **[[Delta Radioativo]] e [[Lagoa do Pinheiro]]**: Assaltos brutais por gangues mutantes e saqueadores, em busca de implantes contaminados para reciclagem.\n\n#### Mercado Negro e Revenda\nToda peça, droga ou insumo roubado tem seu circuito de revenda.\n- **[[Camelódromo]]:** Principal vitrine de implantes, chips, seringas e até receitas médicas desviadas.\n- **Clínicas clandestinas ([[Bom Fim]], [[Cidade Baixa]], [[Restinga]]):** Instalam peças roubadas ou falsificadas a preços baixos — risco de infecção, mas promessa de “acesso liberado”.\n- **Operadores “fantasmas” da [[Gradiente]] e [[Tramontina]]** infiltrados nesses mercados monitoram o fluxo para aprimorar sistemas de segurança e identificar concorrentes."
+}

@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Café da Padre Chagas",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Café da Padre Chagas.md",
+  "basename": "Café da Padre Chagas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Madame Lisette Dumont",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café Passado]]",
+      "[[Empada de Padaria]]",
+      "[[Chocolate Neugebauer]]",
+      "[[Coca-Cola]]",
+      "[[Cueca Virada]]",
+      "[[Café da Manhã de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Café da Padre Chagas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empada de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Café da Padre Chagas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Café da Padre Chagas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Café, empada, chocolate, Coca de lata e cueca virada com nome francês; a conta vem em bandeja de prata.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Mesas de ferro na calçada, toldo listrado, garçom de avental longo e um segurança discreto.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Café, empada, chocolate, Coca de lata e cueca virada com nome francês; a conta vem em bandeja de prata.",
+    "aparencia": "Mesas de ferro na calçada, toldo listrado, garçom de avental longo e um segurança discreto.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

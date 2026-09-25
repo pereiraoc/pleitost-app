@@ -1,0 +1,93 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/LINHA EXECUTIVA",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/LINHA EXECUTIVA.md",
+  "basename": "LINHA EXECUTIVA",
+  "type": "Linha",
+  "subtype": "Aeromóvel",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Aeromóvel",
+    "Letreiro": "LINHA EXECUTIVA",
+    "Operador": "Trensurb; segurança [[Gradiente]]",
+    "Acesso": "[[TRI Platina]]",
+    "Tarifa": "[[Aeromóvel Linha Executiva]]",
+    "Qualidade": 5,
+    "Cor": "#111111",
+    "Horário": "6h–1h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Tramontina]]",
+      "[[Estação Concorde]]",
+      "[[Estação Moinhos]]",
+      "[[Estação Centro Corporativo]]",
+      "[[Estação Praia de Belas]]",
+      "[[Estação Ipanema]]"
+    ],
+    "Aparência": "Vagão preto fosco com friso dourado e logo da Gradiente, plataforma de mármore com carpete, segurança de terno com radinho, executivo de pasta lendo jornal censurado, vista do Guaíba pelo vidro.",
+    "Resumo": "A vitrine do regime: 24 poltronas, vidro fumê, telefone a bordo, da sede da Tramontina a Ipanema sem cruzar com ninguém da rua — o único transporte que desce até o enclave.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "LINHA EXECUTIVA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Executiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Tramontina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "LINHA EXECUTIVA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[LINHA EXECUTIVA.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA vitrine do regime. Vagão preto de 24 poltronas com telefone [[Embratel]] a bordo: sai de dentro do [[Edifício Concorde]], na [[Estação Concorde]], para na [[Estação Moinhos]] com guarita da Gradiente, cruza o Centro pelo deck de vidro da [[Estação Centro Corporativo]] — separada da popular por uma catraca de crachá —, deixa o executivo no escritório do porto pela [[Estação Praia de Belas]] e segue sozinha pelo lago até a porta dos condomínios, na [[Estação Ipanema]]: nenhum ônibus, lotação ou balsa desce até lá. Crachá de megacorp abre a catraca; quem entra sem ele paga Cz$ 1.000, é fotografado e sai escoltado.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

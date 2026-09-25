@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Técnica Flexível",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Técnica Flexível.md",
+  "basename": "Técnica Flexível",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Vento]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Técnica Flexível"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Vento]]\nprev::\nnext::\n%%\n### Técnica Flexível\nVocê se adapta às circunstâncias, buscando lidar com o que precisa no momento. No início do dia, escolha uma perícia que você não é [[Adepto]] ou superior, você se torna [[Adepto]] nesta perícia até o início do próximo dia."
+}

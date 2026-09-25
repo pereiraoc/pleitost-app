@@ -1,0 +1,55 @@
+{
+  "id": "Contexto/Recursos/Crédito/Crédito Sicredi",
+  "path": "Contexto/Recursos/Crédito/Crédito Sicredi.md",
+  "basename": "Crédito Sicredi",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "[[Sicredi]]",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 6,
+    "Teto_Meses": 12,
+    "Nível": 3,
+    "Onde": [
+      "[[Sicredi]]"
+    ],
+    "Resumo": "A cooperativa empresta a 6% ao mês pra quem é cooperado: cota de entrada e um fiador que responde por ti na assembleia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Crédito Sicredi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Lauro “Torno” Peixoto",
+      "kind": "wikilink",
+      "alias": "alguém que responde por ti"
+    },
+    {
+      "target": "Neli Rauber",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sicredi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Crédito Sicredi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Crédito Sicredi.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNa cooperativa quem pega emprestado é dono. Entra-se com uma cota — um mês do teu plano — e traz-se um cooperado que assina junto: o sindicato, a colônia, a paróquia, [[Lauro “Torno” Peixoto|alguém que responde por ti]]. [[Neli Rauber]] aprova olhando nos olhos, e o juro é o mais baixo que a cidade oferece sem dólar, porque o risco não é da caixa: é do teu fiador.\n\nÉ esse o preço. Sumir com a dívida não traz capanga nem oficial de justiça — traz o fiador pagando por ti, e na colônia isso é pior. Perde-se a cota, o nome na assembleia e a chance de voltar.\n\n> [!info] Especificação\n> **Quem consegue:** Classe Média Baixa ou acima, cooperado: cota de entrada (um mês do teu plano) e um cooperado como fiador\n> **Teto:** doze meses do teu plano\n> **Juros:** 6% ao mês\n> **Garantia:** o fiador\n> **Se atrasa:** a cooperativa cobra do fiador e te expulsa: perde a cota, e o fiador perde a Marca contigo\n"
+}

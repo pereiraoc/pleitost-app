@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Encorajamento/Encorajamento",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Encorajamento/Encorajamento.md",
+  "basename": "Encorajamento",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ajudar via Diplomacia",
+        "tipo": "AçãoDePericia",
+        "origem": "Especialização",
+        "acoes": [
+          "[[Ajudar]]"
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Diplomacia]]",
+    "resumo": "\"Alvo recupera 3 EH na falha de [[Encorajar]]. Pode Ajudar com [[Diplomacia]] em qualquer teste de perícia fora de combate.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ajudar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Diplomacia]]\nresumo:: \"Alvo recupera 3 EH na falha de [[Encorajar]]. Pode Ajudar com [[Diplomacia]] em qualquer teste de perícia fora de combate.\"\n%%\n### `= this.file.name`\n* Quando você falha em [[Encorajar]], o aliado alvo recupera 3 [[Energia Heroica|EH]].\n* Você pode [[Ajudar]] usando [[Diplomacia]] para qualquer teste de perícia fora de combate.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/KOMBI DO BOTÂNICO",
+  "path": "Contexto/Recursos/Transporte/Lotação/KOMBI DO BOTÂNICO.md",
+  "basename": "KOMBI DO BOTÂNICO",
+  "type": "Linha",
+  "subtype": "Kombi",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Kombi",
+    "Letreiro": "KOMBI DA ZONA LESTE",
+    "Operador": "cooperativas de bairro (motorista paga a própria propina); a [[Camisa 12]] escolhe o motorista",
+    "Acesso": "dinheiro ou dose",
+    "Tarifa": "[[Lotação Clandestina]]",
+    "Qualidade": 1,
+    "Cor": "#e9c46a",
+    "Horário": "sai quando enche",
+    "Circular": false,
+    "Paradas": [
+      "[[Sede da Camisa 12]]",
+      "[[Venda da Vila]]",
+      "[[Campus do Vale da UFRGS]]",
+      "[[Estação Jardim Botânico]]",
+      "[[Redenção]]",
+      "[[Campus Centro da UFRGS]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Kombi bege ou azul com o farol apagado, porta de correr aberta com um cobrador de boné pendurado, papelão no vidro com o destino escrito à mão, doze pessoas dentro, uma na porta.",
+    "Resumo": "As Kombis da vila do Botânico ao Centro: sai da sede da Camisa 12, para na Redenção e cobra em dinheiro ou dose.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "KOMBI DO BOTÂNICO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sede da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Venda da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus do Vale da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "KOMBI DO BOTÂNICO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[KOMBI DO BOTÂNICO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nAs Kombis da vila do Botânico. Saem da porta da [[Sede da Camisa 12]] e da [[Venda da Vila]], pegam estudante no [[Campus do Vale da UFRGS]], cortam pela [[Estação Jardim Botânico]], param na [[Redenção]] e no portão do [[Campus Centro da UFRGS]] e chegam à [[Estação Central]] quando o T2 já não roda. Dinheiro ou dose; em dia de jogo viram caravana miúda com bandeira na antena.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

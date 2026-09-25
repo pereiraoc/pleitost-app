@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Regras/Condições/Condições",
+  "path": "Sistema/Regras/Condições/Condições.md",
+  "basename": "Condições",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Condição, Condições",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Combate|Combate]]",
+    "next": "[[Bônus & Penalidades]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink",
+      "alias": "Combate"
+    },
+    {
+      "target": "Bônus & Penalidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Condições"
+    },
+    {
+      "level": 2,
+      "text": "Condições Positivas"
+    },
+    {
+      "level": 2,
+      "text": "Condições Negativas"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Combate|Combate]]\nnext:: [[Bônus & Penalidades]]\n%%\n# Condições\n\n---\n\n## Condições Positivas\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Condição\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Condições\"\nSORT file.name ASC\nWHERE subcategoria = \"Condição\" and grupo = \"Positiva\"\n```\n\n## Condições Negativas\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Condição\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Condições\"\nSORT file.name ASC\nWHERE subcategoria = \"Condição\" and grupo = \"Negativa\"\n```\n\n```autosheet-rules\n```\n"
+}

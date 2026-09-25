@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Regras/Bônus & Penalidades/Bônus & Penalidades",
+  "path": "Sistema/Regras/Bônus & Penalidades/Bônus & Penalidades.md",
+  "basename": "Bônus & Penalidades",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Bônus",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Condições]]",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Condições",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Bônus"
+    },
+    {
+      "level": 1,
+      "text": "Penalidades"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Condições]]\nnext:: \n%%\n# Bônus\n\nExistem 4 tipos de bônus aplicados a rolagens que aparecem no jogo. Se você tiver tipos diferentes de bônus na mesma rolagem, você soma todos a rolagem, mas se você tiver dois ou mais bônus do mesmo tipo só o maior é considerado.\n\n![[Bônus de Item#`= this.file.name`]]\n![[Bônus de Circunstância#`= this.file.name`]]\n![[Bônus de Condição#`= this.file.name`]]\n![[Bônus de Especialização#`= this.file.name`]]\n\n# Penalidades\n\n![[Penalidades#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Condições/Lento",
+  "path": "Sistema/Regras/Condições/Lento.md",
+  "basename": "Lento",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Lento X, Lento 1, Lento 2, Lento 3, Lentos, Lenta, Lentas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Reduz o número de [[Ações|Ações]] no turno em X.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Reduz o número de [[Ações|Ações]] no turno em X.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

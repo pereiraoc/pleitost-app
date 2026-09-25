@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Facções/Sindicato dos Metalúrgicos",
+  "path": "Contexto/Organizações/Facções/Sindicato dos Metalúrgicos.md",
+  "basename": "Sindicato dos Metalúrgicos",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Sindicato de base das oficinas e fábricas — greves simbólicas por fora, sabotagem seletiva por dentro.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sindicato dos Metalúrgicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sindicato dos Metalúrgicos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sindicato dos Metalúrgicos.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Sobrevivente da era sindical pré-AI-5, opera no limite do permitido: assembleia com autorização, piquete sem. Nas oficinas onde a [[Tramontina]] manda, é a única voz que os operários ainda têm."
+}

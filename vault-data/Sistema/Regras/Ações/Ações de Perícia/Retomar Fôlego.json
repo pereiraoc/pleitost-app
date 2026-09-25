@@ -1,0 +1,74 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Retomar Fôlego",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Retomar Fôlego.md",
+  "basename": "Retomar Fôlego",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Sobrevivência]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta explorar suas reservas de energia, aumentando sua durabilidade em combate.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descanse"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Sobrevivência]]\"\npropriedades:: \nresumo:: \"Tenta explorar suas reservas de energia, aumentando sua durabilidade em combate.\"\n%%\n### `= this.file.name` - `= this.custo`\nPode ser usado se você sofreu dano no último minuto. Faça um teste de [[Sobrevivência]] vs [[CD|CD-Nível]] da maior criatura em conflito com o grupo. Caso não haja conflito corrente, use a [[CD|CD-Nível]] da origem do dano sofrido. Você não pode realizar Retomar Fôlego novamente até que [[Descansar|Descanse]].\n\n**Sucesso:** Você recupera 3 [[Energia Heroica|EH]] mais 1d6 para cada nível de [[Proficiência]] que você tenha em [[Sobrevivência]] (totalizando 1d6+3 para [[Adepto]], 2d6+3 para [[Experiente]] e 3d6+3 para [[Mestre]]).\n**Sucesso Decisivo:** Como sucesso, mas aumente a recuperação de [[Energia Heroica|EH]] em 1d6.\n**Falha:** Nada acontece.\n\n```autosheet-rules\n```\n"
+}

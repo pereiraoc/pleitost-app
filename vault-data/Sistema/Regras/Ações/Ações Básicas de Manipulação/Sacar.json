@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Sacar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Sacar.md",
+  "basename": "Sacar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Manipulação",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Manipulação",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Manipulação]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Manipulação|Manipulação]]",
+    "resumo": "\"Empunha um objeto que está em sua posse em sua mão ou mãos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Manipulação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Manipulação]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Manipulação|Manipulação]]\nresumo:: \"Empunha um objeto que está em sua posse em sua mão ou mãos.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nEmpunha um objeto que está em sua posse em sua mão ou mãos.\n\n```autosheet-rules\n```\n"
+}

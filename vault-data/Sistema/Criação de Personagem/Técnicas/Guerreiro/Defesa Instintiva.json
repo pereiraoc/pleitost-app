@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Defesa Instintiva",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Defesa Instintiva.md",
+  "basename": "Defesa Instintiva",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Você pode [[Erguer Escudo]] ou [[Aparar]] como ação livre uma vez por turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Você pode [[Erguer Escudo]] ou [[Aparar]] como ação livre uma vez por turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode [[Erguer Escudo]] ou [[Aparar]] como ação livre uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

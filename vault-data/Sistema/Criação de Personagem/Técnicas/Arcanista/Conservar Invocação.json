@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Conservar Invocação",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Conservar Invocação.md",
+  "basename": "Conservar Invocação",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Pode ser usado quando invocação toma dano. Perca EH para reduzir o dano recebido por ela.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Servo das Sombras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Pode ser usado quando invocação toma dano. Perca EH para reduzir o dano recebido por ela.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Conservar Invocação.\n\n**Conservar Invocação - R**\nPode ser usada quando uma criatura invocada por você (como [[Servo das Sombras]]) em até 10q de você recebe dano. Você perde [[Energia Heroica|EH]] igual ao dano recebido pela invocação, reduzindo o dano que ela recebe a 0. Se você não possuir [[Energia Heroica|EH]] igual ou maior que o dano recebido pela invocação, você perde toda sua [[Energia Heroica|EH]] e reduz o dano recebido pela invocação pela [[Energia Heroica|EH]] perdida.\n*Requer Escola Arcana (Estudos do Vazio)*\n\n```autosheet-rules\n```\n"
+}

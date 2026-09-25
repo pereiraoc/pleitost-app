@@ -1,0 +1,53 @@
+{
+  "id": "Campanhas/Combates/Reunião no Consulado",
+  "path": "Campanhas/Combates/Reunião no Consulado.md",
+  "basename": "Reunião no Consulado",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Moinhos de Vento]] · [[Ipanema]]",
+    "Situação": "Três potências querendo a mesma interface na mesma sala. Ninguém veio desarmado e ninguém veio sozinho.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Contato do Consulado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnico de Módulo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enxertador de Simbionte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta de Diretoria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Contato do Consulado]] super rápido\n- 3 [[Técnico de Módulo]] lento\n- 3 [[Enxertador de Simbionte]] lento\n- 3 [[Escolta de Diretoria]] super rápido\n```\n"
+}

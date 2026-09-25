@@ -1,0 +1,182 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Cinto dos Ermos",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Cinto dos Ermos.md",
+  "basename": "Cinto dos Ermos",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Terra|Terra]]"
+    ],
+    "resumo": "Bônus de [[Sobrevivência]]. Benefícios para exploradores.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Sobrevivência. A cada 10min, use 1 recurso: Marcador (CD de Rastrear -2 por 24h), Fruto (cura 2 EV; 1/dia por criatura) ou Bússola (+1 em Intuir Direção).",
+      "experiente": "+2 de bônus de item em Sobrevivência. A cada 10min, use 1 recurso: Marcador (CD de Rastrear -2 por 7 dias), Fruto (cura 4 EV; 1/10min por criatura) ou Bússola (+2 em Intuir Direção).",
+      "mestre": "+3 de bônus de item em Sobrevivência. A cada 10 min, use 1 recurso: Marcador (CD de Rastrear -2 por 30 dias), Fruto (cura 6 EV; 1/dia por criatura) ou Bússola (+3 em Intuir Direção)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Cinto dos Ermos",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Cinto dos Ermos",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Cinto dos Ermos",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Intuir Direção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink",
+      "alias": "Terra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 3,
+      "text": "Recursos"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Terra) - cinto*\nEste cinto contém ferramentas de exploração, aparentemente feitas de folhas. Amplifica seu instinto de sobrevivência na natureza e provém objetos essenciais para um explorador.\n* Adepto: +1 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 24 horas, Fruto recupera 2 [[Energia Vital|EV]] e Bússola garante bônus de +1.\n* Experiente: +2 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 7 dias, Fruto recupera 4 [[Energia Vital|EV]] e Bússola garante bônus de +2.\n* Mestre: +3 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 30 dias, Fruto recupera 6 [[Energia Vital|EV]] e Bússola garante bônus de +3.\n\n### Recursos\n* Marcador Olfativo: [[Interagir]] - Você arremessa um pó numa criatura adjacente a você. A [[CD]] para [[Rastrear]] essa criatura é reduzida em 2 por uma duração ou até que ela se lave.\n* Fruto Nutritivo: [[Interagir]] - Você obtém um fruto mágico que nutre e restaura. Uma criatura pode consumir o fruto usando 1 ação para recuperar [[Energia Vital|EV]] e se saciar nutricionalmente. Uma criatura só pode ser afetada pelo Fruto Nutritivo uma vez por dia. O Fruto apodrece e se desfaz em 10 minutos após obtido.\n* Bússola Natural: [[Interagir]] - Você obtém uma bússola de pedra que auxilia na navegação, garantindo [[Bônus de Circunstância|bônus de circunstância]] para [[Intuir Direção]]. A bússola se desfaz 1 hora depois de obtida.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Ataque Desestabilizante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Ataque Desestabilizante.md",
+  "basename": "Ataque Desestabilizante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo; se acertar, até o início do seu próximo turno o alvo recebe -2 de [[Penalidades|penalidade de circunstância]] em [[Vigor]] e [[Evasão]] contra [[Agarrar]], [[Empurrar]], [[Derrubar]] e [[Desarmar]]. 1 vez por turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo; se acertar, até o início do seu próximo turno o alvo recebe -2 de [[Penalidades|penalidade de circunstância]] em [[Vigor]] e [[Evasão]] contra [[Agarrar]], [[Empurrar]], [[Derrubar]] e [[Desarmar]]. 1 vez por turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Desestabilizante.\n\n**Ataque Desestabilizante - 1A**\nFaça um [[Atacar|Ataque]] corpo-a-corpo, em caso de sucesso, até o início do seu próximo turno, a criatura alvo recebe -2 de [[Penalidades|penalidade de circunstância]] em [[Vigor]] e [[Evasão]] contra [[Agarrar]], [[Empurrar]], [[Derrubar]] e [[Desarmar]]. Você só pode utilizar Ataque Desestabilizante uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

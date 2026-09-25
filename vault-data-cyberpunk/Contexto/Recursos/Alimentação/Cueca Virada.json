@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Cueca Virada",
+  "path": "Contexto/Recursos/Alimentação/Cueca Virada.md",
+  "basename": "Cueca Virada",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Padaria de esquina",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Petrópolis]]",
+      "[[Redenção]]"
+    ],
+    "Resumo": "Massa frita torcida com açúcar e canela, tradição alemã da serra: sai quente às três da tarde com o café.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cueca Virada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cueca Virada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cueca Virada.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA cueca virada é o doce alemão que a serra trouxe pra padaria da capital: massa torcida, frita, coberta de\naçúcar e canela. Sai quente da padaria do [[Bom Fim]] às três da tarde e some em vinte minutos. Cz$ 30 a\nunidade; na barraca da [[Redenção]], Cz$ 40 e fria.\n\n> [!info] Especificação\n> **Doce:** massa torcida frita, açúcar e canela\n> **Hora:** 15h, quente — às 15h20 acabou\n> **Preço:** Cz$ 30; nos Moinhos Cz$ 45 e vem em papel rendado\n> **Com:** café passado ou chimarrão\n"
+}

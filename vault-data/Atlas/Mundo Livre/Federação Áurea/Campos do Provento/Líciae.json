@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Líciae",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Líciae.md",
+  "basename": "Líciae",
+  "type": "Localização",
+  "subtype": "Grande Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Grande Cidade",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Gado"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Líciae.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Líciae.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Líciae.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Grande cidade pecuária do [[Campos do Provento]]: dos pastos que a cercam — e a permeiam — sai o gado que abastece a [[Federação Áurea]] de carne e couro. Cidade aberta na campina, vive no compasso das feiras e das apartações, do Mercado do Gado aos Currais de Líciae, enquanto os curtumes fumegantes da Coureira transformam a criação em ofício. O Paço do Governo administra a cidade da elevação central, e a [[Sociedade Aberta]] mantém uma sede discreta, encravada no casario artesão.\n>\n> 👁️**Aparência do Local:** Cidade aberta, sem muralha: portais de pedra isolados marcam as entradas das estradas do norte e do sul, e vacas malhadas pastam por toda parte — nos piquetes dos Prados da Vargem, dentro do próprio tecido urbano, e no grande cinturão de pastos do sudoeste. O casario de pedra e enxaimel, em gótico rural, converge da praça ao Paço do Governo, palácio de coruchéu alto sobre uma leve elevação; ao norte, a torre quadrada da Casa dos Ofícios lhe responde, e juntas dominam o skyline. Um rio largo de água azul desce do nordeste e contorna o leste e o sul da cidade, com trapiches na Ribeira do Vau; cruza-se pela Ponte do Vau, de pedra e múltiplos arcos, ou pelo vau raso do sul, onde a estrada mergulha na água. Em volta, campina verde e suave de pastos, faixas de lavoura e bosques esparsos.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Paço de Alvamarca** *(dourado — centro)* — o distrito do poder, na elevação central da cidade.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)",
+    "descricao": "Grande cidade pecuária do [[Campos do Provento]]: dos pastos que a cercam — e a permeiam — sai o gado que abastece a [[Federação Áurea]] de carne e couro. Cidade aberta na campina, vive no compasso das feiras e das apartações, do Mercado do Gado aos Currais de Líciae, enquanto os curtumes fumegantes da Coureira transformam a criação em ofício. O Paço do Governo administra a cidade da elevação central, e a [[Sociedade Aberta]] mantém uma sede discreta, encravada no casario artesão.",
+    "aparencia": "Cidade aberta, sem muralha: portais de pedra isolados marcam as entradas das estradas do norte e do sul, e vacas malhadas pastam por toda parte — nos piquetes dos Prados da Vargem, dentro do próprio tecido urbano, e no grande cinturão de pastos do sudoeste. O casario de pedra e enxaimel, em gótico rural, converge da praça ao Paço do Governo, palácio de coruchéu alto sobre uma leve elevação; ao norte, a torre quadrada da Casa dos Ofícios lhe responde, e juntas dominam o skyline. Um rio largo de água azul desce do nordeste e contorna o leste e o sul da cidade, com trapiches na Ribeira do Vau; cruza-se pela Ponte do Vau, de pedra e múltiplos arcos, ou pelo vau raso do sul, onde a estrada mergulha na água. Em volta, campina verde e suave de pastos, faixas de lavoura e bosques esparsos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Paço de Alvamarca** *(dourado — centro)* — o distrito do poder, na elevação central da cidade.",
+    "leaflet": null
+  }
+}

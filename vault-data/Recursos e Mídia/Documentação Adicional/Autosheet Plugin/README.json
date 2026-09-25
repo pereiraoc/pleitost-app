@@ -1,0 +1,61 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/README",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/README.md",
+  "basename": "README",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Modos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frontmatter",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementos de Regra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Efeitos Interativos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combat Tracker",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ficha de Grupo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visualizador de Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Debug",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Documentação — Pleitost Autosheet (vault user)"
+    },
+    {
+      "level": 2,
+      "text": "Quer mexer no plugin?"
+    }
+  ],
+  "body": "# Documentação — Pleitost Autosheet (vault user)\n\nDoc voltada pra quem **usa o plugin no Obsidian** — escreve fichas,\nedita YAML, configura efeitos interativos, debuga uma ficha estranha.\n\n| Doc | Quando ler |\n|---|---|\n| [[Como Funciona]] | Visão simples dos fluxos (load / edit / save / trocar modo) |\n| [[Modos]] | Descrição dos 4 modos da ficha (Resumo / Interativa / Editável / Leitura) |\n| [[Frontmatter]] | O que o plugin lê e grava no YAML |\n| [[Elementos de Regra]] | Como escrever `Elementos_de_Regra` numa nota + catálogo de casos reais |\n| [[Efeitos Interativos]] | Bloco YAML `Efeitos_Interativos:` (sistema novo, mais estruturado) |\n| [[Combat Tracker]] | Bloco `combat-marker` / `combat-tracker` pra encontros (absorvido em v1.1.0) |\n| [[Ficha de Grupo]] | Bloco `autosheet-grupo` pra ficha consolidada de N membros |\n| [[Visualizador de Regras]] | Bloco `autosheet-rules` pra conferir os `Elementos_de_Regra` / `Efeitos_Interativos` de uma nota |\n| [[Debug]] | Settings + cenários comuns de debug |\n\n## Quer mexer no plugin?\n\nA documentação técnica (arquitetura, pipeline interno, spec dos rule\nelements, receitas pra estender) vive na pasta do plugin em\n`.obsidian/plugins/pleitost-autosheet/docs/` — não acessível via\nObsidian (a pasta `.obsidian/` é oculta), mas acessível pelo sistema\nde arquivos / GitHub.\n"
+}

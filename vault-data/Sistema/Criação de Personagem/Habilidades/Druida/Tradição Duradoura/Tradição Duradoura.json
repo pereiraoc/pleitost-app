@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Duradoura/Tradição Duradoura",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Duradoura/Tradição Duradoura.md",
+  "basename": "Tradição Duradoura",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Guardião)]]",
+      "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Xamã)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprimora suas formas ferais. Sua proficiência druídica aumenta para [[Experiente]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Guardião)]]",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Duradoura",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Tradição Druídica (Guardião)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Tradição Duradoura (Guardião)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Guardião)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Xamã)]]",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Duradoura",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Tradição Druídica (Xamã)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Tradição Duradoura (Xamã)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Duradoura (Xamã)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Duradoura (Guardião)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Duradoura (Xamã)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Druídica (Guardião)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Duradoura (Guardião)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica (Xamã)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Duradoura (Xamã)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprimora suas formas ferais. Sua proficiência druídica aumenta para [[Experiente]].\"\n%%\n####  `= this.file.name`\nVocê mantêm sua [[Tradição Druídica]] firme, empoderando suas características. Sua proficiência druídica aumenta para [[Experiente]] e você ganha benefícios dependendo da tradição escolhida:\n\n![[Tradição Duradoura (Guardião)#`= this.file.name`]]\n![[Tradição Duradoura (Xamã)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

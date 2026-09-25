@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Casa em Ipanema",
+  "path": "Contexto/Recursos/Imóveis/Casa em Ipanema.md",
+  "basename": "Casa em Ipanema",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Condomínio fechado de Ipanema",
+    "Preço": 45000,
+    "Cobrança": "mês",
+    "Compra": 8000000,
+    "Manutenção": 12000,
+    "Nível": 6,
+    "Onde": [
+      "[[Ipanema]]",
+      "[[Resort Nova Porto Alegre]]"
+    ],
+    "Resumo": "Casa em condomínio fechado com vista pro Guaíba, muro eletrificado, guarita Gradiente e lancha no trapiche.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Casa em Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Executiva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Casa em Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Casa em Ipanema.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\n[[Ipanema]] é onde o coronel e o diretor moram sem serem vistos. Condomínio fechado, muro eletrificado,\nguarita da [[Gradiente]] com câmera e um trapiche com lancha pra não depender da estrada. O [[Resort Nova Porto Alegre]] fica a cinco minutos e a linha executiva do Aeromóvel para na porta do condomínio.\n\n> [!info] Especificação\n> **Imóvel:** casa de 250 m² em condomínio fechado, 4 dormitórios, vista pro [[Lago Guaíba]]\n> **Inclui:** muro eletrificado, guarita [[Gradiente]] 24h, gerador, lancha no trapiche\n> **Vizinhos:** coronel, diretor de megacorp e quem não quer ser encontrado\n> **Acesso:** [[Aeromóvel Linha Executiva]] e estrada com blitz permanente\n> **Compra:** Cz$ 8.000.000\n> **Nível:** 6 — Classe Alta\n"
+}

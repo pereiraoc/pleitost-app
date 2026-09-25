@@ -1,0 +1,61 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Diamante Negro",
+  "path": "Contexto/Recursos/Alimentação/Diamante Negro.md",
+  "basename": "Diamante Negro",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Lacta",
+    "Preço": 50,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Shopping Iguatemi]]"
+    ],
+    "Resumo": "Tablete de 30 g com flocos crocantes, batizado em 1938 em homenagem ao Leônidas — o chocolate do cinema e da banca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diamante Negro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diamante Negro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diamante Negro.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Diamante Negro vem de São Paulo em caminhão da [[Zaffari]] e custa mais que o [[Chocolate Neugebauer]] por\nser de fora. Tablete de 30 g com flocos crocantes, nome de jogador de 1938, na banca de jornal e no balcão do\ncinema da [[Padre Chagas]]. O camelô do Centro vende derretido.\n\n> [!info] Especificação\n> **Tablete:** 30 g ao leite com flocos crocantes; embalagem preta e dourada\n> **Marca:** Lacta, São Paulo; nome em homenagem ao Leônidas da Silva (1938)\n> **Preço:** Cz$ 50; Cz$ 70 no cinema\n> **Onde:** banca de jornal, cinema, [[Shopping Iguatemi]]\n"
+}

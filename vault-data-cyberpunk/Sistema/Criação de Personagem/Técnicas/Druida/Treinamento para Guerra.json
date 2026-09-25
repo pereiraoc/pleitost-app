@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Treinamento para Guerra",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Treinamento para Guerra.md",
+  "basename": "Treinamento para Guerra",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você se torna proficiente em [[Armas Marciais]]. Ao iniciar uma [[Forma Feral]] com uma arma mágica empunhada, os [[bônus de item]] de ataque e o dano adicional da arma passam a valer para seus ataques naturais; efeitos ativáveis da arma podem ser usados se os ataques naturais atenderem às condições (tipo de dano/arma).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Armas Marciais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você se torna proficiente em [[Armas Marciais]]. Ao iniciar uma [[Forma Feral]] com uma arma mágica empunhada, os [[bônus de item]] de ataque e o dano adicional da arma passam a valer para seus ataques naturais; efeitos ativáveis da arma podem ser usados se os ataques naturais atenderem às condições (tipo de dano/arma).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê se torna proficiente em [[Armas Marciais]]. Adicionalmente, os [[bônus de item]] de ataque e dano adicional de uma arma mágica empunhada por você quando você manifesta uma [[Forma Feral]] se aplicam aos ataques naturais da forma. Se a arma tiver um efeito ativável, esse pode ser usado caso os ataques naturais satisfaçam as condições da arma (tipo de dano, tipo de arma).\n\n```autosheet-rules\n```\n"
+}

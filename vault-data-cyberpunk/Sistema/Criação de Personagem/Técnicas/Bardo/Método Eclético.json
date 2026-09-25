@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Método Eclético",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Método Eclético.md",
+  "basename": "Método Eclético",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você diversifica seu método, adicionando uma magia com princípios diferentes no seu repertório. Você aprende uma magia, dependendo do seu [[Método Artístico|método]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink",
+      "alias": "método"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você diversifica seu método, adicionando uma magia com princípios diferentes no seu repertório. Você aprende uma magia, dependendo do seu [[Método Artístico|método]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê diversifica seu método, adicionando uma magia com princípios diferentes no seu repertório. Você aprende uma magia, dependendo do seu [[Método Artístico|método]].\n\n* **Inspirador:** Você aprende uma [[Magia Negra Adepta]], ela conta como uma Magia Branca para você\n* **Manipulador:** Você aprende uma [[Magia Branca Adepta]], ela conta como uma Magia Negra para você\n\n```autosheet-rules\n```\n"
+}

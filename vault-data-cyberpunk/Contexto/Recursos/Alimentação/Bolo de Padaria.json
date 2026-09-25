@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Bolo de Padaria",
+  "path": "Contexto/Recursos/Alimentação/Bolo de Padaria.md",
+  "basename": "Bolo de Padaria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Padaria de esquina",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Fatia de bolo de milho, laranja ou fubá na padaria, Cz$ 30: o doce do café da tarde.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bolo de Padaria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bolo de Padaria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Bolo de Padaria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA fatia de bolo simples — milho, laranja, fubá, cuca de banana quando a padaria é alemã — é o doce que cabe no\ntroco. Cz$ 30 a fatia, Cz$ 200 o bolo inteiro pra levar pro aniversário da vila.\n\n> [!info] Especificação\n> **Doce:** fatia de bolo simples; cuca de banana nas padarias alemãs\n> **Preço:** Cz$ 30 a fatia; Cz$ 200 o bolo\n> **Onde:** padarias de bairro\n> **Com:** [[Café Passado]]\n"
+}

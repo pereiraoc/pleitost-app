@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Aduana do Porto Seco",
+  "path": "Campanhas/Combates/Aduana do Porto Seco.md",
+  "basename": "Aduana do Porto Seco",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Porto Seco de Canoas]] · [[Canoas]]",
+    "Situação": "A carga só passa com selo, e o selo só sai com acerto. O acerto muda de preço enquanto se discute.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Agente de Fronteira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estivador de Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta de Comboio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Seco de Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Agente de Fronteira]] lento\n- 5 [[Estivador de Confiança]] lento\n- 1 [[Escolta de Comboio]] rápido\n```\n"
+}

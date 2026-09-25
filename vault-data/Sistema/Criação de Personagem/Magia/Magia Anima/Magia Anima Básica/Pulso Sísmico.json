@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Pulso Sísmico",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Pulso Sísmico.md",
+  "basename": "Pulso Sísmico",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de até 2 criaturas adjacentes entre si em 2q para causar dano de corte 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Anima]], 3d4+2 se [[Mestre]]). No sucesso decisivo, +1d4; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de até 2 criaturas adjacentes entre si em 2q para causar dano de corte 1d4+2 (2d4+2 se [[Experiente]] em [[Magia Anima]], 3d4+2 se [[Mestre]]). No sucesso decisivo, +1d4; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça Ataques Mágicos contra [[Vigor]] de até duas criaturas adjacentes entre si em 2q.\n\n**Sucesso:** A criatura recebe 1d4+2 de dano de corte.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d4.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d4+2 ao se tornar [[Experiente]] com [[Magia Anima]] e 3d4+2 ao se tornar [[Mestre]]."
+}

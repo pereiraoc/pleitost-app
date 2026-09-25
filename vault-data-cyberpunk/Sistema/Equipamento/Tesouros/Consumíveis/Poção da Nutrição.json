@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Nutrição",
+  "path": "Sistema/Equipamento/Tesouros/Consumíveis/Poção da Nutrição.md",
+  "basename": "Poção da Nutrição",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Terra|Terra]]"
+    ],
+    "resumo": "Recupera [[Energia Vital|EV]] ao [[Descansar]].",
+    "preço": "5 PO",
+    "tipo_efeito": "Vitalidade",
+    "descrição": {
+      "adepto": "Recupera 1d8+4 de Vitalidade se consumir enquanto descansa. Imune a Poção da Nutrição por 1 hora.",
+      "experiente": "Recupera 2d8+4 de Vitalidade se consumir enquanto descansa. Imune a Poção da Nutrição por 10 minutos.",
+      "mestre": "Recupera 3d8+4 de Vitalidade se consumir enquanto descansa."
+    },
+    "efeito": {
+      "adepto": "1d8+4",
+      "experiente": "2d8+4",
+      "mestre": "3d8+4"
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descansa"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink",
+      "alias": "Terra"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Terra) - consumível*\nEssa poção garante todos os nutrientes necessários para o corpo cicatrizar, acelerando a recuperação. Também nutre e allimenta o suficiente para haver saciedade por 1 dia.\n* Adepto: Recupera 1d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]]. Você não pode ser afetado por outra Poção da Nutrição por 1 hora.\n* Experiente: Recupera 2d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]]. Você não pode ser afetado por outra Poção da Nutrição por 10 minutos.\n* Mestre: Recupera 3d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: consumiveis\n```\n\n```autosheet-rules\n```\n"
+}

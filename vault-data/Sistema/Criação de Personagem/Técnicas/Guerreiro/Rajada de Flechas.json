@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Rajada de Flechas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Rajada de Flechas.md",
+  "basename": "Rajada de Flechas",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com um arco contra todas as criaturas em um cone de 4q usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com um arco contra todas as criaturas em um cone de 4q usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Rajada de Flechas.\n\n**Rajada de Flechas - 2A**\nFaça um [[Atacar|Ataque]] com um arco contra todas as criaturas em um cone de 4q na [[Penalidade por Ataque Múltiplo|PAM]] atual, conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

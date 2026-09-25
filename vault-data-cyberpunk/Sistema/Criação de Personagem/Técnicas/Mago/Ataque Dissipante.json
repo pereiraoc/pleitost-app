@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Ataque Dissipante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Ataque Dissipante.md",
+  "basename": "Ataque Dissipante",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com sua [[arma arcana]] e realize [[Dissipar Magia]] no alvo do ataque; se acertar, considere o uso de recursos consumido por [[Dissipar Magia]] como 1 maior. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Dissipar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com sua [[arma arcana]] e realize [[Dissipar Magia]] no alvo do ataque; se acertar, considere o uso de recursos consumido por [[Dissipar Magia]] como 1 maior. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Dissipante.\n\n**Ataque Dissipante - 2A**\nFaça um [[Atacar|Ataque]] com sua [[arma arcana]] e realize [[Dissipar Magia]], como um Arcanista. O efeito escolhido a ser dissipado precisa estar afetando o alvo do Ataque. Caso o ataque tenha sucesso, considere o uso de recursos consumido por [[Dissipar Magia]] como 1 maior. Ataque Dissipante conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

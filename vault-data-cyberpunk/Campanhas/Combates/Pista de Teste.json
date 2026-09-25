@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Pista de Teste",
+  "path": "Campanhas/Combates/Pista de Teste.md",
+  "basename": "Pista de Teste",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Instituto Técnico Tramontina]] · [[Zona Deserta]]",
+    "Situação": "O protótipo não devia estar na rua, e quem dirige não devia estar vivo. Os dois estão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Piloto de Protótipo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Segurança de Portaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drone de Vigilância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instituto Técnico Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Piloto de Protótipo]] super rápido\n- 4 [[Segurança de Portaria]] lento\n- 4 [[Drone de Vigilância]] rápido\n```\n"
+}

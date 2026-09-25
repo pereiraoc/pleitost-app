@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Regras/Propriedades/Duas-mãos",
+  "path": "Sistema/Regras/Propriedades/Duas-mãos.md",
+  "basename": "Duas-mãos",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Segurar com Duas Mãos",
+        "tipo": "Estado",
+        "origem": "Propriedade",
+        "escopo": {
+          "proprio": true,
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "👐",
+          "iconeDesligado": "🫱"
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Duas-mãos"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Duas-mãos"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Aumenta o dano quando usada com duas mãos\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Aumenta o dano quando usada com duas mãos\"\n%%\n## `= this.file.name`\nPode ser usada com duas mãos para aumentar o dado de dano em 1 passo e o dano base em 1. Por exemplo, uma arma com dano d8+4 aumentaria para d10+5.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,84 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/343 BEIRA-RIO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/343 BEIRA-RIO.md",
+  "basename": "343 BEIRA-RIO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "343 BEIRA-RIO",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#d81b8a",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Central]]",
+      "[[Estação Cidade Baixa]]",
+      "[[Estação Férrea de Belas]]",
+      "[[Estação Estádios]]",
+      "[[Mercado de Frutos do Mar]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "O 343 pela orla: Centro, Cidade Baixa, estádios e o mercado de peixe — a última parada antes do nada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "343 BEIRA-RIO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Férrea de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Estádios",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado de Frutos do Mar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "343 BEIRA-RIO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[343 BEIRA-RIO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA orla do Guaíba até onde a cidade ainda vai. Sai da [[Estação Central]], encosta na [[Estação Cidade Baixa]] pra quem vem de barco, para na [[Estação Férrea de Belas]], lota na [[Estação Estádios]] em dia de jogo e acaba no [[Mercado de Frutos do Mar]], de onde só se segue a pé, de barco ou de carona. Prata pra cima. É o 3xx da zona sul que sobrou: os outros foram cortados quando a Restinga virou enclave.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

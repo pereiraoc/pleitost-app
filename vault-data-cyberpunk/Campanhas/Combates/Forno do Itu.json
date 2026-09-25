@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Forno do Itu",
+  "path": "Campanhas/Combates/Forno do Itu.md",
+  "basename": "Forno do Itu",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Fábrica Itú Química]] · [[Jardim Itu]]",
+    "Situação": "Não miram no grupo: miram no corredor. O cenário é que machuca, e ele só fica pior.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Queimador do Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarda de Refino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Queimador do Itu]] lento\n- 5 [[Guarda de Refino]] lento\n```\n"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Imobiliária da Rua da Praia",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Imobiliária da Rua da Praia.md",
+  "basename": "Imobiliária da Rua da Praia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Dr. Otávio Lemos",
+    "Descrição": null,
+    "Serviços": [
+      "[[Apartamento sobre a Passarela]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária da Rua da Praia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento sobre a Passarela",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária da Rua da Praia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária da Rua da Praia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Apartamentos sobre a passarela, do segundo andar pra cima; barato, úmido e a dois minutos do [[Mercado Público]].\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Escritório no mezanino de um prédio de 1950, escada com marca da cheia na parede, chaves penduradas num quadro de cortiça mofado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Apartamentos sobre a passarela, do segundo andar pra cima; barato, úmido e a dois minutos do [[Mercado Público]].",
+    "aparencia": "Escritório no mezanino de um prédio de 1950, escada com marca da cheia na parede, chaves penduradas num quadro de cortiça mofado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

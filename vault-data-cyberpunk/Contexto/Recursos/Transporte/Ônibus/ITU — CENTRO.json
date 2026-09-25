@@ -1,0 +1,88 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/ITU — CENTRO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/ITU — CENTRO.md",
+  "basename": "ITU — CENTRO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "ITU",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 1,
+    "Cor": "#8d5a2b",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Fábrica Itú Química]]",
+      "[[Rua da Antiga Indústria]]",
+      "[[Estação Nogueiras]]",
+      "[[Estação Independência]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "A linha mais quebrada: dois ônibus pra linha inteira, cheiro de éter e o operário da Itú Química dormindo em pé.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "ITU — CENTRO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua da Antiga Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Nogueiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pensão do Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "ITU — CENTRO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[ITU — CENTRO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nDois ônibus pra linha inteira. Sai do portão da [[Fábrica Itú Química]], desce a [[Rua da Antiga Indústria]], cruza os condomínios da [[Estação Nogueiras]] e chega ao Centro pela [[Estação Independência]] — quando chega. TRI Bronze no turno da fábrica; o operário que perde o último dorme na [[Pensão do Itu]]. O cheiro de éter fica no estofado.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

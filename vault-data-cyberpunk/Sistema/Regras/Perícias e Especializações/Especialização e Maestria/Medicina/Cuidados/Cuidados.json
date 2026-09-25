@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Cuidados/Cuidados",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Cuidados/Cuidados.md",
+  "basename": "Cuidados",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Medicina]]",
+    "resumo": "\"Pode [[Tratar Ferimentos]] de duas criaturas simultaneamente e sempre recupera 1d8 [[Energia Vital|EV]] extra.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink",
+      "alias": "Trata Ferimentos"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Medicina]]\nresumo:: \"Pode [[Tratar Ferimentos]] de duas criaturas simultaneamente e sempre recupera 1d8 [[Energia Vital|EV]] extra.\"\n%%\n### `= this.file.name`\n* Quando você [[Tratar Ferimentos|Trata Ferimentos]], você pode Tratar duas criaturas simultaneamente.\n* Quando você [[Tratar Ferimentos|Trata Ferimentos]], você recupera 1d8 extra de [[Energia Vital|EV]] independente do resultado.\n%%* Quando você falha em [[Tratar Ferimentos]], pode esticar o tratamento por mais 10 minutos para obter o resultado de um sucesso.%%\n\n```autosheet-rules\n```\n"
+}

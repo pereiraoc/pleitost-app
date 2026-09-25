@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Barraca de Escambo",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Barraca de Escambo.md",
+  "basename": "Barraca de Escambo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "Seu Cipriano Ramos",
+    "Descrição": null,
+    "Serviços": [
+      "[[Água Mineral em Galão]]",
+      "[[Ração PIRA]]",
+      "[[Cachaça de Boteco]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraca de Escambo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraca de Escambo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Barraca de Escambo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Água, ração PIRA vencida, cachaça e bolacha; paga-se em sucata, dose ou favor — cruzado só se insistir.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Lona esticada em quatro estacas, caixotes, galões e uma balança de sucata.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Água, ração PIRA vencida, cachaça e bolacha; paga-se em sucata, dose ou favor — cruzado só se insistir.",
+    "aparencia": "Lona esticada em quatro estacas, caixotes, galões e uma balança de sucata.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

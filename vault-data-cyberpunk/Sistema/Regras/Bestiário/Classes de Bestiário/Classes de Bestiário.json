@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Regras/Bestiário/Classes de Bestiário/Classes de Bestiário",
+  "path": "Sistema/Regras/Bestiário/Classes de Bestiário/Classes de Bestiário.md",
+  "basename": "Classes de Bestiário",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Classe de Bestiário, Classes de Bestiário",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Os oito papéis de combate que estruturam uma criatura: cada um define atributo principal, vitalidade, proficiências e o que a criatura faz em cena.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Classes de Bestiário"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: \nnext:: \n\nresumo:: \"Os oito papéis de combate que estruturam uma criatura: cada um define atributo principal, vitalidade, proficiências e o que a criatura faz em cena.\"\n%%\n# Classes de Bestiário\n\nToda criatura do bestiário tem uma **classe**, que é o papel dela em combate.\nA classe é o que define o atributo principal, a escala de [[Energia Vital|EV]]\npor tier, as proficiências de [[Defesa]], [[Vigor]], [[Evasão]], [[Ímpeto]],\n[[Percepção]] e [[Ataques]], e a faixa de dano esperada — tudo por **tier**\n(0 a 3), que é o degrau de poder da criatura.\n\nLer a classe é a forma rápida de saber o que a criatura faz na mesa antes de\nolhar a ficha: um Bruto entra na frente, uma Artilharia castiga de longe, um\nLíder faz o resto do grupo render mais.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Classe\",\n  resumo AS \"Papel em combate\"\nFROM \"Sistema/Regras/Bestiário/Classes de Bestiário\"\nWHERE file.name != this.file.name\nSORT file.name ASC\n```\n"
+}

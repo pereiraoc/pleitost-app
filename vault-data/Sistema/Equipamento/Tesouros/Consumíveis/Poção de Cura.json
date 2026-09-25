@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Consumíveis/Poção de Cura",
+  "path": "Sistema/Equipamento/Tesouros/Consumíveis/Poção de Cura.md",
+  "basename": "Poção de Cura",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Água|Água]]"
+    ],
+    "resumo": "Recupera [[Energia Vital|EV]].",
+    "preço": "10 PO",
+    "tipo_efeito": "Vitalidade",
+    "descrição": {
+      "adepto": "Recupera 1d8+4 de Vitalidade. Imune a Poção de Cura por 1 hora.",
+      "experiente": "Recupera 2d8+4 de Vitalidade. Imune a Poção de Cura por 10 minutos.",
+      "mestre": "Recupera 3d8+4 de Vitalidade."
+    },
+    "efeito": {
+      "adepto": "1d8+4",
+      "experiente": "2d8+4",
+      "mestre": "3d8+4"
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - consumível*\nEssa poção acelera o processo de cura dramaticamente, fechando ferimentos e controlando sangramento.\n* Adepto: Recupera 1d8+4 [[Energia Vital|EV]]. Você não pode ser afetado por outra Poção de Cura por 1 hora.\n* Experiente: Recupera 2d8+4 [[Energia Vital|EV]]. Você não pode ser afetado por outra Poção de Cura por 10 minutos.\n* Mestre: Recupera 3d8+4 [[Energia Vital|EV]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```carta-item\ntipo: consumiveis\n```\n\n```autosheet-rules\n```\n"
+}

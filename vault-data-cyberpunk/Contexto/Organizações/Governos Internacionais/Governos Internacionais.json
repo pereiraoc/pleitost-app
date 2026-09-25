@@ -1,0 +1,26 @@
+{
+  "id": "Contexto/Organizações/Governos Internacionais/Governos Internacionais",
+  "path": "Contexto/Organizações/Governos Internacionais/Governos Internacionais.md",
+  "basename": "Governos Internacionais",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governos Internacionais.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Governos Internacionais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "![[Governos Internacionais.png]]\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Organização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Organização\" and subcategoria=\"Governo Internacional\"\nsort subcategoria asc\n```"
+}

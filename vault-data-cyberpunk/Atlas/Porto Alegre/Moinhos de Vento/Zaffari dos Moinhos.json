@@ -1,0 +1,95 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Zaffari dos Moinhos",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Zaffari dos Moinhos.md",
+  "basename": "Zaffari dos Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "[[Zaffari]] (gerente Sra. Denise)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Corte Especial Zaffari]]",
+      "[[Cesta Básica Zaffari]]",
+      "[[Vinho Aurora]]",
+      "[[Coca-Cola]]",
+      "[[Chocolate Neugebauer]]",
+      "[[Diamante Negro]]",
+      "[[Água Mineral em Galão]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zaffari dos Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chocolate Neugebauer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diamante Negro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Zaffari dos Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Zaffari dos Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Só aqui desce o corte especial refrigerado do trilho; vinho, Coca-Cola de lata e chocolate importado, com cartão Zaffari e segurança na porta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Piso claro, ar-condicionado que não falha (gerador próprio), açougue com vitrine iluminada e um segurança da Gradiente na entrada.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Só aqui desce o corte especial refrigerado do trilho; vinho, Coca-Cola de lata e chocolate importado, com cartão Zaffari e segurança na porta.",
+    "aparencia": "Piso claro, ar-condicionado que não falha (gerador próprio), açougue com vitrine iluminada e um segurança da Gradiente na entrada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

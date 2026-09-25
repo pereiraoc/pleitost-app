@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Atacar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Atacar.md",
+  "basename": "Atacar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": "Ataque",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Faz um ataque com arma empunhada ou com ataque desarmado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "ataque"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Faz um ataque com arma empunhada ou com ataque desarmado.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nFaz um ataque com arma empunhada ou com ataque desarmado. Faça um [[Ataques|ataque]] usando seu modificador com a arma ou ataque desarmado escolhido contra a [[Defesa]] do alvo.\n\n**Sucesso:** O alvo recebe dano igual ao dano base da arma, mais um dado de dano da arma para cada grau de [[Proficiência|Proficiência]] que tenha com ela. (1 para [[Adepto]], 2 para [[Experiente]] e 3 para [[Mestre]])\n**Sucesso Decisivo:** Como sucesso, mas adicione um dado de dano da arma extra.\n**Falha:** Você erra o ataque e não causa dano.\n\n```autosheet-rules\n```\n"
+}

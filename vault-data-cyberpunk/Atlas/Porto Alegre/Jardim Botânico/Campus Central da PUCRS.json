@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Campus Central da PUCRS",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Campus Central da PUCRS.md",
+  "basename": "Campus Central da PUCRS",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Reitoria da PUCRS (Irmão Norberto Rauch)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campus Central da PUCRS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Campus Central da PUCRS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Campus Central da PUCRS.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Campus murado de prédios modernos e capela, estacionamento cheio de Chevette, biblioteca central com catraca; todo empréstimo vai pra Embratel.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Muro branco com o brasão, prédios de tijolo e vidro fumê, capela de concreto, estudantes de blazer, a estação do Aeromóvel na frente do portão.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Campus murado de prédios modernos e capela, estacionamento cheio de Chevette, biblioteca central com catraca; todo empréstimo vai pra Embratel.",
+    "aparencia": "Muro branco com o brasão, prédios de tijolo e vidro fumê, capela de concreto, estudantes de blazer, a estação do Aeromóvel na frente do portão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

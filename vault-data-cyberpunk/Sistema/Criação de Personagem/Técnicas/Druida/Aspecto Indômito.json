@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Indômito",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Indômito.md",
+  "basename": "Aspecto Indômito",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Garante [[Energia Heroica|EH]] temporária para a forma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Energia Mágica\\",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Garante [[Energia Heroica|EH]] temporária para a forma.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende Aspecto Indômito como um [[Aspecto Feral]].\n\n**Aspecto Indômito** - Por 1 minuto, a [[Forma Feral]] recebe recebe [[Energia Heroica|EH]] temporária dependendo do seu nível e da quantia de [[Energia Mágica|EM]] investida nesse aspecto. Compatível com todas as formas.\n\n| [[Energia Mágica\\|EM]] | Nível 1~3 | Nível 4~6 | Nível 7+ |\n|:----------------------:|:---------:|:---------:|:--------:|\n|           1            |     5     |     7     |    10    |\n|           2            |    10     |    15     |    20    |\n|           3            |     -     |    22     |    30    |\n|           4            |     -     |     -     |    40    |\n\n```autosheet-rules\n```\n"
+}

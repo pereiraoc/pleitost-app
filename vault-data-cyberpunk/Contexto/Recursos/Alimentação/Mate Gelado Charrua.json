@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Mate Gelado Charrua",
+  "path": "Contexto/Recursos/Alimentação/Mate Gelado Charrua.md",
+  "basename": "Mate Gelado Charrua",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refrigerante",
+    "Marca": "[[Charrua]]",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Passo D'Areia]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Lata de 350 ml de mate gelado adoçado, sem tarja: a bebida do turno e do ônibus lotado, Cz$ 60 na banca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mate Gelado Charrua.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mate Gelado Charrua.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Mate Gelado Charrua.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Charrua]] pegou a erva do chimarrão, gelou e adoçou: o mate gelado de lata é o que o operário toma no\nturno e o estudante na aula, sem tarja nenhuma. Cz$ 60 na banca, Cz$ 40 no armazém da boca de bairro, sempre\nno isopor com gelo derretendo.\n\n> [!info] Especificação\n> **Lata:** 350 ml, mate gelado adoçado; limão no sabor de verão\n> **Fábrica:** [[Charrua]] — a mesma da [[Erva-Mate Charrua]]\n> **Preço:** Cz$ 60; Cz$ 40 na boca de bairro\n> **Onde:** banca, armazém, cantina de fábrica\n"
+}

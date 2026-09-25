@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Dissipar Magia",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Dissipar Magia.md",
+  "basename": "Dissipar Magia",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Com gestos e palavras mágicas, você gasta um número de recursos mágicos de sua escolha e tenta dissipar um efeito mágico em 15q ou um efeito mágico afetando uma criatura em 15q. Utilizar mais recursos mágicos do que o efeito sendo dissipado usou garante sucesso automático. Se utilizar menos recursos, você falha em dissipar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Com gestos e palavras mágicas, você gasta um número de recursos mágicos de sua escolha e tenta dissipar um efeito mágico em 15q ou um efeito mágico afetando uma criatura em 15q. Utilizar mais recursos mágicos do que o efeito sendo dissipado usou garante sucesso automático. Se utilizar menos recursos, você falha em dissipar.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a dissipar efeitos mágicos já ativos no geral. Você aprende a habilidade Dissipar Magia.\n\n**Dissipar Magia - 2A**\nCom gestos e palavras mágicas, você gasta um número de recursos mágicos de sua escolha e tenta dissipar um efeito mágico em 15q ou um efeito mágico afetando uma criatura em 15q. Utilizar mais recursos mágicos do que o efeito sendo dissipado usou garante sucesso automático. Se utilizar menos recursos, você falha em dissipar. \n\n%%Utilizar um uso de magia de categoria menor que o efeito sendo dissipado faz seu teste para dissipar receber -2 de [[Penalidades|penalidade de circunstância]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Refino Grande",
+  "path": "Campanhas/Combates/Refino Grande.md",
+  "basename": "Refino Grande",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Jardim Itu]] · [[Fábrica Itú Química]]",
+    "Situação": "Carga grande saindo. A química cai de área e a escolta não conversa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Químico de Campo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Braço Armado do Cartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarda de Refino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Químico de Campo]] lento\n- 2 [[Braço Armado do Cartel]] lento\n- 4 [[Guarda de Refino]] lento\n```\n"
+}

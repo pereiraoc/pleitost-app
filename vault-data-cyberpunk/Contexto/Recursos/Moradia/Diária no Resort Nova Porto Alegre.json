@@ -1,0 +1,70 @@
+{
+  "id": "Contexto/Recursos/Moradia/Diária no Resort Nova Porto Alegre",
+  "path": "Contexto/Recursos/Moradia/Diária no Resort Nova Porto Alegre.md",
+  "basename": "Diária no Resort Nova Porto Alegre",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Resort Nova Porto Alegre]]",
+    "Preço": 15000,
+    "Cobrança": "noite",
+    "Nível": 6,
+    "Onde": [
+      "[[Ipanema]]",
+      "[[Resort Nova Porto Alegre]]"
+    ],
+    "Resumo": "Suíte com vista, spa de imersão selênica e coquetel farmacêutico no lobby: só com convite ou crachá de diretor.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diária no Resort Nova Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diária no Resort Nova Porto Alegre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diária no Resort Nova Porto Alegre.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA diária do [[Resort Nova Porto Alegre]] não se compra no balcão — chega por convite, crachá de diretoria ou\npor alguém que deve um favor. Suíte com vista pro Guaíba, spa de imersão selênica, coquetel da [[Panvel]] no\nlobby e a certeza de que a [[Embratel]] escuta cada tomada.\n\n> [!info] Especificação\n> **Suíte:** 80 m², varanda pro [[Lago Guaíba]], banheira de imersão selênica\n> **Inclui:** spa, restaurante, coquetel farmacêutico no lobby, campo de golfe, lancha\n> **Acesso:** convite, crachá de diretor ou favor da [[A Caixinha|Caixinha]] em rank A\n> **Vigilância:** [[Embratel]] em cada tomada; segurança [[Gradiente]] armada\n> **Nível:** 6 — Classe Alta\n"
+}

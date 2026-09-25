@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Nelson “Estivador” Barbosa",
+  "path": "Contexto/Pessoas/Nelson “Estivador” Barbosa.md",
+  "basename": "Nelson “Estivador” Barbosa",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Nelson Barbosa",
+      "Estivador"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Consórcio das Bandeiras]]",
+    "Função": "Chefe do Consórcio das Bandeiras",
+    "Aparência": "Camisa aberta, corrente de ouro, caderninho do jogo do bicho que funciona como razão contábil do cais.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Nelson “Estivador” Barbosa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Nelson “Estivador” Barbosa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Nelson “Estivador” Barbosa.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Dose no Braço",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Dose no Braço.md",
+  "basename": "Dose no Braço",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Com uma ação, um aliado adjacente recebe [[Energia Heroica|EH]] temporária igual à sua potência mágica e perde a condição [[Abalado]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Com uma ação, um aliado adjacente recebe [[Energia Heroica|EH]] temporária igual à sua potência mágica e perde a condição [[Abalado]].\"\n%%\n##### `= this.file.name`\nCom uma ação, um aliado adjacente recebe [[Energia Heroica|EH]] temporária igual à sua potência mágica e perde a condição [[Abalado]].\n\n```autosheet-rules\n```\n"
+}

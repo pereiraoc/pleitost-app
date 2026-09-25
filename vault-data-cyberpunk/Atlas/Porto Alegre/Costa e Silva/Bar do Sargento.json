@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Bar do Sargento",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Bar do Sargento.md",
+  "basename": "Bar do Sargento",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Dono": "Sargento reformado Ubirajara",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]",
+      "[[Churrasquinho de Barraca]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bar do Sargento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bar do Sargento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bar do Sargento.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Polar, cachaça, churrasquinho e café; brigadiano de folga bebe fiado e paga com informação.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bar de esquina com mesa de plástico, retrato do presidente e um rádio na Rádio Farroupilha.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Polar, cachaça, churrasquinho e café; brigadiano de folga bebe fiado e paga com informação.",
+    "aparencia": "Bar de esquina com mesa de plástico, retrato do presidente e um rádio na Rádio Farroupilha.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

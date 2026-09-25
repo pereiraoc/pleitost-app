@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Hospital de Guarnição",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Hospital de Guarnição.md",
+  "basename": "Hospital de Guarnição",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Dono": "Major-médico Arlindo Fontoura",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hospital de Guarnição.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hospital de Guarnição.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hospital de Guarnição.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Atende farda, família de farda e civil com favor ou ordem; tem o único kit de descontaminação selênica da cidade — e o prontuário vai pro serviço de informação.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pavilhão verde-oliva com cruz vermelha, sentinela na porta, ambulância militar, tenda de descontaminação da Panvel no pátio.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Atende farda, família de farda e civil com favor ou ordem; tem o único kit de descontaminação selênica da cidade — e o prontuário vai pro serviço de informação.",
+    "aparencia": "Pavilhão verde-oliva com cruz vermelha, sentinela na porta, ambulância militar, tenda de descontaminação da Panvel no pátio.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

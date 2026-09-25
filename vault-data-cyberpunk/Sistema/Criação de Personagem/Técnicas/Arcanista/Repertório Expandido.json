@@ -1,0 +1,96 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Repertório Expandido",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Repertório Expandido.md",
+  "basename": "Repertório Expandido",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Benefício\" Complementar Habilidades.Lista Selecionar ([[Repertório Expandido (Duas Básicas)]], [[Repertório Expandido (Duas Adeptas)]], [[Repertório Expandido (Básica e Adepta)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Escolha entre aprender duas Magias podendo ser tanto Básicas quanto Adeptas."
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Benefício\" Complementar Habilidades.Lista Selecionar ([[Repertório Expandido (Duas Básicas)]], [[Repertório Expandido (Duas Adeptas)]], [[Repertório Expandido (Básica e Adepta)]])",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Benefício",
+              "choiceKey": "__esc_h_f0aecd95",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Repertório Expandido (Duas Básicas)]]",
+              "[[Repertório Expandido (Duas Adeptas)]]",
+              "[[Repertório Expandido (Básica e Adepta)]]"
+            ],
+            "label": "Benefício"
+          },
+          "raw": "Escolha_Habilidades \"Benefício\" Complementar Habilidades.Lista Selecionar ([[Repertório Expandido (Duas Básicas)]], [[Repertório Expandido (Duas Adeptas)]], [[Repertório Expandido (Básica e Adepta)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Repertório Expandido (Duas Básicas)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Repertório Expandido (Duas Adeptas)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Repertório Expandido (Básica e Adepta)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Escolha entre aprender duas Magias podendo ser tanto Básicas quanto Adeptas.\n%%\n#### `= this.file.name` - `= this.rank`\nEscolha um benefício:\n* Você aprende duas Magias Básicas de sua escolha.\n* Você aprende duas Magias Adeptas de sua escolha.\n* Você aprende uma Magia Adepta e uma Magia Básica de sua escolha.\n\n```autosheet-rules\n```\n"
+}

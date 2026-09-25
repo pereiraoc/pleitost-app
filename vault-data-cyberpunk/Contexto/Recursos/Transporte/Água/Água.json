@@ -1,0 +1,59 @@
+{
+  "id": "Contexto/Recursos/Transporte/Água/Água",
+  "path": "Contexto/Recursos/Transporte/Água/Água.md",
+  "basename": "Água",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Água.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Água.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Água"
+    }
+  ],
+  "body": "# Água\n![[Água.png]]\n\nO [[Lago Guaíba]] é estrada, fronteira e despensa. Coletivo mesmo, só a balsa de carga da [[Zaffari]] (fiscalizada, pontual, sem banco). O bote de alumínio da [[Aliança Livre das Palafitas]] ([[Lancha do Barqueiro]]: chega em qualquer lugar, cobra em cruzado, dólar ou dose) e a lancha da [[Gradiente]] (convite) são corrida, não linha. A patrulha fluvial da [[Brigada Militar Metropolitana]] — lanchas verde-oliva com holofote, duas por turno desde os ataques ao [[Porto Novo]] — não é transporte, mas está na água: para barqueiro, revista bote, cobra.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte/Água\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n"
+}
