@@ -115,7 +115,9 @@ export function MapaLocal({
   const catalog = useCatalog()
   const detail = useDetail()
   const navigate = useNavigate()
-  const map = useMapView()
+  // #573: só este viewer contra-escala rótulos/pinos pela var `--map-escala`
+  // (a var por quadro custa restyle; os outros viewers não a usam).
+  const map = useMapView({ contraEscala: true })
   // O que está sob o ponteiro: a mancha do bairro segue acesa mesmo quando o
   // ponteiro cruza um pino (o chip é que troca pro nome do pino, que é o que o
   // clique abriria).

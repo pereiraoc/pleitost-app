@@ -12,6 +12,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { marcarSuperficieDeGesto } from '../components/layout/gesture-surface'
 import { pushLog } from '../data/debug-log'
+import { escolherDriver, transformCss, type TransformDriver } from './transform-driver'
 
 export interface MapView {
   scale: number
@@ -35,6 +36,14 @@ interface PointerRec {
   y: number
 }
 
+/** Opções do viewer (#573). */
+export interface UseMapViewOpts {
+  /** Escreve `--map-escala` a cada quadro (rótulos/pinos contra-escalados
+   *  via CSS, MapaLocal). Custa um restyle dos descendentes por quadro —
+   *  default OFF: /mapa, Exploração, editor e malha não usam a var. */
+  contraEscala?: boolean
+}
+
 export interface UseMapView {
   view: MapView
   dragging: boolean
@@ -49,6 +58,13 @@ export interface UseMapView {
   /** View sendo PINTADA agora: durante um gesto vai na frente de `view`, que
    *  só sincroniza no fim (#572 — nada de re-render no meio da pinça). */
   readLiveView: () => MapView
+  /** Relógio de quadros (#573): chamado com a view pintada depois de cada
+   *  quadro do gesto, do fim do gesto e de cada commit (roda/botões/reset).
+   *  É o que a grade em canvas usa pra redesenhar em espaço de tela. */
+  onQuadro: (cb: (v: MapView) => void) => () => void
+  /** Caixa de layout do div do mapa ANTES do transform, em px de cliente
+   *  (a mesma medida do clamp): base do mapeamento fonte → tela. */
+  geometriaBase: () => Geo | null
   fracAtClient: (clientX: number, clientY: number) => Frac | null
   onPointerDown: (e: React.PointerEvent) => void
   onPointerMove: (e: React.PointerEvent) => void
@@ -61,7 +77,7 @@ export interface UseMapView {
 }
 
 /** Geometria da viewport e da imagem BASE (sem transform), em px de cliente. */
-interface Geo {
+export interface Geo {
   vpLeft: number
   vpTop: number
   vpW: number
@@ -122,7 +138,8 @@ function dist(a: PointerRec, b: PointerRec): number {
   return Math.hypot(a.x - b.x, a.y - b.y)
 }
 
-export function useMapView(): UseMapView {
+export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
+  const contraEscala = opts.contraEscala === true
   const [view, setView] = useState<MapView>(IDENTITY)
   const [dragging, setDragging] = useState(false)
   const [fullscreen, setFullscreen] = useState(false)
@@ -163,6 +180,19 @@ export function useMapView(): UseMapView {
    *  quantos quadros o rAF pintou e o maior buraco entre eles — é o que
    *  distingue "o evento não chega" de "o quadro não sai" no aparelho. */
   const gestoStats = useRef<{ t0: number; entradas: number; quadros: number; tQuadro: number; gapMax: number; gapSoma: number; escala0: number } | null>(null)
+  /** Driver do transform (#573): escolhido no início de cada gesto (a pref do
+   *  modo debug pode mudar entre gestos); estilo direto fora de gesto. */
+  const driverRef = useRef<TransformDriver | null>(null)
+  const quadroSubs = useRef<Set<(v: MapView) => void>>(new Set())
+  const notificarQuadro = useCallback((v: MapView) => {
+    for (const cb of quadroSubs.current) cb(v)
+  }, [])
+  const onQuadro = useCallback((cb: (v: MapView) => void) => {
+    quadroSubs.current.add(cb)
+    return () => {
+      quadroSubs.current.delete(cb)
+    }
+  }, [])
 
   /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
    *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
@@ -207,16 +237,19 @@ export function useMapView(): UseMapView {
 
   const agora = () => (typeof performance !== 'undefined' ? performance.now() : Date.now())
 
-  /** Escreve o transform AO VIVO no DOM (rAF). O React NÃO re-renderiza no
-   *  meio do gesto (#572: cada commit re-renderizava o painel inteiro do mapa
-   *  e atrasava o toque seguinte); `view` sincroniza só no encerrarGesto.
-   *  Rótulos/pinos contra-escalam pela var CSS `--map-escala`, escrita aqui. */
+  const geometriaBase = useCallback((): Geo | null => geoRef.current ?? medirGeo(), [medirGeo])
+
+  /** Escreve o transform AO VIVO no DOM (rAF) pelo DRIVER do motor (#573).
+   *  O React NÃO re-renderiza no meio do gesto (#572: cada commit
+   *  re-renderizava o painel inteiro do mapa e atrasava o toque seguinte);
+   *  `view` sincroniza só no encerrarGesto. */
   const aplicarAoVivo = useCallback((next: MapView) => {
     const anterior = liveRef.current
     liveRef.current = next
     if (!gestoRef.current) {
       gestoRef.current = true
       gestoStats.current = { t0: agora(), entradas: 0, quadros: 0, tQuadro: 0, gapMax: 0, gapSoma: 0, escala0: anterior.scale }
+      driverRef.current = escolherDriver('auto', undefined, mapRef.current)
     }
     const st = gestoStats.current
     if (st) st.entradas++
@@ -226,9 +259,8 @@ export function useMapView(): UseMapView {
         const el = mapRef.current
         if (!el) return
         const v = liveRef.current
-        el.style.willChange = 'transform'
-        el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
-        el.style.setProperty('--map-escala', String(v.scale))
+        ;(driverRef.current ?? escolherDriver('auto', undefined, el)).aplicar(el, v, { contraEscala })
+        notificarQuadro(v)
         const st2 = gestoStats.current
         if (st2) {
           const t = agora()
@@ -242,20 +274,24 @@ export function useMapView(): UseMapView {
         }
       })
     }
-  }, [])
+  }, [contraEscala, notificarQuadro])
 
-  /** Fim do gesto: commit imediato do React e solta o will-change. */
+  /** Fim do gesto: o driver fixa o transform final (e libera animação/
+   *  will-change), commit imediato do React. */
   const encerrarGesto = useCallback(() => {
     gestoRef.current = false
     geoRef.current = null
     const el = mapRef.current
-    if (el) el.style.willChange = ''
+    const driver = driverRef.current ?? escolherDriver('auto', undefined, el)
+    if (el) driver.encerrar(el, liveRef.current, { contraEscala })
+    driverRef.current = null
     const st = gestoStats.current
     gestoStats.current = null
     if (st && st.entradas > 0) {
       const ms = Math.round(agora() - st.t0)
       pushLog('mapa', 'gesto', {
         ms,
+        driver: driver.nome,
         entradas: st.entradas,
         quadros: st.quadros,
         gapMedio: st.quadros > 1 ? Math.round(st.gapSoma / (st.quadros - 1)) : 0,
@@ -270,21 +306,27 @@ export function useMapView(): UseMapView {
     // ele, #572): só apaga aqui, no único fim de gesto — inclusive da pinça
     // nativa por toque, que não passa por pointerup.
     setDragging(false)
-  }, [])
+  }, [contraEscala])
 
   // Depois de cada render num gesto vivo, o React pode ter escrito o transform
-  // COMMITADO (atrasado) — reaplica o vivo pra não dar salto pra trás.
+  // COMMITADO (atrasado) — reaplica o vivo pelo driver pra não dar salto pra
+  // trás (no compositor a animação já vence o inline style; é inofensivo).
   useLayoutEffect(() => {
     if (!gestoRef.current) return
     const el = mapRef.current
     if (!el) return
-    const v = liveRef.current
-    el.style.transform = `translate(${v.tx}px, ${v.ty}px) scale(${v.scale})`
-    el.style.setProperty('--map-escala', String(v.scale))
+    ;(driverRef.current ?? escolherDriver('auto', undefined, el)).aplicar(el, liveRef.current, { contraEscala })
   })
+  // Todo commit da view (fim de gesto, roda, botões, reset) é um quadro pros
+  // assinantes — o DOM já está pintado com `transform` quando isto roda.
+  useLayoutEffect(() => {
+    notificarQuadro(view)
+  }, [view, notificarQuadro])
   useEffect(
     () => () => {
       if (rafRef.current !== null && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(rafRef.current)
+      driverRef.current?.descartar(mapRef.current)
+      driverRef.current = null
     },
     [],
   )
@@ -579,12 +621,14 @@ export function useMapView(): UseMapView {
     return () => document.removeEventListener('fullscreenchange', onChange)
   }, [])
 
-  const transform = `translate(${view.tx}px, ${view.ty}px) scale(${view.scale})`
+  const transform = transformCss(view)
 
   return {
     view,
     dragging,
     readLiveView: () => liveRef.current,
+    onQuadro,
+    geometriaBase,
     fullscreen,
     containerRef,
     viewportRef,

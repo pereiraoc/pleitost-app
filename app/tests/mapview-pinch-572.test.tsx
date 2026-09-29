@@ -52,7 +52,8 @@ describe('#572 — pinça com dois ponteiros de toque', () => {
 
 describe('#572 — pinça por TOUCH EVENTS nativos (fallback: Firefox Android não entregava dois pointers)', () => {
   function Host() {
-    const map = useMapView()
+    // #573: a var `--map-escala` só é escrita com contraEscala (MapaLocal)
+    const map = useMapView({ contraEscala: true })
     return (
       <div ref={map.viewportRef} data-vp="">
         <div ref={map.mapRef} data-scale={map.view.scale} />
