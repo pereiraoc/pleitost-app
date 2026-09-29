@@ -39,35 +39,38 @@ function comAnimateFalso(el: HTMLElement) {
 }
 
 describe('#573 — detectarAmbiente', () => {
-  it('Firefox Android e Firefox desktop são Gecko; Chrome Android e Safari iOS (que dizem "like Gecko") não', () => {
-    expect(detectarAmbiente(UA_FIREFOX_ANDROID).gecko).toBe(true)
-    expect(detectarAmbiente(UA_FIREFOX_DESKTOP).gecko).toBe(true)
-    expect(detectarAmbiente(UA_CHROME_ANDROID).gecko).toBe(false)
-    expect(detectarAmbiente(UA_SAFARI_IOS).gecko).toBe(false)
+  it('Firefox Android e Firefox desktop são Gecko; Chrome Android e Safari iOS (que dizem "like Gecko") não; Android só no celular/tablet', () => {
+    expect(detectarAmbiente(UA_FIREFOX_ANDROID)).toEqual({ gecko: true, android: true })
+    expect(detectarAmbiente(UA_FIREFOX_DESKTOP)).toEqual({ gecko: true, android: false })
+    expect(detectarAmbiente(UA_CHROME_ANDROID)).toEqual({ gecko: false, android: true })
+    expect(detectarAmbiente(UA_SAFARI_IOS)).toEqual({ gecko: false, android: false })
   })
 })
 
 describe('#573 — escolherDriver', () => {
   const el = () => document.createElement('div')
-  it('auto: compositor no Gecko quando o elemento anima; estilo nos outros motores', () => {
-    const geckoEl = el()
-    comAnimateFalso(geckoEl)
-    expect(escolherDriver('auto', { gecko: true }, geckoEl).nome).toBe('compositor')
+  it('auto: compositor só no Firefox ANDROID; Firefox desktop (estava bom) e os outros motores ficam no estilo', () => {
+    const fxAndroid = el()
+    comAnimateFalso(fxAndroid)
+    expect(escolherDriver('auto', { gecko: true, android: true }, fxAndroid).nome).toBe('compositor')
+    const fxDesktop = el()
+    comAnimateFalso(fxDesktop)
+    expect(escolherDriver('auto', { gecko: true, android: false }, fxDesktop).nome).toBe('estilo')
     const chromeEl = el()
     comAnimateFalso(chromeEl)
-    expect(escolherDriver('auto', { gecko: false }, chromeEl).nome).toBe('estilo')
+    expect(escolherDriver('auto', { gecko: false, android: true }, chromeEl).nome).toBe('estilo')
   })
-  it('sem `animate` (jsdom) cai em estilo mesmo no Gecko e mesmo forçando compositor', () => {
-    expect(escolherDriver('auto', { gecko: true }, el()).nome).toBe('estilo')
-    expect(escolherDriver('compositor', { gecko: true }, el()).nome).toBe('estilo')
+  it('sem `animate` (jsdom) cai em estilo mesmo no Firefox Android e mesmo forçando compositor', () => {
+    expect(escolherDriver('auto', { gecko: true, android: true }, el()).nome).toBe('estilo')
+    expect(escolherDriver('compositor', { gecko: true, android: true }, el()).nome).toBe('estilo')
   })
-  it('pref explícita vence a detecção: estilo no Gecko, compositor no Chromium', () => {
+  it('pref explícita vence a detecção: estilo no Firefox Android, compositor no Chromium', () => {
     const a = el()
     comAnimateFalso(a)
-    expect(escolherDriver('estilo', { gecko: true }, a).nome).toBe('estilo')
+    expect(escolherDriver('estilo', { gecko: true, android: true }, a).nome).toBe('estilo')
     const b = el()
     comAnimateFalso(b)
-    expect(escolherDriver('compositor', { gecko: false }, b).nome).toBe('compositor')
+    expect(escolherDriver('compositor', { gecko: false, android: false }, b).nome).toBe('compositor')
   })
 })
 

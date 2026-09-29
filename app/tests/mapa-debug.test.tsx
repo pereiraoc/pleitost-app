@@ -62,11 +62,12 @@ describe('#573 — lerMapaDebug / gravarMapaDebug', () => {
 })
 
 describe('#573 — escolherGrade por motor', () => {
-  it('auto = canvas no Gecko (blob do SVG por quadro), svg nos demais (canvas por quadro custa no Chromium); canvas/svg forçam', () => {
-    expect(escolherGrade('auto', { gecko: true })).toBe('canvas')
-    expect(escolherGrade('auto', { gecko: false })).toBe('svg')
-    expect(escolherGrade('canvas', { gecko: false })).toBe('canvas')
-    expect(escolherGrade('svg', { gecko: true })).toBe('svg')
+  it('auto = canvas só no Firefox Android (blob do SVG por quadro), svg no Firefox desktop e nos demais; canvas/svg forçam', () => {
+    expect(escolherGrade('auto', { gecko: true, android: true })).toBe('canvas')
+    expect(escolherGrade('auto', { gecko: true, android: false })).toBe('svg')
+    expect(escolherGrade('auto', { gecko: false, android: true })).toBe('svg')
+    expect(escolherGrade('canvas', { gecko: false, android: false })).toBe('canvas')
+    expect(escolherGrade('svg', { gecko: true, android: true })).toBe('svg')
   })
 })
 

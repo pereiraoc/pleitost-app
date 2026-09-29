@@ -4,7 +4,7 @@
 // log `mapa/gesto` (que carrega os três valores). Persistido em localStorage;
 // leitura tolerante (chave ausente/corrompida → padrões).
 import { useSyncExternalStore } from 'react'
-import { detectarAmbiente, type Ambiente, type DriverPref } from './transform-driver'
+import { detectarAmbiente, geckoMovel, type Ambiente, type DriverPref } from './transform-driver'
 
 const CHAVE = 'pleitost.debug.mapa'
 const EVENTO = 'pleitost:mapa-debug'
@@ -29,7 +29,7 @@ const GRADES = new Set<string>(['auto', 'canvas', 'svg'])
  *  → SVG. `auto` escolhe isso; canvas/svg forçam (A/B no aparelho). */
 export function escolherGrade(pref: GradePref, ambiente: Ambiente = detectarAmbiente()): 'canvas' | 'svg' {
   if (pref === 'canvas' || pref === 'svg') return pref
-  return ambiente.gecko ? 'canvas' : 'svg'
+  return geckoMovel(ambiente) ? 'canvas' : 'svg'
 }
 
 function sanitizar(raw: unknown): MapaDebug {

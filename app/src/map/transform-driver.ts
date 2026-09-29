@@ -39,6 +39,11 @@ export type DriverPref = 'auto' | 'estilo' | 'compositor'
 
 export interface Ambiente {
   gecko: boolean
+  /** Android (celular/tablet). O caminho de compositor só vale onde o
+   *  problema foi medido e relatado — Firefox Android; no Firefox de desktop
+   *  o estilo direto sempre foi "muito bom" (usuário, 2026-09-29) e trocar
+   *  ali só aumentou a superfície de regressão. */
+  android: boolean
 }
 
 export function transformCss(v: MapView): string {
@@ -47,11 +52,16 @@ export function transformCss(v: MapView): string {
 
 /** Gecko = user-agent com "Gecko/<versão>" (Firefox desktop "Gecko/20100101",
  *  Android "Gecko/156.0"). Chromium e WebKit dizem "(KHTML, like Gecko)", sem
- *  a barra — não casam. */
+ *  a barra — não casam. Android = "Android" no user-agent. */
 export function detectarAmbiente(
   ua: string = typeof navigator !== 'undefined' ? navigator.userAgent : '',
 ): Ambiente {
-  return { gecko: /\bGecko\/\d/.test(ua) }
+  return { gecko: /\bGecko\/\d/.test(ua), android: /\bAndroid\b/.test(ua) }
+}
+
+/** Onde o caminho de compositor (e a grade em canvas) valem por padrão. */
+export function geckoMovel(a: Ambiente): boolean {
+  return a.gecko && a.android
 }
 
 function escreverVar(el: HTMLElement, v: MapView, o: OpcoesAplicar): void {
@@ -128,7 +138,7 @@ function podeAnimar(el: HTMLElement | null | undefined): boolean {
 }
 
 /** Driver pra este elemento: pref explícita vence; `auto` = compositor só no
- *  Gecko. Sem `animate` no elemento, sempre estilo. */
+ *  Firefox Android. Sem `animate` no elemento, sempre estilo. */
 export function escolherDriver(
   pref: DriverPref,
   ambiente: Ambiente = detectarAmbiente(),
@@ -136,5 +146,5 @@ export function escolherDriver(
 ): TransformDriver {
   if (pref === 'estilo') return driverEstilo
   if (pref === 'compositor') return podeAnimar(el) ? driverCompositor : driverEstilo
-  return ambiente.gecko && podeAnimar(el) ? driverCompositor : driverEstilo
+  return geckoMovel(ambiente) && podeAnimar(el) ? driverCompositor : driverEstilo
 }
