@@ -75,12 +75,13 @@ export function escolherDriver(pref: 'auto' | 'estilo' | 'compositor', amb = det
 - Puro (`grade-tela.ts`): `fonteParaTela(geo, view, fonte, p)` mapeia px da fonte (com crop) → px da viewport: `layoutLeft + tx + ((p.x − fonte.x) / fonte.w) · baseW · scale` (idem y); `retanguloFonteVisivel(geo, view, fonte)`; `celulasVisiveis(cells, vertices, retangulo)` com 1 hex de margem; `desenharGrade(ctx, dpr, geo, view, fonte, cells, vertices, estilo)` traça, por célula, as arestas v2→v3→v4→v5 (as mesmas do `hexGridPath`, cada aresta interna uma vez), `lineWidth` 1 px de tela.
 - Componente `GradeCanvas({ map, fonte, cells, vertices, cor, alpha })`: `<canvas data-hexgrid data-grade-hexes={cells.length} aria-hidden>` absoluto cobrindo a viewport (a viewport ganha `position: relative`), `pointer-events: none`, fora do div transformado. Redesenha em rAF coalescido a cada `onQuadro`, mudança de `view`/`cells`/`fonte` e resize (`ResizeObserver` guardado). Cor: `--accent` resolvida por `getComputedStyle` + `globalAlpha` (15% normal, 34% em modo de marcação — os mesmos do SVG). Sem contexto 2D (jsdom) o elemento existe e não desenha.
 - Viewers: PanelExploracao (`vistaGridCells(crop)` + `atlasHexVertices`) e HexMapEditor (`hexGridCells()` + `hexVertices`, fonte = imagem inteira). Hover, hexes com lugar, trilha, bolinhas, laço e seleção continuam em SVG (poucos nós).
+- **Por motor, como o driver** (medido no build, 2026-09-29): no Chromium o canvas redesenhado a cada quadro custa `LayerTreeHost::DoUpdateLayers` (50–180 ms por gesto a CPU 4×) enquanto o path no SVG dentro da camada composta não custa nada por quadro — o inverso do Gecko. `escolherGrade('auto')` = canvas no Gecko, SVG nos demais; `canvas`/`svg` forçam (A/B). Vértices e caixas das células são pré-computados uma vez por grade (`prepararGrade`), e a conta fonte→tela é afim fatorada fora do laço.
 - Alinhamento é provado por teste, não a olho: para células amostrais, `fonteParaTela` tem que coincidir com o ponto que o SVG produziria (viewBox = crop → caixa do div → transform), em identidade, com pan, com zoom e com crop deslocado.
-- Contrato de teste que muda: `exploracao.test.tsx` deixa de comparar o `d` do path e passa a verificar o canvas `[data-hexgrid]` com `data-grade-hexes = vistaGridCells(crop).length`, e que não existe mais `path[data-hexgrid]`.
+- Contrato de teste: `exploracao.test.tsx` cobre os dois caminhos — em jsdom (não-Gecko) `auto` mantém o `path[data-hexgrid]` com o `d` de `vistaGridPath(crop)`; forçando `canvas`, o canvas `[data-hexgrid]` com `data-grade-hexes = vistaGridCells(crop).length` no lugar do path.
 
 ### 4.5 Toggles de A/B no modo debug (`app/src/map/mapa-debug.ts`)
 
-`localStorage['pleitost.debug.mapa']` = `{ driver: 'auto'|'estilo'|'compositor', assar: boolean, grade: 'canvas'|'svg' }` (padrão auto / true / canvas). UI no painel do modo debug do botão de bug (só aparece com o modo debug ligado). Todo log `mapa/gesto` carrega os três valores. É assim que o usuário compara no aparelho sem deploy novo.
+`localStorage['pleitost.debug.mapa']` = `{ driver: 'auto'|'estilo'|'compositor', assar: boolean, grade: 'auto'|'canvas'|'svg' }` (padrão auto / true / auto). UI no painel do modo debug do botão de bug (só aparece com o modo debug ligado). Todo log `mapa/gesto` carrega os três valores. É assim que o usuário compara no aparelho sem deploy novo.
 
 ### 4.6 Bancada reproduzível (`scripts/bench-mapa-gesto.mjs`, `scripts/bench-mapa-parse.mjs`)
 
@@ -96,3 +97,15 @@ Os scripts da investigação, limpos, no repo: sobem o build em `vite preview`, 
 ## 6. Fora de escopo
 
 MapLibre/tiles e zoom nítido acima da média de 4000 px; redesenho da contra-escala de rótulos da POA; medição da POA no Gecko.
+
+## 7. Resultado medido no build (2026-09-29, bancada §4.6)
+
+| Firefox, por gesto de 30 quadros | antes (A/B: estilo + SVG) | depois (padrão) |
+|---|---|---|
+| /mapa: paint por quadro · blobs | 1,7–2,4 ms · 174–345 | 0,5–0,7 ms · 0 |
+| /mapa: thread Renderer | 95–140 ms | 4–11 ms |
+| Exploração: paint por quadro · blobs | 2,0–4,8 ms · 123–186 | 0,8–1,0 ms · 0 |
+| Exploração: pior worker de blob | 19–75 ms | 0 |
+| /mapa tela cheia · zoom 8× | — | 0,6–0,7 ms · 0 blobs |
+
+Chromium (Pixel 7 emulado, CPU 4×): 0 frames dropados nos gestos 2–6 no /mapa e na Exploração (1 na primeira pinça = decode inicial, igual a antes). Diff de pixels overlay assado × SVG em repouso: ver saída do `--diff` no comentário da issue.
