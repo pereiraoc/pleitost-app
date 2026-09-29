@@ -104,11 +104,37 @@ export function __resetAssadoForTests(): void {
   cache.clear()
 }
 
+/** Carrega pelo evento `load` — NÃO por `img.decode()`: no Chromium o
+ *  decode() rejeita com EncodingError acima de um tamanho (a cheia de 7440 px
+ *  cai fora; visto 2026-09-29), e o celular tem limite menor ainda. */
 function carregar(src: string): Promise<HTMLImageElement> {
-  const img = new Image()
-  img.decoding = 'async'
-  img.src = src
-  return img.decode().then(() => img)
+  return new Promise((res, rej) => {
+    const img = new Image()
+    img.decoding = 'async'
+    img.onload = () => res(img)
+    img.onerror = () => rej(new Error(`imagem não carregou: ${src}`))
+    img.src = src
+  })
+}
+
+/** Bitmap já no tamanho do assado: `createImageBitmap` com resize decodifica
+ *  e reduz fora da thread principal (e sem materializar os 39 Mpx da cheia);
+ *  sem ele (ou se falhar), o próprio elemento vai pro drawImage. Quem chama
+ *  fecha o bitmap depois de desenhar. */
+async function bitmapDe(img: HTMLImageElement, alvo: Tamanho): Promise<CanvasImageSource> {
+  if (typeof createImageBitmap === 'function') {
+    try {
+      return await createImageBitmap(img, { resizeWidth: alvo.w, resizeHeight: alvo.h, resizeQuality: 'high' })
+    } catch {
+      /* cai no elemento */
+    }
+  }
+  return img
+}
+
+function fechar(fonte: CanvasImageSource): void {
+  const b = fonte as { close?: () => void }
+  if (typeof b.close === 'function') b.close()
 }
 
 type Canvas2D = { getContext(tipo: '2d'): CanvasRenderingContext2D | null; width: number; height: number }
@@ -140,16 +166,22 @@ async function codificar(paraBlob: (tipo: string, q: number) => Promise<Blob | n
 }
 
 async function assar(srcMapa: string, srcOverlay: string, fonte: Tamanho, aneis: MapaPonto[][]): Promise<string | null> {
-  const [mapa, overlay] = await Promise.all([carregar(srcMapa), carregar(srcOverlay)])
-  const bitmap = tamanhoDoAssado(mapa.naturalWidth, mapa.naturalHeight)
+  const [mapaEl, overlayEl] = await Promise.all([carregar(srcMapa), carregar(srcOverlay)])
+  const bitmap = tamanhoDoAssado(mapaEl.naturalWidth, mapaEl.naturalHeight)
   if (!bitmap.w || !bitmap.h) return null
-  const { canvas, paraBlob } = criarCanvas(bitmap)
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return null
-  desenharAssado(ctx, bitmap, fonte, mapa, overlay, aneis)
-  const blob = await codificar(paraBlob)
-  if (!blob) return null
-  return URL.createObjectURL(blob)
+  const [mapa, overlay] = await Promise.all([bitmapDe(mapaEl, bitmap), bitmapDe(overlayEl, bitmap)])
+  try {
+    const { canvas, paraBlob } = criarCanvas(bitmap)
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return null
+    desenharAssado(ctx, bitmap, fonte, mapa, overlay, aneis)
+    const blob = await codificar(paraBlob)
+    if (!blob) return null
+    return URL.createObjectURL(blob)
+  } finally {
+    fechar(mapa)
+    fechar(overlay)
+  }
 }
 
 export interface UseMapaAssadoArgs {

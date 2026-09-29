@@ -71,7 +71,7 @@ describe('#573 — desenharAssado', () => {
 })
 
 // ── hook ────────────────────────────────────────────────────────────────
-interface ImagemFalsa { src: string; naturalWidth: number; naturalHeight: number; decode: () => Promise<void> }
+interface ImagemFalsa { src: string; naturalWidth: number; naturalHeight: number }
 let imagens: ImagemFalsa[] = []
 let falhar = new Set<string>()
 let tipoDevolvido = 'image/webp'
@@ -87,18 +87,27 @@ beforeEach(() => {
   urls = []
   revogadas = []
   __resetAssadoForTests()
+  // Image falsa por evento `load` (o hook não usa decode(): no Chromium ele
+  // rejeita acima de um tamanho) — dispara load/error no próximo tick
   vi.stubGlobal('Image', class {
-    src = ''
+    _src = ''
     naturalWidth = 4000
     naturalHeight = 2829
     decoding = ''
+    onload: null | (() => void) = null
+    onerror: null | (() => void) = null
     constructor() {
       imagens.push(this as unknown as ImagemFalsa)
     }
-    decode() {
-      return falhar.has(this.src) ? Promise.reject(new Error('404')) : Promise.resolve()
+    get src() {
+      return this._src
+    }
+    set src(v: string) {
+      this._src = v
+      setTimeout(() => (falhar.has(v) ? this.onerror?.() : this.onload?.()), 0)
     }
   })
+  vi.stubGlobal('createImageBitmap', undefined)
   const origCreate = document.createElement.bind(document)
   vi.spyOn(document, 'createElement').mockImplementation((tag: string) => {
     if (tag !== 'canvas') return origCreate(tag)
@@ -135,7 +144,7 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-const esperar = () => act(async () => { await new Promise((r) => setTimeout(r, 0)); await new Promise((r) => setTimeout(r, 0)) })
+const esperar = () => act(async () => { for (let i = 0; i < 6; i++) await new Promise((r) => setTimeout(r, 0)) })
 
 describe('#573 — useMapaAssado', () => {
   const base = { srcMapa: '/m.webp', srcOverlay: '/o.webp', fonteW: 4000, fonteH: 2829, aneis: [anelA] }
