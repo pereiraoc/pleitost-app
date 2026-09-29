@@ -18,10 +18,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
 import { resumoChromium, resumoGecko } from './bench-mapa-parse.mjs'
 
 const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const { chromium, firefox, devices } = await import(path.join(raiz, 'app/node_modules/playwright/index.mjs'))
+// playwright vem hoisted na raiz do workspace (ou em app/node_modules)
+const require = createRequire(path.join(raiz, 'app/package.json'))
+const playwrightDir = path.dirname(require.resolve('playwright/package.json'))
+const { chromium, firefox, devices } = await import(path.join(playwrightDir, 'index.mjs'))
 
 const args = process.argv.slice(2)
 const flag = (n) => args.includes(`--${n}`)
@@ -146,7 +150,7 @@ console.log(`# ${tag} · cpu×${cpu}`, JSON.stringify(info))
 
 // ── diff overlay assado × SVG em repouso ───────────────────────────────────
 if (flag('diff')) {
-  const sharp = (await import(path.join(raiz, 'node_modules/sharp/lib/index.js'))).default
+  const sharp = (await import(require.resolve('sharp'))).default
   const shot = async (nome) => {
     const el = await page.$('[data-mapa-viewport]')
     const p = path.join(outDir, `diff-${nome}.png`)

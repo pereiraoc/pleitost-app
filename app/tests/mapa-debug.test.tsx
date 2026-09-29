@@ -4,7 +4,7 @@
 // novo; os valores vão em todo log `mapa/gesto`.
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, render, renderHook } from '@testing-library/react'
-import { MAPA_DEBUG_PADRAO, gravarMapaDebug, lerMapaDebug, useMapaDebug, __resetMapaDebugForTests } from '../src/map/mapa-debug'
+import { MAPA_DEBUG_PADRAO, escolherGrade, gravarMapaDebug, lerMapaDebug, useMapaDebug, __resetMapaDebugForTests } from '../src/map/mapa-debug'
 import { useMapView } from '../src/map/useMapView'
 import { clearLogs, getLogs, setDebugOn } from '../src/data/debug-log'
 
@@ -39,7 +39,7 @@ afterEach(() => {
 })
 
 describe('#573 — lerMapaDebug / gravarMapaDebug', () => {
-  it('sem chave, chave corrompida ou valores inválidos → padrões (auto, assar, canvas)', () => {
+  it('sem chave, chave corrompida ou valores inválidos → padrões (auto, assar, auto)', () => {
     expect(lerMapaDebug()).toEqual(MAPA_DEBUG_PADRAO)
     window.localStorage.setItem('pleitost.debug.mapa', '{nope')
     __resetMapaDebugForTests()
@@ -52,12 +52,21 @@ describe('#573 — lerMapaDebug / gravarMapaDebug', () => {
     const { result } = renderHook(() => useMapaDebug())
     expect(result.current.driver).toBe('auto')
     act(() => gravarMapaDebug({ driver: 'estilo' }))
-    expect(result.current).toEqual({ driver: 'estilo', assar: true, grade: 'canvas' })
+    expect(result.current).toEqual({ driver: 'estilo', assar: true, grade: 'auto' })
     act(() => gravarMapaDebug({ assar: false, grade: 'svg' }))
     expect(result.current).toEqual({ driver: 'estilo', assar: false, grade: 'svg' })
     expect(JSON.parse(window.localStorage.getItem('pleitost.debug.mapa')!)).toEqual({ driver: 'estilo', assar: false, grade: 'svg' })
     __resetMapaDebugForTests()
     expect(lerMapaDebug()).toEqual({ driver: 'estilo', assar: false, grade: 'svg' })
+  })
+})
+
+describe('#573 — escolherGrade por motor', () => {
+  it('auto = canvas no Gecko (blob do SVG por quadro), svg nos demais (canvas por quadro custa no Chromium); canvas/svg forçam', () => {
+    expect(escolherGrade('auto', { gecko: true })).toBe('canvas')
+    expect(escolherGrade('auto', { gecko: false })).toBe('svg')
+    expect(escolherGrade('canvas', { gecko: false })).toBe('canvas')
+    expect(escolherGrade('svg', { gecko: true })).toBe('svg')
   })
 })
 
@@ -103,7 +112,7 @@ describe('#573 — MapaDebugToggles', () => {
     const grade = screen.getByLabelText('Grade hex do mapa') as HTMLSelectElement
     expect(driver.value).toBe('auto')
     expect(assar.checked).toBe(true)
-    expect(grade.value).toBe('canvas')
+    expect(grade.value).toBe('auto')
     fireEvent.change(driver, { target: { value: 'compositor' } })
     fireEvent.click(assar)
     fireEvent.change(grade, { target: { value: 'svg' } })

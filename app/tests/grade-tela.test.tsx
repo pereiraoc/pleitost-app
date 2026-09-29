@@ -11,6 +11,7 @@ import {
   celulasVisiveis,
   desenharGrade,
   fonteParaTela,
+  prepararGrade,
   retanguloFonteVisivel,
   type Fonte,
 } from '../src/map/grade-tela'
@@ -108,7 +109,7 @@ describe('#573 — desenharGrade', () => {
     const fonte: Fonte = { x: 0, y: 0, w: 1000, h: 1000 }
     const g: Geo = { ...geo, baseW: 1000, baseH: 1000, layoutLeft: 0, vpW: 1000, vpH: 1000 }
     // duas células, identidade: coordenadas de tela = da fonte
-    const n = desenharGrade(ctx, 2, g, identidade, fonte, [{ col: 0, row: 0 }, { col: 9, row: 9 }], quadrado, { cor: '#f70', alpha: 0.15 })
+    const n = desenharGrade(ctx, 2, g, identidade, fonte, prepararGrade([{ col: 0, row: 0 }, { col: 9, row: 9 }], quadrado), { cor: '#f70', alpha: 0.15 })
     expect(n).toBe(2)
     expect(chamadas.slice(0, 3)).toEqual(['setTransform:2,0,0,2,0,0', 'clearRect:0,0,1000,1000', 'beginPath'])
     expect(chamadas.slice(3, 7)).toEqual(['moveTo:100,100', 'lineTo:0,100', 'lineTo:0,100', 'lineTo:0,0'])
@@ -123,7 +124,7 @@ describe('#573 — desenharGrade', () => {
     const { ctx, chamadas } = contextoFalso()
     const fonte: Fonte = { x: 0, y: 0, w: 1000, h: 1000 }
     const g: Geo = { ...geo, baseW: 1000, baseH: 1000, layoutLeft: 0, vpW: 100, vpH: 100 }
-    const n = desenharGrade(ctx, 1, g, identidade, fonte, todas, quadrado, { cor: '#f70', alpha: 0.15 })
+    const n = desenharGrade(ctx, 1, g, identidade, fonte, prepararGrade(todas, quadrado), { cor: '#f70', alpha: 0.15 })
     // viewport 100×100 em identidade cobre só (0,0) e, pela margem de 1 célula, as vizinhas
     expect(n).toBeLessThan(10)
     expect(chamadas.filter((c) => c.startsWith('moveTo')).length).toBe(n)

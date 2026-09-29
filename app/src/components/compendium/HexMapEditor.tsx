@@ -52,7 +52,7 @@ import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { GradeCanvas } from '../../map/GradeCanvas'
-import { useMapaDebug } from '../../map/mapa-debug'
+import { escolherGrade, useMapaDebug } from '../../map/mapa-debug'
 
 /** Subcategorias que contam como ÁREA (marcação em massa no modo Regiões). */
 const AREA_SUBCATS = new Set(['Região', 'Nação', 'Ponto de Interesse'])
@@ -187,7 +187,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
   const gridCells = useMemo(() => hexGridCells(), [])
   const gridFonte = useMemo(() => ({ x: 0, y: 0, w: MAP_W, h: MAP_H }), [])
   const mapaDebug = useMapaDebug()
-  const gridPath = useMemo(() => (mapaDebug.grade === 'svg' ? hexGridPath() : ''), [mapaDebug.grade])
+  const gradeEm = escolherGrade(mapaDebug.grade)
+  const gridPath = useMemo(() => (gradeEm === 'svg' ? hexGridPath() : ''), [gradeEm])
   // `resolveAsset` em vez de `byPath.get`: o literal diz `.png` e o acervo é webp.
   const mapEntry = assets ? resolveAsset(assets, region.mapAsset) : null
   // #572: atlas 7440×5262 px — versão MÉDIA (ver mapa-src)
@@ -637,7 +638,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
 
                     {/* #573: a grade vive no GradeCanvas (espaço de tela); o path
                         fica só como A/B do modo debug (grade = svg) */}
-                    {mapaDebug.grade === 'svg' ? (
+                    {gradeEm === 'svg' ? (
                       <path
                         data-hexgrid=""
                         d={gridPath}
@@ -717,7 +718,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                   </svg>
                 </div>
                 {/* #573: grade em canvas de tela, fora do div transformado */}
-                {mapaDebug.grade === 'canvas' ? (
+                {gradeEm === 'canvas' ? (
                   <GradeCanvas
                     map={map}
                     fonte={gridFonte}

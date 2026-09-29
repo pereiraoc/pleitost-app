@@ -4,28 +4,40 @@
 // log `mapa/gesto` (que carrega os três valores). Persistido em localStorage;
 // leitura tolerante (chave ausente/corrompida → padrões).
 import { useSyncExternalStore } from 'react'
-import type { DriverPref } from './transform-driver'
+import { detectarAmbiente, type Ambiente, type DriverPref } from './transform-driver'
 
 const CHAVE = 'pleitost.debug.mapa'
 const EVENTO = 'pleitost:mapa-debug'
 
+export type GradePref = 'auto' | 'canvas' | 'svg'
+
 export interface MapaDebug {
   driver: DriverPref
   assar: boolean
-  grade: 'canvas' | 'svg'
+  grade: GradePref
 }
 
-export const MAPA_DEBUG_PADRAO: MapaDebug = { driver: 'auto', assar: true, grade: 'canvas' }
+export const MAPA_DEBUG_PADRAO: MapaDebug = { driver: 'auto', assar: true, grade: 'auto' }
 
 const DRIVERS = new Set<string>(['auto', 'estilo', 'compositor'])
-const GRADES = new Set<string>(['canvas', 'svg'])
+const GRADES = new Set<string>(['auto', 'canvas', 'svg'])
+
+/** Onde a grade é desenhada, por motor: no Gecko o path no SVG transformado
+ *  é o blob mais caro a re-rasterizar por quadro → canvas de tela; no
+ *  Chromium o SVG dentro da camada composta não custa nada por quadro e o
+ *  canvas redesenhado a cada quadro custa (DoUpdateLayers, medido 2026-09-29)
+ *  → SVG. `auto` escolhe isso; canvas/svg forçam (A/B no aparelho). */
+export function escolherGrade(pref: GradePref, ambiente: Ambiente = detectarAmbiente()): 'canvas' | 'svg' {
+  if (pref === 'canvas' || pref === 'svg') return pref
+  return ambiente.gecko ? 'canvas' : 'svg'
+}
 
 function sanitizar(raw: unknown): MapaDebug {
   const o = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
   return {
     driver: typeof o.driver === 'string' && DRIVERS.has(o.driver) ? (o.driver as DriverPref) : MAPA_DEBUG_PADRAO.driver,
     assar: typeof o.assar === 'boolean' ? o.assar : MAPA_DEBUG_PADRAO.assar,
-    grade: typeof o.grade === 'string' && GRADES.has(o.grade) ? (o.grade as MapaDebug['grade']) : MAPA_DEBUG_PADRAO.grade,
+    grade: typeof o.grade === 'string' && GRADES.has(o.grade) ? (o.grade as GradePref) : MAPA_DEBUG_PADRAO.grade,
   }
 }
 

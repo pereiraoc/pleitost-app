@@ -37,6 +37,7 @@ export function MapaDebugToggles() {
           onChange={(e) => gravarMapaDebug({ grade: e.target.value as typeof d.grade })}
           style={campo}
         >
+          <option value="auto">auto</option>
           <option value="canvas">canvas</option>
           <option value="svg">svg</option>
         </select>

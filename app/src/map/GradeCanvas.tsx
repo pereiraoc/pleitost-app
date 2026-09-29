@@ -6,9 +6,9 @@
 //
 // Sem contexto 2D (jsdom) o elemento existe (`data-hexgrid`,
 // `data-grade-hexes`) e não desenha.
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, type CSSProperties } from 'react'
 import type { MapView, UseMapView } from './useMapView'
-import { desenharGrade, type Celula, type Fonte, type Ponto } from './grade-tela'
+import { desenharGrade, prepararGrade, type Celula, type Fonte, type Ponto } from './grade-tela'
 
 const COR_PADRAO = '#ff7a00'
 
@@ -32,9 +32,11 @@ export function GradeCanvas({
   const ref = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number | null>(null)
   const viewRef = useRef<MapView>(map.view)
+  // vértices e caixas calculados UMA vez por grade (não por quadro)
+  const grade = useMemo(() => prepararGrade(cells, vertices), [cells, vertices])
   // props mais recentes pro desenho agendado (sem re-assinar o relógio)
-  const propsRef = useRef({ fonte, cells, vertices, alpha, cor })
-  propsRef.current = { fonte, cells, vertices, alpha, cor }
+  const propsRef = useRef({ fonte, grade, alpha, cor })
+  propsRef.current = { fonte, grade, alpha, cor }
   const { onQuadro, geometriaBase, readLiveView } = map
 
   const desenhar = () => {
@@ -52,7 +54,7 @@ export function GradeCanvas({
     const p = propsRef.current
     const doTema = typeof getComputedStyle === 'function' ? getComputedStyle(canvas).getPropertyValue('--accent').trim() : ''
     const corResolvida = p.cor ?? (doTema || COR_PADRAO)
-    desenharGrade(ctx, dpr, geo, viewRef.current, p.fonte, p.cells, p.vertices, { cor: corResolvida, alpha: p.alpha })
+    desenharGrade(ctx, dpr, geo, viewRef.current, p.fonte, p.grade, { cor: corResolvida, alpha: p.alpha })
   }
   const agendar = () => {
     if (rafRef.current !== null || typeof requestAnimationFrame !== 'function') return
@@ -80,7 +82,7 @@ export function GradeCanvas({
     viewRef.current = readLiveView()
     agendar()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map.view, fonte, cells, vertices, alpha, cor, readLiveView])
+  }, [map.view, fonte, grade, alpha, cor, readLiveView])
   // resize da viewport (tela cheia, rotação)
   useEffect(() => {
     const canvas = ref.current

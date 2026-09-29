@@ -53,7 +53,7 @@ import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { GradeCanvas } from '../map/GradeCanvas'
-import { useMapaDebug } from '../map/mapa-debug'
+import { escolherGrade, useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
@@ -1007,6 +1007,7 @@ export function PanelExploracao({
     [desabilitadas],
   )
   const mapaDebug = useMapaDebug()
+  const gradeEm = escolherGrade(mapaDebug.grade)
   const assado = useMapaAssado({
     srcMapa: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
     srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
@@ -1353,7 +1354,7 @@ export function PanelExploracao({
                   ) : null}
                   {/* #573: a malha vive no GradeCanvas (espaço de tela); o path
                       no SVG fica só como A/B do modo debug (grade = svg) */}
-                  {mapaDebug.grade === 'svg' ? (
+                  {gradeEm === 'svg' ? (
                     <path
                       data-hexgrid=""
                       d={vistaGridPath(crop)}
@@ -1512,7 +1513,7 @@ export function PanelExploracao({
               {/* #573: malha do hexcrawl em canvas de tela, fora do div
                   transformado (no Gecko o path de 11k segmentos era o blob mais
                   caro a re-rasterizar por quadro do gesto). */}
-              {mapaDebug.grade === 'canvas' ? (
+              {gradeEm === 'canvas' ? (
                 <GradeCanvas
                   map={map}
                   fonte={gridFonte}
