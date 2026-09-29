@@ -158,12 +158,14 @@ if (flag('diff')) {
     return p
   }
   const a = await shot('assado')
+  // desliga o assado e recarrega (o módulo de debug cacheia o estado em
+  // memória; de fora da app o jeito limpo é recarregar com a pref gravada)
   await page.evaluate(() => {
-    localStorage.setItem('pleitost.debug.mapa', JSON.stringify({ driver: 'auto', assar: false, grade: 'canvas' }))
-    window.dispatchEvent(new CustomEvent('pleitost:mapa-debug'))
+    localStorage.setItem('pleitost.debug.mapa', JSON.stringify({ driver: 'auto', assar: false, grade: 'auto' }))
   })
-  await page.waitForFunction(() => !!document.querySelector('[data-mapa] svg image'), null, { timeout: 10000 })
-  await page.waitForTimeout(600)
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 120000 })
+  await page.waitForSelector('[data-mapa] svg image', { timeout: 60000 })
+  await page.waitForTimeout(1200)
   const b = await shot('svg')
   const [ia, ib] = await Promise.all([sharp(a).raw().toBuffer({ resolveWithObject: true }), sharp(b).raw().toBuffer({ resolveWithObject: true })])
   let dif = 0
