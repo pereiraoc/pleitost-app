@@ -102,10 +102,10 @@ MapLibre/tiles e zoom nítido acima da média de 4000 px; redesenho da contra-es
 
 | Firefox, por gesto de 30 quadros | antes (A/B: estilo + SVG) | depois (padrão) |
 |---|---|---|
-| /mapa: paint por quadro · blobs | 1,7–2,4 ms · 174–345 | 0,5–0,7 ms · 0 |
-| /mapa: thread Renderer | 95–140 ms | 4–11 ms |
-| Exploração: paint por quadro · blobs | 2,0–4,8 ms · 123–186 | 0,8–1,0 ms · 0 |
-| Exploração: pior worker de blob | 19–75 ms | 0 |
+| /mapa: paint por quadro · blobs | 1,7–2,4 ms · 174–345 | 0,6–0,7 ms · 0 |
+| /mapa: thread Renderer (headless = WebRender por software) | 95–140 ms | 72–87 ms |
+| Exploração: paint por quadro · blobs | 2,0–4,8 ms · 123–186 | 0,8–1,1 ms · 0–96 (vetores miúdos do SVG na pinça; worker ≤ 2 ms) |
+| Exploração: pior worker de blob | 19–75 ms | 0–2 ms |
 | /mapa tela cheia · zoom 8× | — | 0,6–0,7 ms · 0 blobs |
 
-Chromium (Pixel 7 emulado, CPU 4×): 0 frames dropados nos gestos 2–6 no /mapa e na Exploração (1 na primeira pinça = decode inicial, igual a antes). Diff de pixels overlay assado × SVG em repouso: ver saída do `--diff` no comentário da issue.
+Chromium (Pixel 7 emulado, CPU 4×): 0 frames dropados nos gestos 2–6 no /mapa e na Exploração (1 na primeira pinça = decode inicial, igual a antes). Diff de pixels overlay assado × SVG em repouso: 5 em 1,59 milhão. Arraste no Firefox lido quadro a quadro no build publicado (driver sem reinício): erro 0 px contra o alvo. Números medidos com o driver definitivo (commit eb44b69b); a primeira versão, que reiniciava a animação por quadro, dava Renderer 4–11 ms justamente porque o compositor ficava parado no ponto inicial.
