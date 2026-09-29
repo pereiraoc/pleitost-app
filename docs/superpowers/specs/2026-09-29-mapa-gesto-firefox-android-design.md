@@ -56,7 +56,7 @@ export function escolherDriver(pref: 'auto' | 'estilo' | 'compositor', amb = det
 
 ### 4.2 useMapView
 
-- `aplicarAoVivo` → rAF → `driver.aplicar`; `encerrarGesto` → `driver.encerrar` antes do `setView`; unmount → `driver.descartar`. O `useLayoutEffect` que reaplica o vivo depois de um render no meio do gesto chama `driver.aplicar` (com o compositor a animação já vence o inline style; é inofensivo).
+- `aplicarAoVivo` → `driver.aplicar` **na hora do evento** (não no rAF seguinte: esperar o rAF custava um quadro inteiro por passo do toque — relato "delayzinho notável" no celular; o rAF fica só pra contar quadros no log); `encerrarGesto` → `driver.encerrar` antes do `setView`; unmount → `driver.descartar`. O `useLayoutEffect` que reaplica o vivo depois de um render no meio do gesto chama `driver.aplicar` (com o compositor a animação já vence o inline style; é inofensivo).
 - Novo `onQuadro(cb: (v: MapView) => void): () => void`: notificado depois de cada `aplicar`, de cada `commitView` (roda/botões/reset) e do `encerrar`. É o relógio da grade em canvas.
 - Novo `geometriaBase(): Geo | null` (a mesma medida do `medirGeo`, exposta): caixa de layout do div do mapa antes do transform, em px da viewport.
 - Log de debug `mapa/gesto` ganha `driver` e os toggles ativos.
@@ -66,7 +66,7 @@ export function escolherDriver(pref: 'auto' | 'estilo' | 'compositor', amb = det
 
 - Puro: `chaveDoAssado(srcMapa, srcOverlay, aneis)`; `desenharAssado(ctx, mapa, overlay, aneis, escala)`: desenha o mapa e, **por anel**, `save → beginPath → polígono → clip → drawImage(overlay) → restore` — a mesma semântica de união do `<clipPath>` com vários `<polygon>`; nada de even-odd. Anéis = `r.aneis ?? [r.pontos]`, em px da fonte × (bitmap ÷ fonte).
 - Hook `useMapaAssado({ srcMapa, srcOverlay, fonteW, fonteH, aneis, ativo }) → { src: string | null }`: carrega as duas imagens (`Image` + `decode()`), canvas (`OffscreenCanvas` se houver) no tamanho natural do mapa carregado com teto de 4096 no lado maior (a média já tem ≤ 4000; em dev a cheia de 7440 é reduzida), codifica `image/webp` 0,9 (se o navegador devolver outro tipo, `image/jpeg` 0,92), `URL.createObjectURL`. Cache LRU de 3 por chave (revoga ao evictar); cancela ao trocar a chave; qualquer erro → `null`.
-- Regra de segurança (anti-spoiler): enquanto `src` é `null`, o viewer mantém o overlay em SVG como hoje. O `<image>` do SVG só sai quando o bitmap assado está no `<img>`. Nunca há um quadro do mapa sem overlay.
+- Regra de segurança (anti-spoiler), **por construção** (`camadas-overlay.ts`, modelo puro `estadoDasCamadas` + hook `useCamadasOverlay`): (a) na carga, o `<img>` base fica `visibility: hidden` até o `load` do `<image>` do overlay no SVG (o base de 2 MB pode chegar antes do overlay de 0,6 MB); (b) o SVG só sai depois que o PRÓPRIO `<img>` disparou `load` com o src assado — trocar o src e tirar o SVG no mesmo commit mostrava o base nu enquanto o navegador decodificava o bitmap (relato 2026-09-29: "aparece o mapa por baixo antes de carregar o overlay"); (c) cada remontagem do `<image>` zera o "carregou" em layout effect. Verificação: vigia por quadro desde antes do app montar (Chromium rede normal e lenta, Firefox) — 0 quadros com o base visível sem overlay carregado.
 - Viewers: AtlasMapaPage e PanelExploracao. `<img src={assado ?? média} data-mapa-assado>`; o `<svg>` fica só com vetor. Na Exploração o `<img>` continua posicionado pelo crop (o bitmap cobre o atlas inteiro, como a média). Editor do Mundo Livre não tem overlay.
 - Contrato de teste: `[data-overlay-desabilitado]` continua existindo enquanto não há assado (em jsdom, sempre — os testes de gating atuais seguem válidos); o assado é testado em unidade com canvas falso que grava as chamadas (ordem mapa → clip por anel → overlay; chave; fallback de tipo; erro → null).
 
@@ -85,7 +85,7 @@ export function escolherDriver(pref: 'auto' | 'estilo' | 'compositor', amb = det
 
 ### 4.6 Bancada reproduzível (`scripts/bench-mapa-gesto.mjs`, `scripts/bench-mapa-parse.mjs`)
 
-Os scripts da investigação, limpos, no repo: sobem o build em `vite preview`, dirigem a sequência de gestos em Firefox (Gecko Profiler por `MOZ_PROFILER_STARTUP`) e Chromium (trace), e imprimem por gesto: paint por quadro, blobs, thread Renderer, frames dropados. Também tiram screenshot em repouso com overlay SVG e com overlay assado e medem a diferença de pixels (prova anti-vazamento). Não roda no CI; `npm run bench:mapa` documenta o uso.
+Os scripts da investigação, limpos, no repo (no Firefox de DESKTOP `auto` = estilo; pra medir o caminho do Android passe `--debug '{"driver":"compositor","assar":true,"grade":"canvas"}'`): sobem o build em `vite preview`, dirigem a sequência de gestos em Firefox (Gecko Profiler por `MOZ_PROFILER_STARTUP`) e Chromium (trace), e imprimem por gesto: paint por quadro, blobs, thread Renderer, frames dropados. Também tiram screenshot em repouso com overlay SVG e com overlay assado e medem a diferença de pixels (prova anti-vazamento). Não roda no CI; `npm run bench:mapa` documenta o uso.
 
 ## 5. Critérios de aceite
 
