@@ -151,6 +151,9 @@ describe('AtlasMapaPage — render do gating', () => {
     await screen.findByAltText('Mapa do mundo')
     // overlay clipado sobre a região desabilitada
     expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
+    // #573: sem canvas (jsdom) o bitmap assado nunca fica pronto → o overlay
+    // continua no SVG e o <img> não é o assado (nunca um quadro sem overlay)
+    expect(document.querySelector('[data-mapa-assado]')).toBeNull()
     // pin de DENTRO não existe ("nenhum lugar abaixo aparecerá como clicável")
     expect(document.querySelector(`[data-pin="${KRASNOGOR}"]`)).toBeNull()
     // pin de FORA clica e navega pra página do lugar

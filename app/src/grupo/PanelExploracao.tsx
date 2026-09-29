@@ -51,6 +51,7 @@ import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
 import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
+import { useMapaAssado } from '../map/mapa-assado'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
@@ -992,6 +993,21 @@ export function PanelExploracao({
   // #572: o atlas tem 7440×5262 px — no gesto vai a versão MÉDIA (ver mapa-src)
   const imagemMapa = useSrcDoMapa(mapEntry)
   const imagemOverlay = useSrcDoMapa(overlayEntry)
+  // #573: mapa + overlay das regiões desabilitadas assados num bitmap só (o
+  // <image> clipado no SVG era re-rasterizado a cada quadro no Gecko); até
+  // ficar pronto, o overlay em SVG segue cobrindo.
+  const aneisDesabilitados = useMemo(
+    () => desabilitadas.flatMap((r) => r.aneis ?? [r.pontos]),
+    [desabilitadas],
+  )
+  const assado = useMapaAssado({
+    srcMapa: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
+    srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
+    fonteW: ATLAS_GRID_W,
+    fonteH: ATLAS_GRID_H,
+    aneis: aneisDesabilitados,
+    ativo: !!overlayEntry && desabilitadas.length > 0,
+  })
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
@@ -1268,8 +1284,9 @@ export function PanelExploracao({
                 }}
               >
                 <img
-                  src={imagemMapa.src ?? assetUrl(mapEntry)}
-                  onError={imagemMapa.onError}
+                  src={assado.src ?? imagemMapa.src ?? assetUrl(mapEntry)}
+                  onError={assado.src ? undefined : imagemMapa.onError}
+                  data-mapa-assado={assado.src ? '' : undefined}
                   alt={mapEntry.basename}
                   draggable={false}
                   data-mapa-img=""
@@ -1298,7 +1315,7 @@ export function PanelExploracao({
                     overflow: 'visible',
                   }}
                 >
-                  {overlayEntry && desabilitadas.length > 0 ? (
+                  {overlayEntry && desabilitadas.length > 0 && !assado.src ? (
                     <>
                       <defs>
                         <clipPath id="explo-regioes-off">

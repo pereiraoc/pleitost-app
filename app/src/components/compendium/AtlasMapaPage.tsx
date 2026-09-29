@@ -24,6 +24,7 @@ import { localEntriesOfKind } from '../../data/local-entities'
 import { useSettings } from '../../settings'
 import { useMesaGrupoPersistenteId } from '../../grupo/use-mesa-group-image'
 import { useSrcDoMapa } from '../../map/mapa-src'
+import { useMapaAssado } from '../../map/mapa-assado'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import {
@@ -171,6 +172,22 @@ export function AtlasMapaPage() {
 
   const overlayEntry = assets ? resolveAsset(assets, ATLAS_OVERLAY_ASSET) : null
   const imagemOverlay = useSrcDoMapa(overlayEntry)
+  // #573: mapa + overlay das regiões desabilitadas ASSADOS num bitmap só —
+  // o SVG transformado fica só com vetor (no Gecko o <image> clipado era
+  // re-rasterizado a cada quadro do gesto). Enquanto não está pronto, o
+  // overlay em SVG abaixo continua cobrindo.
+  const aneisDesabilitados = useMemo(
+    () => desabilitadas.flatMap((r) => r.aneis ?? [r.pontos]),
+    [desabilitadas],
+  )
+  const assado = useMapaAssado({
+    srcMapa: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
+    srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
+    fonteW: ATLAS_MAPA_W,
+    fonteH: ATLAS_MAPA_H,
+    aneis: aneisDesabilitados,
+    ativo: !!overlayEntry && desabilitadas.length > 0,
+  })
 
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
@@ -291,8 +308,9 @@ export function AtlasMapaPage() {
               }}
             >
               <img
-                src={imagemMapa.src ?? assetUrl(mapEntry)}
-                onError={imagemMapa.onError}
+                src={assado.src ?? imagemMapa.src ?? assetUrl(mapEntry)}
+                onError={assado.src ? undefined : imagemMapa.onError}
+                data-mapa-assado={assado.src ? '' : undefined}
                 alt="Mapa do mundo"
                 draggable={false}
                 style={{ height: '100%', width: 'auto', display: 'block' }}
@@ -305,7 +323,7 @@ export function AtlasMapaPage() {
               >
                 {/* Overlay CLIPADO nas regiões desabilitadas do viewer — "o
                     mapa de overlay estará por cima" só onde o GM desabilitou. */}
-                {overlayEntry && desabilitadas.length > 0 ? (
+                {overlayEntry && desabilitadas.length > 0 && !assado.src ? (
                   <>
                     <defs>
                       <clipPath id="mapa-regioes-off">
