@@ -240,10 +240,14 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
 
   const geometriaBase = useCallback((): Geo | null => geoRef.current ?? medirGeo(), [medirGeo])
 
-  /** Escreve o transform AO VIVO no DOM (rAF) pelo DRIVER do motor (#573).
-   *  O React NÃO re-renderiza no meio do gesto (#572: cada commit
-   *  re-renderizava o painel inteiro do mapa e atrasava o toque seguinte);
-   *  `view` sincroniza só no encerrarGesto. */
+  /** Escreve o transform AO VIVO no DOM pelo DRIVER do motor (#573), NA HORA
+   *  do evento — não no rAF seguinte. Esperar o rAF custava um quadro inteiro
+   *  de latência em cada passo do toque (relato no celular: "delayzinho
+   *  notável" mesmo depois do compositor); o navegador já entrega o toque
+   *  alinhado ao quadro, e escrever duas vezes no mesmo quadro é barato nos
+   *  dois drivers. O rAF fica só pra contar quadros no log de debug. O React
+   *  NÃO re-renderiza no meio do gesto (#572); `view` sincroniza só no
+   *  encerrarGesto. */
   const aplicarAoVivo = useCallback((next: MapView) => {
     const anterior = liveRef.current
     liveRef.current = next
@@ -254,14 +258,14 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
     }
     const st = gestoStats.current
     if (st) st.entradas++
+    const el = mapRef.current
+    if (el) {
+      ;(driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)).aplicar(el, next, { contraEscala })
+      notificarQuadro(next)
+    }
     if (rafRef.current === null && typeof requestAnimationFrame === 'function') {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null
-        const el = mapRef.current
-        if (!el) return
-        const v = liveRef.current
-        ;(driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)).aplicar(el, v, { contraEscala })
-        notificarQuadro(v)
         const st2 = gestoStats.current
         if (st2) {
           const t = agora()

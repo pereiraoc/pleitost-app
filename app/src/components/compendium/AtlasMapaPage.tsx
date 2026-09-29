@@ -25,6 +25,7 @@ import { useSettings } from '../../settings'
 import { useMesaGrupoPersistenteId } from '../../grupo/use-mesa-group-image'
 import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapaAssado } from '../../map/mapa-assado'
+import { useCamadasOverlay } from '../../map/camadas-overlay'
 import { useMapaDebug } from '../../map/mapa-debug'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
@@ -190,6 +191,14 @@ export function AtlasMapaPage() {
     aneis: aneisDesabilitados,
     ativo: !!overlayEntry && desabilitadas.length > 0 && mapaDebug.assar,
   })
+  // Anti-spoiler por construção (camadas-overlay): base escondido até o
+  // overlay carregar; SVG só sai quando o assado já está na tela.
+  const camadas = useCamadasOverlay({
+    precisaOverlay: !!overlayEntry && desabilitadas.length > 0,
+    srcBase: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
+    srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
+    srcAssado: assado.src,
+  })
 
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
@@ -310,12 +319,13 @@ export function AtlasMapaPage() {
               }}
             >
               <img
-                src={assado.src ?? imagemMapa.src ?? assetUrl(mapEntry)}
+                src={camadas.estado.imgSrc ?? assetUrl(mapEntry)}
                 onError={assado.src ? undefined : imagemMapa.onError}
-                data-mapa-assado={assado.src ? '' : undefined}
+                onLoad={(e) => camadas.onImgLoad(e.currentTarget.currentSrc || e.currentTarget.src)}
+                data-mapa-assado={!camadas.estado.mostrarOverlaySvg && assado.src ? '' : undefined}
                 alt="Mapa do mundo"
                 draggable={false}
-                style={{ height: '100%', width: 'auto', display: 'block' }}
+                style={{ height: '100%', width: 'auto', display: 'block', visibility: camadas.estado.imgVisivel ? 'visible' : 'hidden' }}
               />
               {/* Camadas em px da FONTE — escalam junto com o transform. */}
               <svg
@@ -325,7 +335,7 @@ export function AtlasMapaPage() {
               >
                 {/* Overlay CLIPADO nas regiões desabilitadas do viewer — "o
                     mapa de overlay estará por cima" só onde o GM desabilitou. */}
-                {overlayEntry && desabilitadas.length > 0 && !assado.src ? (
+                {overlayEntry && camadas.estado.mostrarOverlaySvg ? (
                   <>
                     <defs>
                       <clipPath id="mapa-regioes-off">
@@ -343,6 +353,7 @@ export function AtlasMapaPage() {
                       data-overlay-desabilitado=""
                       href={imagemOverlay.src ?? assetUrl(overlayEntry)}
                       onError={imagemOverlay.onError}
+                      onLoad={camadas.onOverlayLoad}
                       x={0}
                       y={0}
                       width={ATLAS_MAPA_W}

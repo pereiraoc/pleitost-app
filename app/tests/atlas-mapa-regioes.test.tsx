@@ -154,6 +154,12 @@ describe('AtlasMapaPage — render do gating', () => {
     // #573: sem canvas (jsdom) o bitmap assado nunca fica pronto → o overlay
     // continua no SVG e o <img> não é o assado (nunca um quadro sem overlay)
     expect(document.querySelector('[data-mapa-assado]')).toBeNull()
+    // anti-spoiler na carga: o base fica ESCONDIDO até o <image> do overlay
+    // carregar — o base costuma chegar antes (2 MB × 0,6 MB, cache…)
+    const imgBase = document.querySelector('[data-mapa] img') as HTMLImageElement
+    expect(imgBase.style.visibility).toBe('hidden')
+    fireEvent.load(document.querySelector('[data-overlay-desabilitado]') as Element)
+    expect(imgBase.style.visibility).toBe('visible')
     // pin de DENTRO não existe ("nenhum lugar abaixo aparecerá como clicável")
     expect(document.querySelector(`[data-pin="${KRASNOGOR}"]`)).toBeNull()
     // pin de FORA clica e navega pra página do lugar

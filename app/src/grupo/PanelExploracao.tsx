@@ -52,6 +52,7 @@ import { useDetail } from '../data/detail-context'
 import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
+import { useCamadasOverlay } from '../map/camadas-overlay'
 import { GradeCanvas } from '../map/GradeCanvas'
 import { escolherGrade, useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
@@ -1016,6 +1017,13 @@ export function PanelExploracao({
     aneis: aneisDesabilitados,
     ativo: !!overlayEntry && desabilitadas.length > 0 && mapaDebug.assar,
   })
+  // Anti-spoiler por construção (camadas-overlay)
+  const camadas = useCamadasOverlay({
+    precisaOverlay: !!overlayEntry && desabilitadas.length > 0,
+    srcBase: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
+    srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
+    srcAssado: assado.src,
+  })
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
@@ -1294,9 +1302,10 @@ export function PanelExploracao({
                 }}
               >
                 <img
-                  src={assado.src ?? imagemMapa.src ?? assetUrl(mapEntry)}
+                  src={camadas.estado.imgSrc ?? assetUrl(mapEntry)}
                   onError={assado.src ? undefined : imagemMapa.onError}
-                  data-mapa-assado={assado.src ? '' : undefined}
+                  onLoad={(e) => camadas.onImgLoad(e.currentTarget.currentSrc || e.currentTarget.src)}
+                  data-mapa-assado={!camadas.estado.mostrarOverlaySvg && assado.src ? '' : undefined}
                   alt={mapEntry.basename}
                   draggable={false}
                   data-mapa-img=""
@@ -1310,6 +1319,7 @@ export function PanelExploracao({
                     width: 'auto',
                     maxWidth: 'none',
                     display: 'block',
+                    visibility: camadas.estado.imgVisivel ? 'visible' : 'hidden',
                   }}
                 />
                 {/* Overlay em px da FONTE (viewBox = crop; escala com o mapa) */}
@@ -1325,7 +1335,7 @@ export function PanelExploracao({
                     overflow: 'visible',
                   }}
                 >
-                  {overlayEntry && desabilitadas.length > 0 && !assado.src ? (
+                  {overlayEntry && camadas.estado.mostrarOverlaySvg ? (
                     <>
                       <defs>
                         <clipPath id="explo-regioes-off">
@@ -1343,6 +1353,7 @@ export function PanelExploracao({
                         data-overlay-desabilitado=""
                         href={imagemOverlay.src ?? assetUrl(overlayEntry)}
                         onError={imagemOverlay.onError}
+                        onLoad={camadas.onOverlayLoad}
                         x={0}
                         y={0}
                         width={ATLAS_GRID_W}
