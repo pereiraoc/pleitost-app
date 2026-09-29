@@ -51,7 +51,7 @@ import {
 } from '../src/data/group-store'
 import { activeRegionId } from '../src/grupo/PanelExploracao'
 import { atlasHexCenter, atlasHexPolygonPoints, atlasPixelToHex } from '../src/map/atlas-grid'
-import { MAPA_MUNDO_ASSET, MAPA_VISTAS, vistaCrop, vistaGridPath } from '../src/map/mapa-vistas'
+import { MAPA_MUNDO_ASSET, MAPA_VISTAS, vistaCrop, vistaGridCells } from '../src/map/mapa-vistas'
 import { getMapaAtlas, __resetMapaAtlasForTests } from '../src/map/mapa-atlas-store'
 import { MAPA_MUNDO_ID } from '../src/data/seed-hexmaps'
 import {
@@ -465,9 +465,13 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const crop = cropAtivo()
     const svg = container.querySelector('[data-mapa] svg') as SVGSVGElement
     expect(svg.getAttribute('viewBox')).toBe(`${crop.x} ${crop.y} ${crop.w} ${crop.h}`)
-    const grid = container.querySelector('[data-hexgrid]') as SVGPathElement
-    expect(grid.getAttribute('d')).toBe(vistaGridPath(crop))
-    expect(grid.getAttribute('vector-effect')).toBe('non-scaling-stroke')
+    // #573: a malha é um canvas de TELA fora do div transformado (não mais um
+    // path no SVG) — com as células do crop
+    expect(container.querySelector('path[data-hexgrid]')).toBeNull()
+    const grid = container.querySelector('canvas[data-hexgrid]') as HTMLCanvasElement
+    expect(grid).toBeTruthy()
+    expect(grid.getAttribute('data-grade-hexes')).toBe(String(vistaGridCells(crop).length))
+    expect(grid.parentElement).toBe(container.querySelector('[data-mapa-viewport]'))
   })
 
   it('MARCAR HEX: clique destaca o HEX certo (col,row de pixelToHex) e abre o popover', async () => {

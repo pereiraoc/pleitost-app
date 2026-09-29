@@ -52,6 +52,7 @@ import { useDetail } from '../data/detail-context'
 import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
+import { GradeCanvas } from '../map/GradeCanvas'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
@@ -79,6 +80,7 @@ import {
   ATLAS_GRID_W,
   ATLAS_OVERLAY_ASSET,
   atlasHexCenter,
+  atlasHexVertices,
   atlasHexPolygonPoints,
   atlasPixelToHex,
   type AtlasHexCell as HexCell,
@@ -88,7 +90,7 @@ import {
   MAPA_VISTAS,
   vistaCrop,
   vistaEfetivaId,
-  vistaGridPath,
+  vistaGridCells,
   vistasPermitidas,
 } from '../map/mapa-vistas'
 import {
@@ -958,8 +960,10 @@ export function PanelExploracao({
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
 
-  // A malha do CROP é 1 <path> (barato; recalcula só na troca de vista).
-  const gridPath = useMemo(() => vistaGridPath(crop), [crop])
+  // #573: a malha do crop vai pro canvas de tela (GradeCanvas) — as células
+  // só mudam na troca de vista; a fonte (crop) idem.
+  const gridCells = useMemo(() => vistaGridCells(crop), [crop])
+  const gridFonte = useMemo(() => ({ x: crop.x, y: crop.y, w: crop.w, h: crop.h }), [crop])
 
   // Docs dos locais pro TOOLTIP no mapa (#124) — nativo (<title>) já que os
   // hexes são SVG. Descrição (campo) + recursos, fonte de verdade no frontmatter.
@@ -1260,6 +1264,8 @@ export function PanelExploracao({
               onClick={onMapClick}
               style={{
                 height: map.fullscreen ? '100%' : 'min(68vh, 620px)',
+                // #573: o canvas da grade é absoluto dentro da viewport
+                position: 'relative',
                 display: 'flex',
                 justifyContent: 'center',
                 overflow: 'hidden',
@@ -1342,18 +1348,7 @@ export function PanelExploracao({
                       />
                     </>
                   ) : null}
-                  <path
-                    data-hexgrid=""
-                    d={gridPath}
-                    fill="none"
-                    stroke={
-                      addMode !== 'off'
-                        ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
-                        : 'color-mix(in srgb,var(--accent) 15%,transparent)'
-                    }
-                    strokeWidth={1}
-                    vectorEffect="non-scaling-stroke"
-                  />
+                  {/* #573: a malha saiu daqui — GradeCanvas, em espaço de tela */}
                   {/* Hexes com LUGAR pontual (#70): realce sutil pra sinalizar
                       info clicável. Só o LUGAR — não as células de ÁREA de
                       região (senão o mapa inteiro parece marcado; pedido do
@@ -1496,6 +1491,16 @@ export function PanelExploracao({
                   ) : null}
                 </svg>
               </div>
+              {/* #573: malha do hexcrawl em canvas de tela, fora do div
+                  transformado (no Gecko o path de 11k segmentos era o blob mais
+                  caro a re-rasterizar por quadro do gesto). */}
+              <GradeCanvas
+                map={map}
+                fonte={gridFonte}
+                cells={gridCells}
+                vertices={atlasHexVertices}
+                alpha={addMode !== 'off' ? 0.34 : 0.15}
+              />
             </div>
           ) : assets ? (
             <div style={{ ...sectionTitleStyle, padding: '16px 18px' }}>MAPA INDISPONÍVEL</div>

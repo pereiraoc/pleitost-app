@@ -38,7 +38,8 @@ import {
   fracToHex,
   hexCenter,
   hexesInPolygon,
-  hexGridPath,
+  hexGridCells,
+  hexVertices,
   hexPolygonPoints,
   hexUnionPath,
   MAP_H,
@@ -49,6 +50,7 @@ import {
 import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
+import { GradeCanvas } from '../../map/GradeCanvas'
 
 /** Subcategorias que contam como ÁREA (marcação em massa no modo Regiões). */
 const AREA_SUBCATS = new Set(['Região', 'Nação', 'Ponto de Interesse'])
@@ -179,7 +181,9 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
   }
 
   const map = useMapView()
-  const gridPath = useMemo(() => hexGridPath(), [])
+  // #573: a malha vai pro canvas de tela (GradeCanvas)
+  const gridCells = useMemo(() => hexGridCells(), [])
+  const gridFonte = useMemo(() => ({ x: 0, y: 0, w: MAP_W, h: MAP_H }), [])
   // `resolveAsset` em vez de `byPath.get`: o literal diz `.png` e o acervo é webp.
   const mapEntry = assets ? resolveAsset(assets, region.mapAsset) : null
   // #572: atlas 7440×5262 px — versão MÉDIA (ver mapa-src)
@@ -534,6 +538,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                 onDrop={onMapDrop}
                 style={{
                   height: map.fullscreen ? '100%' : 'min(64vh, 580px)',
+                  // #573: o canvas da grade é absoluto dentro da viewport
+                  position: 'relative',
                   display: 'flex',
                   justifyContent: 'center',
                   overflow: 'hidden',
@@ -625,19 +631,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                       )
                     })}
 
-                    {/* Grade hexagonal — 1 único path (barato) */}
-                    <path
-                      data-hexgrid=""
-                      d={gridPath}
-                      fill="none"
-                      stroke={
-                        pendingLocal || (mode === 'regioes' && pendingArea)
-                          ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
-                          : 'color-mix(in srgb,var(--accent) 18%,transparent)'
-                      }
-                      strokeWidth={1}
-                      vectorEffect="non-scaling-stroke"
-                    />
+                    {/* #573: a grade hexagonal saiu daqui — GradeCanvas, em espaço de tela */}
                     {/* Laço em desenho (#79) */}
                     {lassoPts.length >= 2 ? (
                       <polyline
@@ -703,6 +697,14 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                     })}
                   </svg>
                 </div>
+                {/* #573: grade em canvas de tela, fora do div transformado */}
+                <GradeCanvas
+                  map={map}
+                  fonte={gridFonte}
+                  cells={gridCells}
+                  vertices={hexVertices}
+                  alpha={pendingLocal || (mode === 'regioes' && pendingArea) ? 0.34 : 0.18}
+                />
               </div>
               <MapControls
                 map={map}
