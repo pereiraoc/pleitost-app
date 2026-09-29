@@ -53,6 +53,7 @@ import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { GradeCanvas } from '../map/GradeCanvas'
+import { useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
@@ -91,6 +92,7 @@ import {
   vistaCrop,
   vistaEfetivaId,
   vistaGridCells,
+  vistaGridPath,
   vistasPermitidas,
 } from '../map/mapa-vistas'
 import {
@@ -1004,13 +1006,14 @@ export function PanelExploracao({
     () => desabilitadas.flatMap((r) => r.aneis ?? [r.pontos]),
     [desabilitadas],
   )
+  const mapaDebug = useMapaDebug()
   const assado = useMapaAssado({
     srcMapa: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
     srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
     fonteW: ATLAS_GRID_W,
     fonteH: ATLAS_GRID_H,
     aneis: aneisDesabilitados,
-    ativo: !!overlayEntry && desabilitadas.length > 0,
+    ativo: !!overlayEntry && desabilitadas.length > 0 && mapaDebug.assar,
   })
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
@@ -1348,7 +1351,22 @@ export function PanelExploracao({
                       />
                     </>
                   ) : null}
-                  {/* #573: a malha saiu daqui — GradeCanvas, em espaço de tela */}
+                  {/* #573: a malha vive no GradeCanvas (espaço de tela); o path
+                      no SVG fica só como A/B do modo debug (grade = svg) */}
+                  {mapaDebug.grade === 'svg' ? (
+                    <path
+                      data-hexgrid=""
+                      d={vistaGridPath(crop)}
+                      fill="none"
+                      stroke={
+                        addMode !== 'off'
+                          ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
+                          : 'color-mix(in srgb,var(--accent) 15%,transparent)'
+                      }
+                      strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ) : null}
                   {/* Hexes com LUGAR pontual (#70): realce sutil pra sinalizar
                       info clicável. Só o LUGAR — não as células de ÁREA de
                       região (senão o mapa inteiro parece marcado; pedido do
@@ -1494,13 +1512,15 @@ export function PanelExploracao({
               {/* #573: malha do hexcrawl em canvas de tela, fora do div
                   transformado (no Gecko o path de 11k segmentos era o blob mais
                   caro a re-rasterizar por quadro do gesto). */}
-              <GradeCanvas
-                map={map}
-                fonte={gridFonte}
-                cells={gridCells}
-                vertices={atlasHexVertices}
-                alpha={addMode !== 'off' ? 0.34 : 0.15}
-              />
+              {mapaDebug.grade === 'canvas' ? (
+                <GradeCanvas
+                  map={map}
+                  fonte={gridFonte}
+                  cells={gridCells}
+                  vertices={atlasHexVertices}
+                  alpha={addMode !== 'off' ? 0.34 : 0.15}
+                />
+              ) : null}
             </div>
           ) : assets ? (
             <div style={{ ...sectionTitleStyle, padding: '16px 18px' }}>MAPA INDISPONÍVEL</div>

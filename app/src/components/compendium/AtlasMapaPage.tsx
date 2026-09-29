@@ -25,6 +25,7 @@ import { useSettings } from '../../settings'
 import { useMesaGrupoPersistenteId } from '../../grupo/use-mesa-group-image'
 import { useSrcDoMapa } from '../../map/mapa-src'
 import { useMapaAssado } from '../../map/mapa-assado'
+import { useMapaDebug } from '../../map/mapa-debug'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import {
@@ -180,13 +181,14 @@ export function AtlasMapaPage() {
     () => desabilitadas.flatMap((r) => r.aneis ?? [r.pontos]),
     [desabilitadas],
   )
+  const mapaDebug = useMapaDebug()
   const assado = useMapaAssado({
     srcMapa: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
     srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
     fonteW: ATLAS_MAPA_W,
     fonteH: ATLAS_MAPA_H,
     aneis: aneisDesabilitados,
-    ativo: !!overlayEntry && desabilitadas.length > 0,
+    ativo: !!overlayEntry && desabilitadas.length > 0 && mapaDebug.assar,
   })
 
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */

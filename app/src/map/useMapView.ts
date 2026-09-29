@@ -13,6 +13,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObje
 import { marcarSuperficieDeGesto } from '../components/layout/gesture-surface'
 import { pushLog } from '../data/debug-log'
 import { escolherDriver, transformCss, type TransformDriver } from './transform-driver'
+import { lerMapaDebug } from './mapa-debug'
 
 export interface MapView {
   scale: number
@@ -249,7 +250,7 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
     if (!gestoRef.current) {
       gestoRef.current = true
       gestoStats.current = { t0: agora(), entradas: 0, quadros: 0, tQuadro: 0, gapMax: 0, gapSoma: 0, escala0: anterior.scale }
-      driverRef.current = escolherDriver('auto', undefined, mapRef.current)
+      driverRef.current = escolherDriver(lerMapaDebug().driver, undefined, mapRef.current)
     }
     const st = gestoStats.current
     if (st) st.entradas++
@@ -259,7 +260,7 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
         const el = mapRef.current
         if (!el) return
         const v = liveRef.current
-        ;(driverRef.current ?? escolherDriver('auto', undefined, el)).aplicar(el, v, { contraEscala })
+        ;(driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)).aplicar(el, v, { contraEscala })
         notificarQuadro(v)
         const st2 = gestoStats.current
         if (st2) {
@@ -282,16 +283,19 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
     gestoRef.current = false
     geoRef.current = null
     const el = mapRef.current
-    const driver = driverRef.current ?? escolherDriver('auto', undefined, el)
+    const driver = driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)
     if (el) driver.encerrar(el, liveRef.current, { contraEscala })
     driverRef.current = null
     const st = gestoStats.current
     gestoStats.current = null
     if (st && st.entradas > 0) {
       const ms = Math.round(agora() - st.t0)
+      const dbg = lerMapaDebug()
       pushLog('mapa', 'gesto', {
         ms,
         driver: driver.nome,
+        assar: dbg.assar,
+        grade: dbg.grade,
         entradas: st.entradas,
         quadros: st.quadros,
         gapMedio: st.quadros > 1 ? Math.round(st.gapSoma / (st.quadros - 1)) : 0,
@@ -315,7 +319,7 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
     if (!gestoRef.current) return
     const el = mapRef.current
     if (!el) return
-    ;(driverRef.current ?? escolherDriver('auto', undefined, el)).aplicar(el, liveRef.current, { contraEscala })
+    ;(driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)).aplicar(el, liveRef.current, { contraEscala })
   })
   // Todo commit da view (fim de gesto, roda, botões, reset) é um quadro pros
   // assinantes — o DOM já está pintado com `transform` quando isto roda.

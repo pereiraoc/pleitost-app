@@ -6,6 +6,7 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import { enviarBugReport, type ResultadoReport, type TipoReport } from '../../data/bug-report'
 import { isDebugOn, logCount, onDebugChange, setDebugOn } from '../../data/debug-log'
+import { MapaDebugToggles } from '../../map/MapaDebugToggles'
 import { canOpenGitHubIssue, gitHubLogin } from '../../data/github-issue'
 import { clip } from '../ficha/bits'
 
@@ -223,6 +224,8 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
                     reporte.
                   </div>
                 ) : null}
+                {/* #573: A/B do mapa (driver do transform, overlay assado, grade) */}
+                {debug ? <MapaDebugToggles /> : null}
                 <textarea
                   aria-label="Descrição do bug"
                   value={texto}
