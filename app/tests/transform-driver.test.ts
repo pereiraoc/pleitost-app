@@ -72,19 +72,18 @@ describe('#573 — escolherDriver', () => {
 })
 
 describe('#573 — driver compositor (WAAPI)', () => {
-  it('1ª aplicação cria a animação (fill forwards, 1 quadro); as seguintes reusam a MESMA com setKeyframes + currentTime=0 + play', () => {
+  it('1ª aplicação cria UMA animação de duração infinita com keyframes constantes; as seguintes só trocam os keyframes (nunca play/currentTime: reiniciar deixa pending e o compositor mostra o valor de partida)', () => {
     const el = document.createElement('div')
     const { chamadas } = comAnimateFalso(el)
     driverCompositor.aplicar(el, view(3, 1, 2), { contraEscala: false })
     expect(chamadas).toEqual([
-      'animate:[{"transform":"translate(1px, 2px) scale(3)"}]:{"duration":16,"fill":"forwards","easing":"linear"}',
+      'animate:[{"transform":"translate(1px, 2px) scale(3)"},{"transform":"translate(1px, 2px) scale(3)"}]:{"duration":1000000000,"fill":"forwards","easing":"linear"}',
     ])
     driverCompositor.aplicar(el, view(4, 5, 6), { contraEscala: false })
     expect(chamadas.slice(1)).toEqual([
-      'setKeyframes:[{"transform":"translate(5px, 6px) scale(4)"}]',
-      'currentTime=0',
-      'play',
+      'setKeyframes:[{"transform":"translate(5px, 6px) scale(4)"},{"transform":"translate(5px, 6px) scale(4)"}]',
     ])
+    expect(chamadas.some((c) => c === 'play' || c.startsWith('currentTime='))).toBe(false)
     // sem contraEscala a var NUNCA é tocada (restyle dos descendentes por quadro)
     expect(el.style.getPropertyValue('--map-escala')).toBe('')
   })

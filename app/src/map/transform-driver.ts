@@ -78,22 +78,29 @@ export const driverEstilo: TransformDriver = {
 
 const animacoes = new WeakMap<HTMLElement, Animation>()
 
-/** Transform como animação de compositor: uma Animation por elemento, fill
- *  forwards de um quadro; cada quadro novo troca os keyframes e recomeça
- *  (exatamente o que foi medido). `encerrar` escreve o transform final no
- *  style ANTES de cancelar — sem flash do transform anterior ao gesto, e o
+/** Duração "infinita": a animação nunca termina nem reinicia durante o gesto. */
+const DURACAO_GESTO = 1e9
+
+/** Transform como animação de compositor: UMA Animation por elemento, de
+ *  duração infinita, cujos keyframes são trocados a cada quadro por um par
+ *  constante [{T},{T}] — o valor é T em qualquer progresso, sem interpolar
+ *  a partir do valor de partida e, o que importa, sem `play()`/`currentTime`:
+ *  reiniciar uma animação terminada a deixa PENDING (tempo 0 = valor de
+ *  partida) até o tick seguinte, e o compositor mostrava o mapa parado no
+ *  ponto inicial enquanto o dedo andava (relato "não parece nem um pouco
+ *  responsivo", PC/Firefox, 2026-09-29). `encerrar` escreve o transform final
+ *  no style ANTES de cancelar — sem flash do transform anterior ao gesto, e o
  *  motor pinta uma vez, nítido, na escala final. */
 export const driverCompositor: TransformDriver = {
   nome: 'compositor',
   aplicar(el, v, o) {
-    const keyframes = [{ transform: transformCss(v) }]
+    const t = transformCss(v)
+    const keyframes = [{ transform: t }, { transform: t }]
     const atual = animacoes.get(el)
     if (!atual) {
-      animacoes.set(el, el.animate(keyframes, { duration: 16, fill: 'forwards', easing: 'linear' }))
+      animacoes.set(el, el.animate(keyframes, { duration: DURACAO_GESTO, fill: 'forwards', easing: 'linear' }))
     } else {
       ;(atual.effect as KeyframeEffect | null)?.setKeyframes(keyframes)
-      atual.currentTime = 0
-      atual.play()
     }
     escreverVar(el, v, o)
   },

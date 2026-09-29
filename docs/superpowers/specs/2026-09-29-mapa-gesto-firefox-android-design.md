@@ -50,7 +50,7 @@ export function escolherDriver(pref: 'auto' | 'estilo' | 'compositor', amb = det
 ```
 
 - `estilo` = comportamento atual (escreve `style.transform`, `will-change: transform` durante o gesto). Chromium/WebKit e fallback.
-- `compositor` = uma `Animation` por elemento (`WeakMap`): primeira aplicação `el.animate([{ transform }], { duration: 16, fill: 'forwards', easing: 'linear' })`; seguintes `effect.setKeyframes([{ transform }])`, `currentTime = 0`, `play()` (exatamente o que foi medido). `encerrar`: escreve `style.transform` final **antes** de `cancel()` (sem flash do transform antigo; um paint nítido na escala final). Só é escolhido se `el.animate` e `KeyframeEffect.prototype.setKeyframes` existem.
+- `compositor` = uma `Animation` por elemento (`WeakMap`), de duração infinita (`1e9` ms, `fill: forwards`), com keyframes CONSTANTES `[{transform: T}, {transform: T}]` trocados por `effect.setKeyframes` a cada quadro — o valor é T em qualquer progresso. **Nunca** `play()`/`currentTime = 0` por quadro: o primeiro corte fazia isso (reiniciando uma animação de 16 ms já terminada) e o compositor mostrava o mapa parado no ponto inicial durante todo o arraste, só pulando no soltar (relato do usuário no PC/Firefox e reproduzido: leitura imediata do transform computado dava 0 px com o dedo já a 150 px; com keyframes constantes, erro 0). `encerrar`: escreve `style.transform` final **antes** de `cancel()` (sem flash do transform antigo; um paint nítido na escala final). Só é escolhido se `el.animate` e `KeyframeEffect.prototype.setKeyframes` existem.
 - `detectarAmbiente()`: Gecko = `/\bGecko\/\d/` no user-agent (Chromium/WebKit trazem "like Gecko", que não casa). Único ponto de detecção, documentado com as medições. Override de A/B pelo modo debug (§4.5).
 - `--map-escala` (contra-escala de rótulos) passa a ser escrita só quando o viewer pede (`useMapView({ contraEscala: true })`, MapaLocal): a var custa um restyle dos descendentes por quadro e /mapa, Exploração, editor e malha não a usam. Com `contraEscala` os DOIS drivers escrevem a var a cada quadro (os rótulos da POA continuam do tamanho certo durante o gesto, como hoje; o custo do restyle fica restrito a quem precisa).
 
@@ -90,7 +90,7 @@ Os scripts da investigação, limpos, no repo: sobem o build em `vite preview`, 
 ## 5. Critérios de aceite
 
 1. `tsc -b`, `vitest run` (exit code, com pipefail) e `vite build` verdes.
-2. Bancada no build: Firefox /mapa e Exploração — blobs por sequência ≤ 60 e paint por quadro ≤ 1,5 ms nos gestos 2–6; Chromium (Pixel 7, CPU 4×) — 0 frames dropados nos gestos 2–6. Comparação anti-vazamento: overlay assado × SVG em repouso com < 0,5% de pixels diferentes.
+2. Bancada no build: Firefox /mapa e Exploração — blobs por sequência ≤ 60 e paint por quadro ≤ 1,5 ms nos gestos 2–6; Chromium (Pixel 7, CPU 4×) — 0 frames dropados nos gestos 2–6. Comparação anti-vazamento: overlay assado × SVG em repouso com < 0,5% de pixels diferentes. **E o que o compositor mostra:** leitura do transform computado logo depois do rAF do hook, a cada quadro do arraste, tem que bater com o alvo (erro 0 px) — o perfil não vê uma animação que fica parada no valor de partida.
 3. Sem regressão de comportamento: clique em hex/pino, barra de info, gating por grupo, laço e arraste no editor, wheel/botões/reset, tela cheia, POA (MapaLocal com contra-escala) — cobertos pelos testes existentes.
 4. Deploy no GitHub Pages; validação final no aparelho pelo usuário com o modo debug (gesto: `gapMax`, `quadros`, `driver`). A PWA só atualiza depois de "Recarregar" no toast.
 
