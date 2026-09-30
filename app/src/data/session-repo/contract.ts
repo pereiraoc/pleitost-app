@@ -7,6 +7,7 @@
 // não importa módulos do plugin) e `EncounterDifficultyResult` reduzido ao
 // shape persistido (jsonb livre).
 import type { GroupState } from '../group-store' // extensão do app (#5, não vem do sync)
+import type { WorldId } from '../world'
 
 /* ── snapshot.ts ─────────────────────────────────────────────────────── */
 
@@ -204,6 +205,11 @@ export type GroupInventoryItem = GroupInvArma | GroupInvGear | GroupInvTesouro |
 
 export interface SessionState {
   turn?: { order: string[]; current: string }
+  /** #573: MUNDO da mesa (fantasia | cyberpunk). O servidor não tinha isso e
+   *  o espelho de outro aparelho caía como fantasia — uma mesa da POA 1987
+   *  aparecia na lista da fantasia. Criar carimba; o GM etiqueta mesa legada
+   *  com o mundo do registro local dele (updateSessionState, RLS gm-only). */
+  mundo?: WorldId
   /** Extensão do APP (#235): imagem da ficha do grupo da mesa (data-url
    *  comprimida) — qualquer integrante pode trocar; merge por chave. */
   grupoImagem?: string
@@ -341,7 +347,7 @@ export interface SessionEvent {
 /** Interface implementada pelo transporte. Quem consome NUNCA conhece
  *  Supabase — testes usam o InMemorySessionRepo. */
 export interface SessionRepo {
-  createSession(input: { name: string; gmUserId: string; code: string }): Promise<Session>
+  createSession(input: { name: string; gmUserId: string; code: string; state?: Partial<SessionState> }): Promise<Session>
   findSessionByCode(code: string): Promise<Session | null>
   /** Extensão do APP (#226, além do contrato do pleitost-sync): sessões
    *  ATIVAS em que o usuário é membro — alimenta a lista multi-dispositivo. */

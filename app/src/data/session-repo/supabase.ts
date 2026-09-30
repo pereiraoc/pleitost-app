@@ -140,10 +140,10 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
   }
 
   /* ── sessões ── */
-  async createSession(input: { name: string; gmUserId: string; code: string }): Promise<Session> {
+  async createSession(input: { name: string; gmUserId: string; code: string; state?: Partial<Session['state']> }): Promise<Session> {
     const { data, error } = await this.sb
       .from('sessions')
-      .insert({ name: input.name, gm_user_id: input.gmUserId, code: input.code.toUpperCase() })
+      .insert({ name: input.name, gm_user_id: input.gmUserId, code: input.code.toUpperCase(), state: input.state ?? {} })
       .select()
       .single()
     if (error) fail('createSession', error)

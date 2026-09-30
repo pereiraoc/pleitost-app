@@ -50,7 +50,7 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
   }
 
   /* ── sessões ── */
-  async createSession(input: { name: string; gmUserId: string; code: string }): Promise<Session> {
+  async createSession(input: { name: string; gmUserId: string; code: string; state?: Partial<Session['state']> }): Promise<Session> {
     for (const s of this.sessions.values()) {
       if (s.code === input.code) throw new SessionCodeCollisionError(input.code)
     }
@@ -59,7 +59,7 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
       code: input.code.toUpperCase(),
       gmUserId: input.gmUserId,
       name: input.name,
-      state: {},
+      state: structuredClone(input.state ?? {}),
       createdAt: now(),
       endedAt: null,
     }
@@ -200,7 +200,11 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     }
   }
   async findCharactersBySession(sessionId: string): Promise<SessionCharacter[]> {
-    return [...this.characters.values()].filter((c) => c.sessionId === sessionId)
+    // CLONES, como um transporte de rede: cada fetch devolve objetos novos.
+    // Devolver as instâncias internas (mutadas no lugar pelos updates)
+    // escondia bugs de efeito no cliente — `meuChar` nunca mudava de
+    // identidade e nem backflow nem publicação reagiam (#573).
+    return [...this.characters.values()].filter((c) => c.sessionId === sessionId).map((c) => structuredClone(c))
   }
   async findHeroiByMember(sessionId: string, memberId: string): Promise<SessionCharacter | null> {
     return (

@@ -131,3 +131,79 @@ describe('F1 — publicação vive no LiveSessionBridge (sem SessaoPage)', () =>
     expect((chars.find((c) => c.id === char.id)?.fmBlob as any)?.Inventario?.Ouro).toBe(999)
   })
 })
+
+describe('#573 — sem PING-PONG entre dois aparelhos do mesmo jogador', () => {
+  it('dano aplicado pela mesa faz backflow nos dois aparelhos e a publicação PARA (não re-publica o que já está no servidor)', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'PINGPO' })
+    await repo.insertMember({ sessionId: sess.id, userId: 'p1', role: 'player', displayName: 'Mera' })
+    const heroId = createLocalEntity('Heroi', 'Mera Local', {
+      ...emptyHeroFrontmatter(),
+      Interativa: { Recursos_Restantes: { Vitalidade: 13, Moral: 5, Moral_Temporaria: 0 } },
+    })
+    const char = await repo.insertCharacter({
+      sessionId: sess.id,
+      memberId: 'p1',
+      kind: 'heroi',
+      tutorCharacterId: null,
+      characterPath: heroId,
+      visibility: 'visible',
+      summary: { nome: 'Mera Local' } as never,
+      state: { recursosRestantes: { vitalidade: 13, moral: 5, moralTemp: 0 }, condicoesAtivas: {}, efeitosAtivos: {}, invocacoesAtivas: {} } as never,
+      fmBlob: {},
+    })
+    const local = createLocalSession('Mesa', null, 'gm')
+    updateSession(local.codigo, { remoteId: sess.id })
+    setActiveSessionCode(local.codigo)
+
+    const { setDebugOn, getLogs, clearLogs } = await import('../src/data/debug-log')
+    setDebugOn(true)
+    clearLogs()
+    const arvore = () => (
+      <CatalogProvider catalog={catalog}>
+        <SessionRepoProvider repo={repo} user={{ id: 'p1', nome: 'Mera' }}>
+          <MemoryRouter>
+            <LiveSessionBridge />
+          </MemoryRouter>
+        </SessionRepoProvider>
+      </CatalogProvider>
+    )
+    // dois "aparelhos" (celular + tablet) do MESMO jogador na MESMA mesa
+    render(arvore())
+    render(arvore())
+    await waitFor(() => expect(getLiveSession()?.characters.length).toBe(1))
+    // deixa os pushes de montagem assentarem
+    await new Promise((r) => setTimeout(r, 400))
+    const spy = vi.spyOn(repo, 'updateCharacterState')
+    const spyBusca = vi.spyOn(repo, 'findCharactersBySession')
+
+    // A MESA (GM) aplica dano: rev estrangeiro pros dois aparelhos (o write
+    // do próprio teste não conta como push dos aparelhos)
+    await repo.updateCharacterState(char.id, {
+      recursosRestantes: { vitalidade: 10, moral: 5, moralTemp: 0, rev: 'gm-dano-1' },
+    } as never)
+    spy.mockClear()
+
+    await new Promise((r) => setTimeout(r, 700))
+    const pushesA = spy.mock.calls.length
+    await new Promise((r) => setTimeout(r, 700))
+    const pushesB = spy.mock.calls.length
+    // o log do app conta a história: backflow nos dois, no máximo UMA
+    // re-publicação por aparelho (o state derivado completo), e depois
+    // "SEM MUDANÇA — pulado" — nunca o loop
+    const linhas = getLogs().map((l) => `${l.tag} ${l.msg}`)
+    setDebugOn(false)
+    expect(linhas.filter((l) => l.includes('backflow mesa→local rev=gm-dano-1')).length).toBe(2)
+    expect(linhas.some((l) => l.includes('SEM MUDANÇA — pulado'))).toBe(true)
+    // o backflow aconteceu (o local ficou com a vida da mesa)…
+    const { getLocalEntity } = await import('../src/data/local-entities')
+    const fm = getLocalEntity(heroId)!.frontmatter as Record<string, any>
+    expect(fm.Interativa.Recursos_Restantes.Vitalidade).toBe(10)
+    // …e a publicação PAROU: nada de ping-pong (com o bug, dezenas de pushes
+    // por segundo, um por aparelho por rodada, sem fim)
+    expect(pushesB).toBe(pushesA)
+    expect(pushesB).toBeLessThanOrEqual(2)
+    // e os refetches são coalescidos: um push (3 writes) não vira 3 buscas
+    expect(spyBusca.mock.calls.length).toBeLessThanOrEqual(6)
+  }, 20000)
+})

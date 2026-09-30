@@ -16,7 +16,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { useEntityImageUrl } from '../../data/images'
 import { useDocs } from '../../data/useDoc'
-import { isLocalId, setLocalEntityFm, useGroupMembers } from '../../data/local-entities'
+import { isLocalId, setLocalEntityFmMany, useGroupMembers } from '../../data/local-entities'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
 import { clip, PanelTrack } from '../ficha/bits'
@@ -78,7 +78,8 @@ import {
 import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
-import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
+import { getLocalDoc, localEntriesOfKind, localStoreVersion, useLocalStoreVersion } from '../../data/local-entities'
+import { activeWorld } from '../../data/world'
 import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../data/hero-store'
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
@@ -187,9 +188,20 @@ export function LiveSessionBridge() {
       .then((remotas) => {
         if (!alive) return
         for (const r of remotas) {
-          // espelho: não ressuscita mesa apagada nem escolhe mundo por ela
-          const local = espelharSessaoRemota(r.code)
-          if (local) updateSession(local.codigo, { nome: r.name, remoteId: r.id })
+          // espelho: não ressuscita mesa apagada; o MUNDO vem do servidor
+          // (#573 — sem isso a mesa da POA caía na lista da fantasia)
+          const mundoServidor = r.state?.mundo
+          const local = espelharSessaoRemota(r.code, mundoServidor)
+          if (!local) continue
+          const patch: Partial<SessionRec> = { nome: r.name, remoteId: r.id }
+          // registro local legado sem mundo adota o do servidor
+          if (mundoServidor && !local.world) patch.world = mundoServidor
+          updateSession(local.codigo, patch)
+          // mesa legada sem mundo no servidor: SÓ o GM (RLS) etiqueta com o
+          // mundo do registro local dele — os outros aparelhos adotam depois
+          if (!mundoServidor && local.world && r.gmUserId === user.id) {
+            void repo.updateSessionState(r.id, { mundo: local.world }).catch(() => {})
+          }
         }
       })
       .catch(() => {
@@ -230,7 +242,18 @@ export function LiveSessionBridge() {
       }
     }
     void refetch()
-    const off = repo.subscribe(remoteId, () => void refetch())
+    // #573: um push são 3 writes (state/summary/fmBlob) → 3 eventos → 3
+    // refetches por aparelho; coalescido numa busca só (o log do celular
+    // mostrava 10–15 refetches por segundo com a thread principal ocupada).
+    let agendado: ReturnType<typeof setTimeout> | null = null
+    const agendar = () => {
+      if (agendado) clearTimeout(agendado)
+      agendado = setTimeout(() => {
+        agendado = null
+        void refetch()
+      }, 120)
+    }
+    const off = repo.subscribe(remoteId, agendar)
     // #294: presença ao vivo — marca a minha presença e assina quem está
     // conectado agora (transporte local não tem presença → optional chaining).
     const offPresence = repo.subscribePresence?.(
@@ -240,6 +263,7 @@ export function LiveSessionBridge() {
     )
     return () => {
       alive = false
+      if (agendado) clearTimeout(agendado)
       off()
       offPresence?.()
       setConnectedUserIds([])
@@ -286,6 +310,38 @@ function localDocComEdits(hId: string): ReturnType<typeof getLocalDoc> {
   }
 }
 
+/** Fingerprints do que se publica (#573): state sem o rev (nonce por write),
+ *  summary e fmBlob em JSON de chaves ORDENADAS — o jsonb do servidor reordena
+ *  chaves, então stringify cru daria "diferente" pra conteúdo igual. */
+interface Fingerprints {
+  state: string
+  summary: string
+  fmBlob: string | null
+}
+function stableStringify(v: unknown): string {
+  if (v === null || typeof v !== 'object') return JSON.stringify(v)
+  if (Array.isArray(v)) return `[${v.map(stableStringify).join(',')}]`
+  const o = v as Record<string, unknown>
+  return `{${Object.keys(o)
+    .sort()
+    .filter((k) => o[k] !== undefined)
+    .map((k) => `${JSON.stringify(k)}:${stableStringify(o[k])}`)
+    .join(',')}}`
+}
+function fingerprintState(state: SessionCharacter['state']): string {
+  const rr = state.recursosRestantes ? { ...state.recursosRestantes } : state.recursosRestantes
+  if (rr && 'rev' in rr) delete (rr as { rev?: string }).rev
+  return stableStringify({ ...state, recursosRestantes: rr })
+}
+function fingerprintsDoServidor(c: SessionCharacter | null): Fingerprints | null {
+  if (!c) return null
+  return {
+    state: fingerprintState(c.state),
+    summary: stableStringify(c.summary),
+    fmBlob: c.fmBlob ? stableStringify(c.fmBlob) : null,
+  }
+}
+
 /** Publica/re-publica o MEU herói local na sala e mantém a vida fluindo.
  *  Dois caminhos de escrita alimentam o mesmo updateCharacterState:
  *  - herói LOCAL grava via setLocalEntityFm → observamos useLocalStoreVersion
@@ -305,6 +361,17 @@ function usePublicacao(
   // estrangeiros já aplicados no local (idempotência do backflow).
   const meusRevs = useRef(new Set<string>())
   const revsAplicados = useRef(new Set<string>())
+  // #573 (loop de sync entre dois aparelhos do mesmo jogador): a publicação
+  // é IDEMPOTENTE — só escreve o que MUDOU em relação ao último publicado
+  // (ou ao que o servidor já tem, na montagem). Sem isso, qualquer bump do
+  // store local re-publicava com rev novo; o outro aparelho via rev
+  // estrangeiro, fazia backflow (bump) e re-publicava… 10–15 refetches/s e
+  // pushes atrasados atropelando o dano da mesa.
+  const meuCharRef = useRef(meuChar)
+  meuCharRef.current = meuChar
+  const ultimoPublicado = useRef<Fingerprints | null>(null)
+  /** versão do store local logo depois de um backflow — esse bump não publica. */
+  const versaoDoBackflow = useRef<number | null>(null)
   // #323/#326: publica o STATE com o FM DERIVADO — o corrente de vida/moral cai no
   // MÁX quando ausente (ficha nova), e o máx vem das regras da classe, não do 0
   // do FM cru. Deriva (async, cacheado) antes de mandar.
@@ -318,26 +385,62 @@ function usePublicacao(
       pushLog('publish', `pushState ABORTADO: doc local ausente (${hId})`)
       return
     }
-    pushLog('publish', `pushState char=${cId} fmBlob=${publishFmBlob}`)
+    // rev do servidor no momento em que este push nasce: se um rev ESTRANGEIRO
+    // pousar enquanto derivamos (a mesa aplicou dano), o state daqui já está
+    // velho e NÃO pode atropelar — o backflow traz o valor novo e o próximo
+    // push publica o convergido.
+    const revBase = meuCharRef.current?.state.recursosRestantes?.rev
     void effectiveFmForPublish(doc, catalog).then((efm) => {
-      // rev do write (report 5464acaf): marca o state como NOSSO — o backflow
-      // ignora o echo e a mesa reconhece que uma escrita pousou.
       const state = buildCharacterState(doc, efm)
-      const rev = novoRev()
-      meusRevs.current.add(rev)
-      state.recursosRestantes.rev = rev
-      repo?.updateCharacterState(cId, state).catch(() => {})
+      const summary = buildCharacterSummary(doc, efm)
+      const fmBlob = publishFmBlob ? extractFmBlob(efm) : null
+      const fp: Fingerprints = {
+        state: fingerprintState(state),
+        summary: stableStringify(summary),
+        fmBlob: fmBlob ? stableStringify(fmBlob) : (ultimoPublicado.current?.fmBlob ?? null),
+      }
+      // base de comparação: o último que ESTE cliente publicou, senão o que o
+      // servidor já tem (montagem: publica a verdade local só se difere)
+      const base = ultimoPublicado.current ?? fingerprintsDoServidor(meuCharRef.current)
+      let stateMudou = !base || fp.state !== base.state
+      const summaryMudou = !base || fp.summary !== base.summary
+      const fmBlobMudou = !!fmBlob && (!base || fp.fmBlob !== base.fmBlob)
+      const revAgora = meuCharRef.current?.state.recursosRestantes?.rev
+      if (stateMudou && revAgora && revAgora !== revBase && !meusRevs.current.has(revAgora)) {
+        pushLog('publish', `pushState state DESCARTADO: a mesa escreveu no meio (rev ${revAgora}) — backflow assume`)
+        stateMudou = false
+        // a base passa a ser o que o servidor tem agora
+        const doServidor = fingerprintsDoServidor(meuCharRef.current)
+        if (doServidor) fp.state = doServidor.state
+      }
+      ultimoPublicado.current = fp
+      if (!stateMudou && !summaryMudou && !fmBlobMudou) {
+        pushLog('publish', `pushState char=${cId} SEM MUDANÇA — pulado`)
+        return
+      }
+      pushLog('publish', `pushState char=${cId} state=${stateMudou} summary=${summaryMudou} fmBlob=${fmBlobMudou}`)
+      if (stateMudou) {
+        // rev do write (report 5464acaf): marca o state como NOSSO — o backflow
+        // ignora o echo e a mesa reconhece que uma escrita pousou.
+        const rev = novoRev()
+        meusRevs.current.add(rev)
+        state.recursosRestantes.rev = rev
+        repo?.updateCharacterState(cId, state).catch(() => {})
+      }
       // #323/#326: RE-PUBLICA o SUMMARY (vida/defesas MÁX derivados). Heróis que
       // entraram na sessão ANTES do fix ficaram com o summary salvo no servidor
       // com máx 0 (→ "24/0", "0/0"); só o JOIN publicava summary. Ao dono abrir a
       // sessão, isto auto-corrige o registro no servidor.
-      repo?.updateCharacterSummary(cId, buildCharacterSummary(doc, efm)).catch(() => {})
+      if (summaryMudou) repo?.updateCharacterSummary(cId, summary).catch(() => {})
       // #bug-salvamento: re-publica o fmBlob (ouro/inventário/tesouros/etc.).
-      if (publishFmBlob) repo?.updateCharacterFmBlob(cId, extractFmBlob(efm)).catch(() => {})
+      if (fmBlobMudou && fmBlob) repo?.updateCharacterFmBlob(cId, fmBlob).catch(() => {})
     })
   }
   useEffect(() => {
     if (!repo || !sessionId || !charId || !heroId) return
+    // o bump causado pelo PRÓPRIO backflow não publica (o local acabou de
+    // receber o que o servidor já tem)
+    if (versaoDoBackflow.current === version) return
     pushState(charId, heroId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, repo, sessionId, charId, heroId])
@@ -376,10 +479,15 @@ function usePublicacao(
     if (decideBackflow({ rev: rr.rev, meusRevs: meusRevs.current, aplicados: revsAplicados.current }) !== 'aplicar') return
     revsAplicados.current.add(rr.rev!)
     pushLog('publish', `backflow mesa→local rev=${rr.rev} vit=${rr.vitalidade}`)
+    // depois do backflow o local ESPELHA o servidor: nada a publicar
+    ultimoPublicado.current = fingerprintsDoServidor(meuChar)
     if (isLocalId(heroId)) {
-      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Vitalidade', rr.vitalidade)
-      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Moral', rr.moral)
-      setLocalEntityFm(heroId, 'Interativa.Recursos_Restantes.Moral_Temporaria', rr.moralTemp)
+      setLocalEntityFmMany(heroId, [
+        ['Interativa.Recursos_Restantes.Vitalidade', rr.vitalidade],
+        ['Interativa.Recursos_Restantes.Moral', rr.moral],
+        ['Interativa.Recursos_Restantes.Moral_Temporaria', rr.moralTemp],
+      ])
+      versaoDoBackflow.current = localStoreVersion()
     } else {
       writeHeroEdit(heroId, 'fm', 'Interativa.Recursos_Restantes.Vitalidade', rr.vitalidade, { channel: 'imediato', origem: 'sync' })
       writeHeroEdit(heroId, 'fm', 'Interativa.Recursos_Restantes.Moral', rr.moral, { channel: 'imediato', origem: 'sync' })
@@ -2762,7 +2870,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
         return
       }
       try {
-        const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode() })
+        const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode(), state: { mundo: activeWorld() } })
         await repo.insertMember({ sessionId: sess.id, userId: user.id, role: 'gm', displayName: user.nome })
         const local = joinSessionByCode(sess.code, { adotarMundo: true })
         updateSession(local.codigo, { nome: sess.name, grupoId, mestre: user.nome, remoteId: sess.id })

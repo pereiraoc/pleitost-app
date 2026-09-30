@@ -153,3 +153,19 @@ describe('espelho das sessões do servidor', () => {
     expect(listSessions().map((s) => s.codigo)).toContain('NOVA01')
   })
 })
+
+describe('#573 — espelho do servidor carrega o MUNDO', () => {
+  it('sessão espelhada com mundo do servidor entra só na lista daquele mundo; sem mundo = fantasia (legado)', () => {
+    __resetSessionStoreForTests?.()
+    const poa = espelharSessaoRemota('DAMPGU', 'cyberpunk')
+    expect(poa?.world).toBe('cyberpunk')
+    const fant = espelharSessaoRemota('TQDMER', 'fantasia')
+    expect(fant?.world).toBe('fantasia')
+    const legado = espelharSessaoRemota('LEGADO')
+    expect(legado?.world).toBeUndefined()
+    expect(listSessions().map((s) => s.codigo).sort()).toEqual(['LEGADO', 'TQDMER'])
+    setContext('cyberpunk')
+    expect(listSessions().map((s) => s.codigo)).toEqual(['DAMPGU'])
+    setContext('fantasia')
+  })
+})

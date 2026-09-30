@@ -201,7 +201,7 @@ export function joinSessionByCode(codigo: string, opts?: { adotarMundo?: boolean
  *   - código com exclusão viva fica apagado (quem apaga é o dono da lista);
  *   - mesa desconhecida entra SEM carimbo de mundo (legado = fantasia) — só
  *     quem cria (ou entra digitando o código) sabe de que mundo ela é. */
-export function espelharSessaoRemota(codigo: string): SessionRec | null {
+export function espelharSessaoRemota(codigo: string, world?: WorldId): SessionRec | null {
   const existing = getSession(codigo)
   if (existing) return existing
   const cod = codigo.toUpperCase()
@@ -216,6 +216,9 @@ export function espelharSessaoRemota(codigo: string): SessionRec | null {
     round: 1,
     vezIdx: 0,
     claims: {},
+    // #573: o mundo vem do servidor (state.mundo); sem ele fica indefinido =
+    // fantasia (legado) até o GM etiquetar a mesa.
+    ...(world ? { world } : {}),
   }
   persist([rec, ...load()])
   return rec
