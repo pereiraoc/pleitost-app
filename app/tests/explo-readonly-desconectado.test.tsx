@@ -8,7 +8,7 @@
 // fora da sessão) mostra o caminho SOMENTE LEITURA (sem adicionar parada/
 // caminho, sem arrastar, sem remover, sem editar rótulo/data).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -114,6 +114,8 @@ describe('caminho SOMENTE LEITURA fora da mesa conectada', () => {
     expect(screen.queryByText(/\+ Adicionar Parada/)).toBeNull()
     expect(screen.queryByText(/\+ Adicionar Caminho/)).toBeNull()
     expect(container.querySelector('[data-drag-handle]')).toBeNull()
+    // nem o botão EDITAR (2026-09-30): leitura não tem modo de edição
+    expect(container.querySelector('[data-editar-trilha]')).toBeNull()
     // hint de leitura no lugar dos botões
     expect(screen.getByText(/SOMENTE LEITURA/)).toBeTruthy()
   }, 30000)
@@ -121,11 +123,13 @@ describe('caminho SOMENTE LEITURA fora da mesa conectada', () => {
   it('MESA CONECTADA: edição liberada (botões presentes — trap reverso)', async () => {
     setGroupStateFull(GRUPO_CARLOS, TRILHA)
     setLiveSession(liveMesa('s1'))
-    renderView(MESA_GRUPO_ID)
-    await waitFor(() => {
-      expect(screen.getByText(/\+ Adicionar Parada/)).toBeTruthy()
-      expect(screen.getByText(/\+ Adicionar Caminho/)).toBeTruthy()
-    })
+    const { container } = renderView(MESA_GRUPO_ID)
+    // conectado: o botão EDITAR aparece; os de adicionar só dentro do modo
+    await waitFor(() => expect(container.querySelector('[data-editar-trilha]')).toBeTruthy())
+    expect(screen.queryByText(/\+ Adicionar Parada/)).toBeNull()
+    fireEvent.click(container.querySelector('[data-editar-trilha]') as HTMLElement)
+    expect(screen.getByText(/\+ Adicionar Parada/)).toBeTruthy()
+    expect(screen.getByText(/\+ Adicionar Caminho/)).toBeTruthy()
     expect(screen.queryByText(/SOMENTE LEITURA/)).toBeNull()
   }, 30000)
 })

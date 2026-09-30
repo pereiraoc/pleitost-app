@@ -154,6 +154,11 @@ function mockMapaRect(container: HTMLElement, width = 400, height = 540) {
 const esperaMapa = async (container: HTMLElement) => {
   await waitFor(() => expect(container.querySelector('[data-mapa]')).toBeTruthy())
 }
+/** Edição da trilha vive atrás do botão EDITAR (pedido 2026-09-30): fora dele
+ *  não há adicionar/arrastar/inserir/remover. Os testes de mecânica entram. */
+const entrarEdicao = (container: HTMLElement) => {
+  fireEvent.click(container.querySelector('[data-editar-trilha]') as HTMLElement)
+}
 
 /** Crop da vista DEFAULT (Mundo Livre) — o painel mostra o mapa-múndi
  *  RECORTADO pela vista; cliques/coords do teste convertem pelo crop. */
@@ -485,6 +490,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('MARCAR HEX: clique destaca o HEX certo (col,row de pixelToHex) e abre o popover', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const mapa = mockMapaRect(container)
 
     fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
@@ -525,6 +531,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('#82 modo marcar: clicar de novo no MESMO hex REVISITA (2 paradas, não remove)', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const mapa = mockMapaRect(container)
     fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.click(mapa, { clientX: 100, clientY: 108 }) // cria 1ª
@@ -541,6 +548,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('#85 dois modos: CAMINHO adiciona vários hexes de rota; PARADA rotula pro log', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const mapa = mockMapaRect(container)
     // os dois botões existem na barra
     expect(container.querySelector('[data-add-parada]')).toBeTruthy()
@@ -572,6 +580,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('#85 parada SEM rótulo (pelo kind) já é relevante; caminho colapsa indentado abaixo', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const mapa = mockMapaRect(container)
     // 1 PARADA (sem rotular) e depois 2 pontos de CAMINHO
     fireEvent.click(container.querySelector('[data-add-parada]') as HTMLElement)
@@ -598,6 +607,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     addGroupHex(GROUP_ID, { col: 46, row: 7 })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
     expect(bar.querySelector('[data-marcar-hex]')).toBeTruthy()
   })
@@ -649,6 +659,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const c = addGroupHex(GROUP_ID, { col: 53, row: 14 })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
 
     // handles de arraste (um por parada), na ordem a,b,c
     expect(container.querySelectorAll('[data-drag-handle]').length).toBe(3)
@@ -679,6 +690,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const h2 = addGroupHex(GROUP_ID, { col: 48, row: 9, kind: 'caminho' })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
 
     // principal visível; hex-only colapsados (não renderizados como parada)
@@ -716,6 +728,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const h = addGroupHex(GROUP_ID, { col: 51, row: 12, data: '2026-07-01' })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container) // remover é ação de edição
     const mapa = mockMapaRect(container)
     clickHex(mapa, h) // abre o popover do hex marcado
     fireEvent.click(screen.getByLabelText('Remover hex'))
@@ -728,6 +741,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('persistência com remount: hex criado no clique sobrevive ao "reload"', async () => {
     const r = renderGroup()
     await esperaMapa(r.container)
+    entrarEdicao(r.container)
     const mapa = mockMapaRect(r.container)
     fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.click(mapa, { clientX: 200, clientY: 135 })
@@ -765,6 +779,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('wheel dá zoom com clamp [1,8]; drag faz pan e NÃO marca hex', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
     const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
     const mapa = mockMapaRect(container)
 
@@ -834,6 +849,7 @@ describe('#69 barra esquerda colapsável = caminho (add + reorder)', () => {
     const b = addGroupHex(GROUP_ID, { col: 49, row: 10 })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container)
 
     // paradas listadas NA ORDEM do caminho (data-order = índice)
     const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
@@ -1007,6 +1023,7 @@ describe('#71 token de grupo (moeda)', () => {
     const a = addGroupHex(GROUP_ID, { col: 48, row: 9 })
     const { container } = renderGroup()
     await esperaMapa(container)
+    entrarEdicao(container) // mover a moeda / adicionar parada é ação de edição
     const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
     mockMapaRect(container)
 
@@ -1060,5 +1077,42 @@ describe('#71 token de grupo (moeda)', () => {
     expect(imgLink.getAttribute('href')).toBe(docPath(KRASNOGOR_ID))
     const img = imgLink.querySelector('img') as HTMLImageElement
     expect(decodeURIComponent(img.getAttribute('src') ?? '')).toContain('Krasnogor.png')
+  })
+})
+
+describe('modo EDITAR da trilha (pedido 2026-09-30)', () => {
+  it('fora do modo: só o botão EDITAR — sem adicionar, arrastar, inserir; EDITAR abre os dois botões + CONCLUIR; CONCLUIR fecha e desliga o modo de marcar', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-01-01', label: 'A' })
+    addGroupHex(GROUP_ID, { col: 4, row: 3, data: '2026-01-02', label: 'B' })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    expect(container.querySelector('[data-editar-trilha]')).toBeTruthy()
+    expect(container.querySelector('[data-add-parada]')).toBeNull()
+    expect(container.querySelector('[data-add-caminho]')).toBeNull()
+    expect(container.querySelector('[data-concluir-edicao]')).toBeNull()
+    expect(container.querySelector('[data-drag-handle]')).toBeNull()
+    expect(container.querySelector('[data-insert-at]')).toBeNull()
+    // clicar num hex marcado fora do modo abre o popover, mas sem o × de remover
+    fireEvent.click(container.querySelector(`[data-parada="${a.id}"]`) as HTMLElement)
+    expect(container.querySelector('[data-hex-remover]')).toBeNull()
+
+    entrarEdicao(container)
+    expect(container.querySelector('[data-editar-trilha]')).toBeNull()
+    expect(container.querySelector('[data-add-parada]')).toBeTruthy()
+    expect(container.querySelector('[data-add-caminho]')).toBeTruthy()
+    expect(container.querySelector('[data-concluir-edicao]')).toBeTruthy()
+    expect(container.querySelectorAll('[data-drag-handle]').length).toBe(2)
+    fireEvent.click(container.querySelector('[data-add-parada]') as HTMLElement)
+    expect((container.querySelector('[data-add-parada]') as HTMLElement).getAttribute('aria-pressed')).toBe('true')
+
+    fireEvent.click(container.querySelector('[data-concluir-edicao]') as HTMLElement)
+    expect(container.querySelector('[data-editar-trilha]')).toBeTruthy()
+    expect(container.querySelector('[data-add-parada]')).toBeNull()
+    expect(container.querySelector('[data-drag-handle]')).toBeNull()
+    // o modo de marcar foi desligado junto: clicar no mapa NÃO cria parada
+    const mapa = mockMapaRect(container)
+    const antes = getGroupState(GROUP_ID).hexes.length
+    fireEvent.click(mapa, { clientX: 300, clientY: 100 })
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(antes)
   })
 })

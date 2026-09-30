@@ -417,6 +417,9 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
 function LeftBar({
   groupId,
   readOnly,
+  podeEditar,
+  onEditar,
+  onConcluir,
   state,
   hexMap,
   collapsed,
@@ -430,6 +433,10 @@ function LeftBar({
 }: {
   groupId: string
   readOnly?: boolean
+  /** Modo EDITAR ligado (e não readOnly): arrastar, inserir, remover, adicionar. */
+  podeEditar: boolean
+  onEditar: () => void
+  onConcluir: () => void
   state: GroupState
   hexMap: HexMapCell[]
   collapsed: boolean
@@ -537,7 +544,7 @@ function LeftBar({
           }}
         >
           <span
-            {...(readOnly
+            {...(!podeEditar
               ? {}
               : {
                   'data-drag-handle': h.id,
@@ -588,7 +595,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
-          {readOnly ? null : (
+          {!podeEditar ? null : (
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -618,7 +625,7 @@ function LeftBar({
    *  dica; some durante um arraste. Só aparece DENTRO de um caminho expandido
    *  (`indent`), pra inserir uma parada num ponto específico da rota. */
   const insertRow = (index: number, indent = false) =>
-    readOnly ? null : (
+    !podeEditar ? null : (
     <button
       key={`ins-${index}`}
       data-insert-at={index}
@@ -822,6 +829,15 @@ function LeftBar({
             <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center', padding: '4px 0' }}>
               {'// SOMENTE LEITURA — EDITE PELA MESA'}
             </span>
+          ) : !podeEditar ? (
+            /* pedido 2026-09-30: fora do modo EDITAR só leitura — um botão só */
+            <button
+              data-editar-trilha=""
+              onClick={onEditar}
+              style={{ ...pillStyle(false), width: '100%', justifyContent: 'center', padding: '8px 12px', fontSize: 11 }}
+            >
+              ✎ Editar
+            </button>
           ) : (
           <>
           <button
@@ -860,6 +876,13 @@ function LeftBar({
                 : 'toque os hexes da rota em sequência (pode repetir) · × remove'}
             </span>
           ) : null}
+          <button
+            data-concluir-edicao=""
+            onClick={onConcluir}
+            style={{ ...pillStyle(true), width: '100%', justifyContent: 'center', padding: '8px 12px', fontSize: 11 }}
+          >
+            ✓ Concluir
+          </button>
           </>
           )}
         </div>
@@ -935,6 +958,11 @@ export function PanelExploracao({
   // #85: dois modos de marcação — 'parada' (ponto importante, rotulável) e
   // 'caminho' (rota: toca vários hexes seguidos, mesmo sem ponto de interesse).
   const [addMode, setAddMode] = useState<AddMode>('off')
+  /** Modo EDITAR da trilha (pedido 2026-09-30): fora dele, o painel é só
+   *  leitura mesmo na mesa conectada — nada de adicionar, arrastar, inserir,
+   *  remover ou mover o token. CONCLUIR desliga tudo junto. */
+  const [editando, setEditando] = useState(false)
+  const podeEditar = !readOnly && editando
   /** Posição do caminho onde a próxima parada marcada será INSERIDA (#82); null
    *  = anexa no fim. */
   const [insertAt, setInsertAt] = useState<number | null>(null)
@@ -1101,7 +1129,7 @@ export function PanelExploracao({
       return
     }
     const existente = hexAt(state.hexes, cell.col, cell.row)
-    if (addMode !== 'off' && !readOnly) {
+    if (addMode !== 'off' && podeEditar) {
       // #82/#85: SEMPRE adiciona (revisitar é permitido — allowDup). Remover é
       // pelo × na lista. Com posição de inserção escolhida, insere lá. O `kind`
       // vem do MODO (parada = marco; caminho = rota).
@@ -1129,7 +1157,7 @@ export function PanelExploracao({
   // ── Token / moeda (#71) — arrastar e soltar ────────────────────────────────
   const onTokenPointerDown = (e: React.PointerEvent) => {
     e.stopPropagation()
-    if (readOnly) return
+    if (!podeEditar) return
     tokenDragRef.current = true
     setTokenDropCell(atual ? { col: atual.col, row: atual.row } : null)
     ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
@@ -1153,7 +1181,7 @@ export function PanelExploracao({
     }
   }
   const confirmarParada = () => {
-    if (readOnly || !tokenDropCell) return
+    if (!podeEditar || !tokenDropCell) return
     const nova = { col: tokenDropCell.col, row: tokenDropCell.row, data: todayISO(), kind: 'parada' as const }
     // allowDup: revisitar o mesmo lugar é permitido (#82).
     const criado =
@@ -1228,6 +1256,14 @@ export function PanelExploracao({
         <LeftBar
           groupId={groupId}
           readOnly={readOnly}
+          podeEditar={podeEditar}
+          onEditar={() => setEditando(true)}
+          onConcluir={() => {
+            setEditando(false)
+            setAddMode('off')
+            setInsertAt(null)
+            setTokenDropCell(null)
+          }}
           state={state}
           hexMap={hexMap}
           collapsed={leftCollapsed}
@@ -1602,7 +1638,7 @@ export function PanelExploracao({
         <HexInfo
           key={selecionado.id}
           groupId={groupId}
-          readOnly={readOnly}
+          readOnly={!podeEditar}
           hex={selecionado}
           hexMap={hexMap}
           atual={selecionado.id === atual?.id}

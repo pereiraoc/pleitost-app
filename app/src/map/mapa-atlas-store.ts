@@ -74,6 +74,12 @@ export interface MapaAtlasState {
 export const DEFAULT_VIEWER = 'default'
 
 const STORE_KEY = 'pleitost.mapaAtlas'
+/** Última config da MESA vista por este aparelho (jogador). Não é autoria
+ *  local (não conta em mapaAtlasFoiEditadoLocalmente): serve pro viewer
+ *  desconectado continuar vendo o que o mestre habilitou — antes ele caía
+ *  no seed local e via TUDO coberto (relato 2026-09-30). */
+const MESA_KEY = 'pleitost.mapaAtlas.mesa'
+let memoriaMesa: MapaAtlasState | null | undefined
 
 let memory: MapaAtlasState | null = null
 const listeners = new Set<() => void>()
@@ -452,4 +458,28 @@ export function pinVisivel(pin: MapaPin, desabilitadas: MapaRegiao[]): boolean {
 /** SÓ testes: zera a memória (simula reload). */
 export function __resetMapaAtlasForTests(): void {
   memory = null
+  memoriaMesa = undefined
+}
+
+/** Guarda a config da mesa (state.mapaAtlas) que o jogador conectado está vendo. */
+export function lembrarMesa(raw: unknown): void {
+  const s = sanitize(raw)
+  memoriaMesa = s
+  try {
+    storage()?.setItem(MESA_KEY, mapaAtlasJson(s))
+  } catch {
+    /* sem storage — fica só em memória */
+  }
+}
+
+/** A última config da mesa lembrada, ou null se este aparelho nunca viu uma. */
+export function ultimaMesaLembrada(): MapaAtlasState | null {
+  if (memoriaMesa !== undefined) return memoriaMesa
+  try {
+    const raw = storage()?.getItem(MESA_KEY)
+    memoriaMesa = raw ? sanitize(JSON.parse(raw)) : null
+  } catch {
+    memoriaMesa = null
+  }
+  return memoriaMesa
 }

@@ -10,10 +10,12 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import {
+  lembrarMesa,
   mapaAtlasFoiEditadoLocalmente,
   mapaAtlasJson,
   sanitize,
   setMapaAtlasFull,
+  ultimaMesaLembrada,
   useMapaAtlas,
   type MapaAtlasState,
 } from './mapa-atlas-store'
@@ -30,7 +32,17 @@ export function useMapaAtlasSync(mestre: boolean): MapaAtlasSync {
   const repo = useSessionRepo()
   const local = useMapaAtlas()
   const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas']
-  const cfg = useMemo(() => (!mestre && remoto ? sanitize(remoto) : local), [mestre, remoto, local])
+  // Jogador: conectado = mesa; desconectado = a ÚLTIMA mesa que viu (senão o
+  // local/seed). Mestre: sempre o local (autoria).
+  const cfg = useMemo(
+    () => (mestre ? local : remoto ? sanitize(remoto) : (ultimaMesaLembrada() ?? local)),
+    [mestre, remoto, local],
+  )
+  // MEMÓRIA DA MESA (jogador): lembra a config vista pra usar offline.
+  useEffect(() => {
+    if (mestre || !remoto) return
+    lembrarMesa(remoto)
+  }, [mestre, remoto])
 
   // ADOÇÃO (#423/#424): mestre SEM edição própria importa o mapa da mesa 1×.
   useEffect(() => {
