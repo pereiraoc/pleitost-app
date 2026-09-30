@@ -198,7 +198,9 @@ export function AtlasMapaPage() {
     srcBase: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
     srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
     srcAssado: assado.src,
+    exigirAssado: mapaDebug.assar,
   })
+  const preparandoMapa = !!overlayEntry && desabilitadas.length > 0 && !camadas.estado.imgVisivel
 
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
@@ -465,6 +467,7 @@ export function AtlasMapaPage() {
           </div>
         )}
         <MapControls map={map} />
+        {preparandoMapa ? <AvisoPreparandoMapa /> : null}
         {/* Barra de INFO do hex — PRIMEIRO o que está NESTE hex (a cidade que
             mora só ali, cor de destaque), depois as áreas/região que o
             englobam. Componente compartilhado com a exploração dos grupos
@@ -806,6 +809,30 @@ function AtlasNoMapa({
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 420, overflowY: 'auto' }}>
         {arvore.roots.map((id) => linha(id, 0))}
       </div>
+    </div>
+  )
+}
+
+/** Enquanto o bitmap com o overlay anti-spoiler não está na tela, o mapa
+ *  fica escondido (nunca o base nu) — este aviso ocupa o lugar. */
+export function AvisoPreparandoMapa() {
+  return (
+    <div
+      data-mapa-preparando=""
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        fontFamily: 'var(--mono)',
+        fontSize: 11,
+        letterSpacing: '.14em',
+        color: 'var(--muted)',
+      }}
+    >
+      PREPARANDO O MAPA…
     </div>
   )
 }

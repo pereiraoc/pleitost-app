@@ -25,10 +25,15 @@ export interface Tamanho {
   h: number
 }
 
-export function tamanhoDoAssado(naturalW: number, naturalH: number): Tamanho {
+/** Lado maior da SEGUNDA tentativa, quando a primeira falha (memória do
+ *  celular: canvas + dois bitmaps de 45 MB). Menos nítido em zoom alto, mas
+ *  assado — e sem assado o mapa não aparece pra quem tem região escondida. */
+export const ASSADO_LADO_RESERVA = 2048
+
+export function tamanhoDoAssado(naturalW: number, naturalH: number, ladoMax: number = ASSADO_LADO_MAX): Tamanho {
   const maior = Math.max(naturalW, naturalH)
-  if (maior <= ASSADO_LADO_MAX) return { w: naturalW, h: naturalH }
-  const f = ASSADO_LADO_MAX / maior
+  if (maior <= ladoMax) return { w: naturalW, h: naturalH }
+  const f = ladoMax / maior
   return { w: Math.round(naturalW * f), h: Math.round(naturalH * f) }
 }
 
@@ -165,9 +170,8 @@ async function codificar(paraBlob: (tipo: string, q: number) => Promise<Blob | n
   return paraBlob('image/jpeg', 0.92)
 }
 
-async function assar(srcMapa: string, srcOverlay: string, fonte: Tamanho, aneis: MapaPonto[][]): Promise<string | null> {
-  const [mapaEl, overlayEl] = await Promise.all([carregar(srcMapa), carregar(srcOverlay)])
-  const bitmap = tamanhoDoAssado(mapaEl.naturalWidth, mapaEl.naturalHeight)
+async function assarEm(mapaEl: HTMLImageElement, overlayEl: HTMLImageElement, fonte: Tamanho, aneis: MapaPonto[][], ladoMax: number): Promise<string | null> {
+  const bitmap = tamanhoDoAssado(mapaEl.naturalWidth, mapaEl.naturalHeight, ladoMax)
   if (!bitmap.w || !bitmap.h) return null
   const [mapa, overlay] = await Promise.all([bitmapDe(mapaEl, bitmap), bitmapDe(overlayEl, bitmap)])
   try {
@@ -182,6 +186,17 @@ async function assar(srcMapa: string, srcOverlay: string, fonte: Tamanho, aneis:
     fechar(mapa)
     fechar(overlay)
   }
+}
+
+async function assar(srcMapa: string, srcOverlay: string, fonte: Tamanho, aneis: MapaPonto[][]): Promise<string | null> {
+  const [mapaEl, overlayEl] = await Promise.all([carregar(srcMapa), carregar(srcOverlay)])
+  try {
+    const url = await assarEm(mapaEl, overlayEl, fonte, aneis, ASSADO_LADO_MAX)
+    if (url) return url
+  } catch {
+    /* sem memória pro bitmap grande — tenta menor */
+  }
+  return assarEm(mapaEl, overlayEl, fonte, aneis, ASSADO_LADO_RESERVA)
 }
 
 export interface UseMapaAssadoArgs {

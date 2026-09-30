@@ -23,6 +23,11 @@ export interface EntradaCamadas {
   assadoNaTela: string | null
   /** o <image> do overlay montado agora já disparou load. */
   overlayCarregado: boolean
+  /** Padrão true: com região escondida o base SÓ aparece com o assado na
+   *  tela — o overlay em SVG dentro do transform animado pisca no gesto
+   *  (Gecko: tile do blob ainda não pronto) e mostra o base por baixo
+   *  (relato 2026-09-30). false = caminho antigo (A/B `assar` desligado). */
+  exigirAssado?: boolean
 }
 
 export interface EstadoCamadas {
@@ -34,9 +39,11 @@ export interface EstadoCamadas {
 export function estadoDasCamadas(e: EntradaCamadas): EstadoCamadas {
   if (!e.precisaOverlay) return { imgSrc: e.srcBase, imgVisivel: true, mostrarOverlaySvg: false }
   if (e.srcAssado && e.assadoNaTela === e.srcAssado) return { imgSrc: e.srcAssado, imgVisivel: true, mostrarOverlaySvg: false }
-  // ainda sem assado na tela: o SVG cobre; o <img> (base, ou o assado
-  // carregando por cima do base) só aparece com o overlay carregado
-  return { imgSrc: e.srcAssado ?? e.srcBase, imgVisivel: e.overlayCarregado, mostrarOverlaySvg: true }
+  // ainda sem assado na tela: o SVG segue montado como defesa, mas o <img>
+  // fica escondido até o assado estar na tela (padrão) — ou, no caminho
+  // antigo, até o overlay carregar
+  const exigir = e.exigirAssado !== false
+  return { imgSrc: e.srcAssado ?? e.srcBase, imgVisivel: exigir ? false : e.overlayCarregado, mostrarOverlaySvg: true }
 }
 
 export interface UseCamadasOverlay {
@@ -52,11 +59,12 @@ export function useCamadasOverlay(args: {
   srcBase: string | null
   srcOverlay: string | null
   srcAssado: string | null
+  exigirAssado?: boolean
 }): UseCamadasOverlay {
-  const { precisaOverlay, srcBase, srcOverlay, srcAssado } = args
+  const { precisaOverlay, srcBase, srcOverlay, srcAssado, exigirAssado } = args
   const [assadoNaTela, setAssadoNaTela] = useState<string | null>(null)
   const [overlayCarregado, setOverlayCarregado] = useState(false)
-  const estado = estadoDasCamadas({ precisaOverlay, srcBase, srcAssado, assadoNaTela, overlayCarregado })
+  const estado = estadoDasCamadas({ precisaOverlay, srcBase, srcAssado, assadoNaTela, overlayCarregado, exigirAssado })
 
   // Cada (re)montagem do <image> do overlay — ou troca do seu src — zera o
   // "carregou": em layout effect, antes de qualquer evento load chegar.

@@ -76,6 +76,7 @@ let imagens: ImagemFalsa[] = []
 let falhar = new Set<string>()
 let tipoDevolvido = 'image/webp'
 let canvases: Array<{ w: number; h: number; ctx: ReturnType<typeof contextoFalso>; toBlob: unknown }> = []
+let falharCanvasGrande = false
 let urls: string[] = []
 let revogadas: string[] = []
 
@@ -83,6 +84,7 @@ beforeEach(() => {
   imagens = []
   falhar = new Set()
   tipoDevolvido = 'image/webp'
+  falharCanvasGrande = false
   canvases = []
   urls = []
   revogadas = []
@@ -117,7 +119,11 @@ beforeEach(() => {
       get width() { return c.w },
       set height(v: number) { c.h = v },
       get height() { return c.h },
-      getContext: () => c.ctx.ctx,
+      getContext: () => {
+        // simula falta de memória pra bitmap grande no celular
+        if (falharCanvasGrande && c.w > 2048) throw new Error('out of memory')
+        return c.ctx.ctx
+      },
       toBlob: (cb: (b: Blob | null) => void, tipo: string) => {
         const t = tipo === 'image/webp' ? tipoDevolvido : tipo
         cb(new Blob(['x'], { type: t }))
@@ -200,5 +206,19 @@ describe('#573 — useMapaAssado', () => {
     const { result } = renderHook(() => useMapaAssado({ ...base, ativo: true, aneis: [] }))
     await esperar()
     expect(result.current.src).toBeNull()
+  })
+})
+
+describe('#573 — assado resiliente', () => {
+  const base = { srcMapa: '/m.webp', srcOverlay: '/o.webp', fonteW: 4000, fonteH: 2829, aneis: [anelA] }
+  it('se o bitmap grande falha (memória do celular), tenta de novo com lado maior 2048 e entrega', async () => {
+    falharCanvasGrande = true
+    const { result } = renderHook(() => useMapaAssado({ ...base, ativo: true }))
+    await esperar()
+    await esperar()
+    expect(canvases.length).toBe(2)
+    expect(canvases[0]!.w).toBe(4000)
+    expect(canvases[1]!.w).toBe(2048)
+    expect(result.current.src).toMatch(/^blob:/)
   })
 })

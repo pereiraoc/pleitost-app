@@ -53,6 +53,7 @@ import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
+import { AvisoPreparandoMapa } from '../components/compendium/AtlasMapaPage'
 import { GradeCanvas } from '../map/GradeCanvas'
 import { escolherGrade, useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
@@ -1023,7 +1024,9 @@ export function PanelExploracao({
     srcBase: mapEntry ? (imagemMapa.src ?? assetUrl(mapEntry)) : null,
     srcOverlay: overlayEntry ? (imagemOverlay.src ?? assetUrl(overlayEntry)) : null,
     srcAssado: assado.src,
+    exigirAssado: mapaDebug.assar,
   })
+  const preparandoMapa = !!overlayEntry && desabilitadas.length > 0 && !camadas.estado.imgVisivel
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
@@ -1540,6 +1543,7 @@ export function PanelExploracao({
 
           {/* #80 Controles de tela cheia + zoom sobrepostos */}
           {mapEntry ? <MapControls map={map} /> : null}
+          {mapEntry && preparandoMapa ? <AvisoPreparandoMapa /> : null}
 
           {/* #71 Botão "Adicionar parada" (após soltar o token numa célula nova) */}
           {podeAdicionar ? (
