@@ -10,6 +10,7 @@ import { act, render } from '@testing-library/react'
 import {
   celulasVisiveis,
   desenharGrade,
+  dprParaGrade,
   fonteParaTela,
   prepararGrade,
   retanguloFonteVisivel,
@@ -179,5 +180,18 @@ describe('#573 — GradeCanvas', () => {
     act(() => map.quadro({ scale: 1.4, tx: 0, ty: 0 }))
     act(() => { vi.advanceTimersByTime(20) })
     expect(chamadas.filter((c) => c === 'stroke').length).toBe(n0 + 2)
+  })
+})
+
+describe('#573 — dprParaGrade (resolução do canvas durante o gesto)', () => {
+  it('em repouso usa o DPR da tela; no gesto limita o bitmap a ~1,2 Mpx (nunca abaixo de 1)', () => {
+    expect(dprParaGrade(2.6, 346, 902, false)).toBe(2.6)
+    const noGesto = dprParaGrade(2.6, 346, 902, true)
+    expect(noGesto).toBeLessThan(2.6)
+    expect(noGesto * 346 * (noGesto * 902)).toBeLessThanOrEqual(1.2e6 + 1)
+    expect(dprParaGrade(1, 346, 902, true)).toBe(1)
+    // viewport pequena não precisa limitar
+    expect(dprParaGrade(2, 400, 300, true)).toBe(2)
+    expect(dprParaGrade(3, 2000, 1500, true)).toBe(1)
   })
 })

@@ -180,7 +180,7 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
   /** Resumo do gesto pro log de debug (#572): quantas entradas chegaram,
    *  quantos quadros o rAF pintou e o maior buraco entre eles — é o que
    *  distingue "o evento não chega" de "o quadro não sai" no aparelho. */
-  const gestoStats = useRef<{ t0: number; entradas: number; quadros: number; tQuadro: number; gapMax: number; gapSoma: number; escala0: number } | null>(null)
+  const gestoStats = useRef<{ t0: number; entradas: number; quadros: number; tQuadro: number; gapMax: number; gapSoma: number; escala0: number; handlerMs: number; handlerMax: number } | null>(null)
   /** Driver do transform (#573): escolhido no início de cada gesto (a pref do
    *  modo debug pode mudar entre gestos); estilo direto fora de gesto. */
   const driverRef = useRef<TransformDriver | null>(null)
@@ -253,15 +253,23 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
     liveRef.current = next
     if (!gestoRef.current) {
       gestoRef.current = true
-      gestoStats.current = { t0: agora(), entradas: 0, quadros: 0, tQuadro: 0, gapMax: 0, gapSoma: 0, escala0: anterior.scale }
+      gestoStats.current = { t0: agora(), entradas: 0, quadros: 0, tQuadro: 0, gapMax: 0, gapSoma: 0, escala0: anterior.scale, handlerMs: 0, handlerMax: 0 }
       driverRef.current = escolherDriver(lerMapaDebug().driver, undefined, mapRef.current)
     }
     const st = gestoStats.current
     if (st) st.entradas++
     const el = mapRef.current
+    const tIni = agora()
     if (el) {
       ;(driverRef.current ?? escolherDriver(lerMapaDebug().driver, undefined, el)).aplicar(el, next, { contraEscala })
       notificarQuadro(next)
+    }
+    // tempo gasto AQUI (driver + assinantes do quadro) — separa "nosso JS"
+    // de "pipeline do navegador" no log do aparelho
+    if (st) {
+      const d = agora() - tIni
+      st.handlerMs += d
+      if (d > st.handlerMax) st.handlerMax = d
     }
     if (rafRef.current === null && typeof requestAnimationFrame === 'function') {
       rafRef.current = requestAnimationFrame(() => {
@@ -304,6 +312,8 @@ export function useMapView(opts: UseMapViewOpts = {}): UseMapView {
         quadros: st.quadros,
         gapMedio: st.quadros > 1 ? Math.round(st.gapSoma / (st.quadros - 1)) : 0,
         gapMax: Math.round(st.gapMax),
+        handlerMs: Math.round(st.handlerMs),
+        handlerMax: Number(st.handlerMax.toFixed(1)),
         escala: [Number(st.escala0.toFixed(2)), Number(liveRef.current.scale.toFixed(2))],
         dpr: typeof devicePixelRatio === 'number' ? devicePixelRatio : 1,
         vp: viewportElRef.current ? `${viewportElRef.current.clientWidth}x${viewportElRef.current.clientHeight}` : '?',

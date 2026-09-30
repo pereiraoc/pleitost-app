@@ -4,7 +4,7 @@
 // log `mapa/gesto` (que carrega os três valores). Persistido em localStorage;
 // leitura tolerante (chave ausente/corrompida → padrões).
 import { useSyncExternalStore } from 'react'
-import { detectarAmbiente, geckoMovel, type Ambiente, type DriverPref } from './transform-driver'
+import { detectarAmbiente, type Ambiente, type DriverPref } from './transform-driver'
 
 const CHAVE = 'pleitost.debug.mapa'
 const EVENTO = 'pleitost:mapa-debug'
@@ -22,14 +22,19 @@ export const MAPA_DEBUG_PADRAO: MapaDebug = { driver: 'auto', assar: true, grade
 const DRIVERS = new Set<string>(['auto', 'estilo', 'compositor'])
 const GRADES = new Set<string>(['auto', 'canvas', 'svg'])
 
-/** Onde a grade é desenhada, por motor: no Gecko o path no SVG transformado
- *  é o blob mais caro a re-rasterizar por quadro → canvas de tela; no
- *  Chromium o SVG dentro da camada composta não custa nada por quadro e o
- *  canvas redesenhado a cada quadro custa (DoUpdateLayers, medido 2026-09-29)
- *  → SVG. `auto` escolhe isso; canvas/svg forçam (A/B no aparelho). */
-export function escolherGrade(pref: GradePref, ambiente: Ambiente = detectarAmbiente()): 'canvas' | 'svg' {
+/** Onde a grade é desenhada. `auto` = SVG em todo motor: no Chromium o SVG
+ *  dentro da camada composta não custa nada por quadro (o canvas redesenhado
+ *  custa DoUpdateLayers); no Gecko, com o transform pelo compositor (driver),
+ *  o path no SVG deixou de ser re-rasterizado por quadro (0 blobs na
+ *  bancada), e o CANVAS passou a ser o custo dominante no celular: o log do
+ *  aparelho (2026-09-30, Firefox Android) mostrou 26–43 ms/quadro em zoom
+ *  2,3× e 17–24 ms em 3,85× — menos hexes visíveis, menos custo — a
+ *  assinatura do stroke + upload do canvas por quadro. O canvas fica como
+ *  A/B (`grade: canvas`) e como saída se algum aparelho recusar a animação
+ *  de compositor (aí o blob do SVG volta e o canvas é o remédio). */
+export function escolherGrade(pref: GradePref, _ambiente: Ambiente = detectarAmbiente()): 'canvas' | 'svg' {
   if (pref === 'canvas' || pref === 'svg') return pref
-  return geckoMovel(ambiente) ? 'canvas' : 'svg'
+  return 'svg'
 }
 
 function sanitizar(raw: unknown): MapaDebug {

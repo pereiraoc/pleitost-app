@@ -120,6 +120,18 @@ function visiveisPreparadas(celulas: readonly CelulaPreparada[], ret: Fonte, mar
   return out
 }
 
+/** Teto de pixels do bitmap do canvas DURANTE o gesto (~1,2 Mpx): num
+ *  celular a 346×902 CSS px com DPR 2,6 o canvas cheio tem 2,1 Mpx pra
+ *  limpar, traçar e subir pra GPU a cada quadro; em repouso volta ao DPR
+ *  inteiro (linha nítida). */
+export const GRADE_PIXELS_GESTO = 1.2e6
+
+export function dprParaGrade(dpr: number, vpW: number, vpH: number, emGesto: boolean): number {
+  if (!emGesto || vpW <= 0 || vpH <= 0) return dpr
+  const teto = Math.sqrt(GRADE_PIXELS_GESTO / (vpW * vpH))
+  return Math.max(1, Math.min(dpr, teto))
+}
+
 export interface EstiloGrade {
   cor: string
   alpha: number

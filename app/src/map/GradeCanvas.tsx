@@ -8,7 +8,7 @@
 // `data-grade-hexes`) e não desenha.
 import { useEffect, useMemo, useRef, type CSSProperties } from 'react'
 import type { MapView, UseMapView } from './useMapView'
-import { desenharGrade, prepararGrade, type Celula, type Fonte, type Ponto } from './grade-tela'
+import { desenharGrade, dprParaGrade, prepararGrade, type Celula, type Fonte, type Ponto } from './grade-tela'
 
 const COR_PADRAO = '#ff7a00'
 
@@ -32,6 +32,8 @@ export function GradeCanvas({
   const ref = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number | null>(null)
   const viewRef = useRef<MapView>(map.view)
+  /** quadro vindo do relógio do gesto (resolução limitada) ou commit (cheia) */
+  const emGestoRef = useRef(false)
   // vértices e caixas calculados UMA vez por grade (não por quadro)
   const grade = useMemo(() => prepararGrade(cells, vertices), [cells, vertices])
   // props mais recentes pro desenho agendado (sem re-assinar o relógio)
@@ -46,7 +48,8 @@ export function GradeCanvas({
     if (!geo || !geo.vpW || !geo.vpH) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    const dpr = typeof devicePixelRatio === 'number' && devicePixelRatio > 0 ? devicePixelRatio : 1
+    const dprTela = typeof devicePixelRatio === 'number' && devicePixelRatio > 0 ? devicePixelRatio : 1
+    const dpr = dprParaGrade(dprTela, geo.vpW, geo.vpH, emGestoRef.current)
     const w = Math.round(geo.vpW * dpr)
     const h = Math.round(geo.vpH * dpr)
     if (canvas.width !== w) canvas.width = w
@@ -68,6 +71,7 @@ export function GradeCanvas({
   useEffect(() => {
     const off = onQuadro((v) => {
       viewRef.current = v
+      emGestoRef.current = true
       agendar()
     })
     return () => {
@@ -80,6 +84,7 @@ export function GradeCanvas({
   // commit da view / dados novos / opacidade: redesenha
   useEffect(() => {
     viewRef.current = readLiveView()
+    emGestoRef.current = false // commit da view: redesenha em resolução cheia
     agendar()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map.view, fonte, grade, alpha, cor, readLiveView])

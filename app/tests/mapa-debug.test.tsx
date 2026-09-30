@@ -62,12 +62,12 @@ describe('#573 — lerMapaDebug / gravarMapaDebug', () => {
 })
 
 describe('#573 — escolherGrade por motor', () => {
-  it('auto = canvas só no Firefox Android (blob do SVG por quadro), svg no Firefox desktop e nos demais; canvas/svg forçam', () => {
-    expect(escolherGrade('auto', { gecko: true, android: true })).toBe('canvas')
+  it('auto = svg em todo motor (com o compositor o SVG não vira blob; o canvas custa por quadro no celular); canvas/svg forçam', () => {
+    expect(escolherGrade('auto', { gecko: true, android: true })).toBe('svg')
     expect(escolherGrade('auto', { gecko: true, android: false })).toBe('svg')
     expect(escolherGrade('auto', { gecko: false, android: true })).toBe('svg')
     expect(escolherGrade('canvas', { gecko: false, android: false })).toBe('canvas')
-    expect(escolherGrade('svg', { gecko: true, android: true })).toBe('svg')
+    expect(escolherGrade('canvas', { gecko: true, android: true })).toBe('canvas')
   })
 })
 
@@ -100,6 +100,8 @@ describe('#573 — log do gesto carrega driver/assar/grade', () => {
     expect(gesto!.msg).toContain('"driver":"estilo"')
     expect(gesto!.msg).toContain('"assar":false')
     expect(gesto!.msg).toContain('"grade":"svg"')
+    expect(gesto!.msg).toMatch(/"handlerMs":\d+/)
+    expect(gesto!.msg).toMatch(/"handlerMax":[\d.]+/)
   })
 })
 
