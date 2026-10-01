@@ -287,7 +287,7 @@ Sem travar classe ou gênero. As classes são só sugestões — o nome entre pa
 **Personagem 3 — Colorado / colega de trabalho**
 - conhece fluxo de barraca, carga, ambulante, caixa e atalho
 - ótimo pra ser o acusado ou o que percebe a caixa errada
-- *classes que rendem:* [[Comandante|Articulador]], [[Animista|Químico]], [[Guerreiro|Soldado]]
+- *classes que rendem:* [[Comandante|Articulador]], [[Animista|Irradiado]], [[Guerreiro|Soldado]]
 - *pares:* O Taurilênico (dupla com O Profeta), O Purista Político (dupla com O Apostador)
 
 **Personagem 4 — Gremista / colega de trabalho**

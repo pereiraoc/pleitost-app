@@ -91,6 +91,6 @@ describe('nota REAL da POA', () => {
       for (const d of r.degraus) expect(d.texto.length, `${classe} nv${d.nivel}`).toBeGreaterThan(10)
     }
     expect(mapa.get('Caçador')!.nome).toBe('Executivo')
-    expect(mapa.get('Animista')!.nome).toBe('Químico')
+    expect(mapa.get('Animista')!.nome).toBe('Irradiado') // Químico virou profissão (2026-10-01)
   })
 })
