@@ -201,13 +201,13 @@ CRIATURAS = [
     # o Círculo da Brasa é Fogo+Terra, o do Minuano é Água+Vento (a repartição
     # das essências nunca dá o oposto, então o par do Círculo sai sozinho).
     C("Fiel do Círculo", 0, "Artilharia", "PRE", 0, 1, 2, 3,
-      [("Lênicos", "A"), ("Medicina", "A"), ("Sobrevivência", "A"), ("Sociedades", "A")],
+      [("Lênicos", "A"), ("Medicina", "A"), ("Sobrevivência", "A"), ("Sociedades", "A"), ("Furtividade", "A")],
       [A("Funda"), A("Adaga")], INV(consumiveis=["Poção da Nutrição"], tier=0),
       org="[[Doutrina Simbiótica]]", bairros=["[[Cidade Baixa]]", "[[Restinga]]"],
       habilidades=["Dose no Braço"], tipagem="O+", escola="Lênica", elemento="Fogo",
       descricao="Fiel do Círculo da Brasa: toma a dose antes da briga e solta o que o simbionte mandar. Cai fácil; o problema é o que ele acende antes."),
-    C("Guru do Círculo", 1, "Artilharia", "PRE", 0, 1, 3, 3,
-      [("Lênicos", "E"), ("Medicina", "A"), ("Diplomacia", "A"), ("Sociedades", "A"), ("Intimidação", "A")],
+    C("Guru do Círculo", 1, "Artilharia", "PRE", 0, 1, 2, 3,
+      [("Lênicos", "A"), ("Medicina", "A"), ("Diplomacia", "A"), ("Intimidação", "A"), ("Sociedades", "A"), ("Sobrevivência", "A")],
       [A("Adaga de Duelo")], INV(tesouros=["Bracelete Elemental"], consumiveis=["Poção de Cura"], tier=1),
       mod="Competente", org="[[Doutrina Simbiótica]]", bairros=["[[Cidade Baixa]]", "[[Restinga]]", "[[Quarto Distrito]]"],
       habilidades=["Dose no Braço", "Farejar Dose"], tipagem="AB+", escola="Lênica", elemento="Água",

@@ -170,7 +170,8 @@ describe('bestiário do mundo', () => {
   // criatura nova entra aqui até a arte dela chegar. Arte DESATUALIZADA (a
   // ficha mudou DEPOIS da imagem) não se cobra aqui: quem sabe disso é o selo
   // de prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
-  const AGUARDANDO_ARTE: string[] = []
+  // 2026-10-02: os dois fiéis da Doutrina Simbiótica nasceram sem leva de arte.
+  const AGUARDANDO_ARTE: string[] = ['Fiel do Círculo', 'Guru do Círculo']
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
