@@ -283,15 +283,31 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     const mods = [...vista(goblin.id)!.querySelectorAll('[data-ataque-linha]')].map((e) => Number(e.getAttribute('data-ataque-mod')))
     expect(mods.length).toBeGreaterThan(0)
     expect(mods).toEqual([...mods].sort((a, b) => b - a))
-    // NPC: o painel tem os chips (Vantagem de Combate…); ligar VC pelo chip do painel grava no state e sobe o acerto
+    // lista COMPACTA: sem figuras nem fila de chips do painel da ficha
+    expect(within(vista(goblin.id)!).queryByText('Vantagem de Combate')).toBeNull()
+    // Vantagem de Combate ligada pela fila de CONDIÇÕES da linha sobe o ACERTO (como na tela de combate)…
     const modAntes = mods[0]!
-    const chipVC = within(vista(goblin.id)!).getByText('Vantagem de Combate')
-    fireEvent.click(chipVC)
-    await waitFor(() => expect(Number(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-mod'))).toBeGreaterThan(modAntes))
-    // …e a condição aparece ligada na fila de CONDIÇÕES da linha (mesmo state)
-    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Vantagem de Combate"]')).toBeTruthy())
+    const danoAntes = vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-dano')
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicoes-toggle]')!)
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao-chip="Vantagem de Combate"]')).toBeTruthy())
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao-chip="Vantagem de Combate"]')!)
+    await waitFor(() => expect(Number(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-mod'))).toBe(modAntes + 2))
+    // …e ACERTO DECISIVO (estado de combate, grupo COMBATE da lista) muda o DANO (+1 dado da arma)
+    const chipDecisivo = linha(goblin.id).querySelector('[data-escudo-condicao-chip="Acerto Decisivo"]') as HTMLButtonElement
+    expect(chipDecisivo).toBeTruthy()
+    fireEvent.click(chipDecisivo)
+    await waitFor(() => expect(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-dano')).not.toBe(danoAntes))
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Acerto Decisivo"]')?.getAttribute('data-escudo-condicao-tipo')).toBe('efeito')
+    await waitFor(async () => {
+      const st = (await repo.findCharactersBySession(remoteId)).find((c) => c.id === goblin.id)!.state
+      expect(st.efeitosAtivos['Acerto Decisivo']).toEqual({ on: true })
+      expect(st.condicoesAtivas['Vantagem de Combate']).toEqual({ value: 1 })
+    })
+    // desligar os dois pelos chips ativos volta acerto e dano
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao="Acerto Decisivo"]')!)
     fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao="Vantagem de Combate"]')!)
     await waitFor(() => expect(Number(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-mod'))).toBe(modAntes))
+    await waitFor(() => expect(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-dano')).toBe(danoAntes))
 
     // TODOS → o herói entra com a SUA vista independente; PERTENCES sem a arma (Punhal fica em ATAQUES)
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
@@ -338,10 +354,8 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
     abrirVista(heroi.id, 'ataques')
     await waitFor(() => expect(vista(heroi.id)?.querySelector('[data-ataque-linha^="Punhal"]')).toBeTruthy())
-    // herói: painel só leitura (sem a fila de chips do painel)
-    expect(within(vista(heroi.id)!).queryByText('Vantagem de Combate')).toBeNull()
     const rowPunhal = vista(heroi.id)!.querySelector('[data-ataque-linha^="Punhal"]') as HTMLElement
-    // o primeiro hover da linha é a FIGURA da arma (ItemHover arma + imbuição)
+    // o primeiro hover da linha é o NOME da arma (ItemHover arma + imbuição)
     await waitFor(() => expect(rowPunhal.querySelector('.dv-breakdown-hover')).toBeTruthy())
     fireEvent.click(rowPunhal.querySelector('.dv-breakdown-hover')!)
     // painel DETALHES troca pro alvo `item`: arma base + imbuição (Relampejante, Experiente)
