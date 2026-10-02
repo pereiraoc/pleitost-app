@@ -16,8 +16,13 @@ import {
 /** Alvo de detalhe: um doc do compêndio, um LOCAL do mapa, o COMÉRCIO dele,
  *  ou a ficha RESUMO de um personagem (#180 — modo Resumo do autosheet). */
 export interface DetailTarget {
-  kind: 'doc' | 'local' | 'comercio' | 'resumo' | 'resumo-sessao'
+  kind: 'doc' | 'local' | 'comercio' | 'resumo' | 'resumo-sessao' | 'item'
   id: string
+  /** `item` (2026-10-02): a carta do item COMO O PERSONAGEM TEM — arma + a
+   *  propriedade (imbuição/obra-prima) dele, ou tesouro/consumível na qualidade
+   *  dele — em vez da nota crua da arma. */
+  propId?: string
+  tier?: import('./commerce').Tier
   /** #466: doc aberto A PARTIR da ficha (magia de um bloco) — o corpo nos
    *  DETALHES interpola as fórmulas com os valores do herói. */
   formulaCtx?: FormulaCtx
@@ -39,7 +44,7 @@ export function DetailProvider({ children }: { children: ReactNode }) {
   const open = useCallback((t: DetailTarget) => {
     setStack((s) => {
       const top = s[s.length - 1]
-      if (top && top.kind === t.kind && top.id === t.id) return s // já é o topo
+      if (top && top.kind === t.kind && top.id === t.id && top.propId === t.propId && top.tier === t.tier) return s // já é o topo
       return [...s, t]
     })
   }, [])

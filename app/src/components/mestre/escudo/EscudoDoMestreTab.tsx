@@ -1,17 +1,19 @@
 // ESCUDO DO MESTRE (2026-10-02) — a aba COMBATE da ficha de herói em MODO
 // MESTRE. Em vez de abrir uma nota por inimigo, o mestre vê o combate da sala
 // (vida, steppers, turno, velocidades) com TODOS os combatentes do encontro
-// ativo (filtro padrão INIMIGOS; chip TODOS inclui a mesa) e, POR COMBATENTE,
-// escolhe o que ver embaixo da linha: DEFESAS, ATAQUES (do maior pro menor),
-// MAGIAS (com a linha de execução do mundo), PERÍCIAS (do maior pro menor),
-// HABILIDADES (sem os modificadores de bestiário) e PERTENCES — a vista é
-// individual (pedido 2026-10-02; a sub-aba global "ficou ruim"). CENA (a cena
+// ativo (filtro padrão INIMIGOS; chip TODOS inclui a mesa): cada linha mostra
+// vida + defesas + o escudo (dureza/integridade/danificar/reparar) e, POR
+// COMBATENTE, o mestre escolhe o que ver embaixo: ATAQUES (do maior pro
+// menor), MAGIAS (com a linha de execução do mundo), PERÍCIAS (do maior pro
+// menor), HABILIDADES (sem modificadores de bestiário nem essências) e
+// PERTENCES — a vista é individual (pedido 2026-10-02; a sub-aba global
+// "ficou ruim"; chip vazio vem desabilitado). CENA (a cena
 // atual da aventura em curso) abre por um botão do cabeçalho. Kit visual atual.
 import { useState, type CSSProperties } from 'react'
 import { useSessions } from '../../../data/session-store'
 import { clip } from '../../ficha/bits'
 import { TipProvider } from '../../ficha/tooltips'
-import { ITEM_CARD_CSS } from '../../item-card'
+import { ForcarDetalhesContext, ITEM_CARD_CSS } from '../../item-card'
 import { EscudoHeader } from './EscudoHeader'
 import { SubVida } from './SubVida'
 import { SubCena } from './SubCena'
@@ -64,6 +66,9 @@ export function EscudoDoMestreTab() {
 
   return (
     <TipProvider>
+      {/* clicar num item/habilidade abre nos DETALHES (o mestre está rodando o
+          combate — o tooltip só não basta), como na aba Inventário */}
+      <ForcarDetalhesContext.Provider value={true}>
       <style>{ITEM_CARD_CSS}</style>
       <div
         data-escudo-mestre=""
@@ -118,6 +123,7 @@ export function EscudoDoMestreTab() {
           </>
         )}
       </div>
+      </ForcarDetalhesContext.Provider>
     </TipProvider>
   )
 }

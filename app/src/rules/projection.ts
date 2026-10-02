@@ -64,6 +64,12 @@ const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiári
 /** #382: notas de Modificador de bestiário (Competente/Elite/Solo) — fonte do
  *  seletor de Modificador do Monstro (pills do plugin, perfil-card.ts:174-199). */
 export const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
+/** Habilidades de ESSÊNCIA (concedem magias; o que elas fazem aparece no bloco
+ *  de MAGIAS) — pastas das essências cheias e das menores (classe secundária). */
+export const ESSENCIAS_PATH_PREFIXES = [
+  'Sistema/Criação de Personagem/Habilidades/Essências Elementais/',
+  'Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/',
+] as const
 
 // Tipos de COMPANHEIRO ANIMAL (Ave/Canino/Felino/Ursino) — docs de Habilidade
 // da pasta; a nota-base "Companheiro Animal" (regras comuns) não é um tipo.

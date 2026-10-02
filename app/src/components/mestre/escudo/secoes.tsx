@@ -1,14 +1,12 @@
-// ESCUDO DO MESTRE — conteúdo por combatente de cada sub-aba de ficha. Tudo
-// reusa as peças do RESUMO (ResumoDetail): mesmos chips, breakdowns e cartas
+// ESCUDO DO MESTRE — conteúdo das vistas por combatente (ATAQUES/MAGIAS/
+// PERÍCIAS/HABILIDADES/PERTENCES). Tudo reusa as peças do RESUMO (ResumoDetail): mesmos chips, breakdowns e cartas
 // no hover; nada de modelo novo. Lê o FM publicado (doc sintético), SEM
 // useHeroRules/useInterativaCtx (custo por combatente — perícias/defesas
 // sem os deltas de condição, aceito no plano).
 import { useMemo, type CSSProperties } from 'react'
 import { useCatalog } from '../../../data/CatalogContext'
-import { MODIFICADORES_PATH_PREFIX } from '../../../rules/projection'
-import type { CharacterStats } from '../../../data/session-repo/contract'
-import { fmPath, heroAtributos, str, wikiTarget } from '../../ficha/hero-model'
-import { memberStats } from '../../../grupo/stats'
+import { habilidadeOcultaNoEscudo } from './disponibilidade'
+import { fmPath, heroAtributos, str } from '../../ficha/hero-model'
 import { useHeroRefs } from '../../ficha/useHeroRefs'
 import { useNamedDocs } from '../../ficha/useNamedDocs'
 import { wikiLabels } from '../../ficha/CombateTab'
@@ -18,7 +16,6 @@ import { ItemHover } from '../../item-card'
 import {
   AcoesResumo,
   AtaquesResumo,
-  CHIPS,
   HabilidadesResumo,
   HoverList,
   MagiasResumo,
@@ -28,7 +25,6 @@ import {
   chipStyle,
   inventarioItens,
   propBase,
-  statCell,
   type Fm,
 } from '../../detail/ResumoDetail'
 import type { CombatenteVM } from './useCombatentes'
@@ -37,53 +33,6 @@ const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(-
 
 function Vazio({ texto }: { texto: string }) {
   return <div style={mono({ fontSize: 10.5, color: 'var(--muted)', fontStyle: 'italic' })}>{texto}</div>
-}
-
-/* ── DEFESAS ─────────────────────────────────────────────────────────── */
-
-/** Chips do summary publicado (fallback sem ficha): rótulos/emoji dos mesmos
- *  CHIPS do resumo, valores do CharacterStats. */
-const SUMMARY_STATS: { n: string; k: keyof CharacterStats }[] = [
-  { n: 'DEF', k: 'defesa' },
-  { n: 'ÍMP', k: 'impeto' },
-  { n: 'VIG', k: 'vigor' },
-  { n: 'REF', k: 'evasao' },
-  { n: 'PER', k: 'percepcao' },
-  { n: 'ITU', k: 'intuicao' },
-  { n: 'MOV', k: 'movimento' },
-]
-
-export function SubDefesas({ vm }: { vm: CombatenteVM }) {
-  const fm = vm.doc.frontmatter as Fm
-  const { values: attrs } = useMemo(() => heroAtributos(fm), [fm])
-  if (vm.semFicha) {
-    const s = vm.c.summary.stats
-    return (
-      <div data-escudo-defesas="summary" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-        {SUMMARY_STATS.map(({ n, k }) => {
-          const chip = CHIPS.find((c) => c.n === n)
-          return (
-            <span key={n} data-resumo-chip="" style={chipStyle}>
-              <span style={{ fontSize: 11 }}>{chip?.ic ?? ''}</span>
-              <span style={mono({ fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' })}>{n}</span>
-              <span style={mono({ fontSize: 11.5, fontWeight: 700 })}>{k === 'movimento' ? `${s?.[k] ?? 0}q` : s?.[k] ?? 0}</span>
-            </span>
-          )
-        })}
-      </div>
-    )
-  }
-  const stats = memberStats(fm)
-  return (
-    <div data-escudo-defesas="fm" style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-      <div data-resumo-statgrid="defesas" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 5 }}>
-        {CHIPS.slice(0, 4).map((c) => statCell(c, fm, attrs, stats))}
-      </div>
-      <div data-resumo-statgrid="sentidos" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 5 }}>
-        {CHIPS.slice(4).map((c) => statCell(c, fm, attrs, stats))}
-      </div>
-    </div>
-  )
 }
 
 /* ── ATAQUES ─────────────────────────────────────────────────────────── */
@@ -139,14 +88,10 @@ export function SubHabilidades({ vm }: { vm: CombatenteVM }) {
   const fm = vm.doc.frontmatter as Fm
   const refs = useHeroRefs(vm.doc)
   const catalog = useCatalog()
-  // Pedido 2026-10-02: Competente/Solo/Elite e Evolução Básica de Monstro não
-  // agregam na lista — são a estrutura do monstro, não o que ele faz. O corte
-  // é pela PASTA das notas (Sistema/Regras/Bestiário/Modificadores/), a mesma
-  // que a projeção usa, nunca por nome.
-  const ocultar = (target: string) => {
-    const r = catalog.resolve(target)
-    return r.kind === 'doc' && r.id.startsWith(MODIFICADORES_PATH_PREFIX)
-  }
+  // Pedido 2026-10-02: modificadores de bestiário (Competente/Solo/Elite/
+  // Evolução Básica de Monstro) e ESSÊNCIAS ficam fora — os primeiros são a
+  // estrutura do monstro, as segundas aparecem em MAGIAS. Corte pela PASTA.
+  const ocultar = (target: string) => habilidadeOcultaNoEscudo(catalog, target)
   if (vm.semFicha) return <Vazio texto="sem ficha — habilidades indisponíveis" />
   return (
     <div data-escudo-habilidades="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -162,22 +107,18 @@ export function SubHabilidades({ vm }: { vm: CombatenteVM }) {
 export function SubPertences({ vm }: { vm: CombatenteVM }) {
   const fm = vm.doc.frontmatter as Fm
   const refs = useHeroRefs(vm.doc)
-  const armas = ((fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Fm[]).filter((a) => str(a['Nome']))
+  // armas e escudo NÃO entram (pedido 2026-10-02): já aparecem em ATAQUES e
+  // no bloco do escudo da linha — aqui só o que não tem outro lugar
   const armadura = str(fmPath(fm, 'Inventario', 'Armadura', 'Nome'))
-  const escudo = str(fmPath(fm, 'Inventario', 'Escudo', 'Nome'))
   const tesouros = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Tesouros'), { dedup: true, comQtd: false }), [fm])
   const consumiveis = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Consumiveis'), { dedup: false, comQtd: true }), [fm])
   if (vm.semFicha) return <Vazio texto="sem ficha — pertences indisponíveis" />
-  const equip = [
-    ...armas.map((a) => ({ key: `arma:${wikiTarget(a['Nome'])}`, raw: a['Nome'], label: linkLabel(str(a['Nome'])) })),
-    ...(armadura ? [{ key: 'armadura', raw: armadura, label: linkLabel(armadura) }] : []),
-    ...(escudo ? [{ key: 'escudo', raw: escudo, label: linkLabel(escudo) }] : []),
-  ]
+  const equip = armadura ? [{ key: 'armadura', raw: armadura, label: linkLabel(armadura) }] : []
   if (!equip.length && !tesouros.length && !consumiveis.length) return <Vazio texto="nada no inventário" />
   return (
     <div data-escudo-pertences="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {equip.length ? (
-        <Section label="// EQUIPAMENTO">
+        <Section label="// ARMADURA">
           <div data-resumo-chiplist="" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
             {equip.map((e) => (
               <span key={e.key} data-resumo-chip="" style={chipStyle}>

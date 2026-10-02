@@ -48,6 +48,10 @@ export interface CharacterState {
     moral: number
     em: number
     moralTemp: number
+    /** Dano acumulado do ESCUDO (Interativa.Recursos_Restantes.Escudo_Dano) —
+     *  volátil como a vida; o Escudo do Mestre danifica/repara o de NPC por
+     *  aqui (2026-10-02). Ausente = 0 / o `Dano` salvo no FM. */
+    escudoDano?: number
     /** Nonce do cliente que ESCREVEU (report 5464acaf): o dono do herói só
      *  faz backflow de rev que não é dele — echo/stale nunca revertem. */
     rev?: string

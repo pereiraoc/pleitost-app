@@ -85,6 +85,7 @@ import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../da
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
 import { heroPath } from '../../paths'
+import { StatsLinha } from './StatsLinha'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { Lightbox } from '../Lightbox'
 import { retratoCover } from '../retrato'
@@ -1385,6 +1386,7 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
         repo
           .updateCharacterState(c.id, {
             recursosRestantes: {
+              ...(rr0 ?? {}),
               vitalidade: alvo,
               moral: rr0?.moral ?? (c.summary.moralMax ?? 0),
               em: rr0?.em ?? 0,
@@ -1537,7 +1539,7 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
                 {nomeExib}
               </span>
             )}
-            {isGm || !npc ? (
+            {(isGm || !npc) && variante === 'sidebar' ? (
               <button
                 onClick={() => toggleStats(c.id)}
                 title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
@@ -1681,25 +1683,9 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
           ) : null}
           {/* Linha 2: vida/defesas/tag — largura cheia, alinhada sob o retrato. */}
           <div style={{ paddingLeft: 39, display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {statsView.has(c.id) && (isGm || !npc) ? (
-              // #324: stats AGRUPADOS — (Defesa, Movimento) · (Vigor, Reflexo,
-              // Ímpeto) · (Percepção, Intuição). Cada grupo é nowrap (não quebra no
-              // meio); a quebra acontece ENTRE os grupos.
-              <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 12, flexWrap: 'wrap' })}>
-                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
-                  <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
-                  <span>👣{c.summary.stats?.movimento ?? 0}</span>
-                </span>
-                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
-                  <span>❤️{c.summary.stats?.vigor ?? 0}</span>
-                  <span>⚡{c.summary.stats?.evasao ?? 0}</span>
-                  <span>🔥{c.summary.stats?.impeto ?? 0}</span>
-                </span>
-                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
-                  <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
-                  <span>💡{c.summary.stats?.intuicao ?? 0}</span>
-                </span>
-              </span>
+            {statsView.has(c.id) && (isGm || !npc) && variante === 'sidebar' ? (
+              // #324: stats AGRUPADOS no lugar da vida (toggle 🛡️ da sidebar).
+              <StatsLinha stats={c.summary.stats} />
             ) : npc && !isGm ? (
               // NPC pro JOGADOR: só a TAG de estimativa (sem barra nem números).
               faixaTagEl(status.tone, status.label)
@@ -1797,6 +1783,9 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
                     temp={rr?.moralTemp ?? 0}
                   />
                 ) : null}
+                {/* ESCUDO DO MESTRE (2026-10-02): defesas/sentidos/movimento SEMPRE
+                    embaixo da vida (o formato do toggle 🛡️), sem alternar. */}
+                {variante === 'escudo' ? <StatsLinha stats={c.summary.stats} /> : null}
               </>
             )}
           </div>

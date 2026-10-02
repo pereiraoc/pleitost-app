@@ -215,22 +215,35 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(linha.querySelector('[data-escudo-condicao="Cego"]')).toBeNull() // 0 = desligada
   })
 
-  it('vista POR LINHA: cada combatente abre a sua (goblin ATAQUES desc, herói PERTENCES); chip ativo fecha; ordem desc', async () => {
+  it('linha: defesas sempre embaixo da vida (sem toggle 🛡️); vista POR LINHA (goblin ATAQUES desc, herói PERTENCES sem armas); chip vazio desabilitado; chip ativo fecha', async () => {
     const repo = new InMemorySessionRepo()
     renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
-    const { heroi, goblin } = await mesaComCombate(repo)
+    const { remoteId, heroi, goblin } = await mesaComCombate(repo)
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${goblin.id}"]`)).toBeTruthy())
-    // nada aberto de saída: só a linha de vida + os chips
+    // defesas/sentidos/movimento SEMPRE na linha (formato do toggle), e o toggle não existe no escudo
+    expect(linha(goblin.id).querySelector('[data-escudo-stats]')).toBeTruthy()
+    // a linha publicada é mascarada (stats zerados): o número vem do segredo do GM
+    const statsReais = readDisguiseSecret(remoteId, goblin.id)!.summary.stats
+    expect(linha(goblin.id).textContent).toContain(`🛡️${statsReais.defesa}`)
+    expect(within(linha(goblin.id)).queryByTitle('Ver defesas/stats')).toBeNull()
+    // a cópia da sidebar mantém o toggle
+    const sidebar = document.querySelector('[data-combate-da-sala="sidebar"]') as HTMLElement
+    expect(within(sidebar).getAllByTitle('Ver defesas/stats').length).toBeGreaterThan(0)
+    // nada aberto de saída: só os chips; sem chip de DEFESAS
     expect(linha(goblin.id).querySelector('[data-escudo-vistas]')).toBeTruthy()
+    expect(linha(goblin.id).querySelector('[data-escudo-vista-chip="defesas"]')).toBeNull()
+    expect(vista(goblin.id)).toBeNull()
+    // goblin: MAGIAS (tudo N) e PERTENCES (só armas) vazios → desabilitados; ATAQUES/PERÍCIAS/HABILIDADES ativos
+    const chip = (id: string, v: string) => linha(id).querySelector(`[data-escudo-vista-chip="${v}"]`) as HTMLButtonElement
+    expect(chip(goblin.id, 'magias').disabled).toBe(true)
+    expect(chip(goblin.id, 'pertences').disabled).toBe(true)
+    expect(chip(goblin.id, 'ataques').disabled).toBe(false)
+    expect(chip(goblin.id, 'pericias').disabled).toBe(false)
+    expect(chip(goblin.id, 'habilidades').disabled).toBe(false)
+    fireEvent.click(chip(goblin.id, 'magias'))
     expect(vista(goblin.id)).toBeNull()
 
-    // DEFESAS do goblin: grid do resumo dentro da LINHA dele
-    abrirVista(goblin.id, 'defesas')
-    await waitFor(() => expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('defesas'))
-    expect(vista(goblin.id)!.querySelector('[data-resumo-statgrid="defesas"]')).toBeTruthy()
-    expect(vista(goblin.id)!.querySelector('[data-escudo-sem-ficha]')).toBeNull()
-
-    // troca pra ATAQUES: só uma vista por linha, do maior pro menor
+    // ATAQUES do goblin: dentro da LINHA dele, do maior pro menor
     abrirVista(goblin.id, 'ataques')
     await waitFor(() => expect(vista(goblin.id)?.querySelector('[data-resumo-ataque]')).toBeTruthy())
     expect(linha(goblin.id).querySelectorAll('[data-escudo-vista]').length).toBe(1)
@@ -238,12 +251,15 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(mods.length).toBeGreaterThan(0)
     expect(mods).toEqual([...mods].sort((a, b) => b - a))
 
-    // TODOS → o herói entra com a SUA vista independente (PERTENCES), o goblin segue em ATAQUES
+    // TODOS → o herói entra com a SUA vista independente; PERTENCES sem a arma (Punhal fica em ATAQUES)
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
     expect(vista(heroi.id)).toBeNull()
+    expect(chip(heroi.id, 'pertences').disabled).toBe(false)
     abrirVista(heroi.id, 'pertences')
-    await waitFor(() => expect(within(vista(heroi.id)!).getByText('Punhal')).toBeTruthy())
+    await waitFor(() => expect(within(vista(heroi.id)!).getByText('Armadura Leve')).toBeTruthy())
+    expect(within(vista(heroi.id)!).queryByText('Punhal')).toBeNull()
+    expect(within(vista(heroi.id)!).getByText('// TESOUROS')).toBeTruthy()
     expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('ataques')
 
     // PERÍCIAS do herói: desc
@@ -252,17 +268,69 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     const pmods = [...vista(heroi.id)!.querySelectorAll('[data-pericia-mod]')].map((e) => Number(e.getAttribute('data-pericia-mod')))
     expect(pmods).toEqual([...pmods].sort((a, b) => b - a))
 
-    // MAGIAS do herói (Bardo) tem seção; do goblin (nada proficiente) não
+    // MAGIAS do herói (Bardo): seção presente
     abrirVista(heroi.id, 'magias')
     await waitFor(() => expect(within(vista(heroi.id)!).getByText('// MAGIAS')).toBeTruthy())
-    abrirVista(goblin.id, 'magias')
-    await waitFor(() => expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('magias'))
-    expect(within(vista(goblin.id)!).queryByText('// MAGIAS')).toBeNull()
 
-    // clicar o chip ATIVO fecha a vista daquela linha, as outras ficam
-    abrirVista(goblin.id, 'magias')
-    await waitFor(() => expect(vista(goblin.id)).toBeNull())
-    expect(vista(heroi.id)?.getAttribute('data-escudo-vista')).toBe('magias')
+    // clicar o chip ATIVO fecha a vista daquela linha, a outra fica
+    abrirVista(heroi.id, 'magias')
+    await waitFor(() => expect(vista(heroi.id)).toBeNull())
+    expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('ataques')
+  })
+
+  it('clicar numa arma com imbuição abre nos DETALHES a carta da arma COM a imbuição do personagem (kind item)', async () => {
+    const repo = new InMemorySessionRepo()
+    renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
+    const { heroi, goblin } = await mesaComCombate(repo)
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${goblin.id}"]`)).toBeTruthy())
+    fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
+    abrirVista(heroi.id, 'ataques')
+    await waitFor(() => expect(within(vista(heroi.id)!).getByText(/^Punhal/)).toBeTruthy())
+    fireEvent.click(within(vista(heroi.id)!).getByText(/^Punhal/))
+    // painel DETALHES troca pro alvo `item`: arma base + imbuição (Relampejante, Experiente)
+    await waitFor(() => expect(document.querySelector('[data-detail-kind="item"]')).toBeTruthy())
+    const det = document.querySelector('[data-detail-kind="item"]') as HTMLElement
+    await waitFor(() => expect(det.querySelectorAll('.shc-card').length).toBe(2))
+    const nomes = [...det.querySelectorAll('.shc-name')].map((e) => e.textContent ?? '')
+    expect(nomes[0]).toContain('Punhal')
+    expect(nomes[1]).toContain('Relampejante')
+    expect((det.querySelector('[data-item-detail]') as HTMLElement).getAttribute('data-item-detail-tier')).toBe('E')
+  })
+
+  it('ESCUDO do combatente embaixo das defesas: dureza/integridade e danificar/reparar escrevem o state do NPC', async () => {
+    const repo = new InMemorySessionRepo()
+    renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
+    const { remoteId } = await mesaComCombate(repo)
+    await addMonsterToInitiative({
+      repo,
+      catalog,
+      live: { sessionId: remoteId, gmUserId: 'gm-1', state: null, characters: [], members: [], encounters: [] },
+      memberId: 'gm-1',
+      sourcePath: 'Sistema/Criaturas/Bestiário/Goblin Soldado.md',
+      label: 'Goblin Soldado',
+    })
+    const soldado = (await repo.findCharactersBySession(remoteId)).find((c) => c.kind === 'npc' && readDisguiseSecret(remoteId, c.id)?.summary.nome === 'Goblin Soldado')!
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-escudo-escudo="${soldado.id}"]`)).toBeTruthy())
+    const bloco = () => linha(soldado.id).querySelector('[data-escudo-escudo]') as HTMLElement
+    // Escudo (danos:: 4), sem dano volátil → integridade 4/4, dureza 4; Reparar desabilitado
+    expect(bloco().querySelector('[data-escudo-dureza]')!.textContent).toBe('4')
+    expect(bloco().querySelector('[data-escudo-integridade]')!.getAttribute('data-escudo-integridade')).toBe('4/4')
+    expect((within(bloco()).getByLabelText('Reparar escudo') as HTMLButtonElement).disabled).toBe(true)
+    // danificar → state.recursosRestantes.escudoDano = 1 → 3/4 (vida preservada no write)
+    fireEvent.click(within(bloco()).getByLabelText('Danificar escudo'))
+    await waitFor(() => expect(bloco().getAttribute('data-escudo-dano')).toBe('1'))
+    expect(bloco().querySelector('[data-escudo-integridade]')!.getAttribute('data-escudo-integridade')).toBe('3/4')
+    const st = (await repo.findCharactersBySession(remoteId)).find((c) => c.id === soldado.id)!.state.recursosRestantes
+    expect(st.escudoDano).toBe(1)
+    expect(st.vitalidade).toBe(soldado.state.recursosRestantes.vitalidade)
+    // reparar volta pra 0 → 4/4
+    fireEvent.click(within(bloco()).getByLabelText('Reparar escudo'))
+    await waitFor(() => expect(bloco().getAttribute('data-escudo-dano')).toBe('0'))
+    expect(bloco().querySelector('[data-escudo-integridade]')!.getAttribute('data-escudo-integridade')).toBe('4/4')
+    // goblin sem escudo: nenhum bloco
+    const batedor = (await repo.findCharactersBySession(remoteId)).find((c) => c.kind === 'npc' && c.id !== soldado.id)!
+    expect(linha(batedor.id).querySelector('[data-escudo-escudo]')).toBeNull()
   })
 
   it('HABILIDADES: mostra o que a criatura FAZ; esconde os modificadores de bestiário (Evolução Básica de Monstro, Competente/Solo/Elite)', async () => {

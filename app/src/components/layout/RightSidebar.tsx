@@ -11,6 +11,7 @@ import { LiveSessionBridge, SessaoPage } from '../sessao/SessaoPage'
 import { LocalDetail } from '../detail/LocalDetail'
 import { ResumoDetail, ResumoSessaoDetail } from '../detail/ResumoDetail'
 import { CommerceDetail } from '../detail/CommerceDetail'
+import { ItemDetail } from '../detail/ItemDetail'
 
 function DocDetail({ id, formulaCtx }: { id: string; formulaCtx?: FormulaCtx }) {
   const { doc } = useDoc(id)
@@ -35,7 +36,7 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
         ) : (
           <span />
         )}
-        {target.kind === 'doc' ? (
+        {target.kind === 'doc' || target.kind === 'item' ? (
           <Link className="detail-fullscreen" to={`/doc/${target.id.split('/').map(encodeURIComponent).join('/')}`} onClick={onNavigate}>
             tela cheia ↗
           </Link>
@@ -44,6 +45,8 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
       </div>
       {target.kind === 'doc' ? (
         <DocDetail id={target.id} formulaCtx={target.formulaCtx} />
+      ) : target.kind === 'item' ? (
+        <ItemDetail id={target.id} propId={target.propId} tier={target.tier} formulaCtx={target.formulaCtx} />
       ) : target.kind === 'local' ? (
         <LocalDetail id={target.id} />
       ) : target.kind === 'resumo' ? (

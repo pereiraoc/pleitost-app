@@ -99,6 +99,7 @@ export function buildCharacterState(
       moral: rest['Moral'] !== undefined ? num(rest['Moral']) : moralMax,
       em: rest['EM'] !== undefined ? num(rest['EM']) : num(fmPath(fm, 'Magias', 'EM')),
       moralTemp: num(rest['Moral_Temporaria']),
+      ...(rest['Escudo_Dano'] !== undefined ? { escudoDano: num(rest['Escudo_Dano']) } : {}),
     },
     condicoesAtivas: (fmPath(fm, 'Interativa', 'Condicoes_Ativas') ?? {}) as Record<string, unknown>,
     efeitosAtivos: (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>,

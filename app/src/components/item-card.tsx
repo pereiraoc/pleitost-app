@@ -712,12 +712,22 @@ export function ItemHover({
   // `always`: o doc pode chegar async (refs) — manter o mesmo wrapper evita
   // remontar os filhos (ex.: <select> do Perfil) quando o card aparece.
   const canOpen = (clickToOpen || clickDetalhes || forcarDetalhes) && detail && doc
+  // 2026-10-02: item COMO O PERSONAGEM TEM (arma + imbuição/obra-prima, ou a
+  // qualidade possuída de tesouro/consumível) abre a carta composta nos
+  // DETALHES — a nota crua da arma deixava a imbuição de fora.
+  const abrir = () => {
+    if (!doc) return
+    const ctx = formulaCtx ? { formulaCtx } : {}
+    if (propDoc || tier !== undefined) {
+      detail!.open({ kind: 'item', id: doc.id, ...(propDoc ? { propId: propDoc.id } : {}), ...(tier !== undefined ? { tier } : {}), ...ctx })
+    } else detail!.open({ kind: 'doc', id: doc.id, ...ctx })
+  }
   return (
     <TipHover
       html={html}
       style={style}
       always
-      onActivate={canOpen ? () => detail!.open({ kind: 'doc', id: doc!.id, ...(formulaCtx ? { formulaCtx } : {}) }) : undefined}
+      onActivate={canOpen ? abrir : undefined}
     >
       {children}
     </TipHover>
