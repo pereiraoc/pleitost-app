@@ -393,6 +393,16 @@ export async function reconcileHeroesIntoActiveEncounter(
   await repo.updateEncounterTurnState(ativo.id, { ...ts, order: [...ts.order, ...faltando] })
 }
 
+/** O `live` do cliente pode estar STALE: o refetch da sessão é coalescido
+ *  (#573, 120ms) e dois cliques seguidos no bestiário viam o snapshot SEM
+ *  combate ativo — o segundo tentava criar+iniciar outro combate e morria em
+ *  SessionEncounterAlreadyActiveError (o monstro se perdia). Decidir pelo
+ *  servidor, não pelo snapshot (mesmo padrão do reconcileHeroesIntoActiveEncounter). */
+async function encontroAtivoFresco(repo: SessionRepo, sessionId: string): Promise<Encounter | null> {
+  const encounters = await repo.listEncountersBySession(sessionId)
+  return encounters.find((e) => e.status === 'active') ?? null
+}
+
 /** #229 (b): caminho DIRETO do mestre — monstro do bestiário → iniciativa da
  *  sessão ativa. Com combate ativo, o NPC entra NELE (insertCharacter +
  *  append no turnState.order — arquiva junto, createdByEncounterId); sem
@@ -414,7 +424,7 @@ export async function addMonsterToInitiative(opts: {
 }): Promise<void> {
   const { repo, catalog, live, memberId, sourcePath, label, qty, mask } = opts
   const entry: EncounterRosterEntry = { sourcePath, label, qty: Math.max(1, Math.floor(qty ?? 1) || 1) }
-  const ativo = live.encounters.find((e) => e.status === 'active') ?? null
+  const ativo = await encontroAtivoFresco(repo, live.sessionId)
   if (!ativo) {
     const enc = await repo.insertEncounter({
       sessionId: live.sessionId,
@@ -485,7 +495,7 @@ export async function addRosterToInitiative(opts: {
 }): Promise<void> {
   const { repo, catalog, live, memberId, name, entries, mask, preps } = opts
   if (entries.length === 0) return
-  const ativo = live.encounters.find((e) => e.status === 'active') ?? null
+  const ativo = await encontroAtivoFresco(repo, live.sessionId)
   if (!ativo) {
     const enc = await repo.insertEncounter({
       sessionId: live.sessionId,
