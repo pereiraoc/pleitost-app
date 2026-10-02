@@ -68,7 +68,6 @@ import {
   normalizaTurnState,
   ordemDeTurnoEfetiva,
   dropOrder,
-  ladoDe,
   SPEED_EMOJI,
   SPEED_LABEL,
   SPEED_ORDER,
@@ -79,7 +78,7 @@ import {
 } from '../../data/initiative-blocks'
 import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
-import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
+import { ladoDoCombatente, maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, localStoreVersion, useLocalStoreVersion } from '../../data/local-entities'
 import { activeWorld } from '../../data/world'
 import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../data/hero-store'
@@ -994,7 +993,21 @@ function canonTs(v: unknown): string {
   )
 }
 
-function CombateDaSala({ sess }: { sess: SessionRec }) {
+/** Props do combate da sala. O painel SESSÃO usa o default; o ESCUDO DO MESTRE
+ *  (aba COMBATE da ficha em modo mestre) reusa o MESMO componente filtrando
+ *  por lado e anexando conteúdo por combatente (condições/efeitos). */
+export interface CombateDaSalaProps {
+  sess: SessionRec
+  /** Mantém só os combatentes aprovados (por lado); ausente = todos. */
+  filtro?: (c: SessionCharacter, lado: Lado) => boolean
+  /** Conteúdo extra renderizado dentro da linha de cada combatente. */
+  extraPorCombatente?: (c: SessionCharacter) => ReactNode
+  /** 'escudo' esconde o rótulo "⚔ COMBATE" e o "Turno N" do cabeçalho — o
+   *  Escudo tem cabeçalho próprio (turno/vez/dificuldade); os controles ficam. */
+  variante?: 'sidebar' | 'escudo'
+}
+
+export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'sidebar' }: CombateDaSalaProps) {
   const repo = useSessionRepo()
   const user = useSessionUser()
   const catalog = useCatalog()
@@ -1160,13 +1173,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // #16: o companheiro animal fica do LADO DO TUTOR (tutor jogador → lado
   // jogador), não sempre "inimigo". Resolve o tutor por tutorCharacterId.
   const charByIdLive = new Map(live.characters.map((c) => [c.id, c]))
-  const ladoDeChar = (c: SessionCharacter): Lado => {
-    if (c.kind === 'companheiro' && c.tutorCharacterId) {
-      const tutor = charByIdLive.get(c.tutorCharacterId)
-      if (tutor) return ladoDe(tutor.summary.family)
-    }
-    return ladoDe(c.summary.family)
-  }
+  const ladoDeChar = (c: SessionCharacter): Lado => ladoDoCombatente(c, charByIdLive)
   const ladoOf = (id: string) => {
     const c = charByIdLive.get(id)
     return c ? ladoDeChar(c) : 'inimigo'
@@ -1791,6 +1798,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               </>
             )}
           </div>
+          {extraPorCombatente ? extraPorCombatente(c) : null}
         </div>
         {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
         {dropDepois ? dropBar : null}
@@ -1824,6 +1832,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
 
   return (
     <div
+      data-combate-da-sala={variante}
       style={{
         border: '1px solid color-mix(in srgb,var(--red) 40%,var(--line2))',
         background: 'color-mix(in srgb,var(--red) 5%,var(--panel))',
@@ -1840,11 +1849,13 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           flexWrap: 'wrap',
         }}
       >
-        <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--red)', fontWeight: 700 })}>
-          ⚔ COMBATE
-        </span>
+        {variante === 'sidebar' ? (
+          <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--red)', fontWeight: 700 })}>
+            ⚔ COMBATE
+          </span>
+        ) : null}
         <span style={{ flex: 1 }} />
-        {ativo?.turnState ? (
+        {variante === 'sidebar' && ativo?.turnState ? (
           <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>Turno {Math.max(1, ativo.turnState.round)}</span>
         ) : null}
         {isGm && ativo ? chip('◀ ANTERIOR', 'Turno anterior', () => void mover(-1)) : null}
@@ -1888,7 +1899,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         {ativo
           ? ALL_BLOCKS.map(({ tier, lado }) => {
               const itens = noCombate.filter(
-                (c) => speedOf(c.id) === tier && ladoDeChar(c) === lado,
+                (c) => speedOf(c.id) === tier && ladoDeChar(c) === lado && (!filtro || filtro(c, lado)),
               )
               const vis0 = itens.filter((c) => isGm || !hidden.has(c.id))
               // #16: ordena os CAs logo ABAIXO do tutor (quando o tutor está NESTE

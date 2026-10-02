@@ -9,6 +9,7 @@
 //     "Companheiro", Herói → "Humano", fallback "Criatura"; numerado por
 //     rótulo repetido ("Goblin 1", "Goblin 2") como no player view do plugin.
 import type { CharacterSummary, SessionCharacter } from './contract'
+import { ladoDe, type Lado } from '../initiative-blocks'
 
 export type VitaStatus = 'Impecável' | 'Saudável' | 'Ferido' | 'Gravemente Ferido' | 'Morto'
 export type VitaTone = 'is-trivial' | 'is-easy' | 'is-hard' | 'is-lethal' | 'is-dead'
@@ -70,4 +71,19 @@ export function maskedNames(
     out.set(c.id, `${base} ${n}`)
   }
   return out
+}
+
+/** Lado do combatente nos blocos de iniciativa. #16: o companheiro animal fica
+ *  do LADO DO TUTOR (tutor jogador → lado jogador), não sempre "inimigo";
+ *  resolve o tutor por tutorCharacterId no mapa da sala. Fonte única do
+ *  CombateDaSala (sidebar) e do Escudo do Mestre. */
+export function ladoDoCombatente(
+  c: SessionCharacter,
+  charById: ReadonlyMap<string, SessionCharacter>,
+): Lado {
+  if (c.kind === 'companheiro' && c.tutorCharacterId) {
+    const tutor = charById.get(c.tutorCharacterId)
+    if (tutor) return ladoDe(tutor.summary.family)
+  }
+  return ladoDe(c.summary.family)
 }

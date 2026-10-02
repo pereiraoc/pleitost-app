@@ -20,7 +20,7 @@ import { Fragment, useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useDoc } from '../../data/useDoc'
 import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
-import { readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
+import { comSegredo } from '../../data/session-repo/disguise-secrets'
 import { useAssetIndex } from '../../data/assets'
 import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
@@ -73,8 +73,8 @@ import { computeMagiaAtaque } from '../../interativa/invocacao'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
-type Fm = Record<string, unknown>
-type Attrs = Record<string, number>
+export type Fm = Record<string, unknown>
+export type Attrs = Record<string, number>
 
 /** Card-base das seções/header — linguagem do app (Panel de ficha/bits):
  *  fundo var(--panel), borda var(--line2), cantos cortados clip(). */
@@ -154,7 +154,7 @@ function tierBadge(fm: Fm): { n: number; label: 'NVL' | 'TIER'; color: string } 
  *  (tokens defesa/categoria via defesaEmoji; Movimento do subcategoria), e o
  *  tooltip é o breakdown do plugin (resistencia/sentido/movimentoBreakdown).
  *  Movimento em QUADRADOS ("Nq"), como pede o #199. */
-const CHIPS: Array<{
+export const CHIPS: Array<{
   ic: string
   n: string
   v: (s: ReturnType<typeof memberStats>) => string
@@ -180,7 +180,7 @@ const CHIPS: Array<{
 /** Stat-cell de defesa/sentido/movimento — célula vertical (emoji, rótulo
  *  mono, valor) no idioma dos cards de defesa do Combate; tooltip = mesmo
  *  breakdown dos chips do #199 (TipHover envolve a célula inteira). */
-function statCell(
+export function statCell(
   c: (typeof CHIPS)[number],
   fm: Fm,
   attrs: Attrs,
@@ -224,7 +224,7 @@ function sentidoTip(fm: Fm, attrs: Attrs, nome: string): BreakdownResult | null 
 /** Seção do resumo como CARD com kicker — tradução do `.as-resumo-section` +
  *  `.as-resumo-title` do plugin (título uppercase pequeno) pro idioma de
  *  Panel/PanelTitle do app (ficha/bits). */
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
+export function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div
       data-resumo-section={label}
@@ -243,7 +243,7 @@ const lineStyle: CSSProperties = { fontSize: 12, lineHeight: 1.6, color: 'var(--
 /** Lista de itens em CHIPS (um por item, com a carta da regra no hover) —
  *  as wrap-rows vírgula-separadas do plugin (tesouros/consumiveis/acoes/
  *  tecnicas/habilidades-block) viram chips no painel estreito. */
-function HoverList({
+export function HoverList({
   items,
   refs,
 }: {
@@ -273,8 +273,35 @@ function HoverList({
  *  plugin (resumo/sections/pericias-block.ts). */
 const ATRIB_ORDER = ['FOR', 'AGI', 'INT', 'PRE'] as const
 
-function PericiasResumo({ fm, attrs }: { fm: Fm; attrs: Attrs }) {
+/** Perícias treinadas (≠ N). Default: agrupadas por atributo (pericias-block
+ *  do plugin). `ordem: 'desc'` (Escudo do Mestre): lista chata do maior pro
+ *  menor modificador — o mestre acha o teste da criatura sem varrer grupos. */
+export function PericiasResumo({ fm, attrs, ordem }: { fm: Fm; attrs: Attrs; ordem?: 'desc' }) {
   const rows = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+  if (ordem === 'desc') {
+    const treinadas = (Array.isArray(rows) ? rows : [])
+      .filter((r) => profLetter(r) !== 'N')
+      .map((row) => ({ row, mod: rowMod(row, attrs) }))
+      .sort((a, b) => b.mod - a.mod || str(a.row.Nome).localeCompare(str(b.row.Nome), 'pt'))
+    if (treinadas.length === 0) return null
+    return (
+      <Section label="// PERÍCIAS">
+        <div data-resumo-pericias="desc" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          {treinadas.map(({ row, mod }) => (
+            <span key={str(row.Nome)} data-resumo-chip="" data-pericia-mod={mod} style={chipStyle}>
+              <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 11 }}>{ATTR_EMOJI[str(row.Atributo)] ?? ''}</span>{' '}
+                  {displayName(slugify(str(row.Nome)))}{' '}
+                  <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--red)' })}>{fmtSigned(mod)}</span>
+                </span>
+              </TipHover>
+            </span>
+          ))}
+        </div>
+      </Section>
+    )
+  }
   const grupos = ATRIB_ORDER.map((attr) => ({
     attr,
     list: (Array.isArray(rows) ? rows : []).filter(
@@ -400,7 +427,7 @@ function blocoMagias(
   return { tipos, grupos, potencia, em, emMax, alvo: execucaoDe(mfm) }
 }
 
-function MagiasResumo({
+export function MagiasResumo({
   fm,
   refs,
   namedDoc,
@@ -521,21 +548,47 @@ function MagiasResumo({
   )
 }
 
-function AtaquesResumo({
+/** Ataques com arma. `todos` (Escudo do Mestre) soma as armas naturais/
+ *  especiais de Ataques.Lista (menos Manobras — #489, mesma pipeline do
+ *  CombateTab); `ordem: 'desc'` ordena do maior pro menor modificador. */
+export function AtaquesResumo({
   fm,
   attrs,
   refs,
   propRuleDoc,
+  todos,
+  ordem,
 }: {
   fm: Fm
   attrs: Attrs
   refs: HeroRefs
   propRuleDoc: (nome: string) => VaultDoc | undefined
+  todos?: boolean
+  ordem?: 'desc'
 }) {
   const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Fm[]
-  const lista = Array.isArray(armas) ? armas : []
-  if (lista.length === 0) return null
+  const naturais = todos ? ((fmPath(fm, 'Ataques', 'Lista') ?? []) as Fm[]) : []
+  const lista0 = [
+    ...(Array.isArray(armas) ? armas : []),
+    ...(Array.isArray(naturais) ? naturais : []).filter((r) => str(r['Nome']) && str(r['Nome']) !== 'Manobras'),
+  ]
+  if (lista0.length === 0) return null
   const profAtaque = profLetter({ Proficiencia: str(fmPath(fm, 'Ataques', 'Proficiencia')) })
+  const modDe = (arma: Fm) => {
+    const armaDoc = refs.refDoc(arma['Nome'])
+    const inline = { ...((armaDoc?.frontmatter ?? {}) as Fm), ...((armaDoc?.inlineFields ?? {}) as Fm) }
+    const basenameArma = wikiTarget(str(arma['Nome'])).split('/').pop() ?? ''
+    return rowMod(
+      {
+        Atributo: atributoDeAtaqueDaArma(inline['grupo'], arma['Atributo']),
+        Proficiencia: profArmaEfetiva(profAtaque, str(inline['grupo']), basenameArma, fm),
+        Bonus_Item: num(arma['Bonus_Item']),
+        Bonus_Especial: num(arma['Bonus_Especial']),
+      },
+      attrs,
+    )
+  }
+  const lista = ordem === 'desc' ? [...lista0].sort((a, b) => modDe(b) - modDe(a)) : lista0
   return (
     <Section label="// ATAQUES">
       {lista.map((arma, i) => {
@@ -571,7 +624,7 @@ function AtaquesResumo({
         // = .as-resumo-dmg-num) + sub-row "↳ propriedades" indentada
         // (.as-resumo-attack-props).
         return (
-          <div key={`${nome}-${i}`} data-resumo-ataque="" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <div key={`${nome}-${i}`} data-resumo-ataque="" data-ataque-mod={mod} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <div style={lineStyle}>
               <span style={{ color: 'var(--muted)' }}>{'• '}</span>
               <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier ?? undefined}>
@@ -629,7 +682,7 @@ const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
 /** Itens do inventário (tesouros/consumíveis) a partir dos aliases salvos
  *  ("[[X|X (Adepto) (x2)]]"), com dedup opcional por alvo+tier — espelho de
  *  tesouros-block/consumiveis-block do resumo do plugin. */
-function inventarioItens(
+export function inventarioItens(
   raw: unknown,
   opts: { dedup: boolean; comQtd: boolean },
 ): { key: string; label: string; raw: unknown; tier: Tier | null; suffix?: string }[] {
@@ -656,6 +709,46 @@ function inventarioItens(
     })
   }
   return out
+}
+
+/** Seções de lista do resumo (chips com a carta no hover) — fatoradas pro
+ *  Escudo do Mestre montar HABILIDADES/TÉCNICAS/AÇÕES por combatente sem
+ *  duplicar markup. Hide-when-empty, como no ResumoBody. */
+export function HabilidadesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
+  const habs = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
+  if (!habs.length) return null
+  return (
+    <Section label="// HABILIDADES">
+      <HoverList items={habs.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
+    </Section>
+  )
+}
+export function TecnicasResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
+  const tecs = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
+  if (!tecs.length) return null
+  return (
+    <Section label="// TÉCNICAS">
+      <HoverList items={tecs.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
+    </Section>
+  )
+}
+/** Ações de habilidade (Acoes.Lista) — dedup por alvo, como o acoes-block. */
+export function acoesEntries(fm: Fm) {
+  const seen = new Set<string>()
+  return listaEntries(fmPath(fm, 'Acoes', 'Lista')).filter((e) => {
+    if (!e.target || seen.has(e.target)) return false
+    seen.add(e.target)
+    return true
+  })
+}
+export function AcoesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
+  const acoes = useMemo(() => acoesEntries(fm), [fm])
+  if (!acoes.length) return null
+  return (
+    <Section label="// AÇÕES">
+      <HoverList items={acoes.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
+    </Section>
+  )
 }
 
 function ResumoBody({ doc }: { doc: VaultDoc }) {
@@ -686,17 +779,6 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
   const nivel = num(fm['Nível'])
   const tier = fm['Tier']
 
-  const habs = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
-  const tecs = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
-  // Ações de habilidade (Acoes.Lista) — dedup por alvo, como o acoes-block.
-  const acoes = useMemo(() => {
-    const seen = new Set<string>()
-    return listaEntries(fmPath(fm, 'Acoes', 'Lista')).filter((e) => {
-      if (!e.target || seen.has(e.target)) return false
-      seen.add(e.target)
-      return true
-    })
-  }, [fm])
   const tesouros = useMemo(
     () => inventarioItens(fmPath(fm, 'Inventario', 'Tesouros'), { dedup: true, comQtd: false }),
     [fm],
@@ -844,26 +926,14 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
         <MagiasResumo fm={fm} refs={refs} namedDoc={namedDoc} />
         <AtaquesResumo fm={fm} attrs={attrs} refs={refs} propRuleDoc={propRuleDoc} />
 
-        {acoes.length ? (
-          <Section label="// AÇÕES">
-            <HoverList items={acoes.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
-          </Section>
-        ) : null}
-        {tecs.length ? (
-          <Section label="// TÉCNICAS">
-            <HoverList items={tecs.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
-          </Section>
-        ) : null}
+        <AcoesResumo fm={fm} refs={refs} />
+        <TecnicasResumo fm={fm} refs={refs} />
         {tesouros.length ? (
           <Section label="// TESOUROS">
             <HoverList items={tesouros} refs={refs} />
           </Section>
         ) : null}
-        {habs.length ? (
-          <Section label="// HABILIDADES">
-            <HoverList items={habs.map((e) => ({ key: e.target, label: e.label, raw: e.raw }))} refs={refs} />
-          </Section>
-        ) : null}
+        <HabilidadesResumo fm={fm} refs={refs} />
         {consumiveis.length ? (
           <Section label="// CONSUMÍVEIS">
             <HoverList items={consumiveis} refs={refs} />
@@ -967,14 +1037,6 @@ export function ResumoSessaoDetail({ charId }: { charId: string }) {
   const live = useLiveSession()
   const c = live?.characters.find((x) => x.id === charId) ?? null
   if (!c) return <div className="detail-empty">Personagem fora da sala.</div>
-  const secret = live ? readDisguiseSecret(live.sessionId, charId) : null
-  const efetivo = secret
-    ? {
-        ...c,
-        summary: secret.summary,
-        characterPath: secret.characterPath,
-        fmBlob: Object.keys(secret.fmBlob ?? {}).length ? secret.fmBlob : c.fmBlob,
-      }
-    : c
+  const efetivo = live ? comSegredo(c, live.sessionId) : c
   return <ResumoBody doc={synthDocFromCharacter(efetivo)} />
 }

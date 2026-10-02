@@ -67,3 +67,20 @@ export function overlayDisguiseSecrets(
     return secret ? { ...c, summary: secret.summary, characterPath: secret.characterPath } : c
   })
 }
+
+/** Linha EFETIVA pro GM (#486): identidade + characterPath + fmBlob REAIS do
+ *  segredo quando ele existe neste aparelho (a linha publicada de NPC
+ *  disfarçado é mascarada e vem com fmBlob `{}`); o fmBlob publicado só vale
+ *  quando o segredo não guardou ficha. Sem segredo → a linha como está. Mantém
+ *  o `state` ao vivo (vida muda no combate). Usada pelo resumo da sessão e
+ *  pelo Escudo do Mestre. */
+export function comSegredo(c: SessionCharacter, sessionId: string): SessionCharacter {
+  const secret = readDisguiseSecret(sessionId, c.id)
+  if (!secret) return c
+  return {
+    ...c,
+    summary: secret.summary,
+    characterPath: secret.characterPath,
+    fmBlob: Object.keys(secret.fmBlob ?? {}).length ? secret.fmBlob : c.fmBlob,
+  }
+}
