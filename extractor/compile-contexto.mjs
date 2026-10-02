@@ -489,6 +489,41 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     if (Object.keys(mapa).length > 0) chamadasSintonia[de] = mapa;
   }
 
+  // EXECUÇÃO (2026-10-01): como cada classe / habilidade / sintonia EXECUTA
+  // cada escola no mundo — a frase do gesto, nada mecânico. O app resolve na
+  // cascata habilidades → classes → sintonias → padrao; a fantasia, sem o
+  // bloco, não mostra nada. Chave validada como basename (e tipo, quando o
+  // extract conhece); escola = os `Nome` de Magias.Lista das fichas.
+  const ESCOLAS_MAGIA = ["Arcana Branca", "Arcana Negra", "Anima", "Tesouros"];
+  const exIn = isPlainObject(reskinIn.execucao) ? reskinIn.execucao : {};
+  const porEscola = (v, label) => {
+    const mapa = asStringMap(v, label, problems);
+    for (const esc of Object.keys(mapa)) {
+      if (!ESCOLAS_MAGIA.includes(esc)) problems.push(`${label}: escola "${esc}" (esperado ${ESCOLAS_MAGIA.join("|")})`);
+    }
+    return mapa;
+  };
+  const grupoExecucao = (grupo, tiposOk) => {
+    const out = {};
+    const entrada = exIn[grupo];
+    if (entrada == null) return out;
+    if (!isPlainObject(entrada)) { problems.push(`reskin.execucao.${grupo}: esperado mapa nota → {escola: texto}`); return out; }
+    for (const [de, v] of Object.entries(entrada)) {
+      if (!basenames.has(de)) { problems.push(`reskin.execucao.${grupo}: "${de}" não existe como basename na vault`); continue; }
+      const tipo = typeByBasename?.get(de);
+      if (tipo && !tiposOk.includes(tipo)) { problems.push(`reskin.execucao.${grupo}: "${de}" é ${tipo} (esperado ${tiposOk.join("|")})`); continue; }
+      const mapa = porEscola(v, `reskin.execucao.${grupo}["${de}"]`);
+      if (Object.keys(mapa).length > 0) out[de] = mapa;
+    }
+    return out;
+  };
+  const execucao = {
+    padrao: porEscola(exIn.padrao, "reskin.execucao.padrao"),
+    classes: grupoExecucao("classes", ["Classe"]),
+    habilidades: grupoExecucao("habilidades", ["Habilidade", "Técnica"]),
+    sintonias: grupoExecucao("sintonias", ["Sintonia"]),
+  };
+
   // Ajustes de regra do mundo (#544 — semente do C7). Shape validado leve;
   // fantasia sem o bloco mantém o comportamento canônico.
   const regrasIn = isPlainObject(def.regras) ? def.regras : {};
@@ -522,7 +557,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     moeda: { simbolo: moeda.simbolo, nome: moeda.nome, fator },
     atlas: { raiz: atlas.raiz, mapa: atlas.mapa ?? null },
     pericias,
-    reskin: { notas, notasFuturas, termos, excecoes, descricoes, chamadas, chamadasSintonia },
+    reskin: { notas, notasFuturas, termos, excecoes, descricoes, chamadas, chamadasSintonia, execucao },
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
     ...(recursos ? { recursos } : {}),
     ...(transporte ? { transporte } : {}),

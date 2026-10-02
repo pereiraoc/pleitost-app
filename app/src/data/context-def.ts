@@ -41,6 +41,17 @@ export interface ContextoDef {
     /** Idem por ELEMENTO de sintonia (FM `Chamada_Sintonia` — Monge/Animista):
      *  basename → { Água: …, Terra: …, Fogo: …, Vento: … }. */
     chamadasSintonia?: Record<string, Record<string, string>>
+    /** EXECUÇÃO (2026-10-01): como cada classe / habilidade / sintonia
+     *  "executa" cada escola de magia no mundo (frase do gesto; nada
+     *  mecânico). Escola = `Nome` de Magias.Lista (Arcana Branca · Arcana
+     *  Negra · Anima · Tesouros). Cascata no app: habilidades[hab] →
+     *  classes[classe] → sintonias[sintonia] → padrao → null (fantasia). */
+    execucao?: {
+      padrao: Record<string, string>
+      classes: Record<string, Record<string, string>>
+      habilidades: Record<string, Record<string, string>>
+      sintonias: Record<string, Record<string, string>>
+    }
   }
   /** Ajustes de REGRA do mundo (#544 — semente do C7). */
   regras?: {

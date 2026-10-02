@@ -25,8 +25,27 @@ numa **nota de Contexto-Def** (frontmatter `Contexto:`) na própria vault:
 ## O que o artefato carrega
 
 `{ id, nome, fonte, moeda{simbolo,nome}, atlas{raiz,mapa}, pericias{...},
-reskin{notas, notasFuturas, termos, excecoes}, disponibilidade{padrao,
-indisponiveis, restritos}, base{sempreDisponiveis} }`
+reskin{notas, notasFuturas, termos, excecoes, descricoes, chamadas,
+chamadasSintonia, execucao}, disponibilidade{padrao, indisponiveis,
+restritos}, base{sempreDisponiveis} }`
+
+### `reskin.execucao` (2026-10-01)
+
+Como cada **classe**, **habilidade** (treinamento secundário) ou **sintonia**
+(criatura sem classe de herói) executa cada **escola** de magia no mundo —
+a frase do gesto, nunca mecânica. Escola = os `Nome` de `Magias.Lista`
+(`Arcana Branca`, `Arcana Negra`, `Anima`, `Tesouros`). O compilador valida
+cada chave como basename (e o tipo: Classe / Habilidade|Técnica / Sintonia)
+e rejeita escola fora do vocabulário. No app, `reskinExecucao(alvo, escola)`
+resolve na cascata `habilidades → classes → sintonias → padrao → null`; a
+fantasia, sem o bloco, não mostra linha nenhuma. A linha aparece na barra de
+magias da ficha, no card da magia e no DocView aberto a partir da ficha.
+
+**Ordem obrigatória ao editar o FM da Contexto-Def:** `npm run
+contexto:doc[:cyberpunk]` (regenera o bloco `<!-- auto:contexto -->`) ANTES
+de `npm run extract[:cyberpunk]` — o extract audita o bloco contra o FM e
+quebra se divergir; e como ele apaga a pasta antes de reescrever, uma
+falha deixa o dataset vazio.
 
 ## Princípios
 

@@ -148,6 +148,25 @@ export function renderContextoDoc(contexto, typeByBasename) {
     ),
   );
 
+  // Execução (2026-10-01): quem executa cada escola, e como — só o mapa; o
+  // texto vive no FM.
+  const ex = c.reskin?.execucao ?? {};
+  const porPt = (a, b) => a.localeCompare(b, "pt-BR");
+  const linhasExecucao = (m) =>
+    Object.entries(m ?? {})
+      .sort((a, b) => porPt(a[0], b[0]))
+      .map(([k, v]) => [k, Object.keys(v ?? {}).sort(porPt).join(", ")]);
+  out.push(...tabela("Execução por classe (como a classe executa cada escola)", linhasExecucao(ex.classes), ["Classe", "Escolas"]));
+  out.push(...tabela("Execução por habilidade (treinamentos secundários)", linhasExecucao(ex.habilidades), ["Habilidade", "Escolas"]));
+  out.push(...tabela("Execução por sintonia (criaturas sem classe de herói)", linhasExecucao(ex.sintonias), ["Sintonia", "Escolas"]));
+  out.push(
+    ...tabela(
+      "Execução padrão (quando classe, habilidade e sintonia não definem)",
+      Object.entries(ex.padrao ?? {}).sort((a, b) => porPt(a[0], b[0])),
+      ["Escola", "Display"],
+    ),
+  );
+
   // Ajustes de regra do mundo (#544)
   if (c.regras?.companheiro_animal) {
     const ca = c.regras.companheiro_animal;

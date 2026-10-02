@@ -331,3 +331,52 @@ test("reskin.chamadas / chamadas_sintonia (resumo do wizard por mundo): validado
     /reskin\.chamadas_sintonia: "Inexistente" não existe/,
   );
 });
+
+test("reskin.execucao (como classe/habilidade/sintonia executa cada escola): validado e compilado", () => {
+  const basenames = new Set([...BASENAMES, "Arcanista", "Treinamento de Animista", "Fator Positrônico"]);
+  const typeByBasename = new Map([
+    ["Arcanista", "Classe"],
+    ["Treinamento de Animista", "Habilidade"],
+    ["Fator Positrônico", "Sintonia"],
+    ["Espada Longa", "Item"],
+  ]);
+  const execucao = {
+    padrao: { "Arcana Branca": "Rotina por implante.", Anima: "Reação pelo sangue." },
+    classes: { Arcanista: { "Arcana Branca": "Pelo adaptador." } },
+    habilidades: { "Treinamento de Animista": { Anima: "Exposição." } },
+    sintonias: { "Fator Positrônico": { "Arcana Branca": "Implante." } },
+  };
+  const reskin = { notas: {}, notas_futuras: {}, termos: {}, excecoes: [], execucao };
+  const art = compileContexto({ worldId: "poa-1987", defs: [defPoa({ reskin }), defBase()], basenames, typeByBasename });
+  assert.equal(art.reskin.execucao.padrao["Arcana Branca"], "Rotina por implante.");
+  assert.equal(art.reskin.execucao.classes.Arcanista["Arcana Branca"], "Pelo adaptador.");
+  assert.equal(art.reskin.execucao.habilidades["Treinamento de Animista"].Anima, "Exposição.");
+  assert.equal(art.reskin.execucao.sintonias["Fator Positrônico"]["Arcana Branca"], "Implante.");
+
+  // sem o bloco: mapas vazios (app → null → fantasia sem linha de execução)
+  const semBloco = compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES });
+  assert.deepEqual(semBloco.reskin.execucao, { padrao: {}, classes: {}, habilidades: {}, sintonias: {} });
+
+  const compila = (ex) =>
+    compileContexto({ worldId: "poa-1987", defs: [defPoa({ reskin: { ...reskin, execucao: ex } }), defBase()], basenames, typeByBasename });
+  // basename inexistente quebra (como notas/descricoes/chamadas)
+  assert.throws(() => compila({ classes: { Inexistente: { Anima: "x" } } }), /reskin\.execucao\.classes: "Inexistente" não existe/);
+  // escola fora do vocabulário de Magias.Lista quebra
+  assert.throws(() => compila({ padrao: { "Arcana Roxa": "x" } }), /reskin\.execucao\.padrao: escola "Arcana Roxa"/);
+  // tipo errado no grupo quebra (um Item não é Classe)
+  assert.throws(() => compila({ classes: { "Espada Longa": { Anima: "x" } } }), /reskin\.execucao\.classes: "Espada Longa" é Item/);
+});
+
+test("contexto-doc: tabelas de execução só aparecem quando a chave existe", async () => {
+  const { renderContextoDoc } = await import("../contexto-doc.mjs");
+  const sem = renderContextoDoc(defPoa().contexto, new Map());
+  assert.equal(sem.includes("Execução por classe"), false);
+  const com = renderContextoDoc(
+    defPoa({ reskin: { notas: {}, termos: {}, excecoes: [], execucao: { classes: { Arcanista: { "Arcana Branca": "x", Anima: "y" } }, padrao: { Anima: "z" } } } }).contexto,
+    new Map(),
+  );
+  assert.match(com, /#### Execução por classe/);
+  assert.match(com, /\| Arcanista \| Anima, Arcana Branca \|/);
+  assert.match(com, /#### Execução padrão/);
+  assert.match(com, /\| Anima \| z \|/);
+});
