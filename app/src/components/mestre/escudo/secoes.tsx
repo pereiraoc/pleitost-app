@@ -10,9 +10,6 @@ import { fmPath, heroAtributos, str } from '../../ficha/hero-model'
 import { useHeroRefs } from '../../ficha/useHeroRefs'
 import { useNamedDocs } from '../../ficha/useNamedDocs'
 import { wikiLabels } from '../../ficha/CombateTab'
-import { linkLabel } from '../../../markdown/dataview-value'
-import { reskinName } from '../../../data/reskin'
-import { ItemHover } from '../../item-card'
 import {
   AcoesResumo,
   AtaquesResumo,
@@ -22,7 +19,6 @@ import {
   PericiasResumo,
   Section,
   TecnicasResumo,
-  chipStyle,
   inventarioItens,
   propBase,
   type Fm,
@@ -107,29 +103,15 @@ export function SubHabilidades({ vm }: { vm: CombatenteVM }) {
 export function SubPertences({ vm }: { vm: CombatenteVM }) {
   const fm = vm.doc.frontmatter as Fm
   const refs = useHeroRefs(vm.doc)
-  // armas e escudo NÃO entram (pedido 2026-10-02): já aparecem em ATAQUES e
-  // no bloco do escudo da linha — aqui só o que não tem outro lugar
-  const armadura = str(fmPath(fm, 'Inventario', 'Armadura', 'Nome'))
+  // armas, escudo e armadura NÃO entram (pedido 2026-10-02): armas estão em
+  // ATAQUES, o escudo no bloco da linha, a armadura já conta nas defesas —
+  // aqui só tesouros e consumíveis
   const tesouros = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Tesouros'), { dedup: true, comQtd: false }), [fm])
   const consumiveis = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Consumiveis'), { dedup: false, comQtd: true }), [fm])
   if (vm.semFicha) return <Vazio texto="sem ficha — pertences indisponíveis" />
-  const equip = armadura ? [{ key: 'armadura', raw: armadura, label: linkLabel(armadura) }] : []
-  if (!equip.length && !tesouros.length && !consumiveis.length) return <Vazio texto="nada no inventário" />
+  if (!tesouros.length && !consumiveis.length) return <Vazio texto="nada no inventário" />
   return (
     <div data-escudo-pertences="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {equip.length ? (
-        <Section label="// ARMADURA">
-          <div data-resumo-chiplist="" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-            {equip.map((e) => (
-              <span key={e.key} data-resumo-chip="" style={chipStyle}>
-                <ItemHover doc={refs.refDoc(e.raw)}>
-                  <span>{reskinName(e.label)}</span>
-                </ItemHover>
-              </span>
-            ))}
-          </div>
-        </Section>
-      ) : null}
       {tesouros.length ? (
         <Section label="// TESOUROS">
           <HoverList items={tesouros} refs={refs} />

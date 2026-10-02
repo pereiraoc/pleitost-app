@@ -10,6 +10,7 @@ import type { CSSProperties } from 'react'
 import { useSessionRepo } from '../../../data/session-repo/provider'
 import { novoRev } from '../../../data/session-repo/vida-sync'
 import { reskinName } from '../../../data/reskin'
+import { linkLabel } from '../../../markdown/dataview-value'
 import { docField, fmPath, num, str, tierLetter } from '../../ficha/hero-model'
 import { useHeroRefs } from '../../ficha/useHeroRefs'
 import { tokens } from '../../ficha/registry'
@@ -58,8 +59,8 @@ export function EscudoDoCombatente({ vm }: { vm: CombatenteVM }) {
     mono({
       display: 'inline-flex',
       alignItems: 'center',
-      gap: 4,
-      padding: '2px 8px',
+      gap: 2,
+      padding: '1px 5px',
       background: disabled ? 'transparent' : `color-mix(in srgb,${tone} 16%,var(--panel))`,
       border: `1px solid ${disabled ? 'var(--line2)' : `color-mix(in srgb,${tone} 45%,var(--line2))`}`,
       color: disabled ? 'var(--muted)' : 'var(--text)',
@@ -77,7 +78,7 @@ export function EscudoDoCombatente({ vm }: { vm: CombatenteVM }) {
     >
       <span style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' })}>ESCUDO</span>
       <ItemHover doc={escudoDoc} propDoc={propDoc} tier={tierLetter(escudo['Categoria']) || undefined}>
-        <span style={{ fontSize: 12, fontWeight: 700 }}>{reskinName(nome)}</span>
+        <span data-escudo-nome="" style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--text)' }}>{reskinName(linkLabel(nome))}</span>
       </ItemHover>
       <span title="Dureza" style={mono({ fontSize: 10, color: 'var(--muted)', display: 'inline-flex', alignItems: 'center', gap: 3 })}>
         <span style={{ fontSize: 11 }}>{tokens.emojis.inv.Dureza}</span>
@@ -100,27 +101,26 @@ export function EscudoDoCombatente({ vm }: { vm: CombatenteVM }) {
           ))}
         </span>
         {intMax === 0 ? <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>—</span> : null}
-      </span>
-      <span style={{ display: 'inline-flex', gap: 4 }}>
+        {/* −1/+1 colados na integridade: emoji + número, sem texto (pedido 2026-10-02) */}
         <button
           type="button"
           aria-label="Danificar escudo"
-          title={edita ? 'Danificar (+1 dano)' : 'Só o dono da ficha ajusta o escudo'}
+          title={edita ? 'Danificar: −1 de integridade' : 'Só o dono da ficha ajusta o escudo'}
           disabled={!edita || intCur <= 0}
           onClick={() => setDano(dano + 1)}
           style={btn('var(--red)', !edita || intCur <= 0)}
         >
-          💢 Danificar
+          💢<span>−1</span>
         </button>
         <button
           type="button"
           aria-label="Reparar escudo"
-          title={edita ? 'Reparar (−1 dano)' : 'Só o dono da ficha ajusta o escudo'}
+          title={edita ? 'Reparar: +1 de integridade' : 'Só o dono da ficha ajusta o escudo'}
           disabled={!edita || dano <= 0}
           onClick={() => setDano(dano - 1)}
           style={btn('#43a06a', !edita || dano <= 0)}
         >
-          🔧 Reparar
+          🔧<span>+1</span>
         </button>
       </span>
     </div>

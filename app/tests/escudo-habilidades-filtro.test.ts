@@ -41,16 +41,16 @@ describe('vistasDisponiveis', () => {
   it('Goblin Batedor: ataques e perícias sim; magias (tudo N, sem lista) e pertences (só armas) não', () => {
     expect(vistasDisponiveis(goblin, catalog)).toEqual({ ataques: true, magias: false, pericias: true, habilidades: true, pertences: false })
   })
-  it('Carlos: tudo disponível (armadura/tesouros/consumíveis contam; armas não)', () => {
+  it('Carlos: tudo disponível (tesouros/consumíveis contam; armas e armadura não)', () => {
     expect(vistasDisponiveis(carlos, catalog)).toEqual({ ataques: true, magias: true, pericias: true, habilidades: true, pertences: true })
   })
   it('Zuko: habilidades vazias depois de tirar as essências? não — Evolução Básica e Magias Anima ficam; magias sim', () => {
     expect(temMagias(zuko)).toBe(true)
     expect(temHabilidades(zuko, catalog)).toBe(true)
   })
-  it('pertences: só armas/escudo → vazio; armadura → cheio', () => {
-    expect(temPertences({ Inventario: { Armas: { Lista: [{ Nome: '[[Espada]]' }] }, Escudo: { Nome: '[[Escudo]]' } } })).toBe(false)
-    expect(temPertences({ Inventario: { Armadura: { Nome: '[[Armadura Leve]]' } } })).toBe(true)
+  it('pertences: armas/escudo/armadura → vazio; tesouro ou consumível → cheio', () => {
+    expect(temPertences({ Inventario: { Armas: { Lista: [{ Nome: '[[Espada]]' }] }, Escudo: { Nome: '[[Escudo]]' }, Armadura: { Nome: '[[Armadura Leve]]' } } })).toBe(false)
+    expect(temPertences({ Inventario: { Tesouros: ['[[Anel Canário|Anel Canário (Adepto)]]'] } })).toBe(true)
     expect(temPertences({ Inventario: { Consumiveis: ['[[Poção de Cura|Poção de Cura (Adepto) (x0)]]'] } })).toBe(false)
     expect(temPertences({ Inventario: { Consumiveis: ['[[Poção de Cura|Poção de Cura (Adepto) (x2)]]'] } })).toBe(true)
   })

@@ -1,6 +1,7 @@
 // ESCUDO DO MESTRE — a FICHA de um combatente DENTRO da linha dele no combate
 // da sala. Embaixo da vida (e das defesas, que a linha já mostra sempre):
-// o ESCUDO do combatente (dureza/integridade/danificar/reparar) e uma fila de
+// o ESCUDO do combatente (dureza/integridade/danificar/reparar), as CONDIÇÕES
+// (ativas + ligar/desligar as do sistema) e uma fila de
 // chips (ATAQUES · MAGIAS · PERÍCIAS · HABILIDADES · PERTENCES) que escolhe,
 // POR COMBATENTE, o que o mestre quer ver (pedido 2026-10-02: a vista é
 // individual). Chip de vista VAZIA vem desabilitado (claramente não clicável).
@@ -11,17 +12,20 @@ import { reskinUpper } from '../../../data/reskin'
 import { clip, type TabDef } from '../../ficha/bits'
 import { SubAtaques, SubHabilidades, SubPericias, SubPertences, SubTecnologias } from './secoes'
 import { EscudoDoCombatente } from './EscudoDoCombatente'
+import { CondicoesDoCombatente } from './CondicoesDoCombatente'
+import type { VaultDoc } from '../../../data/types'
 import { vistasDisponiveis, type VistaId } from './disponibilidade'
 import type { CombatenteVM } from './useCombatentes'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
+/** Ordem pedida (2026-10-02): Ataques, Perícias, Habilidades, Pertences, Magias. */
 export const VISTAS: (TabDef & { id: VistaId })[] = [
   { id: 'ataques', label: 'ATAQUES' },
-  { id: 'magias', label: 'MAGIAS' },
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pertences', label: 'PERTENCES' },
+  { id: 'magias', label: 'MAGIAS' },
 ]
 
 const RENDER: Record<VistaId, (vm: CombatenteVM) => React.ReactNode> = {
@@ -36,10 +40,13 @@ export function FichaDaLinha({
   vm,
   vista,
   onVista,
+  condicaoDocs,
 }: {
   vm: CombatenteVM
   vista: string | null
   onVista: (vista: string | null) => void
+  /** Docs da pasta de condições (carregados uma vez no Escudo). */
+  condicaoDocs: readonly VaultDoc[]
 }) {
   const catalog = useCatalog()
   const fm = vm.doc.frontmatter as Record<string, unknown>
@@ -48,6 +55,7 @@ export function FichaDaLinha({
   return (
     <div data-escudo-ficha={vm.c.id} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <EscudoDoCombatente vm={vm} />
+      <CondicoesDoCombatente vm={vm} docs={condicaoDocs} />
       <div data-escudo-vistas="" style={{ display: 'flex', flexWrap: 'wrap', gap: 4, paddingLeft: 39 }}>
         {VISTAS.map((v) => {
           const on = ativa === v.id

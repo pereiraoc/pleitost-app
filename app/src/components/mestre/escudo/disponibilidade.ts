@@ -60,10 +60,9 @@ export function temHabilidades(fm: Fm, catalog: Catalog): boolean {
   return listaEntries(fmPath(fm, 'Acoes', 'Lista')).some((e) => !!e.target)
 }
 
-/** Armadura, tesouros ou consumíveis (armas e escudo NÃO: já aparecem em
- *  ATAQUES e no bloco do escudo). */
+/** Tesouros ou consumíveis (armas, escudo e armadura NÃO: já aparecem em
+ *  ATAQUES, no bloco do escudo e nas defesas). */
 export function temPertences(fm: Fm): boolean {
-  if (str(fmPath(fm, 'Inventario', 'Armadura', 'Nome'))) return true
   const tes = lista(fmPath(fm, 'Inventario', 'Tesouros')).some((t) => !!parseItemAlias(t).nome)
   if (tes) return true
   return lista(fmPath(fm, 'Inventario', 'Consumiveis')).some((c) => {

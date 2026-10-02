@@ -19,6 +19,7 @@ import { SubVida } from './SubVida'
 import { SubCena } from './SubCena'
 import { FichaDaLinha } from './FichaDaLinha'
 import { useCombatentes, type FiltroEscudo } from './useCombatentes'
+import { useCondicaoDocs } from '../../../interativa/useInterativaCtx'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
@@ -61,6 +62,7 @@ export function EscudoDoMestreTab() {
   const [cenaAberta, setCenaAberta] = useState(false)
   const { active } = useSessions()
   const { live, ativo, todos, vezDe } = useCombatentes('todos')
+  const { docs: condicaoDocs } = useCondicaoDocs()
   const vmById = new Map(todos.map((vm) => [vm.c.id, vm]))
   const inimigos = todos.filter((vm) => vm.lado === 'inimigo')
 
@@ -111,6 +113,7 @@ export function EscudoDoMestreTab() {
                     vm={vm}
                     vista={vistas[c.id] ?? null}
                     onVista={(v) => setVistas((m) => ({ ...m, [c.id]: v }))}
+                    condicaoDocs={condicaoDocs}
                   />
                 )
               }}

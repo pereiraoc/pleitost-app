@@ -202,17 +202,40 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
   })
 
-  it('VIDA: condição ligada no state do combatente vira chip dentro da linha', async () => {
+  it('CONDIÇÕES na linha: ativas em chips; o mestre liga/desliga as do sistema no NPC (state); herói só leitura', async () => {
     const repo = new InMemorySessionRepo()
     renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
-    const { goblin } = await mesaComCombate(repo)
+    const { heroi, goblin } = await mesaComCombate(repo)
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${goblin.id}"]`)).toBeTruthy())
     await repo.updateCharacterState(goblin.id, { condicoesAtivas: { Caído: true, Cego: 0 }, efeitosAtivos: { Apressado: true } })
-    await waitFor(() => expect(sub('vida')!.querySelector('[data-escudo-condicao="Caído"]')).toBeTruthy())
-    const linha = sub('vida')!.querySelector(`[data-combatente-id="${goblin.id}"]`) as HTMLElement
-    expect(linha.querySelector('[data-escudo-condicao="Caído"]')).toBeTruthy()
-    expect(linha.querySelector('[data-escudo-condicao="Apressado"]')?.getAttribute('data-escudo-condicao-tipo')).toBe('efeito')
-    expect(linha.querySelector('[data-escudo-condicao="Cego"]')).toBeNull() // 0 = desligada
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')).toBeTruthy())
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Apressado"]')?.getAttribute('data-escudo-condicao-tipo')).toBe('efeito')
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Cego"]')).toBeNull() // 0 = desligada
+
+    // ▸ TODAS abre a lista do sistema (positivas/negativas); ligar Cego grava {value:1}
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicoes-toggle]')!)
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicoes-todas]')).toBeTruthy())
+    const chipCego = linha(goblin.id).querySelector('[data-escudo-condicao-chip="Cego"]') as HTMLButtonElement
+    expect(chipCego).toBeTruthy()
+    expect(chipCego.getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(chipCego)
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Cego"]')).toBeTruthy())
+    let st = (await repo.findCharactersBySession(await repo.findSessionByCode(listSessions()[0]!.codigo).then((s) => s!.id))).find((c) => c.id === goblin.id)!.state
+    expect(st.condicoesAtivas['Cego']).toEqual({ value: 1 })
+    expect(st.condicoesAtivas['Caído']).toBe(true) // as outras ficam
+    // desligar Caído pelo chip ativo
+    fireEvent.click(within(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]') as HTMLElement).getByRole('button'))
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')).toBeNull())
+    st = (await repo.findCharactersBySession(await repo.findSessionByCode(listSessions()[0]!.codigo).then((s) => s!.id))).find((c) => c.id === goblin.id)!.state
+    expect('Caído' in st.condicoesAtivas).toBe(false)
+
+    // herói: sem botão TODAS (o jogador é o dono); ativa dele aparece só leitura
+    fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
+    expect(linha(heroi.id).querySelector('[data-escudo-condicoes-toggle]')).toBeNull()
+    await repo.updateCharacterState(heroi.id, { condicoesAtivas: { Caído: { value: 1 } } })
+    await waitFor(() => expect(linha(heroi.id).querySelector('[data-escudo-condicao="Caído"]')).toBeTruthy())
+    expect((within(linha(heroi.id).querySelector('[data-escudo-condicao="Caído"]') as HTMLElement).getByRole('button') as HTMLButtonElement).disabled).toBe(true)
   })
 
   it('linha: defesas sempre embaixo da vida (sem toggle 🛡️); vista POR LINHA (goblin ATAQUES desc, herói PERTENCES sem armas); chip vazio desabilitado; chip ativo fecha', async () => {
@@ -257,9 +280,18 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(vista(heroi.id)).toBeNull()
     expect(chip(heroi.id, 'pertences').disabled).toBe(false)
     abrirVista(heroi.id, 'pertences')
-    await waitFor(() => expect(within(vista(heroi.id)!).getByText('Armadura Leve')).toBeTruthy())
+    await waitFor(() => expect(within(vista(heroi.id)!).getByText('// TESOUROS')).toBeTruthy())
     expect(within(vista(heroi.id)!).queryByText('Punhal')).toBeNull()
-    expect(within(vista(heroi.id)!).getByText('// TESOUROS')).toBeTruthy()
+    expect(within(vista(heroi.id)!).queryByText('Armadura Leve')).toBeNull()
+    expect(within(vista(heroi.id)!).getByText('// CONSUMÍVEIS')).toBeTruthy()
+    // ordem pedida dos chips: Ataques, Perícias, Habilidades, Pertences, Magias
+    expect([...linha(heroi.id).querySelectorAll('[data-escudo-vista-chip]')].map((e) => e.getAttribute('data-escudo-vista-chip'))).toEqual([
+      'ataques',
+      'pericias',
+      'habilidades',
+      'pertences',
+      'magias',
+    ])
     expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('ataques')
 
     // PERÍCIAS do herói: desc
@@ -314,6 +346,9 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-escudo-escudo="${soldado.id}"]`)).toBeTruthy())
     const bloco = () => linha(soldado.id).querySelector('[data-escudo-escudo]') as HTMLElement
     // Escudo (danos:: 4), sem dano volátil → integridade 4/4, dureza 4; Reparar desabilitado
+    expect(bloco().querySelector('[data-escudo-nome]')!.textContent).toBe('Escudo') // sem [[ ]]
+    expect(within(bloco()).getByLabelText('Danificar escudo').textContent).toBe('💢−1')
+    expect(within(bloco()).getByLabelText('Reparar escudo').textContent).toBe('🔧+1')
     expect(bloco().querySelector('[data-escudo-dureza]')!.textContent).toBe('4')
     expect(bloco().querySelector('[data-escudo-integridade]')!.getAttribute('data-escudo-integridade')).toBe('4/4')
     expect((within(bloco()).getByLabelText('Reparar escudo') as HTMLButtonElement).disabled).toBe(true)
