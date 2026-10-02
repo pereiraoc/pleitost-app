@@ -33,7 +33,8 @@ import {
 } from '../../data/session-store'
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
 import { loginGitHub, logoutSessao } from '../../data/session-repo/auth-state'
-import { generateSessionCode } from '../../data/session-repo/contract'
+import {
+  type EncounterTurnState, generateSessionCode } from '../../data/session-repo/contract'
 import type { SessionCharacter, SessionRepo, SessionRealtime } from '../../data/session-repo/contract'
 import { decideBackflow, novoRev, pendenciaResolvida } from '../../data/session-repo/vida-sync'
 import {
@@ -64,7 +65,8 @@ import {
 } from '../../interativa/invocacao'
 import { advanceTurn } from '../../data/session-repo/turn'
 import {
-  blockSortOrder,
+  normalizaTurnState,
+  ordemDeTurnoEfetiva,
   dropOrder,
   ladoDe,
   SPEED_EMOJI,
@@ -982,6 +984,16 @@ function CombatenteInvocacoes({ char }: { char: SessionCharacter }) {
   )
 }
 
+/** JSON canônico (chaves ordenadas) pra comparar turnState com o que o
+ *  servidor devolve — jsonb não preserva ordem de chave. */
+function canonTs(v: unknown): string {
+  return JSON.stringify(v, (_k, val) =>
+    val && typeof val === 'object' && !Array.isArray(val)
+      ? Object.fromEntries(Object.keys(val as Record<string, unknown>).sort().map((k) => [k, (val as Record<string, unknown>)[k]]))
+      : val,
+  )
+}
+
 function CombateDaSala({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
@@ -1019,6 +1031,46 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const [, evBump] = useReducer((x: number) => x + 1, 0)
   // #487: caixinha ±X ao lado dos steppers (texto por NPC; aplica no Enter).
   const [evBox, setEvBox] = useState<Record<string, string>>({})
+  // Report 2026-10-01 (3): menu de velocidade — clicar no chip mostra TODAS
+  // as opções do lado de uma vez (um toque escolhe), em vez do ciclo às
+  // cegas que fazia a linha pular de bloco a cada clique.
+  const [speedMenu, setSpeedMenu] = useState<string | null>(null)
+  // Report 2026-10-01 (1): turnState OTIMISTA — PRÓXIMO/velocidade/esconder
+  // respondem NO CLIQUE; o write coalesce (250ms após o último) e o live
+  // confirma depois. Mesmo racional do evPendente (#487), agora pro turno.
+  const [tsOtimista, setTsOtimista] = useState<{ encId: string; ts: EncounterTurnState; desde: number } | null>(null)
+  const tsPendente = useRef<{ encId: string; ts: EncounterTurnState } | null>(null)
+  const tsEscrito = useRef<string | null>(null)
+  const tsTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const tsChain = useRef<Promise<unknown>>(Promise.resolve())
+  useEffect(() => {
+    // solta o otimista quando o SERVIDOR alcançou o último write (comparação
+    // CANÔNICA — jsonb não preserva ordem de chave), quando o encontro
+    // sumiu/arquivou, ou após 5s sem confirmação (válvula: nunca segurar a
+    // tela do GM presa num estado que o servidor não aceitou).
+    setTsOtimista((cur) => {
+      if (!cur) return cur
+      const enc = live?.encounters.find((e) => e.id === cur.encId)
+      if (!enc || enc.status !== 'active') return null
+      if (!tsPendente.current && tsEscrito.current && canonTs(enc.turnState) === tsEscrito.current)
+        return null
+      if (!tsPendente.current && Date.now() - cur.desde > 5000) return null
+      return cur
+    })
+  }, [live])
+  // FLUSH no unmount: o debounce segura o write 250ms — sem isto, fechar o
+  // painel/aba nesse intervalo perderia a última edição (pegou no teste #324).
+  const repoRef = useRef(repo)
+  repoRef.current = repo
+  useEffect(
+    () => () => {
+      if (tsTimer.current) clearTimeout(tsTimer.current)
+      const p = tsPendente.current
+      tsPendente.current = null
+      if (p) void repoRef.current?.updateEncounterTurnState(p.encId, p.ts).catch(() => {})
+    },
+    [],
+  )
   useEffect(() => {
     for (const [id, p] of evPendente.current) {
       if (evTimers.current.has(id)) continue
@@ -1045,7 +1097,34 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   )
   if (!repo || !user || !sess.remoteId || !live) return null
   const isGm = live.gmUserId === user.id
-  const ativo = live.encounters.find((e) => e.status === 'active') ?? null
+  const ativoServidor = live.encounters.find((e) => e.status === 'active') ?? null
+  // overlay otimista: tudo abaixo (render e handlers) enxerga o turnState
+  // mais novo na hora; o servidor é alcançado pelo aplicaTs.
+  const ativo =
+    ativoServidor && tsOtimista && tsOtimista.encId === ativoServidor.id
+      ? { ...ativoServidor, turnState: tsOtimista.ts }
+      : ativoServidor
+  /** Report 2026-10-01 (1): aplica o turnState na UI JÁ e escreve coalescido
+   *  (250ms após o último gesto; writes serializados). Falhou → solta o
+   *  otimista e o live reimpõe a verdade do servidor. */
+  const aplicaTs = (encId: string, ts: EncounterTurnState) => {
+    setTsOtimista({ encId, ts, desde: Date.now() })
+    tsPendente.current = { encId, ts }
+    if (tsTimer.current) clearTimeout(tsTimer.current)
+    tsTimer.current = setTimeout(() => {
+      tsTimer.current = null
+      const p = tsPendente.current
+      tsPendente.current = null
+      if (!p) return
+      tsEscrito.current = canonTs(p.ts)
+      tsChain.current = tsChain.current.then(() =>
+        repo.updateEncounterTurnState(p.encId, p.ts).catch(() => {
+          tsEscrito.current = null
+          setTsOtimista(null)
+        }),
+      )
+    }, 250)
+  }
   const preparados = live.encounters.filter((e) => e.status === 'prepared')
   const sessionId = sess.remoteId
 
@@ -1072,15 +1151,6 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     await startEncounterFromRoster(repo, catalog, enc, user.id)
   }
 
-  const mover = async (delta: number) => {
-    if (!ativo?.turnState) return
-    const ts = ativo.turnState
-    // #291: contador monotônico → PRÓXIMO/ANTERIOR são inversos exatos e a virada
-    // de rodada não desincroniza (advanceTurn puro, testado).
-    const { currentIndex, round } = advanceTurn(ts, delta)
-    await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex, round })
-  }
-
   // #324: velocidade por combatente → forma os 6 blocos com o LADO (da família).
   // PADRÃO = lento (não existe "sem velocidade"). Guardada em turnState.speeds; ao
   // mudar, a ORDEM é reordenada pelos blocos (blockSortOrder) pro turno andar em
@@ -1101,21 +1171,25 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const c = charByIdLive.get(id)
     return c ? ladoDeChar(c) : 'inimigo'
   }
-  const assignSpeed = async (id: string, tier: SpeedTier) => {
+  const mover = (delta: number) => {
+    if (!ativo?.turnState) return
+    // Report 2026-10-01 (2): NORMALIZA antes de andar — a travessia passa a
+    // ser a MESMA ordem que o display agrupa (default Lento; quem entrou no
+    // meio do combate por append derrete pro bloco certo). #291: advanceTurn
+    // segue contador monotônico (PRÓXIMO/ANTERIOR inversos exatos).
+    const ts = normalizaTurnState(ativo.turnState, ladoOf)
+    const { currentIndex, round } = advanceTurn(ts, delta)
+    aplicaTs(ativo.id, { ...ts, currentIndex, round })
+  }
+  const assignSpeed = (id: string, tier: SpeedTier) => {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
     const sp = { ...(ts.speeds ?? {}), [id]: tier }
     const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
-    const order = blockSortOrder(ts.order, sp, ladoOf)
+    // ordem EFETIVA (default Lento) — igual ao display, report 2026-10-01 (2)
+    const order = ordemDeTurnoEfetiva(ts.order, sp, ladoOf)
     const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
-    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
-  }
-  // ciclo entre as velocidades DISPONÍVEIS pro lado (herói tem Super Lento;
-  // inimigo não) — sem "nenhuma".
-  const cycleSpeed = (id: string) => {
-    const tiers = tiersFor(ladoOf(id))
-    const idx = tiers.indexOf(speedOf(id))
-    void assignSpeed(id, tiers[(idx + 1) % tiers.length]!)
+    aplicaTs(ativo.id, { ...ts, order, speeds: sp, currentIndex })
   }
   // #324: DRAG-AND-DROP pra dentro dos blocos. Ao mover, o bloco sob o dedo vira
   // alvo; ao soltar, define a velocidade (só se o LADO bater — não dá pra pôr
@@ -1157,7 +1231,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // #400: move `from` pro bloco `tier` e o insere na posição do indicador de
   // drop (antes/depois de `row.id`). Persiste pelo MESMO caminho do assignSpeed
   // (updateEncounterTurnState); o ponteiro de turno segue o combatente da vez.
-  const dropNaPosicao = async (
+  const dropNaPosicao = (
     from: string,
     tier: SpeedTier,
     row: { id: string; before: boolean } | null,
@@ -1165,10 +1239,14 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
     const sp = { ...(ts.speeds ?? {}), [from]: tier }
-    const order = dropOrder(ts.order, ts.speeds ?? {}, ladoOf, from, tier, row)
+    // speeds EFETIVAS (default Lento) — sem isso, combatente sem velocidade
+    // explícita ia pro fim da travessia, divergindo do display (2026-10-01).
+    const efetivas: Record<string, SpeedTier> = {}
+    for (const cid of ts.order) efetivas[cid] = sp[cid] ?? 'lento'
+    const order = dropOrder(ts.order, efetivas, ladoOf, from, tier, row)
     const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
     const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
-    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
+    aplicaTs(ativo.id, { ...ts, order, speeds: sp, currentIndex })
   }
 
   // #391: reordenar DENTRO do bloco — o drag (#324) só movia ENTRE blocos. O
@@ -1188,7 +1266,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // Troca os DOIS ids de posição (o que estiver entre eles — outro bloco — não
   // se move) e persiste pelo MESMO caminho do drag (updateEncounterTurnState);
   // como no assignSpeed, o ponteiro de turno segue o COMBATENTE da vez.
-  const moveNoBloco = async (id: string, dir: -1 | 1) => {
+  const moveNoBloco = (id: string, dir: -1 | 1) => {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
     const outro = vizinhoNoBloco(id, dir)
@@ -1200,17 +1278,17 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     order[j] = id
     const currentId = ts.order[ts.currentIndex]
     const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
-    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, currentIndex })
+    aplicaTs(ativo.id, { ...ts, order, currentIndex })
   }
 
   // #324: ESCONDER combatente — persiste em turnState.hidden (mesmo jsonb, sem
   // coluna nova). Jogadores não veem os escondidos; o GM vê com 🙈.
   const hidden = new Set(ativo?.turnState?.hidden ?? [])
-  const toggleHidden = async (id: string) => {
+  const toggleHidden = (id: string) => {
     if (!ativo?.turnState) return
     const cur = ativo.turnState.hidden ?? []
     const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]
-    await repo.updateEncounterTurnState(ativo.id, { ...ativo.turnState, hidden: next })
+    aplicaTs(ativo.id, { ...ativo.turnState, hidden: next })
   }
 
   // #291: pro GM, sobrepõe o real (do segredo) sobre os NPCs disfarçados — o
@@ -1466,13 +1544,45 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               visível, em qualquer largura de tela). */}
           {isGm && editIniciativa ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap', paddingLeft: 39 }}>
-              <button
-                onClick={() => cycleSpeed(c.id)}
-                title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra trocar)`}
-                style={mono({ background: 'var(--panel)', border: '1px solid var(--line2)', cursor: 'pointer', fontSize: 13, padding: '1px 6px', flex: 'none' })}
-              >
-                {SPEED_EMOJI[speedOf(c.id)]}
-              </button>
+              {speedMenu === c.id ? (
+                // Report 2026-10-01 (3): todas as velocidades do LADO de uma
+                // vez — um toque define e fecha; a atual vem destacada.
+                <span data-speed-menu="" style={{ display: 'flex', gap: 3, flex: 'none', flexWrap: 'wrap' }}>
+                  {tiersFor(ladoOf(c.id)).map((tier) => {
+                    const atual = speedOf(c.id) === tier
+                    return (
+                      <button
+                        key={tier}
+                        aria-label={`Velocidade ${SPEED_LABEL[tier]}`}
+                        title={SPEED_LABEL[tier]}
+                        onClick={() => {
+                          setSpeedMenu(null)
+                          if (!atual) assignSpeed(c.id, tier)
+                        }}
+                        style={mono({
+                          background: atual ? 'var(--accent)' : 'var(--panel)',
+                          color: atual ? 'var(--ink)' : 'var(--text)',
+                          border: atual ? '1px solid var(--accent)' : '1px solid var(--line2)',
+                          cursor: 'pointer',
+                          fontSize: 11,
+                          padding: '2px 7px',
+                          flex: 'none',
+                        })}
+                      >
+                        {SPEED_EMOJI[tier]} {SPEED_LABEL[tier]}
+                      </button>
+                    )
+                  })}
+                </span>
+              ) : (
+                <button
+                  onClick={() => setSpeedMenu(c.id)}
+                  title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra escolher)`}
+                  style={mono({ background: 'var(--panel)', border: '1px solid var(--line2)', cursor: 'pointer', fontSize: 13, padding: '1px 6px', flex: 'none' })}
+                >
+                  {SPEED_EMOJI[speedOf(c.id)]}
+                </button>
+              )}
               {/* #391: ↑/↓ reordenam DENTRO do bloco (o drag só move entre
                   blocos); desabilitado no primeiro/último do bloco. */}
               <span style={{ display: 'flex', gap: 3, flex: 'none' }}>

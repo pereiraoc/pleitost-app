@@ -139,3 +139,32 @@ export function dropOrder(
   }
   return out
 }
+
+/** Report 2026-10-01: a ordem de TRAVESSIA do turno tem que ser a MESMA que o
+ *  display agrupa — default 'lento' pra quem não tem velocidade explícita (a
+ *  regra do produto: "não existe sem velocidade" na sessão), blocos canônicos
+ *  Jog/Ini × Super/Rápido/Lento/Super Lento. Difere do blockSortOrder, que
+ *  preserva "sem velocidade" no fim (semântica do PREPARO de combate). */
+export function ordemDeTurnoEfetiva(
+  order: readonly string[],
+  speeds: Record<string, SpeedTier>,
+  ladoOf: (id: string) => Lado,
+): string[] {
+  const efetivas: Record<string, SpeedTier> = {}
+  for (const id of order) efetivas[id] = speeds[id] ?? 'lento'
+  return blockSortOrder(order, efetivas, ladoOf)
+}
+
+/** Normaliza um turnState pra ordem efetiva de travessia, preservando o
+ *  combatente da vez e a rodada. Idempotente — o GM aplica antes de qualquer
+ *  avanço/escrita, então appends de meio de combate (reconcile de herói,
+ *  monstro do bestiário) derretem pro bloco certo. */
+export function normalizaTurnState<
+  T extends { order: string[]; currentIndex: number; round: number; speeds?: Record<string, SpeedTier> },
+>(ts: T, ladoOf: (id: string) => Lado): T {
+  const order = ordemDeTurnoEfetiva(ts.order, ts.speeds ?? {}, ladoOf)
+  if (order.length === ts.order.length && order.every((id, i) => id === ts.order[i])) return ts
+  const currentId = ts.order[Math.max(0, Math.min(ts.currentIndex, ts.order.length - 1))]
+  const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+  return { ...ts, order, currentIndex }
+}

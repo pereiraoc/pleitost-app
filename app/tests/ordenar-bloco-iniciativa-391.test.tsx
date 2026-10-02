@@ -176,10 +176,12 @@ describe('#391 — reordenar DENTRO do bloco no modo editar iniciativa', () => {
     )
     fireEvent.click(screen.getByText('✎ EDITAR INICIATIVA'))
 
-    // move o Guerreiro pro bloco RÁPIDO (cycle de velocidade: lento → superLento?
-    // não — inimigo cicla super→rapido→lento; um clique sai de lento pra super).
+    // move o Guerreiro pro bloco SUPER RÁPIDO — report 2026-10-01 (3): o chip
+    // abre um MENU com todas as velocidades do lado (um toque escolhe), em vez
+    // do ciclo às cegas que fazia a linha pular de bloco a cada clique.
     const rowGuerreiro = linhaDoCombatente('Goblin Guerreiro')
     fireEvent.click(within(rowGuerreiro).getByTitle(/Velocidade: Lento/))
+    fireEvent.click(await screen.findByLabelText('Velocidade Super Rápido'))
     await waitFor(() => {
       // cada um sozinho no seu bloco → nenhum vizinho → tudo desabilitado
       for (const nome of ['Goblin Batedor', 'Goblin Guerreiro']) {

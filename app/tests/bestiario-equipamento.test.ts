@@ -195,11 +195,20 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
   // Magia do sistema — e o bestiário cobria 31 de 99: todo conjurador do mesmo
   // elemento saía com o MESMO prefixo da lista, e a Utilitrônica inteira não
   // estava na mão de ninguém.
+  // T3 de Terra em playtest (5e376ab5): entraram no catálogo sem dono no
+  // bestiário DE PROPÓSITO — não existe Fator Terra com Anima Mestre na POA
+  // (essência Mestre só do próprio Fator). A lista vale nos DOIS sentidos:
+  // quando uma criatura as carregar e ninguém tirar daqui, o teste quebra e
+  // cobra a limpeza, em vez de virar exceção permanente.
+  const MAGIAS_SEM_DONO_PENDENTES = new Set(['Fenda Tectônica', 'Revolta da Terra'])
   it('toda tecnologia do catálogo está com alguma criatura', () => {
     const usadas = new Set(criaturas.flatMap((c) => magiasDe(c.fm)))
-    const faltando = magiasDoCatalogo()
-      .filter((m) => !usadas.has(m))
+    const faltando = magiasDoCatalogo().filter(
+      (m) => !usadas.has(m) && !MAGIAS_SEM_DONO_PENDENTES.has(m),
+    )
     expect(faltando).toEqual([])
+    const resolvidas = [...MAGIAS_SEM_DONO_PENDENTES].filter((m) => usadas.has(m))
+    expect(resolvidas, 'ganhou dono no bestiário — tira da lista de pendentes').toEqual([])
   })
 
   // AS ESCOLAS NÃO SE MISTURAM (regra que o mestre apontou em 2026-09-13, e que
