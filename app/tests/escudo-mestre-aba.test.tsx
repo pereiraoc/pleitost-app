@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
 // ESCUDO DO MESTRE (2026-10-02) — a aba COMBATE da ficha em MODO MESTRE vira o
-// painel do mestre: cabeçalho (turno/vez/dificuldade), todos os combatentes do
-// encontro ativo da sala (filtro padrão INIMIGOS, chip TODOS) em sub-abas
-// VIDA (CombateDaSala + condições), DEFESAS, ATAQUES (desc), MAGIAS, PERÍCIAS
-// (desc), HABILIDADES e PERTENCES. Jogador (mestre off) segue vendo o COMBATE.
+// painel do mestre: cabeçalho (turno/vez/dificuldade), o combate da sala com
+// todos os combatentes do encontro ativo (filtro padrão INIMIGOS, chip TODOS,
+// condições na linha) e, POR COMBATENTE, chips que abrem embaixo da linha a
+// vista escolhida: DEFESAS, ATAQUES (desc), MAGIAS, PERÍCIAS (desc),
+// HABILIDADES (sem modificadores de bestiário) e PERTENCES — cada linha com a
+// sua. Jogador (mestre off) segue vendo o COMBATE.
 // Harness: FichaPage do Carlos (fixture congelada) + RightSidebar (face
 // SESSÃO cria a mesa e mantém o live), repo em memória.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
@@ -26,6 +28,7 @@ import { __resetSessionStoreForTests, listSessions } from '../src/data/session-s
 import { setLiveSession } from '../src/data/session-repo/live-session'
 import { __resetSettingsForTests } from '../src/settings'
 import { addMonsterToInitiative } from '../src/data/session-repo/encounter-actions'
+import { readDisguiseSecret } from '../src/data/session-repo/disguise-secrets'
 import { buildCharacterState, buildCharacterSummary } from '../src/data/session-repo/publish'
 import { heroPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
@@ -131,11 +134,15 @@ async function mesaComCombate(repo: InMemorySessionRepo) {
 
 const escudo = () => document.querySelector('[data-escudo-mestre]') as HTMLElement | null
 const sub = (id: string) => document.querySelector(`[data-escudo-sub="${id}"]`) as HTMLElement | null
-const subTab = (label: string) => {
-  const tabs = within(escudo()!).getAllByRole('button').filter((b) => b.textContent === label)
-  expect(tabs.length).toBeGreaterThan(0)
-  fireEvent.click(tabs[0]!)
+/** Linha de um combatente no combate do ESCUDO (não a cópia da sidebar). */
+const linha = (id: string) => sub('vida')!.querySelector(`[data-combatente-id="${id}"]`) as HTMLElement
+/** Abre a vista `v` NA LINHA do combatente `id` (chip individual). */
+const abrirVista = (id: string, v: string) => {
+  const chip = linha(id).querySelector(`[data-escudo-vista-chip="${v}"]`) as HTMLButtonElement | null
+  expect(chip, `chip ${v} na linha ${id}`).toBeTruthy()
+  fireEvent.click(chip!)
 }
+const vista = (id: string) => linha(id).querySelector('[data-escudo-vista]') as HTMLElement | null
 
 describe('ESCUDO DO MESTRE — gate pelo modo mestre', () => {
   it('mestre OFF: a aba combate é o COMBATE de sempre (nada do escudo)', async () => {
@@ -161,6 +168,7 @@ describe('ESCUDO DO MESTRE — gate pelo modo mestre', () => {
     expect(within(escudo()!).getByText(/SEM MESA/)).toBeTruthy()
     expect(within(escudo()!).getByText(/SEM COMBATE ATIVO/)).toBeTruthy()
     expect(document.querySelector('[data-escudo-filtro="inimigos"]')?.getAttribute('aria-pressed')).toBe('true')
+    expect(document.querySelector('[data-escudo-cena-toggle]')).toBeTruthy()
   })
 })
 
@@ -207,55 +215,71 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(linha.querySelector('[data-escudo-condicao="Cego"]')).toBeNull() // 0 = desligada
   })
 
-  it('DEFESAS / ATAQUES (desc) / PERÍCIAS (desc) / HABILIDADES / PERTENCES por combatente; TODOS inclui o herói', async () => {
+  it('vista POR LINHA: cada combatente abre a sua (goblin ATAQUES desc, herói PERTENCES); chip ativo fecha; ordem desc', async () => {
     const repo = new InMemorySessionRepo()
     renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
     const { heroi, goblin } = await mesaComCombate(repo)
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${goblin.id}"]`)).toBeTruthy())
+    // nada aberto de saída: só a linha de vida + os chips
+    expect(linha(goblin.id).querySelector('[data-escudo-vistas]')).toBeTruthy()
+    expect(vista(goblin.id)).toBeNull()
 
-    subTab('DEFESAS')
-    await waitFor(() => expect(sub('defesas')).toBeTruthy())
-    const cardsDef = sub('defesas')!.querySelectorAll('[data-escudo-combatente]')
-    expect(cardsDef.length).toBe(1)
-    expect(cardsDef[0]!.getAttribute('data-escudo-combatente')).toBe(goblin.id)
-    expect(cardsDef[0]!.getAttribute('data-escudo-lado')).toBe('inimigo')
-    expect(cardsDef[0]!.querySelector('[data-resumo-statgrid="defesas"]')).toBeTruthy()
-    expect(cardsDef[0]!.querySelector('[data-escudo-sem-ficha]')).toBeNull()
+    // DEFESAS do goblin: grid do resumo dentro da LINHA dele
+    abrirVista(goblin.id, 'defesas')
+    await waitFor(() => expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('defesas'))
+    expect(vista(goblin.id)!.querySelector('[data-resumo-statgrid="defesas"]')).toBeTruthy()
+    expect(vista(goblin.id)!.querySelector('[data-escudo-sem-ficha]')).toBeNull()
 
-    subTab('ATAQUES')
-    await waitFor(() => expect(sub('ataques')?.querySelector('[data-resumo-ataque]')).toBeTruthy())
-    const mods = [...sub('ataques')!.querySelectorAll('[data-resumo-ataque]')].map((e) => Number(e.getAttribute('data-ataque-mod')))
+    // troca pra ATAQUES: só uma vista por linha, do maior pro menor
+    abrirVista(goblin.id, 'ataques')
+    await waitFor(() => expect(vista(goblin.id)?.querySelector('[data-resumo-ataque]')).toBeTruthy())
+    expect(linha(goblin.id).querySelectorAll('[data-escudo-vista]').length).toBe(1)
+    const mods = [...vista(goblin.id)!.querySelectorAll('[data-resumo-ataque]')].map((e) => Number(e.getAttribute('data-ataque-mod')))
     expect(mods.length).toBeGreaterThan(0)
     expect(mods).toEqual([...mods].sort((a, b) => b - a))
 
-    subTab('PERÍCIAS')
-    await waitFor(() => expect(sub('pericias')?.querySelector('[data-pericia-mod]')).toBeTruthy())
-    const pmods = [...sub('pericias')!.querySelectorAll('[data-pericia-mod]')].map((e) => Number(e.getAttribute('data-pericia-mod')))
-    expect(pmods).toEqual([...pmods].sort((a, b) => b - a))
-    expect(sub('pericias')!.querySelector('[data-resumo-pericias="desc"]')).toBeTruthy()
-
-    subTab('HABILIDADES')
-    await waitFor(() => expect(sub('habilidades')).toBeTruthy())
-    await waitFor(() => expect(within(sub('habilidades')!).getByText('Escaramuça Goblin')).toBeTruthy())
-
-    subTab('PERTENCES')
-    await waitFor(() => expect(sub('pertences')).toBeTruthy())
-    await waitFor(() => expect(within(sub('pertences')!).getByText('Espada Curva')).toBeTruthy())
-
-    // TODOS: o herói entra nos cards (ficha publicada → sem aviso de ficha)
+    // TODOS → o herói entra com a SUA vista independente (PERTENCES), o goblin segue em ATAQUES
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
-    await waitFor(() => expect(sub('pertences')?.querySelector(`[data-escudo-combatente="${heroi.id}"]`)).toBeTruthy())
-    const cardHeroi = sub('pertences')!.querySelector(`[data-escudo-combatente="${heroi.id}"]`) as HTMLElement
-    expect(cardHeroi.getAttribute('data-escudo-lado')).toBe('jogador')
-    expect(within(cardHeroi).getByText('Punhal')).toBeTruthy()
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
+    expect(vista(heroi.id)).toBeNull()
+    abrirVista(heroi.id, 'pertences')
+    await waitFor(() => expect(within(vista(heroi.id)!).getByText('Punhal')).toBeTruthy())
+    expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('ataques')
 
-    subTab('MAGIAS')
-    await waitFor(() => expect(sub('magias')?.querySelector(`[data-escudo-combatente="${heroi.id}"]`)).toBeTruthy())
-    // Carlos é Bardo: bloco de magias com Potência/EM; goblin sem escola proficiente → sem seção
-    const cardMagias = sub('magias')!.querySelector(`[data-escudo-combatente="${heroi.id}"]`) as HTMLElement
-    await waitFor(() => expect(within(cardMagias).getByText('// MAGIAS')).toBeTruthy())
-    const cardGoblin = sub('magias')!.querySelector(`[data-escudo-combatente="${goblin.id}"]`) as HTMLElement
-    expect(within(cardGoblin).queryByText('// MAGIAS')).toBeNull()
+    // PERÍCIAS do herói: desc
+    abrirVista(heroi.id, 'pericias')
+    await waitFor(() => expect(vista(heroi.id)?.querySelector('[data-pericia-mod]')).toBeTruthy())
+    const pmods = [...vista(heroi.id)!.querySelectorAll('[data-pericia-mod]')].map((e) => Number(e.getAttribute('data-pericia-mod')))
+    expect(pmods).toEqual([...pmods].sort((a, b) => b - a))
+
+    // MAGIAS do herói (Bardo) tem seção; do goblin (nada proficiente) não
+    abrirVista(heroi.id, 'magias')
+    await waitFor(() => expect(within(vista(heroi.id)!).getByText('// MAGIAS')).toBeTruthy())
+    abrirVista(goblin.id, 'magias')
+    await waitFor(() => expect(vista(goblin.id)?.getAttribute('data-escudo-vista')).toBe('magias'))
+    expect(within(vista(goblin.id)!).queryByText('// MAGIAS')).toBeNull()
+
+    // clicar o chip ATIVO fecha a vista daquela linha, as outras ficam
+    abrirVista(goblin.id, 'magias')
+    await waitFor(() => expect(vista(goblin.id)).toBeNull())
+    expect(vista(heroi.id)?.getAttribute('data-escudo-vista')).toBe('magias')
+  })
+
+  it('HABILIDADES: mostra o que a criatura FAZ; esconde os modificadores de bestiário (Evolução Básica de Monstro, Competente/Solo/Elite)', async () => {
+    const repo = new InMemorySessionRepo()
+    renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
+    const { remoteId, goblin } = await mesaComCombate(repo)
+    await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${goblin.id}"]`)).toBeTruthy())
+    // a ficha REAL do goblin (segredo do disfarce) TEM a Evolução Básica de Monstro
+    // (modificador) e a Escaramuça Goblin (habilidade racial) — só a segunda aparece
+    const lista = (readDisguiseSecret(remoteId, goblin.id)!.fmBlob['Habilidades'] as { Lista: Record<string, unknown>[] }).Lista
+    const nomes = lista.flatMap((h) => Object.keys(h))
+    expect(nomes.some((n) => n.includes('Evolução Básica de Monstro'))).toBe(true)
+    expect(nomes.some((n) => n.includes('Escaramuça Goblin'))).toBe(true)
+    abrirVista(goblin.id, 'habilidades')
+    await waitFor(() => expect(within(vista(goblin.id)!).getByText('Escaramuça Goblin')).toBeTruthy())
+    expect(within(vista(goblin.id)!).queryByText('Evolução Básica de Monstro')).toBeNull()
+    expect(within(vista(goblin.id)!).queryByText('Competente')).toBeNull()
   })
 
   it('atalho ESCUDO DO MESTRE na face SESSÃO leva o GM pra aba combate da ficha', async () => {

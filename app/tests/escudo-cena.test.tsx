@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-// ESCUDO DO MESTRE — sub-aba CENA (fase 2): a cena ATUAL da aventura em curso
+// ESCUDO DO MESTRE — painel CENA (fase 2, botão do cabeçalho): a cena ATUAL da aventura em curso
 // na mesa, lida do state.aventura da sessão; ANTERIOR/PRÓXIMA gravam a cena
 // (irParaCena); aventura trancada neste aparelho manda destravar no compêndio.
 // Fixture: a Pós Grenal REAL (cifrada como na vault), destravada pela senha.
@@ -118,9 +118,9 @@ function renderApp(repo: InMemorySessionRepo) {
 
 const escudo = () => document.querySelector('[data-escudo-mestre]') as HTMLElement | null
 const abaCena = () => {
-  const tabs = within(escudo()!).getAllByRole('button').filter((b) => b.textContent === 'CENA')
-  expect(tabs.length).toBeGreaterThan(0)
-  fireEvent.click(tabs[0]!)
+  const btn = document.querySelector('[data-escudo-cena-toggle]') as HTMLButtonElement | null
+  expect(btn).toBeTruthy()
+  fireEvent.click(btn!)
 }
 const cenaAtual = () => document.querySelector('[data-escudo-sub="cena"]')?.getAttribute('data-escudo-cena-atual')
 

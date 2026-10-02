@@ -4,6 +4,8 @@
 // useHeroRules/useInterativaCtx (custo por combatente — perícias/defesas
 // sem os deltas de condição, aceito no plano).
 import { useMemo, type CSSProperties } from 'react'
+import { useCatalog } from '../../../data/CatalogContext'
+import { MODIFICADORES_PATH_PREFIX } from '../../../rules/projection'
 import type { CharacterStats } from '../../../data/session-repo/contract'
 import { fmPath, heroAtributos, str, wikiTarget } from '../../ficha/hero-model'
 import { memberStats } from '../../../grupo/stats'
@@ -136,10 +138,19 @@ export function SubPericias({ vm }: { vm: CombatenteVM }) {
 export function SubHabilidades({ vm }: { vm: CombatenteVM }) {
   const fm = vm.doc.frontmatter as Fm
   const refs = useHeroRefs(vm.doc)
+  const catalog = useCatalog()
+  // Pedido 2026-10-02: Competente/Solo/Elite e Evolução Básica de Monstro não
+  // agregam na lista — são a estrutura do monstro, não o que ele faz. O corte
+  // é pela PASTA das notas (Sistema/Regras/Bestiário/Modificadores/), a mesma
+  // que a projeção usa, nunca por nome.
+  const ocultar = (target: string) => {
+    const r = catalog.resolve(target)
+    return r.kind === 'doc' && r.id.startsWith(MODIFICADORES_PATH_PREFIX)
+  }
   if (vm.semFicha) return <Vazio texto="sem ficha — habilidades indisponíveis" />
   return (
     <div data-escudo-habilidades="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <HabilidadesResumo fm={fm} refs={refs} />
+      <HabilidadesResumo fm={fm} refs={refs} ocultar={ocultar} />
       <TecnicasResumo fm={fm} refs={refs} />
       <AcoesResumo fm={fm} refs={refs} />
     </div>

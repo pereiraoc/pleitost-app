@@ -63,7 +63,7 @@ const CLASSES_PATH_PREFIX = 'Sistema/Criação de Personagem/Classes/'
 const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiário/'
 /** #382: notas de Modificador de bestiário (Competente/Elite/Solo) — fonte do
  *  seletor de Modificador do Monstro (pills do plugin, perfil-card.ts:174-199). */
-const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
+export const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
 
 // Tipos de COMPANHEIRO ANIMAL (Ave/Canino/Felino/Ursino) — docs de Habilidade
 // da pasta; a nota-base "Companheiro Animal" (regras comuns) não é um tipo.

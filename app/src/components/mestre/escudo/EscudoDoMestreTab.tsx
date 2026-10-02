@@ -1,48 +1,24 @@
-// ESCUDO DO MESTRE (2026-10-02) — a aba COMBATE da ficha em MODO MESTRE. Em
-// vez de abrir uma nota por inimigo, o mestre vê TODOS os combatentes do
-// encontro ativo da sala (filtro padrão INIMIGOS; chip TODOS inclui a mesa)
-// em sub-abas: VIDA (o combate da sala + condições/efeitos), DEFESAS,
-// ATAQUES (do maior pro menor), MAGIAS (com a linha de execução do mundo),
-// PERÍCIAS (do maior pro menor), HABILIDADES, PERTENCES e CENA (a cena atual
-// da aventura em curso, fase 2). Kit visual atual
-// (TabStrip, cards, chips, tooltips) — nenhum design novo. Só a sub-aba
-// ativa monta (custo por combatente).
+// ESCUDO DO MESTRE (2026-10-02) — a aba COMBATE da ficha de herói em MODO
+// MESTRE. Em vez de abrir uma nota por inimigo, o mestre vê o combate da sala
+// (vida, steppers, turno, velocidades) com TODOS os combatentes do encontro
+// ativo (filtro padrão INIMIGOS; chip TODOS inclui a mesa) e, POR COMBATENTE,
+// escolhe o que ver embaixo da linha: DEFESAS, ATAQUES (do maior pro menor),
+// MAGIAS (com a linha de execução do mundo), PERÍCIAS (do maior pro menor),
+// HABILIDADES (sem os modificadores de bestiário) e PERTENCES — a vista é
+// individual (pedido 2026-10-02; a sub-aba global "ficou ruim"). CENA (a cena
+// atual da aventura em curso) abre por um botão do cabeçalho. Kit visual atual.
 import { useState, type CSSProperties } from 'react'
 import { useSessions } from '../../../data/session-store'
-import { TabStrip, clip, type TabDef } from '../../ficha/bits'
+import { clip } from '../../ficha/bits'
 import { TipProvider } from '../../ficha/tooltips'
 import { ITEM_CARD_CSS } from '../../item-card'
 import { EscudoHeader } from './EscudoHeader'
-import { CombatenteCard } from './CombatenteCard'
 import { SubVida } from './SubVida'
 import { SubCena } from './SubCena'
-import { SubAtaques, SubDefesas, SubHabilidades, SubPericias, SubPertences, SubTecnologias } from './secoes'
-import { useCombatentes, type CombatenteVM, type FiltroEscudo } from './useCombatentes'
+import { FichaDaLinha } from './FichaDaLinha'
+import { useCombatentes, type FiltroEscudo } from './useCombatentes'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
-
-/** Sub-abas: ids internos; rótulos canônicos passam pelo reskin do TabStrip
- *  ('MAGIAS' → TECNOLOGIAS na POA). */
-export const ESCUDO_SUBS: TabDef[] = [
-  { id: 'vida', label: 'VIDA' },
-  { id: 'defesas', label: 'DEFESAS' },
-  { id: 'ataques', label: 'ATAQUES' },
-  { id: 'magias', label: 'MAGIAS' },
-  { id: 'pericias', label: 'PERÍCIAS' },
-  { id: 'habilidades', label: 'HABILIDADES' },
-  { id: 'pertences', label: 'PERTENCES' },
-  // fase 2: a cena atual da aventura em curso (ler pra mesa sem sair do escudo)
-  { id: 'cena', label: 'CENA' },
-]
-
-const POR_COMBATENTE: Record<string, (vm: CombatenteVM) => React.ReactNode> = {
-  defesas: (vm) => <SubDefesas vm={vm} />,
-  ataques: (vm) => <SubAtaques vm={vm} />,
-  magias: (vm) => <SubTecnologias vm={vm} />,
-  pericias: (vm) => <SubPericias vm={vm} />,
-  habilidades: (vm) => <SubHabilidades vm={vm} />,
-  pertences: (vm) => <SubPertences vm={vm} />,
-}
 
 function Aviso({ children }: { children: React.ReactNode }) {
   return (
@@ -64,37 +40,28 @@ function Aviso({ children }: { children: React.ReactNode }) {
   )
 }
 
+const chip = (on: boolean): CSSProperties =>
+  mono({
+    padding: '5px 10px',
+    background: on ? 'color-mix(in srgb,var(--accent) 14%,transparent)' : 'transparent',
+    border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
+    color: on ? 'var(--accent)' : 'var(--muted)',
+    cursor: 'pointer',
+    fontSize: 10,
+    letterSpacing: '.1em',
+    clipPath: clip(5),
+  })
+
 export function EscudoDoMestreTab() {
-  const [sub, setSub] = useState('vida')
   const [filtro, setFiltro] = useState<FiltroEscudo>('inimigos')
+  // vista aberta POR combatente (id → chip); ausente = só a linha de vida
+  const [vistas, setVistas] = useState<Record<string, string | null>>({})
+  const [cenaAberta, setCenaAberta] = useState(false)
   const { active } = useSessions()
-  const { live, ativo, lista, todos, vezDe } = useCombatentes(filtro)
+  const { live, ativo, todos, vezDe } = useCombatentes('todos')
+  const vmById = new Map(todos.map((vm) => [vm.c.id, vm]))
+  const inimigos = todos.filter((vm) => vm.lado === 'inimigo')
 
-  const chipFiltro = (id: FiltroEscudo, label: string) => {
-    const on = filtro === id
-    return (
-      <button
-        key={id}
-        data-escudo-filtro={id}
-        aria-pressed={on}
-        onClick={() => setFiltro(id)}
-        style={mono({
-          padding: '5px 10px',
-          background: on ? 'color-mix(in srgb,var(--accent) 14%,transparent)' : 'transparent',
-          border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
-          color: on ? 'var(--accent)' : 'var(--muted)',
-          cursor: 'pointer',
-          fontSize: 10,
-          letterSpacing: '.1em',
-          clipPath: clip(5),
-        })}
-      >
-        {label}
-      </button>
-    )
-  }
-
-  const render = POR_COMBATENTE[sub]
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
@@ -103,39 +70,52 @@ export function EscudoDoMestreTab() {
         style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}
       >
         <EscudoHeader ativo={ativo} todos={todos} vezDe={vezDe} />
-        <TabStrip
-          tabs={ESCUDO_SUBS}
-          active={sub}
-          onSelect={setSub}
-          right={
-            <span style={{ display: 'flex', gap: 4, paddingRight: 6 }}>
-              {chipFiltro('inimigos', 'INIMIGOS')}
-              {chipFiltro('todos', 'TODOS')}
-            </span>
-          }
-        />
+        <div data-escudo-controles="" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={mono({ fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' })}>MOSTRAR</span>
+          <button type="button" data-escudo-filtro="inimigos" aria-pressed={filtro === 'inimigos'} onClick={() => setFiltro('inimigos')} style={chip(filtro === 'inimigos')}>
+            INIMIGOS
+          </button>
+          <button type="button" data-escudo-filtro="todos" aria-pressed={filtro === 'todos'} onClick={() => setFiltro('todos')} style={chip(filtro === 'todos')}>
+            TODOS
+          </button>
+          <span style={{ flex: 1 }} />
+          <button
+            type="button"
+            data-escudo-cena-toggle=""
+            aria-pressed={cenaAberta}
+            onClick={() => setCenaAberta((v) => !v)}
+            title={cenaAberta ? 'Fechar a cena atual' : 'Ver a cena atual da aventura em curso'}
+            style={chip(cenaAberta)}
+          >
+            {cenaAberta ? '▾ CENA' : '▸ CENA'}
+          </button>
+        </div>
         {!live || !active?.remoteId ? (
           <Aviso>{'// SEM MESA — entre numa sessão como mestre (painel SESSÃO) e o escudo monta aqui'}</Aviso>
-        ) : sub === 'vida' ? (
-          <SubVida sess={active} filtro={filtro} />
-        ) : sub === 'cena' ? (
-          <SubCena />
-        ) : !ativo ? (
-          <Aviso>{'// SEM COMBATE ATIVO'}</Aviso>
-        ) : lista.length === 0 ? (
-          <Aviso>
-            {filtro === 'inimigos'
-              ? '// NENHUM INIMIGO NO COMBATE — troque pra TODOS ou adicione um monstro pelo bestiário'
-              : '// NENHUM COMBATENTE'}
-          </Aviso>
         ) : (
-          <div data-escudo-sub={sub} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {lista.map((vm) => (
-              <CombatenteCard key={vm.c.id} vm={vm}>
-                {render ? render(vm) : null}
-              </CombatenteCard>
-            ))}
-          </div>
+          <>
+            {cenaAberta ? <SubCena /> : null}
+            <SubVida
+              sess={active}
+              filtro={filtro}
+              porCombatente={(c) => {
+                const vm = vmById.get(c.id)
+                if (!vm) return null
+                return (
+                  <FichaDaLinha
+                    vm={vm}
+                    vista={vistas[c.id] ?? null}
+                    onVista={(v) => setVistas((m) => ({ ...m, [c.id]: v }))}
+                  />
+                )
+              }}
+            />
+            {ativo && filtro === 'inimigos' && inimigos.length === 0 ? (
+              <div data-escudo-dica="" style={mono({ fontSize: 10.5, color: 'var(--muted)', fontStyle: 'italic', padding: '0 4px' })}>
+                nenhum inimigo no combate — troque pra TODOS ou adicione um monstro pelo bestiário
+              </div>
+            ) : null}
+          </>
         )}
       </div>
     </TipProvider>

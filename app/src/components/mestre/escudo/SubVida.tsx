@@ -3,7 +3,7 @@
 // liberar ficha — writes idempotentes, estado local independente da cópia da
 // sidebar), filtrado por lado e com os chips de CONDIÇÕES/EFEITOS ativos de
 // cada combatente dentro da linha (o combate do painel não os mostra).
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { SessionRec } from '../../../data/session-store'
 import type { SessionCharacter } from '../../../data/session-repo/contract'
 import type { VaultDoc } from '../../../data/types'
@@ -46,7 +46,16 @@ export function CondicoesAtivasChips({ c, docs }: { c: SessionCharacter; docs: r
   )
 }
 
-export function SubVida({ sess, filtro }: { sess: SessionRec; filtro: FiltroEscudo }) {
+export function SubVida({
+  sess,
+  filtro,
+  porCombatente,
+}: {
+  sess: SessionRec
+  filtro: FiltroEscudo
+  /** Conteúdo extra por linha (a ficha do combatente com os chips de vista). */
+  porCombatente?: (c: SessionCharacter) => ReactNode
+}) {
   const { docs } = useCondicaoDocs()
   return (
     <div data-escudo-sub="vida">
@@ -54,7 +63,12 @@ export function SubVida({ sess, filtro }: { sess: SessionRec; filtro: FiltroEscu
         sess={sess}
         variante="escudo"
         filtro={(_c, lado) => filtro === 'todos' || lado === 'inimigo'}
-        extraPorCombatente={(c) => <CondicoesAtivasChips c={c} docs={docs} />}
+        extraPorCombatente={(c) => (
+          <>
+            <CondicoesAtivasChips c={c} docs={docs} />
+            {porCombatente ? porCombatente(c) : null}
+          </>
+        )}
       />
     </div>
   )

@@ -714,8 +714,19 @@ export function inventarioItens(
 /** Seções de lista do resumo (chips com a carta no hover) — fatoradas pro
  *  Escudo do Mestre montar HABILIDADES/TÉCNICAS/AÇÕES por combatente sem
  *  duplicar markup. Hide-when-empty, como no ResumoBody. */
-export function HabilidadesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
-  const habs = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
+export function HabilidadesResumo({
+  fm,
+  refs,
+  ocultar,
+}: {
+  fm: Fm
+  refs: HeroRefs
+  /** Esconde entradas (pelo alvo do wikilink) — o Escudo do Mestre tira os
+   *  modificadores de bestiário (Competente/Solo/Elite/Evolução Básica de
+   *  Monstro), que não dizem o que a criatura FAZ. */
+  ocultar?: (target: string) => boolean
+}) {
+  const habs = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).filter((e) => !ocultar || !ocultar(e.target))
   if (!habs.length) return null
   return (
     <Section label="// HABILIDADES">
