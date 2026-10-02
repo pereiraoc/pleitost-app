@@ -26,6 +26,9 @@ import { TransporteTab } from './TransporteTab'
 import { HabilidadesTab } from './HabilidadesTab'
 import { InventarioTab } from './InventarioTab'
 import { CombateTab } from './CombateTab'
+import { EscudoDoMestreTab } from '../mestre/escudo/EscudoDoMestreTab'
+import { escudoAtivo } from '../mestre/escudo/escudo-gate'
+import { useSettings } from '../../settings'
 import { WizardView } from '../wizard/WizardView'
 import { wizardAtivo } from '../wizard/wizard-mode'
 
@@ -175,6 +178,10 @@ export function FichaPage() {
   const [searchParams] = useSearchParams()
   const tabPedida = searchParams.get('tab') ?? 'perfil'
   const { doc, error } = useDoc(id)
+  // ESCUDO DO MESTRE (2026-10-02): em modo mestre a aba COMBATE da ficha de
+  // HERÓI vira o painel do mestre (todos os combatentes da sala); jogador, e a
+  // ficha de monstro/CA aberta pelo mestre, seguem no COMBATE (escudo-gate).
+  const { mestre } = useSettings()
   // Abas por FAMÍLIA (#201): o CA não tem ANOTAÇÕES (plugin mount-
   // interativa.ts:897 — CA fica só com Recursos). Mesmo predicado central do
   // sidebar (abaFichaVisivel); rota direta numa aba invisível cai no PERFIL.
@@ -217,7 +224,7 @@ export function FichaPage() {
       {tab === 'grupos' ? <GruposTab doc={doc} /> : null}
       {tab === 'habilidades' ? <HabilidadesTab doc={doc} refs={refs} /> : null}
       {tab === 'inventario' ? <InventarioTab doc={doc} refs={refs} /> : null}
-      {tab === 'combate' ? <CombateTab doc={doc} refs={refs} /> : null}
+      {tab === 'combate' ? (escudoAtivo(mestre, familiaOf(doc)) ? <EscudoDoMestreTab /> : <CombateTab doc={doc} refs={refs} />) : null}
     </div>
   )
 }

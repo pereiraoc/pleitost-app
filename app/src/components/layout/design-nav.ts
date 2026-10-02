@@ -43,6 +43,8 @@ export const NAV_ICON_PATHS: Record<string, string> = {
   // globo com meridianos (ATLAS) e camadas empilhadas (CONTEXTO)
   atlas: `<path d="m9 5-6 2.5v13L9 18l6 3 6-2.5v-13L15 8 9 5Z"/><path d="M9 5v13"/><path d="M15 8v13"/>`,
   contexto: `<circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19"/><path d="M12 2.5a15 15 0 0 1 4 9.5 15 15 0 0 1-4 9.5 15 15 0 0 1-4-9.5 15 15 0 0 1 4-9.5z"/>`,
+  // escudo partido ao meio (ESCUDO DO MESTRE — a aba COMBATE em modo mestre; desenhado aqui, o design não tem esta tela)
+  escudo: `<path d="M12 3l7.5 3v5.2c0 4.6-3.2 8.6-7.5 9.8-4.3-1.2-7.5-5.2-7.5-9.8V6z"/><path d="M12 3v18"/>`,
   config: `<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>`,
 }
 
@@ -84,6 +86,7 @@ export const TITLES: Record<string, string> = {
   recursos: 'RECURSOS',
   transporte: 'TRANSPORTE',
   combate: 'COMBATE',
+  escudo: 'ESCUDO DO MESTRE',
   grupos: 'GRUPO',
   herois: 'HERÓIS',
   npcs: 'CRIATURAS',
@@ -135,4 +138,22 @@ export function navSection(pathname: string): string | null {
     }
   }
   return melhor?.id ?? null
+}
+
+/** ESCUDO DO MESTRE (2026-10-02): em MODO MESTRE a aba COMBATE da ficha vira o
+ *  Escudo — rótulo, ícone e conteúdo trocam, o id `combate` fica (os ids de
+ *  CHAR_TABS são fixos: nav-order, abaFichaVisivel, rotas ?tab=). */
+export interface NavItemModo extends NavItem {
+  /** Ícone de NAV_ICON_PATHS quando difere do id da aba. */
+  iconId?: string
+}
+export function charTabParaModo(item: NavItem, mestre: boolean): NavItemModo {
+  if (mestre && item.id === 'combate') return { ...item, ic: '🛡️', label: TITLES['escudo']!, iconId: 'escudo' }
+  return item
+}
+/** Título da topbar pra seção ativa, respeitando o modo mestre na aba COMBATE. */
+export function tituloDaSecao(section: string | null, mestre: boolean): string {
+  if (!section) return ''
+  if (mestre && section === 'combate') return TITLES['escudo']!
+  return TITLES[section] ?? ''
 }

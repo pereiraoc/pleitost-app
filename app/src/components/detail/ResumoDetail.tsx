@@ -86,7 +86,7 @@ const cardStyle = (clipN: number): CSSProperties => ({
 
 /** Chip de item/valor dentro de um card de seção — mesmo idioma dos stat-cells
  *  do Combate (var(--card) sobre var(--panel)). */
-const chipStyle: CSSProperties = {
+export const chipStyle: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: 5,
@@ -677,7 +677,7 @@ export function AtaquesResumo({
 
 /** Propriedade parametrizada ("Arremesso 3") → doc-base ("Arremesso") — mesmo
  *  propBase da aba Combate. */
-const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
+export const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
 
 /** Itens do inventário (tesouros/consumíveis) a partir dos aliases salvos
  *  ("[[X|X (Adepto) (x2)]]"), com dedup opcional por alvo+tier — espelho de

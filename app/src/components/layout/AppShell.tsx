@@ -18,6 +18,7 @@ import { BugReportButton } from './BugReportButton'
 import { RightSidebar } from './RightSidebar'
 import { useEdgeSwipe } from './useEdgeSwipe'
 import { wizardAtivo } from '../wizard/wizard-mode'
+import { escudoAtivo } from '../mestre/escudo/escudo-gate'
 import {
   APP_NAV,
   CHAR_TABS,
@@ -25,8 +26,10 @@ import {
   NAV_MUNDOS,
   NAV_ROUTES,
   navSection,
-  TITLES,
+  charTabParaModo,
+  tituloDaSecao,
   type NavItem,
+  type NavItemModo,
 } from './design-nav'
 
 /** Espelho do ICON_WRAP do design: mesmo wrapper <svg>, miolo verbatim do pull. */
@@ -88,7 +91,7 @@ function CharTabButton({
   pending,
   disabled,
 }: {
-  item: NavItem
+  item: NavItemModo
   active: boolean
   onSelect: () => void
   pending?: readonly string[]
@@ -103,7 +106,7 @@ function CharTabButton({
       style={disabled ? { opacity: 0.4, cursor: 'default' } : undefined}
     >
       <span className="nav-ic" aria-hidden>
-        <NavIcon id={item.id} />
+        <NavIcon id={item.iconId ?? item.id} />
       </span>
       <span className="nav-label">{item.label}</span>
       {/* #302: ponto de pendência — algo a preencher nesta aba (slots livres,
@@ -243,9 +246,21 @@ export function AppShell() {
   // central da FichaPage (abaFichaVisivel); enquanto o doc carrega, mostra
   // tudo (o gate da rota segura o conteúdo).
   const { doc: heroDoc } = useDoc(heroId ?? '')
-  const charTabs = heroDoc
+  // #440: conectado a uma sessão, o Modo Mestre é DEFINIDO pelo papel (GM →
+  // ligado; jogador → desligado). Fora da sessão o usuário mexe livremente.
+  const { locked: mestreLocked, roleMestre } = useIsSessionMestre()
+  const { mestre, setMestre } = useSettings()
+  useEffect(() => {
+    if (mestreLocked && mestre !== roleMestre) setMestre(roleMestre)
+  }, [mestreLocked, roleMestre, mestre, setMestre])
+  // ESCUDO DO MESTRE (2026-10-02): em modo mestre, na ficha de HERÓI, a aba
+  // COMBATE troca rótulo/ícone (charTabParaModo) — o id fica, o conteúdo troca
+  // na FichaPage (mesmo gate: escudo-gate).
+  const escudo = escudoAtivo(mestre, heroDoc ? familiaOf(heroDoc) : null)
+  const charTabs = (heroDoc
     ? CHAR_TABS.filter((t) => abaFichaVisivel(familiaOf(heroDoc), t.id))
     : CHAR_TABS
+  ).map((t) => charTabParaModo(t, escudo))
   // #452: herói em CRIAÇÃO ACOMPANHADA (wizard) — as abas da ficha ficam
   // bloqueadas (o conteúdo é o wizard) e a sidebar direita mostra só DETALHES.
   const emWizard = wizardAtivo(heroDoc)
@@ -266,13 +281,6 @@ export function AppShell() {
   useEffect(() => {
     void initPwaUpdate()
   }, [])
-  // #440: conectado a uma sessão, o Modo Mestre é DEFINIDO pelo papel (GM →
-  // ligado; jogador → desligado). Fora da sessão o usuário mexe livremente.
-  const { locked: mestreLocked, roleMestre } = useIsSessionMestre()
-  const { mestre, setMestre } = useSettings()
-  useEffect(() => {
-    if (mestreLocked && mestre !== roleMestre) setMestre(roleMestre)
-  }, [mestreLocked, roleMestre, mestre, setMestre])
   // LIBERADO 2026-08-31: o guard que bloqueava o cyberpunk sem modo
   // desenvolvedor (#528) saiu — o corte mestre×jogador (e95dcc1) garante que
   // o dataset público não carrega segredo.
@@ -292,7 +300,7 @@ export function AppShell() {
   // Seção ativa (destaque da sidebar + título da topbar): o registro central
   // resolve pelo prefixo mais longo, então /compendio/Atlas é ATLAS.
   const section = fichaOpen ? fichaTab : navSection(pathname)
-  const title = section ? TITLES[section] : ''
+  const title = tituloDaSecao(section, escudo)
   const closeDrawer = () => setDrawerOpen(false)
 
   const selectFichaTab = (id: string) => {
