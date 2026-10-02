@@ -84,6 +84,17 @@ function DocViewCorpo({
         ))}
       </header>
       <InlineFieldsTable fields={doc.inlineFields} />
+      {/* Execução (2026-10-02): só quando o doc foi aberto a partir da ficha
+          (o ctx carrega a frase do mundo pra ESTE conjurador). */}
+      {formulaCtx?.execucao ? (
+        <div
+          className="doc-execucao"
+          data-doc-execucao=""
+          style={{ margin: '4px 0 12px', padding: '8px 12px', border: '1px solid var(--line2)', fontSize: 13, color: 'var(--muted)' }}
+        >
+          <b style={{ color: 'var(--text)' }}>Execução</b> {formulaCtx.execucao}
+        </div>
+      ) : null}
       {/* hideLeadingTitle: o header acima já mostra o nome — um corpo que abre
           com `# Título`/`# = this.file.name` duplicava o título (report
           2026-08-29, notas-índice da POA). */}

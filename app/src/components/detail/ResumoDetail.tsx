@@ -29,7 +29,8 @@ import { Lightbox } from '../Lightbox'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
 // #519: o RESUMO é display — nome de nota passa pelo mundo ativo (report
 // 2026-09-10: "a ficha resumo mostra nome de fantasia, tipo o das armas").
-import { reskinName, reskinText } from '../../data/reskin'
+import { reskinExecucao, reskinName, reskinText } from '../../data/reskin'
+import { execucaoDe, type ExecucaoAlvo } from '../../interativa/execucao'
 import { atributoDeAtaqueDaArma,
   profArmaEfetiva,
   fmPath,
@@ -376,6 +377,8 @@ function blocoMagias(
   potencia: number
   em: number
   emMax: number
+  /** Execução (2026-10-02): quem executa, pra frase do mundo por escola. */
+  alvo: ExecucaoAlvo
 } {
   const escolas = (fmPath(mfm, 'Magias', 'Lista') ?? []) as Fm[]
   const tipos = (Array.isArray(escolas) ? escolas : [])
@@ -394,7 +397,7 @@ function blocoMagias(
   const rest = interativa(fm).restantes
   const key = secundaria ? 'EM_Secundaria' : 'EM'
   const em = rest[key] !== undefined ? num(rest[key]) : emMax
-  return { tipos, grupos, potencia, em, emMax }
+  return { tipos, grupos, potencia, em, emMax, alvo: execucaoDe(mfm) }
 }
 
 function MagiasResumo({
@@ -429,7 +432,8 @@ function MagiasResumo({
           {/* Uma linha por escola proficiente (magias-block.ts headerRow):
               nome + modificador em var(--red) mono (.as-resumo-mod-num). */}
           {tipos.map((t) => (
-            <div key={`${t.rota}${sec ? '-sec' : ''}`} style={lineStyle}>
+            <Fragment key={`${t.rota}${sec ? '-sec' : ''}`}>
+            <div style={lineStyle}>
               {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover,
                   como a MagiaInfoBar do Combate. */}
               <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
@@ -444,6 +448,18 @@ function MagiasResumo({
                 </span>
               </TipHover>
             </div>
+            {/* Execução (2026-10-02): como este conjurador executa a escola, no
+                mundo. Fantasia → sem texto → sem linha. */}
+            {(() => {
+              const escola = t.rota.replace(/^Magia\s+/, '')
+              const texto = reskinExecucao(b.alvo, escola)
+              return texto ? (
+                <div data-resumo-execucao={escola} style={mono({ fontSize: 10, color: 'var(--muted)', lineHeight: 1.35 })}>
+                  {texto}
+                </div>
+              ) : null
+            })()}
+            </Fragment>
           ))}
           {/* Potência/EM em chips; valor em var(--gold) (.as-resumo-attr-num
               do EM no plugin). */}

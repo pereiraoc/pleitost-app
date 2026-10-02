@@ -140,6 +140,33 @@ export function reskinChamadaSintonia(basename: string, elemento: string): strin
   return ativo?.def?.reskin.chamadasSintonia?.[basename]?.[elemento] ?? null
 }
 
+/** Quem executa, pra resolver a frase de EXECUÇÃO do mundo (2026-10-02):
+ *  classe canônica do herói, Sintonia canônica (criatura sem classe) e as
+ *  habilidades que ele tem (treinamentos secundários prevalecem). */
+export interface ExecucaoAlvo {
+  classe: string | null
+  sintonia: string | null
+  habilidades: string[]
+}
+
+/** Como `alvo` executa a `escola` (Nome de Magias.Lista) no mundo ativo —
+ *  cascata habilidades → classes → sintonias → padrao. null = o mundo não
+ *  diz nada (fantasia): quem exibe não mostra linha nenhuma. */
+export function reskinExecucao(alvo: ExecucaoAlvo, escola: string): string | null {
+  const ex = ativo?.def?.reskin.execucao
+  if (!ex || !escola) return null
+  for (const hab of alvo.habilidades) {
+    const t = ex.habilidades?.[hab]?.[escola]
+    if (t) return t
+  }
+  return (
+    (alvo.classe ? ex.classes?.[alvo.classe]?.[escola] : undefined) ??
+    (alvo.sintonia ? ex.sintonias?.[alvo.sintonia]?.[escola] : undefined) ??
+    ex.padrao?.[escola] ??
+    null
+  )
+}
+
 /** Ajustes de regra do mundo ativo (#544). */
 export function contextoRegras(): NonNullable<ContextoDef['regras']> {
   return ativo?.def?.regras ?? {}

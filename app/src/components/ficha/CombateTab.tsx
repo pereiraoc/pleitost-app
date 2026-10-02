@@ -16,8 +16,9 @@
 // REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { formulaCtxDeMagia, type FormulaCtx } from '../../interativa/formula-ctx'
+import { execucaoDe } from '../../interativa/execucao'
 import { useMemo, useState, type CSSProperties } from 'react'
-import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
+import { reskinExecucao, reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -2883,6 +2884,15 @@ function MagiaInfoBar({
     prof: string | null
   }[]
   const potencia = num(fmPath(mfm, 'Magias', 'Potencia'))
+  // Execução (2026-10-02): como ESTE conjurador executa cada escola, no mundo
+  // (reskin.execucao da Contexto-Def). Fantasia → nenhum texto → nenhuma linha.
+  const alvo = execucaoDe(mfm)
+  const execucoes = tipos
+    .map((t) => {
+      const escola = t.rota.replace(/^Magia\s+/, '')
+      return { escola, texto: reskinExecucao(alvo, escola) }
+    })
+    .filter((e): e is { escola: string; texto: string } => Boolean(e.texto))
 
   return (
     <div
@@ -2964,6 +2974,21 @@ function MagiaInfoBar({
       <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--blue)' }}>
         {em} / {emMax}
       </span>
+      {execucoes.length ? (
+        <div style={{ flexBasis: '100%', display: 'flex', flexDirection: 'column', gap: 4, paddingTop: 4 }}>
+          {execucoes.map((e) => (
+            <div
+              key={e.escola}
+              data-magia-execucao={e.escola}
+              style={{ display: 'flex', gap: 8, alignItems: 'baseline', fontSize: 12.5, lineHeight: 1.35, color: 'var(--muted)' }}
+            >
+              <span style={magiaBarLabel}>EXECUTA</span>
+              <span style={{ color: 'var(--text)', fontWeight: 600, whiteSpace: 'nowrap' }}>{reskinText(e.escola)}</span>
+              <span>{e.texto}</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 }

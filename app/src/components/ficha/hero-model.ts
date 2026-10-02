@@ -586,6 +586,12 @@ const TRACO_POR_ELEMENTO: Record<string, string> = {
   Água: 'Traço Elemental da Água',
 }
 
+/** Basename do Traço Elemental de um ELEMENTO cru ("Água" → "Traço Elemental
+ *  da Água"); null se não for elemento. */
+export function tracoDeElemento(elemento: string): string | null {
+  return TRACO_POR_ELEMENTO[elemento] ?? null
+}
+
 export function sintoniaDisplay(value: unknown): string {
   const full = linkLabel(str(value))
   const mundo = reskinName(full)

@@ -8,6 +8,8 @@
 // Magia sem escola conhecida (Tesouros) ou bloco sem potência → campos null
 // (o interpolador deixa o texto intacto).
 import { fmPath, num, str } from '../components/ficha/hero-model'
+import { reskinExecucao } from '../data/reskin'
+import { execucaoDe } from './execucao'
 import type { FormulaCtx } from './formulas'
 
 export type { FormulaCtx } from './formulas'
@@ -26,5 +28,6 @@ export function formulaCtxDeMagia(mfm: Record<string, unknown>, escola: string |
   const potencia = num(fmPath(mfm, 'Magias', 'Potencia'))
   const atributo = escola ? atributoDaEscola(mfm, escola) : null
   const mod = atributo ? num(fmPath(mfm, 'Atributos', atributo)) : null
-  return { potencia: potencia > 0 ? potencia : null, mod: atributo ? mod : null }
+  const execucao = escola ? reskinExecucao(execucaoDe(mfm), escola) : null
+  return { potencia: potencia > 0 ? potencia : null, mod: atributo ? mod : null, ...(execucao ? { execucao } : {}) }
 }

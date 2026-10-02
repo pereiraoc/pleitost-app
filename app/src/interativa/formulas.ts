@@ -15,6 +15,10 @@ export interface FormulaCtx {
   potencia: number | null
   /** Modificador do atributo de conjuração da escola (MOD). */
   mod: number | null
+  /** Execução (2026-10-02): como este conjurador executa esta escola no
+   *  mundo — frase da Contexto-Def já resolvida (reskinExecucao). O
+   *  interpolador ignora; quem exibe o card/barra mostra. null = fantasia. */
+  execucao?: string | null
 }
 
 export interface Substituicao {

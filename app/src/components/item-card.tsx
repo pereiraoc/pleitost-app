@@ -526,6 +526,9 @@ export function itemCardHtml(
     const btipo = val('bonus_tipo')
     parts.push(row('Bônus', bonus ? (btipo ? `${bonus} ${btipo}` : bonus) : ''))
   }
+  // Execução (2026-10-02): como o conjurador DESTE contexto executa a escola
+  // da magia, no mundo — vem resolvida no ctx (formulaCtxDeMagia).
+  if (kind === 'magia' && formulaCtx?.execucao) parts.push(row('Execução', formulaCtx.execucao))
   const rows = parts.join('')
   // Habilidades do CORPO (#268): implementos guardam mecânica extra no body
   // ("**Carga Preparatória - L:** …", "**Drenar - L:** …") que NÃO está na
