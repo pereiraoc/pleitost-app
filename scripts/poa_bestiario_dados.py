@@ -195,6 +195,23 @@ CRIATURAS = [
       habilidades=["Ordem de Ataque", "Não Recuem", "Alvo de Assassinato"], tipagem="AB−",
       aliases=["Coronel Prado"],
       descricao="Quem assina a Operação Silêncio. Não aparece em batida: aparece quando a batida deu errado."),
+
+    # ─────────────────────── Doutrina Simbiótica (o culto do Nóia) ───────────────────────
+    # Lênica por DOSE: Artilharia com Fator de sangue, como manda a Doutrina —
+    # o Círculo da Brasa é Fogo+Terra, o do Minuano é Água+Vento (a repartição
+    # das essências nunca dá o oposto, então o par do Círculo sai sozinho).
+    C("Fiel do Círculo", 0, "Artilharia", "PRE", 0, 1, 2, 3,
+      [("Lênicos", "A"), ("Medicina", "A"), ("Sobrevivência", "A"), ("Sociedades", "A")],
+      [A("Funda"), A("Adaga")], INV(consumiveis=["Poção da Nutrição"], tier=0),
+      org="[[Doutrina Simbiótica]]", bairros=["[[Cidade Baixa]]", "[[Restinga]]"],
+      habilidades=["Dose no Braço"], tipagem="O+", escola="Lênica", elemento="Fogo",
+      descricao="Fiel do Círculo da Brasa: toma a dose antes da briga e solta o que o simbionte mandar. Cai fácil; o problema é o que ele acende antes."),
+    C("Guru do Círculo", 1, "Artilharia", "PRE", 0, 1, 3, 3,
+      [("Lênicos", "E"), ("Medicina", "A"), ("Diplomacia", "A"), ("Sociedades", "A"), ("Intimidação", "A")],
+      [A("Adaga de Duelo")], INV(tesouros=["Bracelete Elemental"], consumiveis=["Poção de Cura"], tier=1),
+      mod="Competente", org="[[Doutrina Simbiótica]]", bairros=["[[Cidade Baixa]]", "[[Restinga]]", "[[Quarto Distrito]]"],
+      habilidades=["Dose no Braço", "Farejar Dose"], tipagem="AB+", escola="Lênica", elemento="Água",
+      descricao="Conduz a célula do Minuano: dosa os fiéis, ouve o que eles não ouvem e nunca é o primeiro a cair — a palafita some com ele."),
 ]
 
 CRIATURAS += [
@@ -1512,4 +1529,8 @@ ENCONTROS = [
       [(1, "Canhão Orion", "lento"), (4, "Drone de Guarda", "rápido"),
        (1, "Androide de Vigilância", "lento")],
       "LETAL"),
+    E("Culto na Palafita", 0, "[[Cidade Baixa]] · [[Restinga]]",
+      "A palafita inteira canta. O Guru dosa os fiéis e as reações começam antes de alguém puxar arma.",
+      [(1, "Guru do Círculo", "lento"), (5, "Fiel do Círculo", "rápido")],
+      "DIFICIL"),
 ]
