@@ -3,7 +3,8 @@
 // encontro ativo da sala (filtro padrão INIMIGOS; chip TODOS inclui a mesa)
 // em sub-abas: VIDA (o combate da sala + condições/efeitos), DEFESAS,
 // ATAQUES (do maior pro menor), MAGIAS (com a linha de execução do mundo),
-// PERÍCIAS (do maior pro menor), HABILIDADES e PERTENCES. Kit visual atual
+// PERÍCIAS (do maior pro menor), HABILIDADES, PERTENCES e CENA (a cena atual
+// da aventura em curso, fase 2). Kit visual atual
 // (TabStrip, cards, chips, tooltips) — nenhum design novo. Só a sub-aba
 // ativa monta (custo por combatente).
 import { useState, type CSSProperties } from 'react'
@@ -14,6 +15,7 @@ import { ITEM_CARD_CSS } from '../../item-card'
 import { EscudoHeader } from './EscudoHeader'
 import { CombatenteCard } from './CombatenteCard'
 import { SubVida } from './SubVida'
+import { SubCena } from './SubCena'
 import { SubAtaques, SubDefesas, SubHabilidades, SubPericias, SubPertences, SubTecnologias } from './secoes'
 import { useCombatentes, type CombatenteVM, type FiltroEscudo } from './useCombatentes'
 
@@ -29,6 +31,8 @@ export const ESCUDO_SUBS: TabDef[] = [
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pertences', label: 'PERTENCES' },
+  // fase 2: a cena atual da aventura em curso (ler pra mesa sem sair do escudo)
+  { id: 'cena', label: 'CENA' },
 ]
 
 const POR_COMBATENTE: Record<string, (vm: CombatenteVM) => React.ReactNode> = {
@@ -114,6 +118,8 @@ export function EscudoDoMestreTab() {
           <Aviso>{'// SEM MESA — entre numa sessão como mestre (painel SESSÃO) e o escudo monta aqui'}</Aviso>
         ) : sub === 'vida' ? (
           <SubVida sess={active} filtro={filtro} />
+        ) : sub === 'cena' ? (
+          <SubCena />
         ) : !ativo ? (
           <Aviso>{'// SEM COMBATE ATIVO'}</Aviso>
         ) : lista.length === 0 ? (
