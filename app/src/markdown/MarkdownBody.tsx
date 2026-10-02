@@ -31,8 +31,10 @@ import {
 import { NoteTransclusion, TransclusionScope } from './NoteTransclusion'
 
 /** Contexto de render do corpo. 'folder-note' (#275): o corpo da nota-da-pasta
- *  genérica — suprime os fences da listagem (a grade já é a lista). */
-export type MarkdownContext = 'folder-note'
+ *  genérica — suprime os fences da listagem (a grade já é a lista).
+ *  'sem-embeds' (2026-10-02): corpo de regra embutido em outra tela (passo de
+ *  magias do wizard) — as transclusões de nota somem; o resto renderiza. */
+export type MarkdownContext = 'folder-note' | 'sem-embeds'
 
 export function MarkdownBody({
   doc,
@@ -113,7 +115,7 @@ export function MarkdownBody({
         // Não é uma tag HTML — o cast (fora do tipo Components) o inclui no mapa.
         // #282: na folder-note, NÃO embute o preview (a nota-alvo já aparece como
         // card na listagem abaixo — ex.: Armaduras/Sem·Leve·Pesada); some.
-        'note-embed': context === 'folder-note' ? () => null : NoteTransclusion,
+        'note-embed': context === 'folder-note' || context === 'sem-embeds' ? () => null : NoteTransclusion,
         'ref-interna': (props: Record<string, unknown>) => {
           const alvo = String(props['data-alvo'] ?? '')
           const label = String(props['data-label'] ?? alvo)

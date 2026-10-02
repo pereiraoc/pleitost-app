@@ -17,22 +17,19 @@ import { RANK_ORDER, tokens, type RankLetter } from '../../ficha/registry'
 import { docIdOf, ProfChip, WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 import { reskinText } from '../../../data/reskin'
+import { useNamedDocs } from '../../ficha/useNamedDocs'
+import { MarkdownBody } from '../../../markdown/MarkdownBody'
 
-/** Lore de abertura + regras de conjuração (texto do usuário, verbatim). */
-const LORE_MAGIAS =
-  'Com gestos e palavras mágicas, um conjurador pode manifestar energias naturais para atacar, proteger-se, afetar o corpo e mente de uma criatura ou até criar algo do nada. Cada classe com poderes de conjurador tem seu próprio método mágico, com foco em aspectos diferentes da magia. Cada magia tem um efeito especifico que amplia as possibilidades do conjurador que optar por aprende-la.'
-const BLOCOS_MAGIA: Array<{ titulo: string; texto: string }> = [
-  {
-    titulo: 'Conjurando uma Magia',
-    texto:
-      'Conjurar uma Magia de qualquer tipo necessita de ao menos uma mão livre para realizar os gestos mágicos. Uma mão ocupada por um implemento mágico conta como livre para conjurar magias. Caso a Magia use pelo menos uma ação, esses gestos contam como uma ação de Manipulação. Magias que tem tempo de conjuração de 2 ações ou mais requerem também a capacidade de falar livremente, em tom forte.',
-  },
-  {
-    titulo: 'Recursos Mágicos',
-    texto:
-      'Um conjurador não pode continuamente despejar poder mágico expressivo. Qualquer Magia de poder superior a uma magia básica requer recursos para ser conjurada. O recurso usual para utilizar magia é Energia Mágica. Conjurar uma Magia Adepta custa 2 de Energia Mágica, uma Magia Experiente requer 3 e uma Magia Mestre requer 5.',
-  },
-]
+// A regra de conjuração NÃO mora aqui (2026-10-02): é a nota `Conjuração
+// Mágica` renderizada — o mundo que tiver corpo próprio pra regra
+// (reskin.descricoes) mostra o dele, a fantasia mostra o canônico. Antes era
+// string fixa em português de fantasia, que na POA saía "Conjurando uma
+// Tecnologia… gestos tecnológicos".
+const REGRA_CONJURACAO_CSS = `
+.wiz-regra h1,.wiz-regra h2,.wiz-regra h3,.wiz-regra h4{font-size:12.5px;margin:8px 0 2px;color:var(--text);font-weight:700;letter-spacing:0}
+.wiz-regra p{margin:0 0 6px}
+.wiz-regra p:last-child{margin-bottom:0}
+`
 
 interface EscolaLike {
   Nome?: unknown
@@ -91,18 +88,20 @@ export function PassoMagias({ ctx }: { ctx: WizardCtx }) {
     const id = docIdOf(catalog, nome)
     if (id) detail?.open({ kind: 'doc', id })
   }
+  const namedDoc = useNamedDocs(['Conjuração Mágica'])
+  const regra = namedDoc('Conjuração Mágica')
 
   return (
     <WizSecao
       titulo="Magias"
       nota={
         <>
-          <span style={{ display: 'block', marginBottom: 8 }}>{reskinText(LORE_MAGIAS)}</span>
-          {BLOCOS_MAGIA.map((b) => (
-            <span key={b.titulo} style={{ display: 'block', marginBottom: 8 }}>
-              <strong style={{ color: 'var(--text)' }}>{reskinText(b.titulo)}.</strong> {reskinText(b.texto)}
+          {regra ? (
+            <span className="wiz-regra" data-wizard-regra-conjuracao="" style={{ display: 'block', marginBottom: 8 }}>
+              <style>{REGRA_CONJURACAO_CSS}</style>
+              <MarkdownBody doc={regra} hideLeadingTitle context="sem-embeds" />
             </span>
-          ))}
+          ) : null}
           <span style={{ display: 'block' }}>
             {reskinText(
               'Aprenda magias nos slots disponíveis — o catálogo mostra o que as suas escolas oferecem; toque nos chips acima do painel pra ler as regras de cada recurso.',
