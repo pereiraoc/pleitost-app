@@ -212,22 +212,32 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(linha(goblin.id).querySelector('[data-escudo-condicao="Apressado"]')?.getAttribute('data-escudo-condicao-tipo')).toBe('efeito')
     expect(linha(goblin.id).querySelector('[data-escudo-condicao="Cego"]')).toBeNull() // 0 = desligada
 
-    // ▸ TODAS abre a lista do sistema (positivas/negativas); ligar Cego grava {value:1}
+    // ▸ TODAS abre a lista do sistema (positivas/negativas); ligar Cego reflete NA HORA e grava {value:1}
     fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicoes-toggle]')!)
     await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicoes-todas]')).toBeTruthy())
     const chipCego = linha(goblin.id).querySelector('[data-escudo-condicao-chip="Cego"]') as HTMLButtonElement
     expect(chipCego).toBeTruthy()
     expect(chipCego.getAttribute('aria-pressed')).toBe('false')
     fireEvent.click(chipCego)
-    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Cego"]')).toBeTruthy())
-    let st = (await repo.findCharactersBySession(await repo.findSessionByCode(listSessions()[0]!.codigo).then((s) => s!.id))).find((c) => c.id === goblin.id)!.state
-    expect(st.condicoesAtivas['Cego']).toEqual({ value: 1 })
-    expect(st.condicoesAtivas['Caído']).toBe(true) // as outras ficam
-    // desligar Caído pelo chip ativo
-    fireEvent.click(within(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]') as HTMLElement).getByRole('button'))
-    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')).toBeNull())
-    st = (await repo.findCharactersBySession(await repo.findSessionByCode(listSessions()[0]!.codigo).then((s) => s!.id))).find((c) => c.id === goblin.id)!.state
-    expect('Caído' in st.condicoesAtivas).toBe(false)
+    // otimista: o chip ativo aparece no mesmo tick, antes do refetch
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Cego"]')).toBeTruthy()
+    expect(chipCego.getAttribute('aria-pressed')).toBe('true')
+    // nada abriu nos DETALHES (feedback 2026-10-02)
+    expect(document.querySelector('[data-detail-kind]')).toBeNull()
+    // rajada: Atordoado e Caído(off) antes de qualquer refetch — nenhum toque se perde
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao-chip="Atordoado"]')!)
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')!)
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')).toBeNull()
+    const sid = (await repo.findSessionByCode(listSessions()[0]!.codigo))!.id
+    await waitFor(async () => {
+      const st = (await repo.findCharactersBySession(sid)).find((c) => c.id === goblin.id)!.state
+      expect(st.condicoesAtivas['Cego']).toEqual({ value: 1 })
+      expect(st.condicoesAtivas['Atordoado']).toEqual({ value: 1 })
+      expect('Caído' in st.condicoesAtivas).toBe(false)
+    })
+    // depois do refetch o estado continua o mesmo (overlay soltou sem piscar)
+    await waitFor(() => expect(linha(goblin.id).querySelectorAll('[data-escudo-condicao-tipo="condicao"]').length).toBe(2))
+    expect(linha(goblin.id).querySelector('[data-escudo-condicao="Caído"]')).toBeNull()
 
     // herói: sem botão TODAS (o jogador é o dono); ativa dele aparece só leitura
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
@@ -235,7 +245,7 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(linha(heroi.id).querySelector('[data-escudo-condicoes-toggle]')).toBeNull()
     await repo.updateCharacterState(heroi.id, { condicoesAtivas: { Caído: { value: 1 } } })
     await waitFor(() => expect(linha(heroi.id).querySelector('[data-escudo-condicao="Caído"]')).toBeTruthy())
-    expect((within(linha(heroi.id).querySelector('[data-escudo-condicao="Caído"]') as HTMLElement).getByRole('button') as HTMLButtonElement).disabled).toBe(true)
+    expect((linha(heroi.id).querySelector('[data-escudo-condicao="Caído"]') as HTMLButtonElement).disabled).toBe(true)
   })
 
   it('linha: defesas sempre embaixo da vida (sem toggle 🛡️); vista POR LINHA (goblin ATAQUES desc, herói PERTENCES sem armas); chip vazio desabilitado; chip ativo fecha', async () => {
@@ -266,13 +276,22 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     fireEvent.click(chip(goblin.id, 'magias'))
     expect(vista(goblin.id)).toBeNull()
 
-    // ATAQUES do goblin: dentro da LINHA dele, do maior pro menor
+    // ATAQUES do goblin: o painel da aba Combate dentro da LINHA dele, do maior pro menor acerto
     abrirVista(goblin.id, 'ataques')
-    await waitFor(() => expect(vista(goblin.id)?.querySelector('[data-resumo-ataque]')).toBeTruthy())
+    await waitFor(() => expect(vista(goblin.id)?.querySelector('[data-ataque-linha]')).toBeTruthy())
     expect(linha(goblin.id).querySelectorAll('[data-escudo-vista]').length).toBe(1)
-    const mods = [...vista(goblin.id)!.querySelectorAll('[data-resumo-ataque]')].map((e) => Number(e.getAttribute('data-ataque-mod')))
+    const mods = [...vista(goblin.id)!.querySelectorAll('[data-ataque-linha]')].map((e) => Number(e.getAttribute('data-ataque-mod')))
     expect(mods.length).toBeGreaterThan(0)
     expect(mods).toEqual([...mods].sort((a, b) => b - a))
+    // NPC: o painel tem os chips (Vantagem de Combate…); ligar VC pelo chip do painel grava no state e sobe o acerto
+    const modAntes = mods[0]!
+    const chipVC = within(vista(goblin.id)!).getByText('Vantagem de Combate')
+    fireEvent.click(chipVC)
+    await waitFor(() => expect(Number(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-mod'))).toBeGreaterThan(modAntes))
+    // …e a condição aparece ligada na fila de CONDIÇÕES da linha (mesmo state)
+    await waitFor(() => expect(linha(goblin.id).querySelector('[data-escudo-condicao="Vantagem de Combate"]')).toBeTruthy())
+    fireEvent.click(linha(goblin.id).querySelector('[data-escudo-condicao="Vantagem de Combate"]')!)
+    await waitFor(() => expect(Number(vista(goblin.id)!.querySelector('[data-ataque-linha]')!.getAttribute('data-ataque-mod'))).toBe(modAntes))
 
     // TODOS → o herói entra com a SUA vista independente; PERTENCES sem a arma (Punhal fica em ATAQUES)
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
@@ -318,8 +337,13 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
     await waitFor(() => expect(sub('vida')?.querySelector(`[data-combatente-id="${heroi.id}"]`)).toBeTruthy())
     abrirVista(heroi.id, 'ataques')
-    await waitFor(() => expect(within(vista(heroi.id)!).getByText(/^Punhal/)).toBeTruthy())
-    fireEvent.click(within(vista(heroi.id)!).getByText(/^Punhal/))
+    await waitFor(() => expect(vista(heroi.id)?.querySelector('[data-ataque-linha^="Punhal"]')).toBeTruthy())
+    // herói: painel só leitura (sem a fila de chips do painel)
+    expect(within(vista(heroi.id)!).queryByText('Vantagem de Combate')).toBeNull()
+    const rowPunhal = vista(heroi.id)!.querySelector('[data-ataque-linha^="Punhal"]') as HTMLElement
+    // o primeiro hover da linha é a FIGURA da arma (ItemHover arma + imbuição)
+    await waitFor(() => expect(rowPunhal.querySelector('.dv-breakdown-hover')).toBeTruthy())
+    fireEvent.click(rowPunhal.querySelector('.dv-breakdown-hover')!)
     // painel DETALHES troca pro alvo `item`: arma base + imbuição (Relampejante, Experiente)
     await waitFor(() => expect(document.querySelector('[data-detail-kind="item"]')).toBeTruthy())
     const det = document.querySelector('[data-detail-kind="item"]') as HTMLElement

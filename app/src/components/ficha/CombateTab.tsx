@@ -1631,8 +1631,30 @@ function ArmaPropToggles({
   )
 }
 
-function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
+/** Painel de ATAQUES da aba Combate — também o do ESCUDO DO MESTRE (2026-10-02),
+ *  pra o mestre ver acerto/dano de cada combatente calculados COMO NA FICHA
+ *  (Vantagem de Combate, Apunhalante, encantamentos… via o contexto da
+ *  Interativa). `escrever` troca o destino dos toggles (no Escudo o volátil
+ *  de NPC vive no state da sessão; sem ele, o modelo do doc); `somenteLeitura`
+ *  esconde a fila de chips (herói na mesa: o jogador é o dono); `ordem: 'desc'`
+ *  lista as armas do maior pro menor acerto. */
+export function AtaquesPanel({
+  doc,
+  refs,
+  inter,
+  escrever,
+  somenteLeitura,
+  ordem,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  inter: InterativaCtxState
+  escrever?: (path: string, value: unknown) => void
+  somenteLeitura?: boolean
+  ordem?: 'desc'
+}) {
   const model = useHeroModel(doc, 'combate')
+  const escreverVolatil = escrever ?? ((path: string, value: unknown) => model.setVolatile(path, value))
   const assets = useAssetIndex()
   const rules = useHeroRules(model.fm)
   // Base derivada (atributos/proficiência de ataque cascateados); Efeitos
@@ -1694,12 +1716,12 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
       if (nome in interState.condicoes) {
         const next = { ...interState.condicoes }
         delete next[nome]
-        model.setVolatile('Interativa.Condicoes_Ativas', next)
+        escreverVolatil('Interativa.Condicoes_Ativas', next)
       }
       if (nome in efeitos) {
         const next = { ...efeitos }
         delete next[nome]
-        model.setVolatile('Interativa.Efeitos_Ativos', next)
+        escreverVolatil('Interativa.Efeitos_Ativos', next)
       }
       return
     }
@@ -1708,16 +1730,16 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     // efeitos builtin/Estado fora do catálogo (Acerto Decisivo) →
     // Efeitos_Ativos.
     if (inter.catalog.has(nome)) {
-      model.setVolatile('Interativa.Condicoes_Ativas', {
+      escreverVolatil('Interativa.Condicoes_Ativas', {
         ...interState.condicoes,
         [nome]: { value: 1 },
       })
       return
     }
-    model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [nome]: { on: true } })
+    escreverVolatil('Interativa.Efeitos_Ativos', { ...efeitos, [nome]: { on: true } })
   }
   const setUso = (key: string, next: number) =>
-    model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
+    escreverVolatil('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
 
   // F2 (#347): chips de AÇÃO LOCAL derivados dos DESCRIPTORS — o equivalente da
   // Lista de Efeitos do plugin ancorada nos ataques (Ato Inspirador modifica
@@ -1774,8 +1796,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     if (isEfeitoOn(efMap[key]) || isCondicaoOn(condMap[key])) {
       delete condMap[key]
       delete efMap[key]
-      model.setVolatile('Interativa.Condicoes_Ativas', condMap)
-      model.setVolatile('Interativa.Efeitos_Ativos', efMap)
+      escreverVolatil('Interativa.Condicoes_Ativas', condMap)
+      escreverVolatil('Interativa.Efeitos_Ativos', efMap)
       return
     }
     for (const reqLabel of collectRequeridos(desc)) {
@@ -1790,8 +1812,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     }
     condMap[key] = { value: 1 }
     efMap[key] = { on: true }
-    model.setVolatile('Interativa.Condicoes_Ativas', condMap)
-    model.setVolatile('Interativa.Efeitos_Ativos', efMap)
+    escreverVolatil('Interativa.Condicoes_Ativas', condMap)
+    escreverVolatil('Interativa.Efeitos_Ativos', efMap)
   }
 
   // #9/#4 + Alcance/Propulsão: TOGGLES POR-ARMA das PROPRIEDADES (Segurar com Duas
@@ -1849,13 +1871,13 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         ...(sel ? { numericSelector: defaultNumericSelector(d, magiasPotencia) ?? sel.min } : {}),
       }
     }
-    model.setVolatile('Interativa.Condicoes_Ativas', next)
+    escreverVolatil('Interativa.Condicoes_Ativas', next)
   }
   const setArmaPropSel = (d: EffectDescriptor, armaBasename: string, n: number) => {
     const armaLink = armaLinkOf(armaBasename)
     const st = interState.condicoes[d.label]
     const base = st && typeof st === 'object' ? (st as Record<string, unknown>) : {}
-    model.setVolatile('Interativa.Condicoes_Ativas', {
+    escreverVolatil('Interativa.Condicoes_Ativas', {
       ...interState.condicoes,
       [d.label]: { ...base, value: 1, weaponSelector: armaLink, numericSelector: n },
     })
@@ -1874,6 +1896,23 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   // Regra do compêndio de cada manobra (Derrubar/Agarrar/Desarmar) pro tooltip.
   const manobraRuleDoc = useNamedDocs([...MANOBRAS])
 
+  // Escudo do Mestre: armas do maior pro menor ACERTO (mesmo cálculo da linha:
+  // base + modificadores aplicados ao ataque). Fora do Escudo, ordem do FM.
+  const modDe = (arma: Record<string, unknown>): number => {
+    const cust = arma['__custom'] as CustomAtaque | undefined
+    const nome = cust ? cust.label : linkLabel(str(arma['Nome']))
+    const basename = cust ? cust.label : (wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome)
+    const grupoArma = (cust ? cust.grupo : str(fmOf(refs.refDoc(arma['Nome']))['grupo'])).toLowerCase().trim()
+    const profArma = profArmaEfetiva(profAtaque, grupoArma, basename, fm)
+    const atributoArma = atributoDeAtaqueDaArma(grupoArma, arma['Atributo'])
+    const base = rowMod(
+      { Atributo: atributoArma, Proficiencia: profArma, Bonus_Item: num(arma['Bonus_Item']), Bonus_Especial: num(arma['Bonus_Especial']) },
+      attrs,
+    )
+    return base + applyTarget(inter.ctx, { kind: 'attack', attr: atributoArma as AtributoId, sourceId: basename }).delta
+  }
+  const armasOrdenadas = ordem === 'desc' ? [...armas].sort((a, b) => modDe(b) - modDe(a)) : armas
+
   const rowStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -1890,6 +1929,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {somenteLeitura ? null : (
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 2 }}>
         {COMB_CHIPS.map((c) => {
           const on = chipOn(c.n) ? 1 : 0
@@ -1942,8 +1982,9 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
           )
         })}
       </div>
+      )}
 
-      {armas.map((arma, i) => {
+      {armasOrdenadas.map((arma, i) => {
         const cust = arma['__custom'] as CustomAtaque | undefined
         const nome = cust ? cust.label : linkLabel(str(arma['Nome']))
         // nome EXIBIDO no mundo ativo (POA: Cauda de Dragão → Rabo de Arraia);
@@ -2038,7 +2079,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             )
         return (
           <div key={`${nome}-${i}`} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={rowStyle}>
+            <div style={rowStyle} data-ataque-linha={nomeExib} data-ataque-mod={mod} data-ataque-dano={dano ?? ''}>
             <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier || 'A'}>
               <AtaqueArmaFigura
                 img={armaImg}

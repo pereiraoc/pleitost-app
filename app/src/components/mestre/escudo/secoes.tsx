@@ -6,13 +6,15 @@
 import { useMemo, type CSSProperties } from 'react'
 import { useCatalog } from '../../../data/CatalogContext'
 import { habilidadeOcultaNoEscudo } from './disponibilidade'
-import { fmPath, heroAtributos, str } from '../../ficha/hero-model'
+import { fmPath, heroAtributos } from '../../ficha/hero-model'
 import { useHeroRefs } from '../../ficha/useHeroRefs'
 import { useNamedDocs } from '../../ficha/useNamedDocs'
-import { wikiLabels } from '../../ficha/CombateTab'
+import { AtaquesPanel } from '../../ficha/CombateTab'
+import { useInterativaCtx } from '../../../interativa/useInterativaCtx'
+import { useSessionRepo } from '../../../data/session-repo/provider'
+import { escreverVolatilNaSessao } from './volatil-sessao'
 import {
   AcoesResumo,
-  AtaquesResumo,
   HabilidadesResumo,
   HoverList,
   MagiasResumo,
@@ -20,7 +22,6 @@ import {
   Section,
   TecnicasResumo,
   inventarioItens,
-  propBase,
   type Fm,
 } from '../../detail/ResumoDetail'
 import type { CombatenteVM } from './useCombatentes'
@@ -33,22 +34,33 @@ function Vazio({ texto }: { texto: string }) {
 
 /* ── ATAQUES ─────────────────────────────────────────────────────────── */
 
+/** ATAQUES = o MESMO painel da aba Combate (feedback 2026-10-02: "dano tem
+ *  que considerar Vantagem de Combate e calcular como na tela de combate"):
+ *  acerto/dano/AdO com o contexto da Interativa do combatente (condições do
+ *  state da sessão → Interativa.Condicoes_Ativas do doc sintético). Só monta
+ *  quando a vista está aberta — é a única vista que roda a engine por
+ *  combatente. NPC: os toggles do painel (Vantagem de Combate, Acerto
+ *  Decisivo, ações locais, cargas) escrevem no state da sessão; herói: o
+ *  jogador é o dono — painel só leitura. */
 export function SubAtaques({ vm }: { vm: CombatenteVM }) {
-  const fm = vm.doc.frontmatter as Fm
   const refs = useHeroRefs(vm.doc)
-  const { values: attrs } = useMemo(() => heroAtributos(fm), [fm])
-  const armasFm = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Fm[]
-  const naturaisFm = ((fmPath(fm, 'Ataques', 'Lista') ?? []) as Fm[]).filter((r) => str(r['Nome']) !== 'Manobras')
-  const propRuleDoc = useNamedDocs(
-    [...(Array.isArray(armasFm) ? armasFm : []), ...naturaisFm].flatMap((a) => {
-      const armaDoc = refs.refDoc(a['Nome'])
-      const inline = { ...((armaDoc?.frontmatter ?? {}) as Fm), ...((armaDoc?.inlineFields ?? {}) as Fm) }
-      return wikiLabels(inline['propriedades']).map(propBase)
-    }),
-  )
+  const inter = useInterativaCtx(vm.doc, refs)
+  const repo = useSessionRepo()
   if (vm.semFicha) return <Vazio texto="sem ficha — ataques indisponíveis" />
-  const el = <AtaquesResumo fm={fm} attrs={attrs} refs={refs} propRuleDoc={propRuleDoc} todos ordem="desc" />
-  return <div data-escudo-ataques="">{el}</div>
+  if (!inter.loaded) return <div className="loading">Carregando ataques…</div>
+  const edita = vm.c.kind === 'npc' && !!repo
+  return (
+    <div data-escudo-ataques={edita ? 'edita' : 'leitura'}>
+      <AtaquesPanel
+        doc={vm.doc}
+        refs={refs}
+        inter={inter}
+        ordem="desc"
+        somenteLeitura={!edita}
+        escrever={edita ? (path, value) => void escreverVolatilNaSessao(repo!, vm.c.id, path, value) : undefined}
+      />
+    </div>
+  )
 }
 
 /* ── MAGIAS / TECNOLOGIAS ────────────────────────────────────────────── */

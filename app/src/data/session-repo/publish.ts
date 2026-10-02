@@ -104,6 +104,9 @@ export function buildCharacterState(
     condicoesAtivas: (fmPath(fm, 'Interativa', 'Condicoes_Ativas') ?? {}) as Record<string, unknown>,
     efeitosAtivos: (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>,
     invocacoesAtivas: (fmPath(fm, 'Interativa', 'Invocacoes_Ativas') ?? {}) as Record<string, unknown>,
+    ...(fmPath(fm, 'Interativa', 'Usos_Recursos') !== undefined
+      ? { usosRecursos: fmPath(fm, 'Interativa', 'Usos_Recursos') as Record<string, number> }
+      : {}),
   }
 }
 

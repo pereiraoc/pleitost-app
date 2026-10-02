@@ -87,6 +87,8 @@ export function synthDocFromCharacter(c: SessionCharacter): VaultDoc {
         ...(c.state.recursosRestantes?.escudoDano !== undefined ? { Escudo_Dano: c.state.recursosRestantes.escudoDano } : {}),
       },
       Condicoes_Ativas: c.state.condicoesAtivas ?? {},
+      Efeitos_Ativos: c.state.efeitosAtivos ?? {},
+      ...(c.state.usosRecursos ? { Usos_Recursos: c.state.usosRecursos } : {}),
     },
   }
   return {

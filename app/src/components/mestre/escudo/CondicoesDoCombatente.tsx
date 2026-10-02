@@ -1,13 +1,15 @@
 // ESCUDO DO MESTRE — CONDIÇÕES do combatente, na linha (pedido 2026-10-02):
-// as ativas sempre visíveis em chips (carta da condição no hover) e, abrindo
-// "todas", a lista completa das condições do SISTEMA (positivas/negativas,
-// mesma fonte/visual do popover CONDIÇÕES da aba Combate: chipDefsSplit +
-// COND_GRUPOS) pra ligar/desligar com um toque. Quem edita é o dono da linha
-// — NPC é do mestre; herói é do jogador (chips só leitura). O toggle grava
-// Condicoes_Ativas inteiro no state da sessão ({value:1} ao ligar, remove ao
-// desligar — o default do plugin pra condição sem seletor). Efeitos de
-// habilidade/magia (Efeitos_Ativos) aparecem entre os ativos, sem toggle aqui.
-import { useMemo, useState, type CSSProperties } from 'react'
+// as ativas sempre visíveis em chips e, abrindo "▸ TODAS", a lista completa
+// das condições do SISTEMA (positivas/negativas — chipDefsSplit + COND_GRUPOS,
+// a mesma fonte do popover CONDIÇÕES da aba Combate) pra ligar/desligar com
+// um toque. Feito pra MEXER RÁPIDO (feedback 2026-10-02): nada abre nos
+// DETALHES (o resumo da condição é o `title` do chip, como no popover da
+// ficha), o toque reflete NA HORA (overlay otimista por combatente, a base da
+// próxima escrita — toques em rajada não se perdem no refetch) e os writes
+// saem serializados. Quem edita é o dono da linha — NPC é do mestre; herói é
+// do jogador (chips só leitura). Efeitos de habilidade/magia (Efeitos_Ativos)
+// aparecem entre os ativos, sem toggle aqui.
+import { useEffect, useMemo, useReducer, useRef, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../../data/types'
 import { useSessionRepo } from '../../../data/session-repo/provider'
 import { reskinName } from '../../../data/reskin'
@@ -15,7 +17,6 @@ import { isCondicaoOn, isEfeitoOn, parseStateKey } from '../../../interativa/sta
 import { chipDefsSplit, type CondChipDef } from '../../../interativa/useInterativaCtx'
 import { COND_GRUPOS, tokens } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
-import { ItemHover } from '../../item-card'
 import type { CombatenteVM } from './useCombatentes'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
@@ -35,31 +36,65 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
       }).condicoes,
     [docs],
   )
-  const defByNome = new Map(defs.map((d) => [d.nome, d]))
-  const condicoes = vm.c.state.condicoesAtivas ?? {}
+  const defByNome = useMemo(() => new Map(defs.map((d) => [d.nome, d])), [defs])
+  const liveCond = vm.c.state.condicoesAtivas ?? {}
   const efeitos = vm.c.state.efeitosAtivos ?? {}
+  // Overlay OTIMISTA: nome → ligada? Solta quando o live alcança; é a base da
+  // próxima escrita (toques em rajada sobre um live stale não se perdem).
+  const pendente = useRef(new Map<string, boolean>())
+  const chain = useRef<Promise<unknown>>(Promise.resolve())
+  const [, bump] = useReducer((x: number) => x + 1, 0)
+  useEffect(() => {
+    let mudou = false
+    for (const [nome, on] of pendente.current) {
+      if (isCondicaoOn(liveCond[nome]) === on) {
+        pendente.current.delete(nome)
+        mudou = true
+      }
+    }
+    if (mudou) bump()
+  }, [liveCond])
+  const condicoes = useMemo(() => {
+    const out: Record<string, unknown> = { ...liveCond }
+    for (const [nome, on] of pendente.current) {
+      if (on) out[nome] = { value: 1 }
+      else delete out[nome]
+    }
+    return out
+    // pendente é ref — o bump re-renderiza quando ele muda
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [liveCond, pendente.current.size])
+
+  const edita = vm.c.kind === 'npc' && !!repo
+  const toggle = (nome: string) => {
+    if (!edita || !repo) return
+    const ligar = !isCondicaoOn(condicoes[nome])
+    pendente.current.set(nome, ligar)
+    bump()
+    const next = { ...condicoes }
+    if (ligar) next[nome] = { value: 1 }
+    else delete next[nome]
+    chain.current = chain.current.then(() =>
+      repo.updateCharacterState(vm.c.id, { condicoesAtivas: next }).catch(() => {
+        pendente.current.delete(nome)
+        bump()
+      }),
+    )
+  }
+
   // ativos: condições (com ou sem def — legado/composta) + efeitos de habilidade
-  const ativos: { key: string; label: string; cor: string; ic: string; tipo: 'condicao' | 'efeito' }[] = []
+  const ativos: { key: string; label: string; cor: string; ic: string; tipo: 'condicao' | 'efeito'; resumo?: string }[] = []
   for (const [k, v] of Object.entries(condicoes)) {
     if (!isCondicaoOn(v)) continue
     const label = parseStateKey(k).label
     const d = defByNome.get(label)
-    ativos.push({ key: `c:${k}`, label, cor: corDe(d?.grupo), ic: d?.ic ?? tokens.emojis.subcategoria.Condicao, tipo: 'condicao' })
+    ativos.push({ key: `c:${k}`, label, cor: corDe(d?.grupo), ic: d?.ic ?? tokens.emojis.subcategoria.Condicao, tipo: 'condicao', resumo: d?.resumo })
   }
   for (const [k, v] of Object.entries(efeitos)) {
     const label = parseStateKey(k).label
     if (isEfeitoOn(v) && !ativos.some((a) => a.label === label))
       ativos.push({ key: `e:${k}`, label, cor: 'var(--gold)', ic: tokens.emojis.subcategoria.EfeitoInterativo, tipo: 'efeito' })
   }
-  const edita = vm.c.kind === 'npc' && !!repo
-  const toggle = (nome: string) => {
-    if (!edita || !repo) return
-    const next = { ...condicoes }
-    if (isCondicaoOn(next[nome])) delete next[nome]
-    else next[nome] = { value: 1 }
-    void repo.updateCharacterState(vm.c.id, { condicoesAtivas: next })
-  }
-  const docDe = (label: string) => docs.find((d) => d.basename === label)
   const chipEstilo = (cor: string, on: boolean, clicavel: boolean): CSSProperties =>
     mono({
       display: 'inline-flex',
@@ -82,22 +117,26 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
           {tokens.emojis.subcategoria.Condicao} CONDIÇÕES
         </span>
         {ativos.length === 0 ? <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>nenhuma</span> : null}
-        {ativos.map((a) => (
-          <span key={a.key} data-escudo-condicao={a.label} data-escudo-condicao-tipo={a.tipo}>
-            <ItemHover doc={docDe(a.label)} fullBody>
-              <button
-                type="button"
-                disabled={!edita || a.tipo !== 'condicao'}
-                onClick={() => toggle(a.label)}
-                title={edita && a.tipo === 'condicao' ? 'Desligar' : undefined}
-                style={chipEstilo(a.cor, true, edita && a.tipo === 'condicao')}
-              >
-                <span>{a.ic}</span>
-                {reskinName(a.label)}
-              </button>
-            </ItemHover>
-          </span>
-        ))}
+        {ativos.map((a) => {
+          const clicavel = edita && a.tipo === 'condicao'
+          return (
+            <button
+              key={a.key}
+              type="button"
+              data-escudo-condicao={a.label}
+              data-escudo-condicao-tipo={a.tipo}
+              disabled={!clicavel}
+              onClick={() => toggle(a.label)}
+              // resumo da condição no hover/tap (title nativo), como no popover da ficha —
+              // nada abre nos DETALHES (feedback 2026-10-02)
+              title={[a.resumo, clicavel ? 'toque pra desligar' : null].filter(Boolean).join(' — ') || undefined}
+              style={chipEstilo(a.cor, true, clicavel)}
+            >
+              <span>{a.ic}</span>
+              {reskinName(a.label)}
+            </button>
+          )
+        })}
         {edita ? (
           <button
             type="button"
@@ -126,24 +165,23 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
             const doGrupo = defs.filter((d) => d.grupo === g.id)
             if (!doGrupo.length) return null
             return (
-              <div key={g.id} style={{ display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
-                <span style={mono({ fontSize: 9, letterSpacing: '.12em', color: g.cor, flex: 'none' })}>{g.titulo}</span>
+              <div key={g.id} style={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
+                <span style={mono({ fontSize: 9, letterSpacing: '.12em', color: g.cor, flex: 'none', marginRight: 2 })}>{g.titulo}</span>
                 {doGrupo.map((d) => {
                   const on = isCondicaoOn(condicoes[d.nome])
                   return (
-                    <ItemHover key={d.nome} doc={docDe(d.nome)} fullBody>
-                      <button
-                        type="button"
-                        data-escudo-condicao-chip={d.nome}
-                        aria-pressed={on}
-                        onClick={() => toggle(d.nome)}
-                        title={d.resumo}
-                        style={chipEstilo(g.cor, on, true)}
-                      >
-                        <span>{d.ic}</span>
-                        {reskinName(d.rotulo ?? d.nome)}
-                      </button>
-                    </ItemHover>
+                    <button
+                      key={d.nome}
+                      type="button"
+                      data-escudo-condicao-chip={d.nome}
+                      aria-pressed={on}
+                      onClick={() => toggle(d.nome)}
+                      title={d.resumo}
+                      style={chipEstilo(g.cor, on, true)}
+                    >
+                      <span>{d.ic}</span>
+                      {reskinName(d.rotulo ?? d.nome)}
+                    </button>
                   )
                 })}
               </div>

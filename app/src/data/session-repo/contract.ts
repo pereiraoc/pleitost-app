@@ -60,6 +60,9 @@ export interface CharacterState {
   efeitosAtivos: Record<string, unknown>
   invocacoesAtivas: Record<string, unknown>
   slotsUsados?: Record<string, number>
+  /** Interativa.Usos_Recursos (cargas de imbuição/propriedade por arma) — o
+   *  Escudo do Mestre gasta/repõe as de NPC por aqui (2026-10-02). */
+  usosRecursos?: Record<string, number>
 }
 
 export type CharacterFmBlob = Record<string, unknown>
