@@ -25,7 +25,6 @@ import { isCondicaoOn, isEfeitoOn, parseStateKey } from '../../../interativa/sta
 import { chipDefsSplit } from '../../../interativa/useInterativaCtx'
 import { COMB_CHIPS, COND_GRUPOS, tokens } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
-import { escreverVolatilNaSessao } from './volatil-sessao'
 import type { CombatenteVM } from './useCombatentes'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
@@ -65,7 +64,8 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
   // Overlay OTIMISTA por nome: solta quando o live alcança; base da próxima escrita.
   const pendente = useRef(new Map<string, Pendencia>())
   const chain = useRef<Promise<unknown>>(Promise.resolve())
-  const [, bump] = useReducer((x: number) => x + 1, 0)
+  // versão do overlay: qualquer mudança (inclusive trocar a MESMA chave) re-deriva os mapas
+  const [versao, bump] = useReducer((x: number) => x + 1, 0)
   useEffect(() => {
     let mudou = false
     for (const [nome, p] of pendente.current) {
@@ -92,9 +92,9 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
       }
     }
     return { condicoes: c, efeitos: e }
-    // pendente é ref — o bump re-renderiza quando ele muda
+    // pendente é ref — `versao` sobe a cada mudança nele
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [liveCond, liveEf, pendente.current.size])
+  }, [liveCond, liveEf, versao])
 
   const edita = vm.c.kind === 'npc' && !!repo
   const containerDe = (nome: string): Container => (defByNome.has(nome) ? 'cond' : 'efeito')
@@ -115,15 +115,14 @@ export function CondicoesDoCombatente({ vm, docs }: { vm: CombatenteVM; docs: re
       delete nextE[nome]
     }
     const r = repo
-    chain.current = chain.current.then(async () => {
-      try {
-        if (container === 'cond' || !ligar) escreverVolatilNaSessao(r, vm.c.id, 'Interativa.Condicoes_Ativas', nextC)
-        if (container === 'efeito' || !ligar) escreverVolatilNaSessao(r, vm.c.id, 'Interativa.Efeitos_Ativos', nextE)
-      } catch {
+    // UM write com os dois mapas (merge por chave de topo no repo): metade das
+    // idas ao servidor e nunca um estado meio-aplicado entre dois writes.
+    chain.current = chain.current.then(() =>
+      r.updateCharacterState(vm.c.id, { condicoesAtivas: nextC, efeitosAtivos: nextE }).catch(() => {
         pendente.current.delete(nome)
         bump()
-      }
-    })
+      }),
+    )
   }
 
   // ── grupos ──────────────────────────────────────────────────────────

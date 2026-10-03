@@ -85,6 +85,13 @@ function fail(op: string, error: { message: string } | null): never {
   throw new Error(`[session-repo] ${op}: ${error?.message ?? 'erro desconhecido'}`)
 }
 
+/** PostgREST: função inexistente no schema cache (PGRST202) — a RPC ainda não foi
+ *  aplicada neste projeto. Qualquer outro erro é erro de verdade. */
+function rpcAusente(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false
+  return error.code === 'PGRST202' || /could not find the function/i.test(error.message ?? '')
+}
+
 export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
   constructor(private sb: SupabaseClient) {}
 
@@ -285,7 +292,26 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
   }
   /** Merge per top-level (semântica do plugin): lê o state atual e grava o
    *  merge — o dono é a fonte única (claim model), então não há corrida. */
+  /** Patch do state (merge por chave de topo). Caminho preferido: a RPC
+   *  session_character_patch_state (supabase/session-character-patch-state.sql)
+   *  — UM UPDATE atômico `state || delta` no servidor, sem a corrida de lost
+   *  update do read-modify-write (2026-10-02: o mestre desligava uma condição e
+   *  um write concorrente devolvia a chave) e com metade das idas ao servidor.
+   *  Projeto sem a função ainda (PGRST202) → cai no caminho antigo. */
   async updateCharacterState(characterId: string, delta: CharacterStateDelta): Promise<void> {
+    if (this.patchStateRpc !== false) {
+      const { data, error } = await this.sb.rpc('session_character_patch_state', {
+        p_character_id: characterId,
+        p_delta: delta,
+      })
+      if (!error) {
+        this.patchStateRpc = true
+        if (data === false) fail('updateCharacterState', { message: 'sem permissão pra editar este personagem' })
+        return
+      }
+      if (!rpcAusente(error)) fail('updateCharacterState(rpc)', error)
+      this.patchStateRpc = false // função não instalada neste projeto: read-modify-write daqui em diante
+    }
     const { data, error } = await this.sb
       .from('session_characters')
       .select('state')
@@ -299,6 +325,8 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
       .eq('id', characterId)
     if (e2) fail('updateCharacterState', e2)
   }
+  /** null = ainda não sabemos se a RPC existe; true/false depois da 1ª chamada. */
+  private patchStateRpc: boolean | null = null
   async updateCharacterSummary(characterId: string, delta: CharacterSummaryDelta): Promise<void> {
     const { data, error } = await this.sb
       .from('session_characters')

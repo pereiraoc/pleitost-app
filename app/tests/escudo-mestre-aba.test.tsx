@@ -233,6 +233,11 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     fireEvent.click(chip('Cego'))
     expect(chip('Cego').getAttribute('aria-pressed')).toBe('true')
     expect(document.querySelector('[data-detail-kind]')).toBeNull()
+    // toque DUPLO rápido na MESMA condição (off → on) reflete os dois, antes de qualquer refetch
+    fireEvent.click(chip('Cego'))
+    expect(chip('Cego').getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(chip('Cego'))
+    expect(chip('Cego').getAttribute('aria-pressed')).toBe('true')
     // rajada: Atordoado on + Caído off antes de qualquer refetch — nenhum toque se perde
     fireEvent.click(chip('Atordoado'))
     fireEvent.click(chip('Caído'))
