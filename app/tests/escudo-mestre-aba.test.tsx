@@ -408,6 +408,12 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(det.querySelector('.shc-card--wide')).toBeNull()
     expect(det.querySelector('.shc-tbl, table')).toBeNull()
     expect([...det.querySelectorAll('h1, h2, h3')].length).toBe(0)
+    // no painel lateral as cartas ocupam a largura disponível (uma por linha, 100%), não os 174px do hover
+    const wrap = det.querySelector('.item-detail') as HTMLElement
+    expect(wrap).toBeTruthy()
+    const css = [...wrap.querySelectorAll('style')].map((e) => e.textContent ?? '').join('\n')
+    expect(css).toContain('.item-detail .shc-card{width:100%')
+    expect(css).toContain('.item-detail .shc-wrap{flex-direction:column')
     expect((det.querySelector('[data-item-detail]') as HTMLElement).getAttribute('data-item-detail-tier')).toBe('E')
   })
 

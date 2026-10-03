@@ -11,6 +11,21 @@ import type { Tier } from '../../data/commerce'
 import type { FormulaCtx } from '../../interativa/formulas'
 import { ITEM_CARD_CSS, docImageUrl, docKind, docTier, itemCardHtml } from '../item-card'
 
+/** No painel DETALHES a carta ocupa a largura disponível (feedback 2026-10-02:
+ *  as cartas de 174px do hover ficavam estreitas na lateral): uma carta por
+ *  linha, 100% de largura, figura e texto um pouco maiores. Só aqui — o hover
+ *  segue com as cartas compactas. */
+const ITEM_DETAIL_CSS = `
+.item-detail .shc-wrap{flex-direction:column;flex-wrap:nowrap;gap:12px}
+.item-detail .shc-card{width:100%;flex:1 1 auto;box-sizing:border-box;padding:10px 12px;gap:4px}
+.item-detail .shc-img{max-height:260px}
+.item-detail .shc-name{font-size:15px}
+.item-detail .shc-tier{font-size:12px}
+.item-detail .shc-row{font-size:12.5px}
+.item-detail .shc-desc{font-size:12.5px;line-height:1.45}
+.item-detail .shc-ability{font-size:12px;line-height:1.4}
+`
+
 export function ItemDetail({
   id,
   propId,
@@ -38,8 +53,8 @@ export function ItemDetail({
     cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', false, assets, cut, formulaCtx))
   }
   return (
-    <div data-item-detail={id} data-item-detail-prop={propId ?? ''} data-item-detail-tier={t}>
-      <style>{ITEM_CARD_CSS}</style>
+    <div className="item-detail" data-item-detail={id} data-item-detail-prop={propId ?? ''} data-item-detail-tier={t}>
+      <style>{ITEM_CARD_CSS + ITEM_DETAIL_CSS}</style>
       <div className="shc-wrap" dangerouslySetInnerHTML={{ __html: cards.join('') }} />
     </div>
   )
