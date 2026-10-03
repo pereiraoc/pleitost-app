@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Procurar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Procurar.md",
+  "basename": "Procurar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Observa por coisas ou criaturas escondidas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "Escondida"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Observa por coisas ou criaturas escondidas.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Percepção]] contra [[CD]] da tarefa (tipicamente [[Furtividade]] de uma criatura).\n\n**Sucesso:** Você vê o objeto ou a criatura, que deixa de estar [[Escondido|Escondida]]\n**Falha:** Você não vê nada fora do normal.\n\nVocê pode continuamente Procurar fora de combate, isso é chamado de Vigiar. Ao Vigiar você não pode realizar outras ações e tem sua [[Movimentação]] reduzida a metade.\n\n```autosheet-rules\n```\n"
+}

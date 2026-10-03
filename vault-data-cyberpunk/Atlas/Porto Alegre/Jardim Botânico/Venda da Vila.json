@@ -1,0 +1,111 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Venda da Vila",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Venda da Vila.md",
+  "basename": "Venda da Vila",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Dona Nair Quadros",
+    "Descrição": null,
+    "Serviços": [
+      "[[Quarto de Fundos da Vila]]",
+      "[[Grapette]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Cachaça de Boteco]]",
+      "[[Polar Tradicional]]",
+      "[[Erva-Mate Charrua]]",
+      "[[Água Mineral em Galão]]",
+      "[[Café Passado]]",
+      "[[Bolo de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Venda da Vila.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto de Fundos da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Venda da Vila.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Venda da Vila.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vende mantimento, Grapette e bala de troco; arruma quarto de fundos com as vizinhas e anota fiado no caderno.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Balcão de madeira gasto, prateleira de vidro com Isabela e Grapette, caderno de fiado preso por elástico e um rádio ligado na rádio pirata.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vende mantimento, Grapette e bala de troco; arruma quarto de fundos com as vizinhas e anota fiado no caderno.",
+    "aparencia": "Balcão de madeira gasto, prateleira de vidro com Isabela e Grapette, caderno de fiado preso por elástico e um rádio ligado na rádio pirata.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

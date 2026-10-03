@@ -1,0 +1,169 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Armadura Obra-prima",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Armadura Obra-prima.md",
+  "basename": "Armadura Obra-prima",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [],
+    "resumo": "Bônus de [[Defesa]].",
+    "preço": "50 PO",
+    "bonus_tipo": "defesa",
+    "descrição": {
+      "adepto": "Essa armadura bem trabalhada tem qualidade superior, seja em peso, equilíbrio, flexibilidade ou material, garantindo uma maior cobertura em combate. +1 de bônus de item em Defesa.",
+      "experiente": "Essa armadura bem trabalhada tem qualidade superior, seja em peso, equilíbrio, flexibilidade ou material, garantindo uma maior cobertura em combate. +2 de bônus de item em Defesa.",
+      "mestre": "Essa armadura bem trabalhada tem qualidade superior, seja em peso, equilíbrio, flexibilidade ou material, garantindo uma maior cobertura em combate. +3 de bônus de item em Defesa."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Armadura",
+      "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Armadura",
+      "parsed": [
+        {
+          "sourceNote": "Armadura Obra-prima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Armadura"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Armadura",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Armadura Obra-prima",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Armadura Obra-prima",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Armadura Obra-prima",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Mundano - armadura*\nEssa armadura bem trabalhada tem qualidade superior, seja em peso, equilíbrio, flexibilidade ou material, garantindo uma maior cobertura em combate.\n* Adepto: +1 de [[bônus de item]] em [[Defesa]].\n* Experiente: +2 de [[bônus de item]] em [[Defesa]].\n* Mestre: +3 de [[bônus de item]] em [[Defesa]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: qualidades\n```\n\n```autosheet-rules\n```\n"
+}

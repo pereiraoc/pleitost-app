@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estação Estádios",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estação Estádios.md",
+  "basename": "Estação Estádios",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Estádios.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Estádios.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Estádios.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma larga com grade anti-invasão e portões que a Brigada tranca; o Consórcio das Bandeiras vende ingresso na escada.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Plataforma com grade alta, torcida de bandeira vermelha de um lado e azul do outro, cavalaria da Brigada embaixo, estádio ao fundo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma larga com grade anti-invasão e portões que a Brigada tranca; o Consórcio das Bandeiras vende ingresso na escada.",
+    "aparencia": "Plataforma com grade alta, torcida de bandeira vermelha de um lado e azul do outro, cavalaria da Brigada embaixo, estádio ao fundo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

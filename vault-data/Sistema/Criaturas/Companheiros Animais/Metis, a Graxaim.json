@@ -1,0 +1,599 @@
+{
+  "id": "Sistema/Criaturas/Companheiros Animais/Metis, a Graxaim",
+  "path": "Sistema/Criaturas/Companheiros Animais/Metis, a Graxaim.md",
+  "basename": "Metis, a Graxaim",
+  "type": "Criatura",
+  "subtype": "Companheiro Animal",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Companheiro Animal",
+    "grupo": [],
+    "Imagem": "",
+    "Nível": 7,
+    "Classe": "[[Companheiro Animal Canino|Canino Médio]]",
+    "Sintonia": "[[Traço Elemental do Vento]]",
+    "Tutor": "[[Mera]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 20,
+      "Moral": 40
+    },
+    "Atributos": {
+      "Principal": "FOR",
+      "FOR": 3,
+      "AGI": 2,
+      "INT": 1,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 0,
+        "E": 2,
+        "M": 2
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Companheiro Animal]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Companheiro Animal]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Companheiro Animal Canino]]"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Companheiro Animal]]": "Regra.[[Companheiro Animal Canino]]"
+        },
+        {
+          "[[Faro|Faro (6q)]]": "Regra.[[Companheiro Animal Canino]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Mover]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Voar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Arrastar-se]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Cair]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Levantar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Passo de Ajuste]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Saltar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Atacar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Agarrar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Derrubar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Escapar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Preparar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Procurar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Interagir]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Empurrar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Salto Longo]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Salto Alto]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Arrombar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Escalar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Nadar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Equilibrar-se]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Manobrar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Espremer-se]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Cambalhota]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Esconder-se]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Espreitar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Intuir Direção]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Rastrear]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Assustar]]": "Regra.[[Companheiro Animal]]"
+        },
+        {
+          "[[Retomar Fôlego]]": "Regra.[[Companheiro Animal]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "M",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Anel do Equilíbrio|Anel do Equilíbrio (Adepto)]]",
+        "[[Pulseira da Potência|Pulseira da Potência (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "N",
+          "Marciais": "N",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Mandíbula]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 0,
+      "Abatedor": 0,
+      "Vanguarda": 0
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 20,
+        "Moral": 40,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      },
+      "Condicoes_Ativas": {},
+      "Efeitos_Ativos": {
+        "Performance Bárdica Ativa": {
+          "on": true,
+          "auto": true,
+          "autoFrom": "Inspiração::Carlos Facão de Andradas"
+        }
+      },
+      "Invocacoes_Ativas": {}
+    },
+    "Oficios": {
+      "Lista": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": []
+    },
+    "Experiencia": {
+      "Marcas": [],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Companheiro Animal Canino",
+      "kind": "wikilink",
+      "alias": "Canino Médio"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mera",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal Canino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink",
+      "alias": "Anel do Equilíbrio (Adepto)"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink",
+      "alias": "Pulseira da Potência (Adepto)"
+    },
+    {
+      "target": "Mandíbula",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

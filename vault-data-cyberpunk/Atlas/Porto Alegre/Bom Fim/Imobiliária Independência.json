@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Imobiliária Independência",
+  "path": "Atlas/Porto Alegre/Bom Fim/Imobiliária Independência.md",
+  "basename": "Imobiliária Independência",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Dr. Amadeu Prates",
+    "Descrição": null,
+    "Serviços": [
+      "[[Apartamento no Bom Fim]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária Independência.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento no Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária Independência.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária Independência.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Apartamentos da Independência pra alugar ou comprar; exige fiador e discrição, oferece as duas coisas.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Escritório no térreo de um prédio de 1960, plantas na parede, secretária que lê o jornal proibido.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Apartamentos da Independência pra alugar ou comprar; exige fiador e discrição, oferece as duas coisas.",
+    "aparencia": "Escritório no térreo de um prédio de 1960, plantas na parede, secretária que lê o jornal proibido.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

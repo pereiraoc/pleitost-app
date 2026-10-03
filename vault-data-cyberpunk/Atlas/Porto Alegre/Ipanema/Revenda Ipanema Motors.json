@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Revenda Ipanema Motors",
+  "path": "Atlas/Porto Alegre/Ipanema/Revenda Ipanema Motors.md",
+  "basename": "Revenda Ipanema Motors",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Sr. Heitor Gastal",
+    "Descrição": null,
+    "Serviços": [
+      "[[Chevrolet Opala Diplomata]]",
+      "[[Chevrolet Monza]]",
+      "[[Ford Del Rey]]",
+      "[[Gurgel Tocantins]]",
+      "[[Honda CB 450]]",
+      "[[Chevrolet Opala Diplomata]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Revenda Ipanema Motors.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Opala Diplomata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Monza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ford Del Rey",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Tocantins",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CB 450",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Revenda Ipanema Motors.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Revenda Ipanema Motors.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Carros de coronel e diretor, novos e de leilão de repartição, com blindagem opcional e entrega em casa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Vitrine de vidro espelhado, tapete vermelho, um Opala Diplomata girando e um segurança da Gradiente na porta.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Carros de coronel e diretor, novos e de leilão de repartição, com blindagem opcional e entrega em casa.",
+    "aparencia": "Vitrine de vidro espelhado, tapete vermelho, um Opala Diplomata girando e um segurança da Gradiente na porta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Barraco de Aluguel do Clã",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Barraco de Aluguel do Clã.md",
+  "basename": "Barraco de Aluguel do Clã",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "Maria “Ferrugem” Souza (pelo Clã)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Barraco de Sucata]]",
+      "[[Noite no Barraco do Clã]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barraco de Aluguel do Clã.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraco de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite no Barraco do Clã",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Barraco de Aluguel do Clã.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Barraco de Aluguel do Clã.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Barraco de chapa e lona por mês, ou 'posse' com a bênção do Clã; sem água, sem luz, sem endereço.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Barracos de contêiner cortado em fila, lona azul, fio de gato e o Delta no horizonte.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Barraco de chapa e lona por mês, ou 'posse' com a bênção do Clã; sem água, sem luz, sem endereço.",
+    "aparencia": "Barracos de contêiner cortado em fila, lona azul, fio de gato e o Delta no horizonte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

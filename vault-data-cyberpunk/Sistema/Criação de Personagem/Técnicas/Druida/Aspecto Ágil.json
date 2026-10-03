@@ -1,0 +1,110 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Ágil",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Ágil.md",
+  "basename": "Aspecto Ágil",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Aspecto Ágil",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "arma": "AtaqueNatural"
+        },
+        "visual": {
+          "iconeLigado": "👹",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "numerico",
+            "label": "EM Investido",
+            "min": 1,
+            "max": 4,
+            "step": 1
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "Movimento",
+            "valor": {
+              "porSeletor": "EM Investido",
+              "tabela": {
+                "1": 1,
+                "2": 2,
+                "3": 2,
+                "4": 3
+              }
+            },
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Melhora mobilidade da forma feral."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Bônus de Condição\\",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Melhora mobilidade da forma feral.\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende Aspecto Ágil como um [[Aspecto Feral]].\n\n**Aspecto Ágil** - Por 1 minuto, a [[Forma Feral]] recebe os seguintes benefícios dependendo da quantia de [[Energia Mágica|EM]] investida nesse aspecto. Compatível com todas as formas.\n\n| EM  | Benefício                                                                       |\n|:---:| ------------------------------------------------------------------------------- |\n|  1  | +1q de [[Bônus de Condição\\|bônus de condição]] na [[Movimentação]] terrestre  |\n|  2  | +2q de [[Bônus de Condição\\|bônus de condição]] na [[Movimentação]] terrestre  |\n|  3  | +2q de [[Bônus de Condição\\|bônus de condição]] na [[Movimentação]] terrestre, pode mover por inimigos (como [[Terreno Difícil]]) |\n|  4  | +3q de [[Bônus de Condição\\|bônus de condição]] na [[Movimentação]] terrestre, pode mover por inimigos, ignora [[Terreno Difícil]] |\n\n```autosheet-rules\n```\n"
+}

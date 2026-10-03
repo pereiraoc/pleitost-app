@@ -1,0 +1,84 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/T3 VILA MILITAR — SARANDI",
+  "path": "Contexto/Recursos/Transporte/Ônibus/T3 VILA MILITAR — SARANDI.md",
+  "basename": "T3 VILA MILITAR — SARANDI",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "T3 VILA MILITAR — SARANDI",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#4e6e2e",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Vila Militar do Paraguassu]]",
+      "[[Hospital de Guarnição]]",
+      "[[Rádio Farroupilha]]",
+      "[[Motel Assis Brasil]]",
+      "[[Rua da Sarandi]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "A 'linha da farda': funciona porque leva soldado da Vila Militar à Assis Brasil e a Nova Sarandi.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "T3 VILA MILITAR — SARANDI.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Vila Militar do Paraguassu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Hospital de Guarnição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rádio Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Motel Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua da Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "T3 VILA MILITAR — SARANDI.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[T3 VILA MILITAR — SARANDI.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA \"linha da farda\". Sai da [[Vila Militar do Paraguassu]], passa no [[Hospital de Guarnição]] e na [[Rádio Farroupilha]], pega a Assis Brasil no [[Motel Assis Brasil]] e vai até a [[Rua da Sarandi]]. Funciona — tem peça, tem horário — porque leva soldado sem farda pra casa. TRI Bronze no turno; ninguém assalta.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

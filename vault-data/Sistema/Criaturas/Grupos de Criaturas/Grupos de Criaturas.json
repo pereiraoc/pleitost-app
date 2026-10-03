@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criaturas/Grupos de Criaturas/Grupos de Criaturas",
+  "path": "Sistema/Criaturas/Grupos de Criaturas/Grupos de Criaturas.md",
+  "basename": "Grupos de Criaturas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Grupos de Aventureiros"
+    }
+  ],
+  "body": "# Grupos de Aventureiros\n```button\nname NOVO: Grupo de Criaturas 👥\ntype command\naction QuickAdd: NOVO: Grupo de Criaturas\n```\n^button-criar-novo-grupo\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\"\nFROM \"Sistema/Criaturas/Grupos de Criaturas\"\nWHERE categoria = \"Grupo\" and file.name != this.file.name\nSORT file.name ASC\n```"
+}

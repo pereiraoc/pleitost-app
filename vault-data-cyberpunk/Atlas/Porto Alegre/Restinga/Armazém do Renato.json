@@ -1,0 +1,106 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Armazém do Renato",
+  "path": "Atlas/Porto Alegre/Restinga/Armazém do Renato.md",
+  "basename": "Armazém do Renato",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Dona Marta (pelo Movimento)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cesta Básica Zaffari]]",
+      "[[Água Mineral em Galão]]",
+      "[[Erva-Mate Charrua]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Grapette]]",
+      "[[Guaraná Fruki]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Mate Gelado Charrua]]",
+      "[[Cachaça de Boteco]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armazém do Renato.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Armazém do Renato.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Armazém do Renato.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cesta, água em galão, bolacha, refrigerante, mate gelado e cachaça; nada vale menos de um dólar, vende-se em lote.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Contêiner cortado com balcão, prateleira de sucata, galões de água e um quadro com o câmbio do dia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cesta, água em galão, bolacha, refrigerante, mate gelado e cachaça; nada vale menos de um dólar, vende-se em lote.",
+    "aparencia": "Contêiner cortado com balcão, prateleira de sucata, galões de água e um quadro com o câmbio do dia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

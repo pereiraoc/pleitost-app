@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Estudo Marcial",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Estudo Marcial.md",
+  "basename": "Estudo Marcial",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Aprende uma [[Técnica Adepta]] da classe Guerreiro que inclua um [[Atacar|Ataque]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Aprende uma [[Técnica Adepta]] da classe Guerreiro que inclua um [[Atacar|Ataque]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprimora seu treinamento marcial, introduzindo técnicas de Guerreiro. Escolha uma [[Técnica Adepta]] da classe Guerreiro que inclua um [[Atacar|Ataque]]. Você recebe essa técnica.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM \"Sistema/Criação de Personagem/Técnicas/Guerreiro\" and [[Atacar]]\nwhere categoria=\"Técnica\" AND subcategoria=\"Adepta\"\nsort rank asc\n```\n\n```autosheet-rules\n```\n"
+}

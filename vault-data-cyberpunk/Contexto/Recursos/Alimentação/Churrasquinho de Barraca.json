@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Churrasquinho de Barraca",
+  "path": "Contexto/Recursos/Alimentação/Churrasquinho de Barraca.md",
+  "basename": "Churrasquinho de Barraca",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Barracas patrocinadas [[Zaffari]]",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Praia de Belas]]",
+      "[[Jardim Botânico]]",
+      "[[Estádio Beira-Rio]]"
+    ],
+    "Resumo": "Espeto de carne de segunda com farinha, na barraca de lona Zaffari na porta do estádio. Carne de quê? Melhor não perguntar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Churrasquinho de Barraca.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Churrasquinho de Barraca.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Churrasquinho de Barraca.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO churrasquinho de barraca é o lanche do jogo e da saída do turno: espeto de carne de segunda, sal grosso,\nfarinha e pão. Barraca de lona com a marca do [[Zaffari]], taxa do [[Consórcio das Bandeiras]] paga, fumaça\nque se sente do [[Estádio Beira-Rio]]. Cz$ 40 o espeto; em dia de Gre-Nal, o dobro.\n\n> [!info] Especificação\n> **Espeto:** carne de segunda (dizem bovina), sal grosso, farinha; pão Cz$ 10\n> **Barraca:** lona [[Zaffari]], taxa de Cz$ 500 mais pedágio do [[Consórcio das Bandeiras]]\n> **Preço:** Cz$ 40; Cz$ 80 em dia de jogo\n> **Onde:** porta dos estádios, cais de [[Praia de Belas]], boteco da [[Camisa 12]]\n"
+}

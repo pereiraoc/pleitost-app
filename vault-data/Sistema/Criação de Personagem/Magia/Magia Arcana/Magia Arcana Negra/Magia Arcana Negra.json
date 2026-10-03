@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Arcana Negra",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Arcana Negra.md",
+  "basename": "Magia Arcana Negra",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Negra Básica",
+      "kind": "embed",
+      "subpath": "Magia Negra Básica"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "embed",
+      "subpath": "Magia Negra Adepta"
+    },
+    {
+      "target": "Magia Negra Experiente",
+      "kind": "embed",
+      "subpath": "Magia Negra Experiente"
+    },
+    {
+      "target": "Magia Negra Mestre",
+      "kind": "embed",
+      "subpath": "Magia Negra Mestre"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Magia Negra"
+    }
+  ],
+  "body": "## Magia Negra\n![[Magia Negra Básica#Magia Negra Básica]]\n![[Magia Negra Adepta#Magia Negra Adepta]]\n![[Magia Negra Experiente#Magia Negra Experiente]]\n![[Magia Negra Mestre#Magia Negra Mestre]]"
+}

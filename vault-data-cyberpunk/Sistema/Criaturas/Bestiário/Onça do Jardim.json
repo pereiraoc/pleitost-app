@@ -1,0 +1,474 @@
+{
+  "id": "Sistema/Criaturas/Bestiário/Onça do Jardim",
+  "path": "Sistema/Criaturas/Bestiário/Onça do Jardim.md",
+  "basename": "Onça do Jardim",
+  "type": "Criatura",
+  "subtype": "Monstro",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Monstro",
+    "grupo": [],
+    "Imagem": "",
+    "Tier": 3,
+    "Classe": "[[Assassino|Assassino Elite]]",
+    "Modificador": "Elite",
+    "Sintonia": "",
+    "Raça": "[[Incomum|Incomum]]",
+    "Tamanho": "Grande",
+    "Descrição": "Saiu do zoológico quando o zoológico acabou. Come em cima do telhado e desce sem barulho nenhum.",
+    "Afiliação": "[[Jardim Botânico]]",
+    "Bairros": [
+      "[[Jardim Botânico]]",
+      "[[Petrópolis]]"
+    ],
+    "Vida": {
+      "Vitalidade": 144
+    },
+    "Atributos": {
+      "Principal": "AGI",
+      "FOR": 2,
+      "AGI": 3,
+      "INT": 0,
+      "PRE": 1
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 4,
+        "M": 2
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica de Monstro]]": "Regra.[[Assassino]]"
+        },
+        {
+          "[[Alvo de Assassinato]]": "Manual.Habilidade"
+        },
+        {
+          "[[Pelo Telhado]]": "Manual.Habilidade"
+        },
+        {
+          "[[Oportunista]]": "Manual.Habilidade"
+        },
+        {
+          "[[Elite]]": "Manual.Modificador"
+        }
+      ],
+      "Especiais": []
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 2,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 2,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 2,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Ataques": {
+      "Proficiencia": "M",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 3,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Garras Enormes]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 3,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Biografia": {
+      "Passado": "",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Assassino",
+      "kind": "wikilink",
+      "alias": "Assassino Elite"
+    },
+    {
+      "target": "Incomum",
+      "kind": "wikilink",
+      "alias": "Incomum"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assassino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras Enormes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Criatura\n\n```autosheet-yaml\nModo: Resumo\n```\n"
+}

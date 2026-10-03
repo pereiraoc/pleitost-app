@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Correria do Camelódromo",
+  "path": "Campanhas/Combates/Correria do Camelódromo.md",
+  "basename": "Correria do Camelódromo",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Camelódromo]]",
+    "Situação": "Perseguição, não abate — quem parar pra brigar perde a carga.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mula do Cartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agulha de Beco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Mula do Cartel]] rápido\n- 4 [[Agulha de Beco]] rápido\n- 2 [[Catador Armado]] lento\n```\n"
+}

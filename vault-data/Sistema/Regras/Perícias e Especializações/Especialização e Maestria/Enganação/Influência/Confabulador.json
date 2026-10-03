@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Influência/Confabulador",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Influência/Confabulador.md",
+  "basename": "Confabulador",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Enganação]]",
+    "resumo": "\"Mentir repetidamente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mentir",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Enganação]]\nresumo:: \"Mentir repetidamente.\"\n%%\n### `= this.file.name`\n* Quando falha em [[Mentir]], pode tentar embolar na mentira novamente, fazendo um novo teste com -2.\n\n*Requer Influência*\n\n```autosheet-rules\n```\n"
+}

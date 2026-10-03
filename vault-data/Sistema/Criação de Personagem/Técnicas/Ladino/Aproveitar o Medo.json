@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Aproveitar o Medo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Aproveitar o Medo.md",
+  "basename": "Aproveitar o Medo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você tem [[Vantagem de Combate]] contra criaturas [[Abalado|Abaladas]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abaladas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você tem [[Vantagem de Combate]] contra criaturas [[Abalado|Abaladas]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê tem [[Vantagem de Combate]] contra criaturas [[Abalado|Abaladas]].\n*Requer Adepto em Intimidação.*\n\n```autosheet-rules\n```\n"
+}

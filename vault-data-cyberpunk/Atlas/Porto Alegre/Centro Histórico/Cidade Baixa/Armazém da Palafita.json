@@ -1,0 +1,106 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Armazém da Palafita",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Armazém da Palafita.md",
+  "basename": "Armazém da Palafita",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Cidade Baixa]]",
+    "Dono": "Dona Lurdes Cabral",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cesta Básica Zaffari]]",
+      "[[Água Mineral em Galão]]",
+      "[[Erva-Mate Charrua]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Grapette]]",
+      "[[Guaraná Fruki]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Cachaça de Boteco]]",
+      "[[Ração PIRA]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armazém da Palafita.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Armazém da Palafita.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Armazém da Palafita.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cesta, água em galão, bolacha, refrigerante quente e cachaça; aceita dólar, dose e sucata; fiado com a Aliança de fiador.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Palafita com balcão pra passarela, prateleira presa com arame, galões de água empilhados e um rádio.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cesta, água em galão, bolacha, refrigerante quente e cachaça; aceita dólar, dose e sucata; fiado com a Aliança de fiador.",
+    "aparencia": "Palafita com balcão pra passarela, prateleira presa com arame, galões de água empilhados e um rádio.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

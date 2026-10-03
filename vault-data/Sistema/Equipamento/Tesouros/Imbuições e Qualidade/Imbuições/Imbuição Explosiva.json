@@ -1,0 +1,135 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Explosiva",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Explosiva.md",
+  "basename": "Imbuição Explosiva",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Arma com ataques potentes.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. Ao acertar, reação para +2d4 dano de fogo (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Ataques. Ao acertar, reação para +2d6 dano de fogo e 2 de dano em 1q (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Ataques. Ao acertar, reação para +2d8 dano de fogo e 4 de dano em 2q (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial Tipo,perfuração|contusão"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial Tipo,perfuração|contusão",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Explosiva",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-simples"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-marcial"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "perfuração"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "contusão"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial Tipo,perfuração|contusão",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Fogo) - arma que causa dano perfurante ou de contusão*\nUma arma carregada do poder do fogo, portando gemas vermelhas em sua extensão. Após conectar com o inimigo, uma explosão pode ser ativada.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d4 de dano de fogo adicional. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d6 de dano de fogo adicional e, a sua escolha, 2 de dano de fogo nas criaturas adjacentes ao alvo (excluindo você). Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d8 de dano de fogo adicional e, a sua escolha, 4 de dano de fogo nas criaturas em até 1q ou 2q do alvo (excluindo você). Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

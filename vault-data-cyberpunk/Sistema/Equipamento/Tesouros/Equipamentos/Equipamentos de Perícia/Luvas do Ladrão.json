@@ -1,0 +1,300 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Luvas do Ladrão",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Luvas do Ladrão.md",
+  "basename": "Luvas do Ladrão",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus de [[Ladinagem]]. Conjurar magias para infiltração.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em testes de Ladinagem. Pode conjurar Chave Arcana por 4 EV.",
+      "experiente": "+2 de bônus de item em testes de Ladinagem. Pode conjurar Chave Arcana por 4 EV e Visor Arcano por 6 EV.",
+      "mestre": "+3 de bônus de item em testes de Ladinagem. Pode conjurar Chave Arcana como uma ação por 4 EV e Visor Arcano como duas ações por 6 EV."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/dia",
+      "experiente": "1/dia",
+      "mestre": "1/dia"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+      "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]",
+      "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Chave Arcana]]"
+          },
+          "raw": "Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Chave Arcana]]"
+          },
+          "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Visor Arcano]]"
+          },
+          "raw": "Categoria Experiente Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Chave Arcana]]"
+          },
+          "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]",
+      "parsed": [
+        {
+          "sourceNote": "Luvas do Ladrão",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Visor Arcano]]"
+          },
+          "raw": "Categoria Mestre Complementar Magias.Lista.Tesouros.Lista [[Visor Arcano]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chave Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visor Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - luvas*\nEstas luvas delicadas vestem perfeitamente nas suas mãos, sem impedir seu tato. Elas amplificam a precisão dos seus dedos e provêm ferramentas de infiltração.\n* Adepto: +1 de [[bônus de item]] em testes de [[Ladinagem]]. Você pode conjurar [[Chave Arcana]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Ladinagem]]. Você pode conjurar [[Chave Arcana]] e [[Visor Arcano]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Ladinagem]]. Pode conjurar [[Chave Arcana]] como uma ação ou [[Visor Arcano]] como duas ações.\n\nQuando você conjura [[Chave Arcana]] por esse item, seu ataque mágico é igual a seu modificador de [[Ladinagem]] e você perde 4 [[Energia Vital|EV]].\nQuando você conjura [[Visor Arcano]] por esse item, o visor deve ser criado imediatamente atrás de uma porta que você está adjacente e você perde 6 [[Energia Vital|EV]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

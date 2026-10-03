@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Incomum",
+  "path": "Sistema/Regras/Bestiário/Raças/Incomum.md",
+  "basename": "Incomum",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      null
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é uma raça incomum.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é uma raça incomum.\"\n%%\n##### `= this.file.name`\nVocê é uma raça incomum.\n\n```autosheet-rules\n```\n"
+}

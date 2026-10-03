@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Restaurante Familiar do Bom Fim",
+  "path": "Atlas/Porto Alegre/Bom Fim/Restaurante Familiar do Bom Fim.md",
+  "basename": "Restaurante Familiar do Bom Fim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Dona Nina Zanetti",
+    "Descrição": null,
+    "Serviços": [
+      "[[Janta no Bom Fim]]",
+      "[[Vinho Aurora]]",
+      "[[Sagu de Vinho]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Restaurante Familiar do Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Janta no Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Restaurante Familiar do Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Restaurante Familiar do Bom Fim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bife à milanesa, massa, sopa de capeletti e vinho de garrafão; rodízio de terça com o vinho incluso e sagu de sobremesa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão pequeno com fotos de família na parede, garrafões atrás do caixa, cheiro de molho e a TV desligada por respeito.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bife à milanesa, massa, sopa de capeletti e vinho de garrafão; rodízio de terça com o vinho incluso e sagu de sobremesa.",
+    "aparencia": "Salão pequeno com fotos de família na parede, garrafões atrás do caixa, cheiro de molho e a TV desligada por respeito.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

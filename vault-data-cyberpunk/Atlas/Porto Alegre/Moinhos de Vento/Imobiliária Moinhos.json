@@ -1,0 +1,79 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Imobiliária Moinhos",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Imobiliária Moinhos.md",
+  "basename": "Imobiliária Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Dr. Fernando Marques",
+    "Descrição": null,
+    "Serviços": [
+      "[[Apartamento nos Moinhos]]",
+      "[[Cobertura no Edifício Concorde]]",
+      "[[Casa em Ipanema]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Imobiliária Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento nos Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura no Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Casa em Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Imobiliária Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Imobiliária Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Apartamentos nos Moinhos, cobertura no [[Edifício Concorde]] e casa em condomínio fechado de [[Ipanema]]; a visita é agendada e fotografada.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão com carpete, plantas de verdade, café de verdade e uma secretária que confere o crachá antes de dizer bom dia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Apartamentos nos Moinhos, cobertura no [[Edifício Concorde]] e casa em condomínio fechado de [[Ipanema]]; a visita é agendada e fotografada.",
+    "aparencia": "Salão com carpete, plantas de verdade, café de verdade e uma secretária que confere o crachá antes de dizer bom dia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

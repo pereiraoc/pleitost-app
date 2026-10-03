@@ -1,0 +1,89 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Reforçar",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Reforçar.md",
+  "basename": "Reforçar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Reforçar",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Reforçar",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Técnica",
+        "escopo": {
+          "aplicaEm": "Aliados",
+          "compartilharGrupo": true
+        },
+        "visual": {
+          "iconeLigado": "🎵",
+          "iconeDesligado": "🚫",
+          "realceEspecial": "performance-bardica"
+        },
+        "links": {
+          "ativa": [
+            "Performance Bárdica Ativa"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "Defesa",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Resistencias",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Aliados em 10q recebem +1 de condição na Defesa e Resistências até o início do seu próximo turno."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ato Reforçante",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Aliados em 10q recebem +1 de condição na Defesa e Resistências até o início do seu próximo turno.\n%%\n### `= this.file.name` - `= this.custo`\nAliados em 10q recebem +1 de condição na [[Defesa]] e nas [[Resistências]] até o início do seu próximo turno.\n\n![[Ato Reforçante#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

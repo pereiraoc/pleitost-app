@@ -1,0 +1,76 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Camuflagem",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Camuflagem.md",
+  "basename": "Camuflagem",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você se esconde mesclando com o ambiente, tornando dúbio sua posição mesmo depois de revelado. Quando você é observado por uma criatura da qual tinha se [[Esconder-se|Escondido]], seja por ação sua ou de outrem, você ganha (de forma não-mágica) os efeitos de [[Ofuscação]] para essa criatura até o início do seu próximo turno. Adicionalmente, você não precisa de cobertura para [[Esconder-se]] em terreno natural.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink",
+      "alias": "Escondido"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você se esconde mesclando com o ambiente, tornando dúbio sua posição mesmo depois de revelado. Quando você é observado por uma criatura da qual tinha se [[Esconder-se|Escondido]], seja por ação sua ou de outrem, você ganha (de forma não-mágica) os efeitos de [[Ofuscação]] para essa criatura até o início do seu próximo turno. Adicionalmente, você não precisa de cobertura para [[Esconder-se]] em terreno natural.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê se esconde mesclando com o ambiente e tornando dúbio sua posição mesmo depois de revelado. Você não precisa de cobertura para [[Esconder-se]] em terreno natural. Quando você é observado por uma criatura da qual tinha se [[Esconder-se|Escondido]], seja por ação sua ou de outrem, você ganha (de forma não-mágica) os efeitos de [[Ofuscação]] para essa criatura até o início do seu próximo turno.\n\nAdicionalmente, você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na [[Furtividade]] ao tentar [[Esconder-se]] ou [[Espreitar]] contra seu alvo de caça e quando seu alvo de caça tenta te [[Procurar]].\n*Requer Furtividade Experiente*\n\n```autosheet-rules\n```\n"
+}

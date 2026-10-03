@@ -1,0 +1,48 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Quarto de Fundos da Vila",
+  "path": "Contexto/Recursos/Imóveis/Quarto de Fundos da Vila.md",
+  "basename": "Quarto de Fundos da Vila",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Dona da casa",
+    "Preço": 1000,
+    "Cobrança": "mês",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "Cômodo de 3×3 nos fundos de uma casa de vila, entrada pelo pátio, banheiro compartilhado e a dona de olho.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quarto de Fundos da Vila.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Quarto de Fundos da Vila.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Quarto de Fundos da Vila.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNas vilas da [[Jardim Botânico]] toda casa tem um quarto de fundos pra alugar. Três por três, uma janela, entrada\npelo pátio, banheiro dividido com a família. A dona da casa sabe a que horas você chega e quem veio junto —\ne conta pro boteco da [[Camisa 12]] na esquina.\n\n> [!info] Especificação\n> **Cômodo:** 3×3 m, janela pro pátio, cama de solteiro e um prego pra roupa\n> **Inclui:** luz do gato da dona, banheiro compartilhado, chimarrão de manhã se ela gostar de você\n> **Regra:** sem visita depois das dez, sem dose dentro de casa\n> **Vizinhança:** boteco da [[Camisa 12]] na esquina; caravana sai da porta em dia de jogo\n> **Nível:** 2 — Classe Baixa (o mesmo andar, com teto)\n"
+}

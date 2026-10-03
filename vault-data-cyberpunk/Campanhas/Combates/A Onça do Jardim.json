@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/A Onça do Jardim",
+  "path": "Campanhas/Combates/A Onça do Jardim.md",
+  "basename": "A Onça do Jardim",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Jardim Botânico]] · [[Petrópolis]]",
+    "Situação": "Alguma coisa come em cima do telhado e larga o resto na calçada. São duas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Onça do Jardim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capivara Blindada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Onça do Jardim]] super rápido\n- 4 [[Capivara Blindada]] lento\n```\n"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "Atlas/Mundo Livre/Ilha das Cinzas/Ilha das Cinzas",
+  "path": "Atlas/Mundo Livre/Ilha das Cinzas/Ilha das Cinzas.md",
+  "basename": "Ilha das Cinzas",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Mundo Livre]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Ilha vulcânica no mar sudeste do [[Mundo Livre]], separada da costa do [[Principado das Flores]] por um estreito de poucas léguas em frente a [[Canto Alto]]. Não tem governo, estradas nem bandeira: sua única cidade é [[Riqueza]], porto de trocas na costa oeste e porta de entrada da ilha, enquanto o sul é domínio da [[Ordem Bestial]], que dita as regras na [[Floresta da Ordem]]. O vulcão em erupção constante no nordeste batiza a ilha: é a sua cinza que cobre as árvores e tinge a terra. \n> \n> 👁️**Aparência do Local:** Vista do mar, a ilha é uma silhueta de encostas escuras sob uma coluna permanente de fumaça: o maciço vulcânico do nordeste despeja rios de lava alaranjada pelas encostas. O oeste é de terra seca e pálida de cinza, com palmeirais tropicais na costa em torno de [[Riqueza]]; o leste e o sul são de escrube acinzentado — árvores empoeiradas de cinza — que vai adensando até virar a mata densa, escura e musgosa da [[Floresta da Ordem]], pontuada de monólitos de pedra eretos entre as árvores. Não há estradas em parte alguma: quem desembarca no píer de Riqueza segue por trilha, ou não segue. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Ilha das Cinzas\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ilha vulcânica no mar sudeste do [[Mundo Livre]], separada da costa do [[Principado das Flores]] por um estreito de poucas léguas em frente a [[Canto Alto]]. Não tem governo, estradas nem bandeira: sua única cidade é [[Riqueza]], porto de trocas na costa oeste e porta de entrada da ilha, enquanto o sul é domínio da [[Ordem Bestial]], que dita as regras na [[Floresta da Ordem]]. O vulcão em erupção constante no nordeste batiza a ilha: é a sua cinza que cobre as árvores e tinge a terra.",
+    "aparencia": "Vista do mar, a ilha é uma silhueta de encostas escuras sob uma coluna permanente de fumaça: o maciço vulcânico do nordeste despeja rios de lava alaranjada pelas encostas. O oeste é de terra seca e pálida de cinza, com palmeirais tropicais na costa em torno de [[Riqueza]]; o leste e o sul são de escrube acinzentado — árvores empoeiradas de cinza — que vai adensando até virar a mata densa, escura e musgosa da [[Floresta da Ordem]], pontuada de monólitos de pedra eretos entre as árvores. Não há estradas em parte alguma: quem desembarca no píer de Riqueza segue por trilha, ou não segue.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "Contexto/Pessoas/Neli Rauber",
+  "path": "Contexto/Pessoas/Neli Rauber.md",
+  "basename": "Neli Rauber",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Dona Neli"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sicredi]]",
+    "Função": "Gerente do posto do Passo D'Areia",
+    "Aparência": "Quarenta anos, avental por cima da blusa, caneta atrás da orelha, cadernão de capa dura; a sala é nos fundos de um armazém do [[Passo D'Areia]], colada na [[Estação Passo D'Areia]].",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Neli Rauber.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sicredi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Neli Rauber.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Neli Rauber.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

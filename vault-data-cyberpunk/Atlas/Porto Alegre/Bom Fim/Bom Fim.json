@@ -1,0 +1,56 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Bom Fim",
+  "path": "Atlas/Porto Alegre/Bom Fim/Bom Fim.md",
+  "basename": "Bom Fim",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Poção da Coragem]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Coragem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bom Fim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Zona de classe média com casarões históricos, bares alternativos e brechós.\n> \n> 👁️**Aparência do Local:** Calçadas de paralelepípedo molhadas, aroma de café torrado, vozes animadas de universitários e ar fresco de eucalipto.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Zona de classe média com casarões históricos, bares alternativos e brechós.",
+    "aparencia": "Calçadas de paralelepípedo molhadas, aroma de café torrado, vozes animadas de universitários e ar fresco de eucalipto.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

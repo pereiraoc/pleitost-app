@@ -1,0 +1,115 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Arma Obra-prima",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Arma Obra-prima.md",
+  "basename": "Arma Obra-prima",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [],
+    "resumo": "Bônus para [[Atacar]].",
+    "preço": "30 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "Essa arma bem trabalhada tem qualidade superior, seja em peso, equilíbrio, afiação ou material, garantindo uma maior precisão em combate. +1 de bônus de item em Ataques.",
+      "experiente": "Essa arma bem trabalhada tem qualidade superior, seja em peso, equilíbrio, afiação ou material, garantindo uma maior precisão em combate. +2 de bônus de item em Ataques.",
+      "mestre": "Essa arma bem trabalhada tem qualidade superior, seja em peso, equilíbrio, afiação ou material, garantindo uma maior precisão em combate. +3 de bônus de item em Ataques."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial",
+      "parsed": [
+        {
+          "sourceNote": "Arma Obra-prima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-simples"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-marcial"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-simples|d-marcial",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Mundano - arma*\nEssa arma bem trabalhada tem qualidade superior, seja em peso, equilíbrio, afiação ou material, garantindo uma maior precisão em combate.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]].\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]].\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: qualidades\n```\n\n```autosheet-rules\n```\n"
+}

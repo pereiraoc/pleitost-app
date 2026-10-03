@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Malandragem",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Malandragem.md",
+  "basename": "Malandragem",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Ladinagem]]",
+    "resumo": "\"Ao [[Furtar]], garante -2 na [[Percepção]] de transeuntes. Pode [[Furtar]] em combate com penalidade.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtar",
+      "kind": "wikilink",
+      "alias": "Furta"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    },
+    {
+      "target": "Flanqueamento",
+      "kind": "wikilink",
+      "alias": "flanqueando"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Ladinagem]]\nresumo:: \"Ao [[Furtar]], garante -2 na [[Percepção]] de transeuntes. Pode [[Furtar]] em combate com penalidade.\"\n%%\n### `= this.file.name`\n* Quando você [[Furtar|Furta]] algo, criaturas que não estão com o objeto em sua posse recebem -2 de [[Penalidades|penalidade de circunstância]] na [[Percepção]] para detectar seu furto.\n* Você pode [[Furtar]] objetos no cinto, bolsos ou locais similares (objetos não empunhados/equipados) de uma criatura em combate com -4 de [[Penalidades|penalidade de circunstância]]. Essa penalidade é reduzida para -2 caso a criatura esteja [[Desprevenido|Desprevenida]] ou você esteja [[Flanqueamento|flanqueando]] ela.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vaga na Pensão da Vila Militar",
+  "path": "Contexto/Recursos/Imóveis/Vaga na Pensão da Vila Militar.md",
+  "basename": "Vaga na Pensão da Vila Militar",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Dona Zulmira",
+    "Preço": 1800,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Costa e Silva]]",
+      "[[Vila Militar do Paraguassu]]"
+    ],
+    "Resumo": "Quarto de solteiro na pensão de suboficial ao lado da Vila Militar: toque de recolher interno e café às cinco.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaga na Pensão da Vila Militar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vila Militar do Paraguassu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vaga na Pensão da Vila Militar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vaga na Pensão da Vila Militar.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA pensão da Dona Zulmira, viúva de sargento, aluga quarto pra soldado sem farda de casa e pra quem quer morar\nperto do quartel sem ser do quartel. Regras de quartel: café às cinco, luz apagada às dez, visita nunca.\n\n> [!info] Especificação\n> **Quarto:** solteiro, armário, banheiro no corredor\n> **Inclui:** café das cinco, roupa lavada na sexta\n> **Regra:** luz apagada às dez; a dona conhece todo mundo do QG\n> **Classe:** Classe Média Baixa\n"
+}

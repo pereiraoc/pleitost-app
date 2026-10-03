@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Posto Panvel do Jardim",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Posto Panvel do Jardim.md",
+  "basename": "Posto Panvel do Jardim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Farmacêutico Nilton Sperb",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Posto Panvel do Jardim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Posto Panvel do Jardim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Posto Panvel do Jardim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Farmacêutico que aplica injeção, médico de plantão à tarde, laudo de Reatividade Selênica e remédio de verdade pra quem tem receita — ou desconto em folha.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja de vitrine iluminada com o logo da Panvel, balcão de fórmica, sala dos fundos com maca e biombo, fila de senhora com receita.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Farmacêutico que aplica injeção, médico de plantão à tarde, laudo de Reatividade Selênica e remédio de verdade pra quem tem receita — ou desconto em folha.",
+    "aparencia": "Loja de vitrine iluminada com o logo da Panvel, balcão de fórmica, sala dos fundos com maca e biombo, fila de senhora com receita.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

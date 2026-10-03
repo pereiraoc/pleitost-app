@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Medo/Medo",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Medo/Medo.md",
+  "basename": "Medo",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Intimidação]]",
+    "resumo": "\"[[Assustar]] ou [[Coagir]] criaturas mais [[Força|fracas]] recebe +1 (+2 se adjacente). 1d4+2 de dano mental ao [[Assustar]] pela primeira vez.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "fracas"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Intimidação]]\nresumo:: \"[[Assustar]] ou [[Coagir]] criaturas mais [[Força|fracas]] recebe +1 (+2 se adjacente). 1d4+2 de dano mental ao [[Assustar]] pela primeira vez.\"\n%%\n### `= this.file.name`\n* Você recebe +1 de [[Bônus de Circunstância|bônus de circunstância]] para [[Assustar]] ou [[Coagir]] criaturas que tem [[Força|FOR]] inferior a sua. O bônus aumenta para +2 se você estiver adjacente a criatura.\n* Você causa dano mental igual a 1d4+2 quando tem sucesso em [[Assustar]] e a criatura fica [[Abalado|Abalada]].\n\n```autosheet-rules\n```\n"
+}

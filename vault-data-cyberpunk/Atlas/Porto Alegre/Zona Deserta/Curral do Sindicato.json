@@ -1,0 +1,77 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Curral do Sindicato",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Curral do Sindicato.md",
+  "basename": "Curral do Sindicato",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "Waldemar “Papeleiro” Nunes",
+    "Descrição": null,
+    "Serviços": [
+      "[[Carroça com Cavalo]]",
+      "[[Carroça com Cavalo]] usado",
+      "[[Mobilete Caloi]] usado",
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Monark Barra Circular]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Curral do Sindicato.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monark Barra Circular",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Curral do Sindicato.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Curral do Sindicato.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Carroça com cavalo nova ou usada, mobilete e bicicleta recuperadas da sucata; paga-se em sucata.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Cercado de arame com cavalos magros, carroças em fila, montanha de papelão e um galpão de chapa.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Carroça com cavalo nova ou usada, mobilete e bicicleta recuperadas da sucata; paga-se em sucata.",
+    "aparencia": "Cercado de arame com cavalos magros, carroças em fila, montanha de papelão e um galpão de chapa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

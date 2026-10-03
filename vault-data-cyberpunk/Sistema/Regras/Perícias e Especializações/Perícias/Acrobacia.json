@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Acrobacia",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Acrobacia.md",
+  "basename": "Acrobacia",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Atletismo]]",
+    "next": "[[Furtividade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manobrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espremer-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Acrobacia ([[Agilidade|AGI]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Atletismo]]\nnext:: [[Furtividade]]\n%%\n## Acrobacia ([[Agilidade|AGI]])\n[[Equilibrar-se]], [[Manobrar]], [[Espremer-se]]. Acrobacia rege feitos de coordenação motora. Adicionalmente, Acrobacia determina a manobra de combate [[Cambalhota]]."
+}

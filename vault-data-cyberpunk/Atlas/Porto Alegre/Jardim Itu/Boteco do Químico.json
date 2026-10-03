@@ -1,0 +1,76 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Boteco do Químico",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Boteco do Químico.md",
+  "basename": "Boteco do Químico",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Seu Doca Ferreira",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]",
+      "[[Churrasquinho de Barraca]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Boteco do Químico.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Boteco do Químico.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Boteco do Químico.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cachaça, Polar, churrasquinho e café; fiado até o dia do vale.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Balcão de zinco, luz de lâmpada nua, cadeira de ferro e o cheiro de éter que vem da fábrica.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cachaça, Polar, churrasquinho e café; fiado até o dia do vale.",
+    "aparencia": "Balcão de zinco, luz de lâmpada nua, cadeira de ferro e o cheiro de éter que vem da fábrica.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

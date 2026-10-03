@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vaga na Pensão do Cais",
+  "path": "Contexto/Recursos/Imóveis/Vaga na Pensão do Cais.md",
+  "basename": "Vaga na Pensão do Cais",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Dona Neusa",
+    "Preço": 1800,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Praia de Belas]]",
+      "[[Porto Novo]]"
+    ],
+    "Resumo": "Quarto na pensão do cais pra estivador e viajante de barco: cheiro de maresia, chave de verdade, janta às sete.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaga na Pensão do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vaga na Pensão do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vaga na Pensão do Cais.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão do Cais]] fica de frente pro [[Porto Novo]] e aluga quarto pra estivador, marinheiro de balsa e quem\nchegou de barco sem saber pra onde vai. Dona Neusa serve janta às sete e não pergunta o sobrenome.\n\n> [!info] Especificação\n> **Quarto:** solteiro ou duplo, janela pro cais\n> **Inclui:** janta às sete, roupa lavada, recado anotado\n> **Regra:** porta fecha à meia-noite — o toque é antes\n> **Classe:** Classe Média Baixa\n"
+}

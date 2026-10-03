@@ -1,0 +1,34 @@
+{
+  "id": "Sistema/Regras/Bônus & Penalidades/Bônus de Especialização",
+  "path": "Sistema/Regras/Bônus & Penalidades/Bônus de Especialização.md",
+  "basename": "Bônus de Especialização",
+  "type": "Regra",
+  "subtype": "Bônus",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "bônus de especialização",
+    "categoria": "Regra",
+    "subcategoria": "Bônus",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Bônus & Penalidades]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bônus & Penalidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Bônus & Penalidades]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nBônus de especialização são melhorias em rolagens de ataques ou testes garantidas por um treinamento especial em certa atividade. Por exemplo, uma habilidade de classe pode te dar um bônus em um atividade chave para a classe ou uma técnica sua pode te dar um bônus de especialização em uma perícia."
+}

@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Culto na Palafita",
+  "path": "Campanhas/Combates/Culto na Palafita.md",
+  "basename": "Culto na Palafita",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Cidade Baixa]] · [[Restinga]]",
+    "Situação": "A palafita inteira canta. O Guru dosa os fiéis e as reações começam antes de alguém puxar arma.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guru do Círculo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiel do Círculo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Guru do Círculo]] lento\n- 5 [[Fiel do Círculo]] rápido\n```\n"
+}

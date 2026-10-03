@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Contra-mágica",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Contra-mágica.md",
+  "basename": "Contra-mágica",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "R",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Dissipa uma magia conhecida sendo conjurada.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink",
+      "alias": "Lento 1"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Dissipa uma magia conhecida sendo conjurada.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nSe uma criatura conjura uma magia que você sabe conjurar, você consegue ver suas manifestações, e a criatura está dentro do alcance desta mesma magia, você gasta um uso de magia referente a magia conjurada, executa os componentes mágicos necessários para conjurar a magia e dissipa a magia da criatura, removendo quaisquer efeitos que ela tenha. Você fica [[Lento|Lento 1]] até o final do seu próximo turno. Caso já esteja [[Lento]], o valor de [[Lento]] aumenta em 1 até o final do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

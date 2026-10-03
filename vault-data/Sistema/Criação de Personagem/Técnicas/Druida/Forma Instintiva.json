@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Forma Instintiva",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Forma Instintiva.md",
+  "basename": "Forma Instintiva",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Ao rolar iniciativa, você pode manifestar uma [[Forma Feral]] como ação livre; se fizer isso (ou já estiver em forma), recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na iniciativa. Você pode ativar um [[Aspecto Feral]] junto, mas perde 1 ação no seu primeiro turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Ao rolar iniciativa, você pode manifestar uma [[Forma Feral]] como ação livre; se fizer isso (ou já estiver em forma), recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na iniciativa. Você pode ativar um [[Aspecto Feral]] junto, mas perde 1 ação no seu primeiro turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode manifestar uma [[Forma Feral]] como ação livre ao rolar iniciativa. Se fizer isso, ou já tenha uma forma ativa, você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste de iniciativa. Você pode escolher ativar um [[Aspecto Feral]] para essa forma, mas perde uma ação do seu primeiro turno caso faça isso.\n\n```autosheet-rules\n```\n"
+}

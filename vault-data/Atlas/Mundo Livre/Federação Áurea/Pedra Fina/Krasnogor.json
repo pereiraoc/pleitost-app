@@ -1,0 +1,93 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor.md",
+  "basename": "Krasnogor",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Âmbar",
+      "[[Machado de Batalha]]",
+      "[[Machadinha]]",
+      "[[Machadão]]",
+      "[[Picareta de Guerra]]",
+      "[[Imbuição Mineral]]",
+      "[[Imbuição Sísmica]]",
+      "[[Imbuição Enraizante]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Krasnogor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machado de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Krasnogor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Krasnogor.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Cidade anã escavada por inteiro dentro das [[Montanhas de Vidro]] — corredores e câmaras quadradas talhados na rocha, como uma grande estação subterrânea. É uma monarquia: o trono anão governa do ponto mais profundo e protegido da cidade, servido por salões administrativos e por escolas como as de qualquer cidade da superfície. Sua riqueza é o âmbar e o aço dos machados: as minas seguem ativas, abrindo câmaras novas na rocha, e as oficinas imbuem o mineral com artes que só os anões dominam. Antigamente chamada Vidrakar, adotou o nome Krasnogor — e é um dos raros cantos da Federação onde a [[Sociedade Aberta]] não mantém instalação própria.\n> \n> 👁️**Aparência do Local:** Não há céu: o teto é a própria montanha, e a cidade é uma malha ortogonal de corredores-rua e câmaras quadradas escavadas em pedra cinza-escura — as paredes são rocha comum; o famoso \"vidro\" fica lá fora, nos picos de areia derretida da cordilheira. A iluminação vem de mecanismos de tocha acoplados a lentes de âmbar, fabricadas na própria cidade com o âmbar e o vidro da montanha, que banham ruas e praças numa luz âmbar difusa e constante, sem precisar de muitos pontos individuais. O único acesso é o Portão da Montanha, um arco ogival monumental colado à rocha — sem espaço aberto acima —, de onde uma passagem murada desce para o interior, com o distrito da guarda anã postado entre o portão e o resto da cidade. A disposição é de cidadela monárquica: portão, depois bastião militar, mercado ao centro, oficinas a leste e a coroa no fundo norte, com o Salão do Trono no ponto mais distante da entrada. Cada distrito tinge a pedra num matiz discreto; estátuas anãs guardam pátios e cruzamentos, tudo se move a pé ou em carrinho de mão, e ao sul a frente de mina segue abrindo corredores estreitos que desembocam em câmaras recém-talhadas.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Portão da Montanha** *(extremo noroeste)* — portal monumental escavado direto na rocha, arco ogival flanqueado por torres de lanternas âmbar; único acesso da cidade, de onde uma passagem murada desce para o interior.\n>\n> **Coração da Coroa** *(vermelho — norte, no fundo da cidade)* — o distrito do poder monárquico, em pedra avermelhada, o mais distante do portão.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cidade anã escavada por inteiro dentro das [[Montanhas de Vidro]] — corredores e câmaras quadradas talhados na rocha, como uma grande estação subterrânea. É uma monarquia: o trono anão governa do ponto mais profundo e protegido da cidade, servido por salões administrativos e por escolas como as de qualquer cidade da superfície. Sua riqueza é o âmbar e o aço dos machados: as minas seguem ativas, abrindo câmaras novas na rocha, e as oficinas imbuem o mineral com artes que só os anões dominam. Antigamente chamada Vidrakar, adotou o nome Krasnogor — e é um dos raros cantos da Federação onde a [[Sociedade Aberta]] não mantém instalação própria.",
+    "aparencia": "Não há céu: o teto é a própria montanha, e a cidade é uma malha ortogonal de corredores-rua e câmaras quadradas escavadas em pedra cinza-escura — as paredes são rocha comum; o famoso \"vidro\" fica lá fora, nos picos de areia derretida da cordilheira. A iluminação vem de mecanismos de tocha acoplados a lentes de âmbar, fabricadas na própria cidade com o âmbar e o vidro da montanha, que banham ruas e praças numa luz âmbar difusa e constante, sem precisar de muitos pontos individuais. O único acesso é o Portão da Montanha, um arco ogival monumental colado à rocha — sem espaço aberto acima —, de onde uma passagem murada desce para o interior, com o distrito da guarda anã postado entre o portão e o resto da cidade. A disposição é de cidadela monárquica: portão, depois bastião militar, mercado ao centro, oficinas a leste e a coroa no fundo norte, com o Salão do Trono no ponto mais distante da entrada. Cada distrito tinge a pedra num matiz discreto; estátuas anãs guardam pátios e cruzamentos, tudo se move a pé ou em carrinho de mão, e ao sul a frente de mina segue abrindo corredores estreitos que desembocam em câmaras recém-talhadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Portão da Montanha** *(extremo noroeste)* — portal monumental escavado direto na rocha, arco ogival flanqueado por torres de lanternas âmbar; único acesso da cidade, de onde uma passagem murada desce para o interior.\n\n**Coração da Coroa** *(vermelho — norte, no fundo da cidade)* — o distrito do poder monárquico, em pedra avermelhada, o mais distante do portão.",
+    "leaflet": null
+  }
+}

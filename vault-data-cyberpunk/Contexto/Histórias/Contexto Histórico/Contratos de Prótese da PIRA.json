@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Contratos de Prótese da PIRA",
+  "path": "Contexto/Histórias/Contexto Histórico/Contratos de Prótese da PIRA.md",
+  "basename": "Contratos de Prótese da PIRA",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1975-09-01",
+    "Descrição": "Quatro meses de [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)|PIRA]] bastam para o Estado descobrir que nenhum corpo aguenta 130 horas por semana só na base da química — e abrir a maior encomenda industrial da sua história. A [[Tramontina]] troca a linha de talheres pela de próteses, exoesqueletos e reforço ósseo; a [[Gradiente]] troca a de rádios pela de chips e implantes cognitivos. O implante deixa de ser conserto de acidentado e vira ferramenta de trabalho descontada em folha: quem entra na PIRA inteiro sai com peça de fábrica no corpo. É assim que mais duas empresas da região viram [[Megacorporações|megacorporações]].",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink",
+      "alias": "PIRA"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Megacorporações",
+      "kind": "wikilink",
+      "alias": "megacorporações"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

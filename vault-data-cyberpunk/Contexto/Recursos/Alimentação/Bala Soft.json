@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Bala Soft",
+  "path": "Contexto/Recursos/Alimentação/Bala Soft.md",
+  "basename": "Bala Soft",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Kids",
+    "Preço": 10,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Cidade Baixa]]",
+      "[[Restinga]]"
+    ],
+    "Resumo": "Tira de cinco balas mastigáveis de framboesa: quando falta moeda no armazém, o troco vem em bala.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bala Soft.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bala Soft.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Bala Soft.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA bala Soft é troco. Cinco balas mastigáveis de framboesa numa tira, Cz$ 10, e quando o armazém não tem\nmoeda de Cz$ 10 — nunca tem — o troco vem em bala. A criança da [[Cidade Baixa]] junta trinta e troca por\num [[Grapette]].\n\n> [!info] Especificação\n> **Tira:** 5 balas mastigáveis de framboesa (ou morango)\n> **Marca:** Kids\n> **Preço:** Cz$ 10 — ou o troco que o armazém não tem\n> **Onde:** armazém, banca, boteco\n"
+}

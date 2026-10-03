@@ -1,0 +1,75 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Gatuno",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Gatuno.md",
+  "basename": "Gatuno",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você pode usar [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Escalar]] e recebe +2 de [[Bônus de Especialização|bônus de especialização]] em [[Escalar]]. Quando você [[Saltar|Saltar]], aumente a distância em 1q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Saltar"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Salta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você pode usar [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Escalar]] e recebe +2 de [[Bônus de Especialização|bônus de especialização]] em [[Escalar]]. Quando você [[Saltar|Saltar]], aumente a distância em 1q.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode usar [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Escalar]]. Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] para [[Escalar]]. Quando você [[Saltar|Salta]], aumente a distância em 1q.\n*Requer Adepto em Atletismo*\n\n```autosheet-rules\n```\n"
+}

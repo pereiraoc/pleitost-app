@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Bloquear com Escudo",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Bloquear com Escudo.md",
+  "basename": "Bloquear com Escudo",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Especial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Especial",
+    "custo": "R",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Especiais]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Quando você for acertado com [[Erguer Escudo|Escudo Erguido]], reduza o dano pela dureza e aplique o restante em você; o escudo também recebe dano em “marcas” (1 por cada vez que a dureza cabe no dano). Se atingir o limite de danos, você perde [[Erguer Escudo]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Escudo Erguido"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Especiais]]\nprev:: \nnext:: \n\nresumo:: \"Quando você for acertado com [[Erguer Escudo|Escudo Erguido]], reduza o dano pela dureza e aplique o restante em você; o escudo também recebe dano em “marcas” (1 por cada vez que a dureza cabe no dano). Se atingir o limite de danos, você perde [[Erguer Escudo]].\"\n%%\n### `= this.file.name` - `= this.custo`\nPode ser usado quando você é acertado por um [[Atacar|Ataque]] e tem um [[Erguer Escudo|Escudo Erguido]].\nVocê intercepta o golpe com seu escudo. Reduza o dano recebido pelo valor de dureza do escudo e aplique o restante do dano a você normalmente. O mesmo valor de dano que você recebeu é então aplicado ao escudo da seguinte forma: subtraia a dureza do escudo do dano recebido até que o dano seja reduzido a zero. Para cada vez que foi necessária a subtração, o escudo recebe 1 dano. Você perde o efeito de [[Erguer Escudo]] caso o escudo chegue a seu limite de danos.\n\n```autosheet-rules\n```\n"
+}

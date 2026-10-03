@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Polar Tradicional",
+  "path": "Contexto/Recursos/Alimentação/Polar Tradicional.md",
+  "basename": "Polar Tradicional",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "[[Polar]]",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Bom Fim]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "Garrafa de 600 ml no boteco por Cz$ 40, Cz$ 20 no Zaffari. 'A melhor é Polar' — a cerveja do bairrismo em vidro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Polar Tradicional.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estádio Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Polar Tradicional.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Polar Tradicional.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA cerveja do bar de esquina. Garrafa de 600 ml gelada, Cz$ 40 no boteco, metade disso no [[Zaffari]] pra\nbeber em casa. Sem tarja, sem selênico, só o bairrismo gaúcho engarrafado. A [[Polar]] patrocina as duas\narquibancadas e o gelo do [[Estádio Beira-Rio]].\n\n> [!info] Especificação\n> **Garrafa:** 600 ml retornável, 4,5% de álcool\n> **Preço:** Cz$ 40 no boteco; Cz$ 20 no Zaffari; Cz$ 60 nos Moinhos; Cz$ 80 em dia de jogo\n> **Tarja:** nenhuma\n> **Slogan:** 'a melhor é Polar'\n> **Restinga:** 3 por um dólar, sem troco\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/O Barão na Rota",
+  "path": "Campanhas/Combates/O Barão na Rota.md",
+  "basename": "O Barão na Rota",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Jardim Itu]] · [[Restinga]]",
+    "Situação": "O dono da rota veio ver a carga com os próprios olhos — e trouxe a escolta séria.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Barão do Cartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Braço Armado do Cartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Químico de Campo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Barão do Cartel]] super rápido\n- 2 [[Braço Armado do Cartel]] lento\n- 1 [[Químico de Campo]] lento\n```\n"
+}

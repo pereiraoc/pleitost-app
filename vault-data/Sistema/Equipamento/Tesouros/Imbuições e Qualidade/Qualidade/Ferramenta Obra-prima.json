@@ -1,0 +1,105 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Ferramenta Obra-prima",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Ferramenta Obra-prima.md",
+  "basename": "Ferramenta Obra-prima",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [],
+    "resumo": "Bônus em certa atividade de [[Perícias|Perícia]].",
+    "preço": "20 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item para a atividade de perícia.",
+      "experiente": "+2 de bônus de item para a atividade de perícia.",
+      "mestre": "+3 de bônus de item para a atividade de perícia."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Ferramenta"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Ferramenta",
+      "parsed": [
+        {
+          "sourceNote": "Ferramenta Obra-prima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Ferramenta"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Ferramenta",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuir Direção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Destrancar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Mundano - ferramenta*\nEssa ferramenta bem trabalhada tem qualidade superior, seja em peso, equilíbrio, flexibilidade ou material, garantindo uma maior capacidade nas atividades de perícia. Uma ferramenta obra-prima é criada para uma atividade específica de perícia, como uma bússola que garante bônus em [[Intuir Direção]] usando [[Sobrevivência]] ou ferramental de chaveiro que garante bônus em [[Destrancar]] usando [[Ladinagem]].\n* Adepto: +1 de [[bônus de item]] para a atividade de perícia.\n* Experiente: +2 de [[bônus de item]] para a atividade de perícia.\n* Mestre: +3 de [[bônus de item]] para a atividade de perícia.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: qualidades\n```\n\n```autosheet-rules\n```\n"
+}

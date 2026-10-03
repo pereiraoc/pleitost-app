@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Oficina da Antiga Indústria",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Oficina da Antiga Indústria.md",
+  "basename": "Oficina da Antiga Indústria",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Seu Bento Flores",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Fusca]]",
+      "[[Agrale 27.5]]",
+      "[[Honda CG 125]] usado",
+      "[[Gurgel Motomachine]] usado",
+      "[[Volkswagen Kombi]] usado",
+      "[[Fiat 147]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oficina da Antiga Indústria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agrale 27.5",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiat 147",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oficina da Antiga Indústria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Oficina da Antiga Indústria.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Fusca, Agrale, CG, Motomachine e Kombi de segunda mão; peça pirata do Cartel pela metade.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão industrial com portão de correr, motores empilhados, um Fusca no elevador e cheiro de solvente.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fusca, Agrale, CG, Motomachine e Kombi de segunda mão; peça pirata do Cartel pela metade.",
+    "aparencia": "Galpão industrial com portão de correr, motores empilhados, um Fusca no elevador e cheiro de solvente.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

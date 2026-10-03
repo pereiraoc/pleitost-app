@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Sagu de Vinho",
+  "path": "Contexto/Recursos/Alimentação/Sagu de Vinho.md",
+  "basename": "Sagu de Vinho",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Restaurantes de família",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 4,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Petrópolis]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Bolinhas de sagu cozidas no vinho Aurora com cravo, servidas frias com creme de baunilha: a sobremesa gaúcha de domingo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sagu de Vinho.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sagu de Vinho.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sagu de Vinho.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO sagu de vinho é a sobremesa que toda galeteria de [[Petrópolis]] e restaurante de família do [[Bom Fim]]\nserve no domingo: bolinhas de sagu cozidas no [[Vinho Aurora]] com cravo e canela, frias, com creme de\nbaunilha por cima. Cz$ 60 a taça; a avó faz melhor, mas a avó não tem vinho.\n\n> [!info] Especificação\n> **Doce:** sagu cozido no vinho tinto com cravo e canela; creme de baunilha\n> **Preço:** Cz$ 60 a taça; incluso na galeteria de domingo\n> **Onde:** galeterias de [[Petrópolis]], restaurantes do [[Bom Fim]]\n> **O vinho:** [[Vinho Aurora]] — nunca o de garrafão bom, sempre o que sobrou\n"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "Contexto/Recursos/Veículos/Volkswagen Brasília",
+  "path": "Contexto/Recursos/Veículos/Volkswagen Brasília.md",
+  "basename": "Volkswagen Brasília",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Volkswagen",
+    "Preço": 70000,
+    "Cobrança": "única",
+    "Manutenção": 1500,
+    "Nível": 3,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "A Brasília amarela de família: mecânica de Fusca com porta-malas, só usada, cheira a plástico quente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Volkswagen Brasília.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Volkswagen Brasília.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Volkswagen Brasília.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Brasília é o Fusca com espaço: mesma mecânica a ar, quatro portas em algumas, porta-malas pra feira e pra\nmudança. Saiu de linha em 1982 e está em toda garagem da [[Jardim Botânico]]. O banco de trás vira cama em dia de\nGre-Nal.\n\n> [!info] Especificação\n> **Modelo:** Brasília (1973–1982), 5 lugares, 2 ou 4 portas\n> **Motor:** VW 1.6 a ar, 56 cv; 9 km/l\n> **Velocidade:** 125 km/h\n> **Só usado:** garagens de bairro; Cz$ 70.000 inteira\n> **Manutenção:** Cz$ 1.500 por mês\n"
+}

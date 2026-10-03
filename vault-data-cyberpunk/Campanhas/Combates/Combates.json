@@ -1,0 +1,20 @@
+{
+  "id": "Campanhas/Combates/Combates",
+  "path": "Campanhas/Combates/Combates.md",
+  "basename": "Combates",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Combates"
+    }
+  ],
+  "body": "\n# Combates\n```button\nname NOVO: Combate ⚔️\ntype command\naction QuickAdd: NOVO: Combate\n```\n^button-criar-novo-combate\n\n```dataview\nTABLE WITHOUT ID\n  subcategoria AS \"Tipo\",\n  link(file.link, title) AS \"Combate\"\nFROM \"Campanhas/Combates\"\nWHERE categoria = \"Combate\"\nSORT file.name ASC\n```\n"
+}

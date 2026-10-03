@@ -1,0 +1,47 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Descoberta de Selênica",
+  "path": "Contexto/Histórias/Contexto Histórico/Descoberta de Selênica.md",
+  "basename": "Descoberta de Selênica",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1969-07-20",
+    "Descrição": "O corpo seco de um alienígena de três metros volta da Lua com um organismo simbiótico dentro — a selênica. A substância imita tecido vivo, responde a corrente elétrica e pode ser replicada em laboratório: serve de droga, de remédio e de peça de máquina ao mesmo tempo. É daqui que sai tudo o que Porto Alegre virou em 1987.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Abertura do Mercado Selênico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink",
+      "alias": "PIRA"
+    },
+    {
+      "target": "Contratos de Prótese da PIRA",
+      "kind": "wikilink",
+      "alias": "contratos de prótese"
+    },
+    {
+      "target": "Megacorporações",
+      "kind": "wikilink",
+      "alias": "megacorporações"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "governo militar"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nA missão que pousa na Lua em julho de 1969 não volta só com pedra: traz o corpo seco de um alienígena de três metros e, dentro dele, o organismo simbiótico que dava sinais de ter controlado a carcaça — apresentado ao mundo como \"proteína alienígena avançada\". A substância é batizada de **selênica**: brilho azulado fosforescente, gelatinosa em repouso, cristaliza sob estímulo elétrico. Mimetiza tecido vivo e se adapta a impulso bioelétrico, o que a torna ao mesmo tempo base de droga de desempenho e de prótese; registrada como *componente biofarmacêutico sintético alienígena replicável*, pode ser copiada em laboratório sem depender de nenhuma outra viagem à Lua.\n\nÉ esse detalhe, e não a descoberta em si, que muda o país: a matéria-prima passa a ser infinita, a patente fica com o Estado e a empresa que aprender a fabricar primeiro vira sócia do regime. Todo o resto da linha do tempo nasce daqui — os selênicos vendidos no balcão a partir da [[Abertura do Mercado Selênico]], a [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)|PIRA]] comprando dez anos de vida de cada trabalhador, as próteses de fábrica dos [[Contratos de Prótese da PIRA|contratos de prótese]] e as [[Megacorporações|megacorporações]] que passam a dividir a cidade com o [[Governo Militar Brasileiro|governo militar]].\n\n"
+}

@@ -1,0 +1,75 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Plaza São Rafael",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Plaza São Rafael.md",
+  "basename": "Plaza São Rafael",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Plaza Hotéis (gerente Sr. Bernardes)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Diária no Plaza São Rafael]]",
+      "[[Táxi Gurgel]]",
+      "[[Uísque de Contrabando]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Plaza São Rafael.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diária no Plaza São Rafael",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Plaza São Rafael.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Plaza São Rafael.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Diária de executivo com segurança da [[Gradiente]], telefone internacional gravado e bar com uísque de selo; ponto de táxi na porta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Torre de vidro escuro, portaria com manobrista, saguão de mármore e um bar de madeira onde a garrafa de uísque custa o dobro da rua.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Diária de executivo com segurança da [[Gradiente]], telefone internacional gravado e bar com uísque de selo; ponto de táxi na porta.",
+    "aparencia": "Torre de vidro escuro, portaria com manobrista, saguão de mármore e um bar de madeira onde a garrafa de uísque custa o dobro da rua.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

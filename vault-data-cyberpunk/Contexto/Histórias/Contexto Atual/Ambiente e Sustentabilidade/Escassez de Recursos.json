@@ -1,0 +1,156 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Escassez de Recursos",
+  "path": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Escassez de Recursos.md",
+  "basename": "Escassez de Recursos",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Escassez de insumos estratégicos e tecnológicos — metais nobres, selênicos importados, componentes eletrônicos e combustíveis industriais — e seus impactos na sustentabilidade do desenvolvimento.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Escassez de Recursos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "China",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estados Unidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Escassez de Recursos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 3,
+      "text": "Escassez de Recursos"
+    },
+    {
+      "level": 4,
+      "text": "Metais e Componentes para Implantes"
+    },
+    {
+      "level": 4,
+      "text": "Cristais e Derivados de Selênica"
+    },
+    {
+      "level": 4,
+      "text": "Eletrônicos e Peças de Comunicação"
+    },
+    {
+      "level": 4,
+      "text": "Combustíveis e Lubrificantes Industriais"
+    },
+    {
+      "level": 4,
+      "text": "Consequências para a Sustentabilidade"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Escassez de Recursos.png]]\n\n### Escassez de Recursos\n>**Assunto:** Escassez de insumos estratégicos e tecnológicos — metais nobres, selênicos importados, componentes eletrônicos e combustíveis industriais — e seus impactos na sustentabilidade do desenvolvimento.\n\n#### Metais e Componentes para Implantes\n- **Demanda inflacionada:** Megacorporações como a **[[Tramontina]]** monopolizam a extração e refino de metais nobres para próteses físicas e exoesqueletos, elevando preços e limitando disponibilidades para oficinas independentes em bairros periféricos ([[Petrópolis]], Passo D’Areia).\n- **Mercado negro de sucata:** O **[[Clã da Ferrugem]]** intensifica a coleta clandestina de sucata em áreas como a **[[Zona Deserta]]** e **[[Nova Sarandi]]**, refinando ligas em fornos artesanais e esgotando estoques de resíduos metálicos que antes serviam de base para reciclagem urbana .\n- **Impacto ambiental:** A queima e lixiviação de metais em galerias inundadas do [[Delta Radioativo]] contaminam solos e lençóis freáticos, agravando manchas tóxicas e tornando inviável o cultivo de hortas verticais em fachadas.\n\n#### Cristais e Derivados de Selênica\n- **Dependência de importação:** Todo o “aço vivo” selênico chega ao Brasil pré-refinado, vindo de laboratórios de ponta na **[[China]]**, **União Soviética** ou **[[Estados Unidos]]**. Empresas como a **[[Panvel]]** atuam apenas como distribuidores — revendendo lotes caríssimos importados para indústrias farmacêuticas e oficinas de implantes.\n- **Alta taxa de importação clandestina:** A **[[Camisa 12]]** e outros grupos de contrabandistas arrebanham cargueiros “perdidos” no **[[Porto Novo]]**, desviando remessas homologadas e diluindo o produto em laboratórios improvisados na **[[Zona Deserta]]**. Essa adulteração gera variantes instáveis de selênicos, que podem causar mutações imprevisíveis em quem os manipula.\n- **Mercado cinzento de insumos:** Oficinas independentes em **[[Petrópolis]]** e **Passo D’Areia** competem por iscas tecnológicas — chips e cristais selênicos de segunda linha, contrabandeados por rotas porosas e vendidos a preços especulativos em camelódromos.\n- **Impacto no desenvolvimento sustentável:** A falta de refinarias locais obriga o país a arcar com pegada de carbono elevada e preços flutuantes do câmbio, criando gargalos em qualquer projeto de expansão de serviços de saúde avançada ou de exoesqueletos civis.\n\n#### Eletrônicos e Peças de Comunicação\n- **Dependência corporativa:** A **[[Embratel]]** restringe licenças de importação de chips e rádios em favor de contratos exclusivos com o **[[Governo Militar Brasileiro|Governo Militar]]**, criando racionamento de componentes para rádios piratas e sistemas de comunicação alternativa geridos pela **[[Resistência Urbana Gaúcha]]**.\n- **Mercado paralelo de peças:** Oficinas no **[[Quarto Distrito]]** e no **[[Camelódromo]]** remontam equipamentos obsoletos em kits improvisados, mas a falta de microtransmissores originais limita a confiabilidade das redes clandestinas.\n\n#### Combustíveis e Lubrificantes Industriais\n- **Racionamento velado:** Embora a [[Companhia Estadual de Energia Elétrica|CEEE]] regule a energia, a **[[Zaffari]]** e a **[[Gurgel]]** controlam estoques de diesel e biocombustíveis no **[[Porto Novo]]** e em terminais de [[Canoas]], priorizando suas próprias frotas e deixando empreendedores informais sem acesso a geradores essenciais.\n- **Impacto na mobilidade:** Oficinas de entrega em **[[Cidade Baixa]]** e **Passo D’Areia** sofrem paralisações frequentes, forçando o uso de veículos anfíbios improvisados e reduzindo a eficiência dos serviços de socorro em áreas alagadas.\n\n#### Consequências para a Sustentabilidade\n1. **Desigualdade no acesso a recursos**: Enquanto enclaves de elite ([[Ipanema]], [[Moinhos de Vento]]) mantêm cadeias formais, periferias dependem do mercado negro e de mutirões de reciclagem coordenados pela Resistência\n2. **Degradação acelerada**: A extração predatória e o uso de tecnologias de baixa contenção ampliam manchas tóxicas, reduzem a biodiversidade e corroem fundações históricas.\n3. **Economia instável**: A oscilação de preços e a escassez crônica fomentam a especulação de “créditos de produtividade” e trocas diretas de recursos, desestabilizando qualquer planejamento urbano de longo prazo."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Suporte",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Suporte.md",
+  "basename": "Disparo Suporte",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Com um arco, você prepara um disparo e pode reagir quando um aliado atacar um inimigo no seu alcance para fazer um [[Atacar|Ataque]] à distância; se acertar, não causa dano, mas concede [[Vantagem de Combate]] ao ataque do aliado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Com um arco, você prepara um disparo e pode reagir quando um aliado atacar um inimigo no seu alcance para fazer um [[Atacar|Ataque]] à distância; se acertar, não causa dano, mas concede [[Vantagem de Combate]] ao ataque do aliado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Disparo Suporte.\n\n**Disparo Suporte - 1A**\nCaso esteja empunhando um arco, você prepara um disparo para distrair o inimigo durante um ataque aliado. Após preparado, pode usar uma reação para fazer um [[Atacar|Ataque]] a distância quando um aliado ataca um inimigo dentro do seu alcance. Se o ataque tiver sucesso ele não causa dano, porém o aliado recebe [[Vantagem de Combate]] na sua jogada de ataque.\n\n```autosheet-rules\n```\n"
+}

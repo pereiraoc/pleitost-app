@@ -1,0 +1,70 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Norte",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Norte.md",
+  "basename": "Forte Norte",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Forte Norte.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Forte Norte.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Forte Norte.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Fortaleza de montanha da [[Federação Áurea]] no extremo oeste do [[Campos do Provento]], erguida para guarnecer a fronteira do [[Grande Muro]] contra a [[Magna Pátria]]. Com seu gêmeo [[Forte Sul]], forma o par que vigia a única travessia ocidental do [[Rio Raio da Luz]]: o rio corre entre os dois fortes, e a estrada que os liga o cruza a vau. É também o fim da linha — a estrada do oeste nasce em seus portões, e ao norte dele não há nada além das montanhas e do Muro.\n> \n> 👁️**Aparência do Local:** Castelo gótico maciço de pedra cinzenta escura no topo de um esporão de rocha viva, cercado de pinheiros e montanhas nevoadas — as muralhas nascem direto dos penhascos, e a defesa é o próprio relevo, sem fosso algum. Dupla cintura de muralhas: a externa, mais baixa, acompanha o contorno irregular do rochedo com dezenas de torres ameadas; a interna abriga o torreão de coruchéus da Torre do Comandante e a silhueta de catedral-fortaleza do Salão da Fortaleza, de janelas ogivais acesas em luz quente. Estandartes azul-escuros com o leão rampante dourado da Federação pendem do Portão Principal e da Torre Norte; braseiros ardem na Torre de Vigia, debruçada sobre a garganta rochosa a leste. A única via de acesso é a calçada de pedra que desce do portão sul e vira trilha serpenteando pelas rochas, até sumir na floresta.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fortaleza de montanha da [[Federação Áurea]] no extremo oeste do [[Campos do Provento]], erguida para guarnecer a fronteira do [[Grande Muro]] contra a [[Magna Pátria]]. Com seu gêmeo [[Forte Sul]], forma o par que vigia a única travessia ocidental do [[Rio Raio da Luz]]: o rio corre entre os dois fortes, e a estrada que os liga o cruza a vau. É também o fim da linha — a estrada do oeste nasce em seus portões, e ao norte dele não há nada além das montanhas e do Muro.",
+    "aparencia": "Castelo gótico maciço de pedra cinzenta escura no topo de um esporão de rocha viva, cercado de pinheiros e montanhas nevoadas — as muralhas nascem direto dos penhascos, e a defesa é o próprio relevo, sem fosso algum. Dupla cintura de muralhas: a externa, mais baixa, acompanha o contorno irregular do rochedo com dezenas de torres ameadas; a interna abriga o torreão de coruchéus da Torre do Comandante e a silhueta de catedral-fortaleza do Salão da Fortaleza, de janelas ogivais acesas em luz quente. Estandartes azul-escuros com o leão rampante dourado da Federação pendem do Portão Principal e da Torre Norte; braseiros ardem na Torre de Vigia, debruçada sobre a garganta rochosa a leste. A única via de acesso é a calçada de pedra que desce do portão sul e vira trilha serpenteando pelas rochas, até sumir na floresta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

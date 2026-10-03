@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Tratar Ferimentos",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Tratar Ferimentos.md",
+  "basename": "Tratar Ferimentos",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "10 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Medicina]]\"",
+    "propriedades": "",
+    "resumo": "\"Trata ferimentos recentes, restaurando a vitalidade de um aliado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Medicina]]\"\npropriedades:: \nresumo:: \"Trata ferimentos recentes, restaurando a vitalidade de um aliado.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Medicina]] contra uma [[CD]] dependendo do tipo de tratamento. Você precisa de uma [[Proficiência]] mínima em [[Medicina]] para realizar cada tipo de tratamento. Uma criatura pode se beneficiar de Tratar Ferimentos somente uma vez por dia. Você recupera [[Energia Vital|EV]] de uma criatura viva (que pode ser você mesmo) dependendo do grau de sucesso da ação.\n\n| Tratamento    | Proficiência | CD  | Sucesso Decisivo | Sucesso | Falha | Falha Decisiva |\n| --------------- |:------------:|:---:| --------------: | ------: | ----: | ------------: |\n| Ferimentos Simples  | Adepto     | 12 | 2d8+4          | 1d8+4   | 4     | 1             |\n| Ferimentos Extensos | Experiente | 15 | 3d8+4          | 2d8+4   | 1d8+4 | 4             |\n| Ferimentos Críticos |   Mestre   | 18 | 4d8+4          | 3d8+4   | 2d8+4 | 1d8+4         |\n\n```autosheet-rules\n```\n"
+}

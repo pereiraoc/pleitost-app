@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Veículos/Ford Del Rey",
+  "path": "Contexto/Recursos/Veículos/Ford Del Rey.md",
+  "basename": "Ford Del Rey",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Ford",
+    "Preço": 600000,
+    "Cobrança": "única",
+    "Usado": 220000,
+    "Manutenção": 4500,
+    "Nível": 5,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Moinhos de Vento]]"
+    ],
+    "Resumo": "O sedã da Ford pra quem acha o Monza vulgar: banco de veludo, motor CHT, cara de médico credenciado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ford Del Rey.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ford Del Rey.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Ford Del Rey.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Del Rey é o carro do médico credenciado da [[Panvel]] e do advogado que ganha em alvará: sóbrio, veludo marrom,\nmotor CHT que não empolga e não quebra. Anda devagar de propósito.\n\n> [!info] Especificação\n> **Modelo:** Del Rey Ghia 1987, 4 portas\n> **Motor:** Ford CHT 1.6 gasolina/álcool, 73 cv; 9 km/l\n> **Velocidade:** 150 km/h\n> **Novo:** [[Auto Petrópolis]], [[Revenda Moinhos]]\n> **Usado:** Cz$ 220.000 com veludo intacto\n> **Manutenção:** Cz$ 4.500 por mês\n"
+}

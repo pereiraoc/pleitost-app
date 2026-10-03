@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ciclonal/Essência Ciclonal",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ciclonal/Essência Ciclonal.md",
+  "basename": "Essência Ciclonal",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Corte de Vento]], adepta [[Lufada de Vento]], experiente [[Pressurização Repentina]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lufada de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pressurização Repentina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Ciclonal Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Corte de Vento]], adepta [[Lufada de Vento]], experiente [[Pressurização Repentina]]\"\n%%\n### `= this.file.name`\n![[Essência Ciclonal Adepta#`= this.file.name`]]\n![[Essência Ciclonal Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

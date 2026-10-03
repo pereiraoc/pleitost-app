@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Mineral/Essência Mineral Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Mineral/Essência Mineral Adepta.md",
+  "basename": "Essência Mineral Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Terra",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Escudo Rochoso]]",
+      "Complementar Magias.Lista [[Barreira de Pedra]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Escudo Rochoso]], adepta [[Barreira de Pedra]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Escudo Rochoso]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Mineral Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Escudo Rochoso]]"
+          },
+          "raw": "Complementar Magias.Lista [[Escudo Rochoso]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Barreira de Pedra]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Mineral Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Barreira de Pedra]]"
+          },
+          "raw": "Complementar Magias.Lista [[Barreira de Pedra]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Rochoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barreira de Pedra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Escudo Rochoso]], adepta [[Barreira de Pedra]]\"\n%%\n#### `= this.file.name`\n* basica [[Escudo Rochoso]]\n* adepta [[Barreira de Pedra]]\n\n```autosheet-rules\n```\n"
+}

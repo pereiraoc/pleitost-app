@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Estufa à Noite",
+  "path": "Campanhas/Combates/Estufa à Noite.md",
+  "basename": "Estufa à Noite",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Estufa Histórica]] · [[Jardim Botânico]]",
+    "Situação": "Dois furtam, um apaga a luz. Quando a luz volta, falta alguma coisa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Biopirata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sabotador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estufa Histórica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Biopirata]] rápido\n- 3 [[Sabotador]] lento\n```\n"
+}

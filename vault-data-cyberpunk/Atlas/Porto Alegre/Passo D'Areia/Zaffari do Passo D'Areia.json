@@ -1,0 +1,105 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Zaffari do Passo D'Areia",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Zaffari do Passo D'Areia.md",
+  "basename": "Zaffari do Passo D'Areia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "[[Zaffari]] (gerente Sr. Jorge)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cesta Básica Zaffari]]",
+      "[[Marmita Congelada Zaffari]]",
+      "[[Polar Tradicional]]",
+      "[[Guaraná Fruki]]",
+      "[[Coca-Cola]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Sonho de Valsa]]",
+      "[[Água Mineral em Galão]]",
+      "[[Erva-Mate Charrua]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zaffari do Passo D'Areia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sonho de Valsa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Zaffari do Passo D'Areia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Zaffari do Passo D'Areia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cesta básica racionada por carteira PIRA, marmita congelada, Polar por metade do preço do boteco e as guloseimas de caixa registradora.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Corredores estreitos com luz fluorescente falhando no apagão, gôndola de marca própria, fila da cesta e um segurança olhando as bolsas.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cesta básica racionada por carteira PIRA, marmita congelada, Polar por metade do preço do boteco e as guloseimas de caixa registradora.",
+    "aparencia": "Corredores estreitos com luz fluorescente falhando no apagão, gôndola de marca própria, fila da cesta e um segurança olhando as bolsas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

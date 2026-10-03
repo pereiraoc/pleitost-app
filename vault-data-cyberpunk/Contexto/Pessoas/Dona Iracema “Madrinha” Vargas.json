@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Dona Iracema “Madrinha” Vargas",
+  "path": "Contexto/Pessoas/Dona Iracema “Madrinha” Vargas.md",
+  "basename": "Dona Iracema “Madrinha” Vargas",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Iracema Vargas",
+      "Madrinha"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Ordem dos Subsolos]]",
+    "Função": "Madrinha da Ordem dos Subsolos",
+    "Aparência": "Vestido escuro de festa fora de hora, joias pesadas, cigarreira de prata com o brasão da casa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Dona Iracema “Madrinha” Vargas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Dona Iracema “Madrinha” Vargas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Dona Iracema “Madrinha” Vargas.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

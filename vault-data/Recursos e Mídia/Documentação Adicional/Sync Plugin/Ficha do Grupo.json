@@ -1,0 +1,71 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Ficha do Grupo",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Ficha do Grupo.md",
+  "basename": "Ficha do Grupo",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Heroi do grupo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aventureiros.jpg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baitaca, Carlos, Drauzio",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aventureiros.jpg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Ficha do Grupo"
+    },
+    {
+      "level": 2,
+      "text": "Como definir (Mestre)"
+    },
+    {
+      "level": 2,
+      "text": "Header"
+    },
+    {
+      "level": 2,
+      "text": "Auto-publish dos membros"
+    },
+    {
+      "level": 2,
+      "text": "Claim de placeholder (Player)"
+    },
+    {
+      "level": 2,
+      "text": "Trocar heroi: volta ao grupo"
+    },
+    {
+      "level": 2,
+      "text": "FM esperado"
+    },
+    {
+      "level": 2,
+      "text": "Limites"
+    }
+  ],
+  "body": "# Ficha do Grupo\n\nNota com `categoria: Grupo` (ex: `Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren.md`) que centraliza os membros de um grupo. Quando o Mestre seleciona uma na sessão, **2 coisas acontecem**:\n\n1. Header rico aparece no topo do painel (avatar + nome com link)\n2. Membros são publicados automaticamente como **placeholders** na Mesa\n\n## Como definir (Mestre)\n\n| Passo | Ação |\n|---|---|\n| 1 | Painel → linha \"Ficha do grupo:\" → botão **definir** |\n| 2 | Modal lista todos `categoria: Grupo` do vault |\n| 3 | Selecione → salva em `sessions.state.groupSheetPath` + propaga realtime |\n| 🔄 | Botão **🔄 trocar** ao lado do nome no header pra mudar depois |\n\n## Header\n\n```\n┌─────────────────────────────────────────────┐\n│  [Avatar]   FICHA DO GRUPO            🔄    │\n│   48×48     Nome com supercharged link      │\n└─────────────────────────────────────────────┘\n```\n\nCascade do avatar (`resolveGroupImage`):\n\n1. `fm.Imagem` (wikilink ou path)\n2. `Recursos e Mídia/Imagens/Retratos/<basename>.{ext}`\n3. `Recursos e Mídia/Imagens/Retratos/Grupo de Criaturas.{ext}` (default)\n4. Emoji 👥\n\nHover no avatar = preview grande (singleton).\n\n## Auto-publish dos membros\n\nScan do vault filtrado por:\n\n| Tipo | Filtro |\n|---|---|\n| Membro direto | `fm.grupo` aponta pro basename da nota do grupo + `subcategoria` ∈ {Heroi, Companheiro Animal} |\n| Companheiro transitivo | `subcategoria: Companheiro Animal` + `Tutor: \"[[Heroi do grupo]]\"` resolvível |\n\nCada match vira:\n\n| Campo | Valor |\n|---|---|\n| `kind` | Derivado da subcategoria |\n| `memberId` | Mestre (placeholder) |\n| `tutor_character_id` | Referencia o heroi tutor (heroi-first ordering pra FK) |\n| `summary` + `state` | Extraídos do FM |\n\n## Claim de placeholder (Player)\n\nJogador clica 👤 (ao lado do nickname), seleciona heroi. Se mesmo `character_path` já existe como placeholder (`memberId=Mestre`), o sync **reivindica** ao invés de duplicar:\n\n| Campo | Mudança |\n|---|---|\n| `member_id` | Mestre → seu userId |\n| `summary` + `state` | Preservados (estado vivo do servidor vence) |\n| Companheiros tutorados pelo heroi | **Auto-claim em cascata** — vêm junto |\n\n## Trocar heroi: volta ao grupo\n\n```mermaid\nflowchart TB\n    A[\"Player A com<br/>Mera reivindicada\"] --> B{\"Clica 👤<br/>e escolhe outro\"}\n    B --> C{\"Mera era<br/>do grupo?\"}\n    C -->|Sim| D[\"Mera vira<br/>placeholder de novo<br/>(member_id ← Mestre)<br/>preservando vita/condições\"]\n    C -->|Não| E[\"Mera removida<br/>da sessão\"]\n    D --> F[\"Outro player<br/>pode reivindicar<br/>depois\"]\n```\n\nMesma regra pro companheiro: do grupo = volta placeholder; senão = removido. Garantia: **a ficha do grupo nunca perde membros** por troca de personagem.\n\n## FM esperado\n\n**Grupo:**\n\n```yaml\n---\ncategoria: Grupo\nsubcategoria: Aventureiros\nImagem: \"[[Aventureiros.jpg]]\"\n---\n```\n\n**Heroi membro:**\n\n```yaml\n---\ncategoria: Criatura\nsubcategoria: Heroi\ngrupo:\n  - \"[[Carlos, Dante, Mera, Pind, Thoren]]\"\n  - \"[[Baitaca, Carlos, Drauzio]]\"   # pode estar em N grupos\n---\n```\n\n## Limites\n\n- Scan só dentro de `Sistema/Criaturas/` (paridade autosheet)\n- Trocar a ficha do grupo na sessão **não limpa** os placeholders do grupo anterior — Mestre remove manualmente via ✕\n- Wikilinks ambíguos no `Tutor` podem não bater no metadataCache — use nome único ou path completo\n"
+}

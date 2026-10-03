@@ -1,0 +1,155 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Palafitas do Mercado",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Palafitas do Mercado.md",
+  "basename": "Palafitas do Mercado",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Palafitas"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "ninguém e todo mundo — a comissão de palafiteiros negocia com a Associação dos Permissionários",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Serviços": {
+      "Peixe e galão": [
+        "[[Pescado do Cais]]",
+        "[[Água Mineral em Galão]]"
+      ],
+      "Banca de rancho": [
+        "[[Feijão a Granel]]",
+        "[[Cesta Básica Zaffari]]",
+        "[[Marmita Congelada Zaffari]]",
+        "[[Ração PIRA]]"
+      ],
+      "Tabuleiro": [
+        "[[Pastel da Redenção]]",
+        "[[Amendoim Japonês]]",
+        "[[Mate Gelado Charrua]]"
+      ],
+      "Conserto de tábua": [
+        "[[Afiação de Faca]]",
+        "[[Meia-Sola no Sapateiro]]",
+        "[[Conserto de Rádio e Walkman]]",
+        "[[Cópia de Chave do Chaveiro]]"
+      ],
+      "Aluguel de tábua": [
+        "[[Barraco]]"
+      ],
+      "Caderneta": [
+        "[[Fiado do Bairro]]"
+      ]
+    },
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Palafitas do Mercado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Pescado do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Feijão a Granel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pastel da Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Afiação de Faca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meia-Sola no Sapateiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conserto de Rádio e Walkman",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cópia de Chave do Chaveiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiado do Bairro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Palafitas do Mercado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Palafitas do Mercado.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cinturão de palafitas de madeira e caixaria encostado nos quatro lados do [[Mercado Público]], ligado a ele por passarelas que os próprios palafiteiros pregaram nos pontões da prefeitura. É onde o [[Centro Histórico]] faz de fato as compras: o mesmo peixe, o mesmo feijão e o mesmo conserto do Mercado, um terço mais barato, sem nota e sem garantia. Quem vende aqui não tem permissão de permissionário — tem vizinho, caderneta e a tábua que construiu.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Um labirinto de tábuas sobre estacas encharcadas, cobertas com lona azul e telha de zinco emendada, que sobe encostado nos arcos de ferro do Mercado e desce até tocar a água. Corda de varal cruzando de barraca em barraca, gato de luz puxado do poste da [[Companhia Estadual de Energia Elétrica|CEEE]], fogareiro a querosene, balança de mola dependurada, cheiro de peixe, serragem e maresia. À noite, lampião e rádio de pilha — e a maré passando por baixo do piso.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cinturão de palafitas de madeira e caixaria encostado nos quatro lados do [[Mercado Público]], ligado a ele por passarelas que os próprios palafiteiros pregaram nos pontões da prefeitura. É onde o [[Centro Histórico]] faz de fato as compras: o mesmo peixe, o mesmo feijão e o mesmo conserto do Mercado, um terço mais barato, sem nota e sem garantia. Quem vende aqui não tem permissão de permissionário — tem vizinho, caderneta e a tábua que construiu.",
+    "aparencia": "Um labirinto de tábuas sobre estacas encharcadas, cobertas com lona azul e telha de zinco emendada, que sobe encostado nos arcos de ferro do Mercado e desce até tocar a água. Corda de varal cruzando de barraca em barraca, gato de luz puxado do poste da [[Companhia Estadual de Energia Elétrica|CEEE]], fogareiro a querosene, balança de mola dependurada, cheiro de peixe, serragem e maresia. À noite, lampião e rádio de pilha — e a maré passando por baixo do piso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

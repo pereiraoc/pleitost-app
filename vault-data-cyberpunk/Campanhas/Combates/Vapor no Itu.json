@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Vapor no Itu",
+  "path": "Campanhas/Combates/Vapor no Itu.md",
+  "basename": "Vapor no Itu",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Fábrica Itú Química]] · [[Jardim Itu]]",
+    "Situação": "Abriram a válvula errada de propósito. Eles conhecem o caminho na névoa; o grupo não.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaporizador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarda de Refino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Refinador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fábrica Itú Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Vaporizador]] rápido\n- 4 [[Guarda de Refino]] lento\n- 2 [[Refinador]] lento\n```\n"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Queimar a Rota",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Queimar a Rota.md",
+  "basename": "Queimar a Rota",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Alvo que falhar contra uma magia sua não pode usar reações até o fim do próximo turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Alvo que falhar contra uma magia sua não pode usar reações até o fim do próximo turno.\"\n%%\n##### `= this.file.name`\nAlvo que falhar contra uma magia sua não pode usar reações até o fim do próximo turno.\n\n```autosheet-rules\n```\n"
+}

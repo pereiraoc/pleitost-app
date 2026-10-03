@@ -1,0 +1,70 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Locadora Gurgel da Rua da Praia",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Locadora Gurgel da Rua da Praia.md",
+  "basename": "Locadora Gurgel da Rua da Praia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "[[Gurgel]] (gerente Sílvio Brandão)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Gurgel de Aluguel]]",
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Locadora Gurgel da Rua da Praia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel de Aluguel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Locadora Gurgel da Rua da Praia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Locadora Gurgel da Rua da Praia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Aluga Carajás por dia com caução alta e ponto de táxi na porta; o motorista da frota vende informação depois da corrida.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sobrado na Rua da Praia com o térreo alagado e a recepção no segundo andar; carros amarelos estacionados na passarela reforçada.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Aluga Carajás por dia com caução alta e ponto de táxi na porta; o motorista da frota vende informação depois da corrida.",
+    "aparencia": "Sobrado na Rua da Praia com o térreo alagado e a recepção no segundo andar; carros amarelos estacionados na passarela reforçada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

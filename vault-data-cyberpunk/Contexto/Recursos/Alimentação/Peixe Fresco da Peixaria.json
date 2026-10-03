@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Peixe Fresco da Peixaria",
+  "path": "Contexto/Recursos/Alimentação/Peixe Fresco da Peixaria.md",
+  "basename": "Peixe Fresco da Peixaria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Peixarias do Mercado",
+    "Preço": 180,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Peixe do Guaíba no gelo, com o carimbo de inspeção da Panvel na guelra — tainha, traíra ou jundiá, no quilo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pescado do Cais",
+      "kind": "wikilink",
+      "alias": "cais"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAs peixarias ficam no pavilhão leste, com gelo moído e cheiro que chega na rua. O peixe vem do Guaíba e do [[Pescado do Cais|cais]]; desde a enchente, só vende o que tem o carimbo de inspeção da [[Panvel]] preso na guelra. Peixe sem carimbo sai mais barato, por baixo do balcão, e ninguém garante de que água ele veio.\n\n> [!info] Especificação\n> **Unidade:** o quilo, limpo na hora\n> **Carimbo:** inspeção Panvel na guelra — sem ele, Cz$ 90 e o risco é teu\n> **Mais vendido:** tainha, na Semana Santa o dobro do preço\n"
+}

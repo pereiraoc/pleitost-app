@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Ponto de Táxi do Parque",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Ponto de Táxi do Parque.md",
+  "basename": "Ponto de Táxi do Parque",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Seu Lauro Vieira (chefe do ponto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto de Táxi do Parque.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto de Táxi do Parque.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto de Táxi do Parque.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Táxi Gurgel de dia; à noite só com telefonema pro ponto.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Dois táxis debaixo das árvores, guarita com telefone e um jornal aberto no capô.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Táxi Gurgel de dia; à noite só com telefonema pro ponto.",
+    "aparencia": "Dois táxis debaixo das árvores, guarita com telefone e um jornal aberto no capô.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Padaria da Restinga",
+  "path": "Atlas/Porto Alegre/Restinga/Padaria da Restinga.md",
+  "basename": "Padaria da Restinga",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Dona Neiva Correa",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Café Passado]]",
+      "[[Bolo de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padaria da Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padaria da Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padaria da Restinga.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pão, café e bolo; dois cacetinhos por um dólar — sem troco.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Palafita de chapa com forno de barro na varanda, cesto de pão e fila de pescador.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pão, café e bolo; dois cacetinhos por um dólar — sem troco.",
+    "aparencia": "Palafita de chapa com forno de barro na varanda, cesto de pão e fila de pescador.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

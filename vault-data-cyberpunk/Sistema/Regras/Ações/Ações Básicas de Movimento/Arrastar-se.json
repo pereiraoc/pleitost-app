@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Arrastar-se",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Arrastar-se.md",
+  "basename": "Arrastar-se",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Mover-se [[Caído]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Mover-se [[Caído]].\"\n\n%%\n### `= this.file.name` - `= this.custo`\nMove 1q enquanto [[Caído]].\n\n```autosheet-rules\n```\n"
+}

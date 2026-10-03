@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Trilho da Sarandi",
+  "path": "Campanhas/Combates/Trilho da Sarandi.md",
+  "basename": "Trilho da Sarandi",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Ferroviária Nacional]] · [[Nova Sarandi]]",
+    "Situação": "Tudo em cima de algo que anda; quem parar, fica pra trás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Saqueador de Vagão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabeça de Torcida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferroviária Nacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 7 [[Saqueador de Vagão]] rápido\n- 2 [[Cabeça de Torcida]] lento\n```\n"
+}

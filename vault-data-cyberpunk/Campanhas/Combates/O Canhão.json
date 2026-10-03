@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/O Canhão",
+  "path": "Campanhas/Combates/O Canhão.md",
+  "basename": "O Canhão",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Complexo de Testes Orion]] · [[Zona Deserta]]",
+    "Situação": "Ele cobre o campo inteiro e nunca recebeu ordem de parar. Chegar perto é a única chance, e é longe.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canhão Orion",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drone de Guarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Androide de Vigilância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Complexo de Testes Orion",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Canhão Orion]] lento\n- 4 [[Drone de Guarda]] rápido\n- 1 [[Androide de Vigilância]] lento\n```\n"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Identificar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Identificar.md",
+  "basename": "Identificar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Adepta",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em 6q, ao conjurar em um item você o identifica sem chance de falha; ao conjurar em um efeito, faça Identificar Magia com +4 de [[bônus de condição]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em 6q, ao conjurar em um item você o identifica sem chance de falha; ao conjurar em um efeito, faça Identificar Magia com +4 de [[bônus de condição]].\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Ao conjurar em um item, identifica-o em sem falha. Ao conjurar em um efeito, faça um teste normal para Identificar Magia, com +4 de [[bônus de condição]].\n\n```autosheet-rules\n```\n"
+}

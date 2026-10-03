@@ -1,0 +1,49 @@
+{
+  "id": "Atlas/Porto Alegre/Delta Radioativo/Cais da Amostra",
+  "path": "Atlas/Porto Alegre/Delta Radioativo/Cais da Amostra.md",
+  "basename": "Cais da Amostra",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Delta Radioativo]]",
+    "Dono": "ninguém — os irradiados que ficam",
+    "Descrição": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cais da Amostra.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cais da Amostra.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Cais da Amostra.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Meia dúzia de barracos de chapa sobre o trapiche e um balcão de tábua onde, de dia, comprador de laboratório troca Cruzados por frasco de sangue irradiado; de noite, é dali que sai a travessia que a balsa não faz.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Tábuas que brilham azul na junta quando escurece, isopor com gelo e frascos, um gerador roubado da CEEE, e a névoa ácida parando na beira como se tivesse medo de entrar.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Meia dúzia de barracos de chapa sobre o trapiche e um balcão de tábua onde, de dia, comprador de laboratório troca Cruzados por frasco de sangue irradiado; de noite, é dali que sai a travessia que a balsa não faz.",
+    "aparencia": "Tábuas que brilham azul na junta quando escurece, isopor com gelo e frascos, um gerador roubado da CEEE, e a névoa ácida parando na beira como se tivesse medo de entrar.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

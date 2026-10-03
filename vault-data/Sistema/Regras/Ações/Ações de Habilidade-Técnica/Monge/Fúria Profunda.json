@@ -1,0 +1,137 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Fúria Profunda",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Fúria Profunda.md",
+  "basename": "Fúria Profunda",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Fúria Profunda",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true,
+          "arma": "TodasAsArmas"
+        },
+        "visual": {
+          "iconeLigado": "🔥",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "requer": [
+            "Fúria"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaPorDado",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "especial"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaPorDado",
+            "valor": 1,
+            "tipoBonus": "Especializacao",
+            "quando": [
+              {
+                "grupoArma": "especial"
+              }
+            ]
+          },
+          {
+            "somar": "Defesa",
+            "valor": -2,
+            "tipoBonus": "Especializacao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Monge]]\"",
+    "resumo": "\"Enquanto estiver sob [[Fúria]], você pode usar uma ação para se esforçar: durante a duração da [[Fúria]], seus ataques corpo-a-corpo ganham [[Bônus de Especialização|bônus de especialização]] no dano igual a 1 + nº de [[Dados de Dano|dados de dano da arma]] do ataque, e você sofre -2 de [[Penalidades|penalidade de especialização]] na [[Defesa]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Monge]]\"\n\nresumo:: \"Enquanto estiver sob [[Fúria]], você pode usar uma ação para se esforçar: durante a duração da [[Fúria]], seus ataques corpo-a-corpo ganham [[Bônus de Especialização|bônus de especialização]] no dano igual a 1 + nº de [[Dados de Dano|dados de dano da arma]] do ataque, e você sofre -2 de [[Penalidades|penalidade de especialização]] na [[Defesa]].\"\n%%\n\n### `= this.file.name` - `= this.custo`\nSe você está sobre o efeito de [[Fúria]], pode usar uma ação para ir além dos seus limites, por um custo. Durante a duração da [[Fúria]], você recebe um [[Bônus de Especialização|bônus de especialização]] no dano de ataques corpo-a-corpo igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque e -2 de [[Penalidades|penalidade de especialização]] na [[Defesa]]. Você também recebe 6 [[Energia Heroica|EH]] temporária, que dura até o fim da fúria. A [[Energia Heroica|EH]] temporária aumenta para 8 no 7º nível.\n\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Abraçar a Dor",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Abraçar a Dor.md",
+  "basename": "Abraçar a Dor",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando uma criatura adjacente te causar dano com um [[Atacar|Ataque]] corpo-a-corpo, você pode reagir para [[Agarrar]] ou [[Desarmar]] essa criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando uma criatura adjacente te causar dano com um [[Atacar|Ataque]] corpo-a-corpo, você pode reagir para [[Agarrar]] ou [[Desarmar]] essa criatura.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Abraçar a Dor.\n*Requer Sintonia Fogo ou Terra*\n\n**Abraçar a Dor - R**\nQuando uma criatura adjacente te causa dano com um [[Atacar|Ataque]] corpo-a-corpo, você pode usar uma reação para [[Agarrar]] ou [[Desarmar]] essa criatura.\n\n```autosheet-rules\n```\n"
+}

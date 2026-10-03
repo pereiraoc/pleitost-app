@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Adrenalina da Caça",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Adrenalina da Caça.md",
+  "basename": "Adrenalina da Caça",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Acertar Ataque contra alvo de caça da EH temporário.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Estratégia de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink",
+      "alias": "Domador"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Acertar Ataque contra alvo de caça da EH temporário.\"\n%%\n#### `= this.file.name` - `= this.rank`\nO ato da caça te da vigor para continuar lutando até o fim. Quando você tem sucesso em um [[Atacar|Ataque]] contra seu alvo de caça, você recebe 4 de [[Energia Heroica|EH]] temporária por 1 turno. Se você estiver [[Morrendo]], a [[Energia Heroica|EH]] temporária recebida aumenta para 8. Adicionalmente, ações agressivas contra seu alvo de caça e [[Mover]] na direção do seu alvo de caça não causam perda de [[Energia Vital|EV]] por estar [[Morrendo]].\n\n**Especial:** Se sua [[Estratégia de Caça]] for [[Estratégia de Caça (Domador)|Domador]], adicionalmente, seu companheiro animal recebe 4 de [[Energia Heroica|EH]] temporária por 1 turno quando ele tem sucesso em um [[Atacar|Ataque]] contra seu alvo de caça.\n\n```autosheet-rules\n```\n"
+}

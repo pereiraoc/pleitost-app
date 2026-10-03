@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Medicina",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Medicina.md",
+  "basename": "Medicina",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Anima]]",
+    "next": "[[Sobrevivência]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Doença",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Veneno",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiros Socorros",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Medicina ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Anima]]\nnext:: [[Sobrevivência]]\n%%\n## Medicina ([[Inteligência|INT]])\n[[Tratar Ferimentos]], [[Tratar Doença]], [[Tratar Veneno]], [[Primeiros Socorros]]. Medicina rege a capacidade de tratar e reconhecer ferimentos."
+}

@@ -1,0 +1,85 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Combinação Neutralizante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Combinação Neutralizante.md",
+  "basename": "Combinação Neutralizante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com sua [[arma arcana]] e conjure [[Drenar]] ou [[Choque Mental]] no mesmo alvo; a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Se tiver [[Combate Arcano Aprimorado]] e acertar o ataque, o alvo recebe -2 de [[Penalidades|penalidade de circunstância]] nas [[Resistências]] contra a magia.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Choque Mental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Combate Arcano Aprimorado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate Arcano",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com sua [[arma arcana]] e conjure [[Drenar]] ou [[Choque Mental]] no mesmo alvo; a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Se tiver [[Combate Arcano Aprimorado]] e acertar o ataque, o alvo recebe -2 de [[Penalidades|penalidade de circunstância]] nas [[Resistências]] contra a magia.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Combinação Neutralizante. \n\n**Combinação Neutralizante - 2A**\nFaça um [[Atacar|Ataque]] com sua [[arma arcana]] e conjure [[Drenar]] ou [[Choque Mental]]. A magia escolhida precisa ter como alvo o mesmo alvo do Ataque. A magia conjurada durante Combinação Neutralizante não provoca reações do alvo do Ataque. Combinação Neutralizante conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\nCombinação Neutralizante conta como uma habilidade de [[Combate Arcano]]. Caso tenha [[Combate Arcano Aprimorado]], ter sucesso com o Ataque faz com que o alvo receba -2 de [[Penalidades|penalidade de circunstância]] nas [[Resistências]] contra a magia conjurada como parte de Combinação Neutralizante.\n\nEsta técnica não te permite conjurar [[Drenar]] ou [[Choque Mental]] normalmente, somente como parte de Combinação Neutralizante.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Doce de Leite Colonial",
+  "path": "Contexto/Recursos/Alimentação/Doce de Leite Colonial.md",
+  "basename": "Doce de Leite Colonial",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Cooperativas da serra",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]",
+      "[[Petrópolis]]",
+      "[[Redenção]]"
+    ],
+    "Resumo": "Pote de doce de leite de cooperativa da serra, Cz$ 60 na banca do Mercado: colonial de verdade, com nata.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Doce de Leite Colonial.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Doce de Leite Colonial.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Doce de Leite Colonial.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO doce de leite colonial desce da serra em pote de vidro reaproveitado, feito em cooperativa de colonos alemães\ne italianos. Cz$ 60 o pote de 400 g na banca do [[Mercado Público]] e no brique da [[Redenção]]; nos Moinhos\nvira 'artesanal' e custa o dobro.\n\n> [!info] Especificação\n> **Pote:** 400 g, vidro reaproveitado, colonial (com nata)\n> **Origem:** cooperativas da serra gaúcha\n> **Preço:** Cz$ 60; Cz$ 120 nos Moinhos\n> **Onde:** [[Mercado Público]], brique da [[Redenção]], galeterias\n"
+}

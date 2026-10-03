@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Organizações/Governos Internacionais/Mercosul",
+  "path": "Contexto/Organizações/Governos Internacionais/Mercosul.md",
+  "basename": "Mercosul",
+  "type": "Organização",
+  "subtype": "Bloco Econômico",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Bloco Econômico",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Bloco de comércio do cone sul; o selo que abre fronteiras — e o mercado que Tramontina e Mercur disputam.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercosul.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercosul.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Mercosul.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Nesta linha do tempo, o bloco nasceu cedo, empurrado pelos regimes militares da região como zona franca de guerra e comércio. Pra megacorp gaúcha, é o prêmio: quem vira fornecedor oficial do Mercosul dita preço em três países."
+}

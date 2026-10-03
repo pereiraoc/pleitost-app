@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Organizações/Facções/Camisa 12",
+  "path": "Contexto/Organizações/Facções/Camisa 12.md",
+  "basename": "Camisa 12",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Internacional",
+      "Inter"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[João “Borracheiro” Dias]]",
+    "Descrição": null,
+    "Resumo": "Torcida organizada do Internacional voltada para torcedores de classe média para baixo, que funciona como rede de distribuição de selênicos e grupo de pressão em dias de jogo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Camisa 12.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "João “Borracheiro” Dias",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Camisa 12.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Camisa 12.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Seus membros vestem jaquetas vermelhas com faixas brancas e “12” grafitado, usam cânticos em dialeto periférico para sinalizar carregamentos e mantêm depósitos em galpões abandonados na margem do [[Guaíba]]. Regularmente promovem blitz nos acessos de [[Praia de Belas]] e treinam recrutas em táticas de guerrilha urbana."
+}

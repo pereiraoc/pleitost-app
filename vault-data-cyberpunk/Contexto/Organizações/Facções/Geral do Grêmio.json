@@ -1,0 +1,52 @@
+{
+  "id": "Contexto/Organizações/Facções/Geral do Grêmio",
+  "path": "Contexto/Organizações/Facções/Geral do Grêmio.md",
+  "basename": "Geral do Grêmio",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Grêmio"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Eduardo “Senador” Pires]]",
+    "Descrição": null,
+    "Resumo": "Torcida organizada do Grêmio proveniente de classes altas, que atua como lobby esportivo e financeiro, servindo de fachada para lavagem de dinheiro e articulação política.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Geral do Grêmio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Eduardo “Senador” Pires",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Geral do Grêmio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Geral do Grêmio.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Os integrantes usam blazer azul-preto com lenço branco e emblema “GDG” bordado, realizam jantares de gala em [[Moinhos de Vento]] para arrecadação e mantêm escritório oficial na divisa entre [[Praia de Belas]] e [[Zona Deserta]]. A facção Geral do Grêmio mobiliza membros para eventos nobres e exerce pressão junto à diretoria do clube para aprovar reformas e concessões comerciais."
+}

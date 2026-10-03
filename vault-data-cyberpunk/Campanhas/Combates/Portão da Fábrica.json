@@ -1,0 +1,57 @@
+{
+  "id": "Campanhas/Combates/Portão da Fábrica",
+  "path": "Campanhas/Combates/Portão da Fábrica.md",
+  "basename": "Portão da Fábrica",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Rua das Indústrias]] · [[Petrópolis]] · [[Nova Sarandi]]",
+    "Situação": "Turno trocando e ninguém passa sem uniforme. Metade quer entrar, metade quer que ninguém entre.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Conferente de Uniforme",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chapa de Carroceria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vulcanizador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Piquete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua das Indústrias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Conferente de Uniforme]] lento\n- 4 [[Chapa de Carroceria]] lento\n- 4 [[Vulcanizador]] lento\n- 4 [[Piquete]] rápido\n```\n"
+}

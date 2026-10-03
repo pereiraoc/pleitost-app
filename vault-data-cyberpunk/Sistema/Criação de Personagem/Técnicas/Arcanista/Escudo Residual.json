@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Escudo Residual",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Escudo Residual.md",
+  "basename": "Escudo Residual",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe um escudo de [[Energia Heroica|EH]] temporário igual a 4 por 1 minuto quando você conjura uma magia arcana não-básica. Esse valor aumenta para 6 no 4º nível e para 8 no 7º nível.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe um escudo de [[Energia Heroica|EH]] temporário igual a 4 por 1 minuto quando você conjura uma magia arcana não-básica. Esse valor aumenta para 6 no 4º nível e para 8 no 7º nível.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe um escudo de [[Energia Heroica|EH]] temporário igual a 4 por 1 minuto quando você conjura uma magia arcana não-básica. Esse valor aumenta para 6 no 4º nível e para 8 no 7º nível.\n*Requer Escola Arcana (Estudos do Vazio)*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Regras/Atributos/Atributos",
+  "path": "Sistema/Regras/Atributos/Atributos.md",
+  "basename": "Atributos",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Atributo, Atributos",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Regra Básica|Regra Básica]]",
+    "next": "[[Proficiência|Proficiência]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Regra Básica",
+      "kind": "wikilink",
+      "alias": "Regra Básica"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "Força (FOR)"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "Agilidade (AGI)"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "Inteligência (INT)"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "Presença (PRE)"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Atributos"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Regra Básica|Regra Básica]]\nnext:: [[Proficiência|Proficiência]]\n%%\n# Atributos\nOs 4 atributos básicos são [[Força|Força (FOR)]], [[Agilidade|Agilidade (AGI)]], [[Inteligência|Inteligência (INT)]] e [[Presença|Presença (PRE)]]. Um personagem distribui os valores 3, 2, 1 e 0 entre os atributos durante sua criação, dependendo da classe, sintonia e escolhas do jogador.\n\n---\n```dataview\nLIST\nWHERE subcategoria = \"Atributo\"\n```\n\n```autosheet-rules\n```\n"
+}

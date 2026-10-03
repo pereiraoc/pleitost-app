@@ -1,0 +1,74 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Controle/Vigilância e Mecanismos de Repressão",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Controle/Vigilância e Mecanismos de Repressão.md",
+  "basename": "Vigilância e Mecanismos de Repressão",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os métodos de monitoramento da população e supressão de dissidências.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigilância e Mecanismos de Repressão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vigilância e Mecanismos de Repressão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Patrulha Aérea por Drones"
+    },
+    {
+      "level": 4,
+      "text": "Torres de Escuta"
+    },
+    {
+      "level": 4,
+      "text": "Chips Selênicos de Vigilância"
+    },
+    {
+      "level": 4,
+      "text": "Forças de Repressão Rápida"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Vigilância e Mecanismos de Repressão.png]]\n\nEm Porto Alegre, 1987, a vigilância estatal é intensa e onipresente, utilizando tecnologias avançadas e métodos invasivos para monitorar cidadãos e reprimir qualquer forma de dissidência.\n#### Patrulha Aérea por Drones\nDrones militares realizam patrulhas constantes sobre áreas urbanas, especialmente nas zonas consideradas críticas como [[Bom Fim]], [[Cidade Baixa]] e [[Restinga]]. Equipados com câmeras térmicas, sensores de movimento e reconhecimento facial, os drones identificam atividades suspeitas e manifestantes em tempo real.\n#### Torres de Escuta\nRedes de torres e antenas, geridas principalmente pela [[Embratel]], interceptam comunicações telefônicas e sinais de rádio em toda a cidade. Estas torres também monitoram a circulação de informações clandestinas e alertam automaticamente as forças militares sobre qualquer transmissão suspeita ou uso de frequências ilegais.\n#### Chips Selênicos de Vigilância\nGrande parte da população possui implantes selênicos, que além das funções médicas e de produtividade, atuam como mecanismos de vigilância contínua. Esses chips monitoram dados biométricos, localização e comportamentos considerados atípicos ou potencialmente subversivos, transmitindo imediatamente essas informações às autoridades.\n#### Forças de Repressão Rápida\nEquipes especiais da [[Brigada Militar Metropolitana]], altamente treinadas e equipadas com exoesqueletos e armas selênicas avançadas, respondem rapidamente às notificações geradas pelos sistemas de monitoramento. Essas forças atuam com autoridade quase ilimitada para suprimir manifestações, realizar prisões imediatas e até executar penas no local, garantindo a manutenção do controle estatal."
+}

@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Arsenal Diverso",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Arsenal Diverso.md",
+  "basename": "Arsenal Diverso",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "L",
+    "resumo": "\"Escolha um novo grupo de armas para [[Especialização em Arma]] e ganhe seus benefícios também. Você pode, 1 vez por turno, [[Guardar|Guardar]] uma arma de um grupo escolhido e [[Sacar|Sacar]] uma arma de outro grupo escolhido.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guardar",
+      "kind": "wikilink",
+      "alias": "Guardar"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Sacar"
+    },
+    {
+      "target": "Guardar",
+      "kind": "wikilink",
+      "alias": "Guarde"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Saque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: L\n\nresumo:: \"Escolha um novo grupo de armas para [[Especialização em Arma]] e ganhe seus benefícios também. Você pode, 1 vez por turno, [[Guardar|Guardar]] uma arma de um grupo escolhido e [[Sacar|Sacar]] uma arma de outro grupo escolhido.\"\n%%\n#### `= this.file.name` - `= this.rank`\nEscolha um grupo de armas para [[Especialização em Arma]] diferente do que você escolheu previamente. Você ganha os benefícios de [[Especialização em Arma]] para esse novo grupo. Adicionalmente, você aprende a habilidade Troca de Arsenal.\n\n**Troca de Arsenal - L**\n[[Guardar|Guarde]] uma arma de um grupo que você escolheu para [[Especialização em Arma]] e [[Sacar|Saque]] uma arma de um grupo que você escolheu para [[Especialização em Arma]]. Você pode realizar Troca de Arsenal uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

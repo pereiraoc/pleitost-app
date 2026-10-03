@@ -1,0 +1,149 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Repertório Expandido/Repertório Expandido (Básica e Adepta)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Repertório Expandido/Repertório Expandido (Básica e Adepta).md",
+  "basename": "Repertório Expandido (Básica e Adepta)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Classe,[[Arcanista]] Somar Magias.Slots.B 1",
+      "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 1",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.B 1",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Repertório Expandido]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto|Adepta]]",
+    "resumo": "\"Você aprende uma Magia Adepta e uma Magia Básica de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.B 1",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Básica e Adepta)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Classe",
+            "needle": "[[Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.B 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Básica e Adepta)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Classe",
+            "needle": "[[Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Classe,[[Arcanista]] Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.B 1",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Básica e Adepta)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.B",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.B 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Expandido (Básica e Adepta)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Repertório Expandido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Repertório Expandido]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto|Adepta]]\n\nresumo:: \"Você aprende uma Magia Adepta e uma Magia Básica de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê aprende uma Magia Adepta e uma Magia Básica de sua escolha.\n"
+}

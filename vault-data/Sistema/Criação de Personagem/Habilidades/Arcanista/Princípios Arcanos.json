@@ -1,0 +1,144 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Princípios Arcanos",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Princípios Arcanos.md",
+  "basename": "Princípios Arcanos",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Pericias.Lista.Arcana.Bonus_Especial 2",
+      "Complementar Magias.Lista [[Raio Arcano]]",
+      "Somar Magias.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você aprende os principios da [[Magia Arcana]] e tem entendimento superior comparado a outros praticantes do mesmo calibre.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Pericias.Lista.Arcana.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Princípios Arcanos",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Pericias.Lista.Arcana.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Raio Arcano]]",
+      "parsed": [
+        {
+          "sourceNote": "Princípios Arcanos",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Raio Arcano]]"
+          },
+          "raw": "Complementar Magias.Lista [[Raio Arcano]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Princípios Arcanos",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Raio Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Essencial Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink",
+      "alias": "Magias Essenciais"
+    },
+    {
+      "target": "Escola Arcana",
+      "kind": "wikilink",
+      "alias": "escola"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você aprende os principios da [[Magia Arcana]] e tem entendimento superior comparado a outros praticantes do mesmo calibre.\"\n%%\n####  `= this.file.name`\nVocê aprende os principios da [[Magia Arcana]] e tem entendimento superior comparado a outros praticantes do mesmo calibre.\n* Você recebe +2 de [[bônus de especialização]] em [[Arcana]];\n* Você aprende a Magia Básica [[Raio Arcano]], que conta como uma magia de sua escola;\n* Você aprende uma [[Magia Essencial Adepta]];\n* Quando você aprende magias arcanas, você pode escolher magias arcanas essenciais (incluindo no 1º nível).\n\n[[Magia Arcana Essencial|Magias Essenciais]] que você conhece contam como magias da sua [[Escola Arcana|escola]].\n\n```autosheet-rules\n```\n"
+}

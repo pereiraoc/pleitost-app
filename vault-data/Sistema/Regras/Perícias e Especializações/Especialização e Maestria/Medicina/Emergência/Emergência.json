@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Emergência/Emergência",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Emergência/Emergência.md",
+  "basename": "Emergência",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Medicina]]",
+    "resumo": "\"Pode [[Tratar Ferimentos]] como 2A. Reduz [[CD]] de [[Primeiros Socorros]] para 10+(-EV/3).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiros Socorros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Medicina]]\nresumo:: \"Pode [[Tratar Ferimentos]] como 2A. Reduz [[CD]] de [[Primeiros Socorros]] para 10+(-EV/3).\"\n%%\n### `= this.file.name`\n* Você pode [[Tratar Ferimentos]] como 2A.\n* A [[CD]] para [[Primeiros Socorros]] usa um terço da [[Energia Vital|EV]] negativa do alvo, no lugar de metade.\n\n```autosheet-rules\n```\n"
+}

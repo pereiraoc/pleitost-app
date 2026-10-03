@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Comboio do Porto",
+  "path": "Campanhas/Combates/Comboio do Porto.md",
+  "basename": "Comboio do Porto",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Porto Novo]] · [[Praia de Belas]]",
+    "Situação": "Encontro grande e coordenado — o Líder faz cinco valerem por oito.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Escolta de Comboio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estivador de Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chefe de Armazém",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Escolta de Comboio]] rápido\n- 4 [[Estivador de Confiança]] lento\n- 1 [[Chefe de Armazém]] lento\n```\n"
+}

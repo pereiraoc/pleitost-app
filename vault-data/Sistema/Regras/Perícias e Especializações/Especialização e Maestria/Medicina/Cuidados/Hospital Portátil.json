@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Cuidados/Hospital Portátil",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Medicina/Cuidados/Hospital Portátil.md",
+  "basename": "Hospital Portátil",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Medicina]]",
+    "resumo": "\"Cura muitos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Medicina]]\nresumo:: \"Cura muitos.\"\n%%\n### `= this.file.name`\n* Pode [[Tratar Ferimentos]] de até 6 criaturas simultaneamente.\n\n*Requer Cuidados*\n\n```autosheet-rules\n```\n"
+}

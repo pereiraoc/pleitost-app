@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Prato Feito da Cantina do Mercado",
+  "path": "Contexto/Recursos/Alimentação/Prato Feito da Cantina do Mercado.md",
+  "basename": "Prato Feito da Cantina do Mercado",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Cantinas do Mercado Público",
+    "Preço": 150,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Arroz, feijão, bife acebolado e salada de repolho no balcão da cantina, das 11h30 às 13h, feirante e estivador no mesmo banco.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Prato Feito da Cantina do Mercado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Prato Feito da Cantina do Mercado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Prato Feito da Cantina do Mercado.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO PF da cantina do [[Mercado Público]] é a refeição da cidade que trabalha. Arroz, feijão, bife acebolado, salada\nde repolho e um ovo por Cz$ 20 a mais. O balcão enche às 11h30 com feirante, estivador, cobrador de ônibus e o\nbrigadiano de folga — todos no mesmo banco, olhando a TV com o jogo de domingo.\n\n> [!info] Especificação\n> **Prato:** arroz, feijão, bife acebolado, salada de repolho; ovo Cz$ 20, farofa de graça\n> **Hora:** 11h30 às 13h; depois só sobra\n> **Onde:** cantinas do [[Mercado Público]]; botecos de fábrica de [[Nova Sarandi]]\n> **Fiado:** com o freguês de anos; o caderno é sagrado\n> **Bebida:** [[Mate Gelado Charrua]], [[Café Passado]] ou água do filtro de barro\n"
+}

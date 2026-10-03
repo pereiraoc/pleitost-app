@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Avanço Conjunto",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Avanço Conjunto.md",
+  "basename": "Avanço Conjunto",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Avanço Conjunto",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"Use [[Reposicionar]] e, antes do aliado se mover, [[Mover|mova-se]] e faça um [[Atacar|Ataque]] corpo-a-corpo; se o aliado usar a reação para mover, ele deve terminar mais perto do inimigo do seu ataque do que estava antes. Requer ter ao menos 1 dado de comando.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "mova-se"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"Use [[Reposicionar]] e, antes do aliado se mover, [[Mover|mova-se]] e faça um [[Atacar|Ataque]] corpo-a-corpo; se o aliado usar a reação para mover, ele deve terminar mais perto do inimigo do seu ataque do que estava antes. Requer ter ao menos 1 dado de comando.\"\n%%\n### `= this.file.name` - `= this.custo`\nRealize [[Reposicionar]] e, antes que o aliado realize seu movimento, [[Mover|Mova]] e faça um [[Atacar|Ataque]] corpo-a-corpo contra um inimigo. O aliado alvo de [[Reposicionar]], se usar a reação para Mover, deve terminar seu movimento mais perto do inimigo alvejado pelo seu Ataque do que estava antes de iniciá-lo. Você precisa ter ao menos um dado de comando para realizar Avanço Conjunto.\n\n%%Role o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. [[Mover|Mova]] e faça um [[Atacar|Ataque]] corpo-a-corpo contra um inimigo. O aliado previamente escolhido pode, como uma reação, [[Mover|Mover-se]]. O aliado deve terminar seu movimento mais perto do inimigo alvejado pelo seu Ataque do que estava antes de iniciá-lo. Adicione o resultado do dado como um [[bônus de circunstância]] na [[Defesa]] do aliado durante o movimento. Avanço Conjunto conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

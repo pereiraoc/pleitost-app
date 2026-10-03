@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Diária no Hotel Padre Chagas",
+  "path": "Contexto/Recursos/Moradia/Diária no Hotel Padre Chagas.md",
+  "basename": "Diária no Hotel Padre Chagas",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Hotel Padre Chagas]]",
+    "Preço": 1500,
+    "Cobrança": "noite",
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Hotel Padre Chagas]]"
+    ],
+    "Resumo": "Diária num hotel de charme da Padre Chagas: suíte, bar de piano, garagem vigiada e a certeza de que a Gradiente sabe o nome de quem dormiu.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diária no Hotel Padre Chagas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Hotel Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diária no Hotel Padre Chagas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diária no Hotel Padre Chagas.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO [[Hotel Padre Chagas]] hospeda o executivo em trânsito, o médico de congresso e o estrangeiro do Mercosul que não quis o Plaza. Suíte com telefone Embratel, bar de piano e segurança da Gradiente na porta.\n\n> [!info] Especificação\n> **Quarto:** suíte com telefone, ar-condicionado e frigobar\n> **Inclui:** café servido, garagem vigiada, jornal censurado na porta\n> **Regra:** registro com passaporte ou crachá\n> **Nível:** 5 — Classe Média Alta\n"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Corredor do Zaffari",
+  "path": "Campanhas/Combates/Corredor do Zaffari.md",
+  "basename": "Corredor do Zaffari",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Moinhos de Vento]] · [[Ipanema]]",
+    "Situação": "Pegaram alguém com a mão na prateleira. O corredor é estreito e a saída está do outro lado deles.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Segurança de Corredor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agulha de Beco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Segurança de Corredor]] lento\n- 2 [[Agulha de Beco]] rápido\n```\n"
+}

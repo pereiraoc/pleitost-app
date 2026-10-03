@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Avanço Defensivo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Avanço Defensivo.md",
+  "basename": "Avanço Defensivo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"[[Mover|Mova]], [[Erguer Escudo|Erga um Escudo]] e faça um [[Atacar|Ataque]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Erga um Escudo"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"[[Mover|Mova]], [[Erguer Escudo|Erga um Escudo]] e faça um [[Atacar|Ataque]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Avanço Defensivo.\n\n**Avanço Defensivo - 2A**\n[[Mover|Mova]], [[Erguer Escudo|Erga um Escudo]] e faça um [[Atacar|Ataque]].\n\n```autosheet-rules\n```\n"
+}

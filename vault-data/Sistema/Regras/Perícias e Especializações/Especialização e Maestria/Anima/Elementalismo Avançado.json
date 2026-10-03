@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Avançado",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Avançado.md",
+  "basename": "Elementalismo Avançado",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Magias.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Anima]]",
+    "resumo": "\"Aprende Magia Anima Adepta da essência.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Elementalismo Avançado",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Anima]]\nresumo:: \"Aprende Magia Anima Adepta da essência.\"\n%%\n### `= this.file.name`\n* Aprende Magia Anima Adepta da essencia. Potencia 2, 1/descanso.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Corpo-a-Corpo Marcial/Machado de Batalha",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Corpo-a-Corpo Marcial/Machado de Batalha.md",
+  "basename": "Machado de Batalha",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "cac-marcial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "cac-marcial",
+    "dg-publish": true,
+    "dano": "d8+4",
+    "tipo": "corte",
+    "mãos": 1,
+    "propriedades": [
+      "[[Força X|Força 3]]",
+      "[[Duas-mãos]]"
+    ],
+    "ordem": 5,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Corpo-a-Corpo Marcial|Marcial]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corpo-a-Corpo Marcial",
+      "kind": "wikilink",
+      "alias": "Marcial"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 3"
+    },
+    {
+      "target": "Duas-mãos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Corpo-a-Corpo Marcial|Marcial]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

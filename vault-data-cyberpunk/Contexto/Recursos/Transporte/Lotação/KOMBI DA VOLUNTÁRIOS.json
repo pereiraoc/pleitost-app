@@ -1,0 +1,71 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/KOMBI DA VOLUNTÁRIOS",
+  "path": "Contexto/Recursos/Transporte/Lotação/KOMBI DA VOLUNTÁRIOS.md",
+  "basename": "KOMBI DA VOLUNTÁRIOS",
+  "type": "Linha",
+  "subtype": "Kombi",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Kombi",
+    "Letreiro": "KOMBI DA VOLUNTÁRIOS",
+    "Operador": "cooperativas de bairro (motorista paga a própria propina); a [[Ordem dos Subsolos]] cobra o ponto",
+    "Acesso": "dinheiro na mão — Cz$ 80, o dobro depois das 23h",
+    "Tarifa": "[[Lotação Clandestina]]",
+    "Qualidade": 1,
+    "Cor": "#e76f51",
+    "Horário": "a única linha da madrugada",
+    "Circular": false,
+    "Paradas": [
+      "[[Ponto da Kombi da Voluntários]]",
+      "[[Farrapos]]",
+      "[[Galeria do Rosário]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Kombi bege ou azul com o farol apagado, porta de correr aberta com um cobrador de boné pendurado, papelão no vidro com o destino escrito à mão, doze pessoas dentro, uma na porta.",
+    "Resumo": "A única linha da madrugada: do Quarto Distrito ao Centro e ao Passo D'Areia depois do toque, com a Ordem dos Subsolos cobrando o ponto.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "KOMBI DA VOLUNTÁRIOS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ponto da Kombi da Voluntários",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "KOMBI DA VOLUNTÁRIOS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[KOMBI DA VOLUNTÁRIOS.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA única linha da madrugada. Sai do [[Ponto da Kombi da Voluntários]] com quem saiu da rave da [[Farrapos]], passa na [[Galeria do Rosário]] e deixa na [[Estação Central]] às escuras; de lá, quem vai pro Passo D'Areia espera a mesma Kombi voltar. Depois do toque é ela ou o barqueiro; a [[Ordem dos Subsolos]] cobra o ponto e a Brigada cobra o motorista.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

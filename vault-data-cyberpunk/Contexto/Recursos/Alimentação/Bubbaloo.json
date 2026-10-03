@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Bubbaloo",
+  "path": "Contexto/Recursos/Alimentação/Bubbaloo.md",
+  "basename": "Bubbaloo",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Adams",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Shopping Iguatemi]]",
+      "[[Bom Fim]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "Chiclete recheado de tutti-frutti, a moda do pátio de escola desde 1984: bola grande na cara da Brigada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bubbaloo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bubbaloo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Bubbaloo.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Bubbaloo chegou em 1984 e virou a moda da escola: chiclete de bola com recheio líquido de tutti-frutti,\nCz$ 20 na banca do [[Shopping Iguatemi]]. A molecada do [[Passo D'Areia]] faz bola na cara do brigadiano da\nplataforma do Aeromóvel — e leva tapa.\n\n> [!info] Especificação\n> **Chiclete:** bola com recheio líquido; tutti-frutti, morango, menta\n> **Marca:** Adams, desde 1984\n> **Preço:** Cz$ 20; caixa com 60 Cz$ 900 no armazém\n> **Onde:** banca do [[Shopping Iguatemi]], armazém, camelô\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Arcano Adepto",
+  "path": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Arcano Adepto.md",
+  "basename": "Conhecimento Arcano Adepto",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]],[[Mago]],[[Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você aprende uma Magia Arcana Adepta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]],[[Mago]],[[Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você aprende uma Magia Arcana Adepta.\"\n%%\n####  `= this.file.name`\nVocê aprende uma Magia Arcana Adepta.\n\n```autosheet-rules\n```\n"
+}

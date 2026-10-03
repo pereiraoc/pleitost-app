@@ -1,0 +1,53 @@
+{
+  "id": "Campanhas/Combates/A Coisa da Lagoa",
+  "path": "Campanhas/Combates/A Coisa da Lagoa.md",
+  "basename": "A Coisa da Lagoa",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Lagoa do Pinheiro]] · [[Delta Radioativo]]",
+    "Situação": "Chefe de bicho na beira: o grandão no meio e a bicharada do Delta fechando o cerco.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Coisa da Lagoa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cão Mutante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capivara Blindada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Javali da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lagoa do Pinheiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Coisa da Lagoa]] lento\n- 6 [[Cão Mutante]] rápido\n- 2 [[Capivara Blindada]] lento\n- 1 [[Javali da Restinga]] rápido\n```\n"
+}

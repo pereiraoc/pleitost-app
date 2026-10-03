@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Equipamento/Escudos/Escudos",
+  "path": "Sistema/Equipamento/Escudos/Escudos.md",
+  "basename": "Escudos",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Escudos"
+    }
+  ],
+  "body": "# Escudos\nExistem dois tipos de escudo, broquéis e escudos. Caso tenha a habilidade [[Usar Escudo]], um personagem pode usar uma ação para [[Erguer Escudo]] e ganhar um [[bônus de circunstância]] na [[Defesa]] até o início do seu próximo turno. Um broquel garante +1 de bônus e um escudo garante +2 de bônus. Um broquel não ocupa a mão na qual ele está vestido se não estiver Erguido e só pode ser Erguido se a mão estiver livre. Um escudo sempre ocupa a mão na qual ele está vestido. \n\nUm escudo erguido pode ser usado para mitigar um ataque recebido com a reação [[Bloquear com Escudo]]. Cada escudo tem um número de danos que consegue aguentar antes de ser danificado a ponto de não servir mais como defesa antes de ser reparado. Se o número de danos recebidos ao total antes do reparo for igual ou maior que o dobro deste limite de danos, o escudo é destruído.\n\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Escudo\",\n  bonus-defesa AS \"Bônus Defesa\",\n  dureza AS \"Dureza\",\n  danos AS \"Danos\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Escudos\"\nSORT grupo, file.name ASC\nWHERE subcategoria=\"Escudo\"\n```"
+}

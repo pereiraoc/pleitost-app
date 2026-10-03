@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Blindar",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Blindar.md",
+  "basename": "Blindar",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Quando um aliado na sua área de influência que te ouça receber dano, role o dado de comando; ele pode, como reação, reduzir o dano em (resultado +2). No 4º nível vira (resultado +4) e no 7º (resultado +6). Conta como [[Comandos de Batalha]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Quando um aliado na sua área de influência que te ouça receber dano, role o dado de comando; ele pode, como reação, reduzir o dano em (resultado +2). No 4º nível vira (resultado +4) e no 7º (resultado +6). Conta como [[Comandos de Batalha]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Blindar.\n\n**Blindar - R**\nPode ser usado quando um aliado dentro da sua área de influência que consegue te ouvir recebe dano. Role o dado de comando e esse aliado pode, como uma reação, reduzir o dano recebido pelo valor rolado no dado mais 2. Esse valor aumenta para dado mais 4 no 4º nível e dado mais 6 no 7º nível. Blindar conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Recarregar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Recarregar.md",
+  "basename": "Recarregar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Manipulação",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Manipulação",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Manipulação]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Manipulação|Manipulação]]",
+    "resumo": "\"Recarrega uma arma de recarga.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Manipulação"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Manipulação]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Manipulação|Manipulação]]\nresumo:: \"Recarrega uma arma de recarga.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nRecarrega uma arma de [[Recarga]].\n\n```autosheet-rules\n```\n"
+}

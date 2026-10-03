@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Debilitante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Debilitante.md",
+  "basename": "Disparo Debilitante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] à distância e, se acertar, além do dano, escolha 1 efeito por 1 turno: redução no dano, -2 na [[Percepção]], -1q de [[Movimentação]], ou (se estiver voando) cair 4q. Em sucesso decisivo, o efeito é ([[Enfraquecido]], [[Pasmo|Pasmo 2]], -2q, ou cair 8q).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink",
+      "alias": "Pasmo 2"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] à distância e, se acertar, além do dano, escolha 1 efeito por 1 turno: redução no dano, -2 na [[Percepção]], -1q de [[Movimentação]], ou (se estiver voando) cair 4q. Em sucesso decisivo, o efeito é ([[Enfraquecido]], [[Pasmo|Pasmo 2]], -2q, ou cair 8q).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Disparo Debilitante.\n\n**Disparo Debilitante - 2A**\nFaça um [[Atacar|Ataque]] com uma arma de distância, caso sucesso, além do dano normal, aplique um dos efeitos a sua escolha:\n- O primeiro [[Atacar|Ataque]] que a criatura tiver sucesso no próximo turno recebe uma [[Penalidades|penalidade de condição]] igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque;\n- A criatura recebe -2 de [[Penalidades|penalidade de condição]] na [[Percepção]] por 1 turno;\n- A criatura tem sua [[Movimentação]] reduzida em 1q por 1 turno;\n- Se a criatura está voando, ela cai 4q.\n\nOs efeitos são aumentados em caso de sucesso decisivo ([[Enfraquecido]] por 1 turno, [[Pasmo]] por 1 turno, reduz 2q de movimento ou cai 8q, respectivamente).\n\n```autosheet-rules\n```\n"
+}

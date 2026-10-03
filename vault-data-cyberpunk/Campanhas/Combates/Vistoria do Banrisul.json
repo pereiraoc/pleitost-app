@@ -1,0 +1,41 @@
+{
+  "id": "Campanhas/Combates/Vistoria do Banrisul",
+  "path": "Campanhas/Combates/Vistoria do Banrisul.md",
+  "basename": "Vistoria do Banrisul",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "Genérico — o endereço que tu declarou no cadastro.",
+    "Situação": "Vieram conferir se tu mora aqui mesmo. Se não morar, a conta fecha hoje e o resto vem junto.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Auditor de Endereço",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobrador de Fiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Auditor de Endereço]] lento\n- 2 [[Cobrador de Fiança]] super rápido\n- 7 [[Brigadiano de Esquina]] lento\n```\n"
+}

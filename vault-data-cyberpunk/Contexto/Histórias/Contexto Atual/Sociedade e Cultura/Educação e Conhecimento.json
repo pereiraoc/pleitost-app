@@ -1,0 +1,136 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Educação e Conhecimento",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Educação e Conhecimento.md",
+  "basename": "Educação e Conhecimento",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O acesso à conhecimento pela população, universidades, cursos técnicos e o controle sobre o que é ensinado.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Educação e Conhecimento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Campus do Vale da UFRGS",
+      "kind": "wikilink",
+      "alias": "Vale"
+    },
+    {
+      "target": "Escola Técnica Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instituto Técnico Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink",
+      "alias": "Campus Centro"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Campus Saúde da UFRGS",
+      "kind": "wikilink",
+      "alias": "Campus Saúde"
+    },
+    {
+      "target": "Hospital de Clínicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus do Vale da UFRGS",
+      "kind": "wikilink",
+      "alias": "Campus do Vale"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Central da PUCRS",
+      "kind": "wikilink",
+      "alias": "Campus Central"
+    },
+    {
+      "target": "Estação PUCRS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Educação e Conhecimento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Escolas Técnicas Corporativas"
+    },
+    {
+      "level": 5,
+      "text": "[[Escola Técnica Gradiente]] ([[Moinhos de Vento]])"
+    },
+    {
+      "level": 5,
+      "text": "[[Instituto Técnico Tramontina]] ([[Petrópolis]])"
+    },
+    {
+      "level": 4,
+      "text": "Universidades"
+    },
+    {
+      "level": 5,
+      "text": "Universidade Federal do Rio Grande do Sul (UFRGS)"
+    },
+    {
+      "level": 5,
+      "text": "Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS)"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Educação e Conhecimento.png]]\n\n- **Formação técnica e universitária** em áreas estratégicas de interesse corporativo, sob intenso controle e censura;\n- **Canais informais** (rádio pirata, debates no [[Campus do Vale da UFRGS|Vale]]) se tornam os únicos espaços para difundir conhecimento crítico e organizar resistência.\n#### Escolas Técnicas Corporativas\n##### [[Escola Técnica Gradiente]] ([[Moinhos de Vento]])\n- Currículo obrigatório em “Integração Bio-Digital” e “Programação de Chips Selênicos”.\n- Laboratórios de P&D financiados pela [[Gradiente]], onde se formam técnicos sob rígidos acordos de sigilo militar.\n##### [[Instituto Técnico Tramontina]] ([[Petrópolis]])\n- Oferece cursos de “Metalurgia de Ligas Selênicas” e “Mecânica de Exoesqueletos”.\n- Alunos são automaticamente encaminhados para estágios em linhas de produção de próteses e armamentos da [[Tramontina]].\n#### Universidades\n##### Universidade Federal do Rio Grande do Sul (UFRGS)\nSob constante vigilância, mantém três campi com perfis bem distintos:\n1. **[[Campus Centro da UFRGS|Campus Centro]]** (Av. Paulo Gama, ao lado da [[Redenção]])\n    - Concentra Engenharia, Direito, Filosofia e Economia, além da administração central da UFRGS.\n    - Salas equipadas com detectores de selênicos, sob supervisão da [[Brigada Militar Metropolitana|Brigada Militar]].\n2. **[[Campus Saúde da UFRGS|Campus Saúde]]** (Ipiranga & Ramiro Barcelos, colado ao [[Hospital de Clínicas]])\n    - Abriga Medicina, Odontologia, Enfermagem e Farmácia.\n3. **[[Campus do Vale da UFRGS|Campus do Vale]]** (no fim da Bento Gonçalves, [[Jardim Botânico]])\n    - Ponto de encontro de dissidentes: abriga Agronomia, Zootecnia, Biologia, Letras e Veterinária.\n    - Frequentado por professores e estudantes que organizam debates clandestinos contra o regime.\n##### Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS)\n- **[[Campus Central da PUCRS|Campus Central]]** (Av. Ipiranga, ao lado do [[Jardim Botânico]] — a [[Estação PUCRS]] do Aeromóvel fica no portão)\n    - Cursos de Direito, Filosofia e Teologia monitorados por comissões de “moral e bons costumes”.\n    - Biblioteca central de acesso restrito via crachá biométrico, com todos os registros de empréstimos enviados à [[Embratel]]."
+}

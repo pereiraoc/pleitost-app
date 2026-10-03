@@ -1,0 +1,151 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Colossal",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Colossal.md",
+  "basename": "Aspecto Colossal",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Aspecto Colossal",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true,
+          "arma": "AtaqueNatural"
+        },
+        "visual": {
+          "iconeLigado": "👹",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "numerico",
+            "label": "EM Investido",
+            "min": 2,
+            "max": 4,
+            "step": 1
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "forma": "Forma Brutal"
+              },
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "forma": "Forma Brutal"
+              },
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "PassoDeDado",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "forma": "Forma Fortificada"
+              },
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "forma": "Forma Fortificada"
+              },
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Aumenta tamanho, dano e alcance da forma. Compatível com [[Forma Brutal]] e [[Forma Fortificada|Fortificada]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink",
+      "alias": "Fortificada"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque\\"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Aumenta tamanho, dano e alcance da forma. Compatível com [[Forma Brutal]] e [[Forma Fortificada|Fortificada]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende Aspecto Colossal como um [[Aspecto Feral]].\n\n**Aspecto Colossal** - Por 1 minuto, a [[Forma Feral]] recebe os seguintes benefícios dependendo da quantia de [[Energia Mágica|EM]] investida nesse aspecto. Compatível com [[Forma Brutal]] e [[Forma Fortificada|Fortificada]]. Aspecto Colossal requer um mínimo de 2 [[Energia Mágica|EM]].\n\n| EM  | Benefício                             |\n|:---:| ------------------------------------- |\n|  2  | Seu tamanho aumenta para Grande (2x2) e seus ataques naturais corpo-a-corpo tem o dado de dano aumentado em 1 passo e o dano base aumentado em 1 | \n|  3  | Seu tamanho aumenta para Grande (2x2) e seus ataques naturais corpo-a-corpo e [[Ataques#Manobras de Ataque\\|Manobras de Ataque]] tem alcance 2q e seus ataques naturais corpo-a-corpo tem o dado de dano aumentado em 1 passo e o dano base aumentado em 1 |\n|  4  | Seu tamanho aumenta para Enorme (3x3) e seus ataques naturais corpo-a-corpo e [[Ataques#Manobras de Ataque\\|Manobras de Ataque]] tem alcance 2q e seus ataques naturais corpo-a-corpo tem o dado de dano aumentado em 1 passo e o dano base aumentado em 1 |\n\n```autosheet-rules\n```\n"
+}

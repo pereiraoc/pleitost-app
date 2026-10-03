@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Obter Informação",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Obter Informação.md",
+  "basename": "Obter Informação",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "120 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Diplomacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Busca informação questionando transeuntes.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Diplomacia]]\"\npropriedades:: \nresumo:: \"Busca informação questionando transeuntes.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Diplomacia]] vs [[CD]] da informação.\n\n```autosheet-rules\n```\n"
+}

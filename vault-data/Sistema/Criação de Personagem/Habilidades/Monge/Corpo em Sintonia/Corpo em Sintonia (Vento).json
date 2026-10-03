@@ -1,0 +1,280 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Vento)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Vento).md",
+  "basename": "Corpo em Sintonia (Vento)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Sintonia [[Traço Elemental do Vento]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Longa]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Bastarda]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Guerra]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Longo]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna proficiente com [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]] e [[Distância Marcial|Arcos]]. Quando está sem armadura, recebe beneficios.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Sintonia [[Traço Elemental do Vento]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental do Vento]]"
+          },
+          "raw": "Requisito Sintonia [[Traço Elemental do Vento]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Curva]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Longa]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Longa]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Longa]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Bastarda]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Bastarda]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Bastarda]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco Curto]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco de Caça]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Guerra]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco de Guerra]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Guerra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Longo]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Vento)",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco Longo]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Longo]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Arcos"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink",
+      "alias": "Bastarda"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna proficiente com [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]] e [[Distância Marcial|Arcos]]. Quando está sem armadura, recebe beneficios.\"\n%%\n##### `= this.file.name`\nVocê se torna proficiente com [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]] e [[Distância Marcial|Arcos]]. Quando está sem armadura, recebe os seguintes benefícios:\n* Quando você empunha uma [[Espada Longa]] ou [[Espada Bastarda|Bastarda]], ela ganha a propriedade [[Precisa]].\n* Quando você empunha uma [[Espada Curva]], [[Espada Longa]] ou [[Espada Bastarda]], ela perde a propriedade [[Força X|Força]].\n* Quando você empunha um arco, ele perde a propriedade [[Força X|Força]], caso tenha.\n* Você pode usar qualquer técnica ou habilidade que necessite de um [[Atacar|Ataque]] desarmado com uma [[Espada Curva]], [[Espada Longa]] ou [[Espada Bastarda]].\n\n```autosheet-rules\n```\n"
+}

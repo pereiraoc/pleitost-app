@@ -1,0 +1,15 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Contexto Histórico",
+  "path": "Contexto/Histórias/Contexto Histórico/Contexto Histórico.md",
+  "basename": "Contexto Histórico",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Contexto Histórico\",\n  Data as \"Data\"\nwhere categoria=\"Contexto\" and subcategoria!=\"Atualidade\"\nsort Data asc\n```"
+}

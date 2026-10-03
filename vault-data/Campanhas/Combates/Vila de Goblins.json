@@ -1,0 +1,51 @@
+{
+  "id": "Campanhas/Combates/Vila de Goblins",
+  "path": "Campanhas/Combates/Vila de Goblins.md",
+  "basename": "Vila de Goblins",
+  "type": "Combate",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": null,
+    "rank": null,
+    "disponivel": [
+      ""
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Goblin Batedor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Piromante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Soldado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nclasse:: \nrank:: \n%%\n#### `= this.file.name`\n```combat-marker-small\n- 5 [[Goblin Batedor]]\n- 5 [[Goblin Guerreiro]]\n- 2 [[Goblin Piromante]]\n- 3 [[Goblin Soldado]]\n\n@estado\niniciado: nao\nrodada: 0\nvez: 0\n\n1: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init=20.4 | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n2: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init=20.3 | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n3: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init=20.2 | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n4: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init=20.1 | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n5: src=Sistema/Criaturas/Bestiário/Goblin Batedor | gen=nao | nome= | init=20 | vit=21/21 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Batedor\n6: src=Sistema/Criaturas/Bestiário/Goblin Guerreiro | gen=nao | nome= | init=30.7 | vit=36/36 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Guerreiro\n7: src=Sistema/Criaturas/Bestiário/Goblin Guerreiro | gen=nao | nome= | init=30.6 | vit=36/36 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Guerreiro\n8: src=Sistema/Criaturas/Bestiário/Goblin Guerreiro | gen=nao | nome= | init=30.5 | vit=36/36 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Guerreiro\n9: src=Sistema/Criaturas/Bestiário/Goblin Guerreiro | gen=nao | nome= | init=30.4 | vit=36/36 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Guerreiro\n10: src=Sistema/Criaturas/Bestiário/Goblin Guerreiro | gen=nao | nome= | init=30.3 | vit=36/36 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Guerreiro\n11: src=Sistema/Criaturas/Bestiário/Goblin Piromante | gen=nao | nome= | init=50.1 | vit=30/30 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Piromante\n12: src=Sistema/Criaturas/Bestiário/Goblin Piromante | gen=nao | nome= | init=50 | vit=30/30 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Piromante\n13: src=Sistema/Criaturas/Bestiário/Goblin Soldado | gen=nao | nome= | init=30.2 | vit=45/45 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Soldado\n14: src=Sistema/Criaturas/Bestiário/Goblin Soldado | gen=nao | nome= | init=30.1 | vit=45/45 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Soldado\n15: src=Sistema/Criaturas/Bestiário/Goblin Soldado | gen=nao | nome= | init=30 | vit=45/45 | moral=0/0+0 | status=pending | morto=nao | cond= # Goblin Soldado\n```\n"
+}

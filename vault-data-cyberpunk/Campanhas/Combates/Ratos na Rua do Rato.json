@@ -1,0 +1,41 @@
+{
+  "id": "Campanhas/Combates/Ratos na Rua do Rato",
+  "path": "Campanhas/Combates/Ratos na Rua do Rato.md",
+  "basename": "Ratos na Rua do Rato",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Delta Radioativo]] · [[Rua do Rato]]",
+    "Situação": "Atravessar a pé, de noite, com cheiro de sangue. Número cansa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rato-do-Delta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua do Rato",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 10 [[Rato-do-Delta]] rápido\n```\n"
+}

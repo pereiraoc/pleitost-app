@@ -1,0 +1,100 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Supremo/Estratagema Supremo (Estrategista)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Supremo/Estratagema Supremo (Estrategista).md",
+  "basename": "Estratagema Supremo (Estrategista)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratagema Superior (Estrategista)]]",
+      "Definir Pericias.Lista.Guerra.Proficiencia M"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você se torna [[Mestre]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em dois passos (de d6 para d10 e d8 para d12).\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratagema Superior (Estrategista)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Supremo (Estrategista)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratagema Superior (Estrategista)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratagema Superior (Estrategista)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Guerra.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Supremo (Estrategista)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Pericias.Lista.Guerra.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Superior (Estrategista)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\n\nresumo:: \"Você se torna [[Mestre]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em dois passos (de d6 para d10 e d8 para d12).\"\n%%\n##### `= this.file.name`\nVocê se torna [[Mestre]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em dois passos (de d6 para d10 e d8 para d12).\n\n```autosheet-rules\n```\n"
+}

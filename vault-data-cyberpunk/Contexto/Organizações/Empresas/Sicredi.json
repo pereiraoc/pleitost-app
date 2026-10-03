@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Organizações/Empresas/Sicredi",
+  "path": "Contexto/Organizações/Empresas/Sicredi.md",
+  "basename": "Sicredi",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Cooperativa"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Ivo Scheffel]]",
+    "Descrição": null,
+    "Resumo": "A cooperativa de crédito da colônia e dos sindicatos — empresta a 6% ao mês a quem tem cota e fiador, e cobra do fiador quando o cooperado some.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sicredi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Banrisul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "Ivo Scheffel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sicredi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sicredi.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Nasceu como caixa rural dos colonos da serra, no começo do século, e virou a cooperativa que a cidade usa quando não quer o cadastro do Estado. Não é banco: quem pega emprestado é dono — paga uma cota de entrada, traz um cooperado como fiador e responde à assembleia. Empresta a 6% ao mês, menos que o [[Banrisul]], porque o risco é do fiador, não da caixa. Quem some deixa o fiador pagando e perde a cota — e na colônia isso é pior que a Brigada. Como se pega e se paga: [[Custo de Vida#Empréstimo]].\n\n"
+}

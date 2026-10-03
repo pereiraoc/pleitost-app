@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Implementos/Foco da Repetição",
+  "path": "Sistema/Equipamento/Tesouros/Implementos/Foco da Repetição.md",
+  "basename": "Foco da Repetição",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]",
+      "[[Magia Anima|Anima]]"
+    ],
+    "resumo": "Permite conjurar novamente magias.",
+    "preço": "60 PO",
+    "descrição": {
+      "adepto": "Acumula cargas para repetir magias Adeptas com 1/2 da potência.",
+      "experiente": "Acumula cargas para repetir magias Adeptas com 2/3 da potência ou Experientes com 1/2 da potência.",
+      "mestre": "Acumula cargas para repetir magias Adeptas ou Experientes com 2/3 da potência."
+    },
+    "cargas": {
+      "adepto": 4,
+      "experiente": 6,
+      "mestre": 8
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink",
+      "alias": "Anima"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano/Anima - implemento*\nUm implemento construído para auxiliar na conjuração repetida de magias. Esse implemento acumula energia de magias passadas, e propaga um eco mágico com seus efeitos, apesar de reduzidos.\n\n**Carga Cadencial - L:** Uma vez por turno, quando você conjura uma magia básica de duas ações ou mais, você pode adicionar 2 Cargas nesse foco. Essas Cargas são perdidas no final do seu próximo turno.\n**Carga Residual - L:** Uma vez por turno, quando você conjura uma magia não-básica gastando [[Energia Mágica|EM]], você pode adicionar Cargas igual ao [[Energia Mágica|EM]] gasto pela magia nesse foco. A próxima vez que você Drenar esse Foco, pode escolher a magia utilizada para conjurar.\n\n**Drenar - variável:** Conjure uma das magias permitidas (vide Carga Residual) com o mesmo número de ações da magia como normalmente. Requer um número de Cargas igual ao dobro do custo de EM da magia, e a mesma quantidade de Cargas são consumidas. Você não usa recursos mágicos para conjurá-lá. Somente magias que são afetadas por potência mágica podem ser conjuradas desta forma. A potência mágica e categoria de magia conjurada depende da categoria do Foco.\n\n* Adepto: A magia conjurada por Drenar deve ser Adepta e sua potência mágica é reduzida a metade. O Foco armazena um máximo de 4 cargas.\n* Experiente: A magia conjurada por Drenar deve ser Adepta ou Experiente, sua potência mágica é reduzida a metade para magias Experientes e ⅔ para Adeptas. O Foco armazena um máximo de 6 cargas.\n* Mestre: A magia conjurada por Drenar deve ser Adepta ou Experiente, sua potência mágica é reduzida a ⅔ para magias Experientes e magias Adeptas usam potência mágica normalmente. O Foco armazena um máximo de 8 cargas.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: implementos\n```\n\n```autosheet-rules\n```\n"
+}

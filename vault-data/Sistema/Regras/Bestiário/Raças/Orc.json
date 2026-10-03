@@ -1,0 +1,228 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Orc",
+  "path": "Sistema/Regras/Bestiário/Raças/Orc.md",
+  "basename": "Orc",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Sintonia [[Traço Elemental da Terra]]",
+      "Definir Tamanho Médio",
+      "Alias Raça Compor 0 \"Orc\"",
+      "Alias Raça Compor 1 \"(Médio)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Orc.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Sintonia [[Traço Elemental da Terra]]",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental da Terra]]"
+          },
+          "raw": "Definir Sintonia [[Traço Elemental da Terra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Orc\"",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Orc"
+          },
+          "raw": "Alias Raça Compor 0 \"Orc\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Médio)\"",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Médio)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Médio)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Orc",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Machado de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bruto",
+      "kind": "wikilink",
+      "alias": "brutos"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink",
+      "alias": "soldados"
+    },
+    {
+      "target": "Assassino",
+      "kind": "wikilink",
+      "alias": "assassinos"
+    },
+    {
+      "target": "Ofensiva Orc",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bruto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assassino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líder",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Supressor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Orc.\"\n%%\n##### `= this.file.name`\nOrcs são uma das raças monstruosas encontradas no mundo. Militarmente organizados, Orcs são fisicamente fortes, treinados com armamentos e, quando usam magia, tendem ao uso de Magia Arcana Negra.\n\nOrcs tem [[Força|FOR]] como atributo primário (3) ou secundário (2). Todo Orc é proficiente com e usa [[Machado de Batalha]] ou [[Machadão]] e [[Armadura Pesada]] (caso FOR > AGI), mesmo os Orcs conjuradores. Orcs [[Bruto|brutos]], [[Soldado|soldados]] e [[Assassino|assassinos]] focados em corpo-a-corpo recebem [[Ofensiva Orc]].\nPapéis típicos são [[Bruto]], [[Soldado]], [[Assassino]], [[Líder]] e [[Supressor]].\n\n```autosheet-rules\n```\n"
+}

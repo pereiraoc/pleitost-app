@@ -1,0 +1,91 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Auto-Confiança",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Auto-Confiança.md",
+  "basename": "Auto-Confiança",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Auto-Confiança",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "modificadores": [
+          {
+            "somar": "Ataque",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          },
+          {
+            "somar": "Defesa",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Sua auto-confiança intensifica enquanto você canaliza sua arte. Você recebe +1 de [[Bônus de Condição|bônus de condição]] nos [[Ataques]] e [[Defesa]] enquanto você tem uma [[Performance Bárdica]] ativa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: \"Sua auto-confiança intensifica enquanto você canaliza sua arte. Você recebe +1 de [[Bônus de Condição|bônus de condição]] nos [[Ataques]] e [[Defesa]] enquanto você tem uma [[Performance Bárdica]] ativa.\"\n%%\n#### `= this.file.name`\nSua auto-confiança intensifica enquanto você canaliza sua arte. Você recebe os seguintes benefícios enquanto você tem uma [[Performance Bárdica]] ativa durante um combate:\n* +1 de [[Bônus de Condição|bônus de condição]] nos [[Ataques]];\n* +1 de [[Bônus de Condição|bônus de condição]] na [[Defesa]].\n\n```autosheet-rules\n```\n"
+}

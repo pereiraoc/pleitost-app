@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Relampejante/Essência Relampejante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Relampejante/Essência Relampejante.md",
+  "basename": "Essência Relampejante",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Raio Magnético]], adepta [[Surto Elétrico]], experiente [[Relâmpago em Cascata]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Raio Magnético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Surto Elétrico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Relâmpago em Cascata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Relampejante Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Raio Magnético]], adepta [[Surto Elétrico]], experiente [[Relâmpago em Cascata]]\"\n%%\n### `= this.file.name`\n![[Essência Relampejante Adepta#`= this.file.name`]]\n![[Essência Relampejante Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

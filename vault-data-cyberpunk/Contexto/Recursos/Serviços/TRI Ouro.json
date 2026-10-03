@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Recursos/Serviços/TRI Ouro",
+  "path": "Contexto/Recursos/Serviços/TRI Ouro.md",
+  "basename": "TRI Ouro",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "Trensurb + concessionárias",
+    "Preço": 5000,
+    "Cobrança": "mês",
+    "Nível": 4,
+    "Onde": null,
+    "Resumo": "Tudo do Prata mais a lotação VIP — chega sem parar em sinal.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "TRI Ouro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação VIP",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP NORTE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP PORTO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "VIP LESTE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "TRI Ouro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[TRI Ouro.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO cartão de ouro é o da classe média: tudo do [[TRI Prata]] mais a [[Lotação VIP]] ilimitada, com o rádio da [[Embratel]] abrindo as sinaleiras. É o cartão dourado que o motorista respeita e o porteiro do prédio aceita como identidade.\n\nAlém de tudo do Prata, as lotações [[VIP NORTE]], [[VIP PORTO]] e [[VIP LESTE]]: [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** TRI Ouro (Trensurb + concessionárias)\n> **Dá acesso a:** tudo do Prata + lotação VIP ilimitada\n> **Não cobre:** linha executiva, táxi\n> **Quem usa:** técnico graduado, gerente de loja, funcionário público\n> **Classe:** Classe Média\n"
+}

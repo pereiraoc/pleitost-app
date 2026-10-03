@@ -1,0 +1,32 @@
+{
+  "id": "Campanhas/Aventuras/Aventuras",
+  "path": "Campanhas/Aventuras/Aventuras.md",
+  "basename": "Aventuras",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Aventuras"
+    },
+    {
+      "level": 2,
+      "text": "Aventureiros Classe C"
+    },
+    {
+      "level": 2,
+      "text": "Aventureiros Classe B"
+    },
+    {
+      "level": 2,
+      "text": "Aventureiros Classe A"
+    }
+  ],
+  "body": "\n# Aventuras\n```button\nname NOVA: Aventura 📜\ntype command\naction QuickAdd: NOVA: Aventura\n```\n^button-criar-nova-aventura\n\n## Aventureiros Classe C\n```dataview\nTABLE WITHOUT ID\n  subcategoria AS \"Tipo\",\n  link(file.link, title) AS \"Aventuras\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and rank = \"C\"\nSORT rank DESC, subcategoria ASC, file.name ASC\n```\n\n## Aventureiros Classe B\n```dataview\nTABLE WITHOUT ID\n  subcategoria AS \"Tipo\",\n  link(file.link, title) AS \"Aventuras\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and rank = \"B\"\nSORT rank DESC, subcategoria ASC, file.name ASC\n```\n\n## Aventureiros Classe A\n```dataview\nTABLE WITHOUT ID\n  subcategoria AS \"Tipo\",\n  link(file.link, title) AS \"Aventuras\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and rank = \"A\"\nSORT rank DESC, subcategoria ASC, file.name ASC\n```"
+}

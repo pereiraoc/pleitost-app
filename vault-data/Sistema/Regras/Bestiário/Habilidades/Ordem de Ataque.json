@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Ordem de Ataque",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Ordem de Ataque.md",
+  "basename": "Ordem de Ataque",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Uma vez por turno, um aliado na sua área de influência que te ouça pode, como reação, fazer um [[Atacar|Ataque]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Uma vez por turno, um aliado na sua área de influência que te ouça pode, como reação, fazer um [[Atacar|Ataque]].\"\n%%\n##### `= this.file.name`\nUma vez por turno, um aliado na sua área de influência que te ouça pode, como reação, fazer um [[Atacar|Ataque]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Realizar Magia",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Realizar Magia.md",
+  "basename": "Realizar Magia",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Reação para pagar custo de [[Energia Mágica|EM]] de um aliado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Reação para pagar custo de [[Energia Mágica|EM]] de um aliado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Realizar Magia.\n*Requer Arte Mágica*\n\n**Realizar Magia - R**\nPode ser usado quando um aliado está prestes a consumir [[Energia Mágica|EM]] para conjurar uma magia não-básica. Você gasta [[Energia Mágica|EM]] equivalente ao custo da magia sendo conjurada pelo aliado. O aliado então conjura a magia sem custo.\n\n*Nota: essa habilidade não permite que um aliado inicie uma conjuração sem ter a [[Energia Mágica|EM]] necessária, só remove o custo.*\n\n```autosheet-rules\n```\n"
+}

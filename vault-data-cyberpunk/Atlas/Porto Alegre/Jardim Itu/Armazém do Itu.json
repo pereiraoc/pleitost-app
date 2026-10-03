@@ -1,0 +1,111 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Armazém do Itu",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Armazém do Itu.md",
+  "basename": "Armazém do Itu",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Seu Tadeu Borges",
+    "Descrição": null,
+    "Serviços": [
+      "[[Cesta Básica Zaffari]]",
+      "[[Água Mineral em Galão]]",
+      "[[Erva-Mate Charrua]]",
+      "[[Cream Cracker Isabela]]",
+      "[[Grapette]]",
+      "[[Guaraná Fruki]]",
+      "[[Bala Soft]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Marmita Congelada Zaffari]]",
+      "[[Mate Gelado Charrua]]",
+      "[[Ração PIRA]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armazém do Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cesta Básica Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erva-Mate Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cream Cracker Isabela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bala Soft",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mate Gelado Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Armazém do Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Armazém do Itu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cesta, marmita congelada, refrigerante, mate gelado, bolacha e água; ração PIRA vencida por baixo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Garagem virada em armazém, prateleira de caixote, freezer de marmita e um caderno pendurado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cesta, marmita congelada, refrigerante, mate gelado, bolacha e água; ração PIRA vencida por baixo.",
+    "aparencia": "Garagem virada em armazém, prateleira de caixote, freezer de marmita e um caderno pendurado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Imagem do Medo",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Imagem do Medo.md",
+  "basename": "Imagem do Medo",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Imagem do Medo (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Ímpeto]] em circulo de raio 2q em 6q para aplicar  [[Desprevenido]] e [[Abalado]] por 1t ([[Desprevenido]] e [[Nervoso]] na falha). Criaturas assustadas recebem dano mental adicional de ataques.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink",
+      "alias": "Nervosa"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Ímpeto]] em circulo de raio 2q em 6q para aplicar  [[Desprevenido]] e [[Abalado]] por 1t ([[Desprevenido]] e [[Nervoso]] na falha). Criaturas assustadas recebem dano mental adicional de ataques.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Ímpeto]] das criaturas em um circulo de raio 2q em até 6q.\n\n**Sucesso:** A criatura fica [[Desprevenido|Desprevenida]] e [[Abalado|Abalada]] por 1 turno.\n**Sucesso Decisivo:** A criatura fica [[Desprevenido|Desprevenida]] e [[Abalado|Abalada]] por 2 turnos.\n**Falha:** A criatura fica [[Desprevenido|Desprevenida]] e [[Nervoso|Nervosa]] por 1 turno.\n**Falha Decisiva:** A criatura não é afetada.\n\n[[Atacar|Ataques]] causam 1×potência de dano mental adicional enquanto uma criatura estiver [[Abalado|Abalada]] por Imagem do Medo.\n[[Atacar|Ataques]] causam ½×potência de dano mental adicional enquanto uma criatura estiver [[Nervoso|Nervosa]] por Imagem do Medo.\n\n```autosheet-rules\n```\n"
+}

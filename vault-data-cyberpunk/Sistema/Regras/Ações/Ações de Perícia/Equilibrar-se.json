@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Equilibrar-se",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Equilibrar-se.md",
+  "basename": "Equilibrar-se",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Acrobacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Move-se em terreno instável, estrutura frouxa ou estreita.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Acrobacia]]\"\npropriedades:: \nresumo:: \"Move-se em terreno instável, estrutura frouxa ou estreita.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Acrobacia]] vs  [[CD]] do trajeto. Conta como uma ação de [[Ações Básicas de Movimento|Movimento]].\n\n**Sucesso:** Você [[Mover|Move]] metade da sua movimentação terrestre sem cair.\n**Sucesso Decisivo:** Você [[Mover|Move]]  sua movimentação terrestre sem cair.\n**Falha:** Você não consegue se mover, mas não cai.\n**Falha Decisiva:** Você fica [[Caído]], possivelmente caindo da superfície se for estreita.\n\n```autosheet-rules\n```\n"
+}

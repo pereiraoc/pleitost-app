@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Serviços/Kitnet",
+  "path": "Contexto/Recursos/Serviços/Kitnet.md",
+  "basename": "Kitnet",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Moradia Classe Média"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 6000,
+    "Cobrança": "mês",
+    "Vagas": 1,
+    "Nível": 4,
+    "Onde": null,
+    "Resumo": "Kitnet ou apartamento de um dormitório alugado — o primeiro endereço fixo de verdade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Kitnet.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Kitnet do Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apartamento sobre a Passarela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Kitnet.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Kitnet.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAluguel de [[Kitnet do Aeromóvel]] ou [[Apartamento sobre a Passarela]]: porteiro, água e luz oficiais, telefone na fila da [[Embratel]]. É o endereço que serve pra laudo, cadastro e conta na [[Panvel]].\n\n> [!info] Especificação\n> **Onde dorme:** kitnet; apto de 1 dormitório, alugado\n> **Cobre:** condomínio com porteiro, água e luz oficiais, telefone\n> **O que compra:** endereço fixo: laudo, cadastro, crédito na loja; o Contratado deixa de precisar da rádio pirata pra ser achado\n> **O que cabe:** equipamento seguro atrás do porteiro; uma vaga de garagem (carro); uma pessoa no sofá\n> **Classe:** Classe Média\n"
+}

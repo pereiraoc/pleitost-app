@@ -1,0 +1,123 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Redes de Comunicação",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Redes de Comunicação.md",
+  "basename": "Redes de Comunicação",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A disponibilidade e restrições à internet, telefonia e outras formas de conexão.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Redes de Comunicação.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink",
+      "alias": "Exército"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar Ocidente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rádio Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Redes de Comunicação.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Internet e Comunicação Digital"
+    },
+    {
+      "level": 4,
+      "text": "Telefonia"
+    },
+    {
+      "level": 4,
+      "text": "Linhas Radiofônicas Clandestinas"
+    },
+    {
+      "level": 4,
+      "text": "Rádios Piratas e Alternativas"
+    },
+    {
+      "level": 4,
+      "text": "Vigilância e Censura Estatal"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Redes de Comunicação.png]]\n\nNesse ambiente altamente controlado, a comunicação independente tornou-se um ato de resistência. Enquanto megacorporações e o governo desfrutam de comunicação avançada e protegida, a população depende de soluções improvisadas, alimentando uma cultura subterrânea de inovação tecnológica clandestina, resistência cultural e constante vigilância estatal.\n#### Internet e Comunicação Digital\nEm 1987, a internet ainda é um privilégio corporativo rigidamente controlado pela [[Embratel]]. A estatal, comandada pelo [[Quartel-General do Exército|Exército]], restringe o acesso às linhas digitais apenas às grandes megacorporações como [[Gradiente]], [[Panvel]], [[Tramontina]] e [[Zaffari]]. Essas empresas, por sua vez, utilizam a rede para comunicação interna criptografada, logística avançada e vigilância corporativa. Qualquer tentativa de acesso não autorizado é rapidamente detectada e reprimida pela [[Embratel]], que opera com bloqueios constantes e interceptações de comunicação.\n\n#### Telefonia\nA telefonia fixa, embora existente, é rara e de difícil instalação devido às limitações de infraestrutura pós-enchente e ao controle estatal rigoroso sobre os serviços. A [[Embratel]] mantém um monopólio sobre as linhas telefônicas, privilegiando instituições do governo militar e megacorporações, deixando pequenas empresas e cidadãos comuns dependentes de alternativas clandestinas.\n\n#### Linhas Radiofônicas Clandestinas\nCom a escassez de telefonia convencional e o controle estrito das comunicações oficiais, proliferam linhas radiofônicas clandestinas operadas por grupos de resistência, facções e comerciantes independentes. A [[Resistência Urbana Gaúcha]] e o [[Movimento Restinga Livre]] são especialmente ativos nessa frente, utilizando rádios piratas para difundir informações censuradas pelo governo e organizar atividades subversivas. A [[Brigada Militar Metropolitana]], em conjunto com a [[Embratel]], realiza operações constantes para derrubar essas transmissões clandestinas, causando frequentes conflitos e interrupções.\n\n#### Rádios Piratas e Alternativas\nRádios piratas são comuns, especialmente no [[Centro Histórico]], [[Quarto Distrito]] e [[Restinga]], funcionando como principal meio de comunicação para a resistência e o comércio informal. Locais como o [[Bar Ocidente]] e a Praça da Encol são conhecidos pontos de retransmissão ilegal onde a [[Resistência Urbana Gaúcha]] e outras facções instalam equipamentos improvisados para escapar dos bloqueios da [[Embratel]]. Esses pontos são frequentemente alvos de batidas policiais e operações de sabotagem.\n\n#### Vigilância e Censura Estatal\nA censura sobre as comunicações é absoluta. A [[Rádio Farroupilha]] é um exemplo de estação oficial utilizada para propaganda governamental, transmitindo mensagens patrióticas e comunicados de segurança pública com supervisão direta da [[Embratel]]. Paralelamente, o [[Quartel-General do Exército]] e as instalações em [[Costa e Silva]] mantêm redes próprias de comunicação criptografadas, acessíveis apenas a militares de alta patente e operativos autorizados, garantindo um controle quase total sobre o fluxo de informações na cidade."
+}

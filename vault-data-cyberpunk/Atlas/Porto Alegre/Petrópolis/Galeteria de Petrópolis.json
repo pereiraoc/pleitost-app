@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Galeteria de Petrópolis",
+  "path": "Atlas/Porto Alegre/Petrópolis/Galeteria de Petrópolis.md",
+  "basename": "Galeteria de Petrópolis",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "família Zanella (Seu Ângelo)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Galeto ao Primo Canto]]",
+      "[[Sagu de Vinho]]",
+      "[[Vinho Aurora]]",
+      "[[Guaraná Fruki]]",
+      "[[Doce de Leite Colonial]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Galeteria de Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeto ao Primo Canto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Galeteria de Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Galeteria de Petrópolis.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Galeto ao primo canto com polenta, massa e sopa à vontade, vinho da casa incluso, sagu de sobremesa; o resto vai embrulhado.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão grande com toalha xadrez, brasa à vista, garrafões de vinho no balcão e fila de Carajás no estacionamento vigiado.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Galeto ao primo canto com polenta, massa e sopa à vontade, vinho da casa incluso, sagu de sobremesa; o resto vai embrulhado.",
+    "aparencia": "Salão grande com toalha xadrez, brasa à vista, garrafões de vinho no balcão e fila de Carajás no estacionamento vigiado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

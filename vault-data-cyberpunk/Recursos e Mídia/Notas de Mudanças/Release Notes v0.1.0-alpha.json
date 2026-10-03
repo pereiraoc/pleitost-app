@@ -1,0 +1,80 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.1.0-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.1.0-alpha.md",
+  "basename": "Release Notes v0.1.0-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "🧭 Sistema Pleitost RPG — v0.1.0-alpha"
+    },
+    {
+      "level": 2,
+      "text": "⚙️ Visão Geral do Sistema"
+    },
+    {
+      "level": 2,
+      "text": "🧾 Sistema de Fichas Automáticas (Dataview + Meta-Bind)"
+    },
+    {
+      "level": 2,
+      "text": "📜 Cobertura de Conteúdo"
+    },
+    {
+      "level": 3,
+      "text": "🧩 Regras Fundamentais"
+    },
+    {
+      "level": 2,
+      "text": "🧙‍♂️ Sistema de Magia"
+    },
+    {
+      "level": 2,
+      "text": "⚔️ Sistema de Equipamentos"
+    },
+    {
+      "level": 2,
+      "text": "💎 Recursos Visuais e de Mídia"
+    },
+    {
+      "level": 2,
+      "text": "🧰 Integração com o Obsidian"
+    },
+    {
+      "level": 3,
+      "text": "Plugins Ativos"
+    },
+    {
+      "level": 3,
+      "text": "Layout e Temas"
+    },
+    {
+      "level": 2,
+      "text": "🪶 Contribuidores"
+    },
+    {
+      "level": 2,
+      "text": "🧱 Estrutura de Arquivos (Principais Pastas)"
+    },
+    {
+      "level": 2,
+      "text": "🧮 Funcionalidades Atuais"
+    },
+    {
+      "level": 2,
+      "text": "📅 Linha do Tempo de Desenvolvimento"
+    },
+    {
+      "level": 3,
+      "text": "🧩 Notas"
+    }
+  ],
+  "body": "# 🧭 Sistema Pleitost RPG — v0.1.0-alpha\n\n> *Primeiro lançamento público em versão alpha do Sistema Pleitost RPG — um framework modular para RPG de mesa, totalmente integrado ao Obsidian, combinando automação, estética e expansibilidade.*\n\n---\n\n## ⚙️ Visão Geral do Sistema\n\nO **Sistema Pleitost RPG** agora inclui:\n- Um **conjunto completo de regras básicas** (atributos, combate, condições, magia, proficiências e perícias).  \n- **Nove classes jogáveis**: Animista, Arcanista, Bardo, Caçador, Comandante, Druida, Guerreiro, Ladino e Monge.  \n- Progressão completa para cada classe, com caminhos avançados, técnicas e características únicas.  \n- Um sistema de **magia dividido em quatro escolas**:\n  - **Magia Anima** (elemental)\n  - **Magia Arcana** (Branca, Negra e Essencial)\n  - **Magia Especial** (magias únicas e efeitos singulares)\n- **Bestiário completo** com templates editáveis para monstros e jogadores.  \n- Sistema de **itens, armas, armaduras, escudos, tesouros, imbuições e implementos** — todos padronizados e reutilizáveis.  \n- Um **sistema de fichas automáticas (autosheet)** com integração total de **DataviewJS** e **Meta-Bind**.  \n- **Cartas ilustradas e recursos visuais dinâmicos** para todos os tipos de itens.\n\n---\n\n## 🧾 Sistema de Fichas Automáticas (Dataview + Meta-Bind)\n\nA versão alpha já inclui um **sistema funcional de fichas de personagem** com três modos de interação:\n\n- 🖊️ **Editável** – Para criação e edição manual de personagens.  \n- 👁️ **Leitura** – Modo compacto para referência rápida durante sessões.  \n- ⚙️ **Interativa** – Com botões, contadores e ações rápidas para uso em tempo real.  \n\nFuncionalidades:\n- Cálculo automático e exibição de **atributos**, **perícias**, **proficiências** e **potência mágica**.  \n- Compatibilidade total com **Dataview**, **Meta-Bind**, **Buttons** e **Templater**.  \n- Visualização de itens vinculados para **Consumíveis**, **Tesouros** e **Imbuições**.  \n- Suporte a **ícones dinâmicos**, **seletor inline** e **formatação condicional**.  \n- Três modelos distintos de ficha (`Editável`, `Leitura`, `Interativa`) localizados em:  \n  `Templates/Templates de Sistema/Criatura/`\n\n---\n\n## 📜 Cobertura de Conteúdo\n\n### 🧩 Regras Fundamentais\nTodas as regras básicas estão implementadas em `Sistema/Regras/`, incluindo:\n- **Ações Básicas** (de combate, movimento, manipulação e perícia)  \n- **Combate** (iniciativa, turno, ataques múltiplos, ações especiais)  \n- **Condições** (Abalado, Caído, Enfraquecido, Invisível, etc.)  \n- **Propriedades de Armas** e **Proficiências**  \n- **Perícias e Especializações** (Acrobacia, Anima, Arcana, Furtividade, Medicina, etc.)  \n- **Vitalidade, Energia Heroica e Morte**\n\nCada regra está documentada em arquivos `.md` independentes e interligáveis.\n\n---\n\n## 🧙‍♂️ Sistema de Magia\n\nLocalizado em: `Sistema/Criação de Personagem/Magia/`  \nA estrutura modular inclui:\n- **Magia Anima** – Fogo, Água, Terra e Vento (Adepta, Básica, Experiente, Mestre)  \n- **Magia Arcana** – Branca, Negra e Essencial (cada uma com 4 patamares)  \n- **Magia Especial** – Magias singulares (Raio Arcano, Projétil Telecinético, Palavras Cortantes, etc.)  \n- Mais de **120 magias completas e escaláveis** documentadas individualmente.\n\n---\n\n## ⚔️ Sistema de Equipamentos\n\nSob `Sistema/Equipamento/`, todos os equipamentos seguem uma estrutura padronizada:\n- **Armas** (Simples, Marciais, Naturais e Especiais)  \n- **Armaduras** (Leves, Pesadas e Sem Armadura)  \n- **Escudos** (Broquel, Escudo)  \n- **Tesouros**:\n  - **Consumíveis** (Poções de Coragem, Nutrição, Velocidade e Cura)\n  - **Equipamentos** (de Ataque, Defesa e Perícia)\n  - **Imbuições & Qualidades** (ex.: Arma de Aço Solar, Imbuição Torrencial)\n  - **Implementos** (Focos da Intensificação, Consistência, Penetração e Repetição)\n\nCada item está associado à sua **carta ilustrada** em `Recursos e Mídia/Imagens/Figura/`.\n\n---\n\n## 💎 Recursos Visuais e de Mídia\n\n- **Cartas ilustradas** para todos os itens, poções e imbuições nos ranks Adepta / Experiente / Mestre.  \n- **Conjunto completo de ilustrações** para armas, armaduras e tesouros.  \n- **Ícones de dados**, **tipos de dano** e **emblemas elementais**.  \n- Fundos diferenciados para cada raridade (`carta-frente-*`).  \n- **Cartas exportadas** prontas para uso no Digital Garden (`Cartas Exportadas`).\n\n---\n\n## 🧰 Integração com o Obsidian\n\n### Plugins Ativos\n- 🧮 **Dataview**  \n- ⚙️ **Meta-Bind**  \n- 🧠 **Templater**  \n- 🧭 **QuickAdd**  \n- 🔍 **Omnisearch**  \n- 🧩 **Buttons**  \n- 🎨 **Style Settings + Snippets (cartas.css, oculta-no-dg.css)**  \n- 📂 **Folder Notes + Icon Folder**  \n- 🌐 **Digital Garden**  \n- 🗺️ **Excalidraw** (mapas e diagramas de itens)\n\n### Layout e Temas\n- Compatível com o **ITS Theme**.  \n- Snippets personalizados para ocultar conteúdo do Digital Garden e destacar links com Supercharged Links.  \n- Pastas com ícones automáticos atribuídos por categoria do sistema.\n\n---\n\n## 🪶 Contribuidores\n- **@pereiraoc** — Design do sistema, criação das fichas automáticas, direção de arte das cartas e integração com o Obsidian.  \n- **@sfynz** — Balanceamento de regras, mecânicas de classe, revisão e organização de conteúdo.\n\n---\n\n## 🧱 Estrutura de Arquivos (Principais Pastas)\n\n| Categoria | Caminho | Descrição |\n|------------|----------|-----------|\n| 🧠 Regras | `Sistema/Regras/` | Combate, ações, atributos, condições, movimento e defesas |\n| ⚔️ Equipamentos | `Sistema/Equipamento/` | Armas, armaduras, escudos, tesouros, imbuições e implementos |\n| ✨ Classes | `Sistema/Criação de Personagem/Classes/` | Nove classes principais e suas progressões |\n| 🪄 Magia | `Sistema/Criação de Personagem/Magia/` | Anima, Arcana (Branca/Negra/Essencial) e Especial |\n| 🐾 Bestiário | `Sistema/Criaturas/Bestiário/` | Goblin, Arruaceiro e templates para jogadores |\n| 💀 Jogadores | `Sistema/Criaturas/Jogadores/` | Leonel Bravolla, Deodoro Fontesseca, entre outros |\n| 🧩 Templates | `Templates/Templates de Sistema/` | Modelos interativos e editáveis do sistema |\n| 🧾 Mídia | `Recursos e Mídia/Imagens/` | Cartas, figuras, dados, emblemas e fundos de UI |\n| 🌐 Digital Garden | `digitalgarden-sandbox/` | Configurações, snippets e dados de plugins |\n\n---\n\n## 🧮 Funcionalidades Atuais\n\n✅ Estrutura modular de regras totalmente interligada  \n✅ Sistema de fichas automáticas funcional  \n✅ Mais de **1000 arquivos Markdown** organizados e categorizados  \n✅ Mais de **300 recursos visuais** integrados aos itens  \n✅ Templates 100% operacionais e compatíveis com Templater  \n✅ Pronto para publicação no **Digital Garden**\n\n---\n\n## 📅 Linha do Tempo de Desenvolvimento\n\n- **Jun 2025:** Estrutura do sistema e base das fichas automáticas.  \n- **Jul 2025:** Implementação de itens, armas e sistema de imbuições.  \n- **Ago 2025:** Revisão de classes, balanceamento e expansão do bestiário.  \n- **Set 2025:** Reclassificação das magias e refinamento da progressão.  \n- **Out 2025:** Polimento visual, integração de consumíveis, Potência Mágica e exportação de imagens.\n\n---\n\n### 🧩 Notas\n\nEsta versão alpha representa uma **base totalmente jogável** — com regras completas, criação de personagens, automação funcional e integração visual total dentro do Obsidian.  \n\nPróximas etapas:\n- 🧠 Testes de balanceamento e jogabilidade  \n- 🧰 Macros de automação (resolução de ações, rolagens automáticas)  \n- 🐉 Expansão do bestiário e ferramentas de Mestre  \n- 🕸️ Publicação avançada via **Digital Garden**\n\n---\n"
+}

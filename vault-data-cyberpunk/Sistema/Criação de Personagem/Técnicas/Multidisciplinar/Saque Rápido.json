@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Saque Rápido",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Saque Rápido.md",
+  "basename": "Saque Rápido",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]],[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "L",
+    "resumo": "\"Uma vez por turno, [[Sacar|Saque]] uma arma como uma ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Saque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]],[[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: L\n\nresumo:: \"Uma vez por turno, [[Sacar|Saque]] uma arma como uma ação livre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nUma vez por turno, [[Sacar|Saque]] uma arma como uma ação livre.\n\n```autosheet-rules\n```\n"
+}

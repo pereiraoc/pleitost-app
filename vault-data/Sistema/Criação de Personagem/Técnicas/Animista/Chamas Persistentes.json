@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Chamas Persistentes",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Chamas Persistentes.md",
+  "basename": "Chamas Persistentes",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Depois que você conjura uma [[Magia Anima]] não-básica do elemento Fogo com duração instantânea que afeta uma área, essa área fica em chamas por 1 turno. Criaturas que terminarem seu turno dentro da área recebem 6 de dano de fogo. Esse valor aumenta para 8 no 7º nível.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Depois que você conjura uma [[Magia Anima]] não-básica do elemento Fogo com duração instantânea que afeta uma área, essa área fica em chamas por 1 turno. Criaturas que terminarem seu turno dentro da área recebem 6 de dano de fogo. Esse valor aumenta para 8 no 7º nível.\"\n%%\n#### `= this.file.name` - `= this.rank`\nDepois que você conjura uma [[Magia Anima]] não-básica do elemento Fogo com duração instantânea que afeta uma área, essa área fica em chamas por 1 turno. Criaturas que terminarem seu turno dentro da área recebem 6 de dano de fogo. Esse valor aumenta para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

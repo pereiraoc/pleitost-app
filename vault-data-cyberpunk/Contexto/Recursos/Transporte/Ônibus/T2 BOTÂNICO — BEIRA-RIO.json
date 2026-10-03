@@ -1,0 +1,89 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/T2 BOTÂNICO — BEIRA-RIO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/T2 BOTÂNICO — BEIRA-RIO.md",
+  "basename": "T2 BOTÂNICO — BEIRA-RIO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "T2 ZONA LESTE — BEIRA-RIO",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 1,
+    "Cor": "#c62828",
+    "Horário": "5h–23h; em dia de jogo até o fim",
+    "Circular": false,
+    "Paradas": [
+      "[[Sede da Camisa 12]]",
+      "[[Venda da Vila]]",
+      "[[Estação PUCRS]]",
+      "[[Estação Jardim Botânico]]",
+      "[[Estação Estádios]]",
+      "[[Estação Porto Novo]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "A 'linha da torcida': da vila do Botânico aos estádios, em dia de jogo vira caravana e a Brigada sobe armada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "T2 BOTÂNICO — BEIRA-RIO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sede da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Venda da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação PUCRS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Estádios",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "T2 BOTÂNICO — BEIRA-RIO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[T2 BOTÂNICO — BEIRA-RIO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA \"linha da torcida\". Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Vila]], passa na [[Estação PUCRS]] e na [[Estação Jardim Botânico]] e desce até a [[Estação Estádios]] e a [[Estação Porto Novo]]. TRI Bronze no turno; em dia de jogo vira caravana, com bandeira na janela e a Brigada armada na porta de trás. O motorista é colorado e para onde a torcida grita.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

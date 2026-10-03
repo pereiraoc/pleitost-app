@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criaturas/Bestiário/Bestiário",
+  "path": "Sistema/Criaturas/Bestiário/Bestiário.md",
+  "basename": "Bestiário",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Bestiário"
+    }
+  ],
+  "body": "# Bestiário\n```button\nname NOVO: Monstro 👹\ntype command\naction QuickAdd: NOVO: Monstro\n```\n^button-criar-novo-monstro\n---\n```dataview\nTABLE WITHOUT ID\n  Tier as \"Tier\",\n  link(file.link, title) AS \"Nome\",\n  Raça AS \"Raça\",\n  Classe as \"Classe\",\n  Sintonia as \"Sintonia\"\nFROM \"Sistema/Criaturas/Bestiário\"\nWHERE subcategoria = \"Monstro\" and file.name != this.file.name\nSORT Raça, Tier DESC\n```"
+}

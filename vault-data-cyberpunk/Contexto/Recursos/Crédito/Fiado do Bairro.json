@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Crédito/Fiado do Bairro",
+  "path": "Contexto/Recursos/Crédito/Fiado do Bairro.md",
+  "basename": "Fiado do Bairro",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "Boteco, venda e pensão",
+    "Preço": 5000,
+    "Cobrança": "mês",
+    "Juros": 0,
+    "Nível": 2,
+    "Onde": null,
+    "Resumo": "Classe Baixa: O crédito que não cobra juro e cobra tudo o mais — trinta dias de conta no caderno do dono, e depois o favor.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Fiado do Bairro.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Fiado do Bairro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Fiado do Bairro.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNão é empréstimo, é o caderno. O dono da venda anota o que tu levou, a pensão deixa a semana correr, o boteco fia a rodada. Trinta dias sem juro nenhum — e passados os trinta, ninguém te cobra em Cruzado: te cobra em favor. Carregar uma caixa, não ver quem entrou, emprestar o carro numa noite.\n\nFiado só existe pra quem tem endereço no bairro. Quem dorme na rua não fia, porque ninguém sabe onde procurar. E quem calota perde as duas coisas ao mesmo tempo: o caderno e o nome — a rua inteira sabe antes do fim de semana.\n\n> [!info] Especificação\n> **Quem consegue:** Classe Baixa ou acima — endereço no bairro e cara conhecida\n> **Teto:** Cz$ 5.000, na soma de todos os cadernos\n> **Juros:** nenhum por 30 dias; depois o dono cobra em favor\n> **Garantia:** a cara\n> **Se atrasa:** perde o fiado e a Marca no bairro\n"
+}

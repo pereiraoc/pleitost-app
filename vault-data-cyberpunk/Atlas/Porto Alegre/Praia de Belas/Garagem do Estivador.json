@@ -1,0 +1,72 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Garagem do Estivador",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Garagem do Estivador.md",
+  "basename": "Garagem do Estivador",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Chico Frete",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Kombi]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Mercedes-Benz 1113]] usado",
+      "[[Volkswagen Kombi]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Garagem do Estivador.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercedes-Benz 1113",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Garagem do Estivador.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Garagem do Estivador.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Kombi, Fusca e 1113 de segunda mão; frete com o caminhão por diária.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pátio de paralelepípedo com caminhão, Kombi e um guincho velho; escritório de contêiner.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Kombi, Fusca e 1113 de segunda mão; frete com o caminhão por diária.",
+    "aparencia": "Pátio de paralelepípedo com caminhão, Kombi e um guincho velho; escritório de contêiner.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

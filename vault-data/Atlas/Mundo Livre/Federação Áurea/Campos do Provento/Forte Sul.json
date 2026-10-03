@@ -1,0 +1,70 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Sul",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Sul.md",
+  "basename": "Forte Sul",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Forte Sul.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Forte Sul.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Forte Sul.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Fortaleza-gêmea do [[Forte Norte]], com quem guarda a travessia do [[Rio Raio da Luz]] junto ao [[Grande Muro]], na fronteira oeste do [[Campos do Provento]] contra a [[Magna Pátria]]. Diferente do irmão de entrada única, é um forte de passagem: a estrada calçada do eixo ocidental atravessa o seu interior de portão a portão, e todo viajante que segue para o sul da [[Federação Áurea]] é obrigado a desfilar sob os olhos da guarnição. Ostenta a mesma heráldica do par — o leão rampante dourado sobre azul.\n> \n> 👁️**Aparência do Local:** Forte gótico de pedra parda coroando uma colina rochosa entre vales de pinheiros e montanhas nevoadas, com circuito de muralhas oval pontuado de torres ameadas em intervalos regulares. Dois portões em eixo norte–sul deixam a estrada calçada cruzar o Pátio de Armas por dentro: a Torre do Comandante, de bandeira azul com leão dourado, guarda a entrada norte, e a casa-portão do Portão Principal, a saída sul. Estandartes do leão pendem de vários panos de muralha, e braseiros ardem nas torres dos cantos; janelas de luz quente acendem o Salão da Fortaleza, de telhado escuro e íngreme. Nas encostas, pinheiros salpicam a rocha até os vales; a sudeste, um despenhadeiro profundo desce com um filete de água cinzento.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Fortaleza-gêmea do [[Forte Norte]], com quem guarda a travessia do [[Rio Raio da Luz]] junto ao [[Grande Muro]], na fronteira oeste do [[Campos do Provento]] contra a [[Magna Pátria]]. Diferente do irmão de entrada única, é um forte de passagem: a estrada calçada do eixo ocidental atravessa o seu interior de portão a portão, e todo viajante que segue para o sul da [[Federação Áurea]] é obrigado a desfilar sob os olhos da guarnição. Ostenta a mesma heráldica do par — o leão rampante dourado sobre azul.",
+    "aparencia": "Forte gótico de pedra parda coroando uma colina rochosa entre vales de pinheiros e montanhas nevoadas, com circuito de muralhas oval pontuado de torres ameadas em intervalos regulares. Dois portões em eixo norte–sul deixam a estrada calçada cruzar o Pátio de Armas por dentro: a Torre do Comandante, de bandeira azul com leão dourado, guarda a entrada norte, e a casa-portão do Portão Principal, a saída sul. Estandartes do leão pendem de vários panos de muralha, e braseiros ardem nas torres dos cantos; janelas de luz quente acendem o Salão da Fortaleza, de telhado escuro e íngreme. Nas encostas, pinheiros salpicam a rocha até os vales; a sudeste, um despenhadeiro profundo desce com um filete de água cinzento.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Bomba Royal da Banca 40",
+  "path": "Contexto/Recursos/Alimentação/Bomba Royal da Banca 40.md",
+  "basename": "Bomba Royal da Banca 40",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Banca 40 — Mercado Público",
+    "Preço": 90,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Salada de frutas com sorvete e creme batido na taça de vidro — a sobremesa que a Banca 40 serve desde antes da enchente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink",
+      "alias": "Banca 40"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nDo lado do pastel, a [[Mercado Público|Banca 40]] tem o que o porto-alegrense chama de sobremesa de domingo: salada de frutas picada na hora, bola de sorvete e creme batido por cima, na taça de vidro grossa. Fruta boa depende do caminhão da serra; em semana de racionamento, a banca troca metade por pêssego em calda e não avisa ninguém.\n\n> [!info] Especificação\n> **Taça:** fruta da estação, sorvete de creme e chantili\n> **Ruim:** em semana de racionamento vem pêssego em calda\n> **Preço:** Cz$ 90; a taça pequena sai por Cz$ 60\n"
+}

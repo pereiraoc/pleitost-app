@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Ataque Paralisante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Ataque Paralisante.md",
+  "basename": "Ataque Paralisante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] desarmado e, se acertar, além do dano, reduza a [[Movimentação]] do alvo em 2q por 1 turno; em sucesso decisivo, o alvo também fica [[Atordoado|Atordoado 1]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] desarmado e, se acertar, além do dano, reduza a [[Movimentação]] do alvo em 2q por 1 turno; em sucesso decisivo, o alvo também fica [[Atordoado|Atordoado 1]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Paralisante.\n\n**Ataque Paralisante - 2A**\nFaça um [[Atacar|Ataque]] desarmado, caso sucesso, além do dano normal, reduza a [[Movimentação]] do alvo em 2q por 1 turno. Em caso de sucesso decisivo, o alvo também fica [[Atordoado|Atordoado 1]].\n\n```autosheet-rules\n```\n"
+}

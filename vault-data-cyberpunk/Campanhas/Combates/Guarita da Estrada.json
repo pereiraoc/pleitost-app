@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Guarita da Estrada",
+  "path": "Campanhas/Combates/Guarita da Estrada.md",
+  "basename": "Guarita da Estrada",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "[[Passo D'Areia]] · [[Garagem dos Rachas]]",
+    "Situação": "O grupo mexe num carro que não é dele. A oficina inteira para.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Segurança do Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Boêmio Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem dos Rachas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Segurança do Cartel dos Eixos]] lento\n- 1 [[Boêmio Armado]] rápido\n```\n"
+}

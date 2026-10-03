@@ -1,0 +1,532 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Arcanista",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Arcanista.md",
+  "basename": "Treinamento de Arcanista",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Arcano\"",
+      "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana Menor]]",
+      "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+      "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Atributo INT",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia A",
+      "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+      "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+      "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+      "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "Nivel 7 Somar Magias.Secundaria.Slots.E 1",
+      "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Estudos do Vazio)]]) Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+      "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Aplicações da Luz)]]) Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+      "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Arcano\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Arcano"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Arcano\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana Menor]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Escola Arcana Menor]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana Menor]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaEssencial.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "5"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Somar Magias.Secundaria.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Somar Magias.Secundaria.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Estudos do Vazio)]]) Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Escola Arcana Menor (Estudos do Vazio)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Estudos do Vazio)]]) Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Aplicações da Luz)]]) Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Escola Arcana Menor (Aplicações da Luz)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Condicional Habilidades.Lista,Contem([[Escola Arcana Menor (Aplicações da Luz)]]) Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Arcanista",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Escola Arcana Menor",
+      "kind": "wikilink",
+      "alias": "escola arcana"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink",
+      "alias": "Magias Arcanas Essenciais"
+    },
+    {
+      "target": "Escola Arcana Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Estudos do Vazio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Aplicações da Luz)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer INT 2, conta como Técnica Adepta para outras classes*\n\nVocê adiciona a prática de Magia Arcana ao seu repertório de habilidades.\n\nEscolha uma [[Escola Arcana Menor|escola arcana]]:\n* **Estudos do Vazio**: Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas magias Arcanas Negras Básicas e aprende uma magia Arcana Negra Adepta de sua escolha. \n* **Aplicações da Luz**: Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas magias Arcanas Brancas Básicas e aprende uma magia Arcana Branca Adepta de sua escolha.\n\nSua potência mágica para magias de Arcanista é 3, sua [[Energia Mágica|EM]] máxima é 2 e seu atributo-chave para magias é [[Inteligência]].\n\nNo 4º nível, sua potência mágica para magias de Arcanista aumenta para 4 e você aprende uma Magia Arcana Adepta de sua escola. \n\nNo 7º nível, você se torna [[Experiente]] em Magia Arcana da sua escola, sua potência mágica para magias de Arcanista aumenta para 5, sua [[Energia Mágica|EM]] máxima aumenta para 3 e você aprende uma Magia Arcana Experiente de sua escola. \n\nVocê pode escolher [[Magia Arcana Essencial|Magias Arcanas Essenciais]] quando aprende Magias Arcanas por esta classe secundária.\n\nVocê pode escolher Técnicas Adeptas de Arcanista no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Arcanista no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}
