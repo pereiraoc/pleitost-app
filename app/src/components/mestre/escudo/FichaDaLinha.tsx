@@ -1,8 +1,8 @@
 // ESCUDO DO MESTRE — a FICHA de um combatente DENTRO da linha dele no combate
 // da sala. Embaixo da vida (e das defesas, que a linha já mostra sempre):
-// o ESCUDO do combatente (dureza/integridade/danificar/reparar), as CONDIÇÕES
-// (ativas + ligar/desligar as do sistema) e uma fila de
-// chips (ATAQUES · MAGIAS · PERÍCIAS · HABILIDADES · PERTENCES) que escolhe,
+// o ESCUDO do combatente (dureza/integridade/danificar/reparar) e uma fila de
+// chips (… · CONDIÇÕES por último, com a contagem das ligadas — pedido
+// 2026-10-02: "em uma aba no fim, não sempre ativas em cima") (ATAQUES · MAGIAS · PERÍCIAS · HABILIDADES · PERTENCES) que escolhe,
 // POR COMBATENTE, o que o mestre quer ver (pedido 2026-10-02: a vista é
 // individual). Chip de vista VAZIA vem desabilitado (claramente não clicável).
 // Clicar o chip ativo fecha. Rótulos canônicos passam pelo reskin.
@@ -14,7 +14,7 @@ import { SubAtaques, SubHabilidades, SubPericias, SubPertences, SubTecnologias }
 import { EscudoDoCombatente } from './EscudoDoCombatente'
 import { CondicoesDoCombatente } from './CondicoesDoCombatente'
 import type { VaultDoc } from '../../../data/types'
-import { vistasDisponiveis, type VistaId } from './disponibilidade'
+import { contarAtivas, vistasDisponiveis, type VistaId } from './disponibilidade'
 import type { CombatenteVM } from './useCombatentes'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
@@ -26,14 +26,16 @@ export const VISTAS: (TabDef & { id: VistaId })[] = [
   { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pertences', label: 'PERTENCES' },
   { id: 'magias', label: 'MAGIAS' },
+  { id: 'condicoes', label: 'CONDIÇÕES' },
 ]
 
-const RENDER: Record<VistaId, (vm: CombatenteVM) => React.ReactNode> = {
+const RENDER: Record<VistaId, (vm: CombatenteVM, condicaoDocs: readonly VaultDoc[]) => React.ReactNode> = {
   ataques: (vm) => <SubAtaques vm={vm} />,
   magias: (vm) => <SubTecnologias vm={vm} />,
   pericias: (vm) => <SubPericias vm={vm} />,
   habilidades: (vm) => <SubHabilidades vm={vm} />,
   pertences: (vm) => <SubPertences vm={vm} />,
+  condicoes: (vm, docs) => <CondicoesDoCombatente vm={vm} docs={docs} />,
 }
 
 export function FichaDaLinha({
@@ -50,16 +52,19 @@ export function FichaDaLinha({
 }) {
   const catalog = useCatalog()
   const fm = vm.doc.frontmatter as Record<string, unknown>
-  const disponiveis = useMemo(() => vistasDisponiveis(fm, catalog), [fm, catalog])
+  const edita = vm.c.kind === 'npc'
+  const nAtivas = contarAtivas(vm.c.state)
+  const disponiveis = useMemo(() => vistasDisponiveis(fm, catalog, vm.c.state, edita), [fm, catalog, vm.c.state, edita])
   const ativa = (VISTAS.find((v) => v.id === vista && disponiveis[v.id])?.id ?? null) as VistaId | null
   return (
     <div data-escudo-ficha={vm.c.id} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <EscudoDoCombatente vm={vm} />
-      <CondicoesDoCombatente vm={vm} docs={condicaoDocs} />
       <div data-escudo-vistas="" style={{ display: 'flex', flexWrap: 'wrap', gap: 4, paddingLeft: 39 }}>
         {VISTAS.map((v) => {
           const on = ativa === v.id
-          const vazia = vm.semFicha || !disponiveis[v.id]
+          // CONDIÇÕES não depende da ficha publicada (vive no state): só do papel
+          const vazia = v.id === 'condicoes' ? !disponiveis.condicoes : vm.semFicha || !disponiveis[v.id]
+          const rotulo = v.id === 'condicoes' && nAtivas > 0 ? `${reskinUpper(v.label)} ${nAtivas}` : reskinUpper(v.label)
           return (
             <button
               key={v.id}
@@ -81,14 +86,14 @@ export function FichaDaLinha({
                 clipPath: clip(4),
               })}
             >
-              {reskinUpper(v.label)}
+              <span data-escudo-vista-rotulo="">{rotulo}</span>
             </button>
           )
         })}
       </div>
       {ativa ? (
         <div data-escudo-vista={ativa} style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 39 }}>
-          {RENDER[ativa](vm)}
+          {RENDER[ativa](vm, condicaoDocs)}
         </div>
       ) : null}
     </div>

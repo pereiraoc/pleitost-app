@@ -6,6 +6,7 @@ import type { Catalog } from '../../../data/catalog'
 import { fmPath, listaEntries, profLetter, str, type ProfRow } from '../../ficha/hero-model'
 import { computeMagiaAtaque } from '../../../interativa/invocacao'
 import { parseItemAlias } from '../../ficha/hero-model'
+import { isCondicaoOn, isEfeitoOn, parseStateKey } from '../../../interativa/state'
 import { ESSENCIAS_PATH_PREFIXES, MODIFICADORES_PATH_PREFIX } from '../../../rules/projection'
 
 type Fm = Record<string, unknown>
@@ -71,14 +72,33 @@ export function temPertences(fm: Fm): boolean {
   })
 }
 
-export type VistaId = 'ataques' | 'magias' | 'pericias' | 'habilidades' | 'pertences'
+export type VistaId = 'ataques' | 'magias' | 'pericias' | 'habilidades' | 'pertences' | 'condicoes'
 
-export function vistasDisponiveis(fm: Fm, catalog: Catalog): Record<VistaId, boolean> {
+/** CONDIÇÕES: o mestre sempre pode editar as de NPC; no herói (só leitura) a
+ *  vista só existe se há algo ligado. */
+export function temCondicoes(state: { condicoesAtivas?: Record<string, unknown>; efeitosAtivos?: Record<string, unknown> }, edita: boolean): boolean {
+  if (edita) return true
+  return contarAtivas(state) > 0
+}
+export function contarAtivas(state: { condicoesAtivas?: Record<string, unknown>; efeitosAtivos?: Record<string, unknown> }): number {
+  const nomes = new Set<string>()
+  for (const [k, v] of Object.entries(state.condicoesAtivas ?? {})) if (isCondicaoOn(v)) nomes.add(parseStateKey(k).label)
+  for (const [k, v] of Object.entries(state.efeitosAtivos ?? {})) if (isEfeitoOn(v)) nomes.add(parseStateKey(k).label)
+  return nomes.size
+}
+
+export function vistasDisponiveis(
+  fm: Fm,
+  catalog: Catalog,
+  state: { condicoesAtivas?: Record<string, unknown>; efeitosAtivos?: Record<string, unknown> } = {},
+  edita = false,
+): Record<VistaId, boolean> {
   return {
     ataques: temAtaques(fm),
     magias: temMagias(fm),
     pericias: temPericias(fm),
     habilidades: temHabilidades(fm, catalog),
     pertences: temPertences(fm),
+    condicoes: temCondicoes(state, edita),
   }
 }

@@ -39,10 +39,14 @@ describe('habilidadeOcultaNoEscudo', () => {
 
 describe('vistasDisponiveis', () => {
   it('Goblin Batedor: ataques e perícias sim; magias (tudo N, sem lista) e pertences (só armas) não', () => {
-    expect(vistasDisponiveis(goblin, catalog)).toEqual({ ataques: true, magias: false, pericias: true, habilidades: true, pertences: false })
+    expect(vistasDisponiveis(goblin, catalog)).toEqual({ ataques: true, magias: false, pericias: true, habilidades: true, pertences: false, condicoes: false })
+    // NPC (edita): CONDIÇÕES sempre disponível; herói: só com algo ligado
+    expect(vistasDisponiveis(goblin, catalog, {}, true).condicoes).toBe(true)
+    expect(vistasDisponiveis(goblin, catalog, { condicoesAtivas: { Caído: true } }, false).condicoes).toBe(true)
+    expect(vistasDisponiveis(goblin, catalog, { condicoesAtivas: { Caído: 0 } }, false).condicoes).toBe(false)
   })
   it('Carlos: tudo disponível (tesouros/consumíveis contam; armas e armadura não)', () => {
-    expect(vistasDisponiveis(carlos, catalog)).toEqual({ ataques: true, magias: true, pericias: true, habilidades: true, pertences: true })
+    expect(vistasDisponiveis(carlos, catalog)).toEqual({ ataques: true, magias: true, pericias: true, habilidades: true, pertences: true, condicoes: false })
   })
   it('Zuko: habilidades vazias depois de tirar as essências? não — Evolução Básica e Magias Anima ficam; magias sim', () => {
     expect(temMagias(zuko)).toBe(true)
