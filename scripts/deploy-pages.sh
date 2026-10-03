@@ -38,3 +38,10 @@ COMMIT=$(GIT_AUTHOR_NAME="deploy" GIT_AUTHOR_EMAIL="deploy@pleitost" \
   git commit-tree "$TREE" -m "deploy: app/dist → GitHub Pages")
 git push -f origin "$COMMIT:refs/heads/gh-pages"
 echo "publicado: $COMMIT → gh-pages"
+
+# Cada deploy é um commit órfão com o app/dist inteiro (vault incluso). O
+# anterior sai do branch, mas o reflog do origin/gh-pages o segurava: 268
+# deploys acumularam ~5 GB no .git local até 03/10/2026. O remoto já foi
+# sobrescrito e o build é regenerável, então solta o histórico local já.
+git reflog expire --expire=now --expire-unreachable=now refs/remotes/origin/gh-pages
+git prune --expire=now
