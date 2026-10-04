@@ -5,18 +5,18 @@
 // (PREPARAR / + iniciativa) — o MESMO CenaBlock da página da aventura, sempre
 // aberto. Navegação ANTERIOR/PRÓXIMA grava a cena atual na sessão
 // (irParaCena); Abertura = cena null; a aventura trancada neste aparelho
-// manda pro compêndio destravar (a senha nunca passa por aqui).
+// manda pro compêndio destravar (a senha nunca passa por aqui). Carga da
+// aventura: useAventuraEmCurso (compartilhado com NOTAS); figuras cifradas
+// resolvem via ArquivosCifradosProvider, como na DocPage.
 import type { CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDoc } from '../../../data/useDoc'
-import { useCatalog } from '../../../data/CatalogContext'
-import { isUnlocked } from '../../../data/doc-lock'
 import { reskinName } from '../../../data/reskin'
+import { ArquivosCifradosProvider } from '../../../data/arquivos-cifrados'
+import type { VaultDoc } from '../../../data/types'
 import { useSessionRepo } from '../../../data/session-repo/provider'
 import { useLiveSession } from '../../../data/session-repo/live-session'
-import { aventuraAtual, irParaCena } from '../../../aventura/session-actions'
-import { parseAventura } from '../../../aventura/parse-aventura'
-import { aventuraConfig } from '../../../aventura/config'
+import { irParaCena } from '../../../aventura/session-actions'
+import { useAventuraEmCurso } from '../../../aventura/use-aventura-em-curso'
 import { docPath } from '../../../paths'
 import { clip } from '../../ficha/bits'
 import { MarkdownBody } from '../../../markdown/MarkdownBody'
@@ -26,7 +26,7 @@ import { InlineFieldValue } from '../../compendium/InlineFieldValue'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
-function Aviso({ children }: { children: React.ReactNode }) {
+export function Aviso({ children }: { children: React.ReactNode }) {
   return (
     <div
       data-escudo-cena-aviso=""
@@ -63,35 +63,34 @@ const btn = (disabled: boolean): CSSProperties =>
     clipPath: clip(5),
   })
 
+/** Sem aventura na mesa — o mesmo aviso pra todo painel do escudo que lê a aventura. */
+export function SemAventura() {
+  return <Aviso>{'// NENHUMA AVENTURA EM CURSO — abra a aventura no compêndio e use "▶ Iniciar na sessão"'}</Aviso>
+}
+
+/** Aventura trancada neste aparelho: manda pro compêndio destravar (a senha
+ *  nunca passa pelo escudo). */
+export function AventuraTrancada({ doc }: { doc: VaultDoc }) {
+  const navigate = useNavigate()
+  return (
+    <Aviso>
+      <span data-escudo-cena-trancada="">{`// ${reskinName(doc.basename).toUpperCase()} ESTÁ TRANCADA NESTE APARELHO`}</span>
+      <button type="button" onClick={() => navigate(docPath(doc.id))} style={btn(false)}>
+        ABRIR A AVENTURA PRA DESTRAVAR ↗
+      </button>
+    </Aviso>
+  )
+}
+
 export function SubCena() {
   const repo = useSessionRepo()
   const live = useLiveSession()
-  const catalog = useCatalog()
   const navigate = useNavigate()
-  const av = aventuraAtual(live)
-  const { doc } = useDoc(av?.docId ?? '')
-  if (!av) {
-    return (
-      <Aviso>
-        {'// NENHUMA AVENTURA EM CURSO — abra a aventura no compêndio e use "▶ Iniciar na sessão"'}
-      </Aviso>
-    )
-  }
+  const { av, doc, locked, model, cfg } = useAventuraEmCurso()
+  if (!av) return <SemAventura />
   if (!doc) return <div className="loading">Carregando aventura…</div>
-  const trancada = !!(doc as { protegido?: unknown }).protegido && !isUnlocked(doc.id)
+  if (locked || !model) return <AventuraTrancada doc={doc} />
   const nome = reskinName(doc.basename)
-  if (trancada) {
-    return (
-      <Aviso>
-        <span data-escudo-cena-trancada="">{`// ${nome.toUpperCase()} ESTÁ TRANCADA NESTE APARELHO`}</span>
-        <button type="button" onClick={() => navigate(docPath(doc.id))} style={btn(false)}>
-          ABRIR A AVENTURA PRA DESTRAVAR ↗
-        </button>
-      </Aviso>
-    )
-  }
-  const cfg = aventuraConfig(catalog.contextoDef)
-  const model = parseAventura(doc, cfg)
   // posição: null = Abertura; senão o índice da cena atual
   const idx = av.cenaAtual ? model.cenas.findIndex((c) => c.slug === av.cenaAtual) : -1
   const cena = idx >= 0 ? model.cenas[idx]! : null
@@ -104,6 +103,7 @@ export function SubCena() {
     void irParaCena(repo!, live!, slug)
   }
   return (
+    <ArquivosCifradosProvider doc={doc}>
     <div data-escudo-sub="cena" data-escudo-cena-atual={cena?.slug ?? 'abertura'} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div
         style={{
@@ -157,5 +157,6 @@ export function SubCena() {
         <Aviso>{'// A AVENTURA NÃO TEM ABERTURA — avance pra primeira cena'}</Aviso>
       )}
     </div>
+    </ArquivosCifradosProvider>
   )
 }

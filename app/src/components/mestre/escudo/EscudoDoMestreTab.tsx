@@ -17,6 +17,7 @@ import { ForcarDetalhesContext, ITEM_CARD_CSS } from '../../item-card'
 import { EscudoHeader } from './EscudoHeader'
 import { SubVida } from './SubVida'
 import { SubCena } from './SubCena'
+import { SubNotas } from './SubNotas'
 import { FichaDaLinha } from './FichaDaLinha'
 import { useCombatentes, type FiltroEscudo } from './useCombatentes'
 import { useCondicaoDocs } from '../../../interativa/useInterativaCtx'
@@ -60,6 +61,7 @@ export function EscudoDoMestreTab() {
   // vista aberta POR combatente (id → chip); ausente = só a linha de vida
   const [vistas, setVistas] = useState<Record<string, string | null>>({})
   const [cenaAberta, setCenaAberta] = useState(false)
+  const [notasAbertas, setNotasAbertas] = useState(false)
   const { active } = useSessions()
   const { live, ativo, todos, vezDe } = useCombatentes('todos')
   const { docs: condicaoDocs } = useCondicaoDocs()
@@ -96,11 +98,22 @@ export function EscudoDoMestreTab() {
           >
             {cenaAberta ? '▾ CENA' : '▸ CENA'}
           </button>
+          <button
+            type="button"
+            data-escudo-notas-toggle=""
+            aria-pressed={notasAbertas}
+            onClick={() => setNotasAbertas((v) => !v)}
+            title={notasAbertas ? 'Fechar as notas do mestre' : 'Ver as notas para o mestre da aventura em curso'}
+            style={chip(notasAbertas)}
+          >
+            {notasAbertas ? '▾ NOTAS' : '▸ NOTAS'}
+          </button>
         </div>
         {!live || !active?.remoteId ? (
           <Aviso>{'// SEM MESA — entre numa sessão como mestre (painel SESSÃO) e o escudo monta aqui'}</Aviso>
         ) : (
           <>
+            {notasAbertas ? <SubNotas /> : null}
             {cenaAberta ? <SubCena /> : null}
             <SubVida
               sess={active}

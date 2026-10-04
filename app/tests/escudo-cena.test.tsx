@@ -186,3 +186,60 @@ describe('ESCUDO — sub-aba CENA', () => {
     expect((document.querySelector('[data-escudo-cena-proxima]') as HTMLButtonElement).disabled).toBe(true)
   })
 })
+
+// NOTAS DO MESTRE (2026-10-04): a seção "2.2 Notas para o Mestre" da aventura
+// em curso, no escudo, fatiada por `###` em blocos dobráveis (fechados).
+const abaNotas = () => {
+  const btn = document.querySelector('[data-escudo-notas-toggle]') as HTMLButtonElement | null
+  expect(btn).toBeTruthy()
+  fireEvent.click(btn!)
+}
+
+describe('ESCUDO — painel NOTAS', () => {
+  it('sem aventura em curso: aviso', async () => {
+    const repo = new InMemorySessionRepo()
+    renderApp(repo)
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await waitFor(() => expect(escudo()).not.toBeNull())
+    abaNotas()
+    const notas = await waitFor(() => {
+      const el = document.querySelector('[data-escudo-sub="notas"]') as HTMLElement | null
+      expect(el).toBeTruthy()
+      return el!
+    })
+    expect(within(notas).getByText(/NENHUMA AVENTURA EM CURSO/)).toBeTruthy()
+  })
+
+  it('aventura trancada: manda destravar, sem vazar as notas', async () => {
+    const repo = new InMemorySessionRepo()
+    renderApp(repo)
+    await mesaComAventura(repo)
+    await waitFor(() => expect(escudo()).not.toBeNull())
+    abaNotas()
+    await waitFor(() => expect(document.querySelector('[data-escudo-sub="notas"] [data-escudo-cena-trancada]')).toBeTruthy())
+    expect(within(escudo()!).queryByText(/Dicas de condução/)).toBeNull()
+  })
+
+  it('destravada: um bloco dobrável por ###, fechados; abrir mostra o conteúdo (callout O Malandro)', async () => {
+    await unlockWithSenha(CIFRADO, 'poa1987grenal', false)
+    const repo = new InMemorySessionRepo()
+    renderApp(repo)
+    await mesaComAventura(repo)
+    await waitFor(() => expect(escudo()).not.toBeNull())
+    abaNotas()
+    const notas = await waitFor(() => {
+      const el = document.querySelector('[data-escudo-sub="notas"]') as HTMLElement | null
+      expect(el?.querySelector('[data-escudo-nota]')).toBeTruthy()
+      return el!
+    })
+    const blocos = [...notas.querySelectorAll('details[data-escudo-nota]')] as HTMLDetailsElement[]
+    expect(blocos.map((b) => b.getAttribute('data-escudo-nota'))).toEqual(['Preparação', 'Dicas de condução', 'Papéis e objetivos', 'Frases úteis'])
+    expect(blocos.every((b) => !b.open)).toBe(true)
+    const papeis = blocos[2]!
+    fireEvent.click(papeis.querySelector('summary')!)
+    await waitFor(() => expect(papeis.open).toBe(true))
+    await waitFor(() => expect(papeis.querySelector('.callout')).toBeTruthy())
+    expect(papeis.textContent).toContain('O Malandro')
+    expect(papeis.textContent).toContain('Sair da noite com dinheiro no bolso')
+  })
+})

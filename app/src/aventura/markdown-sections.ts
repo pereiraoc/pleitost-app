@@ -60,3 +60,22 @@ export function childHeadings(headings: readonly HeadingLine[], h: HeadingLine):
 export function findHeading(headings: readonly HeadingLine[], level: number, text: string): HeadingLine | null {
   return headings.find((h) => h.level === level && h.text === text) ?? null
 }
+
+export interface Subsecao {
+  titulo: string
+  corpo: string
+}
+
+/** Fatia um markdown pelos headings de nível `level` (cientes de fence): o que
+ *  vem antes do primeiro vai em `intro`; cada heading vira uma subseção com o
+ *  corpo até o próximo heading de nível <= `level`. */
+export function subsecoes(md: string, level: number): { intro: string; secoes: Subsecao[] } {
+  const lines = md.split('\n')
+  const hs = scanHeadings(lines)
+  const topo = hs.filter((h) => h.level <= level)
+  const primeiro = topo[0]?.line ?? lines.length
+  const secoes = topo
+    .filter((h) => h.level === level)
+    .map((h) => ({ titulo: h.text, corpo: sectionBody(lines, hs, h).join('\n').trim() }))
+  return { intro: lines.slice(0, primeiro).join('\n').trim(), secoes }
+}
