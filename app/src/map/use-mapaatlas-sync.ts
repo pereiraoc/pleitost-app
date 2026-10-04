@@ -7,7 +7,7 @@
 // mestre/offline usa o local. Mestre conectado EMPURRA o blob EDITADO neste
 // aparelho (seed não conta; local vazio nunca apaga mesa com conteúdo).
 import { useEffect, useMemo, useRef } from 'react'
-import { useLiveSession } from '../data/session-repo/live-session'
+import { useLiveSelector } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import {
   lembrarMesa,
@@ -28,10 +28,11 @@ export interface MapaAtlasSync {
 }
 
 export function useMapaAtlasSync(mestre: boolean): MapaAtlasSync {
-  const live = useLiveSession()
+  // só o sessionId e a fatia mapaAtlas do state (ref estável pelo merge da sala)
+  const sessionId = useLiveSelector((l) => l?.sessionId ?? null)
+  const remoto = useLiveSelector((l) => (l?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas'])
   const repo = useSessionRepo()
   const local = useMapaAtlas()
-  const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas']
   // Jogador: conectado = mesa; desconectado = a ÚLTIMA mesa que viu (senão o
   // local/seed). Mestre: sempre o local (autoria).
   const cfg = useMemo(
@@ -54,7 +55,7 @@ export function useMapaAtlasSync(mestre: boolean): MapaAtlasSync {
   // PUSH: mestre conectado empurra o blob EDITADO neste aparelho a cada mudança.
   const pushedRef = useRef('')
   useEffect(() => {
-    if (!mestre || !repo || !live?.sessionId) return
+    if (!mestre || !repo || !sessionId) return
     if (!mapaAtlasFoiEditadoLocalmente()) return
     if (local.regioes.length === 0 && local.pins.length === 0) {
       const r = remoto ? sanitize(remoto) : null
@@ -63,8 +64,8 @@ export function useMapaAtlasSync(mestre: boolean): MapaAtlasSync {
     const json = mapaAtlasJson(local)
     if (json === pushedRef.current) return
     pushedRef.current = json
-    void repo.updateSessionState(live.sessionId, { mapaAtlas: JSON.parse(json) }).catch(() => {})
-  }, [mestre, repo, live?.sessionId, local, remoto])
+    void repo.updateSessionState(sessionId, { mapaAtlas: JSON.parse(json) }).catch(() => {})
+  }, [mestre, repo, sessionId, local, remoto])
 
   return { local, remoto, cfg }
 }

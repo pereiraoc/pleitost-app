@@ -4,7 +4,8 @@ import { localEntityWorld } from './local-entities'
 import { activeWorld } from './world'
 import type { VaultDoc } from './types'
 import { getLocalDoc, isLocalId, useLocalStoreVersion } from './local-entities'
-import { liveCharacter, synthDocFromCharacter, useLiveSession } from './session-repo/live-session'
+import { liveCharacter, shallowArrayEq, synthDocFromCharacter, useLiveSelector } from './session-repo/live-session'
+import type { SessionCharacter } from './session-repo/contract'
 import { vaultUrl } from './base-url'
 import { effectiveDoc } from './effective-doc'
 import { useLocalDraftVersion } from './local-draft-store'
@@ -75,16 +76,28 @@ export interface DocState {
 /** Carrega um lote de docs (cache compartilhado); undefined enquanto carrega.
  *  Ids locais resolvem SÍNCRONO do store (reativo via versão); os da vault
  *  seguem o fetch cacheado. */
+const SEM_CHARS: (SessionCharacter | null)[] = []
+
 export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
   const localVersion = useLocalStoreVersion()
-  const live = useLiveSession() // reatividade dos docs sessao: (#231)
+  const allKey = ids.join('\n')
+  // Reatividade dos docs sessao: (#231) — SÓ os personagens pedidos: ids da
+  // vault/locais não re-renderizam com a sala; um sessao:<id> só re-renderiza
+  // quando AQUELE personagem muda (o setLiveSession mantém a ref do resto).
+  const sessaoKey = ids.filter(isSessaoId).join('\n')
+  const sessaoChars = useLiveSelector(
+    (l) =>
+      sessaoKey
+        ? sessaoKey.split('\n').map((id) => l?.characters.find((c) => c.id === id.slice('sessao:'.length)) ?? null)
+        : SEM_CHARS,
+    shallowArrayEq,
+  )
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const editsVersion = useHeroEditsVersion() // edição da FICHA (2026-09-10)
   const { desenvolvedor } = useSettings() // toggle do Modo Dev re-projeta
   const lockVersion = useDocLockVersion() // destravar/trancar uma aventura re-lê
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
-  const allKey = ids.join('\n')
   const vaultKey = ids.filter((id) => !isLocalId(id) && !isSessaoId(id)).join('\n')
 
   useEffect(() => {
@@ -123,12 +136,15 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     }
     return byId
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, publishedVersion, editsVersion, desenvolvedor])
+  }, [vaultDocs, vaultKey, allKey, localVersion, sessaoChars, draftVersion, publishedVersion, editsVersion, desenvolvedor])
 }
 
 export function useDoc(id: string): DocState {
   const localVersion = useLocalStoreVersion()
-  const live = useLiveSession()
+  // só o personagem deste id (sessao:) — doc da vault/local ignora a sala
+  const sessaoChar = useLiveSelector((l) =>
+    isSessaoId(id) ? (l?.characters.find((c) => c.id === id.slice('sessao:'.length)) ?? null) : null,
+  )
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const editsVersion = useHeroEditsVersion() // edição da FICHA (2026-09-10)
@@ -155,8 +171,7 @@ export function useDoc(id: string): DocState {
 
   if (!id) return {}
   if (sessao) {
-    void live
-    const doc = getSessaoDoc(id)
+    const doc = sessaoChar ? synthDocFromCharacter(sessaoChar) : undefined
     return doc ? { doc } : { error: new Error(`personagem da sala "${id}" não está na sessão ativa`) }
   }
   if (local) {

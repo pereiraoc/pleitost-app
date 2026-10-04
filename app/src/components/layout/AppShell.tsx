@@ -8,7 +8,7 @@ import { usePendingTabs } from './use-pending-tabs'
 import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useCatalog } from '../../data/CatalogContext'
 import { groupIdsOf } from '../../grupo/party'
-import { characterNaSessao, useLiveSession } from '../../data/session-repo/live-session'
+import { characterNaSessao, useLiveSelector } from '../../data/session-repo/live-session'
 import { useIsSessionMestre } from '../../data/session-mestre'
 import { useSettings } from '../../settings'
 import { useDoc } from '../../data/useDoc'
@@ -272,11 +272,8 @@ export function AppShell() {
   // fica desabilitado (pedido do report: "não deixe clicável" em vez de cair
   // na mesa de outra sessão). Enquanto o doc carrega, segue clicável.
   const catalog = useCatalog()
-  const liveSess = useLiveSession()
-  const grupoDisponivel =
-    !heroDoc ||
-    groupIdsOf(catalog, heroDoc).length > 0 ||
-    (!!liveSess?.sessionId && characterNaSessao(liveSess, heroDoc.id))
+  const heroNaSessao = useLiveSelector((l) => !!heroDoc && !!l?.sessionId && characterNaSessao(l, heroDoc.id))
+  const grupoDisponivel = !heroDoc || groupIdsOf(catalog, heroDoc).length > 0 || heroNaSessao
   // #191: registra o SW e liga o fluxo de update (idempotente)
   useEffect(() => {
     void initPwaUpdate()

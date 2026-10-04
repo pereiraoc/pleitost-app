@@ -10,16 +10,17 @@ import { useEffect, useRef } from 'react'
 import { useHexMap } from '../data/useHexMap'
 import { hexMapFoiEditado, setHexMapFull } from '../data/hexmap-store'
 import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
-import { useLiveSession } from '../data/session-repo/live-session'
+import { useLiveSelector } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 
 /** Liga a sincronização do mapa-múndi com a mesa. Chamado onde o mapa é visto
  *  (/mapa e a exploração do grupo) — idempotente, pode montar em ambos. */
 export function useHexMapMundoSync(mestre: boolean): void {
-  const live = useLiveSession()
+  // só o sessionId e a fatia hexMapMundo do state (ref estável pelo merge da sala)
+  const sessionId = useLiveSelector((l) => l?.sessionId ?? null)
+  const remoto = useLiveSelector((l) => (l?.state as Record<string, unknown> | null | undefined)?.['hexMapMundo'])
   const repo = useSessionRepo()
   const hexMap = useHexMap(MAPA_MUNDO_ID)
-  const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['hexMapMundo']
   const remotoCells = remoto && typeof remoto === 'object' ? (remoto as { cells?: unknown }).cells : null
   const remotoSig = Array.isArray(remotoCells) ? JSON.stringify(remotoCells) : null
 
@@ -28,13 +29,13 @@ export function useHexMapMundoSync(mestre: boolean): void {
   // re-empurra o que já está na mesa nem repete o mesmo blob.
   const pushedRef = useRef('')
   useEffect(() => {
-    if (!mestre || !repo || !live?.sessionId) return
+    if (!mestre || !repo || !sessionId) return
     if (!hexMapFoiEditado(MAPA_MUNDO_ID)) return
     const sig = JSON.stringify(hexMap.cells)
     if (sig === pushedRef.current || sig === remotoSig) return
     pushedRef.current = sig
-    void repo.updateSessionState(live.sessionId, { hexMapMundo: { cells: hexMap.cells } }).catch(() => {})
-  }, [mestre, repo, live?.sessionId, hexMap.cells, remotoSig])
+    void repo.updateSessionState(sessionId, { hexMapMundo: { cells: hexMap.cells } }).catch(() => {})
+  }, [mestre, repo, sessionId, hexMap.cells, remotoSig])
 
   // JOGADOR (não-mestre) adota o mapa da mesa UMA vez por valor remoto distinto.
   // CUIDADO (React #185): NÃO comparar `remotoSig` (células cruas) com

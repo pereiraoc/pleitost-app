@@ -2,7 +2,8 @@
 // sessão remota ativa. A SessaoPage alimenta (fetch + realtime); a sidebar de
 // DETALHES lê daqui pra montar a ficha RESUMO de personagens REMOTOS (que não
 // têm doc local). Um único slot: só existe UMA sala ativa por vez.
-import { useSyncExternalStore } from 'react'
+import { useRef, useSyncExternalStore } from 'react'
+import { mergeLive } from './live-merge'
 import type { VaultDoc } from '../types'
 import type { Encounter, SessionCharacter, SessionMember } from './contract'
 
@@ -24,9 +25,24 @@ export interface LiveSession {
 let live: LiveSession | null = null
 const listeners = new Set<() => void>()
 
+/** Troca o snapshot da sala. SEMPRE passa pelo mergeLive (structural sharing
+ *  por id — "atualizar só o que mudou"): o refetch do realtime devolve objetos
+ *  todos novos, e sem o merge cada evento re-renderizava toda ficha aberta.
+ *  Snapshot igual ao atual = nem notifica. Callers otimistas
+ *  (`{ ...live, encounters: [...] }`) seguem funcionando: o que é a mesma ref
+ *  passa direto. */
 export function setLiveSession(next: LiveSession | null): void {
-  live = next
+  const merged = live && next ? mergeLive(live, next) : next
+  if (merged === live) return
+  live = merged
   for (const l of listeners) l()
+}
+
+function subscribeLive(cb: () => void): () => void {
+  listeners.add(cb)
+  return () => {
+    listeners.delete(cb)
+  }
 }
 
 export function getLiveSession(): LiveSession | null {
@@ -34,13 +50,39 @@ export function getLiveSession(): LiveSession | null {
 }
 
 export function useLiveSession(): LiveSession | null {
-  return useSyncExternalStore(
-    (cb) => {
-      listeners.add(cb)
-      return () => listeners.delete(cb)
-    },
-    () => live,
-  )
+  return useSyncExternalStore(subscribeLive, () => live)
+}
+
+/** Lê só uma FATIA da sala viva: o componente re-renderiza apenas quando o
+ *  valor selecionado muda (por `eq`, default Object.is). Com o structural
+ *  sharing do setLiveSession, selecionar `l?.encounters` ou um personagem por
+ *  id já é estável por referência; seletor que monta array novo passa
+ *  `shallowArrayEq`. */
+export function useLiveSelector<T>(
+  sel: (l: LiveSession | null) => T,
+  eq: (a: T, b: T) => boolean = Object.is,
+): T {
+  const cache = useRef<{ src: LiveSession | null; sel: (l: LiveSession | null) => T; val: T } | null>(null)
+  const getSnapshot = (): T => {
+    const c = cache.current
+    if (c && c.src === live && c.sel === sel) return c.val
+    const v = sel(live)
+    if (c && eq(c.val, v)) {
+      cache.current = { src: live, sel, val: c.val }
+      return c.val
+    }
+    cache.current = { src: live, sel, val: v }
+    return v
+  }
+  return useSyncExternalStore(subscribeLive, getSnapshot)
+}
+
+/** Igualdade rasa de arrays (mesmo tamanho, elementos ===). */
+export function shallowArrayEq<T>(a: readonly T[], b: readonly T[]): boolean {
+  if (a === b) return true
+  if (a.length !== b.length) return false
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false
+  return true
 }
 
 export function liveCharacter(charId: string): SessionCharacter | null {
@@ -70,7 +112,21 @@ export function mesaApelidos(characters: readonly SessionCharacter[]): string[] 
 /** Doc SINTÉTICO de um personagem remoto: fmBlob + vida/volátil do state —
  *  o ResumoDetail (useVidaLocal lê fm.Interativa) renderiza sem saber que o
  *  personagem não é local. */
+const synthCache = new WeakMap<SessionCharacter, VaultDoc>()
+
+/** Memo por REFERÊNCIA do personagem (o setLiveSession mantém a ref enquanto o
+ *  conteúdo não muda): sem isso cada render re-clonava o fmBlob inteiro. O doc
+ *  devolvido é COMPARTILHADO — quem consome não pode mutá-lo. */
 export function synthDocFromCharacter(c: SessionCharacter): VaultDoc {
+  let doc = synthCache.get(c)
+  if (!doc) {
+    doc = buildSynthDoc(c)
+    synthCache.set(c, doc)
+  }
+  return doc
+}
+
+function buildSynthDoc(c: SessionCharacter): VaultDoc {
   const fm: Record<string, unknown> = {
     ...structuredClone(c.fmBlob),
     Vida: {

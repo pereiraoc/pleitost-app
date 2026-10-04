@@ -14,7 +14,7 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import { useMaterializaAliasClasse } from './materialize-alias'
 import type { VaultDoc } from '../../data/types'
 import { GrupoView } from '../../grupo/GrupoView'
-import { MESA_GRUPO_ID, characterNaSessao, useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, characterNaSessao, useLiveSelector } from '../../data/session-repo/live-session'
 import { groupIdsOf } from '../../grupo/party'
 import { clip } from './bits'
 import { str } from './hero-model'
@@ -39,7 +39,7 @@ import { wizardAtivo } from '../wizard/wizard-mode'
 function GruposTab({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'grupos')
-  const live = useLiveSession()
+  const naMesa = useLiveSelector((l) => !!l?.sessionId && characterNaSessao(l, doc.id))
   const groupIds = useMemo(() => groupIdsOf(catalog, doc), [catalog, doc])
 
   // #342: CONECTADO a uma sessão → a ficha do grupo é SEMPRE a da MESA (a mesma
@@ -48,7 +48,7 @@ function GruposTab({ doc }: { doc: VaultDoc }) {
   // aba usava o grupo da VAULT do herói (doc.grupo) → dados diferentes da sessão.
   // #378: só se o personagem ABERTO está PUBLICADO nessa sessão — senão a aba
   // vazava a mesa de outra sessão pra um personagem que nem participa dela.
-  if (live?.sessionId && characterNaSessao(live, doc.id)) {
+  if (naMesa) {
     return (
       <div className="grupo-screen" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <GrupoView key={MESA_GRUPO_ID} groupId={MESA_GRUPO_ID} />

@@ -116,13 +116,13 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     const m: SessionMember = { ...input, joinedAt: now() }
     this.members.push(m)
     this.notify(input.sessionId)
-    return m
+    return structuredClone(m)
   }
   async findMember(sessionId: string, userId: string): Promise<SessionMember | null> {
     return this.members.find((m) => m.sessionId === sessionId && m.userId === userId) ?? null
   }
   async updateMemberDisplayName(sessionId: string, userId: string, displayName: string): Promise<void> {
-    const m = await this.findMember(sessionId, userId)
+    const m = this.members.find((x) => x.sessionId === sessionId && x.userId === userId)
     if (m) {
       m.displayName = displayName
       this.notify(sessionId)
@@ -133,7 +133,9 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     this.notify(sessionId)
   }
   async listMembers(sessionId: string): Promise<SessionMember[]> {
-    return this.members.filter((m) => m.sessionId === sessionId)
+    // clones (como o Supabase devolve objetos novos): instância interna vazada
+    // seria mutada in-place pelo repo e o merge da sala viva veria "igual"
+    return this.members.filter((m) => m.sessionId === sessionId).map((m) => structuredClone(m))
   }
 
   /* ── personagens ── */
@@ -157,7 +159,7 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     }
     this.characters.set(c.id, c)
     this.notify(c.sessionId)
-    return c
+    return structuredClone(c)
   }
   private char(id: string): SessionCharacter | undefined {
     return this.characters.get(id)
@@ -246,10 +248,13 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     }
     this.encounters.set(e.id, e)
     this.notify(e.sessionId)
-    return e
+    // clone: quem recebe pode pôr no live (otimista) — a instância interna é
+    // mutada in-place pelo repo e o merge da sala a veria "igual"
+    return structuredClone(e)
   }
   async listEncountersBySession(sessionId: string): Promise<Encounter[]> {
-    return [...this.encounters.values()].filter((e) => e.sessionId === sessionId)
+    // clones (ver listMembers)
+    return [...this.encounters.values()].filter((e) => e.sessionId === sessionId).map((e) => structuredClone(e))
   }
   async startEncounter(
     encounterId: string,

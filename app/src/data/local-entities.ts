@@ -27,7 +27,7 @@ import { groupMembers } from '../grupo/party'
 import {
   getLiveSession,
   MESA_GRUPO_ID,
-  useLiveSession,
+  useLiveSelector,
 } from './session-repo/live-session'
 
 export const LOCAL_PREFIX = 'local:'
@@ -855,9 +855,18 @@ export function groupIdsWithMember(memberId: string): string[] {
 /** Hook reativo dos integrantes de um grupo (uma chamada por render — GrupoView). */
 export function useGroupMembers(catalog: Catalog, groupId: string): IndexDocEntry[] {
   const v = useLocalStoreVersion()
-  const live = useLiveSession() // #231: mesa reage à sala
+  // #231: mesa reage à sala — só no grupo da MESA e só ao que vira entry
+  // (id/path/nome/família dos não-NPC); vida/condições não re-resolvem.
+  const mesaKey = useLiveSelector((l) =>
+    groupId === MESA_GRUPO_ID
+      ? (l?.characters ?? [])
+          .filter((c) => c.kind !== 'npc')
+          .map((c) => `${c.id}\t${c.characterPath}\t${c.summary.nome}\t${c.summary.family}`)
+          .join('\n')
+      : '',
+  )
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(() => resolveGroupMembers(catalog, groupId), [catalog, groupId, v, live])
+  return useMemo(() => resolveGroupMembers(catalog, groupId), [catalog, groupId, v, mesaKey])
 }
 
 /** Inclui/remove um integrante no override do grupo, normalizando contra a base:

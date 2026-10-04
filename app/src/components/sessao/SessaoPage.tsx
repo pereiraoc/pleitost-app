@@ -50,6 +50,7 @@ import {
   toggleRevealDisguisedNpc,
 } from '../../data/session-repo/encounter-actions'
 import { overlayDisguiseSecrets, readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
+import { stableStringify } from '../../data/stable-stringify'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { setConnectedUserIds, useConnectedUserIds } from '../../data/session-repo/session-presence'
@@ -321,16 +322,6 @@ interface Fingerprints {
   state: string
   summary: string
   fmBlob: string | null
-}
-function stableStringify(v: unknown): string {
-  if (v === null || typeof v !== 'object') return JSON.stringify(v)
-  if (Array.isArray(v)) return `[${v.map(stableStringify).join(',')}]`
-  const o = v as Record<string, unknown>
-  return `{${Object.keys(o)
-    .sort()
-    .filter((k) => o[k] !== undefined)
-    .map((k) => `${JSON.stringify(k)}:${stableStringify(o[k])}`)
-    .join(',')}}`
 }
 function fingerprintState(state: SessionCharacter['state']): string {
   const rr = state.recursosRestantes ? { ...state.recursosRestantes } : state.recursosRestantes
@@ -1310,9 +1301,10 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
         ativo.revealedCharacterIds,
       )
     : new Map<string, string>()
+  const charById = new Map(chars.map((c) => [c.id, c]))
   const noCombate = ativo
     ? (ativo.turnState?.order ?? [])
-        .map((id) => chars.find((c) => c.id === id))
+        .map((id) => charById.get(id))
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
   // #324: os blocos na ordem canônica (Super Rápido/Rápido/Lento/Super Lento ×
