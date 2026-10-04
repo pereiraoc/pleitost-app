@@ -32,6 +32,7 @@ import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import {
   DEFAULT_VIEWER,
   addRegiao,
+  cellsFromStroke,
   hexEmRegioes,
   normalizeRegioesToHex,
   outlineRingsFromCells,
@@ -44,7 +45,13 @@ import {
   type MapaPonto,
 } from '../../map/mapa-atlas-store'
 import { useDetail } from '../../data/detail-context'
-import { atlasFracToHex, atlasHexPolygonPoints, type AtlasHexCell } from '../../map/atlas-grid'
+import {
+  atlasFracToHex,
+  atlasHexPolygonPoints,
+  atlasHexVertices,
+  type AtlasHexCell,
+} from '../../map/atlas-grid'
+import { activeContextoDef } from '../../data/reskin'
 import { useHexMap } from '../../data/useHexMap'
 import {
   areasAt,
@@ -56,6 +63,7 @@ import {
   removeHexArea,
   setHexArea,
   setHexLocal,
+  setHexTerrenoBulk,
   type HexMapCell,
 } from '../../data/hexmap-store'
 import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
@@ -75,7 +83,18 @@ export { ATLAS_MAPA_ASSET, ATLAS_OVERLAY_ASSET }
 export const ATLAS_MAPA_W = 7440
 export const ATLAS_MAPA_H = 5262
 
-type ModoMestre = 'nav' | 'regiao' | 'hexes' | 'hex-lugar' | 'hex-area'
+type ModoMestre = 'nav' | 'regiao' | 'hexes' | 'hex-lugar' | 'hex-area' | 'terreno'
+
+/** `d` de um path com TODOS os hexes dados (um subpath por hex) — um elemento
+ *  por terreno em vez de um polígono por célula (#573: DOM enxuto no gesto). */
+function hexesPath(cells: { col: number; row: number }[]): string {
+  return cells
+    .map((c) => {
+      const v = atlasHexVertices(c.col, c.row)
+      return `M${v.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('L')}Z`
+    })
+    .join('')
+}
 
 function clip(n: number): string {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
@@ -148,6 +167,18 @@ export function AtlasMapaPage() {
   const [editRegiaoId, setEditRegiaoId] = useState<string | null>(null)
   /** Doc do Atlas em edição no MAPA (hierarquia): lugar pontual ou área. */
   const [alvoDoc, setAlvoDoc] = useState<string | null>(null)
+  // TERRENO (viagem do hexcrawl, 2026-10-04): só quando o Contexto-Def do
+  // mundo declara `viagem` (Fantasia). Pincel = chave do terreno; null = limpar.
+  const viagemCfg = activeContextoDef()?.viagem ?? null
+  const [pincel, setPincel] = useState<string | null>(() => viagemCfg?.terrenos[0]?.chave ?? null)
+  const [lacoTerreno, setLacoTerreno] = useState(false)
+  const terrenoPaths = useMemo(() => {
+    if (!viagemCfg) return []
+    return viagemCfg.terrenos
+      .map((t) => ({ t, cells: hexMap.cells.filter((c) => c.terreno === t.chave) }))
+      .filter((x) => x.cells.length > 0)
+      .map((x) => ({ chave: x.t.chave, cor: x.t.cor ?? 'var(--muted)', d: hexesPath(x.cells) }))
+  }, [viagemCfg, hexMap.cells])
 
   // Grupos do gating: docs de Grupo da vault + grupos locais criados no app.
   const grupos = useMemo(() => {
@@ -208,11 +239,15 @@ export function AtlasMapaPage() {
     const f = map.fracAtClient(e.clientX, e.clientY)
     if (!f) return
     const p = { x: Math.round(f.fx * ATLAS_MAPA_W), y: Math.round(f.fy * ATLAS_MAPA_H) }
-    if (mestre && modo === 'regiao') {
+    if (mestre && (modo === 'regiao' || (modo === 'terreno' && lacoTerreno))) {
       setVertices((v) => [...v, p])
       return
     }
     const hex = atlasFracToHex(f.fx, f.fy)
+    if (mestre && modo === 'terreno') {
+      setHexTerrenoBulk(MAPA_MUNDO_ID, [hex], pincel)
+      return
+    }
     if (mestre && modo === 'hexes' && editRegiaoId) {
       // PINTURA: toca pra ligar/desligar o hex na região em edição.
       toggleRegiaoHex(editRegiaoId, hex)
@@ -245,7 +280,7 @@ export function AtlasMapaPage() {
     }
     const cel = cellAt(hexMap.cells, hex.col, hex.row)
     const areas = areasAt(hexMap.cells, hex.col, hex.row)
-    setHexSel(cel || areas.length ? hex : null)
+    setHexSel(cel?.localId || areas.length ? hex : null)
   }
 
   const concluirRegiao = () => {
@@ -390,6 +425,23 @@ export function AtlasMapaPage() {
                       )),
                     )
                   : null}
+                {/* TERRENOS pintados — tinta leve por terreno, só no modo
+                    TERRENO do mestre (cor vem da config `viagem`). */}
+                {mestre && modo === 'terreno'
+                  ? terrenoPaths.map((tp) => (
+                      <path
+                        key={`terreno:${tp.chave}`}
+                        data-terreno-tinta={tp.chave}
+                        d={tp.d}
+                        fill={tp.cor}
+                        fillOpacity={0.32}
+                        stroke={tp.cor}
+                        strokeOpacity={0.6}
+                        strokeWidth={2}
+                        style={{ pointerEvents: 'none' }}
+                      />
+                    ))
+                  : null}
                 {/* Hex SELECIONADO (info aberta) — realce discreto. */}
                 {hexSel ? (
                   <polygon
@@ -498,16 +550,112 @@ export function AtlasMapaPage() {
         >
           <div style={{ ...mono9, fontWeight: 700 }}>FERRAMENTAS DO MESTRE</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-            <button style={pillStyle(modo === 'nav')} onClick={() => setModo('nav')}>
+            <button
+              style={pillStyle(modo === 'nav')}
+              onClick={() => {
+                if (modo === 'terreno') setVertices([])
+                setModo('nav')
+                setLacoTerreno(false)
+              }}
+            >
               ✋ NAVEGAR
             </button>
             <button
               style={pillStyle(modo === 'regiao')}
-              onClick={() => setModo('regiao')}
+              onClick={() => {
+                if (modo === 'terreno') setVertices([])
+                setModo('regiao')
+                setLacoTerreno(false)
+              }}
             >
               ⬡ MARCAR REGIÃO
             </button>
+            {viagemCfg ? (
+              <button
+                data-modo-terreno=""
+                style={pillStyle(modo === 'terreno')}
+                onClick={() => {
+                  setModo('terreno')
+                  setVertices([])
+                  setAlvoDoc(null)
+                  setEditRegiaoId(null)
+                }}
+              >
+                ⛰ TERRENO
+              </button>
+            ) : null}
           </div>
+
+          {modo === 'terreno' && viagemCfg ? (
+            <div data-pintor-terreno="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                {viagemCfg.terrenos.map((t) => (
+                  <button
+                    key={t.chave}
+                    data-pincel={t.chave}
+                    aria-pressed={pincel === t.chave}
+                    onClick={() => setPincel(t.chave)}
+                    title={`${t.horas} h pra cruzar`}
+                    style={{ ...pillStyle(pincel === t.chave), display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                  >
+                    <span
+                      aria-hidden
+                      style={{ width: 10, height: 10, borderRadius: 2, background: t.cor ?? 'var(--muted)', flex: 'none' }}
+                    />
+                    {t.nome}
+                  </button>
+                ))}
+                <button
+                  data-pincel-limpar=""
+                  aria-pressed={pincel === null}
+                  onClick={() => setPincel(null)}
+                  style={pillStyle(pincel === null)}
+                >
+                  ⌫ LIMPAR
+                </button>
+                <button
+                  data-laco-terreno=""
+                  aria-pressed={lacoTerreno}
+                  onClick={() => {
+                    setLacoTerreno((l) => !l)
+                    setVertices([])
+                  }}
+                  style={pillStyle(lacoTerreno)}
+                >
+                  ◌ LAÇO
+                </button>
+              </div>
+              <span style={mono9}>
+                {lacoTerreno
+                  ? vertices.length < 3
+                    ? `Toque no mapa pra desenhar o contorno (${vertices.length}/3+ vértices)`
+                    : `${vertices.length} vértices — preencha os hexes de dentro`
+                  : 'Toque nos hexes pra pintar com o pincel escolhido'}
+                {' · '}
+                {pincel === null
+                  ? 'pincel: limpar (volta ao padrão)'
+                  : `pincel: ${viagemCfg.terrenos.find((t) => t.chave === pincel)?.nome ?? pincel}`}
+              </span>
+              {lacoTerreno ? (
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    data-laco-preencher=""
+                    style={pillStyle(false)}
+                    disabled={vertices.length < 3}
+                    onClick={() => {
+                      setHexTerrenoBulk(MAPA_MUNDO_ID, cellsFromStroke(vertices), pincel)
+                      setVertices([])
+                    }}
+                  >
+                    ✓ PREENCHER
+                  </button>
+                  <button style={pillStyle(false)} onClick={() => setVertices([])}>
+                    ↩ LIMPAR CONTORNO
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
           {modo === 'regiao' ? (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>

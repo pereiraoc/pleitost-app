@@ -316,6 +316,49 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     }
   }
 
+  // VIAGEM DO HEXCRAWL (2026-10-04): horas pra cruzar um hex por terreno +
+  // meios de transporte (fator de velocidade e terrenos onde andam). Chave do
+  // terreno = o que fica gravado na célula do hexmap; `nome` = rótulo que o app
+  // mostra (o app nunca deriva rótulo da chave); `cor` opcional = tinta do hex
+  // no editor. Ordem do FM preservada (lista do pintor). Sem o bloco, o app não
+  // mostra nada de viagem.
+  let viagem = null;
+  if (def.viagem !== undefined && def.viagem !== null) {
+    const v = isPlainObject(def.viagem) ? def.viagem : {};
+    const terrenos = [];
+    if (!isPlainObject(v.terrenos) || Object.keys(v.terrenos).length === 0) {
+      problems.push("viagem.terrenos: mapa chave → { horas, nome, cor? } obrigatório");
+    } else {
+      for (const [chave, t] of Object.entries(v.terrenos)) {
+        if (!isPlainObject(t)) { problems.push(`viagem.terrenos.${chave}: esperado { horas, nome, cor? }`); continue; }
+        const horas = Number(t.horas);
+        if (!(Number.isFinite(horas) && horas > 0)) problems.push(`viagem.terrenos.${chave}: horas esperadas > 0`);
+        if (typeof t.nome !== "string" || !t.nome.trim()) problems.push(`viagem.terrenos.${chave}: nome obrigatório (rótulo no app)`);
+        if (t.cor !== undefined && (typeof t.cor !== "string" || !t.cor.trim())) problems.push(`viagem.terrenos.${chave}: cor esperada string (ex.: "#c9a36b")`);
+        terrenos.push({ chave, nome: String(t.nome ?? "").trim(), horas, ...(typeof t.cor === "string" && t.cor.trim() ? { cor: t.cor.trim() } : {}) });
+      }
+    }
+    const chaves = new Set(terrenos.map((t) => t.chave));
+    const padrao = typeof v.padrao === "string" ? v.padrao.trim() : "";
+    if (!chaves.has(padrao)) problems.push(`viagem.padrao: "${v.padrao}" não é terreno declarado (${[...chaves].join("|")})`);
+    const meios = [];
+    if (!Array.isArray(v.meios) || v.meios.length === 0) problems.push("viagem.meios: lista de { nome, fator, em } obrigatória");
+    else {
+      for (const m of v.meios) {
+        if (!isPlainObject(m) || typeof m.nome !== "string" || !m.nome.trim()) { problems.push("viagem.meios: cada meio precisa de `nome`"); continue; }
+        const nome = m.nome.trim();
+        const fator = Number(m.fator);
+        if (!(Number.isFinite(fator) && fator > 0)) problems.push(`viagem.meios: "${nome}" fator esperado > 0`);
+        const em = Array.isArray(m.em) ? m.em.map((x) => String(x).trim()) : [];
+        if (em.length === 0) problems.push(`viagem.meios: "${nome}" precisa de \`em\` (terrenos onde anda)`);
+        for (const k of em) if (!chaves.has(k)) problems.push(`viagem.meios: "${nome}" em terreno "${k}" não declarado`);
+        if (meios.some((x) => x.nome === nome)) problems.push(`viagem.meios: "${nome}" duplicado`);
+        meios.push({ nome, fator, em });
+      }
+    }
+    viagem = { padrao, terrenos, meios };
+  }
+
   const pericias = asStringMap(def.pericias, "pericias", problems);
 
   const reskinIn = isPlainObject(def.reskin) ? def.reskin : {};
@@ -561,6 +604,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
     ...(recursos ? { recursos } : {}),
     ...(transporte ? { transporte } : {}),
+    ...(viagem ? { viagem } : {}),
     base: { sempreDisponiveis, conteudoDeMundo, ...(aventura ? { aventura } : {}) },
     regras,
   };

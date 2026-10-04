@@ -15,7 +15,12 @@
 // localStorage na hora). Um namespace por REGIÃO em `pleitost.hexMap.<regiao>`.
 //
 // A célula é identificada por {col,row}. No máximo UMA célula por (col,row).
-// Uma célula sem localId E sem áreas é descartada (não referencia nada).
+// Uma célula sem localId, sem áreas E sem terreno é descartada (não guarda nada).
+//
+// TERRENO (viagem do hexcrawl, 2026-10-04): `terreno` = chave do bloco
+// `viagem.terrenos` do Contexto-Def (só a Fantasia declara). Eixo independente
+// de lugar/área — editar um não mexe no outro. Viaja pros jogadores no mesmo
+// veículo das células (state.hexMapMundo).
 
 import { SEED_HEXMAPS } from './seed-hexmaps'
 import { createKeyedStoreChannel } from './store-kit'
@@ -30,6 +35,9 @@ export interface HexMapCell {
   /** ÁREAS grandes (Região/Nação/Ponto de Interesse) que este hex integra — um
    *  hex pode estar em VÁRIAS. Ausente/vazio = nenhuma. */
   areaIds?: string[]
+  /** TERRENO do hex (chave de `viagem.terrenos` do Contexto-Def). Ausente =
+   *  terreno padrão da config. */
+  terreno?: string
 }
 
 export interface HexMapState {
@@ -52,10 +60,17 @@ function emptyState(): HexMapState {
 
 /** Constrói a célula OMITINDO chaves ausentes (nada de `areaIds: []`) —
  *  preserva a forma {col,row,localId} dos dados/testes antigos. */
-function makeCell(col: number, row: number, localId?: string, areaIds?: readonly string[]): HexMapCell {
+function makeCell(
+  col: number,
+  row: number,
+  localId?: string,
+  areaIds?: readonly string[],
+  terreno?: string,
+): HexMapCell {
   const cell: HexMapCell = { col, row }
   if (localId) cell.localId = localId
   if (areaIds && areaIds.length) cell.areaIds = [...new Set(areaIds)]
+  if (terreno) cell.terreno = terreno
   return cell
 }
 
@@ -95,7 +110,7 @@ function storageKey(regionId: string): string {
 }
 
 /** Normaliza uma célula do localStorage: (col,row) finitos + PELO MENOS um eixo
- *  (localId ou área). Migra `areaId` (área única antiga) → `areaIds`. Devolve a
+ *  (localId, área ou terreno). Migra `areaId` (área única antiga) → `areaIds`. Devolve a
  *  célula só com as chaves presentes, ou null se malformada. */
 function normalizeCell(raw: unknown): HexMapCell | null {
   if (!raw || typeof raw !== 'object') return null
@@ -109,8 +124,9 @@ function normalizeCell(raw: unknown): HexMapCell | null {
   } else if (typeof c.areaId === 'string' && c.areaId !== '') {
     areaIds.push(c.areaId) // migração da área única antiga
   }
-  if (!localId && areaIds.length === 0) return null
-  return makeCell(c.col, c.row, localId, areaIds)
+  const terreno = typeof c.terreno === 'string' && c.terreno !== '' ? c.terreno : undefined
+  if (!localId && areaIds.length === 0 && !terreno) return null
+  return makeCell(c.col, c.row, localId, areaIds, terreno)
 }
 
 // #214: seeds mutável só pra teste isolar a autoria do zero (__setSeedsForTests);
@@ -184,7 +200,8 @@ export function setHexLocal(
 ): HexMapCell {
   const cur = hydrate(regionId)
   const idx = cur.cells.findIndex((c) => c.col === col && c.row === row)
-  const cell = makeCell(col, row, localId, idx === -1 ? undefined : cur.cells[idx]!.areaIds)
+  const prev = idx === -1 ? undefined : cur.cells[idx]!
+  const cell = makeCell(col, row, localId, prev?.areaIds, prev?.terreno)
   if (idx === -1) {
     commit(regionId, { ...cur, cells: [...cur.cells, cell] })
   } else if (cur.cells[idx]!.localId !== localId) {
@@ -195,15 +212,15 @@ export function setHexLocal(
   return cell
 }
 
-/** Remove o LUGAR de um hex. Se ainda pertencer a alguma área, mantém a célula
- *  (só com as áreas); senão apaga. */
+/** Remove o LUGAR de um hex. Se ainda pertencer a alguma área (ou tiver
+ *  terreno), mantém a célula; senão apaga. */
 export function removeHex(regionId: string, col: number, row: number): void {
   const cur = hydrate(regionId)
   const idx = cur.cells.findIndex((c) => c.col === col && c.row === row)
   if (idx === -1 || cur.cells[idx]!.localId === undefined) return
-  const areaIds = cur.cells[idx]!.areaIds
+  const { areaIds, terreno } = cur.cells[idx]!
   const next = cur.cells.slice()
-  if (areaIds && areaIds.length) next[idx] = makeCell(col, row, undefined, areaIds)
+  if ((areaIds && areaIds.length) || terreno) next[idx] = makeCell(col, row, undefined, areaIds, terreno)
   else next.splice(idx, 1)
   commit(regionId, { ...cur, cells: next })
 }
@@ -256,7 +273,7 @@ export function setHexAreaBulk(
       next.push(makeCell(t.col, t.row, undefined, [areaId]))
       changed = true
     } else if (!(next[idx]!.areaIds ?? []).includes(areaId)) {
-      next[idx] = makeCell(t.col, t.row, next[idx]!.localId, [...(next[idx]!.areaIds ?? []), areaId])
+      next[idx] = makeCell(t.col, t.row, next[idx]!.localId, [...(next[idx]!.areaIds ?? []), areaId], next[idx]!.terreno)
       changed = true
     }
   }
@@ -269,7 +286,7 @@ export function setHexArea(regionId: string, col: number, row: number, areaId: s
 }
 
 /** Remove a ÁREA `areaId` (ou TODAS, se omitido) de um conjunto de hexes. Hex
- *  que ficar sem lugar E sem áreas é apagado. UM único commit. */
+ *  que ficar sem lugar, sem áreas E sem terreno é apagado. UM único commit. */
 export function removeHexAreaBulk(
   regionId: string,
   targets: { col: number; row: number }[],
@@ -291,8 +308,8 @@ export function removeHexAreaBulk(
       continue
     }
     changed = true
-    if (c.localId || keep.length) next.push(makeCell(c.col, c.row, c.localId, keep))
-    // sem lugar e sem áreas → some
+    if (c.localId || keep.length || c.terreno) next.push(makeCell(c.col, c.row, c.localId, keep, c.terreno))
+    // sem lugar, sem áreas e sem terreno → some
   }
   if (changed) commit(regionId, { ...cur, cells: next })
 }
@@ -310,6 +327,40 @@ export function removeArea(regionId: string, areaId: string): void {
     cellsOfArea(cur.cells, areaId).map((c) => ({ col: c.col, row: c.row })),
     areaId,
   )
+}
+
+// ─────────────────────────────── TERRENO ────────────────────────────────────
+
+/** Terreno pintado no hex (chave da config), ou undefined (= padrão). */
+export function terrenoAt(cells: HexMapCell[], col: number, row: number): string | undefined {
+  return cells.find((c) => c.col === col && c.row === row)?.terreno
+}
+
+/** Pinta (`terreno` = chave) ou LIMPA (`null`) o terreno de um conjunto de
+ *  hexes, em UM commit (toque/laço). Preserva lugar e áreas; hex que fica sem
+ *  nada é apagado. */
+export function setHexTerrenoBulk(
+  regionId: string,
+  targets: { col: number; row: number }[],
+  terreno: string | null,
+): void {
+  if (targets.length === 0) return
+  const cur = hydrate(regionId)
+  const next = cur.cells.slice()
+  let changed = false
+  for (const t of targets) {
+    const idx = next.findIndex((c) => c.col === t.col && c.row === t.row)
+    const prev = idx === -1 ? undefined : next[idx]!
+    if ((prev?.terreno ?? null) === (terreno || null)) continue
+    changed = true
+    const cell = makeCell(t.col, t.row, prev?.localId, prev?.areaIds, terreno || undefined)
+    const vazia = !cell.localId && !cell.areaIds && !cell.terreno
+    if (idx === -1) {
+      if (!vazia) next.push(cell)
+    } else if (vazia) next.splice(idx, 1)
+    else next[idx] = cell
+  }
+  if (changed) commit(regionId, { ...cur, cells: next })
 }
 
 // ─────────────── DISTRIBUIÇÃO POR MESA (session.state.hexMapMundo) ──────────

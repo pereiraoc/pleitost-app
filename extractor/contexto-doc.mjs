@@ -180,6 +180,20 @@ export function renderContextoDoc(contexto, typeByBasename) {
     out.push(...tabela("Regras do mundo — Companheiro Animal", linhas, ["Ajuste", "Valor"]));
   }
 
+  // Viagem do hexcrawl (2026-10-04) — renderiza do FM cru (snake), como o resto.
+  if (c.viagem && typeof c.viagem === "object") {
+    const ter = c.viagem.terrenos && typeof c.viagem.terrenos === "object" ? c.viagem.terrenos : {};
+    const nomeDe = (k) => ter[k]?.nome ?? k;
+    out.push(...tabela("Viagem: horas pra cruzar um hex", Object.entries(ter).map(([k, t]) => [
+      `${t?.nome ?? k} (\`${k}\`)`,
+      `${t?.horas} h${k === c.viagem.padrao ? " · padrão (hex sem terreno)" : ""}${t?.cor ? ` · cor \`${t.cor}\`` : ""}`,
+    ]), ["Terreno", "Horas"]));
+    out.push(...tabela("Viagem: meios de transporte", (c.viagem.meios ?? []).map((m) => [
+      m.nome,
+      `×${m.fator} · ${(m.em ?? []).map(nomeDe).join(", ")}`,
+    ]), ["Meio", "Velocidade · terrenos"]));
+  }
+
   // Disponibilidade
   if (c.disponibilidade) {
     const d = c.disponibilidade;

@@ -11,6 +11,18 @@
 import { WORLD_DATA_DIR, type WorldId } from './world'
 import { withBase } from './base-url'
 
+/** Bloco `viagem` do contexto.json (shape do compile-contexto.mjs). */
+export interface ViagemCfg {
+  /** Chave do terreno de um hex SEM terreno pintado. */
+  padrao: string
+  /** Na ordem do FM. `chave` = o que a célula do hexmap guarda; `nome` =
+   *  rótulo exibido (nunca derivado da chave); `cor` = tinta no editor. */
+  terrenos: { chave: string; nome: string; horas: number; cor?: string }[]
+  /** O PRIMEIRO é o meio básico (sempre disponível — A pé). `fator` divide as
+   *  horas; `em` = chaves de terreno onde o meio anda. */
+  meios: { nome: string; fator: number; em: string[] }[]
+}
+
 export interface ContextoDef {
   id: string
   nome: string
@@ -158,6 +170,10 @@ export interface ContextoDef {
     /** Períodos do dia e o fator de trânsito de cada um (modos `rua`). */
     periodos?: { nome: string; transito: number }[]
   }
+  /** VIAGEM DO HEXCRAWL (2026-10-04): horas pra cruzar um hex por terreno e
+   *  meios de transporte (fator de velocidade + terrenos onde andam). Ausente =
+   *  mundo sem hexcrawl (POA) → nenhuma UI de tempo de viagem. */
+  viagem?: ViagemCfg
   /** Garantias e limites do Contexto Base. */
   base: {
     /** Itens que nenhum mundo pode excluir. */

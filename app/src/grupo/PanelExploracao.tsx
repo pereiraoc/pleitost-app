@@ -49,7 +49,17 @@ import { docPath } from '../paths'
 import { useHexMap } from '../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
-import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
+import { areasAt, cellAt, terrenoAt, type HexMapCell } from '../data/hexmap-store'
+import { activeContextoDef } from '../data/reskin'
+import {
+  calcularViagem,
+  custoHex,
+  formatarHoras,
+  meiosDoGrupo,
+  terrenoDoHex,
+  type SegmentoViagem,
+  type ViagemCfg,
+} from './viagem'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -70,6 +80,7 @@ import {
   moveGroupHex,
   removeGroupHex,
   setAtualHex,
+  setMeiosGrupo,
   setRegiaoAtiva,
   subscribeGroup,
   todayISO,
@@ -411,6 +422,60 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
   return segs
 }
 
+/** Meios de transporte do grupo (viagem do hexcrawl): chips da config
+ *  `viagem.meios`. O 1º (básico, A pé) está sempre ligado; os outros alternam
+ *  e gravam na trilha (GroupState.meios → sync da mesa). */
+function MeiosGrupo({
+  cfg,
+  groupId,
+  meios,
+  readOnly,
+}: {
+  cfg: ViagemCfg
+  groupId: string
+  meios: string[] | undefined
+  readOnly: boolean
+}) {
+  const efetivos = meiosDoGrupo(cfg, meios)
+  return (
+    <div data-viagem-meios="" style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+      <span style={{ ...fieldLabelStyle, fontSize: 9 }}>MEIOS DE VIAGEM</span>
+      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+        {cfg.meios.map((m, i) => {
+          const on = efetivos.includes(m.nome)
+          const basico = i === 0
+          return (
+            <button
+              key={m.nome}
+              type="button"
+              aria-pressed={on}
+              disabled={readOnly || basico}
+              title={
+                basico
+                  ? 'Meio básico — sempre disponível'
+                  : `×${m.fator} · ${m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')}`
+              }
+              onClick={() => {
+                const atuais = (meios ?? []).filter((x) => x !== cfg.meios[0]!.nome)
+                setMeiosGrupo(groupId, on ? atuais.filter((x) => x !== m.nome) : [...atuais, m.nome])
+              }}
+              style={{
+                ...pillStyle(on),
+                padding: '3px 8px',
+                fontSize: 9.5,
+                cursor: readOnly || basico ? 'default' : 'pointer',
+                opacity: basico && !readOnly ? 0.85 : 1,
+              }}
+            >
+              {m.nome}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 /** Painel colapsável esquerdo: caminho HIERÁRQUICO (#82) — principais
  *  proeminentes, HEX-only colapsados sob eles (3 pontinhos → expande no clique),
  *  reorder por ponteiro (toque) e inserir-entre-partes. */
@@ -464,6 +529,56 @@ function LeftBar({
 
   const isPrincipal = (h: GroupHex): boolean => hexIsParada(h)
   const segs = buildSegments(state.hexes, isPrincipal)
+
+  // VIAGEM DO HEXCRAWL (2026-10-04): só com `viagem` no Contexto-Def. Terreno
+  // = hexmap mapa:mundo nas MESMAS coords da trilha (cellAt direto, como o
+  // lugar das paradas); segmentação = a mesma da lista (parada abre segmento).
+  const viagemCfg = activeContextoDef()?.viagem ?? null
+  const viagem = useMemo(
+    () =>
+      viagemCfg
+        ? calcularViagem({
+            hexes: state.hexes,
+            terrenoDe: (c, r) => terrenoAt(hexMap, c, r),
+            cfg: viagemCfg,
+            meios: state.meios,
+            ehParada: (h) => hexIsParada(h as GroupHex),
+          })
+        : null,
+    [viagemCfg, state.hexes, state.meios, hexMap],
+  )
+  const segViagem = useMemo(
+    () => new Map<number, SegmentoViagem>((viagem?.segmentos ?? []).map((sv) => [sv.inicio, sv])),
+    [viagem],
+  )
+  /** Horas do segmento que começa em `inicio` (mono, ⚠ se bloqueado). */
+  const horasSeg = (inicio: number, key: string) => {
+    const sv = segViagem.get(inicio)
+    if (!sv || inicio === state.hexes.length - 1) return null
+    const bloq = sv.bloqueios.length > 0
+    const nomeT = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
+    return (
+      <span
+        data-viagem-segmento={key}
+        {...(bloq ? { 'data-viagem-seg-bloqueado': '' } : {})}
+        title={
+          bloq
+            ? `Sem meio possível em: ${sv.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeT(b.terreno)})`).join(' · ')}`
+            : 'Tempo até a próxima parada'
+        }
+        style={{
+          flex: 'none',
+          fontFamily: 'var(--mono)',
+          fontSize: 9.5,
+          letterSpacing: '.06em',
+          color: bloq ? 'var(--red)' : 'var(--muted)',
+        }}
+      >
+        {bloq ? '⚠ ' : ''}
+        {formatarHoras(sv.horas)}
+      </span>
+    )
+  }
 
   /** Emoji da marca (subcategoria do local mapeado); '⠿' (grip) se não houver. */
   const paradaEmoji = (h: GroupHex): string => {
@@ -595,6 +710,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
+          {!child && viagem ? horasSeg(idx, h.id) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -761,6 +877,23 @@ function LeftBar({
           {collapsed ? '›' : '‹'}
         </button>
         {collapsed ? null : <span style={{ ...sectionTitleStyle, flex: 1 }}>{'// CAMINHO'}</span>}
+        {!collapsed && viagem && state.hexes.length > 1 ? (
+          <span
+            data-viagem-total=""
+            {...(viagem.bloqueado ? { 'data-viagem-bloqueado': '' } : {})}
+            title={viagem.bloqueado ? 'Algum trecho não tem meio possível (⚠ no segmento)' : 'Tempo total da trilha'}
+            style={{
+              flex: 'none',
+              fontFamily: 'var(--mono)',
+              fontSize: 10,
+              letterSpacing: '.06em',
+              color: viagem.bloqueado ? 'var(--red)' : 'var(--accent)',
+            }}
+          >
+            {viagem.bloqueado ? '⚠ ' : ''}
+            {formatarHoras(viagem.total)}
+          </span>
+        ) : null}
       </div>
       {collapsed ? null : (
         <div
@@ -778,6 +911,9 @@ function LeftBar({
                 return (
                   <div key={key} style={{ display: 'contents' }}>
                     {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
+                    {!seg.principal && viagem ? (
+                      <div style={{ marginLeft: 22, display: 'flex' }}>{horasSeg(0, 'lead')}</div>
+                    ) : null}
                     {kids.length
                       ? isExp
                         ? (
@@ -824,6 +960,9 @@ function LeftBar({
             gap: 6,
           }}
         >
+          {viagemCfg ? (
+            <MeiosGrupo cfg={viagemCfg} groupId={groupId} meios={state.meios} readOnly={!!readOnly} />
+          ) : null}
           {readOnly ? (
             /* caminho é editado JOGANDO (mesa conectada) — fora dela, leitura */
             <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center', padding: '4px 0' }}>
@@ -1641,6 +1780,7 @@ export function PanelExploracao({
           readOnly={!podeEditar}
           hex={selecionado}
           hexMap={hexMap}
+          meios={state.meios}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
             removeGroupHex(groupId, selecionado.id)
@@ -1734,6 +1874,7 @@ function HexInfo({
   readOnly,
   hex,
   hexMap,
+  meios,
   atual,
   onRemove,
 }: {
@@ -1741,6 +1882,8 @@ function HexInfo({
   readOnly?: boolean
   hex: GroupHex
   hexMap: HexMapCell[]
+  /** Meios do grupo (GroupState.meios) — pro tempo de cruzar este hex. */
+  meios?: string[]
   atual: boolean
   onRemove: () => void
 }) {
@@ -1755,6 +1898,12 @@ function HexInfo({
   // sentido pra hex SEM lugar mapeado (associação manual, legado).
   const lugarNoMapa = cellAt(hexMap, hex.col, hex.row)?.localId ?? null
   const lugarResolvido = lugarNoMapa ?? hex.localId ?? null
+  // VIAGEM (2026-10-04): terreno do hex (pintado em mapa:mundo ou o padrão da
+  // config) + horas pra cruzá-lo com o meio mais rápido do grupo.
+  const viagemCfg = activeContextoDef()?.viagem ?? null
+  const chaveTerreno = terrenoAt(hexMap, hex.col, hex.row)
+  const terreno = viagemCfg ? terrenoDoHex(chaveTerreno, viagemCfg) : null
+  const travessia = viagemCfg ? custoHex(chaveTerreno, viagemCfg, meiosDoGrupo(viagemCfg, meios)) : null
   return (
     <div
       data-hex-info=""
@@ -1809,6 +1958,22 @@ function HexInfo({
         )}
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        {terreno && travessia ? (
+          <div data-hex-terreno={terreno.chave} style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '1 1 100%' }}>
+            <span style={fieldLabelStyle}>TERRENO</span>
+            <span style={{ fontSize: 13, color: 'var(--text)' }}>
+              {terreno.nome}
+              {' — '}
+              {travessia.horas === null ? (
+                <span data-hex-terreno-bloqueado="" style={{ color: 'var(--red)' }}>
+                  nenhum meio do grupo cruza este hex
+                </span>
+              ) : (
+                `${formatarHoras(travessia.horas)} pra cruzar (${travessia.meio})`
+              )}
+            </span>
+          </div>
+        ) : null}
         {/* #85: rótulo livre da parada pro LOG do grupo (o que fizeram ali). */}
         <label style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '1 1 100%', minWidth: 220 }}>
           <span style={fieldLabelStyle}>RÓTULO (LOG DO GRUPO)</span>

@@ -69,6 +69,18 @@ export interface GroupState {
   /** Coords na grade do MUNDO (atlas-grid). Ausente = blob antigo na grade do
    *  Mundo Livre → migra na leitura (shift +44,+5). */
   grade?: 'mundo'
+  /** VIAGEM DO HEXCRAWL (2026-10-04): meios de transporte do grupo (nomes de
+   *  `viagem.meios` do Contexto-Def). Ausente = só o meio básico (o 1º da
+   *  config, A pé). Viaja na trilha (session_set_exploracao grava o blob
+   *  `exploracao` inteiro — qualquer membro edita). */
+  meios?: string[]
+}
+
+/** Lista de meios sanitizada (strings não vazias, sem repetir) ou undefined. */
+function meiosValidos(raw: unknown): string[] | undefined {
+  if (!Array.isArray(raw)) return undefined
+  const out = [...new Set(raw.filter((m): m is string => typeof m === 'string' && m.trim() !== ''))]
+  return out.length ? out : undefined
 }
 
 const STORE_PREFIX = 'pleitost.groupState.'
@@ -153,6 +165,7 @@ function hydrate(groupId: string): GroupState {
           ...(typeof parsed.atualId === 'string' && hexes.some((h) => h.id === parsed.atualId)
             ? { atualId: parsed.atualId }
             : {}),
+          ...(meiosValidos(parsed.meios) ? { meios: meiosValidos(parsed.meios) } : {}),
         }
       }
     } catch {
@@ -196,7 +209,7 @@ export function useGroupStoreVersion(): number {
 
 /** Estado vazio (nenhuma parada, nenhuma região) → chave removida. */
 function isEmpty(s: GroupState): boolean {
-  return s.hexes.length === 0 && !s.regiaoAtiva
+  return s.hexes.length === 0 && !s.regiaoAtiva && !s.meios?.length
 }
 
 /** Canal 'imediato': memória (UI na hora) + notify + localStorage.
@@ -243,6 +256,9 @@ export function groupStateJson(s: GroupState): string {
     // acompanha hexes: estado VAZIO serializa igual ao sentinel EMPTY do sync
     // (#379 — vazio nunca pode "parecer diferente" e sobrescrever trilha).
     ...(s.grade && s.hexes.length ? { grade: s.grade } : {}),
+    // meios: idem — só com trilha (um device sem trilha mas com meios nunca
+    // pode parecer "diferente" do vazio e empurrar por cima da trilha, #450).
+    ...(s.meios?.length && s.hexes.length ? { meios: s.meios } : {}),
   })
 }
 
@@ -262,6 +278,7 @@ export function setGroupStateFull(groupId: string, next: GroupState): void {
       ...(typeof next?.atualId === 'string' && hexes.some((h) => h.id === next.atualId)
         ? { atualId: next.atualId }
         : {}),
+      ...(meiosValidos(next?.meios) ? { meios: meiosValidos(next?.meios) } : {}),
     },
     typeof carimboRemoto === 'string' ? carimboRemoto : undefined,
   )
@@ -283,6 +300,7 @@ export function migrateGroupState(from: string, to: string): boolean {
       grade: fromState.grade,
       ...(fromState.regiaoAtiva ? { regiaoAtiva: fromState.regiaoAtiva } : {}),
       ...(fromState.atualId ? { atualId: fromState.atualId } : {}),
+      ...(fromState.meios?.length ? { meios: fromState.meios } : {}),
     },
     groupStateUpdatedAt(from) ?? undefined,
   )
@@ -314,6 +332,20 @@ export function setRegiaoAtiva(groupId: string, regionId: string): void {
   const cur = hydrate(groupId)
   if (cur.regiaoAtiva === regionId) return
   commit(groupId, { ...cur, regiaoAtiva: regionId })
+}
+
+// ── Meios de transporte (viagem do hexcrawl, 2026-10-04) ───────────────────
+
+/** Define os meios de transporte do grupo (nomes da config `viagem.meios`);
+ *  lista vazia remove o campo (= só o meio básico). */
+export function setMeiosGrupo(groupId: string, meios: string[]): void {
+  const cur = hydrate(groupId)
+  const limpos = meiosValidos(meios)
+  if (JSON.stringify(limpos ?? []) === JSON.stringify(cur.meios ?? [])) return
+  const next: GroupState = { ...cur }
+  if (limpos) next.meios = limpos
+  else delete next.meios
+  commit(groupId, next)
 }
 
 // ── Trilha / caminho (#69) ──────────────────────────────────────────────────
