@@ -86,6 +86,20 @@ describe('montarCombatentes', () => {
     expect(todos.lista.map((v) => v.c.id)).toEqual(['g1', 'heroi', 'ca', 'g2'])
   })
 
+  it('morto (turnState.mortos) vira vm.morto; a VM é refeita quando a marca muda', () => {
+    const ts = { order: ['g1', 'g2'], currentIndex: 0, round: 1, started: true }
+    const a = montarCombatentes(live([g1, g2], { turnState: ts }), true, 'todos')
+    expect(a.todos.map((v) => v.morto)).toEqual([false, false])
+    const b = montarCombatentes(
+      live([g1, g2], { turnState: { ...ts, mortos: ['g2'] } }),
+      true,
+      'todos',
+      new Map(a.todos.map((v) => [v.c.id, v])),
+    )
+    expect(b.todos.map((v) => v.morto)).toEqual([false, true])
+    expect(b.todos[0]).toBe(a.todos[0])
+  })
+
   it('sem encontro ativo: listas vazias e ativo null', () => {
     const r = montarCombatentes(live([h, g1], null), true, 'todos')
     expect(r.ativo).toBeNull()

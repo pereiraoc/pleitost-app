@@ -64,3 +64,53 @@ describe('reorderTurnState (#324 — drag-and-drop da iniciativa)', () => {
     expect(reorderTurnState(t, 'xx', 1)).toBe(t)
   })
 })
+
+// Batch 2 (morto pula a vez): advanceTurn com `isSkipped` — anda ±1 até cair
+// num combatente NÃO pulado (no máximo `len` passos por unidade de delta);
+// todos pulados → fica onde está; trava continua na rodada 1.
+describe('advanceTurn com mortos pulados', () => {
+  const t = (currentIndex: number, round: number, n = 4): TurnLike => ({
+    order: Array.from({ length: n }, (_, i) => `c${i}`),
+    currentIndex,
+    round,
+  })
+  const pula = (...ids: string[]) => (id: string) => ids.includes(id)
+
+  it('pula UM morto', () => {
+    expect(advanceTurn(t(0, 1), +1, pula('c1'))).toEqual({ currentIndex: 2, round: 1 })
+  })
+
+  it('pula mortos CONSECUTIVOS', () => {
+    expect(advanceTurn(t(0, 1), +1, pula('c1', 'c2'))).toEqual({ currentIndex: 3, round: 1 })
+  })
+
+  it('vira a rodada pulando os mortos do fim e do começo', () => {
+    expect(advanceTurn(t(2, 1), +1, pula('c3', 'c0'))).toEqual({ currentIndex: 1, round: 2 })
+  })
+
+  it('todos mortos → não anda', () => {
+    expect(advanceTurn(t(1, 3), +1, pula('c0', 'c1', 'c2', 'c3'))).toEqual({ currentIndex: 1, round: 3 })
+    expect(advanceTurn(t(1, 3), -1, pula('c0', 'c1', 'c2', 'c3'))).toEqual({ currentIndex: 1, round: 3 })
+  })
+
+  it('PRÓXIMO e ANTERIOR inversos com o mesmo conjunto de mortos (inclusive na virada)', () => {
+    const skip = pula('c1', 'c3')
+    for (const [i, r] of [
+      [0, 1],
+      [2, 1],
+      [0, 2],
+      [2, 4],
+    ] as const) {
+      const after = advanceTurn(t(i, r), +1, skip)
+      expect(advanceTurn({ ...t(i, r), ...after }, -1, skip)).toEqual({ currentIndex: i, round: r })
+    }
+  })
+
+  it('ANTERIOR no começo com mortos antes trava (não volta pra rodada 0)', () => {
+    expect(advanceTurn(t(1, 1), -1, pula('c0'))).toEqual({ currentIndex: 1, round: 1 })
+  })
+
+  it('sem isSkipped o comportamento é o antigo', () => {
+    expect(advanceTurn(t(0, 1), +1)).toEqual({ currentIndex: 1, round: 1 })
+  })
+})

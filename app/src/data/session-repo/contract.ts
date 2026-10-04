@@ -111,6 +111,12 @@ export interface EncounterTurnState {
    *  iniciativa; o GM vê com marcador 🙈. Persiste no MESMO jsonb turn_state
    *  (sem coluna nova). Ausente/[] = ninguém escondido. */
   hidden?: string[]
+  /** Combatentes MARCADOS MORTOS pelo GM — pulam a vez no PRÓXIMO/ANTERIOR e
+   *  aparecem acinzentados com 💀. Marca EXPLÍCITA (paridade
+   *  CombatantState.morto do tracker do plugin): EV ≤ 0 só sugere, porque herói
+   *  e companheiro vão negativo (Morte.md). Só o GM escreve; mesmo jsonb.
+   *  Ausente/[] = ninguém morto. Ids fora de `order` são ignorados. */
+  mortos?: string[]
   /** #324: VELOCIDADE (super/rapido/lento/superLento) por combatente, atribuída
    *  pelo GM. Junto com o LADO (derivado da família) forma os blocos de iniciativa;
    *  superLento é só de herói. Persiste no mesmo jsonb turn_state. */

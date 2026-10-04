@@ -10,8 +10,13 @@
 //     rótulo repetido ("Goblin 1", "Goblin 2") como no player view do plugin.
 import type { CharacterSummary, SessionCharacter } from './contract'
 import { ladoDe, type Lado } from '../initiative-blocks'
+import { FICHA_FAMILIA } from '../familia'
 
-export type VitaStatus = 'Impecável' | 'Saudável' | 'Ferido' | 'Gravemente Ferido' | 'Morto'
+/** 'Morrendo' = nome da CONDIÇÃO da vault (Sistema/Regras/Condições/Morrendo.md;
+ *  catálogo do plugin condicoes-catalog.ts) — o estado de quem tem moral e
+ *  está com EV ≤ 0 (Sistema/Regras/Combate/Morte.md). Os demais: classify-vita
+ *  do plugin. */
+export type VitaStatus = 'Impecável' | 'Saudável' | 'Ferido' | 'Gravemente Ferido' | 'Morrendo' | 'Morto'
 export type VitaTone = 'is-trivial' | 'is-easy' | 'is-hard' | 'is-lethal' | 'is-dead'
 
 export interface VitaClassification {
@@ -30,8 +35,37 @@ export function classifyVita(vit: number, vitMax: number): VitaClassification {
   return { label: 'Gravemente Ferido', tone: 'is-lethal' }
 }
 
-export function vitaStatusOf(c: SessionCharacter): VitaClassification {
-  return classifyVita(c.state.recursosRestantes?.vitalidade ?? 0, c.summary.vitalidadeMax)
+/** Tem MORAL → a vida vai NEGATIVA até −máx antes de cair (Morte.md): herói,
+ *  companheiro animal, ou qualquer combatente de família com moral
+ *  (FICHA_FAMILIA — Monstro não tem; o piso dele é 0, ajustaEvNpc trava). */
+function temMoral(c: SessionCharacter): boolean {
+  if (c.kind === 'heroi' || c.kind === 'companheiro') return true
+  return FICHA_FAMILIA[c.summary.family]?.moral ?? false
+}
+
+const vitDe = (c: SessionCharacter) => c.state.recursosRestantes?.vitalidade ?? 0
+
+/** Faixa de vida do combatente. "Morto" de fato só com a marca EXPLÍCITA do GM
+ *  (turnState.mortos — paridade CombatantState.morto do tracker do plugin).
+ *  Quem tem moral com EV ≤ 0 está "Morrendo" (ainda age). Sem moral (Monstro)
+ *  e sem marca, segue o classifyVita VERBATIM do plugin — EV ≤ 0 já sai
+ *  "Morto" na faixa, como no player view do pleitost-sync (npcStatus →
+ *  classifyVita); pular a vez continua exigindo a marca. */
+export function vitaStatusOf(c: SessionCharacter, morto = false): VitaClassification {
+  if (morto) return { label: 'Morto', tone: 'is-dead' }
+  const vit = vitDe(c)
+  if (vit <= 0 && c.summary.vitalidadeMax > 0 && temMoral(c)) return { label: 'Morrendo', tone: 'is-lethal' }
+  return classifyVita(vit, c.summary.vitalidadeMax)
+}
+
+/** Sugestão de morte (destaca o 💀 do GM; NÃO marca sozinho) — paridade
+ *  shouldShowDeathSkull do plugin (tracker-actions.ts): sem moral e EV ≤ 0, ou
+ *  com moral no piso EV ≤ −máx (isAtVitalidadeFloor). */
+export function sugereMorte(c: SessionCharacter): boolean {
+  const max = Math.max(0, c.summary.vitalidadeMax)
+  const vit = vitDe(c)
+  if (temMoral(c)) return max > 0 && vit <= -max
+  return max > 0 && vit <= 0
 }
 
 /** Cor da faixa de estado de vida — MESMA paleta do pleitost-autosheet (#322):

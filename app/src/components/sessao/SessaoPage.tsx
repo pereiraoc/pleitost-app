@@ -79,7 +79,8 @@ import {
 } from '../../data/initiative-blocks'
 import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
-import { ladoDoCombatente, maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
+import { ladoDoCombatente, maskedNames, sugereMorte, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
+import { tokens } from '../../generated/tokens'
 import { getLocalDoc, localEntriesOfKind, localStoreVersion, useLocalStoreVersion } from '../../data/local-entities'
 import { activeWorld } from '../../data/world'
 import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../data/hero-store'
@@ -1179,7 +1180,9 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
     // meio do combate por append derrete pro bloco certo). #291: advanceTurn
     // segue contador monotônico (PRÓXIMO/ANTERIOR inversos exatos).
     const ts = normalizaTurnState(ativo.turnState, ladoOf)
-    const { currentIndex, round } = advanceTurn(ts, delta)
+    // Batch 2: MORTOS (marca explícita do GM) pulam a vez.
+    const mortosTs = new Set(ts.mortos ?? [])
+    const { currentIndex, round } = advanceTurn(ts, delta, (id) => mortosTs.has(id))
     aplicaTs(ativo.id, { ...ts, currentIndex, round })
   }
   const assignSpeed = (id: string, tier: SpeedTier) => {
@@ -1291,6 +1294,16 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
     const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]
     aplicaTs(ativo.id, { ...ativo.turnState, hidden: next })
   }
+  // Batch 2: MARCAR MORTO — mesmo caminho otimista do 🙈 (turnState.mortos).
+  // Ao gravar, solta ids que já saíram da ordem (combatente removido).
+  const mortos = new Set(ativo?.turnState?.mortos ?? [])
+  const toggleMorto = (id: string) => {
+    if (!ativo?.turnState) return
+    const ts = ativo.turnState
+    const cur = (ts.mortos ?? []).filter((x) => ts.order.includes(x))
+    const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]
+    aplicaTs(ativo.id, { ...ts, mortos: next })
+  }
 
   // #291: pro GM, sobrepõe o real (do segredo) sobre os NPCs disfarçados — o
   // mestre vê a identidade/stats enquanto o jogador só recebe a linha mascarada.
@@ -1399,10 +1412,45 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
   const renderCombatente = (c: SessionCharacter, indent = false) => {
     const i = orderIndexOf(c)
     const escondido = hidden.has(c.id)
+    const morto = mortos.has(c.id)
     const vezAtual = ativo?.turnState?.currentIndex === i
     const npc = c.kind === 'npc'
     const revelado = ativo?.revealedCharacterIds.includes(c.id) ?? false
-    const status = vitaStatusOf(c)
+    const status = vitaStatusOf(c, morto)
+    // sugestão (paridade shouldShowDeathSkull): destaca o 💀 do GM, não marca
+    const sugere = !morto && sugereMorte(c)
+    const emojiMorto = tokens.emojis.combatTracker.Morto
+    const botaoMorto = (
+      <button
+        aria-label={morto ? 'Desmarcar morto' : 'Marcar como morto'}
+        aria-pressed={morto}
+        data-sugere={sugere ? 'true' : undefined}
+        onClick={() => void toggleMorto(c.id)}
+        title={
+          morto
+            ? 'Desmarcar morto (volta a jogar)'
+            : sugere
+              ? 'Parece morto — marcar (pula a vez)'
+              : 'Marcar como morto (pula a vez)'
+        }
+        style={{
+          flex: 'none',
+          cursor: 'pointer',
+          fontSize: 13,
+          lineHeight: 1,
+          padding: '1px 4px',
+          background: sugere
+            ? 'color-mix(in srgb,var(--red) 18%,transparent)'
+            : morto
+              ? 'var(--panel)'
+              : 'transparent',
+          border: sugere ? '1px solid var(--red)' : morto ? '1px solid var(--line2)' : '1px solid transparent',
+          opacity: morto || sugere ? 1 : 0.55,
+        }}
+      >
+        {emojiMorto}
+      </button>
+    )
     const rr = c.state.recursosRestantes
     // #487: vida exibida = alvo pendente dos steppers (otimista) > live > max
     const vitExib = evPendente.current.get(c.id)?.alvo ?? rr?.vitalidade ?? c.summary.vitalidadeMax
@@ -1436,6 +1484,7 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
         {dropAntes ? dropBar : null}
         <div
           data-combatente-id={c.id}
+          data-morto={morto ? 'true' : undefined}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -1443,7 +1492,7 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
             padding: '9px 12px',
             background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
             border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-            opacity: dragId === c.id ? 0.4 : escondido ? 0.5 : 1,
+            opacity: dragId === c.id ? 0.4 : morto ? 0.45 : escondido ? 0.5 : 1,
             clipPath: clip(9),
             marginLeft: indent ? 20 : 0, // #16: CA identado abaixo do tutor
           }}
@@ -1531,6 +1580,17 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
                 {nomeExib}
               </span>
             )}
+            {/* 💀 de MORTO ao lado do nome: o jogador vê o indicador; o GM vê
+                o próprio botão (pressionado) — no modo editar o botão vai pra
+                linha de edição e o indicador fica aqui. */}
+            {morto && (!isGm || editIniciativa) ? (
+              <span title="Morto" style={{ flex: 'none', fontSize: 13 }}>
+                {emojiMorto}
+              </span>
+            ) : null}
+            {/* GM: o 💀 aparece na linha quando a morte é SUGERIDA ou já
+                marcada (paridade combat-row do plugin); no modo editar, sempre. */}
+            {isGm && !editIniciativa && (sugere || morto) ? botaoMorto : null}
             {(isGm || !npc) && variante === 'sidebar' ? (
               <button
                 onClick={() => toggleStats(c.id)}
@@ -1625,6 +1685,7 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
               >
                 {escondido ? '🙈' : '👁️'}
               </button>
+              {botaoMorto}
               {npc ? (
                 <button
                   onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}

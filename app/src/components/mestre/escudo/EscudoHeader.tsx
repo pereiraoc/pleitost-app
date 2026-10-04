@@ -23,7 +23,10 @@ export function EscudoHeader({
   todos: readonly CombatenteVM[]
   vezDe: CombatenteVM | null
 }) {
-  const dif = ativo ? liveEncounterDifficulty(todos.map((v) => ({ c: v.c, fm: v.doc.frontmatter }))) : null
+  const dif = ativo ? liveEncounterDifficulty(
+        // mortos (marca do GM) não contam na dificuldade viva
+        todos.filter((v) => !v.morto).map((v) => ({ c: v.c, fm: v.doc.frontmatter })),
+      ) : null
   // fallback: rótulo salvo no preparo do combate (formato de aventura), quando
   // nenhum NPC pontua ao vivo (jsonb aberto → só aceita string).
   const labelSalvo = typeof ativo?.difficulty?.['label'] === 'string' ? (ativo.difficulty['label'] as string) : null

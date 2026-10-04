@@ -21,6 +21,9 @@ export interface CombatenteVM {
   lado: Lado
   vezAtual: boolean
   escondido: boolean
+  /** Marcado MORTO pelo GM (turnState.mortos) — pula a vez e sai da
+   *  dificuldade viva do encontro. */
+  morto: boolean
   /** fmBlob vazio neste aparelho (NPC disfarçado sem segredo aqui, ou herói
    *  que nunca publicou) — as sub-abas de ficha degradam pro summary. */
   semFicha: boolean
@@ -44,13 +47,14 @@ export function montarCombatentes(
   isGm: boolean,
   filtro: FiltroEscudo,
   /** VMs do cálculo anterior (por id) — reaproveitadas quando nada da linha
-   *  mudou (personagem com a mesma ref + mesma vez/escondido/lado). */
+   *  mudou (personagem com a mesma ref + mesma vez/escondido/morto/lado). */
   anteriores?: ReadonlyMap<string, CombatenteVM>,
 ): Omit<Combatentes, 'live' | 'isGm'> {
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
   const charById = new Map(live.characters.map((c) => [c.id, c]))
   const order = ativo?.turnState?.order ?? []
   const hidden = new Set(ativo?.turnState?.hidden ?? [])
+  const mortos = new Set(ativo?.turnState?.mortos ?? [])
   const idx = ativo?.turnState?.currentIndex ?? -1
   const todos: CombatenteVM[] = []
   order.forEach((id, i) => {
@@ -61,8 +65,16 @@ export function montarCombatentes(
     const lado = ladoDoCombatente(raw, charById)
     const vezAtual = i === idx
     const escondido = hidden.has(id)
+    const morto = mortos.has(id)
     const prev = anteriores?.get(id)
-    if (prev && prev.c === c && prev.lado === lado && prev.vezAtual === vezAtual && prev.escondido === escondido) {
+    if (
+      prev &&
+      prev.c === c &&
+      prev.lado === lado &&
+      prev.vezAtual === vezAtual &&
+      prev.escondido === escondido &&
+      prev.morto === morto
+    ) {
       todos.push(prev)
       return
     }
@@ -72,6 +84,7 @@ export function montarCombatentes(
       lado,
       vezAtual,
       escondido,
+      morto,
       semFicha: Object.keys(c.fmBlob ?? {}).length === 0,
     })
   })
