@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type SyntheticEvent } 
 import { assetUrl, thumbUrl, resolveAsset, useAssetIndex } from '../../data/assets'
 import { useArquivoCifrado } from '../../data/arquivos-cifrados'
 import { Lightbox } from '../Lightbox'
+import { BotaoMural } from '../sessao/BotaoMural'
 
 interface Props {
   target: string
@@ -21,9 +22,12 @@ interface Props {
   /** Carrega já, sem esperar entrar em tela (impressão: a página inteira vai
    *  pro papel mesmo sem rolar até ela). Só afeta figura cifrada. */
   eager?: boolean
+  /** Legenda da figura (tira de figuras da aventura) — vai junto quando o
+   *  mestre põe a imagem no mural pelo Lightbox. Sem ela, usa o alt. */
+  legenda?: string
 }
 
-export function VaultImage({ target, width, className, style, zoom, thumb, eager }: Props) {
+export function VaultImage({ target, width, className, style, zoom, thumb, eager, legenda }: Props) {
   const index = useAssetIndex()
   // FIGURA DA CAMPANHA: alvo que só um doc TRANCADO embute não está no
   // manifesto público — vem cifrado e só existe depois de destravar.
@@ -32,7 +36,7 @@ export function VaultImage({ target, width, className, style, zoom, thumb, eager
 
   const entry = index ? resolveAsset(index, target) : null
   if (!entry) {
-    if (cifrado.url) return <Figura src={cifrado.url} full={cifrado.url} alt={target} width={width} className={className} style={style} zoom={zoom} open={open} setOpen={setOpen} />
+    if (cifrado.url) return <Figura src={cifrado.url} full={cifrado.url} alt={target} target={target} legenda={legenda} width={width} className={className} style={style} zoom={zoom} open={open} setOpen={setOpen} />
     // alvo cifrado ainda sem bytes: reserva o espaço e só baixa quando entra em
     // tela (as figuras de aventura são PNGs de mesa, pesados).
     if (cifrado.conhecido) return <EsperaFigura pedir={cifrado.pedir} imediato={eager} className={className} style={style} />
@@ -56,6 +60,8 @@ export function VaultImage({ target, width, className, style, zoom, thumb, eager
       src={src}
       full={full}
       alt={entry.basename}
+      target={target}
+      legenda={legenda}
       width={width}
       className={className}
       style={style}
@@ -111,6 +117,8 @@ function Figura({
   src,
   full,
   alt,
+  target,
+  legenda,
   width,
   className,
   style,
@@ -122,6 +130,8 @@ function Figura({
   src: string
   full: string
   alt: string
+  target: string
+  legenda?: string
   width?: number
   className?: string
   style?: CSSProperties
@@ -142,7 +152,7 @@ function Figura({
         onError={onError}
         onClick={zoom ? () => setOpen(true) : undefined}
       />
-      {zoom && open ? <Lightbox src={full} alt={alt} onClose={() => setOpen(false)} /> : null}
+      {zoom && open ? <Lightbox src={full} alt={alt} onClose={() => setOpen(false)} acoes={<BotaoMural target={target} legenda={legenda ?? alt} />} /> : null}
     </>
   )
 }

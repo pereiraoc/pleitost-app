@@ -52,7 +52,8 @@ import {
 import { overlayDisguiseSecrets, readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
 import { stableStringify } from '../../data/stable-stringify'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
-import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSelector, useLiveSession } from '../../data/session-repo/live-session'
+import { useIsSessionMestre } from '../../data/session-mestre'
 import { setConnectedUserIds, useConnectedUserIds } from '../../data/session-repo/session-presence'
 import { useHeroRefs } from '../ficha/useHeroRefs'
 import { useInterativaCtx } from '../../interativa/useInterativaCtx'
@@ -90,11 +91,15 @@ import { heroPath } from '../../paths'
 import { StatsLinha } from './StatsLinha'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { Lightbox } from '../Lightbox'
+import { MuralPanel } from './MuralPanel'
+import { useMuralNovos } from '../../data/mural-vistos'
 import { retratoCover } from '../retrato'
 
 // SESS_TABS / SESS_SEL_TABS — verbatim do script do design.
 const SESS_TABS = [
   { id: 'iniciativa', label: 'INICIATIVA' },
+  // MURAL (2026-10-04): imagens que o mestre mostra pros jogadores
+  { id: 'mural', label: 'MURAL' },
   { id: 'detalhes', label: 'DETALHES DA SESSÃO' },
 ]
 
@@ -3203,7 +3208,7 @@ const panelScroll: CSSProperties = {
   padding: '12px 2px 20px',
 }
 
-function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: () => void }) {
+function TabBtn({ on, label, onClick, novos = 0 }: { on: boolean; label: string; onClick: () => void; novos?: number }) {
   const v = on ? 1 : 0
   return (
     <button
@@ -3222,6 +3227,11 @@ function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: (
       }}
     >
       {label}
+      {novos > 0 ? (
+        <span className="sess-tab-novo" title={`${novos} imagem(ns) nova(s) no mural`}>
+          {novos}
+        </span>
+      ) : null}
     </button>
   )
 }
@@ -3230,6 +3240,11 @@ export function SessaoPage(): ReactNode {
   const { sessions, active } = useSessions()
   const [tab, setTab] = useState('iniciativa')
   const tabIdx = active ? Math.max(0, SESS_TABS.findIndex((t) => t.id === tab)) : 0
+  // selo de NOVO na aba MURAL (só pra quem recebe — o mestre é quem põe)
+  const muralSessao = useLiveSelector((l) => l?.sessionId ?? null)
+  const mural = useLiveSelector((l) => l?.state?.mural)
+  const { roleMestre } = useIsSessionMestre()
+  const muralNovos = useMuralNovos(muralSessao, mural, !!active && tab === 'mural')
 
   // Feedback do mestre: FORA de sessão não tem barra de abas — o header
   // "// LISTA DE SESSÕES" já vive no ListaPanel; a aba única só duplicava.
@@ -3248,7 +3263,13 @@ export function SessaoPage(): ReactNode {
       <div style={{ flex: 'none', padding: '8px 2px 0' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 2, borderBottom: '1px solid var(--line)' }}>
           {SESS_TABS.map((t) => (
-            <TabBtn key={t.id} on={tab === t.id} label={t.label} onClick={() => setTab(t.id)} />
+            <TabBtn
+              key={t.id}
+              on={tab === t.id}
+              label={t.label}
+              onClick={() => setTab(t.id)}
+              novos={t.id === 'mural' && !roleMestre ? muralNovos : 0}
+            />
           ))}
           <span style={{ flex: 1 }} />
         </div>
@@ -3256,6 +3277,9 @@ export function SessaoPage(): ReactNode {
       <PanelTrack index={tabIdx}>
         <div style={panelScroll}>
           <IniciativaPanel sess={active} />
+        </div>
+        <div style={panelScroll}>
+          <MuralPanel />
         </div>
         <div style={panelScroll}>
           <DetalhesPanel sess={active} />

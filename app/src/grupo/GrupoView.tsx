@@ -8,6 +8,7 @@
 //   - grpCycleSort/grpSort + applySort/headMap → sort.ts;
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
+import { comprimirImagemDataUrl } from '../data/comprimir-imagem'
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useDetail } from '../data/detail-context'
@@ -497,39 +498,11 @@ function EditMembersModal({
   )
 }
 
-/** Comprime a imagem pro state da sessão (#235): ~256px JPEG — o state é
- *  jsonb, não storage; sem canvas (jsdom) vai o data-url original.
- *  Armazenamento (docs/armazenamento-supabase.md, win code-only): enquanto a
- *  foto vive INLINE no sessions.state, ela é reescrita a cada merge do state
- *  (exploração/inventário), então cortar o payload (256px q0.72 em vez de 384px
- *  q0.8, ~2–3× menor) reduz a amplificação. Reversível quando a foto migrar pro
- *  Storage (Solução A). */
-async function comprimirImagem(file: File): Promise<string> {
-  const dataUrl = await new Promise<string>((resolve, reject) => {
-    const r = new FileReader()
-    r.onload = () => resolve(String(r.result ?? ''))
-    r.onerror = () => reject(r.error)
-    r.readAsDataURL(file)
-  })
-  try {
-    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const i = new Image()
-      i.onload = () => resolve(i)
-      i.onerror = reject
-      i.src = dataUrl
-    })
-    const escala = Math.min(1, 256 / Math.max(img.width, img.height))
-    const canvas = document.createElement('canvas')
-    canvas.width = Math.max(1, Math.round(img.width * escala))
-    canvas.height = Math.max(1, Math.round(img.height * escala))
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return dataUrl
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-    return canvas.toDataURL('image/jpeg', 0.72)
-  } catch {
-    return dataUrl
-  }
-}
+/** Foto do grupo (#235): ~256px JPEG q0.72 — o state é jsonb, não storage;
+ *  enquanto a foto vive INLINE no sessions.state ela é reescrita a cada merge
+ *  (exploração/inventário), então o payload pequeno reduz a amplificação
+ *  (docs/armazenamento-supabase.md). Compressor em data/comprimir-imagem. */
+const comprimirImagem = (file: File): Promise<string> => comprimirImagemDataUrl(file, 256, 0.72)
 
 export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()

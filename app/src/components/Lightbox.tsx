@@ -8,7 +8,7 @@
 // RECURSOS isso travava a imagem — fechava e a própria figura reabria na mesma
 // hora (report do mestre, 2026-09-13) — e nas linhas clicáveis da sessão ainda
 // trocava a seleção por baixo.
-import { useEffect, type CSSProperties } from 'react'
+import { useEffect, type CSSProperties, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 
 const OVERLAY: CSSProperties = {
@@ -23,7 +23,9 @@ const OVERLAY: CSSProperties = {
   cursor: 'zoom-out',
 }
 
-export function Lightbox({ src, alt, onClose }: { src: string; alt?: string; onClose: () => void }) {
+/** `acoes`: botões por cima da imagem (ex.: 📌 MURAL do mestre). Clicar
+ *  neles NÃO fecha — a faixa segura o próprio clique. */
+export function Lightbox({ src, alt, onClose, acoes }: { src: string; alt?: string; onClose: () => void; acoes?: ReactNode }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -53,6 +55,15 @@ export function Lightbox({ src, alt, onClose }: { src: string; alt?: string; onC
           boxShadow: '0 8px 40px rgba(0,0,0,.6)',
         }}
       />
+      {acoes ? (
+        <div
+          data-lightbox-acoes=""
+          onClick={(e) => e.stopPropagation()}
+          style={{ position: 'absolute', top: 14, right: 14, display: 'flex', gap: 8, alignItems: 'flex-start', cursor: 'default' }}
+        >
+          {acoes}
+        </div>
+      ) : null}
     </div>,
     document.body,
   )

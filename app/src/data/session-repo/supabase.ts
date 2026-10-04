@@ -18,6 +18,7 @@ import {
   type SessionMember,
   type SessionRealtime,
   type SessionRepo,
+  MuralBucketAusenteError,
   SessionEncounterAlreadyActiveError,
   SessionEncounterNotFoundError,
 } from './contract'
@@ -83,6 +84,23 @@ function mapEncounter(r: Row): Encounter {
 
 function fail(op: string, error: { message: string } | null): never {
   throw new Error(`[session-repo] ${op}: ${error?.message ?? 'erro desconhecido'}`)
+}
+
+/** Bucket das imagens CIFRADAS do mural (supabase/storage-mural.sql). */
+const MURAL_BUCKET = 'mural'
+
+/** Storage: o bucket não existe no projeto (SQL do mural não aplicado). */
+function bucketAusente(error: { message?: string; statusCode?: string | number; status?: number } | null): boolean {
+  if (!error) return false
+  return /bucket not found/i.test(error.message ?? '') || (String(error.statusCode ?? error.status ?? '') === '404' && /bucket/i.test(error.message ?? ''))
+}
+
+/** Caminho do objeto dentro do bucket a partir da URL pública
+ *  (`…/storage/v1/object/public/mural/<sessionId>/<uuid>.jpg`). */
+function caminhoNoMural(url: string): string | null {
+  const marca = `/object/public/${MURAL_BUCKET}/`
+  const i = url.indexOf(marca)
+  return i < 0 ? null : decodeURIComponent(url.slice(i + marca.length).split('?')[0]!)
 }
 
 /** PostgREST: função inexistente no schema cache (PGRST202) — a RPC ainda não foi
@@ -189,6 +207,22 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     const state = { ...(atual?.state ?? {}), ...patch }
     const { error } = await this.sb.from('sessions').update({ state }).eq('id', sessionId)
     if (error) fail('updateSessionState', error)
+  }
+  async uploadMuralImagem(sessionId: string, imagem: Blob): Promise<string> {
+    const caminho = `${sessionId}/${crypto.randomUUID()}.jpg`
+    const bucket = this.sb.storage.from(MURAL_BUCKET)
+    const { error } = await bucket.upload(caminho, imagem, { contentType: imagem.type || 'image/jpeg', upsert: false })
+    if (error) {
+      if (bucketAusente(error)) throw new MuralBucketAusenteError()
+      fail('uploadMuralImagem', error)
+    }
+    return bucket.getPublicUrl(caminho).data.publicUrl
+  }
+  async removerMuralImagem(url: string): Promise<void> {
+    const caminho = caminhoNoMural(url)
+    if (!caminho) return
+    const { error } = await this.sb.storage.from(MURAL_BUCKET).remove([caminho])
+    if (error && !bucketAusente(error)) fail('removerMuralImagem', error)
   }
   async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
     // RPC SECURITY DEFINER: QUALQUER membro (ou o mestre) edita SÓ a trilha,

@@ -216,6 +216,29 @@ export interface GroupInvOuro extends GroupInvCommon {
 
 export type GroupInventoryItem = GroupInvArma | GroupInvGear | GroupInvTesouro | GroupInvOuro
 
+/** MURAL da sessão (2026-10-04): uma imagem que o MESTRE mandou pros
+ *  jogadores verem. Imagem PÚBLICA da vault guarda só o `target` (cada aparelho
+ *  resolve no próprio manifesto); imagem CIFRADA de aventura (jogador não tem a
+ *  chave) sobe pro bucket `mural` do Storage e guarda a `url` pública (o
+ *  `target` fica junto só pra deduplicar). */
+export interface MuralItem {
+  id: string
+  target?: string
+  url?: string
+  legenda?: string
+  /** ISO de quando entrou no mural. */
+  em: string
+}
+
+/** O bucket `mural` ainda não existe no projeto Supabase
+ *  (supabase/storage-mural.sql não aplicado) — só imagem cifrada precisa dele. */
+export class MuralBucketAusenteError extends Error {
+  constructor() {
+    super('bucket do mural não configurado — aplique supabase/storage-mural.sql')
+    this.name = 'MuralBucketAusenteError'
+  }
+}
+
 export interface SessionState {
   turn?: { order: string[]; current: string }
   /** #573: MUNDO da mesa (fantasia | cyberpunk). O servidor não tinha isso e
@@ -256,6 +279,10 @@ export interface SessionState {
    *  empurra as células editadas; jogadores adotam no store local. Replace por
    *  chave. Forma: { cells: HexMapCell[] }. */
   hexMapMundo?: unknown
+  /** MURAL da sessão: imagens que o MESTRE mostra pros jogadores (um mural por
+   *  sessão). Só o mestre escreve (updateSessionState, RLS gm-only); a ação
+   *  relê o state antes de gravar (mural-actions). */
+  mural?: MuralItem[]
 }
 
 export interface Session {
@@ -375,6 +402,12 @@ export interface SessionRepo {
    *  (updateSessionState caía na RLS gm-only e falhava em silêncio). */
   setExploracao(sessionId: string, exploracao: GroupState): Promise<void>
   findSessionById(id: string): Promise<Session | null>
+  /** MURAL: sobe a imagem (JPEG já comprimido) pro bucket `mural` em
+   *  `<sessionId>/<uuid>.jpg` e devolve a URL pública. Bucket ausente →
+   *  MuralBucketAusenteError. */
+  uploadMuralImagem(sessionId: string, imagem: Blob): Promise<string>
+  /** MURAL: apaga o objeto de uma URL devolvida pelo uploadMuralImagem. */
+  removerMuralImagem(url: string): Promise<void>
 
   insertMember(input: {
     sessionId: string

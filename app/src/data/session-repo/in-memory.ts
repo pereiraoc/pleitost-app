@@ -76,6 +76,18 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     sess.state = { ...sess.state, ...patch }
     this.notify(sessionId)
   }
+  /* ── mural (storage fake) ── */
+  /** SÓ testes: uploads/remoções do bucket `mural` (o storage real é o Supabase). */
+  muralUploads: { sessionId: string; url: string; imagem: Blob }[] = []
+  muralRemovidos: string[] = []
+  async uploadMuralImagem(sessionId: string, imagem: Blob): Promise<string> {
+    const url = `blob:mural/${sessionId}/${nextId('img')}.jpg`
+    this.muralUploads.push({ sessionId, url, imagem })
+    return url
+  }
+  async removerMuralImagem(url: string): Promise<void> {
+    this.muralRemovidos.push(url)
+  }
   async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
     const sess = this.sessions.get(sessionId)
     if (!sess) return
