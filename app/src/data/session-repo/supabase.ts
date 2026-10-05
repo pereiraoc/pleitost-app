@@ -12,6 +12,7 @@ import {
   type CharacterVisibility,
   type Encounter,
   type EncounterTurnState,
+  type GroupInventoryItem,
   type Session,
   type SessionCharacter,
   type SessionEvent,
@@ -234,7 +235,53 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
   }
   /** Disponibilidade das RPCs atômicas do state da sessão: ausente = ainda não
    *  sabemos; true/false depois da 1ª chamada (false = PGRST202, não insiste). */
-  private rpcs: Partial<Record<'session_state_patch' | 'session_mural_add' | 'session_mural_remove', boolean>> = {}
+  private rpcs: Partial<
+    Record<
+      'session_state_patch' | 'session_mural_add' | 'session_mural_remove' | 'session_inventario_set' | 'session_inventario_tirar',
+      boolean
+    >
+  > = {}
+  /** Inventário do grupo, UM item (supabase/session-inventario-rpc.sql): membro
+   *  ou mestre, atômico por chave. Sem a função (PGRST202) → relê o pool e grava
+   *  pelo patch do state (que é gm-only — o caminho antigo, sem garantia). */
+  async inventarioSet(sessionId: string, chave: string, item: GroupInventoryItem | null): Promise<void> {
+    if (this.rpcs.session_inventario_set !== false) {
+      const { error } = await this.sb.rpc('session_inventario_set', { p_session_id: sessionId, p_chave: chave, p_item: item })
+      if (!error) {
+        this.rpcs.session_inventario_set = true
+        return
+      }
+      if (!rpcAusente(error)) fail('inventarioSet(rpc)', error)
+      this.rpcs.session_inventario_set = false
+    }
+    const atual = await this.findSessionById(sessionId)
+    const pool = { ...(atual?.state.inventarioGrupo ?? {}) }
+    if (item) pool[chave] = item
+    else delete pool[chave]
+    await this.updateSessionState(sessionId, { inventarioGrupo: pool })
+  }
+  /** Tira VÁRIAS chaves do pool e devolve as que estavam lá (linha travada no
+   *  servidor — dois aparelhos puxando a mesma chave: só um recebe). Sem a
+   *  função (PGRST202) → read-modify-write pelo patch do state. */
+  async inventarioTirar(sessionId: string, chaves: string[]): Promise<string[]> {
+    if (!chaves.length) return []
+    if (this.rpcs.session_inventario_tirar !== false) {
+      const { data, error } = await this.sb.rpc('session_inventario_tirar', { p_session_id: sessionId, p_chaves: chaves })
+      if (!error) {
+        this.rpcs.session_inventario_tirar = true
+        return Array.isArray(data) ? (data as string[]) : []
+      }
+      if (!rpcAusente(error)) fail('inventarioTirar(rpc)', error)
+      this.rpcs.session_inventario_tirar = false
+    }
+    const atual = await this.findSessionById(sessionId)
+    const pool = { ...(atual?.state.inventarioGrupo ?? {}) }
+    const sairam = [...new Set(chaves)].filter((k) => k in pool)
+    if (!sairam.length) return []
+    for (const k of sairam) delete pool[k]
+    await this.updateSessionState(sessionId, { inventarioGrupo: pool })
+    return sairam
+  }
   async muralAdd(sessionId: string, item: MuralItem): Promise<MuralItem[] | null> {
     if (this.rpcs.session_mural_add !== false) {
       const { data, error } = await this.sb.rpc('session_mural_add', { p_session_id: sessionId, p_item: item })

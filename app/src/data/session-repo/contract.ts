@@ -411,6 +411,18 @@ export interface SessionRepo {
    *  state continua do mestre. Report: jogador não conseguia marcar caminho
    *  (updateSessionState caía na RLS gm-only e falhava em silêncio). */
   setExploracao(sessionId: string, exploracao: GroupState): Promise<void>
+  /** INVENTÁRIO DO GRUPO: põe/substitui (`item` não-nulo) ou tira (`item`
+   *  null) UM item de `state.inventarioGrupo`, ATOMICAMENTE e por chave (RPC
+   *  `session_inventario_set`, SECURITY DEFINER, membro ou mestre). Antes o app
+   *  gravava o mapa INTEIRO via updateSessionState (RLS gm-only) → a escrita do
+   *  JOGADOR se perdia e o item puxado podia ser puxado de novo. Sem permissão
+   *  → rejeita. */
+  inventarioSet(sessionId: string, chave: string, item: GroupInventoryItem | null): Promise<void>
+  /** INVENTÁRIO DO GRUPO: tira as `chaves` do pool ATOMICAMENTE (RPC
+   *  `session_inventario_tirar`, linha travada) e devolve as que DE FATO
+   *  estavam lá. Quem puxa pra ficha só grava o que voltou — dois aparelhos
+   *  puxando a mesma chave: só um recebe. Sem permissão → rejeita. */
+  inventarioTirar(sessionId: string, chaves: string[]): Promise<string[]>
   findSessionById(id: string): Promise<Session | null>
   /** MURAL: sobe a imagem (JPEG já comprimido) pro bucket `mural` em
    *  `<sessionId>/<uuid>.jpg` e devolve a URL pública. Bucket ausente →

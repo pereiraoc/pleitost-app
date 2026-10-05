@@ -14,7 +14,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNod
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDocs } from '../data/useDoc'
-import { useLiveSession } from '../data/session-repo/live-session'
+import { getLiveSession, setLiveSession, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useSettings } from '../settings'
 import { getLocalDoc, setLocalEntityFm } from '../data/local-entities'
@@ -368,15 +368,65 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     return path.startsWith('local:') ? path : null
   }, [live?.characters, user?.id])
 
-  const writeMap = async (next: Record<string, GroupInventoryItem>) => {
-    if (!repo || !remoteId) return
-    await repo.updateSessionState(remoteId, { inventarioGrupo: next })
+  // ESCRITA POR ITEM (2026-10-04): nada de regravar o mapa inteiro — a RLS de
+  // `sessions` é gm-only e o jogador perdia a escrita em silêncio (o item puxado
+  // ficava no pool e duplicava). inventarioSet/inventarioTirar vão pelas RPCs de
+  // membro, uma chave por vez; a sala viva é atualizada OTIMISTA depois do OK
+  // (como aventura/session-actions), o realtime confirma.
+  const mexerNaVista = (mut: (pool: Record<string, GroupInventoryItem>) => void) => {
+    const base = getLiveSession()
+    if (!base || base.sessionId !== remoteId) return
+    const pool = { ...(base.state?.inventarioGrupo ?? {}) }
+    mut(pool)
+    setLiveSession({ ...base, state: { ...(base.state ?? {}), inventarioGrupo: pool } })
+  }
+  const falhou = (acao: string, err: unknown) => {
+    console.error(`[inventário do grupo] ${acao}:`, err)
+    setStatus(`Não deu pra ${acao} — tente de novo.`)
+  }
+  const gravarItem = async (key: string, item: GroupInventoryItem | null, acao: string): Promise<boolean> => {
+    if (!repo || !remoteId) return false
+    try {
+      await repo.inventarioSet(remoteId, key, item)
+    } catch (err) {
+      falhou(acao, err)
+      return false
+    }
+    mexerNaVista((pool) => {
+      if (item) pool[key] = item
+      else delete pool[key]
+    })
+    return true
+  }
+  /** Tira as chaves do pool no SERVIDOR e devolve as que de fato saíram (null =
+   *  erro, já avisado). Só o que voltou vai pra ficha — outro aparelho que levou
+   *  antes fica com o item, ninguém duplica. */
+  const tirar = async (keys: string[], acao: string): Promise<string[] | null> => {
+    if (!repo || !remoteId) return null
+    let sairam: string[]
+    try {
+      sairam = await repo.inventarioTirar(remoteId, keys)
+    } catch (err) {
+      falhou(acao, err)
+      return null
+    }
+    // as que não voltaram também já não estão no servidor: some da vista igual
+    mexerNaVista((pool) => {
+      for (const k of keys) delete pool[k]
+    })
+    return sairam
+  }
+  const paraFicha = (it: ItemView) => {
+    if (!meuHeroiLocal) return
+    const fm = (getLocalDoc(meuHeroiLocal)?.frontmatter ?? {}) as Record<string, unknown>
+    const atributos = heroAtributos(fm).values
+    for (const w of pullItemToFm(it, fm, atributos)) setLocalEntityFm(meuHeroiLocal, w.path, w.value)
   }
 
   const adicionar = async () => {
     if (!draft || semSessao) return
     const item: GroupInventoryItem = { ...draft, addedBy: user!.id, addedAt: new Date().toISOString(), valorPO: valorAtual }
-    await writeMap({ ...mapa, [novaChave()]: item })
+    if (!(await gravarItem(novaChave(), item, 'adicionar o item'))) return
     setStatus(`${itemNome(item)} entrou no inventário do grupo.`)
     setArmaSel(''); setPropSel(''); setArmaTier('A'); setGearBase(''); setTesSel('')
     setEquipTier('A'); setImpSel(''); setImpTier('A'); setOuroQtd('')
@@ -390,49 +440,59 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   }
 
   const remover = async (key: string) => {
-    const next = { ...mapa }
-    delete next[key]
-    await writeMap(next)
+    await gravarItem(key, null, 'remover o item')
   }
 
-  const puxar = async (it: ItemView, recebido = false) => {
+  // Puxar = TIRAR do pool primeiro; só o que de fato saiu vai pra ficha.
+  const puxar = async (it: ItemView) => {
     if (!meuHeroiLocal) return
-    const fm = (getLocalDoc(meuHeroiLocal)?.frontmatter ?? {}) as Record<string, unknown>
-    const atributos = heroAtributos(fm).values
-    for (const w of pullItemToFm(it, fm, atributos)) setLocalEntityFm(meuHeroiLocal, w.path, w.value)
-    await remover(it.key)
-    setStatus(recebido ? `Você recebeu ${itemNome(it)} do Mestre.` : `${itemNome(it)} foi pra sua ficha.`)
+    const sairam = await tirar([it.key], 'puxar o item')
+    if (!sairam) return
+    if (!sairam.includes(it.key)) {
+      setStatus(`${itemNome(it)} já saiu do inventário.`)
+      return
+    }
+    paraFicha(it)
+    setStatus(`${itemNome(it)} foi pra sua ficha.`)
   }
 
   // #340: o GM ENDEREÇA um item a um personagem (charId) — ou desendereça (charId '').
   const enviar = async (key: string, charId: string) => {
     const cur = mapa[key]
     if (!cur) return
-    await writeMap({ ...mapa, [key]: { ...cur, paraChar: charId || undefined } })
+    const { paraChar: _antigo, ...semDestino } = cur as GroupInventoryItem & { paraChar?: string }
+    const next = (charId ? { ...semDestino, paraChar: charId } : semDestino) as GroupInventoryItem
+    if (!(await gravarItem(key, next, 'enviar o item'))) return
     if (charId) setStatus(`Enviado para ${nomePorChar.get(charId) ?? 'personagem'}.`)
   }
 
-  // #340: recebimento AUTOMÁTICO — os itens endereçados ao MEU personagem são
-  // puxados pra minha ficha e saem do pool ("movem pra minha ficha"). Em LOTE (o
-  // jogador pode entrar com vários já endereçados a ele) → uma escrita só, sem
-  // corrida. O ref evita reprocessar no intervalo até o realtime atualizar o pool.
+  // #340: recebimento AUTOMÁTICO — os itens endereçados ao MEU personagem saem
+  // do pool e vêm pra minha ficha. Em LOTE (o jogador pode entrar com vários já
+  // endereçados): tira tudo de uma vez no servidor e só puxa as chaves que
+  // voltaram (outro aparelho meu pode ter recebido antes). O ref evita
+  // reprocessar no intervalo até o realtime atualizar o pool.
   const recebendo = useRef<Set<string>>(new Set())
   useEffect(() => {
     if (!meuChar || !meuHeroiLocal) return
     const meus = itens.filter((it) => it.paraChar === meuChar.id && !recebendo.current.has(it.key))
     if (!meus.length) return
     for (const it of meus) recebendo.current.add(it.key)
-    for (const it of meus) {
-      const fm = (getLocalDoc(meuHeroiLocal)?.frontmatter ?? {}) as Record<string, unknown>
-      const atributos = heroAtributos(fm).values
-      for (const w of pullItemToFm(it, fm, atributos)) setLocalEntityFm(meuHeroiLocal, w.path, w.value)
-    }
-    const next = { ...mapa }
-    for (const it of meus) delete next[it.key]
-    void writeMap(next)
-    setStatus(
-      meus.length === 1 ? `Você recebeu ${itemNome(meus[0]!)} do Mestre.` : `Você recebeu ${meus.length} itens do Mestre.`,
-    )
+    void (async () => {
+      const sairam = await tirar(meus.map((it) => it.key), 'receber os itens do Mestre')
+      if (!sairam) {
+        // erro: libera pra tentar de novo na próxima mudança do pool
+        for (const it of meus) recebendo.current.delete(it.key)
+        return
+      }
+      const recebidos = meus.filter((it) => sairam.includes(it.key))
+      for (const it of recebidos) paraFicha(it)
+      if (!recebidos.length) return
+      setStatus(
+        recebidos.length === 1
+          ? `Você recebeu ${itemNome(recebidos[0]!)} do Mestre.`
+          : `Você recebeu ${recebidos.length} itens do Mestre.`,
+      )
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itens, meuChar?.id, meuHeroiLocal])
 

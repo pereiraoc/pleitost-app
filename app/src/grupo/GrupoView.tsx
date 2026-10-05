@@ -669,11 +669,21 @@ export function GrupoView({ groupId }: { groupId: string }) {
     : (localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets))
   // #235/#291: quem está com MODO MESTRE troca a imagem da mesa (afordância
   // gated acima) — vai pro state da sessão (sincroniza pra todos via realtime).
+  // O gate é o Modo Mestre (decisão do usuário), não o gmUserId: um jogador com
+  // Modo Mestre ligado chega aqui e o servidor recusa (RLS gm-only) — avisa em
+  // vez de rejeição solta.
+  const [imgErro, setImgErro] = useState('')
   const trocarImagemMesa = async (file: File) => {
     const remoteId = sessaoAtiva?.remoteId
     if (!repo || !remoteId) return
-    const dataUrl = await comprimirImagem(file)
-    await repo.updateSessionState(remoteId, { grupoImagem: dataUrl })
+    setImgErro('')
+    try {
+      const dataUrl = await comprimirImagem(file)
+      await repo.updateSessionState(remoteId, { grupoImagem: dataUrl })
+    } catch (err) {
+      console.error('[grupo] trocar imagem da mesa:', err)
+      setImgErro('Não deu pra trocar a imagem da mesa (só o mestre da sessão pode).')
+    }
   }
 
   // Lista original alfabética (espelha orderMembersAlphabetical / G.balRows).
@@ -888,6 +898,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
               {/* #197: retrato do grupo LOCAL — subir/remover imagem no slot
                   60×60 do header (mesmo controle do Perfil). */}
               {isLocalGroup ? <LocalImageUpload id={groupId} /> : null}
+              {imgErro ? (
+                <span role="alert" style={{ color: 'var(--red)', letterSpacing: '.04em' }}>
+                  {imgErro}
+                </span>
+              ) : null}
             </div>
           </div>
         </div>

@@ -18,6 +18,7 @@ import {
   type Encounter,
   type EncounterRoster,
   type EncounterTurnState,
+  type GroupInventoryItem,
   type Session,
   type SessionCharacter,
   type SessionEvent,
@@ -72,9 +73,26 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     const up = code.toUpperCase()
     return [...this.sessions.values()].find((s) => s.code === up && !s.endedAt) ?? null
   }
+  /** SÓ testes: modela a RLS do Supabase pra um usuário "logado". null (default)
+   *  = sem checagem (os testes antigos escrevem como quiserem). Com um id:
+   *  updateSessionState só pro MESTRE (RLS gm-only de `sessions`) e as RPCs de
+   *  membro (inventário) só pra membro ou mestre — mesma regra do servidor. */
+  actingUserId: string | null = null
+  private exigirMestre(sess: Session, op: string) {
+    if (this.actingUserId !== null && this.actingUserId !== sess.gmUserId) {
+      throw new Error(`${op}: sem permissão pra editar esta sessão (ou sessão inexistente)`)
+    }
+  }
+  private exigirMembro(sess: Session, op: string) {
+    if (this.actingUserId === null || this.actingUserId === sess.gmUserId) return
+    if (!this.members.some((m) => m.sessionId === sess.id && m.userId === this.actingUserId)) {
+      throw new Error(`${op}: not a session member`)
+    }
+  }
   async updateSessionState(sessionId: string, patch: Partial<Session['state']>): Promise<void> {
     const sess = this.sessions.get(sessionId)
     if (!sess) return
+    this.exigirMestre(sess, 'updateSessionState')
     sess.state = { ...sess.state, ...patch }
     this.notify(sessionId)
   }
@@ -106,6 +124,28 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     sess.state = { ...sess.state, mural: sess.state.mural!.filter((m) => m.id !== id) }
     this.notify(sessionId)
     return structuredClone(item)
+  }
+  async inventarioSet(sessionId: string, chave: string, item: GroupInventoryItem | null): Promise<void> {
+    const sess = this.sessions.get(sessionId)
+    if (!sess) return
+    this.exigirMembro(sess, 'inventarioSet')
+    const pool = { ...(sess.state.inventarioGrupo ?? {}) }
+    if (item) pool[chave] = structuredClone(item)
+    else delete pool[chave]
+    sess.state = { ...sess.state, inventarioGrupo: pool }
+    this.notify(sessionId)
+  }
+  async inventarioTirar(sessionId: string, chaves: string[]): Promise<string[]> {
+    const sess = this.sessions.get(sessionId)
+    if (!sess) return []
+    this.exigirMembro(sess, 'inventarioTirar')
+    const pool = { ...(sess.state.inventarioGrupo ?? {}) }
+    const sairam = [...new Set(chaves)].filter((k) => k in pool)
+    if (!sairam.length) return []
+    for (const k of sairam) delete pool[k]
+    sess.state = { ...sess.state, inventarioGrupo: pool }
+    this.notify(sessionId)
+    return sairam
   }
   async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
     const sess = this.sessions.get(sessionId)

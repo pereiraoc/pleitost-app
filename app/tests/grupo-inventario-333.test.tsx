@@ -314,4 +314,118 @@ describe('#333/#336 inventário do grupo', () => {
       expect(Array.isArray(tes) && tes.length === 1).toBe(true)
     })
   })
+
+})
+
+// 2026-10-04: a RLS de UPDATE de `sessions` é gm-only — o jogador gravava o mapa
+// inteiro e a escrita se perdia (o item puxado ficava no pool e duplicava). O
+// InMemorySessionRepo com `actingUserId` modela essa RLS.
+describe('inventário do grupo — escrita de JOGADOR por item (RPC de membro)', () => {
+  const tesouroItem = (extra: Record<string, unknown> = {}) => ({
+    kind: 'tesouro' as const,
+    docId: TESOURO.id,
+    nome: TESOURO.basename ?? TESOURO.id,
+    tier: 'A',
+    addedBy: 'gm-1',
+    addedAt: '2026-01-01T00:00:00Z',
+    ...extra,
+  })
+  const membros = (sid: string) => [
+    { sessionId: sid, userId: 'gm-1', role: 'gm' as const, displayName: 'Mestre', joinedAt: '' },
+    { sessionId: sid, userId: 'p-1', role: 'player' as const, displayName: 'Ana', joinedAt: '' },
+  ]
+  async function mesaDoJogador(code: string) {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code })
+    await repo.insertMember({ sessionId: sess.id, userId: 'p-1', role: 'player', displayName: 'Ana' })
+    return { repo, sess }
+  }
+  const tesourosDe = (heroiId: string) =>
+    ((getLocalDoc(heroiId)?.frontmatter?.['Inventario'] as Record<string, unknown> | undefined)?.['Tesouros'] ?? []) as unknown[]
+
+  it('JOGADOR adiciona OURO → persiste no servidor', async () => {
+    const { repo, sess } = await mesaDoJogador('PINV01')
+    repo.actingUserId = 'p-1'
+    setLive(sess.id, { members: membros(sess.id) })
+    renderPanel(repo, { id: 'p-1', nome: 'Ana' })
+
+    fireEvent.click(await screen.findByRole('button', { name: /Ouro/ }))
+    fireEvent.change(screen.getByLabelText('Quantidade de ouro'), { target: { value: '30' } })
+    fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar/ }))
+
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      const v = Object.values(s)
+      expect(v.length).toBe(1)
+      expect((v[0] as Record<string, unknown>).addedBy).toBe('p-1')
+    })
+  })
+
+  it('JOGADOR puxa: sai do pool no servidor e entra na ficha UMA vez', async () => {
+    const { repo, sess } = await mesaDoJogador('PINV02')
+    const heroiId = createLocalEntity('Heroi', 'Nia', { ...emptyHeroFrontmatter() })
+    await repo.inventarioSet(sess.id, 'k1', tesouroItem())
+    repo.actingUserId = 'p-1'
+    setLive(sess.id, {
+      state: (await repo.findSessionById(sess.id))!.state,
+      characters: [heroi('p-1', heroiId)],
+      members: membros(sess.id),
+    })
+    renderPanel(repo, { id: 'p-1', nome: 'Ana' })
+
+    fireEvent.click(await screen.findByRole('button', { name: /Puxar/ }))
+
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      expect(Object.keys(s)).toEqual([])
+    })
+    await waitFor(() => expect(tesourosDe(heroiId)).toHaveLength(1))
+    // a vista local também já não oferece o item (não dá pra puxar de novo)
+    await waitFor(() => expect(screen.queryByRole('button', { name: /Puxar/ })).toBeNull())
+  })
+
+  it('item que outro aparelho já levou: não entra na ficha, avisa', async () => {
+    const { repo, sess } = await mesaDoJogador('PINV03')
+    const heroiId = createLocalEntity('Heroi', 'Nia', { ...emptyHeroFrontmatter() })
+    repo.actingUserId = 'p-1'
+    // a vista local ainda mostra k1, mas no servidor ele já saiu
+    setLive(sess.id, {
+      state: { inventarioGrupo: { k1: tesouroItem() } },
+      characters: [heroi('p-1', heroiId)],
+      members: membros(sess.id),
+    })
+    renderPanel(repo, { id: 'p-1', nome: 'Ana' })
+
+    fireEvent.click(await screen.findByRole('button', { name: /Puxar/ }))
+
+    await screen.findByText(/já saiu do inventário/)
+    expect(tesourosDe(heroiId)).toHaveLength(0)
+  })
+
+  it('recebimento em lote só puxa as chaves que de fato saíram do pool', async () => {
+    const { repo, sess } = await mesaDoJogador('PINV04')
+    const heroiId = createLocalEntity('Heroi', 'Nia', { ...emptyHeroFrontmatter() })
+    // no servidor só k1; a vista local (atrasada) ainda tem k2 também
+    await repo.inventarioSet(sess.id, 'k1', tesouroItem({ paraChar: 'char-p-1' }))
+    repo.actingUserId = 'p-1'
+    setLive(sess.id, {
+      state: {
+        inventarioGrupo: {
+          k1: tesouroItem({ paraChar: 'char-p-1' }),
+          k2: tesouroItem({ paraChar: 'char-p-1', addedAt: '2026-01-02T00:00:00Z' }),
+        },
+      },
+      characters: [heroi('p-1', heroiId)],
+      members: membros(sess.id),
+    })
+    renderPanel(repo, { id: 'p-1', nome: 'Ana' })
+
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      expect(Object.keys(s)).toEqual([])
+    })
+    await waitFor(() => expect(tesourosDe(heroiId)).toHaveLength(1))
+    await new Promise((r) => setTimeout(r, 30))
+    expect(tesourosDe(heroiId)).toHaveLength(1)
+  })
 })
