@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 // VIAGEM DO HEXCRAWL na aba EXPLORAÇÃO (2026-10-04): com o bloco `viagem` no
-// Contexto-Def (Fantasia), a barra do CAMINHO mostra o total da trilha (horas +
-// dias corridos), as horas por segmento e o seletor de meios do grupo; o
+// Contexto-Def (Fantasia), a barra do CAMINHO mostra o total da trilha em DIAS
+// (regras v2: custo do terreno / hex por dia do meio), os dias por segmento e o
+// seletor de meios do grupo; o
 // terreno vem do hexmap `mapa:mundo` nas MESMAS coords da trilha. Sem o bloco
 // (POA / dataset antigo), nada de viagem aparece.
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
@@ -46,16 +47,17 @@ const DEF: ContextoDef = {
   viagem: {
     padrao: 'normal',
     terrenos: [
-      { chave: 'estrada', nome: 'Estrada', horas: 8 },
-      { chave: 'normal', nome: 'Gramado', horas: 16 },
-      { chave: 'mar', nome: 'Mar navegável', horas: 16 },
-      { chave: 'dificil', nome: 'Difícil', horas: 24 },
-      { chave: 'muito_dificil', nome: 'Montanha', horas: 48 },
+      { chave: 'estrada', nome: 'Estrada', custo: 1 },
+      { chave: 'normal', nome: 'Gramado', custo: 1 },
+      { chave: 'mar', nome: 'Mar navegável', custo: 1 },
+      { chave: 'dificil', nome: 'Difícil', custo: 2 },
+      { chave: 'muito_dificil', nome: 'Montanha', custo: 3 },
     ],
     meios: [
-      { nome: 'A pé', fator: 1, em: ['estrada', 'normal', 'dificil', 'muito_dificil'] },
-      { nome: 'Cavalo', fator: 2, em: ['estrada', 'normal'] },
-      { nome: 'Barco', fator: 2, em: ['mar'] },
+      { nome: 'A pé', hexPorDia: 2, em: ['estrada', 'normal', 'dificil', 'muito_dificil'] },
+      { nome: 'Cavalo', hexPorDia: 3, em: ['estrada', 'normal', 'dificil'] },
+      { nome: 'Carruagem', hexPorDia: 4, em: ['estrada'] },
+      { nome: 'Navio', hexPorDia: 5, em: ['mar'] },
     ],
   },
 } as ContextoDef
@@ -116,23 +118,25 @@ function renderPanel(def: ContextoDef | null) {
 }
 
 describe('tempo de viagem na exploração', () => {
-  it('com `viagem` no contexto: total da trilha em horas + dias corridos', async () => {
-    // 60,21 = estrada (8) · 60,22 = sem terreno → padrão gramado (16)
+  it('com `viagem` no contexto: total da trilha em dias', async () => {
+    // 60,21 = estrada (½ dia a pé) · 60,22 = difícil (1 dia a pé)
+    setHexTerrenoBulk(MAPA_MUNDO_ID, [{ col: 60, row: 22 }], 'dificil')
     setHexTerrenoBulk(MAPA_MUNDO_ID, [{ col: 60, row: 21 }], 'estrada')
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-viagem-total]')).not.toBeNull())
-    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('24h (1d)')
-    // segmento da parada inicial carrega as horas dela até o fim
-    expect(container.querySelector('[data-viagem-segmento="a"]')!.textContent).toContain('24h')
+    // estrada ½ + difícil 1 (a pé)
+    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('1½ dias')
+    // segmento da parada inicial carrega os dias dela até o fim
+    expect(container.querySelector('[data-viagem-segmento="a"]')!.textContent).toContain('1½ dias')
   })
 
-  it('meio do grupo (Cavalo) dobra a velocidade e grava na trilha', async () => {
+  it('meio do grupo (Cavalo, 3 hex/dia) acelera e grava na trilha', async () => {
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-viagem-total]')).not.toBeNull())
-    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('32h (1d 8h)')
+    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('1 dia')
     fireEvent.click(screen.getByRole('button', { name: 'Cavalo' }))
     expect(getGroupState(GROUP_ID).meios).toEqual(['Cavalo'])
-    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('16h'))
+    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('⅔ dia'))
   })
 
   it('sync: meios só entram no JSON com trilha (vazio+meios nunca empurra por cima, #450)', () => {
@@ -140,19 +144,19 @@ describe('tempo de viagem na exploração', () => {
     const comTrilha = getGroupState(GROUP_ID)
     expect(groupStateJson({ ...comTrilha, meios: ['Cavalo'] })).not.toBe(groupStateJson(comTrilha))
     // remoto com meios é adotado pelo setGroupStateFull
-    setGroupStateFull(GROUP_ID, { ...comTrilha, meios: ['Barco'] })
-    expect(getGroupState(GROUP_ID).meios).toEqual(['Barco'])
+    setGroupStateFull(GROUP_ID, { ...comTrilha, meios: ['Navio'] })
+    expect(getGroupState(GROUP_ID).meios).toEqual(['Navio'])
   })
 
-  it('mar sem barco marca a trilha como bloqueada', async () => {
+  it('mar sem navio marca a trilha como bloqueada', async () => {
     setHexTerrenoBulk(MAPA_MUNDO_ID, [{ col: 60, row: 22 }], 'mar')
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-viagem-bloqueado]')).not.toBeNull())
   })
 
-  it('popover da parada mostra o terreno e as horas pra cruzar o hex', async () => {
+  it('popover da parada mostra o terreno e o tempo pra cruzar o hex com o meio', async () => {
     setHexTerrenoBulk(MAPA_MUNDO_ID, [{ col: 60, row: 21 }], 'estrada')
-    setGroupStateFull(GROUP_ID, { ...getGroupState(GROUP_ID), meios: ['Cavalo'] })
+    setGroupStateFull(GROUP_ID, { ...getGroupState(GROUP_ID), meios: ['Cavalo', 'Carruagem'] })
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-parada="a"]')).not.toBeNull())
     fireEvent.click(container.querySelector('[data-collapsed-run]')!)
@@ -160,7 +164,7 @@ describe('tempo de viagem na exploração', () => {
     const info = container.querySelector('[data-hex-terreno="estrada"]')
     expect(info).not.toBeNull()
     expect(info!.textContent).toContain('Estrada')
-    expect(info!.textContent).toContain('4h pra cruzar (Cavalo)')
+    expect(info!.textContent).toContain('Estrada · ¼ dia com Carruagem')
   })
 
   it('sem `viagem` no contexto: nada de tempo de viagem', async () => {

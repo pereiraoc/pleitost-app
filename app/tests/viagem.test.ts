@@ -1,5 +1,9 @@
-// VIAGEM DO HEXCRAWL (2026-10-04): tempo pra percorrer a trilha do grupo,
-// regras do Contexto Fantasia (FM `viagem`, compilado no contexto.json).
+// VIAGEM DO HEXCRAWL (2026-10-04, regras v2): tempo pra percorrer a trilha do
+// grupo, regras do Contexto Fantasia (FM `viagem`, compilado no contexto.json).
+// 1 dia de viagem: a pé = 2 hex, cavalo = 3, carruagem = 4, navio = 5.
+// Terreno normal = custo ×1, difícil ×2, muito difícil ×3 → tempo por hex =
+// custo / hex_por_dia DIAS. Restrições: carruagem só na estrada; cavalo não
+// entra em terreno muito difícil; navio só no mar.
 // Custo: cada PASSO do hex i pro i+1 custa o terreno do hex ENTRADO (o de
 // partida não conta). Hexes não adjacentes na trilha são ligados pela linha
 // hex mais curta (cada hex do meio também é entrado). Meio por hex = o mais
@@ -9,7 +13,7 @@ import { describe, expect, it } from 'vitest'
 import {
   calcularViagem,
   custoHex,
-  formatarHoras,
+  formatarDias,
   hexDistance,
   hexLine,
   meiosDoGrupo,
@@ -19,17 +23,17 @@ import {
 const CFG: ViagemCfg = {
   padrao: 'normal',
   terrenos: [
-    { chave: 'estrada', nome: 'Estrada', horas: 8 },
-    { chave: 'normal', nome: 'Gramado', horas: 16 },
-    { chave: 'mar', nome: 'Mar navegável', horas: 16 },
-    { chave: 'dificil', nome: 'Difícil', horas: 24 },
-    { chave: 'muito_dificil', nome: 'Montanha', horas: 48 },
+    { chave: 'estrada', nome: 'Estrada', custo: 1 },
+    { chave: 'normal', nome: 'Gramado', custo: 1 },
+    { chave: 'mar', nome: 'Mar navegável', custo: 1 },
+    { chave: 'dificil', nome: 'Difícil', custo: 2 },
+    { chave: 'muito_dificil', nome: 'Montanha', custo: 3 },
   ],
   meios: [
-    { nome: 'A pé', fator: 1, em: ['estrada', 'normal', 'dificil', 'muito_dificil'] },
-    { nome: 'Cavalo', fator: 2, em: ['estrada', 'normal'] },
-    { nome: 'Caravana', fator: 2, em: ['estrada', 'normal'] },
-    { nome: 'Barco', fator: 2, em: ['mar'] },
+    { nome: 'A pé', hexPorDia: 2, em: ['estrada', 'normal', 'dificil', 'muito_dificil'] },
+    { nome: 'Cavalo', hexPorDia: 3, em: ['estrada', 'normal', 'dificil'] },
+    { nome: 'Carruagem', hexPorDia: 4, em: ['estrada'] },
+    { nome: 'Navio', hexPorDia: 5, em: ['mar'] },
   ],
 }
 
@@ -44,27 +48,29 @@ function coluna(n: number, kinds: Record<number, 'parada' | 'caminho'> = {}) {
 }
 
 describe('custoHex', () => {
-  it('cada terreno a pé = horas da config', () => {
-    expect(custoHex('estrada', CFG, ['A pé']).horas).toBe(8)
-    expect(custoHex('normal', CFG, ['A pé']).horas).toBe(16)
-    expect(custoHex('dificil', CFG, ['A pé']).horas).toBe(24)
-    expect(custoHex('muito_dificil', CFG, ['A pé']).horas).toBe(48)
+  it('a pé: normal = ½ dia/hex; difícil = 1 dia; montanha = 1½ dia', () => {
+    expect(custoHex('estrada', CFG, ['A pé'])).toEqual({ dias: 0.5, meio: 'A pé' })
+    expect(custoHex('normal', CFG, ['A pé'])).toEqual({ dias: 0.5, meio: 'A pé' })
+    expect(custoHex('dificil', CFG, ['A pé'])).toEqual({ dias: 1, meio: 'A pé' })
+    expect(custoHex('muito_dificil', CFG, ['A pé'])).toEqual({ dias: 1.5, meio: 'A pé' })
   })
-  it('cavalo/caravana dobram a velocidade onde andam; barco no mar', () => {
-    expect(custoHex('estrada', CFG, ['A pé', 'Cavalo'])).toEqual({ horas: 4, meio: 'Cavalo' })
-    expect(custoHex('normal', CFG, ['A pé', 'Caravana'])).toEqual({ horas: 8, meio: 'Caravana' })
-    expect(custoHex('mar', CFG, ['A pé', 'Barco'])).toEqual({ horas: 8, meio: 'Barco' })
+  it('cavalo: ⅓ dia no normal, ⅔ no difícil; na montanha cai no A pé (1½ dia)', () => {
+    expect(custoHex('normal', CFG, ['A pé', 'Cavalo'])).toEqual({ dias: 1 / 3, meio: 'Cavalo' })
+    expect(custoHex('dificil', CFG, ['A pé', 'Cavalo'])).toEqual({ dias: 2 / 3, meio: 'Cavalo' })
+    expect(custoHex('muito_dificil', CFG, ['A pé', 'Cavalo'])).toEqual({ dias: 1.5, meio: 'A pé' })
   })
-  it('cavalo proibido no difícil → cai no A pé', () => {
-    expect(custoHex('dificil', CFG, ['A pé', 'Cavalo'])).toEqual({ horas: 24, meio: 'A pé' })
-    expect(custoHex('muito_dificil', CFG, ['A pé', 'Cavalo'])).toEqual({ horas: 48, meio: 'A pé' })
+  it('carruagem só na estrada (¼ dia); fora dela cai no cavalo ou no A pé', () => {
+    expect(custoHex('estrada', CFG, ['A pé', 'Cavalo', 'Carruagem'])).toEqual({ dias: 0.25, meio: 'Carruagem' })
+    expect(custoHex('normal', CFG, ['A pé', 'Cavalo', 'Carruagem'])).toEqual({ dias: 1 / 3, meio: 'Cavalo' })
+    expect(custoHex('normal', CFG, ['A pé', 'Carruagem'])).toEqual({ dias: 0.5, meio: 'A pé' })
   })
-  it('mar sem barco → bloqueado', () => {
-    expect(custoHex('mar', CFG, ['A pé', 'Cavalo'])).toEqual({ horas: null, meio: null })
+  it('navio no mar = ⅕ dia; mar sem navio → bloqueado', () => {
+    expect(custoHex('mar', CFG, ['A pé', 'Navio'])).toEqual({ dias: 0.2, meio: 'Navio' })
+    expect(custoHex('mar', CFG, ['A pé', 'Cavalo', 'Carruagem'])).toEqual({ dias: null, meio: null })
   })
   it('terreno desconhecido/ausente usa o padrão', () => {
-    expect(custoHex(undefined, CFG, ['A pé']).horas).toBe(16)
-    expect(custoHex('lava', CFG, ['A pé']).horas).toBe(16)
+    expect(custoHex(undefined, CFG, ['A pé']).dias).toBe(0.5)
+    expect(custoHex('lava', CFG, ['A pé']).dias).toBe(0.5)
   })
 })
 
@@ -73,8 +79,9 @@ describe('meiosDoGrupo', () => {
     expect(meiosDoGrupo(CFG, undefined)).toEqual(['A pé'])
     expect(meiosDoGrupo(CFG, [])).toEqual(['A pé'])
   })
-  it('o básico entra sempre; nomes fora da config caem', () => {
+  it('o básico entra sempre; nomes fora da config (inclusive os antigos Caravana/Barco) caem', () => {
     expect(meiosDoGrupo(CFG, ['Cavalo', 'Dragão'])).toEqual(['A pé', 'Cavalo'])
+    expect(meiosDoGrupo(CFG, ['Caravana', 'Barco'])).toEqual(['A pé'])
   })
 })
 
@@ -107,8 +114,26 @@ describe('calcularViagem', () => {
       cfg: CFG,
       meios: undefined,
     })
-    expect(v.total).toBe(8 + 24 + 48)
+    expect(v.total).toBe(0.5 + 1 + 1.5)
     expect(v.bloqueado).toBe(false)
+  })
+
+  it('soma exata de terços (cavalo: 3 hex de gramado = 1 dia, sem 0,999…)', () => {
+    const v = calcularViagem({ hexes: coluna(3), terrenoDe: () => undefined, cfg: CFG, meios: ['Cavalo'] })
+    expect(v.total).toBe(1)
+    expect(formatarDias(v.total)).toBe('1 dia')
+  })
+
+  it('carruagem na estrada e cavalo fora dela, no mesmo trecho', () => {
+    const v = calcularViagem({
+      hexes: coluna(3),
+      terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'estrada' }),
+      cfg: CFG,
+      meios: ['Cavalo', 'Carruagem'],
+    })
+    // ¼ + ¼ + ⅓ (gramado a cavalo) = ⅚
+    expect(v.total).toBeCloseTo(5 / 6, 12)
+    expect(formatarDias(v.total)).toBe('⅚ dia')
   })
 
   it('buraco entre hexes não adjacentes é preenchido pela linha', () => {
@@ -117,12 +142,12 @@ describe('calcularViagem', () => {
         { id: 'a', col: 10, row: 0, kind: 'parada' },
         { id: 'b', col: 10, row: 3, kind: 'parada' },
       ],
-      terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'estrada' }),
+      terrenoDe: terrenoDe({ '10,1': 'dificil', '10,2': 'dificil' }),
       cfg: CFG,
       meios: ['A pé'],
     })
-    // entra 10,1 (8) + 10,2 (8) + 10,3 (padrão 16)
-    expect(v.total).toBe(32)
+    // entra 10,1 (1) + 10,2 (1) + 10,3 (padrão ½)
+    expect(v.total).toBe(2.5)
   })
 
   it('segmentos começam numa parada e somam os passos que saem dela', () => {
@@ -132,11 +157,11 @@ describe('calcularViagem', () => {
       cfg: CFG,
       meios: ['Cavalo'],
     })
-    expect(v.segmentos.map((s) => [s.inicio, s.horas])).toEqual([
-      [0, 16], // 0→1→2: 2 × gramado a cavalo (8)
-      [2, 16], // 2→3→4
+    expect(v.segmentos.map((s) => [s.inicio, s.dias])).toEqual([
+      [0, 2 / 3], // 0→1→2: 2 × gramado a cavalo (⅓)
+      [2, 2 / 3], // 2→3→4
     ])
-    expect(v.total).toBe(32)
+    expect(v.total).toBe(4 / 3)
   })
 
   it('trecho antes da primeira parada vira segmento sem cabeçalho (inicio 0)', () => {
@@ -146,35 +171,55 @@ describe('calcularViagem', () => {
       cfg: CFG,
       meios: undefined,
     })
-    expect(v.segmentos.map((s) => [s.inicio, s.horas])).toEqual([
-      [0, 16],
-      [1, 16],
+    expect(v.segmentos.map((s) => [s.inicio, s.dias])).toEqual([
+      [0, 0.5],
+      [1, 0.5],
     ])
   })
 
-  it('mar sem barco bloqueia o segmento e aponta o hex', () => {
-    const v = calcularViagem({
+  it('mar sem navio bloqueia o segmento e aponta o hex; com navio, ⅕ dia', () => {
+    const args = {
       hexes: coluna(2, { 0: 'parada' }),
       terrenoDe: terrenoDe({ '10,2': 'mar' }),
       cfg: CFG,
-      meios: ['Cavalo'],
-    })
+    }
+    const v = calcularViagem({ ...args, meios: ['Cavalo'] })
     expect(v.bloqueado).toBe(true)
     expect(v.segmentos[0]!.bloqueios).toEqual([{ col: 10, row: 2, terreno: 'mar' }])
-    expect(v.total).toBe(8) // o passo possível (gramado a cavalo) segue contando
+    expect(v.total).toBe(1 / 3) // o passo possível (gramado a cavalo) segue contando
+    const n = calcularViagem({ ...args, meios: ['Cavalo', 'Navio'] })
+    expect(n.bloqueado).toBe(false)
+    expect(n.total).toBeCloseTo(1 / 3 + 1 / 5, 12)
   })
 
-  it('trilha vazia ou de um hex só = 0h', () => {
+  it('custo não inteiro na config ainda soma (float)', () => {
+    const cfg: ViagemCfg = { ...CFG, terrenos: [{ chave: 'normal', nome: 'Gramado', custo: 1.5 }] }
+    const v = calcularViagem({ hexes: coluna(2), terrenoDe: () => undefined, cfg, meios: undefined })
+    expect(v.total).toBeCloseTo(1.5, 12)
+  })
+
+  it('trilha vazia ou de um hex só = 0', () => {
     expect(calcularViagem({ hexes: [], terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)
     expect(calcularViagem({ hexes: coluna(0), terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)
   })
 })
 
-describe('formatarHoras', () => {
-  it('horas + dias corridos de 24h', () => {
-    expect(formatarHoras(8)).toBe('8h')
-    expect(formatarHoras(24)).toBe('24h (1d)')
-    expect(formatarHoras(56)).toBe('56h (2d 8h)')
-    expect(formatarHoras(4.5)).toBe('4,5h')
+describe('formatarDias', () => {
+  it('frações simples com glifo; plural acima de 1', () => {
+    expect(formatarDias(0.5)).toBe('½ dia')
+    expect(formatarDias(1)).toBe('1 dia')
+    expect(formatarDias(2.5)).toBe('2½ dias')
+    expect(formatarDias(1 / 3)).toBe('⅓ dia')
+    expect(formatarDias(4 / 3)).toBe('1⅓ dias')
+    expect(formatarDias(0.25)).toBe('¼ dia')
+    expect(formatarDias(0.2)).toBe('⅕ dia')
+    expect(formatarDias(2 / 3)).toBe('⅔ dia')
+    expect(formatarDias(3)).toBe('3 dias')
+    expect(formatarDias(0)).toBe('0 dias')
+  })
+  it('fração não simples → uma casa decimal com vírgula', () => {
+    expect(formatarDias(1.7)).toBe('1,7 dias')
+    expect(formatarDias(0.7)).toBe('0,7 dia') // ½ + ⅕
+    expect(formatarDias(1 / 3 + 1 / 5)).toBe('0,5 dia')
   })
 })

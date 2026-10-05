@@ -184,13 +184,13 @@ export function renderContextoDoc(contexto, typeByBasename) {
   if (c.viagem && typeof c.viagem === "object") {
     const ter = c.viagem.terrenos && typeof c.viagem.terrenos === "object" ? c.viagem.terrenos : {};
     const nomeDe = (k) => ter[k]?.nome ?? k;
-    out.push(...tabela("Viagem: horas pra cruzar um hex", Object.entries(ter).map(([k, t]) => [
+    out.push(...tabela("Viagem: custo de movimento por terreno", Object.entries(ter).map(([k, t]) => [
       `${t?.nome ?? k} (\`${k}\`)`,
-      `${t?.horas} h${k === c.viagem.padrao ? " · padrão (hex sem terreno)" : ""}${t?.cor ? ` · cor \`${t.cor}\`` : ""}`,
-    ]), ["Terreno", "Horas"]));
-    out.push(...tabela("Viagem: meios de transporte", (c.viagem.meios ?? []).map((m) => [
+      `×${t?.custo}${k === c.viagem.padrao ? " · padrão (hex sem terreno)" : ""}${t?.cor ? ` · cor \`${t.cor}\`` : ""}`,
+    ]), ["Terreno", "Custo"]));
+    out.push(...tabela("Viagem: meios de transporte (hex por dia)", (c.viagem.meios ?? []).map((m) => [
       m.nome,
-      `×${m.fator} · ${(m.em ?? []).map(nomeDe).join(", ")}`,
+      `${m.hex_por_dia} hex/dia · ${(m.em ?? []).map(nomeDe).join(", ")}`,
     ]), ["Meio", "Velocidade · terrenos"]));
   }
 

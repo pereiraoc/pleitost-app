@@ -1,4 +1,4 @@
-// VIAGEM DO HEXCRAWL (2026-10-04) — tempo pra percorrer a trilha do grupo no
+// VIAGEM DO HEXCRAWL (2026-10-04, regras v2) — tempo pra percorrer a trilha do grupo no
 // mapa-múndi, com as regras do bloco `viagem` do Contexto-Def (só a Fantasia
 // declara; sem ele não há UI). Módulo PURO.
 //
@@ -8,9 +8,14 @@
 //    a config não conhece mais) = `padrao`.
 //  • BURACOS: hexes consecutivos não adjacentes na trilha são ligados pela
 //    linha hex mais curta (cube lerp) — cada hex do meio também é entrado.
-//  • MEIO: por hex, o mais rápido (maior `fator`) entre os meios do grupo que
-//    andam naquele terreno; horas = terreno.horas / fator. Nenhum → passo
-//    BLOQUEADO (reporta hex + terreno) e não soma.
+//  • MEIO: por hex, o mais rápido (maior `hexPorDia`) entre os meios do grupo
+//    que andam naquele terreno; DIAS = terreno.custo / meio.hexPorDia (1 dia:
+//    a pé 2 hex, cavalo 3, carruagem 4, navio 5; custo ×1/×2/×3). Nenhum →
+//    passo BLOQUEADO (reporta hex + terreno) e não soma.
+//  • SOMA EXATA: custo/hexPorDia vira fração (inteiros → num/den reduzidos) e
+//    a soma é racional, sem 0,999…; config não inteira cai pra float.
+//  • MEIOS DO GRUPO gravados com nomes que a config não conhece mais (antigos
+//    Caravana/Barco) são IGNORADOS (meiosDoGrupo filtra pela config).
 //  • MEIOS DO GRUPO: o PRIMEIRO meio da config é o básico (A pé) — sempre
 //    disponível (quem tem cavalo desmonta na montanha); os escolhidos somam.
 //    Sem escolha = só o básico.
@@ -109,21 +114,68 @@ function terrenoEfetivo(chave: string | undefined, cfg: ViagemCfg) {
   )
 }
 
-/** Horas pra entrar num hex do terreno `chave` com os meios EFETIVOS dados
- *  (use meiosDoGrupo). `horas: null` = nenhum meio anda ali (bloqueado). */
+interface Custo {
+  dias: number | null
+  meio: string | null
+  /** Fração exata [num, den] quando custo e hexPorDia são inteiros. */
+  frac: [number, number] | null
+}
+
+function gcd(a: number, b: number): number {
+  return b === 0 ? Math.abs(a) : gcd(b, a % b)
+}
+
+function custoInterno(chave: string | undefined, cfg: ViagemCfg, meios: readonly string[]): Custo {
+  const t = terrenoEfetivo(chave, cfg)
+  if (!t) return { dias: null, meio: null, frac: null }
+  let melhor: ViagemCfg['meios'][number] | null = null
+  for (const m of cfg.meios) {
+    if (!meios.includes(m.nome) || !m.em.includes(t.chave)) continue
+    if (!melhor || m.hexPorDia > melhor.hexPorDia) melhor = m
+  }
+  if (!melhor) return { dias: null, meio: null, frac: null }
+  const inteiros = Number.isInteger(t.custo) && Number.isInteger(melhor.hexPorDia)
+  const g = inteiros ? gcd(t.custo, melhor.hexPorDia) : 1
+  return {
+    dias: t.custo / melhor.hexPorDia,
+    meio: melhor.nome,
+    frac: inteiros ? [t.custo / g, melhor.hexPorDia / g] : null,
+  }
+}
+
+/** Dias pra entrar num hex do terreno `chave` com os meios EFETIVOS dados
+ *  (use meiosDoGrupo). `dias: null` = nenhum meio anda ali (bloqueado). */
 export function custoHex(
   chave: string | undefined,
   cfg: ViagemCfg,
   meios: readonly string[],
-): { horas: number | null; meio: string | null } {
-  const t = terrenoEfetivo(chave, cfg)
-  if (!t) return { horas: null, meio: null }
-  let melhor: { nome: string; fator: number } | null = null
-  for (const m of cfg.meios) {
-    if (!meios.includes(m.nome) || !m.em.includes(t.chave)) continue
-    if (!melhor || m.fator > melhor.fator) melhor = m
+): { dias: number | null; meio: string | null } {
+  const { dias, meio } = custoInterno(chave, cfg, meios)
+  return { dias, meio }
+}
+
+/** Acumulador racional (num/den) com escape pra float. */
+class Soma {
+  private num = 0
+  private den = 1
+  private flt = 0
+  add(c: Custo) {
+    if (c.frac) {
+      const [n, d] = c.frac
+      const num = this.num * d + n * this.den
+      const den = this.den * d
+      const g = gcd(num, den) || 1
+      this.num = num / g
+      this.den = den / g
+    } else if (c.dias !== null) this.flt += c.dias
   }
-  return melhor ? { horas: t.horas / melhor.fator, meio: melhor.nome } : { horas: null, meio: null }
+  get valor(): number {
+    return this.num / this.den + this.flt
+  }
+  somar(o: Soma) {
+    this.add({ dias: null, meio: null, frac: [o.num, o.den] })
+    this.flt += o.flt
+  }
 }
 
 /** Chave do terreno efetiva de um hex (pintada ou padrão). */
@@ -140,12 +192,14 @@ export interface Bloqueio {
 export interface SegmentoViagem {
   /** Índice (na trilha) do hex que abre o segmento. */
   inicio: number
-  horas: number
+  /** Dias de viagem do segmento. */
+  dias: number
   bloqueios: Bloqueio[]
 }
 
 export interface Viagem {
   segmentos: SegmentoViagem[]
+  /** Dias de viagem da trilha inteira. */
   total: number
   bloqueado: boolean
 }
@@ -165,31 +219,61 @@ export function calcularViagem({
   ehParada?: (h: Hex & { kind?: 'parada' | 'caminho' }) => boolean
 }): Viagem {
   const efetivos = meiosDoGrupo(cfg, meios)
-  const segmentos: SegmentoViagem[] = []
+  const segs: { seg: SegmentoViagem; soma: Soma }[] = []
   hexes.forEach((h, i) => {
-    if (ehParada(h) || segmentos.length === 0) segmentos.push({ inicio: i, horas: 0, bloqueios: [] })
+    if (ehParada(h) || segs.length === 0) segs.push({ seg: { inicio: i, dias: 0, bloqueios: [] }, soma: new Soma() })
     const next = hexes[i + 1]
     if (!next) return
-    const seg = segmentos[segmentos.length - 1]!
+    const cur = segs[segs.length - 1]!
     const linha = hexLine(h, next)
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
       const chave = terrenoDe(p.col, p.row)
-      const c = custoHex(chave, cfg, efetivos)
-      if (c.horas === null) {
-        seg.bloqueios.push({ col: p.col, row: p.row, terreno: terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao })
-      } else seg.horas += c.horas
+      const c = custoInterno(chave, cfg, efetivos)
+      if (c.dias === null) {
+        cur.seg.bloqueios.push({ col: p.col, row: p.row, terreno: terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao })
+      } else cur.soma.add(c)
     }
   })
-  const total = segmentos.reduce((s, x) => s + x.horas, 0)
-  return { segmentos, total, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
+  const total = new Soma()
+  for (const x of segs) {
+    x.seg.dias = x.soma.valor
+    total.somar(x.soma)
+  }
+  const segmentos = segs.map((x) => x.seg)
+  return { segmentos, total: total.valor, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
 }
 
-/** "8h" · "24h (1d)" · "56h (2d 8h)" — dias corridos de 24h; vírgula decimal. */
-export function formatarHoras(h: number): string {
-  const num = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',')
-  if (h < 24) return `${num(h)}h`
-  const d = Math.floor(h / 24)
-  const r = h - d * 24
-  return `${num(h)}h (${d}d${r > 0.05 ? ` ${num(r)}h` : ''})`
+/** Frações "humanas" com glifo (denominadores 2..6 e 8). */
+const GLIFOS: [number, string][] = [
+  [1 / 8, '⅛'],
+  [1 / 6, '⅙'],
+  [1 / 5, '⅕'],
+  [1 / 4, '¼'],
+  [1 / 3, '⅓'],
+  [3 / 8, '⅜'],
+  [2 / 5, '⅖'],
+  [1 / 2, '½'],
+  [3 / 5, '⅗'],
+  [5 / 8, '⅝'],
+  [2 / 3, '⅔'],
+  [3 / 4, '¾'],
+  [4 / 5, '⅘'],
+  [5 / 6, '⅚'],
+  [7 / 8, '⅞'],
+]
+
+/** "½ dia" · "1 dia" · "2½ dias" · "1⅓ dias" · "1,7 dias" — frações simples
+ *  com glifo; o resto com uma casa decimal (vírgula). Plural acima de 1. */
+export function formatarDias(d: number): string {
+  const EPS = 1e-6
+  const unidade = (v: number) => (v > 0 && v <= 1 + EPS ? 'dia' : 'dias')
+  const inteiro = Math.round(d)
+  if (Math.abs(d - inteiro) < EPS) return `${inteiro} ${unidade(inteiro)}`
+  const base = Math.floor(d)
+  const resto = d - base
+  const g = GLIFOS.find(([v]) => Math.abs(v - resto) < EPS)
+  if (g) return `${base > 0 ? base : ''}${g[1]} ${unidade(d)}`
+  const r = Math.round(d * 10) / 10
+  return `${String(r).replace('.', ',')} ${unidade(r)}`
 }

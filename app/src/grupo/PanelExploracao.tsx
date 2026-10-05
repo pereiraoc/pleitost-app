@@ -54,7 +54,7 @@ import { activeContextoDef } from '../data/reskin'
 import {
   calcularViagem,
   custoHex,
-  formatarHoras,
+  formatarDias,
   meiosDoGrupo,
   terrenoDoHex,
   type SegmentoViagem,
@@ -453,7 +453,7 @@ function MeiosGrupo({
               title={
                 basico
                   ? 'Meio básico — sempre disponível'
-                  : `×${m.fator} · ${m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')}`
+                  : `${m.hexPorDia} hex/dia · ${m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')}`
               }
               onClick={() => {
                 const atuais = (meios ?? []).filter((x) => x !== cfg.meios[0]!.nome)
@@ -551,8 +551,8 @@ function LeftBar({
     () => new Map<number, SegmentoViagem>((viagem?.segmentos ?? []).map((sv) => [sv.inicio, sv])),
     [viagem],
   )
-  /** Horas do segmento que começa em `inicio` (mono, ⚠ se bloqueado). */
-  const horasSeg = (inicio: number, key: string) => {
+  /** Dias do segmento que começa em `inicio` (mono, ⚠ se bloqueado). */
+  const diasSeg = (inicio: number, key: string) => {
     const sv = segViagem.get(inicio)
     if (!sv || inicio === state.hexes.length - 1) return null
     const bloq = sv.bloqueios.length > 0
@@ -575,7 +575,7 @@ function LeftBar({
         }}
       >
         {bloq ? '⚠ ' : ''}
-        {formatarHoras(sv.horas)}
+        {formatarDias(sv.dias)}
       </span>
     )
   }
@@ -710,7 +710,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
-          {!child && viagem ? horasSeg(idx, h.id) : null}
+          {!child && viagem ? diasSeg(idx, h.id) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -891,7 +891,7 @@ function LeftBar({
             }}
           >
             {viagem.bloqueado ? '⚠ ' : ''}
-            {formatarHoras(viagem.total)}
+            {formatarDias(viagem.total)}
           </span>
         ) : null}
       </div>
@@ -912,7 +912,7 @@ function LeftBar({
                   <div key={key} style={{ display: 'contents' }}>
                     {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
                     {!seg.principal && viagem ? (
-                      <div style={{ marginLeft: 22, display: 'flex' }}>{horasSeg(0, 'lead')}</div>
+                      <div style={{ marginLeft: 22, display: 'flex' }}>{diasSeg(0, 'lead')}</div>
                     ) : null}
                     {kids.length
                       ? isExp
@@ -1899,7 +1899,7 @@ function HexInfo({
   const lugarNoMapa = cellAt(hexMap, hex.col, hex.row)?.localId ?? null
   const lugarResolvido = lugarNoMapa ?? hex.localId ?? null
   // VIAGEM (2026-10-04): terreno do hex (pintado em mapa:mundo ou o padrão da
-  // config) + horas pra cruzá-lo com o meio mais rápido do grupo.
+  // config) + dias pra cruzá-lo com o meio mais rápido do grupo.
   const viagemCfg = activeContextoDef()?.viagem ?? null
   const chaveTerreno = terrenoAt(hexMap, hex.col, hex.row)
   const terreno = viagemCfg ? terrenoDoHex(chaveTerreno, viagemCfg) : null
@@ -1963,13 +1963,13 @@ function HexInfo({
             <span style={fieldLabelStyle}>TERRENO</span>
             <span style={{ fontSize: 13, color: 'var(--text)' }}>
               {terreno.nome}
-              {' — '}
-              {travessia.horas === null ? (
+              {' · '}
+              {travessia.dias === null ? (
                 <span data-hex-terreno-bloqueado="" style={{ color: 'var(--red)' }}>
                   nenhum meio do grupo cruza este hex
                 </span>
               ) : (
-                `${formatarHoras(travessia.horas)} pra cruzar (${travessia.meio})`
+                `${formatarDias(travessia.dias)} com ${travessia.meio}`
               )}
             </span>
           </div>

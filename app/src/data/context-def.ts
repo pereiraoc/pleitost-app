@@ -16,11 +16,13 @@ export interface ViagemCfg {
   /** Chave do terreno de um hex SEM terreno pintado. */
   padrao: string
   /** Na ordem do FM. `chave` = o que a célula do hexmap guarda; `nome` =
-   *  rótulo exibido (nunca derivado da chave); `cor` = tinta no editor. */
-  terrenos: { chave: string; nome: string; horas: number; cor?: string }[]
-  /** O PRIMEIRO é o meio básico (sempre disponível — A pé). `fator` divide as
-   *  horas; `em` = chaves de terreno onde o meio anda. */
-  meios: { nome: string; fator: number; em: string[] }[]
+   *  rótulo exibido (nunca derivado da chave); `cor` = tinta no editor;
+   *  `custo` = multiplicador do movimento (normal 1, difícil 2, muito difícil 3). */
+  terrenos: { chave: string; nome: string; custo: number; cor?: string }[]
+  /** O PRIMEIRO é o meio básico (sempre disponível — A pé). `hexPorDia` = hex
+   *  percorridos em 1 dia (terreno de custo 1); `em` = chaves de terreno onde
+   *  o meio anda. Tempo por hex = custo / hexPorDia DIAS. */
+  meios: { nome: string; hexPorDia: number; em: string[] }[]
 }
 
 export interface ContextoDef {
@@ -170,8 +172,8 @@ export interface ContextoDef {
     /** Períodos do dia e o fator de trânsito de cada um (modos `rua`). */
     periodos?: { nome: string; transito: number }[]
   }
-  /** VIAGEM DO HEXCRAWL (2026-10-04): horas pra cruzar um hex por terreno e
-   *  meios de transporte (fator de velocidade + terrenos onde andam). Ausente =
+  /** VIAGEM DO HEXCRAWL (2026-10-04, regras v2): custo de movimento por
+   *  terreno e meios de transporte (hex por dia + terrenos onde andam). Ausente =
    *  mundo sem hexcrawl (POA) → nenhuma UI de tempo de viagem. */
   viagem?: ViagemCfg
   /** Garantias e limites do Contexto Base. */

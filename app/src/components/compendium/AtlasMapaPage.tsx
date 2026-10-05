@@ -595,7 +595,7 @@ export function AtlasMapaPage() {
                     data-pincel={t.chave}
                     aria-pressed={pincel === t.chave}
                     onClick={() => setPincel(t.chave)}
-                    title={`${t.horas} h pra cruzar`}
+                    title={`Custo de movimento ×${t.custo}`}
                     style={{ ...pillStyle(pincel === t.chave), display: 'inline-flex', alignItems: 'center', gap: 6 }}
                   >
                     <span
