@@ -21,6 +21,8 @@ import {
   MuralBucketAusenteError,
   SessionEncounterAlreadyActiveError,
   SessionEncounterNotFoundError,
+  muralJaTem,
+  type MuralItem,
 } from './contract'
 
 type Row = Record<string, unknown>
@@ -201,12 +203,71 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     if (error) fail('findSessionsByUser', error)
     return ((data ?? []) as Row[]).map(mapSession)
   }
+  /** Patch do state da sessão (merge por chave de topo). Caminho preferido: a
+   *  RPC session_state_patch (supabase/session-state-atomic.sql) — UM UPDATE
+   *  `state || patch` no servidor, sem a corrida de lost update do
+   *  read-merge-write (2026-10-04: o jogador andava na trilha via
+   *  session_set_exploracao enquanto o mestre empurrava o mapa → a trilha
+   *  voltava). Projeto sem a função (PGRST202) → caminho antigo.
+   *  `undefined` = limpar a chave: no caminho antigo o JSON derrubava a chave do
+   *  state inteiro; no `||` a chave ausente MANTERIA o valor velho — então vai
+   *  como null (leitores tratam null como ausente). */
   async updateSessionState(sessionId: string, patch: Partial<Session['state']>): Promise<void> {
-    // merge por chave de topo (read-merge-write; last-write-wins)
+    if (this.rpcs.session_state_patch !== false) {
+      const p_patch = Object.fromEntries(Object.entries(patch).map(([k, v]) => [k, v === undefined ? null : v]))
+      const { data, error } = await this.sb.rpc('session_state_patch', { p_session_id: sessionId, p_patch })
+      if (!error) {
+        this.rpcs.session_state_patch = true
+        if (data === false) fail('updateSessionState', { message: 'sem permissão pra editar esta sessão (ou sessão inexistente)' })
+        return
+      }
+      if (!rpcAusente(error)) fail('updateSessionState(rpc)', error)
+      this.rpcs.session_state_patch = false // função não instalada: read-merge-write daqui em diante
+    }
     const atual = await this.findSessionById(sessionId)
-    const state = { ...(atual?.state ?? {}), ...patch }
+    await this.gravarStateInteiro(sessionId, { ...(atual?.state ?? {}), ...patch }, 'updateSessionState')
+  }
+  /** Caminho ANTIGO (sem as RPCs atômicas): grava o state inteiro. */
+  private async gravarStateInteiro(sessionId: string, state: Session['state'], op: string): Promise<void> {
     const { error } = await this.sb.from('sessions').update({ state }).eq('id', sessionId)
-    if (error) fail('updateSessionState', error)
+    if (error) fail(op, error)
+  }
+  /** Disponibilidade das RPCs atômicas do state da sessão: ausente = ainda não
+   *  sabemos; true/false depois da 1ª chamada (false = PGRST202, não insiste). */
+  private rpcs: Partial<Record<'session_state_patch' | 'session_mural_add' | 'session_mural_remove', boolean>> = {}
+  async muralAdd(sessionId: string, item: MuralItem): Promise<MuralItem[] | null> {
+    if (this.rpcs.session_mural_add !== false) {
+      const { data, error } = await this.sb.rpc('session_mural_add', { p_session_id: sessionId, p_item: item })
+      if (!error) {
+        this.rpcs.session_mural_add = true
+        return (data ?? null) as MuralItem[] | null
+      }
+      if (!rpcAusente(error)) fail('muralAdd(rpc)', error)
+      this.rpcs.session_mural_add = false
+    }
+    const atual = await this.findSessionById(sessionId)
+    if (!atual) return null
+    const mural = atual.state.mural ?? []
+    if (muralJaTem(mural, item)) return mural
+    const novo = [...mural, item]
+    await this.gravarStateInteiro(sessionId, { ...atual.state, mural: novo }, 'muralAdd')
+    return novo
+  }
+  async muralRemove(sessionId: string, id: string): Promise<MuralItem | null> {
+    if (this.rpcs.session_mural_remove !== false) {
+      const { data, error } = await this.sb.rpc('session_mural_remove', { p_session_id: sessionId, p_id: id })
+      if (!error) {
+        this.rpcs.session_mural_remove = true
+        return (data ?? null) as MuralItem | null
+      }
+      if (!rpcAusente(error)) fail('muralRemove(rpc)', error)
+      this.rpcs.session_mural_remove = false
+    }
+    const atual = await this.findSessionById(sessionId)
+    const item = atual?.state.mural?.find((m) => m.id === id)
+    if (!atual || !item) return null
+    await this.gravarStateInteiro(sessionId, { ...atual.state, mural: atual.state.mural!.filter((m) => m.id !== id) }, 'muralRemove')
+    return item
   }
   async uploadMuralImagem(sessionId: string, imagem: Blob): Promise<string> {
     const caminho = `${sessionId}/${crypto.randomUUID()}.jpg`

@@ -230,6 +230,13 @@ export interface MuralItem {
   em: string
 }
 
+/** Dedupe do mural — MESMA regra da RPC session_mural_add
+ *  (supabase/session-state-atomic.sql): mesma imagem = mesmo `target`, ou
+ *  mesma `url` quando o item não tem alvo. */
+export function muralJaTem(mural: readonly MuralItem[] | null | undefined, item: { target?: string; url?: string }): boolean {
+  return (mural ?? []).some((m) => (item.target ? m.target === item.target : !!item.url && m.url === item.url))
+}
+
 /** O bucket `mural` ainda não existe no projeto Supabase
  *  (supabase/storage-mural.sql não aplicado) — só imagem cifrada precisa dele. */
 export class MuralBucketAusenteError extends Error {
@@ -394,7 +401,10 @@ export interface SessionRepo {
   findSessionsByUser(userId: string): Promise<Session[]>
   /** Extensão do APP (#235): patch do state da sessão (merge por chave de
    *  topo, last-write-wins — mesmo modelo do state de personagem). Só o MESTRE
-   *  (RLS gm-only) — combate/iniciativa/imagem. */
+   *  (RLS gm-only) — combate/iniciativa/imagem. ATÔMICO (2026-10-04): só as
+   *  chaves do patch mudam no servidor, escritas concorrentes em outras chaves
+   *  sobrevivem. Chave com `undefined` = limpar (no servidor vira null — leitor
+   *  trata null como ausente). Sem permissão → rejeita. */
   updateSessionState(sessionId: string, patch: Partial<SessionState>): Promise<void>
   /** Edita SÓ a trilha (`exploracao`) via RPC `session_set_exploracao` — QUALQUER
    *  membro da sessão pode (a trilha é do grupo, todos editam/veem); o resto do
@@ -408,6 +418,15 @@ export interface SessionRepo {
   uploadMuralImagem(sessionId: string, imagem: Blob): Promise<string>
   /** MURAL: apaga o objeto de uma URL devolvida pelo uploadMuralImagem. */
   removerMuralImagem(url: string): Promise<void>
+  /** MURAL: põe `item` no mural da sessão ATOMICAMENTE (RPC session_mural_add;
+   *  sem reler/regravar a lista inteira no cliente). Imagem que já está lá
+   *  (muralJaTem) = no-op. Devolve o mural resultante — sem o `item.id` nele =
+   *  era duplicado; null = sessão inexistente / sem permissão (RLS gm-only). */
+  muralAdd(sessionId: string, item: MuralItem): Promise<MuralItem[] | null>
+  /** MURAL: tira o item `id` ATOMICAMENTE (RPC session_mural_remove). Devolve
+   *  o item removido (pra apagar o objeto do Storage) ou null se não estava lá
+   *  / sem permissão. */
+  muralRemove(sessionId: string, id: string): Promise<MuralItem | null>
 
   insertMember(input: {
     sessionId: string

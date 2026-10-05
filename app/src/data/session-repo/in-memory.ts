@@ -7,6 +7,8 @@ import {
   SessionCodeCollisionError,
   SessionEncounterAlreadyActiveError,
   SessionEncounterNotFoundError,
+  muralJaTem,
+  type MuralItem,
   type CharacterKind,
   type CharacterState,
   type CharacterStateDelta,
@@ -87,6 +89,23 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
   }
   async removerMuralImagem(url: string): Promise<void> {
     this.muralRemovidos.push(url)
+  }
+  async muralAdd(sessionId: string, item: MuralItem): Promise<MuralItem[] | null> {
+    const sess = this.sessions.get(sessionId)
+    if (!sess) return null
+    const mural = sess.state.mural ?? []
+    if (muralJaTem(mural, item)) return structuredClone(mural)
+    sess.state = { ...sess.state, mural: [...mural, structuredClone(item)] }
+    this.notify(sessionId)
+    return structuredClone(sess.state.mural!)
+  }
+  async muralRemove(sessionId: string, id: string): Promise<MuralItem | null> {
+    const sess = this.sessions.get(sessionId)
+    const item = sess?.state.mural?.find((m) => m.id === id)
+    if (!sess || !item) return null
+    sess.state = { ...sess.state, mural: sess.state.mural!.filter((m) => m.id !== id) }
+    this.notify(sessionId)
+    return structuredClone(item)
   }
   async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
     const sess = this.sessions.get(sessionId)
