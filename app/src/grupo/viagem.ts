@@ -197,8 +197,21 @@ export interface SegmentoViagem {
   bloqueios: Bloqueio[]
 }
 
+/** Custo pra ENTRAR no hex `i` da trilha (vindo do i-1; com buraco, soma a
+ *  linha inteira). `meio`/`terreno` = os do hex de chegada. `dias: null` =
+ *  nenhum hex do passo é andável; `bloqueado` = algum não é. */
+export interface PassoViagem {
+  dias: number | null
+  meio: string | null
+  /** Chave do terreno efetivo (pintado ou padrão) do hex de chegada. */
+  terreno: string
+  bloqueado: boolean
+}
+
 export interface Viagem {
   segmentos: SegmentoViagem[]
+  /** Por índice da trilha; `passos[0]` (partida) = null. */
+  passos: (PassoViagem | null)[]
   /** Dias de viagem da trilha inteira. */
   total: number
   bloqueado: boolean
@@ -220,20 +233,33 @@ export function calcularViagem({
 }): Viagem {
   const efetivos = meiosDoGrupo(cfg, meios)
   const segs: { seg: SegmentoViagem; soma: Soma }[] = []
+  const passos: (PassoViagem | null)[] = hexes.length ? [null] : []
   hexes.forEach((h, i) => {
     if (ehParada(h) || segs.length === 0) segs.push({ seg: { inicio: i, dias: 0, bloqueios: [] }, soma: new Soma() })
     const next = hexes[i + 1]
     if (!next) return
     const cur = segs[segs.length - 1]!
     const linha = hexLine(h, next)
+    const passo = new Soma()
+    let andou = false
+    let bloqueado = false
+    let ultimo: { meio: string | null; terreno: string } = { meio: null, terreno: cfg.padrao }
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
       const chave = terrenoDe(p.col, p.row)
       const c = custoInterno(chave, cfg, efetivos)
+      const terreno = terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao
+      ultimo = { meio: c.meio, terreno }
       if (c.dias === null) {
-        cur.seg.bloqueios.push({ col: p.col, row: p.row, terreno: terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao })
-      } else cur.soma.add(c)
+        bloqueado = true
+        cur.seg.bloqueios.push({ col: p.col, row: p.row, terreno })
+      } else {
+        andou = true
+        cur.soma.add(c)
+        passo.add(c)
+      }
     }
+    passos.push({ dias: andou ? passo.valor : null, meio: ultimo.meio, terreno: ultimo.terreno, bloqueado })
   })
   const total = new Soma()
   for (const x of segs) {
@@ -241,7 +267,7 @@ export function calcularViagem({
     total.somar(x.soma)
   }
   const segmentos = segs.map((x) => x.seg)
-  return { segmentos, total: total.valor, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
+  return { segmentos, passos, total: total.valor, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
 }
 
 /** Frações "humanas" com glifo (denominadores 2..6 e 8). */

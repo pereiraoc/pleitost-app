@@ -167,6 +167,58 @@ describe('tempo de viagem na exploração', () => {
     expect(info!.textContent).toContain('Estrada · ¼ dia com Carruagem')
   })
 
+  it('tempo do trecho fica na LINHA DO CAMINHO (recolhida e aberta), não na parada', async () => {
+    // a(parada) → b,c (caminho) → d(parada) → e(parada) (fim)
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'caminho' },
+        { id: 'd', col: 60, row: 23, kind: 'parada' },
+        { id: 'e', col: 60, row: 24, kind: 'parada' },
+      ],
+    })
+    setHexTerrenoBulk(MAPA_MUNDO_ID, [{ col: 60, row: 22 }], 'dificil')
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-parada="a"]')).not.toBeNull())
+    // a pé: b ½ + c 1 + d ½ = 2 dias
+    const run = container.querySelector('[data-collapsed-run="a"]')!
+    expect(run.querySelector('[data-viagem-segmento="a"]')!.textContent).toContain('2 dias')
+    // a linha da parada não repete o tempo
+    expect(container.querySelector('[data-parada="a"] [data-viagem-segmento]')).toBeNull()
+    expect(container.querySelector('[data-parada="d"] [data-viagem-segmento]')).toBeNull()
+    // d → e sem caminho entre: conector com o tempo
+    const con = container.querySelector('[data-viagem-conector="d"]')!
+    expect(con.textContent).toContain('↓')
+    expect(con.textContent).toContain('½ dia')
+    // última parada não tem trecho
+    expect(container.querySelector('[data-viagem-conector="e"]')).toBeNull()
+    // aberta: o cabeçalho de recolher carrega o tempo; cada hex mostra o passo
+    fireEvent.click(run)
+    const head = container.querySelector('[data-collapse-run="a"]')!
+    expect(head.querySelector('[data-viagem-segmento="a"]')!.textContent).toContain('2 dias')
+    const pc = container.querySelector('[data-viagem-passo="c"]')!
+    expect(pc.textContent).toContain('1 dia')
+    expect(pc.getAttribute('title')).toBe('1 dia · A pé · Difícil')
+    expect(container.querySelector('[data-viagem-passo="b"]')!.textContent).toContain('½ dia')
+  })
+
+  it('trecho antes da 1ª parada mostra o tempo na própria linha do caminho', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'caminho' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-collapsed-run="lead"]')).not.toBeNull())
+    const run = container.querySelector('[data-collapsed-run="lead"]')!
+    expect(run.querySelector('[data-viagem-segmento="lead"]')!.textContent).toContain('1 dia')
+  })
+
   it('sem `viagem` no contexto: nada de tempo de viagem', async () => {
     const { container } = renderPanel(null)
     await waitFor(() => expect(container.querySelector('[data-parada="a"]')).not.toBeNull())

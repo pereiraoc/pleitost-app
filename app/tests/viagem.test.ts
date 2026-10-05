@@ -198,6 +198,38 @@ describe('calcularViagem', () => {
     expect(v.total).toBeCloseTo(1.5, 12)
   })
 
+  it('passos por índice: custo pra ENTRAR em cada hex (meio, terreno), somando o segmento', () => {
+    const v = calcularViagem({
+      hexes: coluna(4, { 0: 'parada', 3: 'parada' }),
+      terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'dificil', '10,4': 'mar' }),
+      cfg: CFG,
+      meios: ['Cavalo', 'Carruagem'],
+    })
+    expect(v.passos).toHaveLength(5)
+    expect(v.passos[0]).toBeNull() // partida não custa
+    expect(v.passos[1]).toEqual({ dias: 0.25, meio: 'Carruagem', terreno: 'estrada', bloqueado: false })
+    expect(v.passos[2]).toEqual({ dias: 2 / 3, meio: 'Cavalo', terreno: 'dificil', bloqueado: false })
+    expect(v.passos[3]).toEqual({ dias: 1 / 3, meio: 'Cavalo', terreno: 'normal', bloqueado: false })
+    expect(v.passos[4]).toEqual({ dias: null, meio: null, terreno: 'mar', bloqueado: true })
+    // o segmento da parada 0 soma os passos 1..3 (até entrar na parada 3)
+    const soma = [1, 2, 3].reduce((a, i) => a + (v.passos[i]!.dias ?? 0), 0)
+    expect(soma).toBeCloseTo(v.segmentos[0]!.dias, 12)
+    expect(v.segmentos[1]!.bloqueios).toHaveLength(1)
+  })
+
+  it('passo com buraco soma a linha inteira até o hex de chegada', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 3, kind: 'parada' },
+      ],
+      terrenoDe: terrenoDe({ '10,1': 'dificil', '10,2': 'dificil' }),
+      cfg: CFG,
+      meios: ['A pé'],
+    })
+    expect(v.passos[1]).toEqual({ dias: 2.5, meio: 'A pé', terreno: 'normal', bloqueado: false })
+  })
+
   it('trilha vazia ou de um hex só = 0', () => {
     expect(calcularViagem({ hexes: [], terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)
     expect(calcularViagem({ hexes: coluna(0), terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)

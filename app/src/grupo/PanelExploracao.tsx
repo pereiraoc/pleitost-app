@@ -551,32 +551,78 @@ function LeftBar({
     () => new Map<number, SegmentoViagem>((viagem?.segmentos ?? []).map((sv) => [sv.inicio, sv])),
     [viagem],
   )
-  /** Dias do segmento que começa em `inicio` (mono, ⚠ se bloqueado). */
+  const nomeTerreno = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
+  /** Dias do trecho que começa em `inicio` (da parada até a próxima), mono e
+   *  legível, ⚠ se bloqueado. Vive na LINHA DO CAMINHO (rota recolhida/aberta)
+   *  ou no conector entre paradas vizinhas — nunca na linha da parada. */
   const diasSeg = (inicio: number, key: string) => {
     const sv = segViagem.get(inicio)
     if (!sv || inicio === state.hexes.length - 1) return null
     const bloq = sv.bloqueios.length > 0
-    const nomeT = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
     return (
       <span
         data-viagem-segmento={key}
         {...(bloq ? { 'data-viagem-seg-bloqueado': '' } : {})}
         title={
           bloq
-            ? `Sem meio possível em: ${sv.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeT(b.terreno)})`).join(' · ')}`
+            ? `Sem meio possível em: ${sv.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeTerreno(b.terreno)})`).join(' · ')}`
             : 'Tempo até a próxima parada'
         }
         style={{
           flex: 'none',
           fontFamily: 'var(--mono)',
-          fontSize: 9.5,
+          fontSize: 10.5,
+          fontWeight: 600,
           letterSpacing: '.06em',
-          color: bloq ? 'var(--red)' : 'var(--muted)',
+          color: bloq ? 'var(--red)' : 'var(--accent)',
         }}
       >
         {bloq ? '⚠ ' : ''}
         {formatarDias(sv.dias)}
       </span>
+    )
+  }
+  /** Custo pra ENTRAR num hex de caminho (rota aberta): pequeno e apagado; o
+   *  tooltip diz o meio e o terreno. */
+  const diasPasso = (h: GroupHex, idx: number) => {
+    const p = viagem?.passos[idx]
+    if (!p) return null
+    const terreno = nomeTerreno(p.terreno)
+    return (
+      <span
+        data-viagem-passo={h.id}
+        {...(p.bloqueado ? { 'data-viagem-passo-bloqueado': '' } : {})}
+        title={
+          p.dias === null
+            ? `Sem meio possível · ${terreno}`
+            : [formatarDias(p.dias), p.meio, terreno].filter(Boolean).join(' · ')
+        }
+        style={{
+          flex: 'none',
+          fontFamily: 'var(--mono)',
+          fontSize: 9.5,
+          letterSpacing: '.04em',
+          color: p.bloqueado ? 'var(--red)' : 'var(--muted)',
+        }}
+      >
+        {p.bloqueado ? '⚠ ' : ''}
+        {p.dias === null ? '' : formatarDias(p.dias)}
+      </span>
+    )
+  }
+  /** Paradas vizinhas (sem caminho entre): linha fininha com o tempo do trecho. */
+  const conectorRow = (h: GroupHex, idx: number) => {
+    const dias = diasSeg(idx, h.id)
+    if (!dias) return null
+    return (
+      <div
+        key={`con-${h.id}`}
+        data-viagem-conector={h.id}
+        style={{ marginLeft: 22, display: 'flex', alignItems: 'center', gap: 6, padding: '1px 9px', color: 'var(--muted)' }}
+      >
+        <span aria-hidden style={{ fontSize: 10, lineHeight: 1 }}>↓</span>
+        {dias}
+      </div>
     )
   }
 
@@ -710,7 +756,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
-          {!child && viagem ? diasSeg(idx, h.id) : null}
+          {child && viagem ? diasPasso(h, idx) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -771,7 +817,7 @@ function LeftBar({
 
   /** Corrida de HEX-only COLAPSADA: 3 pontinhos verticais + contagem; clique
    *  EXPANDE pra mostrar o caminho completo (e só então os "+" de inserir). */
-  const collapsedRow = (key: string, children: { h: GroupHex; idx: number }[]) => (
+  const collapsedRow = (key: string, inicio: number, children: { h: GroupHex; idx: number }[]) => (
     <button
       key={`col-${key}`}
       data-collapsed-run={key}
@@ -800,12 +846,13 @@ function LeftBar({
         ))}
       </span>
       <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{children.length} HEX</span>
+      {viagem ? diasSeg(inicio, key) : null}
     </button>
   )
 
   /** Cabeçalho da rota EXPANDIDA: botão pra RECOLHER de volta (#: pedido do
    *  usuário — expandir tem que ter como fechar). */
-  const runCollapseBtn = (key: string, count: number) => (
+  const runCollapseBtn = (key: string, inicio: number, count: number) => (
     <button
       key={`recolher-${key}`}
       data-collapse-run={key}
@@ -831,6 +878,7 @@ function LeftBar({
     >
       <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>▴</span>
       <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{count} HEX · RECOLHER</span>
+      {viagem ? diasSeg(inicio, key) : null}
     </button>
   )
 
@@ -906,21 +954,20 @@ function LeftBar({
             <>
               {segs.map((seg) => {
                 const key = seg.principal?.id ?? 'lead'
+                const inicio = seg.principal ? seg.principalIdx : 0
                 const isExp = expanded.has(key)
                 const kids = seg.children
                 return (
                   <div key={key} style={{ display: 'contents' }}>
                     {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
-                    {!seg.principal && viagem ? (
-                      <div style={{ marginLeft: 22, display: 'flex' }}>{diasSeg(0, 'lead')}</div>
-                    ) : null}
+                    {seg.principal && !kids.length && viagem ? conectorRow(seg.principal, seg.principalIdx) : null}
                     {kids.length
                       ? isExp
                         ? (
                             // Rota ABERTA: botão de recolher + os hexes, com o "+"
                             // de inserir parada SÓ aqui, entre os pontos da rota.
                             <>
-                              {runCollapseBtn(key, kids.length)}
+                              {runCollapseBtn(key, inicio, kids.length)}
                               {kids.map((c) => (
                                 <div key={c.h.id} style={{ display: 'contents' }}>
                                   {insertRow(c.idx, true)}
@@ -930,7 +977,7 @@ function LeftBar({
                               {insertRow(kids[kids.length - 1]!.idx + 1, true)}
                             </>
                           )
-                        : collapsedRow(key, kids)
+                        : collapsedRow(key, inicio, kids)
                       : null}
                   </div>
                 )
