@@ -8,18 +8,21 @@
 //    a config não conhece mais) = `padrao`.
 //  • BURACOS: hexes consecutivos não adjacentes na trilha são ligados pela
 //    linha hex mais curta (cube lerp) — cada hex do meio também é entrado.
-//  • MEIO: por hex, o mais rápido (maior `hexPorDia`) entre os meios do grupo
-//    que andam naquele terreno; DIAS = terreno.custo / meio.hexPorDia (1 dia:
-//    a pé 2 hex, cavalo 3, carruagem 4, navio 5; custo ×1/×2/×3). Nenhum →
-//    passo BLOQUEADO (reporta hex + terreno) e não soma.
+//  • MEIO (2026-10-06, "um meio por trecho"): cada TRECHO (da parada
+//    anterior até a parada de chegada) pode ter UM meio escolhido, gravado na
+//    parada de CHEGADA (`GroupHex.meio`). Em cada hex do trecho: se o meio
+//    escolhido anda naquele terreno, usa ele; senão (carruagem fora da
+//    estrada, cavalo na montanha, navio em terra) cai no AUTOMÁTICO. Sem
+//    escolha = automático em todo o trecho. Caminho depois da última parada
+//    não tem trecho → automático. Nome que a config não conhece = sem escolha.
+//  • AUTOMÁTICO: o mais rápido (maior `hexPorDia`) entre os meios automáticos
+//    (o PRIMEIRO da config, o básico A pé, + os `padrao`: carruagem na
+//    estrada, navio no mar) que andam ali; DIAS = terreno.custo /
+//    meio.hexPorDia (1 dia: a pé 2 hex, cavalo 3, carruagem 4, navio 5;
+//    custo ×1/×2/×3). Nenhum → passo BLOQUEADO (reporta hex + terreno) e não
+//    soma.
 //  • SOMA EXATA: custo/hexPorDia vira fração (inteiros → num/den reduzidos) e
 //    a soma é racional, sem 0,999…; config não inteira cai pra float.
-//  • MEIOS DO GRUPO gravados com nomes que a config não conhece mais (antigos
-//    Caravana/Barco) são IGNORADOS (meiosDoGrupo filtra pela config).
-//  • MEIOS DO GRUPO: o PRIMEIRO meio da config é o básico (A pé) — sempre
-//    disponível (quem tem cavalo desmonta na montanha); os escolhidos somam.
-//    Sem escolha = os `padrao` da config (a pé + carruagem + navio: estrada
-//    vai de carruagem, mar de navio sozinhos).
 //  • TRECHOS: por PARADA de chegada, a soma dos passos desde a parada
 //    anterior (ou do início da trilha) — é o que a linha da parada mostra.
 //  • SEGMENTOS: mesma segmentação da lista do caminho (PanelExploracao
@@ -102,15 +105,10 @@ export function hexLine(a: Hex, b: Hex): Hex[] {
   return out
 }
 
-/** Meios efetivos do grupo, na ordem da config: o básico (1º) sempre; sem
- *  escolha gravada (`undefined`) entram os `padrao` da config (a pé +
- *  carruagem + navio); com escolha (mesmo vazia), os escolhidos que a config
- *  conhece. */
-export function meiosDoGrupo(cfg: ViagemCfg, escolhidos: readonly string[] | undefined): string[] {
-  const set = escolhidos ? new Set(escolhidos) : null
-  return cfg.meios
-    .filter((m, i) => i === 0 || (set ? set.has(m.nome) : m.padrao === true))
-    .map((m) => m.nome)
+/** Meios AUTOMÁTICOS, na ordem da config: o básico (1º) sempre + os
+ *  `padrao` (a pé + carruagem + navio na Fantasia). */
+export function meiosAutomaticos(cfg: ViagemCfg): string[] {
+  return cfg.meios.filter((m, i) => i === 0 || m.padrao === true).map((m) => m.nome)
 }
 
 /** Ícone (config) de um meio pelo nome; '' se a config não conhece. */
@@ -155,8 +153,45 @@ function custoInterno(chave: string | undefined, cfg: ViagemCfg, meios: readonly
   }
 }
 
-/** Dias pra entrar num hex do terreno `chave` com os meios EFETIVOS dados
- *  (use meiosDoGrupo). `dias: null` = nenhum meio anda ali (bloqueado). */
+/** Custo de entrar no hex com o meio ESCOLHIDO do trecho, se ele anda ali;
+ *  senão (ou sem escolha) o automático. `fallback` = havia escolha e ela não
+ *  serviu neste terreno. */
+function custoComEscolha(
+  chave: string | undefined,
+  cfg: ViagemCfg,
+  escolha: string | undefined,
+): Custo & { fallback: boolean } {
+  if (escolha && cfg.meios.some((m) => m.nome === escolha)) {
+    const c = custoInterno(chave, cfg, [escolha])
+    if (c.dias !== null) return { ...c, fallback: false }
+    return { ...custoInterno(chave, cfg, meiosAutomaticos(cfg)), fallback: true }
+  }
+  return { ...custoInterno(chave, cfg, meiosAutomaticos(cfg)), fallback: false }
+}
+
+/** Dias pra entrar num hex com o meio escolhido do trecho (ou automático). */
+export function custoHexNoTrecho(
+  chave: string | undefined,
+  cfg: ViagemCfg,
+  escolha: string | undefined,
+): { dias: number | null; meio: string | null } {
+  const { dias, meio } = custoComEscolha(chave, cfg, escolha)
+  return { dias, meio }
+}
+
+/** Meio escolhido do TRECHO a que o hex `idx` pertence (entrar nele): o
+ *  `meio` da 1ª parada em idx ou depois; undefined = automático / sem trecho. */
+export function meioDoTrecho<H extends Hex & { kind?: 'parada' | 'caminho'; meio?: string }>(
+  hexes: readonly H[],
+  idx: number,
+  ehParada: (h: H) => boolean = (h) => h.kind !== 'caminho',
+): string | undefined {
+  for (let i = Math.max(idx, 1); i < hexes.length; i++) if (ehParada(hexes[i]!)) return hexes[i]!.meio
+  return undefined
+}
+
+/** Dias pra entrar num hex do terreno `chave` com os meios dados
+ *  (ex.: meiosAutomaticos). `dias: null` = nenhum meio anda ali (bloqueado). */
 export function custoHex(
   chave: string | undefined,
   cfg: ViagemCfg,
@@ -229,8 +264,12 @@ export interface TrechoViagem {
   dias: number
   /** Meios usados (distintos, na ordem da viagem). */
   meios: string[]
-  /** Dias por meio, na mesma ordem. */
-  partes: { meio: string; dias: number }[]
+  /** Dias por meio, na mesma ordem. `terrenos` (só quando houve escolha e
+   *  ela não serviu): chaves dos terrenos onde este meio entrou no lugar. */
+  partes: { meio: string; dias: number; terrenos?: string[] }[]
+  /** Meio escolhido do trecho (GroupHex.meio da parada de chegada), se a
+   *  config o conhece; ausente = automático. */
+  escolhido?: string
   bloqueios: Bloqueio[]
 }
 
@@ -249,17 +288,23 @@ export function calcularViagem({
   hexes,
   terrenoDe,
   cfg,
-  meios,
   ehParada = (h) => h.kind !== 'caminho',
 }: {
-  hexes: readonly (Hex & { kind?: 'parada' | 'caminho' })[]
+  /** `meio` na PARADA = meio escolhido do trecho que chega nela. */
+  hexes: readonly (Hex & { kind?: 'parada' | 'caminho'; meio?: string })[]
   terrenoDe: (col: number, row: number) => string | undefined
   cfg: ViagemCfg
-  /** Escolha do grupo (GroupState.exploracao meios); undefined = só o básico. */
-  meios: readonly string[] | undefined
-  ehParada?: (h: Hex & { kind?: 'parada' | 'caminho' }) => boolean
+  ehParada?: (h: Hex & { kind?: 'parada' | 'caminho'; meio?: string }) => boolean
 }): Viagem {
-  const efetivos = meiosDoGrupo(cfg, meios)
+  // escolha por hex ENTRADO: a da parada de chegada do trecho (varre de trás
+  // pra frente; caminho após a última parada fica sem escolha)
+  const conhecido = (m: string | undefined) => (m && cfg.meios.some((x) => x.nome === m) ? m : undefined)
+  const escolhaDe: (string | undefined)[] = new Array(hexes.length).fill(undefined)
+  let corrente: string | undefined
+  for (let i = hexes.length - 1; i >= 1; i--) {
+    if (ehParada(hexes[i]!)) corrente = conhecido(hexes[i]!.meio)
+    escolhaDe[i] = corrente
+  }
   const segs: { seg: SegmentoViagem; soma: Soma }[] = []
   const passos: (PassoViagem | null)[] = hexes.length ? [null] : []
   const trechos = new Map<number, TrechoViagem>()
@@ -278,7 +323,7 @@ export function calcularViagem({
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
       const chave = terrenoDe(p.col, p.row)
-      const c = custoInterno(chave, cfg, efetivos)
+      const c = custoComEscolha(chave, cfg, escolhaDe[i + 1])
       const terreno = terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao
       ultimo = { meio: c.meio, terreno }
       if (c.dias === null) {
@@ -293,6 +338,11 @@ export function calcularViagem({
         let pm = trecho.porMeio.get(c.meio!)
         if (!pm) trecho.porMeio.set(c.meio!, (pm = new Soma()))
         pm.add(c)
+        if (c.fallback) {
+          let ts = trecho.fallbackTerrenos.get(c.meio!)
+          if (!ts) trecho.fallbackTerrenos.set(c.meio!, (ts = []))
+          if (!ts.includes(terreno)) ts.push(terreno)
+        }
         if (!meiosPasso.includes(c.meio!)) meiosPasso.push(c.meio!)
       }
     }
@@ -300,10 +350,15 @@ export function calcularViagem({
     // chegou numa PARADA: fecha o trecho (da parada anterior / início até aqui)
     if (ehParada(next)) {
       const meiosT = [...trecho.porMeio.keys()]
+      const escolhido = escolhaDe[i + 1]
       trechos.set(i + 1, {
         dias: trecho.soma.valor,
         meios: meiosT,
-        partes: meiosT.map((m) => ({ meio: m, dias: trecho.porMeio.get(m)!.valor })),
+        partes: meiosT.map((m) => {
+          const ts = trecho.fallbackTerrenos.get(m)
+          return { meio: m, dias: trecho.porMeio.get(m)!.valor, ...(ts ? { terrenos: ts } : {}) }
+        }),
+        ...(escolhido ? { escolhido } : {}),
         bloqueios: trecho.bloqueios,
       })
       trecho = novoTrecho()
@@ -319,7 +374,12 @@ export function calcularViagem({
 }
 
 function novoTrecho() {
-  return { soma: new Soma(), porMeio: new Map<string, Soma>(), bloqueios: [] as Bloqueio[] }
+  return {
+    soma: new Soma(),
+    porMeio: new Map<string, Soma>(),
+    fallbackTerrenos: new Map<string, string[]>(),
+    bloqueios: [] as Bloqueio[],
+  }
 }
 
 /** Frações "humanas" com glifo (denominadores 2..6 e 8). */

@@ -3,7 +3,9 @@
 // bloco `viagem` no Contexto-Def (Fantasia), a barra do CAMINHO mostra o total
 // da trilha em DIAS; cada PARADA mostra o tempo desde a parada anterior + o(s)
 // ícone(s) do meio (config); cada hex de caminho aberto mostra o próprio passo.
-// O seletor de meios só aparece no EDITAR. O terreno é DADO DO MUNDO (nota
+// UM MEIO POR TRECHO (2026-10-06): no EDITAR, cada parada com trecho ganha
+// um seletor único (AUTO ou o ícone do meio) que grava `meio` na parada de
+// chegada; o meio vale onde o terreno deixa, o resto cai no automático. O terreno é DADO DO MUNDO (nota
 // `viagem.terreno`, FM `Terreno`), lido pelo doc efetivo (overlay publicado /
 // rascunho do Modo Dev). O pintor (✎ TERRENO) só existe no Modo Dev e grava UM
 // rascunho por traço. Sem o bloco (POA), nada de viagem aparece.
@@ -21,7 +23,9 @@ import {
   getGroupState,
   groupStateJson,
   setGroupStateFull,
+  setMeioTrecho,
 } from '../src/data/group-store'
+import { InMemorySessionRepo } from '../src/data/session-repo/in-memory'
 import { __resetHexMapStoreMemoryForTests, __setSeedsForTests } from '../src/data/hexmap-store'
 import { __resetPublishedForTests, __setPublishedForTests } from '../src/data/published-overlay-store'
 import { __resetDraftsForTests, allLocalDrafts, localDraftFor } from '../src/data/local-draft-store'
@@ -235,14 +239,18 @@ describe('tempo de viagem na exploração', () => {
   it('trecho bloqueado: ⚠ vermelho com hex e terreno no tooltip', async () => {
     setGroupStateFull(GROUP_ID, {
       grade: 'mundo',
-      meios: ['A pé'],
       hexes: [
         { id: 'a', col: 60, row: 20, kind: 'parada' },
         { id: 'b', col: 60, row: 21, kind: 'parada' },
       ],
     })
     terrenoPublicado({ mar: ['60,21'] })
-    const { container } = renderPanel(DEF)
+    // config sem navio automático: mar fica sem meio
+    const semNavio = {
+      ...DEF,
+      viagem: { ...DEF.viagem!, meios: DEF.viagem!.meios.map((m) => (m.nome === 'Navio' ? { ...m, padrao: false } : m)) },
+    } as ContextoDef
+    const { container } = renderPanel(semNavio)
     await waitFor(() => expect(container.querySelector('[data-viagem-trecho-bloqueado]')).not.toBeNull())
     const t = container.querySelector('[data-viagem-trecho="b"]')!
     expect(t.textContent).toContain('⚠')
@@ -250,32 +258,127 @@ describe('tempo de viagem na exploração', () => {
     expect(container.querySelector('[data-viagem-bloqueado]')).not.toBeNull()
   })
 
-  it('meios de viagem só aparecem no EDITAR; editar grava o conjunto explícito', async () => {
+  it('sem chips de meios do grupo; seletor de meio por trecho só no EDITAR (nunca na 1ª linha)', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+      ],
+    })
     const { container } = renderPanel(DEF)
-    await waitFor(() => expect(container.querySelector('[data-viagem-total]')).not.toBeNull())
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')).not.toBeNull())
     expect(container.querySelector('[data-viagem-meios]')).toBeNull()
-    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('1 dia')
+    expect(container.querySelector('[data-meio-trecho]')).toBeNull()
     fireEvent.click(container.querySelector('[data-editar-trilha]')!)
-    const meios = container.querySelector('[data-viagem-meios]')!
-    expect(meios).not.toBeNull()
-    // padrões ligados, Cavalo desligado
-    expect(screen.getByRole('button', { name: /Carruagem/ }).getAttribute('aria-pressed')).toBe('true')
-    expect(screen.getByRole('button', { name: /Cavalo/ }).getAttribute('aria-pressed')).toBe('false')
-    fireEvent.click(screen.getByRole('button', { name: /Cavalo/ }))
-    expect(getGroupState(GROUP_ID).meios).toEqual(['A pé', 'Cavalo', 'Carruagem', 'Navio'])
-    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('⅔ dia'))
-    fireEvent.click(screen.getByRole('button', { name: /Navio/ }))
-    expect(getGroupState(GROUP_ID).meios).toEqual(['A pé', 'Cavalo', 'Carruagem'])
-    fireEvent.click(container.querySelector('[data-concluir-edicao]')!)
     expect(container.querySelector('[data-viagem-meios]')).toBeNull()
+    expect(container.querySelector('[data-meio-trecho="a"]')).toBeNull()
+    const sel = container.querySelector('[data-meio-trecho="c"]')!
+    expect(sel.textContent).toBe('AUTO')
+    fireEvent.click(container.querySelector('[data-concluir-edicao]')!)
+    expect(container.querySelector('[data-meio-trecho]')).toBeNull()
   })
 
-  it('sync: meios só entram no JSON com trilha (vazio+meios nunca empurra por cima, #450)', () => {
-    expect(groupStateJson({ hexes: [], meios: ['Cavalo'] })).toBe(groupStateJson({ hexes: [] }))
-    const comTrilha = getGroupState(GROUP_ID)
-    expect(groupStateJson({ ...comTrilha, meios: ['Cavalo'] })).not.toBe(groupStateJson(comTrilha))
-    setGroupStateFull(GROUP_ID, { ...comTrilha, meios: ['Navio'] })
-    expect(getGroupState(GROUP_ID).meios).toEqual(['Navio'])
+  it('Cavalo num trecho de gramado: ½ → ⅓ por hex; limpar volta ao automático', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🚶 1 dia'))
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    expect([...menu.querySelectorAll('[role="menuitemradio"]')].map((b) => b.getAttribute('data-meio-opcao'))).toEqual([
+      '',
+      'A pé',
+      'Cavalo',
+      'Carruagem',
+      'Navio',
+    ])
+    expect(menu.querySelector('[data-meio-opcao=""]')!.getAttribute('aria-checked')).toBe('true')
+    fireEvent.click(menu.querySelector('[data-meio-opcao="Cavalo"]')!)
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')
+    expect(container.querySelector('[data-meio-menu]')).toBeNull() // fecha ao escolher
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🐎 ⅔ dia'))
+    expect(container.querySelector('[data-meio-trecho="c"]')!.textContent).toBe('🐎')
+    // limpar
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    fireEvent.click(container.querySelector('[data-meio-opcao=""]')!)
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBeUndefined()
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🚶 1 dia'))
+  })
+
+  it('menu fecha com Escape e com clique fora', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'c', col: 60, row: 21, kind: 'parada' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    expect(container.querySelector('[data-meio-menu="c"]')).not.toBeNull()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(container.querySelector('[data-meio-menu]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    fireEvent.pointerDown(document.body)
+    expect(container.querySelector('[data-meio-menu]')).toBeNull()
+  })
+
+  it('Carruagem num trecho estrada + gramado: 🛞 na estrada, automático no gramado, os dois ícones', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada', meio: 'Carruagem' },
+      ],
+    })
+    terrenoPublicado({ estrada: ['60,21'] })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🛞🚶 ¾ dia'))
+    expect(container.querySelector('[data-viagem-trecho="c"]')!.getAttribute('title')).toBe(
+      'Desde a parada anterior: ¾ dia\n🛞 Carruagem · ¼ dia\n🚶 A pé (Gramado, sem Carruagem) · ½ dia',
+    )
+  })
+
+  it('Navio num trecho em terra: automático em tudo (🚶)', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'c', col: 60, row: 22, kind: 'parada', meio: 'Navio' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🚶 1 dia'))
+  })
+
+  it('sync: `meio` da parada sobrevive à serialização, ao repo (setExploracao) e à hidratação', async () => {
+    setMeioTrecho(GROUP_ID, 'c', 'Cavalo')
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')
+    expect(groupStateJson(getGroupState(GROUP_ID))).toContain('"meio":"Cavalo"')
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'm', gmUserId: 'gm', code: 'X1' })
+    await repo.setExploracao(sess.id, { ...getGroupState(GROUP_ID) })
+    const remoto = (await repo.findSessionById(sess.id))!.state.exploracao!
+    __resetGroupStoreMemoryForTests()
+    window.localStorage.clear()
+    setGroupStateFull(GROUP_ID, JSON.parse(JSON.stringify(remoto)))
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')
+    __resetGroupStoreMemoryForTests() // reload: hidrata do localStorage
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')
+    setMeioTrecho(GROUP_ID, 'c', null)
+    expect('meio' in getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!).toBe(false)
   })
 
   it('popover da parada mostra o terreno e o tempo pra cruzar o hex com o meio', async () => {

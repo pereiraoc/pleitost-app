@@ -6,9 +6,10 @@
 // entra em terreno muito difícil; navio só no mar.
 // Custo: cada PASSO do hex i pro i+1 custa o terreno do hex ENTRADO (o de
 // partida não conta). Hexes não adjacentes na trilha são ligados pela linha
-// hex mais curta (cada hex do meio também é entrado). Meio por hex = o mais
-// rápido entre os do grupo que andam naquele terreno; o PRIMEIRO meio da
-// config (A pé) é o básico, sempre disponível. Sem meio possível → bloqueado.
+// hex mais curta (cada hex do meio também é entrado). UM MEIO POR TRECHO
+// (2026-10-06): a parada de chegada guarda o meio escolhido (`meio`); em cada
+// hex do trecho ele vale onde anda, senão cai no AUTOMÁTICO (o mais rápido
+// entre o básico A pé + os `padrao`). Sem meio possível → bloqueado.
 import { describe, expect, it } from 'vitest'
 import {
   calcularViagem,
@@ -16,7 +17,9 @@ import {
   formatarDias,
   hexDistance,
   hexLine,
-  meiosDoGrupo,
+  custoHexNoTrecho,
+  meioDoTrecho,
+  meiosAutomaticos,
   type ViagemCfg,
 } from '../src/grupo/viagem'
 
@@ -53,6 +56,11 @@ function coluna(n: number, kinds: Record<number, 'parada' | 'caminho'> = {}) {
   }))
 }
 
+/** Grava o meio escolhido nas paradas dadas (índice → meio). */
+function comMeio<T extends object>(hexes: T[], meios: Record<number, string>): (T & { meio?: string })[] {
+  return hexes.map((h, i) => (meios[i] ? { ...h, meio: meios[i] } : h))
+}
+
 const terrenoDe = (mapa: Record<string, string>) => (col: number, row: number) => mapa[`${col},${row}`]
 
 describe('custoHex', () => {
@@ -82,32 +90,32 @@ describe('custoHex', () => {
   })
 })
 
-describe('meiosDoGrupo', () => {
-  it('sem escolha → o básico + os `padrao` da config (a pé, carruagem, navio)', () => {
-    expect(meiosDoGrupo(CFG_PADRAO, undefined)).toEqual(['A pé', 'Carruagem', 'Navio'])
-  })
-  it('escolha explícita (mesmo vazia) vence os padrões; básico sempre entra', () => {
-    expect(meiosDoGrupo(CFG_PADRAO, [])).toEqual(['A pé'])
-    expect(meiosDoGrupo(CFG_PADRAO, ['A pé', 'Cavalo'])).toEqual(['A pé', 'Cavalo'])
+describe('meiosAutomaticos / escolha por trecho', () => {
+  it('automáticos = o básico + os `padrao` da config (a pé, carruagem, navio)', () => {
+    expect(meiosAutomaticos(CFG_PADRAO)).toEqual(['A pé', 'Carruagem', 'Navio'])
+    expect(meiosAutomaticos(CFG)).toEqual(['A pé'])
   })
   it('padrões: estrada usa Carruagem, mar usa Navio, gramado A pé', () => {
     const v = calcularViagem({
       hexes: coluna(3, { 0: 'parada' }),
       terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'mar', '10,3': 'normal' }),
       cfg: CFG_PADRAO,
-      meios: undefined,
     })
     expect(v.passos.slice(1).map((p) => p!.meio)).toEqual(['Carruagem', 'Navio', 'A pé'])
     expect(v.bloqueado).toBe(false)
   })
-
-  it('sem escolha → só o primeiro meio da config (A pé)', () => {
-    expect(meiosDoGrupo(CFG, undefined)).toEqual(['A pé'])
-    expect(meiosDoGrupo(CFG, [])).toEqual(['A pé'])
+  it('custoHexNoTrecho: escolha vale onde anda; senão automático', () => {
+    expect(custoHexNoTrecho('normal', CFG_PADRAO, 'Cavalo')).toEqual({ dias: 1 / 3, meio: 'Cavalo' })
+    expect(custoHexNoTrecho('muito_dificil', CFG_PADRAO, 'Cavalo')).toEqual({ dias: 1.5, meio: 'A pé' })
+    expect(custoHexNoTrecho('estrada', CFG_PADRAO, 'A pé')).toEqual({ dias: 0.5, meio: 'A pé' })
+    expect(custoHexNoTrecho('estrada', CFG_PADRAO, undefined)).toEqual({ dias: 0.25, meio: 'Carruagem' })
+    expect(custoHexNoTrecho('normal', CFG_PADRAO, 'Dragão')).toEqual({ dias: 0.5, meio: 'A pé' })
   })
-  it('o básico entra sempre; nomes fora da config (inclusive os antigos Caravana/Barco) caem', () => {
-    expect(meiosDoGrupo(CFG, ['Cavalo', 'Dragão'])).toEqual(['A pé', 'Cavalo'])
-    expect(meiosDoGrupo(CFG, ['Caravana', 'Barco'])).toEqual(['A pé'])
+  it('meioDoTrecho: o meio da parada de chegada; após a última parada, nenhum', () => {
+    const hexes = comMeio(coluna(4, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo', 0: 'Navio' })
+    expect(meioDoTrecho(hexes, 1)).toBe('Cavalo')
+    expect(meioDoTrecho(hexes, 2)).toBe('Cavalo')
+    expect(meioDoTrecho(hexes, 3)).toBeUndefined()
   })
 })
 
@@ -137,28 +145,82 @@ describe('calcularViagem', () => {
       hexes: coluna(3, { 0: 'parada' }),
       terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'dificil', '10,3': 'muito_dificil' }),
       cfg: CFG,
-      meios: undefined,
     })
     expect(v.total).toBe(0.5 + 1 + 1.5)
     expect(v.bloqueado).toBe(false)
   })
 
   it('soma exata de terços (cavalo: 3 hex de gramado = 1 dia, sem 0,999…)', () => {
-    const v = calcularViagem({ hexes: coluna(3), terrenoDe: () => undefined, cfg: CFG, meios: ['Cavalo'] })
+    const v = calcularViagem({
+      hexes: comMeio(coluna(3, { 3: 'parada' }), { 3: 'Cavalo' }),
+      terrenoDe: () => undefined,
+      cfg: CFG,
+    })
     expect(v.total).toBe(1)
     expect(formatarDias(v.total)).toBe('1 dia')
   })
 
-  it('carruagem na estrada e cavalo fora dela, no mesmo trecho', () => {
+  it('Carruagem escolhida: estrada de carruagem, gramado cai no automático (a pé)', () => {
     const v = calcularViagem({
-      hexes: coluna(3),
+      hexes: comMeio(coluna(3, { 0: 'parada', 3: 'parada' }), { 3: 'Carruagem' }),
       terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'estrada' }),
-      cfg: CFG,
-      meios: ['Cavalo', 'Carruagem'],
+      cfg: CFG_PADRAO,
     })
-    // ¼ + ¼ + ⅓ (gramado a cavalo) = ⅚
-    expect(v.total).toBeCloseTo(5 / 6, 12)
-    expect(formatarDias(v.total)).toBe('⅚ dia')
+    // ¼ + ¼ + ½ (gramado a pé) = 1
+    expect(v.total).toBe(1)
+    const t = v.trechos.get(3)!
+    expect(t.escolhido).toBe('Carruagem')
+    expect(t.meios).toEqual(['Carruagem', 'A pé'])
+    expect(t.partes).toEqual([
+      { meio: 'Carruagem', dias: 0.5 },
+      { meio: 'A pé', dias: 0.5, terrenos: ['normal'] },
+    ])
+  })
+
+  it('Cavalo escolhido num trecho de gramado: ⅓ por hex em vez de ½', () => {
+    const hexes = coluna(2, { 0: 'parada', 2: 'parada' })
+    expect(calcularViagem({ hexes, terrenoDe: () => undefined, cfg: CFG_PADRAO }).trechos.get(2)!.dias).toBe(1)
+    const v = calcularViagem({ hexes: comMeio(hexes, { 2: 'Cavalo' }), terrenoDe: () => undefined, cfg: CFG_PADRAO })
+    expect(v.trechos.get(2)!.dias).toBe(2 / 3)
+    expect(v.trechos.get(2)!.meios).toEqual(['Cavalo'])
+  })
+
+  it('Navio escolhido num trecho em terra: automático em tudo (a pé), sem bloquear', () => {
+    const v = calcularViagem({
+      hexes: comMeio(coluna(2, { 0: 'parada', 2: 'parada' }), { 2: 'Navio' }),
+      terrenoDe: () => undefined,
+      cfg: CFG_PADRAO,
+    })
+    const t = v.trechos.get(2)!
+    expect(t.dias).toBe(1)
+    expect(t.meios).toEqual(['A pé'])
+    expect(t.partes).toEqual([{ meio: 'A pé', dias: 1, terrenos: ['normal'] }])
+    expect(v.bloqueado).toBe(false)
+  })
+
+  it('escolha vale só no próprio trecho; caminho depois da última parada é automático', () => {
+    const v = calcularViagem({
+      hexes: comMeio(coluna(4, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo' }),
+      terrenoDe: () => undefined,
+      cfg: CFG_PADRAO,
+    })
+    expect(v.passos.slice(1).map((p) => p!.meio)).toEqual(['Cavalo', 'Cavalo', 'A pé', 'A pé'])
+  })
+
+  it('caminho antes da 1ª parada usa a escolha dessa parada; nome desconhecido = automático', () => {
+    const v = calcularViagem({
+      hexes: comMeio(coluna(2, { 2: 'parada' }), { 2: 'Cavalo' }),
+      terrenoDe: () => undefined,
+      cfg: CFG_PADRAO,
+    })
+    expect(v.trechos.get(2)!.dias).toBe(2 / 3)
+    const d = calcularViagem({
+      hexes: comMeio(coluna(2, { 2: 'parada' }), { 2: 'Dragão' }),
+      terrenoDe: () => undefined,
+      cfg: CFG_PADRAO,
+    })
+    expect(d.trechos.get(2)!.dias).toBe(1)
+    expect(d.trechos.get(2)!.escolhido).toBeUndefined()
   })
 
   it('buraco entre hexes não adjacentes é preenchido pela linha', () => {
@@ -169,7 +231,6 @@ describe('calcularViagem', () => {
       ],
       terrenoDe: terrenoDe({ '10,1': 'dificil', '10,2': 'dificil' }),
       cfg: CFG,
-      meios: ['A pé'],
     })
     // entra 10,1 (1) + 10,2 (1) + 10,3 (padrão ½)
     expect(v.total).toBe(2.5)
@@ -177,14 +238,14 @@ describe('calcularViagem', () => {
 
   it('segmentos começam numa parada e somam os passos que saem dela', () => {
     const v = calcularViagem({
-      hexes: coluna(4, { 0: 'parada', 2: 'parada' }),
+      hexes: comMeio(coluna(4, { 0: 'parada', 2: 'parada', 4: 'parada' }), { 2: 'Cavalo', 4: 'Cavalo' }),
       terrenoDe: () => undefined,
       cfg: CFG,
-      meios: ['Cavalo'],
     })
     expect(v.segmentos.map((s) => [s.inicio, s.dias])).toEqual([
       [0, 2 / 3], // 0→1→2: 2 × gramado a cavalo (⅓)
       [2, 2 / 3], // 2→3→4
+      [4, 0],
     ])
     expect(v.total).toBe(4 / 3)
   })
@@ -194,7 +255,6 @@ describe('calcularViagem', () => {
       hexes: coluna(2, { 1: 'parada' }),
       terrenoDe: () => undefined,
       cfg: CFG,
-      meios: undefined,
     })
     expect(v.segmentos.map((s) => [s.inicio, s.dias])).toEqual([
       [0, 0.5],
@@ -202,37 +262,36 @@ describe('calcularViagem', () => {
     ])
   })
 
-  it('mar sem navio bloqueia o segmento e aponta o hex; com navio, ⅕ dia', () => {
-    const args = {
-      hexes: coluna(2, { 0: 'parada' }),
-      terrenoDe: terrenoDe({ '10,2': 'mar' }),
-      cfg: CFG,
-    }
-    const v = calcularViagem({ ...args, meios: ['Cavalo'] })
+  it('mar sem navio automático bloqueia e aponta o hex; com navio padrão, ⅕ dia', () => {
+    const hexes = comMeio(coluna(2, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo' })
+    const v = calcularViagem({ hexes, terrenoDe: terrenoDe({ '10,2': 'mar' }), cfg: CFG })
     expect(v.bloqueado).toBe(true)
     expect(v.segmentos[0]!.bloqueios).toEqual([{ col: 10, row: 2, terreno: 'mar' }])
     expect(v.total).toBe(1 / 3) // o passo possível (gramado a cavalo) segue contando
-    const n = calcularViagem({ ...args, meios: ['Cavalo', 'Navio'] })
+    const n = calcularViagem({ hexes, terrenoDe: terrenoDe({ '10,2': 'mar' }), cfg: CFG_PADRAO })
     expect(n.bloqueado).toBe(false)
     expect(n.total).toBeCloseTo(1 / 3 + 1 / 5, 12)
+    expect(n.trechos.get(2)!.partes).toEqual([
+      { meio: 'Cavalo', dias: 1 / 3 },
+      { meio: 'Navio', dias: 1 / 5, terrenos: ['mar'] },
+    ])
   })
 
   it('custo não inteiro na config ainda soma (float)', () => {
     const cfg: ViagemCfg = { ...CFG, terrenos: [{ chave: 'normal', nome: 'Gramado', custo: 1.5 }] }
-    const v = calcularViagem({ hexes: coluna(2), terrenoDe: () => undefined, cfg, meios: undefined })
+    const v = calcularViagem({ hexes: coluna(2), terrenoDe: () => undefined, cfg })
     expect(v.total).toBeCloseTo(1.5, 12)
   })
 
   it('passos por índice: custo pra ENTRAR em cada hex (meio, terreno), somando o segmento', () => {
     const v = calcularViagem({
-      hexes: coluna(4, { 0: 'parada', 3: 'parada' }),
+      hexes: comMeio(coluna(4, { 0: 'parada', 3: 'parada' }), { 3: 'Cavalo' }),
       terrenoDe: terrenoDe({ '10,1': 'estrada', '10,2': 'dificil', '10,4': 'mar' }),
       cfg: CFG,
-      meios: ['Cavalo', 'Carruagem'],
     })
     expect(v.passos).toHaveLength(5)
     expect(v.passos[0]).toBeNull() // partida não custa
-    expect(v.passos[1]).toEqual({ dias: 0.25, meio: 'Carruagem', meios: ['Carruagem'], terreno: 'estrada', bloqueado: false })
+    expect(v.passos[1]).toEqual({ dias: 1 / 3, meio: 'Cavalo', meios: ['Cavalo'], terreno: 'estrada', bloqueado: false })
     expect(v.passos[2]).toEqual({ dias: 2 / 3, meio: 'Cavalo', meios: ['Cavalo'], terreno: 'dificil', bloqueado: false })
     expect(v.passos[3]).toEqual({ dias: 1 / 3, meio: 'Cavalo', meios: ['Cavalo'], terreno: 'normal', bloqueado: false })
     expect(v.passos[4]).toEqual({ dias: null, meio: null, meios: [], terreno: 'mar', bloqueado: true })
@@ -250,7 +309,6 @@ describe('calcularViagem', () => {
       ],
       terrenoDe: terrenoDe({ '10,1': 'dificil', '10,2': 'dificil' }),
       cfg: CFG,
-      meios: ['A pé'],
     })
     expect(v.passos[1]).toEqual({ dias: 2.5, meio: 'A pé', meios: ['A pé'], terreno: 'normal', bloqueado: false })
   })
@@ -261,7 +319,6 @@ describe('calcularViagem', () => {
       hexes: coluna(5, { 0: 'parada', 3: 'parada', 4: 'parada' }),
       terrenoDe: terrenoDe({ '10,1': 'mar', '10,2': 'mar', '10,4': 'estrada' }),
       cfg: CFG_PADRAO,
-      meios: undefined,
     })
     expect(v.trechos.has(0)).toBe(false) // 1ª linha: nada
     const t3 = v.trechos.get(3)!
@@ -283,7 +340,6 @@ describe('calcularViagem', () => {
       hexes: coluna(2, { 2: 'parada' }),
       terrenoDe: () => undefined,
       cfg: CFG_PADRAO,
-      meios: undefined,
     })
     expect(v.trechos.get(2)!.dias).toBe(1)
   })
@@ -293,14 +349,13 @@ describe('calcularViagem', () => {
       hexes: coluna(2, { 0: 'parada', 2: 'parada' }),
       terrenoDe: terrenoDe({ '10,1': 'mar' }),
       cfg: CFG,
-      meios: [],
     })
     expect(v.trechos.get(2)!.bloqueios).toEqual([{ col: 10, row: 1, terreno: 'mar' }])
   })
 
   it('trilha vazia ou de um hex só = 0', () => {
-    expect(calcularViagem({ hexes: [], terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)
-    expect(calcularViagem({ hexes: coluna(0), terrenoDe: () => undefined, cfg: CFG, meios: undefined }).total).toBe(0)
+    expect(calcularViagem({ hexes: [], terrenoDe: () => undefined, cfg: CFG }).total).toBe(0)
+    expect(calcularViagem({ hexes: coluna(0), terrenoDe: () => undefined, cfg: CFG }).total).toBe(0)
   })
 })
 

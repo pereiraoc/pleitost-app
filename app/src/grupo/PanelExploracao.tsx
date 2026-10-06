@@ -53,11 +53,11 @@ import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { activeContextoDef } from '../data/reskin'
 import {
   calcularViagem,
-  custoHex,
   formatarDias,
   hexLine,
   iconeDoMeio,
-  meiosDoGrupo,
+  custoHexNoTrecho,
+  meioDoTrecho,
   terrenoDoHex,
   type ViagemCfg,
 } from './viagem'
@@ -82,7 +82,7 @@ import {
   moveGroupHex,
   removeGroupHex,
   setAtualHex,
-  setMeiosGrupo,
+  setMeioTrecho,
   setRegiaoAtiva,
   subscribeGroup,
   todayISO,
@@ -424,57 +424,83 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
   return segs
 }
 
-/** Meios de transporte do grupo (viagem do hexcrawl): chips da config
- *  `viagem.meios`, SÓ no modo EDITAR (pedido 2026-10-05). O 1º (básico, A pé)
- *  está sempre ligado; sem escolha valem os `padrao` da config; alternar grava
- *  o conjunto EXPLÍCITO (com o básico) na trilha (GroupState.meios → sync). */
-function MeiosGrupo({
+/** Seletor ÚNICO do meio de um TRECHO (viagem do hexcrawl, 2026-10-06 —
+ *  "um meio por trecho"): menu inline sob a linha da parada, SÓ no EDITAR.
+ *  "Automático" limpa (`GroupHex.meio` some); um meio grava na parada de
+ *  chegada. O meio vale nos hexes onde o terreno deixa; o resto cai no
+ *  automático (viagem.ts). */
+function MeioTrechoMenu({
   cfg,
-  groupId,
-  meios,
-  readOnly,
+  hexId,
+  atual,
+  onEscolher,
 }: {
   cfg: ViagemCfg
-  groupId: string
-  meios: string[] | undefined
-  readOnly: boolean
+  hexId: string
+  atual: string | undefined
+  onEscolher: (meio: string | null) => void
 }) {
-  const efetivos = meiosDoGrupo(cfg, meios)
+  const nomeT = (k: string) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k
+  const opcoes: { nome: string; rotulo: string; dica: string }[] = [
+    { nome: '', rotulo: 'Automático', dica: 'O mais rápido entre os meios padrão em cada hex' },
+    ...cfg.meios.map((m) => ({
+      nome: m.nome,
+      rotulo: `${m.icone} ${m.nome}`,
+      dica: `${m.hexPorDia} hex/dia · ${m.em.map(nomeT).join(', ')}`,
+    })),
+  ]
   return (
-    <div data-viagem-meios="" style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-      <span style={{ ...fieldLabelStyle, fontSize: 9 }}>MEIOS DE VIAGEM</span>
-      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-        {cfg.meios.map((m, i) => {
-          const on = efetivos.includes(m.nome)
-          const basico = i === 0
-          return (
-            <button
-              key={m.nome}
-              type="button"
-              aria-pressed={on}
-              disabled={readOnly || basico}
-              title={
-                basico
-                  ? 'Meio básico — sempre disponível'
-                  : `${m.hexPorDia} hex/dia · ${m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')}`
-              }
-              onClick={() => {
-                const prox = on ? efetivos.filter((x) => x !== m.nome) : [...efetivos, m.nome]
-                setMeiosGrupo(groupId, cfg.meios.map((x) => x.nome).filter((n) => prox.includes(n)))
-              }}
-              style={{
-                ...pillStyle(on),
-                padding: '3px 8px',
-                fontSize: 9.5,
-                cursor: readOnly || basico ? 'default' : 'pointer',
-                opacity: basico && !readOnly ? 0.85 : 1,
-              }}
-            >
-              {m.icone} {m.nome}
-            </button>
-          )
-        })}
-      </div>
+    <div
+      data-meio-menu={hexId}
+      role="menu"
+      aria-label="Meio do trecho"
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        margin: '3px 0 2px 30px',
+        padding: 4,
+        background: 'var(--panel)',
+        border: '1px solid var(--line2)',
+        borderRadius: 4,
+      }}
+    >
+      {opcoes.map((o) => {
+        const on = (atual ?? '') === o.nome
+        return (
+          <button
+            key={o.nome || 'auto'}
+            type="button"
+            role="menuitemradio"
+            aria-checked={on}
+            data-meio-opcao={o.nome}
+            title={o.dica}
+            onClick={() => onEscolher(o.nome || null)}
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              justifyContent: 'space-between',
+              gap: 6,
+              padding: '3px 6px',
+              cursor: 'pointer',
+              textAlign: 'left',
+              fontSize: 11,
+              color: on ? 'var(--ink)' : 'var(--text)',
+              background: on ? 'var(--accent)' : 'transparent',
+              border: 'none',
+              borderRadius: 3,
+            }}
+          >
+            <span style={{ whiteSpace: 'nowrap' }}>{o.rotulo}</span>
+            {o.nome ? (
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                {cfg.meios.find((m) => m.nome === o.nome)!.hexPorDia} hex/dia
+              </span>
+            ) : null}
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -548,12 +574,34 @@ function LeftBar({
             hexes: state.hexes,
             terrenoDe,
             cfg: viagemCfg,
-            meios: state.meios,
             ehParada: (h) => hexIsParada(h as GroupHex),
           })
         : null,
-    [viagemCfg, state.hexes, state.meios, terrenoDe],
+    [viagemCfg, state.hexes, terrenoDe],
   )
+  // Menu do meio do trecho aberto (id da parada de chegada); fecha com
+  // Escape, clique fora ou ao sair do EDITAR.
+  const [meioMenu, setMeioMenu] = useState<string | null>(null)
+  useEffect(() => {
+    if (!podeEditar) setMeioMenu(null)
+  }, [podeEditar])
+  useEffect(() => {
+    if (!meioMenu) return
+    const onDown = (e: PointerEvent) => {
+      const el = e.target as Element | null
+      if (el?.closest?.('[data-meio-menu],[data-meio-trecho]')) return
+      setMeioMenu(null)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMeioMenu(null)
+    }
+    document.addEventListener('pointerdown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [meioMenu])
   const nomeTerreno = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
   const icones = (meios: string[]) => (viagemCfg ? meios.map((m) => iconeDoMeio(viagemCfg, m)).join('') : '')
   /** Tempo do trecho que CHEGA na parada `idx` (da parada anterior ou do
@@ -566,7 +614,12 @@ function LeftBar({
       ? `Sem meio possível em: ${t.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeTerreno(b.terreno)})`).join(' · ')}`
       : [
           `Desde a parada anterior: ${formatarDias(t.dias)}`,
-          ...t.partes.map((p) => `${iconeDoMeio(viagemCfg, p.meio)} ${p.meio} · ${formatarDias(p.dias)}`),
+          ...t.partes.map(
+            (p) =>
+              `${iconeDoMeio(viagemCfg, p.meio)} ${p.meio}${
+                p.terrenos && t.escolhido ? ` (${p.terrenos.map(nomeTerreno).join(', ')}, sem ${t.escolhido})` : ''
+              } · ${formatarDias(p.dias)}`,
+          ),
         ].join('\n')
     return (
       <span
@@ -615,6 +668,43 @@ function LeftBar({
         {p.bloqueado ? '⚠ ' : ''}
         {p.dias === null ? terreno : `${icones(p.meios)} ${formatarDias(p.dias)}`}
       </span>
+    )
+  }
+
+  /** Botão compacto do meio do trecho que chega em `h` (EDITAR): ícone do
+   *  meio escolhido ou AUTO; abre o MeioTrechoMenu sob a linha. */
+  const meioBotao = (h: GroupHex, idx: number) => {
+    const escolhido = viagem?.trechos.get(idx)?.escolhido
+    const icone = escolhido && viagemCfg ? iconeDoMeio(viagemCfg, escolhido) : ''
+    return (
+      <button
+        type="button"
+        data-meio-trecho={h.id}
+        aria-haspopup="menu"
+        aria-expanded={meioMenu === h.id}
+        aria-label={`Meio do trecho: ${escolhido ?? 'Automático'}`}
+        title={`Meio do trecho: ${escolhido ?? 'Automático'} (clica pra escolher)`}
+        onClick={(e) => {
+          e.stopPropagation()
+          setMeioMenu((m) => (m === h.id ? null : h.id))
+        }}
+        style={{
+          flex: 'none',
+          minWidth: 26,
+          padding: '1px 4px',
+          cursor: 'pointer',
+          fontFamily: icone ? undefined : 'var(--mono)',
+          fontSize: icone ? 12 : 8.5,
+          letterSpacing: icone ? undefined : '.06em',
+          lineHeight: 1.4,
+          color: 'var(--muted)',
+          background: meioMenu === h.id ? 'color-mix(in srgb,var(--accent) 16%,transparent)' : 'var(--panel)',
+          border: '1px solid var(--line2)',
+          borderRadius: 3,
+        }}
+      >
+        {icone || 'AUTO'}
+      </button>
     )
   }
 
@@ -749,6 +839,7 @@ function LeftBar({
             </span>
           </TipHover>
           {viagem ? (child ? diasPasso(h, idx) : diasTrecho(h, idx)) : null}
+          {podeEditar && viagemCfg && !child && viagem?.trechos.has(idx) ? meioBotao(h, idx) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -771,6 +862,17 @@ function LeftBar({
           </button>
           )}
         </div>
+        {meioMenu === h.id && podeEditar && viagemCfg ? (
+          <MeioTrechoMenu
+            cfg={viagemCfg}
+            hexId={h.id}
+            atual={viagem?.trechos.get(idx)?.escolhido}
+            onEscolher={(m) => {
+              setMeioTrecho(groupId, h.id, m)
+              setMeioMenu(null)
+            }}
+          />
+        ) : null}
       </div>
     )
   }
@@ -995,9 +1097,6 @@ function LeftBar({
             gap: 6,
           }}
         >
-          {viagemCfg && podeEditar ? (
-            <MeiosGrupo cfg={viagemCfg} groupId={groupId} meios={state.meios} readOnly={!!readOnly} />
-          ) : null}
           {readOnly ? (
             /* caminho é editado JOGANDO (mesa conectada) — fora dela, leitura */
             <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center', padding: '4px 0' }}>
@@ -2021,7 +2120,7 @@ export function PanelExploracao({
           readOnly={!podeEditar}
           hex={selecionado}
           hexMap={hexMap}
-          meios={state.meios}
+          meioTrecho={meioDoTrecho(state.hexes, state.hexes.indexOf(selecionado), hexIsParada)}
           terrenoDe={terrenoMundo.terrenoDe}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
@@ -2116,7 +2215,7 @@ function HexInfo({
   readOnly,
   hex,
   hexMap,
-  meios,
+  meioTrecho,
   terrenoDe,
   atual,
   onRemove,
@@ -2127,8 +2226,8 @@ function HexInfo({
   hexMap: HexMapCell[]
   /** Terreno do mundo por hex (nota `viagem.terreno`). */
   terrenoDe: (col: number, row: number) => string | undefined
-  /** Meios do grupo (GroupState.meios) — pro tempo de cruzar este hex. */
-  meios?: string[]
+  /** Meio escolhido do trecho deste hex (meioDoTrecho) — pro tempo de cruzá-lo. */
+  meioTrecho?: string
   atual: boolean
   onRemove: () => void
 }) {
@@ -2144,11 +2243,11 @@ function HexInfo({
   const lugarNoMapa = cellAt(hexMap, hex.col, hex.row)?.localId ?? null
   const lugarResolvido = lugarNoMapa ?? hex.localId ?? null
   // VIAGEM (2026-10-04): terreno do hex (nota do mundo ou o padrão da
-  // config) + dias pra cruzá-lo com o meio mais rápido do grupo.
+  // config) + dias pra cruzá-lo com o meio do trecho (ou o automático).
   const viagemCfg = activeContextoDef()?.viagem ?? null
   const chaveTerreno = terrenoDe(hex.col, hex.row)
   const terreno = viagemCfg ? terrenoDoHex(chaveTerreno, viagemCfg) : null
-  const travessia = viagemCfg ? custoHex(chaveTerreno, viagemCfg, meiosDoGrupo(viagemCfg, meios)) : null
+  const travessia = viagemCfg ? custoHexNoTrecho(chaveTerreno, viagemCfg, meioTrecho) : null
   return (
     <div
       data-hex-info=""
