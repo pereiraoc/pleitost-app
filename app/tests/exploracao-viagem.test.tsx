@@ -363,6 +363,90 @@ describe('tempo de viagem na exploração', () => {
     await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🚶 1 dia'))
   })
 
+  it('report 2026-10-06: o menu mostra o TEMPO do trecho com cada meio e marca quem não anda ali', async () => {
+    // sem terreno pintado (tudo Gramado): Carruagem/Navio caíam no automático
+    // em silêncio — o botão virava 🛞 e o tempo não mudava ("não muda").
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    const previa = (m: string) => menu.querySelector(`[data-meio-opcao="${m}"] [data-meio-previa]`)?.textContent
+    expect(previa('')).toBe('🚶 1 dia')
+    expect(previa('A pé')).toBe('🚶 1 dia')
+    expect(previa('Cavalo')).toBe('🐎 ⅔ dia')
+    expect(previa('Carruagem')).toBe('🚶 1 dia')
+    // quem não anda em NENHUM hex do trecho fica marcado, com o terreno da config
+    const carr = menu.querySelector('[data-meio-opcao="Carruagem"]')!
+    expect(carr.hasAttribute('data-meio-inutil')).toBe(true)
+    expect(carr.textContent).toContain('só em Estrada')
+    expect(menu.querySelector('[data-meio-opcao="Navio"]')!.textContent).toContain('só em Mar navegável')
+    expect(menu.querySelector('[data-meio-opcao="Cavalo"]')!.hasAttribute('data-meio-inutil')).toBe(false)
+    // continua selecionável (a regra "respeita o terreno" não muda)
+    fireEvent.click(carr)
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Carruagem')
+  })
+
+  it('com estrada no trecho, a prévia da Carruagem mostra o ganho', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+      ],
+    })
+    terrenoPublicado({ estrada: ['60,21', '60,22'] })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🛞 ½ dia'))
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    expect(menu.querySelector('[data-meio-opcao="A pé"] [data-meio-previa]')!.textContent).toBe('🚶 1 dia')
+    expect(menu.querySelector('[data-meio-opcao="Carruagem"] [data-meio-previa]')!.textContent).toBe('🛞 ½ dia')
+    expect(menu.querySelector('[data-meio-opcao="Carruagem"]')!.hasAttribute('data-meio-inutil')).toBe(false)
+  })
+
+  it('report 2026-10-06: a ROTA (N HEX) também tem o seletor do trecho que ela percorre (só no EDITAR)', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+        { id: 'd', col: 60, row: 23, kind: 'caminho' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-collapsed-run="a"]')).not.toBeNull())
+    expect(container.querySelector('[data-meio-rota]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    // a rota a→c ganha o seletor (do trecho que chega em c); a rota depois da
+    // última parada não tem trecho (automático) → sem seletor
+    const rota = container.querySelector('[data-meio-rota="c"]')!
+    expect(rota.textContent).toBe('AUTO')
+    expect(container.querySelectorAll('[data-meio-rota]')).toHaveLength(1)
+    fireEvent.click(rota)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    fireEvent.click(menu.querySelector('[data-meio-opcao="Cavalo"]')!)
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')
+    await waitFor(() => expect(container.querySelector('[data-meio-rota="c"]')!.textContent).toBe('🐎'))
+    expect(container.querySelector('[data-meio-trecho="c"]')!.textContent).toBe('🐎')
+    expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🐎 ⅔ dia')
+    // rota aberta (RECOLHER) mantém o seletor
+    fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
+    expect(container.querySelector('[data-meio-rota="c"]')).not.toBeNull()
+    expect(container.querySelector('[data-viagem-passo="b"]')!.textContent).toBe('🐎 ⅓ dia')
+  })
+
   it('sync: `meio` da parada sobrevive à serialização, ao repo (setExploracao) e à hidratação', async () => {
     setMeioTrecho(GROUP_ID, 'c', 'Cavalo')
     expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'c')!.meio).toBe('Cavalo')

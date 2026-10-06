@@ -35,6 +35,7 @@ import {
   useState,
   useSyncExternalStore,
   type CSSProperties,
+  type ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
@@ -59,6 +60,7 @@ import {
   custoHexNoTrecho,
   meioDoTrecho,
   terrenoDoHex,
+  type TrechoViagem,
   type ViagemCfg,
 } from './viagem'
 import { gravarTracoTerreno, hexesPath, useTerrenoMundo } from './terreno-mundo'
@@ -433,11 +435,16 @@ function MeioTrechoMenu({
   cfg,
   hexId,
   atual,
+  previa,
   onEscolher,
 }: {
   cfg: ViagemCfg
   hexId: string
   atual: string | undefined
+  /** Como o trecho fica com cada escolha (report 2026-10-06: sem terreno
+   *  pintado, Carruagem/Navio caíam no automático em silêncio — "não muda").
+   *  null = automático. */
+  previa: (meio: string | null) => TrechoViagem | undefined
   onEscolher: (meio: string | null) => void
 }) {
   const nomeT = (k: string) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k
@@ -468,6 +475,13 @@ function MeioTrechoMenu({
     >
       {opcoes.map((o) => {
         const on = (atual ?? '') === o.nome
+        const t = previa(o.nome || null)
+        const meioCfg = o.nome ? cfg.meios.find((m) => m.nome === o.nome) : undefined
+        // escolhido mas não anda em NENHUM hex do trecho → tudo no automático
+        const inutil = !!meioCfg && !!t && !t.meios.includes(o.nome)
+        const tempo = t
+          ? `${t.bloqueios.length ? '⚠ ' : ''}${t.meios.map((m) => iconeDoMeio(cfg, m)).join('')} ${formatarDias(t.dias)}`
+          : ''
         return (
           <button
             key={o.nome || 'auto'}
@@ -475,7 +489,8 @@ function MeioTrechoMenu({
             role="menuitemradio"
             aria-checked={on}
             data-meio-opcao={o.nome}
-            title={o.dica}
+            {...(inutil ? { 'data-meio-inutil': '' } : {})}
+            title={inutil ? `${o.dica}\nNão anda em nenhum hex deste trecho — fica tudo no automático` : o.dica}
             onClick={() => onEscolher(o.nome || null)}
             style={{
               display: 'flex',
@@ -490,12 +505,23 @@ function MeioTrechoMenu({
               background: on ? 'var(--accent)' : 'transparent',
               border: 'none',
               borderRadius: 3,
+              opacity: inutil && !on ? 0.55 : 1,
             }}
           >
-            <span style={{ whiteSpace: 'nowrap' }}>{o.rotulo}</span>
-            {o.nome ? (
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, opacity: 0.75, whiteSpace: 'nowrap' }}>
-                {cfg.meios.find((m) => m.nome === o.nome)!.hexPorDia} hex/dia
+            <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <span style={{ whiteSpace: 'nowrap' }}>{o.rotulo}</span>
+              {inutil && meioCfg ? (
+                <span style={{ fontSize: 9, fontStyle: 'italic', whiteSpace: 'nowrap' }}>
+                  {`só em ${meioCfg.em.map(nomeT).join(', ')}`}
+                </span>
+              ) : null}
+            </span>
+            {tempo ? (
+              <span
+                data-meio-previa=""
+                style={{ fontFamily: 'var(--mono)', fontSize: 9.5, fontWeight: 600, whiteSpace: 'nowrap' }}
+              >
+                {tempo}
               </span>
             ) : null}
           </button>
@@ -581,15 +607,32 @@ function LeftBar({
   )
   // Menu do meio do trecho aberto (id da parada de chegada); fecha com
   // Escape, clique fora ou ao sair do EDITAR.
-  const [meioMenu, setMeioMenu] = useState<string | null>(null)
+  // `onde`: aberto pela linha da PARADA de chegada ou pela ROTA (N HEX) que
+  // percorre o trecho — o menu aparece sob quem o abriu.
+  const [meioMenuAberto, setMeioMenuAberto] = useState<{ id: string; onde: 'parada' | 'rota' } | null>(null)
+  const meioMenu = meioMenuAberto?.id ?? null
+  const setMeioMenu = (id: string | null) => setMeioMenuAberto(id ? { id, onde: 'parada' } : null)
+  const alternarMeioMenu = (id: string, onde: 'parada' | 'rota') =>
+    setMeioMenuAberto((m) => (m?.id === id && m.onde === onde ? null : { id, onde }))
   useEffect(() => {
-    if (!podeEditar) setMeioMenu(null)
+    if (!podeEditar) setMeioMenuAberto(null)
   }, [podeEditar])
+  /** Trecho que chega na parada `idx` se ela tivesse o meio `meio` (prévia do
+   *  menu; mesma conta da lista). */
+  const previaTrecho = (idx: number) => (meio: string | null) => {
+    if (!viagemCfg) return undefined
+    const hexes = state.hexes.map((h, i) => {
+      if (i !== idx) return h
+      const { meio: _m, ...resto } = h
+      return meio ? { ...resto, meio } : resto
+    })
+    return calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).trechos.get(idx)
+  }
   useEffect(() => {
     if (!meioMenu) return
     const onDown = (e: PointerEvent) => {
       const el = e.target as Element | null
-      if (el?.closest?.('[data-meio-menu],[data-meio-trecho]')) return
+      if (el?.closest?.('[data-meio-menu],[data-meio-trecho],[data-meio-rota]')) return
       setMeioMenu(null)
     }
     const onKey = (e: KeyboardEvent) => {
@@ -673,20 +716,21 @@ function LeftBar({
 
   /** Botão compacto do meio do trecho que chega em `h` (EDITAR): ícone do
    *  meio escolhido ou AUTO; abre o MeioTrechoMenu sob a linha. */
-  const meioBotao = (h: GroupHex, idx: number) => {
+  const meioBotao = (h: GroupHex, idx: number, onde: 'parada' | 'rota' = 'parada') => {
     const escolhido = viagem?.trechos.get(idx)?.escolhido
     const icone = escolhido && viagemCfg ? iconeDoMeio(viagemCfg, escolhido) : ''
+    const aberto = meioMenuAberto?.id === h.id && meioMenuAberto.onde === onde
     return (
       <button
         type="button"
-        data-meio-trecho={h.id}
+        {...(onde === 'rota' ? { 'data-meio-rota': h.id } : { 'data-meio-trecho': h.id })}
         aria-haspopup="menu"
-        aria-expanded={meioMenu === h.id}
+        aria-expanded={aberto}
         aria-label={`Meio do trecho: ${escolhido ?? 'Automático'}`}
         title={`Meio do trecho: ${escolhido ?? 'Automático'} (clica pra escolher)`}
         onClick={(e) => {
           e.stopPropagation()
-          setMeioMenu((m) => (m === h.id ? null : h.id))
+          alternarMeioMenu(h.id, onde)
         }}
         style={{
           flex: 'none',
@@ -698,13 +742,47 @@ function LeftBar({
           letterSpacing: icone ? undefined : '.06em',
           lineHeight: 1.4,
           color: 'var(--muted)',
-          background: meioMenu === h.id ? 'color-mix(in srgb,var(--accent) 16%,transparent)' : 'var(--panel)',
+          background: aberto ? 'color-mix(in srgb,var(--accent) 16%,transparent)' : 'var(--panel)',
           border: '1px solid var(--line2)',
           borderRadius: 3,
         }}
       >
         {icone || 'AUTO'}
       </button>
+    )
+  }
+
+  /** Menu do meio do trecho que chega em `h` (se aberto pra ela). */
+  const meioMenuDe = (h: GroupHex, idx: number) =>
+    meioMenu === h.id && podeEditar && viagemCfg ? (
+      <MeioTrechoMenu
+        cfg={viagemCfg}
+        hexId={h.id}
+        atual={viagem?.trechos.get(idx)?.escolhido}
+        previa={previaTrecho(idx)}
+        onEscolher={(m) => {
+          setMeioTrecho(groupId, h.id, m)
+          setMeioMenu(null)
+        }}
+      />
+    ) : null
+
+  /** Seletor na ROTA (report 2026-10-06, "método de viagem de caminhos"): a
+   *  rota N HEX percorre o trecho que chega na PRÓXIMA parada — o botão edita
+   *  esse mesmo trecho (o meio continua gravado na parada de chegada). Rota
+   *  depois da última parada não tem trecho → sem seletor (automático). */
+  const rotaComMeio = (rotaRow: ReactNode, kids: { h: GroupHex; idx: number }[]) => {
+    const chegadaIdx = kids[kids.length - 1]!.idx + 1
+    const chegada = state.hexes[chegadaIdx]
+    if (!chegada || !podeEditar || !viagemCfg || !viagem?.trechos.has(chegadaIdx)) return rotaRow
+    return (
+      <>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          {rotaRow}
+          {meioBotao(chegada, chegadaIdx, 'rota')}
+        </div>
+        {meioMenuAberto?.onde === 'rota' ? meioMenuDe(chegada, chegadaIdx) : null}
+      </>
     )
   }
 
@@ -862,17 +940,7 @@ function LeftBar({
           </button>
           )}
         </div>
-        {meioMenu === h.id && podeEditar && viagemCfg ? (
-          <MeioTrechoMenu
-            cfg={viagemCfg}
-            hexId={h.id}
-            atual={viagem?.trechos.get(idx)?.escolhido}
-            onEscolher={(m) => {
-              setMeioTrecho(groupId, h.id, m)
-              setMeioMenu(null)
-            }}
-          />
-        ) : null}
+        {meioMenuAberto?.onde === 'parada' ? meioMenuDe(h, idx) : null}
       </div>
     )
   }
@@ -1057,7 +1125,7 @@ function LeftBar({
                             // Rota ABERTA: botão de recolher + os hexes, com o "+"
                             // de inserir parada SÓ aqui, entre os pontos da rota.
                             <>
-                              {runCollapseBtn(key, kids.length)}
+                              {rotaComMeio(runCollapseBtn(key, kids.length), kids)}
                               {kids.map((c) => (
                                 <div key={c.h.id} style={{ display: 'contents' }}>
                                   {insertRow(c.idx, true)}
@@ -1067,7 +1135,7 @@ function LeftBar({
                               {insertRow(kids[kids.length - 1]!.idx + 1, true)}
                             </>
                           )
-                        : collapsedRow(key, kids)
+                        : rotaComMeio(collapsedRow(key, kids), kids)
                       : null}
                   </div>
                 )
