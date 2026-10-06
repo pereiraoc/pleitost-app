@@ -13,8 +13,12 @@
 //    parada de CHEGADA (`GroupHex.meio`). Em cada hex do trecho: se o meio
 //    escolhido anda naquele terreno, usa ele; senão (carruagem fora da
 //    estrada, cavalo na montanha, navio em terra) cai no AUTOMÁTICO. Sem
-//    escolha = automático em todo o trecho. Caminho depois da última parada
-//    não tem trecho → automático. Nome que a config não conhece = sem escolha.
+//    escolha = automático em todo o trecho. Nome que a config não conhece =
+//    sem escolha.
+//  • SÓ ENTRE PARADAS (2026-10-06, "a distância sempre tem que ser entre
+//    trechos, não antes ou depois"): caminho ANTES da 1ª parada e DEPOIS da
+//    última não tem trecho → sem passo (null), fora do total, sem bloqueio.
+//    A 1ª parada não tem tempo.
 //  • AUTOMÁTICO: o mais rápido (maior `hexPorDia`) entre os meios automáticos
 //    (o PRIMEIRO da config, o básico A pé, + os `padrao`: carruagem na
 //    estrada, navio no mar) que andam ali; DIAS = terreno.custo /
@@ -23,12 +27,13 @@
 //    soma.
 //  • SOMA EXATA: custo/hexPorDia vira fração (inteiros → num/den reduzidos) e
 //    a soma é racional, sem 0,999…; config não inteira cai pra float.
-//  • TRECHOS: por PARADA de chegada, a soma dos passos desde a parada
-//    anterior (ou do início da trilha) — é o que a linha da parada mostra.
+//  • TRECHOS: por PARADA de chegada (que tenha parada antes), a soma dos
+//    passos desde a parada anterior — é o que a linha da parada mostra.
 //  • SEGMENTOS: mesma segmentação da lista do caminho (PanelExploracao
 //    buildSegments): começa numa PARADA (kind ≠ 'caminho'); antes da 1ª
-//    parada, um segmento sem cabeçalho começando em 0. O segmento soma os
-//    passos que SAEM dos seus hexes (da parada até chegar na próxima).
+//    parada, um segmento sem cabeçalho começando em 0 (soma 0). O segmento
+//    soma os passos que SAEM dos seus hexes (da parada até chegar na próxima;
+//    o da última parada soma 0).
 //
 // GRADE: a trilha (group-store) e o hexmap `mapa:mundo` usam as MESMAS coords
 // (atlas-grid, flat-top odd-q) — PanelExploracao/HexInfo fazem cellAt(hexMap,
@@ -180,13 +185,17 @@ export function custoHexNoTrecho(
 }
 
 /** Meio escolhido do TRECHO a que o hex `idx` pertence (entrar nele): o
- *  `meio` da 1ª parada em idx ou depois; undefined = automático / sem trecho. */
+ *  `meio` da 1ª parada em idx ou depois, se houver parada ANTES de idx;
+ *  undefined = automático / sem trecho (antes da 1ª ou depois da última). */
 export function meioDoTrecho<H extends Hex & { kind?: 'parada' | 'caminho'; meio?: string }>(
   hexes: readonly H[],
   idx: number,
   ehParada: (h: H) => boolean = (h) => h.kind !== 'caminho',
 ): string | undefined {
-  for (let i = Math.max(idx, 1); i < hexes.length; i++) if (ehParada(hexes[i]!)) return hexes[i]!.meio
+  let antes = false
+  for (let i = 0; i < idx; i++) if (ehParada(hexes[i]!)) antes = true
+  if (!antes) return undefined
+  for (let i = idx; i < hexes.length; i++) if (ehParada(hexes[i]!)) return hexes[i]!.meio
   return undefined
 }
 
@@ -258,8 +267,8 @@ export interface PassoViagem {
   bloqueado: boolean
 }
 
-/** Trecho que CHEGA numa parada: da parada anterior (ou do início da trilha)
- *  até ela — o tempo que a lista mostra na linha da parada. */
+/** Trecho que CHEGA numa parada: da parada anterior até ela — o tempo que a
+ *  lista mostra na linha da parada (a 1ª parada não tem). */
 export interface TrechoViagem {
   dias: number
   /** Meios usados (distintos, na ordem da viagem). */
@@ -277,9 +286,10 @@ export interface Viagem {
   /** Por índice da PARADA de chegada (nunca a 1ª linha da trilha). */
   trechos: Map<number, TrechoViagem>
   segmentos: SegmentoViagem[]
-  /** Por índice da trilha; `passos[0]` (partida) = null. */
+  /** Por índice da trilha; `passos[0]` (partida) = null, e também null
+   *  fora de trecho (antes da 1ª parada / depois da última). */
   passos: (PassoViagem | null)[]
-  /** Dias de viagem da trilha inteira. */
+  /** Dias de viagem da trilha (soma dos trechos entre paradas). */
   total: number
   bloqueado: boolean
 }
@@ -297,7 +307,7 @@ export function calcularViagem({
   ehParada?: (h: Hex & { kind?: 'parada' | 'caminho'; meio?: string }) => boolean
 }): Viagem {
   // escolha por hex ENTRADO: a da parada de chegada do trecho (varre de trás
-  // pra frente; caminho após a última parada fica sem escolha)
+  // pra frente). Só há trecho entre a 1ª e a última parada.
   const conhecido = (m: string | undefined) => (m && cfg.meios.some((x) => x.nome === m) ? m : undefined)
   const escolhaDe: (string | undefined)[] = new Array(hexes.length).fill(undefined)
   let corrente: string | undefined
@@ -308,11 +318,23 @@ export function calcularViagem({
   const segs: { seg: SegmentoViagem; soma: Soma }[] = []
   const passos: (PassoViagem | null)[] = hexes.length ? [null] : []
   const trechos = new Map<number, TrechoViagem>()
+  let primeira = -1
+  let ultima = -1
+  hexes.forEach((h, i) => {
+    if (!ehParada(h)) return
+    if (primeira === -1) primeira = i
+    ultima = i
+  })
   let trecho = novoTrecho()
   hexes.forEach((h, i) => {
     if (ehParada(h) || segs.length === 0) segs.push({ seg: { inicio: i, dias: 0, bloqueios: [] }, soma: new Soma() })
     const next = hexes[i + 1]
     if (!next) return
+    // passo pra entrar em i+1 só conta dentro de um trecho (entre paradas)
+    if (primeira === -1 || i < primeira || i + 1 > ultima) {
+      passos.push(null)
+      return
+    }
     const cur = segs[segs.length - 1]!
     const linha = hexLine(h, next)
     const passo = new Soma()

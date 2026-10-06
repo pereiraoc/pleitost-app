@@ -111,13 +111,13 @@ beforeEach(() => {
   __resetMapaAtlasForTests()
   __resetGroupStoreMemoryForTests()
   __resetHexMapStoreMemoryForTests()
-  // trilha vertical col 60, linhas 20..22 (adjacentes), parada no início
+  // trilha vertical col 60, linhas 20..22 (adjacentes), paradas nas pontas
   setGroupStateFull(GROUP_ID, {
     grade: 'mundo',
     hexes: [
       { id: 'a', col: 60, row: 20, kind: 'parada' },
       { id: 'b', col: 60, row: 21, kind: 'caminho' },
-      { id: 'c', col: 60, row: 22, kind: 'caminho' },
+      { id: 'c', col: 60, row: 22, kind: 'parada' },
     ],
   })
 })
@@ -178,6 +178,7 @@ describe('tempo de viagem na exploração', () => {
         { id: 'b', col: 60, row: 21, kind: 'caminho' },
         { id: 'c', col: 60, row: 22, kind: 'caminho' },
         { id: 'd', col: 60, row: 23, kind: 'caminho' },
+        { id: 'e', col: 60, row: 24, kind: 'parada' },
       ],
     })
     terrenoPublicado({ estrada: ['60,21'], mar: ['60,22'] })
@@ -213,9 +214,11 @@ describe('tempo de viagem na exploração', () => {
     expect(td.textContent).toBe('⛵🚶 0,9 dia')
     expect(td.getAttribute('title')).toBe('Desde a parada anterior: 0,9 dia\n⛵ Navio · ⅖ dia\n🚶 A pé · ½ dia')
     expect(container.querySelector('[data-viagem-trecho="e"]')!.textContent).toBe('🛞 ¼ dia')
-    // linha do caminho (recolhida e aberta) sem tempo; sem conector ↓
+    // linha do caminho (recolhida e aberta) sem tempo, mas com os ícones dos
+    // meios do trecho que ela percorre; sem conector ↓
     expect(container.querySelector('[data-collapsed-run="a"] [data-viagem-segmento]')).toBeNull()
     expect(container.querySelector('[data-collapsed-run="a"]')!.textContent).not.toMatch(/dia/)
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('⛵🚶')
     expect(container.querySelector('[data-viagem-conector]')).toBeNull()
     fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
     expect(container.querySelector('[data-collapse-run="a"]')!.textContent).not.toMatch(/dia/)
@@ -223,17 +226,87 @@ describe('tempo de viagem na exploração', () => {
     expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('1,2 dias')
   })
 
-  it('1ª parada depois de caminho conta desde o início da trilha', async () => {
+  it('2026-10-06: caminho ANTES da 1ª parada não conta — 1ª parada sem tempo, fora do total, rota sem ícones', async () => {
     setGroupStateFull(GROUP_ID, {
       grade: 'mundo',
       hexes: [
         { id: 'a', col: 60, row: 20, kind: 'caminho' },
         { id: 'b', col: 60, row: 21, kind: 'caminho' },
         { id: 'c', col: 60, row: 22, kind: 'parada' },
+        { id: 'd', col: 60, row: 23, kind: 'parada' },
       ],
     })
     const { container } = renderPanel(DEF)
-    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🚶 1 dia'))
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="d"]')!.textContent).toBe('🚶 ½ dia'))
+    expect(container.querySelector('[data-viagem-trecho="c"]')).toBeNull()
+    expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('½ dia')
+    expect(container.querySelector('[data-viagem-rota-meios]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    expect(container.querySelector('[data-meio-trecho="c"]')).toBeNull()
+    expect(container.querySelector('[data-meio-rota]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-collapsed-run="lead"]')!)
+    expect(container.querySelector('[data-viagem-passo]')).toBeNull()
+    expect(container.querySelector('[data-viagem-rota-meios]')).toBeNull()
+  })
+
+  it('2026-10-06: caminho DEPOIS da última parada não conta — sem tempo, sem seletor, sem ícones', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'parada' },
+        { id: 'c', col: 60, row: 22, kind: 'caminho' },
+        { id: 'd', col: 60, row: 23, kind: 'caminho' },
+      ],
+    })
+    terrenoPublicado({ dificil: ['60,22', '60,23'] })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('½ dia'))
+    expect(container.querySelector('[data-viagem-rota-meios]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    expect(container.querySelector('[data-meio-rota]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-collapsed-run="b"]')!)
+    expect(container.querySelector('[data-viagem-passo]')).toBeNull()
+    expect(container.querySelector('[data-viagem-rota-meios]')).toBeNull()
+  })
+
+  it('só caminho + uma parada: nenhum trecho, sem total', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+      ],
+    })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-parada="a"]')).not.toBeNull())
+    expect(container.querySelector('[data-viagem-total]')).toBeNull()
+  })
+
+  it('linha da ROTA: um ícone com um meio só, vários (em ordem) com meios misturados — recolhida e aberta', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada' },
+        { id: 'd', col: 60, row: 23, kind: 'caminho' },
+        { id: 'e', col: 60, row: 24, kind: 'parada' },
+      ],
+    })
+    terrenoPublicado({ estrada: ['60,21'] })
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-viagem-rota-meios="a"]')).not.toBeNull())
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    expect(container.querySelector('[data-viagem-rota-meios="c"]')!.textContent).toBe('🚶')
+    fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
+    expect(container.querySelector('[data-collapse-run="a"]')).not.toBeNull()
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    // no EDITAR, o seletor fica ao lado dos ícones
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    expect(container.querySelector('[data-meio-rota="c"]')).not.toBeNull()
+    expect(container.querySelector('[data-meio-rota="e"]')).not.toBeNull()
   })
 
   it('trecho bloqueado: ⚠ vermelho com hex e terreno no tooltip', async () => {

@@ -591,7 +591,8 @@ function LeftBar({
   // VIAGEM DO HEXCRAWL (2026-10-04; UX 2026-10-05): só com `viagem` no
   // Contexto-Def. Terreno = nota do mundo (`viagem.terreno`) nas MESMAS coords
   // da trilha. A PARADA mostra o trecho que chega nela (desde a parada
-  // anterior); o hex de caminho aberto mostra o próprio passo.
+  // anterior); o hex de caminho aberto mostra o próprio passo. Só há tempo
+  // ENTRE paradas: caminho antes da 1ª / depois da última não conta.
   const viagemCfg = activeContextoDef()?.viagem ?? null
   const viagem = useMemo(
     () =>
@@ -647,8 +648,8 @@ function LeftBar({
   }, [meioMenu])
   const nomeTerreno = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
   const icones = (meios: string[]) => (viagemCfg ? meios.map((m) => iconeDoMeio(viagemCfg, m)).join('') : '')
-  /** Tempo do trecho que CHEGA na parada `idx` (da parada anterior ou do
-   *  início da trilha) + ícones dos meios usados; ⚠ vermelho se bloqueado. */
+  /** Tempo do trecho que CHEGA na parada `idx` (desde a parada anterior; a
+   *  1ª parada não tem) + ícones dos meios usados; ⚠ vermelho se bloqueado. */
   const diasTrecho = (h: GroupHex, idx: number) => {
     const t = viagem?.trechos.get(idx)
     if (!t || !viagemCfg) return null
@@ -767,19 +768,32 @@ function LeftBar({
       />
     ) : null
 
-  /** Seletor na ROTA (report 2026-10-06, "método de viagem de caminhos"): a
-   *  rota N HEX percorre o trecho que chega na PRÓXIMA parada — o botão edita
-   *  esse mesmo trecho (o meio continua gravado na parada de chegada). Rota
-   *  depois da última parada não tem trecho → sem seletor (automático). */
-  const rotaComMeio = (rotaRow: ReactNode, kids: { h: GroupHex; idx: number }[]) => {
+  /** ROTA (N HEX) dentro de um trecho (2026-10-06): a rota percorre o trecho
+   *  que chega na PRÓXIMA parada — mostra os ÍCONES dos meios usados nele
+   *  (distintos, na ordem da viagem; vários quando mistura) e, no EDITAR, o
+   *  seletor desse mesmo trecho (o meio continua gravado na parada de
+   *  chegada). Rota antes da 1ª parada ou depois da última não tem trecho →
+   *  nem ícones nem seletor. */
+  const rotaComMeio = (rotaRow: ReactNode, key: string, kids: { h: GroupHex; idx: number }[]) => {
     const chegadaIdx = kids[kids.length - 1]!.idx + 1
     const chegada = state.hexes[chegadaIdx]
-    if (!chegada || !podeEditar || !viagemCfg || !viagem?.trechos.has(chegadaIdx)) return rotaRow
+    const t = viagem?.trechos.get(chegadaIdx)
+    if (!chegada || !viagemCfg || !t) return rotaRow
+    const ic = icones(t.meios)
     return (
       <>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           {rotaRow}
-          {meioBotao(chegada, chegadaIdx, 'rota')}
+          {ic ? (
+            <span
+              data-viagem-rota-meios={key}
+              title={t.meios.join(' + ')}
+              style={{ flex: 'none', fontSize: 11, lineHeight: 1, whiteSpace: 'nowrap' }}
+            >
+              {ic}
+            </span>
+          ) : null}
+          {podeEditar ? meioBotao(chegada, chegadaIdx, 'rota') : null}
         </div>
         {meioMenuAberto?.onde === 'rota' ? meioMenuDe(chegada, chegadaIdx) : null}
       </>
@@ -1085,7 +1099,7 @@ function LeftBar({
           {collapsed ? '›' : '‹'}
         </button>
         {collapsed ? null : <span style={{ ...sectionTitleStyle, flex: 1 }}>{'// CAMINHO'}</span>}
-        {!collapsed && viagem && state.hexes.length > 1 ? (
+        {!collapsed && viagem && viagem.trechos.size > 0 ? (
           <span
             data-viagem-total=""
             {...(viagem.bloqueado ? { 'data-viagem-bloqueado': '' } : {})}
@@ -1125,7 +1139,7 @@ function LeftBar({
                             // Rota ABERTA: botão de recolher + os hexes, com o "+"
                             // de inserir parada SÓ aqui, entre os pontos da rota.
                             <>
-                              {rotaComMeio(runCollapseBtn(key, kids.length), kids)}
+                              {rotaComMeio(runCollapseBtn(key, kids.length), key, kids)}
                               {kids.map((c) => (
                                 <div key={c.h.id} style={{ display: 'contents' }}>
                                   {insertRow(c.idx, true)}
@@ -1135,7 +1149,7 @@ function LeftBar({
                               {insertRow(kids[kids.length - 1]!.idx + 1, true)}
                             </>
                           )
-                        : rotaComMeio(collapsedRow(key, kids), kids)
+                        : rotaComMeio(collapsedRow(key, kids), key, kids)
                       : null}
                   </div>
                 )
