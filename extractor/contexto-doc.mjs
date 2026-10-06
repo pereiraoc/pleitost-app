@@ -189,9 +189,12 @@ export function renderContextoDoc(contexto, typeByBasename) {
       `×${t?.custo}${k === c.viagem.padrao ? " · padrão (hex sem terreno)" : ""}${t?.cor ? ` · cor \`${t.cor}\`` : ""}`,
     ]), ["Terreno", "Custo"]));
     out.push(...tabela("Viagem: meios de transporte (hex por dia)", (c.viagem.meios ?? []).map((m) => [
-      m.nome,
-      `${m.hex_por_dia} hex/dia · ${(m.em ?? []).map(nomeDe).join(", ")}`,
+      `${m.icone ? `${m.icone} ` : ""}${m.nome}`,
+      `${m.hex_por_dia} hex/dia · ${(m.em ?? []).map(nomeDe).join(", ")}${m.padrao === true ? " · padrão do grupo" : ""}`,
     ]), ["Meio", "Velocidade · terrenos"]));
+    if (typeof c.viagem.terreno === "string" && c.viagem.terreno.trim()) {
+      out.push(...tabela("Viagem: terreno do mundo", [["nota", c.viagem.terreno.trim()]], ["Campo", "Valor"]));
+    }
   }
 
   // Disponibilidade

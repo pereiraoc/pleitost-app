@@ -355,10 +355,25 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
         if (em.length === 0) problems.push(`viagem.meios: "${nome}" precisa de \`em\` (terrenos onde anda)`);
         for (const k of em) if (!chaves.has(k)) problems.push(`viagem.meios: "${nome}" em terreno "${k}" não declarado`);
         if (meios.some((x) => x.nome === nome)) problems.push(`viagem.meios: "${nome}" duplicado`);
-        meios.push({ nome, hexPorDia, em });
+        // ícone (2026-10-05): o app mostra ao lado do tempo — nunca hardcoded
+        const icone = typeof m.icone === "string" ? m.icone.trim() : "";
+        if (!icone) problems.push(`viagem.meios: "${nome}" icone obrigatório (emoji exibido no app)`);
+        // padrao: entra no conjunto do grupo enquanto ele não escolher meios
+        if (m.padrao !== undefined && typeof m.padrao !== "boolean") problems.push(`viagem.meios: "${nome}" padrao esperado true/false`);
+        meios.push({ nome, icone, padrao: m.padrao === true, hexPorDia, em });
       }
     }
-    viagem = { padrao, terrenos, meios };
+    // terreno (2026-10-05): wikilink da nota com o FM `Terreno` (chave →
+    // lista de "col,row" na grade da trilha) — dado do MUNDO, editado no Modo
+    // Dev do app (pintar → publicar → exportar). Resolve pro basename.
+    let terrenoNota = null;
+    if (v.terreno !== undefined && v.terreno !== null) {
+      const raw = typeof v.terreno === "string" ? v.terreno.trim() : "";
+      terrenoNota = raw.replace(/^\[\[/, "").replace(/\]\]$/, "").split("|")[0].trim();
+      if (!terrenoNota) problems.push("viagem.terreno: esperado wikilink da nota de terreno");
+      else if (!basenames.has(terrenoNota)) problems.push(`viagem.terreno: "${terrenoNota}" não existe na vault`);
+    }
+    viagem = { padrao, terrenos, meios, ...(terrenoNota ? { terreno: terrenoNota } : {}) };
   }
 
   const pericias = asStringMap(def.pericias, "pericias", problems);

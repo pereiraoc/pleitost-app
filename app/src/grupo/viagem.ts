@@ -18,7 +18,10 @@
 //    Caravana/Barco) são IGNORADOS (meiosDoGrupo filtra pela config).
 //  • MEIOS DO GRUPO: o PRIMEIRO meio da config é o básico (A pé) — sempre
 //    disponível (quem tem cavalo desmonta na montanha); os escolhidos somam.
-//    Sem escolha = só o básico.
+//    Sem escolha = os `padrao` da config (a pé + carruagem + navio: estrada
+//    vai de carruagem, mar de navio sozinhos).
+//  • TRECHOS: por PARADA de chegada, a soma dos passos desde a parada
+//    anterior (ou do início da trilha) — é o que a linha da parada mostra.
 //  • SEGMENTOS: mesma segmentação da lista do caminho (PanelExploracao
 //    buildSegments): começa numa PARADA (kind ≠ 'caminho'); antes da 1ª
 //    parada, um segmento sem cabeçalho começando em 0. O segmento soma os
@@ -99,11 +102,20 @@ export function hexLine(a: Hex, b: Hex): Hex[] {
   return out
 }
 
-/** Meios efetivos do grupo: o básico (1º da config) + os escolhidos que a
- *  config conhece, na ordem da config. */
+/** Meios efetivos do grupo, na ordem da config: o básico (1º) sempre; sem
+ *  escolha gravada (`undefined`) entram os `padrao` da config (a pé +
+ *  carruagem + navio); com escolha (mesmo vazia), os escolhidos que a config
+ *  conhece. */
 export function meiosDoGrupo(cfg: ViagemCfg, escolhidos: readonly string[] | undefined): string[] {
-  const set = new Set(escolhidos ?? [])
-  return cfg.meios.filter((m, i) => i === 0 || set.has(m.nome)).map((m) => m.nome)
+  const set = escolhidos ? new Set(escolhidos) : null
+  return cfg.meios
+    .filter((m, i) => i === 0 || (set ? set.has(m.nome) : m.padrao === true))
+    .map((m) => m.nome)
+}
+
+/** Ícone (config) de um meio pelo nome; '' se a config não conhece. */
+export function iconeDoMeio(cfg: ViagemCfg, nome: string): string {
+  return cfg.meios.find((m) => m.nome === nome)?.icone ?? ''
 }
 
 function terrenoEfetivo(chave: string | undefined, cfg: ViagemCfg) {
@@ -203,12 +215,28 @@ export interface SegmentoViagem {
 export interface PassoViagem {
   dias: number | null
   meio: string | null
+  /** Meios usados no passo (distintos, na ordem da viagem — com buraco pode
+   *  haver mais de um). */
+  meios: string[]
   /** Chave do terreno efetivo (pintado ou padrão) do hex de chegada. */
   terreno: string
   bloqueado: boolean
 }
 
+/** Trecho que CHEGA numa parada: da parada anterior (ou do início da trilha)
+ *  até ela — o tempo que a lista mostra na linha da parada. */
+export interface TrechoViagem {
+  dias: number
+  /** Meios usados (distintos, na ordem da viagem). */
+  meios: string[]
+  /** Dias por meio, na mesma ordem. */
+  partes: { meio: string; dias: number }[]
+  bloqueios: Bloqueio[]
+}
+
 export interface Viagem {
+  /** Por índice da PARADA de chegada (nunca a 1ª linha da trilha). */
+  trechos: Map<number, TrechoViagem>
   segmentos: SegmentoViagem[]
   /** Por índice da trilha; `passos[0]` (partida) = null. */
   passos: (PassoViagem | null)[]
@@ -234,6 +262,8 @@ export function calcularViagem({
   const efetivos = meiosDoGrupo(cfg, meios)
   const segs: { seg: SegmentoViagem; soma: Soma }[] = []
   const passos: (PassoViagem | null)[] = hexes.length ? [null] : []
+  const trechos = new Map<number, TrechoViagem>()
+  let trecho = novoTrecho()
   hexes.forEach((h, i) => {
     if (ehParada(h) || segs.length === 0) segs.push({ seg: { inicio: i, dias: 0, bloqueios: [] }, soma: new Soma() })
     const next = hexes[i + 1]
@@ -244,6 +274,7 @@ export function calcularViagem({
     let andou = false
     let bloqueado = false
     let ultimo: { meio: string | null; terreno: string } = { meio: null, terreno: cfg.padrao }
+    const meiosPasso: string[] = []
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
       const chave = terrenoDe(p.col, p.row)
@@ -253,13 +284,30 @@ export function calcularViagem({
       if (c.dias === null) {
         bloqueado = true
         cur.seg.bloqueios.push({ col: p.col, row: p.row, terreno })
+        trecho.bloqueios.push({ col: p.col, row: p.row, terreno })
       } else {
         andou = true
         cur.soma.add(c)
         passo.add(c)
+        trecho.soma.add(c)
+        let pm = trecho.porMeio.get(c.meio!)
+        if (!pm) trecho.porMeio.set(c.meio!, (pm = new Soma()))
+        pm.add(c)
+        if (!meiosPasso.includes(c.meio!)) meiosPasso.push(c.meio!)
       }
     }
-    passos.push({ dias: andou ? passo.valor : null, meio: ultimo.meio, terreno: ultimo.terreno, bloqueado })
+    passos.push({ dias: andou ? passo.valor : null, meio: ultimo.meio, meios: meiosPasso, terreno: ultimo.terreno, bloqueado })
+    // chegou numa PARADA: fecha o trecho (da parada anterior / início até aqui)
+    if (ehParada(next)) {
+      const meiosT = [...trecho.porMeio.keys()]
+      trechos.set(i + 1, {
+        dias: trecho.soma.valor,
+        meios: meiosT,
+        partes: meiosT.map((m) => ({ meio: m, dias: trecho.porMeio.get(m)!.valor })),
+        bloqueios: trecho.bloqueios,
+      })
+      trecho = novoTrecho()
+    }
   })
   const total = new Soma()
   for (const x of segs) {
@@ -267,7 +315,11 @@ export function calcularViagem({
     total.somar(x.soma)
   }
   const segmentos = segs.map((x) => x.seg)
-  return { segmentos, passos, total: total.valor, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
+  return { trechos, segmentos, passos, total: total.valor, bloqueado: segmentos.some((s) => s.bloqueios.length > 0) }
+}
+
+function novoTrecho() {
+  return { soma: new Soma(), porMeio: new Map<string, Soma>(), bloqueios: [] as Bloqueio[] }
 }
 
 /** Frações "humanas" com glifo (denominadores 2..6 e 8). */

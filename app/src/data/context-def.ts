@@ -22,7 +22,18 @@ export interface ViagemCfg {
   /** O PRIMEIRO é o meio básico (sempre disponível — A pé). `hexPorDia` = hex
    *  percorridos em 1 dia (terreno de custo 1); `em` = chaves de terreno onde
    *  o meio anda. Tempo por hex = custo / hexPorDia DIAS. */
-  meios: { nome: string; hexPorDia: number; em: string[] }[]
+  meios: {
+    nome: string
+    /** Emoji ao lado do tempo de viagem (config, nunca hardcoded). */
+    icone: string
+    /** Ligado no grupo enquanto ele não escolheu meios (a pé, carruagem, navio). */
+    padrao?: boolean
+    hexPorDia: number
+    em: string[]
+  }[]
+  /** Basename da nota com o FM `Terreno` (chave → lista de "col,row" na grade
+   *  da trilha) — dado do MUNDO, pintado no Modo Dev. Ausente = tudo padrão. */
+  terreno?: string
 }
 
 export interface ContextoDef {

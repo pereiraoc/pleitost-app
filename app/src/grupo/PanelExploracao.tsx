@@ -49,17 +49,19 @@ import { docPath } from '../paths'
 import { useHexMap } from '../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
-import { areasAt, cellAt, terrenoAt, type HexMapCell } from '../data/hexmap-store'
+import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { activeContextoDef } from '../data/reskin'
 import {
   calcularViagem,
   custoHex,
   formatarDias,
+  hexLine,
+  iconeDoMeio,
   meiosDoGrupo,
   terrenoDoHex,
-  type SegmentoViagem,
   type ViagemCfg,
 } from './viagem'
+import { gravarTracoTerreno, hexesPath, useTerrenoMundo } from './terreno-mundo'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -423,8 +425,9 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
 }
 
 /** Meios de transporte do grupo (viagem do hexcrawl): chips da config
- *  `viagem.meios`. O 1º (básico, A pé) está sempre ligado; os outros alternam
- *  e gravam na trilha (GroupState.meios → sync da mesa). */
+ *  `viagem.meios`, SÓ no modo EDITAR (pedido 2026-10-05). O 1º (básico, A pé)
+ *  está sempre ligado; sem escolha valem os `padrao` da config; alternar grava
+ *  o conjunto EXPLÍCITO (com o básico) na trilha (GroupState.meios → sync). */
 function MeiosGrupo({
   cfg,
   groupId,
@@ -456,8 +459,8 @@ function MeiosGrupo({
                   : `${m.hexPorDia} hex/dia · ${m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')}`
               }
               onClick={() => {
-                const atuais = (meios ?? []).filter((x) => x !== cfg.meios[0]!.nome)
-                setMeiosGrupo(groupId, on ? atuais.filter((x) => x !== m.nome) : [...atuais, m.nome])
+                const prox = on ? efetivos.filter((x) => x !== m.nome) : [...efetivos, m.nome]
+                setMeiosGrupo(groupId, cfg.meios.map((x) => x.nome).filter((n) => prox.includes(n)))
               }}
               style={{
                 ...pillStyle(on),
@@ -467,7 +470,7 @@ function MeiosGrupo({
                 opacity: basico && !readOnly ? 0.85 : 1,
               }}
             >
-              {m.nome}
+              {m.icone} {m.nome}
             </button>
           )
         })}
@@ -495,9 +498,12 @@ function LeftBar({
   onInsertAt,
   addMode,
   onSetMode,
+  terrenoDe,
 }: {
   groupId: string
   readOnly?: boolean
+  /** Terreno do mundo por hex (nota `viagem.terreno`, doc efetivo). */
+  terrenoDe: (col: number, row: number) => string | undefined
   /** Modo EDITAR ligado (e não readOnly): arrastar, inserir, remover, adicionar. */
   podeEditar: boolean
   onEditar: () => void
@@ -530,60 +536,60 @@ function LeftBar({
   const isPrincipal = (h: GroupHex): boolean => hexIsParada(h)
   const segs = buildSegments(state.hexes, isPrincipal)
 
-  // VIAGEM DO HEXCRAWL (2026-10-04): só com `viagem` no Contexto-Def. Terreno
-  // = hexmap mapa:mundo nas MESMAS coords da trilha (cellAt direto, como o
-  // lugar das paradas); segmentação = a mesma da lista (parada abre segmento).
+  // VIAGEM DO HEXCRAWL (2026-10-04; UX 2026-10-05): só com `viagem` no
+  // Contexto-Def. Terreno = nota do mundo (`viagem.terreno`) nas MESMAS coords
+  // da trilha. A PARADA mostra o trecho que chega nela (desde a parada
+  // anterior); o hex de caminho aberto mostra o próprio passo.
   const viagemCfg = activeContextoDef()?.viagem ?? null
   const viagem = useMemo(
     () =>
       viagemCfg
         ? calcularViagem({
             hexes: state.hexes,
-            terrenoDe: (c, r) => terrenoAt(hexMap, c, r),
+            terrenoDe,
             cfg: viagemCfg,
             meios: state.meios,
             ehParada: (h) => hexIsParada(h as GroupHex),
           })
         : null,
-    [viagemCfg, state.hexes, state.meios, hexMap],
-  )
-  const segViagem = useMemo(
-    () => new Map<number, SegmentoViagem>((viagem?.segmentos ?? []).map((sv) => [sv.inicio, sv])),
-    [viagem],
+    [viagemCfg, state.hexes, state.meios, terrenoDe],
   )
   const nomeTerreno = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
-  /** Dias do trecho que começa em `inicio` (da parada até a próxima), mono e
-   *  legível, ⚠ se bloqueado. Vive na LINHA DO CAMINHO (rota recolhida/aberta)
-   *  ou no conector entre paradas vizinhas — nunca na linha da parada. */
-  const diasSeg = (inicio: number, key: string) => {
-    const sv = segViagem.get(inicio)
-    if (!sv || inicio === state.hexes.length - 1) return null
-    const bloq = sv.bloqueios.length > 0
+  const icones = (meios: string[]) => (viagemCfg ? meios.map((m) => iconeDoMeio(viagemCfg, m)).join('') : '')
+  /** Tempo do trecho que CHEGA na parada `idx` (da parada anterior ou do
+   *  início da trilha) + ícones dos meios usados; ⚠ vermelho se bloqueado. */
+  const diasTrecho = (h: GroupHex, idx: number) => {
+    const t = viagem?.trechos.get(idx)
+    if (!t || !viagemCfg) return null
+    const bloq = t.bloqueios.length > 0
+    const title = bloq
+      ? `Sem meio possível em: ${t.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeTerreno(b.terreno)})`).join(' · ')}`
+      : [
+          `Desde a parada anterior: ${formatarDias(t.dias)}`,
+          ...t.partes.map((p) => `${iconeDoMeio(viagemCfg, p.meio)} ${p.meio} · ${formatarDias(p.dias)}`),
+        ].join('\n')
     return (
       <span
-        data-viagem-segmento={key}
-        {...(bloq ? { 'data-viagem-seg-bloqueado': '' } : {})}
-        title={
-          bloq
-            ? `Sem meio possível em: ${sv.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeTerreno(b.terreno)})`).join(' · ')}`
-            : 'Tempo até a próxima parada'
-        }
+        data-viagem-trecho={h.id}
+        {...(bloq ? { 'data-viagem-trecho-bloqueado': '' } : {})}
+        title={title}
         style={{
           flex: 'none',
           fontFamily: 'var(--mono)',
           fontSize: 10.5,
           fontWeight: 600,
-          letterSpacing: '.06em',
+          letterSpacing: '.04em',
+          whiteSpace: 'nowrap',
           color: bloq ? 'var(--red)' : 'var(--accent)',
         }}
       >
         {bloq ? '⚠ ' : ''}
-        {formatarDias(sv.dias)}
+        {`${icones(t.meios)} ${formatarDias(t.dias)}`}
       </span>
     )
   }
-  /** Custo pra ENTRAR num hex de caminho (rota aberta): pequeno e apagado; o
-   *  tooltip diz o meio e o terreno. */
+  /** Custo pra ENTRAR num hex de caminho (rota aberta): pequeno e apagado,
+   *  com o ícone do meio; o tooltip diz o meio e o terreno. */
   const diasPasso = (h: GroupHex, idx: number) => {
     const p = viagem?.passos[idx]
     if (!p) return null
@@ -595,34 +601,20 @@ function LeftBar({
         title={
           p.dias === null
             ? `Sem meio possível · ${terreno}`
-            : [formatarDias(p.dias), p.meio, terreno].filter(Boolean).join(' · ')
+            : [formatarDias(p.dias), p.meios.join(' + '), terreno].filter(Boolean).join(' · ')
         }
         style={{
           flex: 'none',
           fontFamily: 'var(--mono)',
           fontSize: 9.5,
           letterSpacing: '.04em',
+          whiteSpace: 'nowrap',
           color: p.bloqueado ? 'var(--red)' : 'var(--muted)',
         }}
       >
         {p.bloqueado ? '⚠ ' : ''}
-        {p.dias === null ? '' : formatarDias(p.dias)}
+        {p.dias === null ? terreno : `${icones(p.meios)} ${formatarDias(p.dias)}`}
       </span>
-    )
-  }
-  /** Paradas vizinhas (sem caminho entre): linha fininha com o tempo do trecho. */
-  const conectorRow = (h: GroupHex, idx: number) => {
-    const dias = diasSeg(idx, h.id)
-    if (!dias) return null
-    return (
-      <div
-        key={`con-${h.id}`}
-        data-viagem-conector={h.id}
-        style={{ marginLeft: 22, display: 'flex', alignItems: 'center', gap: 6, padding: '1px 9px', color: 'var(--muted)' }}
-      >
-        <span aria-hidden style={{ fontSize: 10, lineHeight: 1 }}>↓</span>
-        {dias}
-      </div>
     )
   }
 
@@ -756,7 +748,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
-          {child && viagem ? diasPasso(h, idx) : null}
+          {viagem ? (child ? diasPasso(h, idx) : diasTrecho(h, idx)) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -817,7 +809,7 @@ function LeftBar({
 
   /** Corrida de HEX-only COLAPSADA: 3 pontinhos verticais + contagem; clique
    *  EXPANDE pra mostrar o caminho completo (e só então os "+" de inserir). */
-  const collapsedRow = (key: string, inicio: number, children: { h: GroupHex; idx: number }[]) => (
+  const collapsedRow = (key: string, children: { h: GroupHex; idx: number }[]) => (
     <button
       key={`col-${key}`}
       data-collapsed-run={key}
@@ -846,13 +838,12 @@ function LeftBar({
         ))}
       </span>
       <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{children.length} HEX</span>
-      {viagem ? diasSeg(inicio, key) : null}
     </button>
   )
 
   /** Cabeçalho da rota EXPANDIDA: botão pra RECOLHER de volta (#: pedido do
    *  usuário — expandir tem que ter como fechar). */
-  const runCollapseBtn = (key: string, inicio: number, count: number) => (
+  const runCollapseBtn = (key: string, count: number) => (
     <button
       key={`recolher-${key}`}
       data-collapse-run={key}
@@ -878,7 +869,6 @@ function LeftBar({
     >
       <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>▴</span>
       <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{count} HEX · RECOLHER</span>
-      {viagem ? diasSeg(inicio, key) : null}
     </button>
   )
 
@@ -929,7 +919,7 @@ function LeftBar({
           <span
             data-viagem-total=""
             {...(viagem.bloqueado ? { 'data-viagem-bloqueado': '' } : {})}
-            title={viagem.bloqueado ? 'Algum trecho não tem meio possível (⚠ no segmento)' : 'Tempo total da trilha'}
+              title={viagem.bloqueado ? 'Algum trecho não tem meio possível (⚠ na parada)' : 'Tempo total da trilha'}
             style={{
               flex: 'none',
               fontFamily: 'var(--mono)',
@@ -954,20 +944,18 @@ function LeftBar({
             <>
               {segs.map((seg) => {
                 const key = seg.principal?.id ?? 'lead'
-                const inicio = seg.principal ? seg.principalIdx : 0
                 const isExp = expanded.has(key)
                 const kids = seg.children
                 return (
                   <div key={key} style={{ display: 'contents' }}>
                     {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
-                    {seg.principal && !kids.length && viagem ? conectorRow(seg.principal, seg.principalIdx) : null}
                     {kids.length
                       ? isExp
                         ? (
                             // Rota ABERTA: botão de recolher + os hexes, com o "+"
                             // de inserir parada SÓ aqui, entre os pontos da rota.
                             <>
-                              {runCollapseBtn(key, inicio, kids.length)}
+                              {runCollapseBtn(key, kids.length)}
                               {kids.map((c) => (
                                 <div key={c.h.id} style={{ display: 'contents' }}>
                                   {insertRow(c.idx, true)}
@@ -977,7 +965,7 @@ function LeftBar({
                               {insertRow(kids[kids.length - 1]!.idx + 1, true)}
                             </>
                           )
-                        : collapsedRow(key, inicio, kids)
+                        : collapsedRow(key, kids)
                       : null}
                   </div>
                 )
@@ -1007,7 +995,7 @@ function LeftBar({
             gap: 6,
           }}
         >
-          {viagemCfg ? (
+          {viagemCfg && podeEditar ? (
             <MeiosGrupo cfg={viagemCfg} groupId={groupId} meios={state.meios} readOnly={!!readOnly} />
           ) : null}
           {readOnly ? (
@@ -1077,6 +1065,94 @@ function LeftBar({
   )
 }
 
+/** Barra do PINTOR DE TERRENO (Modo Dev): toggle + um pincel por terreno da
+ *  config (amostra de cor + nome) + Limpar. Sobreposta ao mapa (vale também
+ *  em tela cheia). Grava rascunho LOCAL — publicar/exportar é na Config. */
+function PintorTerreno({
+  cfg,
+  ligado,
+  onToggle,
+  pincel,
+  onPincel,
+}: {
+  cfg: ViagemCfg
+  ligado: boolean
+  onToggle: () => void
+  pincel: string | null
+  onPincel: (k: string | null) => void
+}) {
+  return (
+    <div
+      onPointerDown={(e) => e.stopPropagation()}
+      style={{
+        position: 'absolute',
+        top: 14,
+        left: 14,
+        zIndex: 4,
+        maxWidth: 'calc(100% - 90px)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 6,
+      }}
+    >
+      <button
+        data-pintor-terreno-toggle=""
+        aria-pressed={ligado}
+        onClick={onToggle}
+        style={{ ...pillStyle(ligado), padding: '5px 10px', fontSize: 10 }}
+      >
+        ✎ TERRENO
+      </button>
+      {ligado ? (
+        <div
+          data-pintor-terreno=""
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 6,
+            padding: '8px 10px',
+            background: 'color-mix(in srgb,var(--panel) 92%,transparent)',
+            border: '1px solid var(--line2)',
+            clipPath: clip(8),
+          }}
+        >
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+            {cfg.terrenos.map((t) => (
+              <button
+                key={t.chave}
+                data-pincel={t.chave}
+                aria-pressed={pincel === t.chave}
+                aria-label={t.nome}
+                title={`Custo de movimento ×${t.custo}`}
+                onClick={() => onPincel(t.chave)}
+                style={{ ...pillStyle(pincel === t.chave), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+              >
+                <span
+                  aria-hidden
+                  style={{ width: 9, height: 9, borderRadius: 2, background: t.cor ?? 'var(--muted)', flex: 'none' }}
+                />
+                {t.nome}
+              </button>
+            ))}
+            <button
+              data-pincel-limpar=""
+              aria-pressed={pincel === null}
+              onClick={() => onPincel(null)}
+              style={{ ...pillStyle(pincel === null), padding: '3px 8px', fontSize: 9.5 }}
+            >
+              ⌫ Limpar
+            </button>
+          </div>
+          <span style={{ ...fieldLabelStyle, fontSize: 9 }}>
+            arraste pra pintar · rascunho local — publique em Config › Modo Dev
+          </span>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 /** `readOnly` (pedido do usuário, follow-up #379 r2): fora da MESA CONECTADA o
  *  caminho é SOMENTE LEITURA — a trilha é sincronizada com o session state
  *  (remoto = fonte de verdade) e edição offline seria sobrescrita no pull. */
@@ -1102,8 +1178,12 @@ export function PanelExploracao({
   const hexMap = hexMapState.cells
   // #430: jogador da mesa adota o mapa-múndi autorado pelo mestre (lugares/
   // áreas) — assim a exploração do grupo mostra o que o mestre marcou.
-  const { mestre } = useSettings()
+  const { mestre, desenvolvedor } = useSettings()
   useHexMapMundoSync(mestre)
+  // TERRENO DO MUNDO (2026-10-05): nota `viagem.terreno` lida pelo doc efetivo
+  // (overlay publicado ⊕ rascunho do Modo Dev).
+  const viagemCfg = activeContextoDef()?.viagem ?? null
+  const terrenoMundo = useTerrenoMundo(viagemCfg)
   // Report 2026-08-17 r2: a config do atlas é a EFETIVA do viewer (mesmo
   // contrato do /mapa): jogador conectado lê a MESA; mestre/offline o local.
   // Ler só o store local aqui deixava o jogador com blob velho sem
@@ -1174,6 +1254,35 @@ export function PanelExploracao({
 
   // Pan / PINÇA / roda / TELA CHEIA compartilhados (#80).
   const map = useMapView()
+
+  // ── PINTOR DE TERRENO (Modo Dev, 2026-10-05) ──────────────────────────────
+  // Arrastar pinta todo hex sob o ponteiro (pan desligado); toque pinta um.
+  // O traço acumula num REF e o preview é um <path> atualizado por
+  // setAttribute (sem re-render do painel por pointermove); no pointerup vira
+  // UM rascunho local do FM da nota de terreno.
+  const podePintar = desenvolvedor && !!viagemCfg && !!terrenoMundo.doc
+  const [pintando, setPintando] = useState(false)
+  const pintor = pintando && podePintar
+  const [pincel, setPincel] = useState<string | null>(
+    () => viagemCfg?.terrenos.find((t) => t.chave !== viagemCfg.padrao)?.chave ?? null,
+  )
+  const tracoRef = useRef<{ pointerId: number; cells: Map<string, HexCell>; last: HexCell | null; d: string } | null>(
+    null,
+  )
+  const tracoPathRef = useRef<SVGPathElement | null>(null)
+  const corPincel = (pincel && viagemCfg?.terrenos.find((t) => t.chave === pincel)?.cor) || 'var(--muted)'
+  const tintas = useMemo(() => {
+    if (!pintor || !viagemCfg) return []
+    const porChave = new Map<string, { col: number; row: number }[]>()
+    for (const [hex, chave] of terrenoMundo.indice) {
+      const [col, row] = hex.split(',').map(Number) as [number, number]
+      if (!porChave.has(chave)) porChave.set(chave, [])
+      porChave.get(chave)!.push({ col, row })
+    }
+    return viagemCfg.terrenos
+      .filter((t) => porChave.has(t.chave))
+      .map((t) => ({ chave: t.chave, cor: t.cor ?? 'var(--muted)', d: hexesPath(porChave.get(t.chave)!) }))
+  }, [pintor, viagemCfg, terrenoMundo.indice])
 
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
@@ -1248,13 +1357,54 @@ export function PanelExploracao({
     return f ? atlasPixelToHex(crop.x + f.fx * crop.w, crop.y + f.fy * crop.h) : null
   }
 
+  const tracarAte = (cell: HexCell | null) => {
+    const t = tracoRef.current
+    if (!t || !cell) return
+    if (t.last && t.last.col === cell.col && t.last.row === cell.row) return
+    // ponteiro rápido pula hexes: liga pela linha hex (sem buracos no traço)
+    const linha = t.last ? hexLine(t.last, cell).slice(1) : [cell]
+    let novo = ''
+    for (const c of linha) {
+      const k = `${c.col},${c.row}`
+      if (t.cells.has(k)) continue
+      t.cells.set(k, { col: c.col, row: c.row })
+      novo += hexesPath([c])
+    }
+    t.last = cell
+    if (novo) {
+      t.d += novo
+      tracoPathRef.current?.setAttribute('d', t.d)
+    }
+  }
+  const fecharTraco = (e: React.PointerEvent) => {
+    const t = tracoRef.current
+    if (!t || t.pointerId !== e.pointerId) return
+    tracarAte(hexAtClient(e.clientX, e.clientY))
+    tracoRef.current = null
+    tracoPathRef.current?.setAttribute('d', '')
+    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
+    if (terrenoMundo.doc && viagemCfg) gravarTracoTerreno(terrenoMundo.doc, [...t.cells.values()], pincel, viagemCfg)
+  }
+
   const onPointerDown = (e: React.PointerEvent) => {
+    if (pintor) {
+      if (tracoRef.current) return // 2º dedo durante o traço: ignora
+      e.preventDefault()
+      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+      tracoRef.current = { pointerId: e.pointerId, cells: new Map(), last: null, d: '' }
+      tracarAte(hexAtClient(e.clientX, e.clientY))
+      return
+    }
     pressedRef.current = true
     if (hoverHex) setHoverHex(null)
     setMapTip(null)
     map.onPointerDown(e)
   }
   const onPointerMove = (e: React.PointerEvent) => {
+    if (tracoRef.current) {
+      if (e.pointerId === tracoRef.current.pointerId) tracarAte(hexAtClient(e.clientX, e.clientY))
+      return
+    }
     // Arrasto do token (#71): não faz pan/pinça, marca a célula-alvo.
     if (tokenDragRef.current) {
       const cell = hexAtClient(e.clientX, e.clientY)
@@ -1279,6 +1429,10 @@ export function PanelExploracao({
     }
   }
   const onPointerUp = (e: React.PointerEvent) => {
+    if (tracoRef.current) {
+      fecharTraco(e)
+      return
+    }
     pressedRef.current = false
     map.onPointerUp(e)
   }
@@ -1305,6 +1459,7 @@ export function PanelExploracao({
   }
 
   const onMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (pintor) return // o toque já pintou no pointerdown/up
     if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
@@ -1467,6 +1622,7 @@ export function PanelExploracao({
             setInsertAt((cur) => (cur === i ? null : i))
             setAddMode('parada')
           }}
+          terrenoDe={terrenoMundo.terrenoDe}
           addMode={addMode}
           onSetMode={(m) =>
             setAddMode((cur) => {
@@ -1507,7 +1663,7 @@ export function PanelExploracao({
                 justifyContent: 'center',
                 overflow: 'hidden',
                 touchAction: 'none',
-                cursor: addMode !== 'off' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
+                cursor: pintor || addMode !== 'off' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
                 userSelect: 'none',
               }}
             >
@@ -1601,6 +1757,35 @@ export function PanelExploracao({
                           : 'color-mix(in srgb,var(--accent) 15%,transparent)'
                       }
                       strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ) : null}
+                  {/* TERRENO do mundo (pintor do Modo Dev ligado): uma tinta
+                      por terreno (um path só cada, DOM enxuto no gesto) +
+                      o preview do traço em andamento (d via ref). */}
+                  {tintas.map((tp) => (
+                    <path
+                      key={`terreno:${tp.chave}`}
+                      data-terreno-tinta={tp.chave}
+                      d={tp.d}
+                      fill={tp.cor}
+                      fillOpacity={0.32}
+                      stroke={tp.cor}
+                      strokeOpacity={0.6}
+                      strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))}
+                  {pintor ? (
+                    <path
+                      ref={tracoPathRef}
+                      data-terreno-traco=""
+                      d=""
+                      fill={pincel ? corPincel : 'transparent'}
+                      fillOpacity={0.5}
+                      stroke={pincel ? corPincel : 'var(--text)'}
+                      strokeDasharray={pincel ? undefined : '4 3'}
+                      strokeWidth={1.5}
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
@@ -1765,6 +1950,15 @@ export function PanelExploracao({
 
           {/* #80 Controles de tela cheia + zoom sobrepostos */}
           {mapEntry ? <MapControls map={map} /> : null}
+          {mapEntry && podePintar && viagemCfg ? (
+            <PintorTerreno
+              cfg={viagemCfg}
+              ligado={pintor}
+              onToggle={() => setPintando((p) => !p)}
+              pincel={pincel}
+              onPincel={setPincel}
+            />
+          ) : null}
           {mapEntry && preparandoMapa ? <AvisoPreparandoMapa /> : null}
 
           {/* #71 Botão "Adicionar parada" (após soltar o token numa célula nova) */}
@@ -1828,6 +2022,7 @@ export function PanelExploracao({
           hex={selecionado}
           hexMap={hexMap}
           meios={state.meios}
+          terrenoDe={terrenoMundo.terrenoDe}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
             removeGroupHex(groupId, selecionado.id)
@@ -1922,6 +2117,7 @@ function HexInfo({
   hex,
   hexMap,
   meios,
+  terrenoDe,
   atual,
   onRemove,
 }: {
@@ -1929,6 +2125,8 @@ function HexInfo({
   readOnly?: boolean
   hex: GroupHex
   hexMap: HexMapCell[]
+  /** Terreno do mundo por hex (nota `viagem.terreno`). */
+  terrenoDe: (col: number, row: number) => string | undefined
   /** Meios do grupo (GroupState.meios) — pro tempo de cruzar este hex. */
   meios?: string[]
   atual: boolean
@@ -1945,10 +2143,10 @@ function HexInfo({
   // sentido pra hex SEM lugar mapeado (associação manual, legado).
   const lugarNoMapa = cellAt(hexMap, hex.col, hex.row)?.localId ?? null
   const lugarResolvido = lugarNoMapa ?? hex.localId ?? null
-  // VIAGEM (2026-10-04): terreno do hex (pintado em mapa:mundo ou o padrão da
+  // VIAGEM (2026-10-04): terreno do hex (nota do mundo ou o padrão da
   // config) + dias pra cruzá-lo com o meio mais rápido do grupo.
   const viagemCfg = activeContextoDef()?.viagem ?? null
-  const chaveTerreno = terrenoAt(hexMap, hex.col, hex.row)
+  const chaveTerreno = terrenoDe(hex.col, hex.row)
   const terreno = viagemCfg ? terrenoDoHex(chaveTerreno, viagemCfg) : null
   const travessia = viagemCfg ? custoHex(chaveTerreno, viagemCfg, meiosDoGrupo(viagemCfg, meios)) : null
   return (

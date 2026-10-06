@@ -394,10 +394,10 @@ const VIAGEM_OK = {
     muito_dificil: { custo: 3, nome: "Montanha" },
   },
   meios: [
-    { nome: "A pé", hex_por_dia: 2, em: ["estrada", "normal", "dificil", "muito_dificil"] },
-    { nome: "Cavalo", hex_por_dia: 3, em: ["estrada", "normal", "dificil"] },
-    { nome: "Carruagem", hex_por_dia: 4, em: ["estrada"] },
-    { nome: "Navio", hex_por_dia: 5, em: ["mar"] },
+    { nome: "A pé", icone: "🚶", padrao: true, hex_por_dia: 2, em: ["estrada", "normal", "dificil", "muito_dificil"] },
+    { nome: "Cavalo", icone: "🐎", hex_por_dia: 3, em: ["estrada", "normal", "dificil"] },
+    { nome: "Carruagem", icone: "🛞", padrao: true, hex_por_dia: 4, em: ["estrada"] },
+    { nome: "Navio", icone: "⛵", padrao: true, hex_por_dia: 5, em: ["mar"] },
   ],
 };
 
@@ -413,10 +413,10 @@ test("viagem: compila terrenos (ordem do FM) e meios", () => {
       { chave: "muito_dificil", nome: "Montanha", custo: 3 },
     ],
     meios: [
-      { nome: "A pé", hexPorDia: 2, em: ["estrada", "normal", "dificil", "muito_dificil"] },
-      { nome: "Cavalo", hexPorDia: 3, em: ["estrada", "normal", "dificil"] },
-      { nome: "Carruagem", hexPorDia: 4, em: ["estrada"] },
-      { nome: "Navio", hexPorDia: 5, em: ["mar"] },
+      { nome: "A pé", icone: "🚶", padrao: true, hexPorDia: 2, em: ["estrada", "normal", "dificil", "muito_dificil"] },
+      { nome: "Cavalo", icone: "🐎", padrao: false, hexPorDia: 3, em: ["estrada", "normal", "dificil"] },
+      { nome: "Carruagem", icone: "🛞", padrao: true, hexPorDia: 4, em: ["estrada"] },
+      { nome: "Navio", icone: "⛵", padrao: true, hexPorDia: 5, em: ["mar"] },
     ],
   });
   assert.equal("viagem" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES, typeByBasename: new Map() }), false);
@@ -432,6 +432,21 @@ test("viagem: def inválida quebra o extract", () => {
   assert.throws(run({ ...VIAGEM_OK, terrenos: { ...VIAGEM_OK.terrenos, normal: { horas: 16, nome: "Gramado" } } }), /viagem\.terrenos\.normal: custo/);
   assert.throws(run({ ...VIAGEM_OK, terrenos: { ...VIAGEM_OK.terrenos, normal: { custo: 1 } } }), /viagem\.terrenos\.normal: nome/);
   assert.throws(run({ ...VIAGEM_OK, meios: [] }), /viagem\.meios/);
+  assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Mudo", hex_por_dia: 2, em: ["normal"] }] }), /viagem\.meios: "Mudo" icone/);
+  assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Vazio", icone: " ", hex_por_dia: 2, em: ["normal"] }] }), /viagem\.meios: "Vazio" icone/);
+  assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Talvez", icone: "?", padrao: "sim", hex_por_dia: 2, em: ["normal"] }] }), /viagem\.meios: "Talvez" padrao/);
+  assert.throws(run({ ...VIAGEM_OK, terreno: "[[Nota Que Não Existe]]" }), /viagem\.terreno: "Nota Que Não Existe" não existe/);
+});
+
+// TERRENO como DADO DO MUNDO (2026-10-05): `viagem.terreno` = wikilink da nota
+// com o FM `Terreno` (chave → lista de "col,row") — resolve pro basename, como
+// transporte.mapa; o app acha o doc pelo catálogo (overlay do Modo Dev aplica).
+test("viagem.terreno: wikilink da nota de terreno vira basename", () => {
+  const basenames = new Set([...BASENAMES, "Terreno do Mundo Livre"]);
+  const out = compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem: { ...VIAGEM_OK, terreno: "[[Terreno do Mundo Livre]]" } }), defBase()], basenames, typeByBasename: new Map() });
+  assert.equal(out.viagem.terreno, "Terreno do Mundo Livre");
+  const sem = compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem: VIAGEM_OK }), defBase()], basenames, typeByBasename: new Map() });
+  assert.equal("terreno" in sem.viagem, false);
 });
 
 test("viagem: o bloco auto renderiza a tabela de terrenos e de meios", async () => {
@@ -442,5 +457,6 @@ test("viagem: o bloco auto renderiza a tabela de terrenos e de meios", async () 
   assert.match(bloco, /\| Gramado \(`normal`\) \| ×1 · padrão \(hex sem terreno\) \|/);
   assert.match(bloco, /\| Montanha \(`muito_dificil`\) \| ×3 \|/);
   assert.match(bloco, /#### Viagem: meios de transporte \(hex por dia\)/);
-  assert.match(bloco, /\| Cavalo \| 3 hex\/dia · Estrada, Gramado, Difícil \|/);
+  assert.match(bloco, /\| 🐎 Cavalo \| 3 hex\/dia · Estrada, Gramado, Difícil \|/);
+  assert.match(bloco, /\| 🛞 Carruagem \| 4 hex\/dia · Estrada · padrão do grupo \|/);
 });

@@ -70,8 +70,9 @@ export interface GroupState {
    *  Mundo Livre → migra na leitura (shift +44,+5). */
   grade?: 'mundo'
   /** VIAGEM DO HEXCRAWL (2026-10-04): meios de transporte do grupo (nomes de
-   *  `viagem.meios` do Contexto-Def). Ausente = só o meio básico (o 1º da
-   *  config, A pé). Viaja na trilha (session_set_exploracao grava o blob
+   *  `viagem.meios` do Contexto-Def). Ausente = o básico + os `padrao` da
+   *  config (a pé, carruagem, navio); editado = o conjunto explícito (com o
+   *  básico). Viaja na trilha (session_set_exploracao grava o blob
    *  `exploracao` inteiro — qualquer membro edita). */
   meios?: string[]
 }
