@@ -59,10 +59,11 @@ import {
   iconeDoMeio,
   custoHexNoTrecho,
   meioDoTrecho,
+  ondeAnda,
   terrenoDoHex,
   type ViagemCfg,
 } from './viagem'
-import { gravarTracoTerreno, hexesPath, useTerrenoMundo } from './terreno-mundo'
+import { gravarTracoTerreno, hexesPath, pontosPath, useTerrenoMundo, type CamadaTerreno } from './terreno-mundo'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -457,7 +458,6 @@ function MeioMenu({
   previa: (meio: string | null) => PreviaMeio | undefined
   onEscolher: (meio: string | null) => void
 }) {
-  const nomeT = (k: string) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k
   const opcoes: { nome: string; rotulo: string; dica: string }[] = [
     alvo === 'trecho'
       ? { nome: '', rotulo: 'Automático', dica: 'O mais rápido entre os meios padrão em cada hex' }
@@ -465,7 +465,7 @@ function MeioMenu({
     ...cfg.meios.map((m) => ({
       nome: m.nome,
       rotulo: `${m.icone} ${m.nome}`,
-      dica: `${m.hexPorDia} hex/dia · ${m.em.map(nomeT).join(', ')}`,
+      dica: `${m.hexPorDia} hex/dia · ${ondeAnda(cfg, m.nome)}`,
     })),
   ]
   const aqui = alvo === 'trecho' ? 'deste trecho' : 'deste passo'
@@ -493,7 +493,7 @@ function MeioMenu({
         const meioCfg = o.nome ? cfg.meios.find((m) => m.nome === o.nome) : undefined
         // escolhido mas não anda em NENHUM hex do trecho/passo → automático
         const inutil = !!meioCfg && !!t && !t.meios.includes(o.nome)
-        const terrenosMeio = meioCfg ? meioCfg.em.map(nomeT).join(', ') : ''
+        const terrenosMeio = meioCfg ? ondeAnda(cfg, meioCfg.nome) : ''
         const tempo =
           t && t.dias !== null
             ? `${t.bloqueado ? '⚠ ' : ''}${t.meios.map((m) => iconeDoMeio(cfg, m)).join('')} ${formatarDias(t.dias)}`
@@ -569,11 +569,14 @@ function LeftBar({
   addMode,
   onSetMode,
   terrenoDe,
+  rotaDe,
 }: {
   groupId: string
   readOnly?: boolean
   /** Terreno do mundo por hex (nota `viagem.terreno`, doc efetivo). */
   terrenoDe: (col: number, row: number) => string | undefined
+  /** Camada de rotas do mundo por hex (estrada, rota marítima). */
+  rotaDe: (col: number, row: number) => string | undefined
   /** Modo EDITAR ligado (e não readOnly): arrastar, inserir, remover, adicionar. */
   podeEditar: boolean
   onEditar: () => void
@@ -618,11 +621,12 @@ function LeftBar({
         ? calcularViagem({
             hexes: state.hexes,
             terrenoDe,
+            rotaDe,
             cfg: viagemCfg,
             ehParada: (h) => hexIsParada(h as GroupHex),
           })
         : null,
-    [viagemCfg, state.hexes, terrenoDe],
+    [viagemCfg, state.hexes, terrenoDe, rotaDe],
   )
   // Menu do meio do trecho aberto (id da parada de chegada); fecha com
   // Escape, clique fora ou ao sair do EDITAR.
@@ -652,7 +656,7 @@ function LeftBar({
       if (i !== idx) return resto
       return meio ? { ...resto, meio } : resto
     })
-    const t = calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).trechos.get(idx)
+    const t = calcularViagem({ hexes, terrenoDe, rotaDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).trechos.get(idx)
     return t ? { dias: t.dias, meios: t.meios, bloqueado: t.bloqueios.length > 0 } : undefined
   }
   /** Passo que entra no hex `idx` se ele tivesse o ajuste `meio` (null =
@@ -664,7 +668,7 @@ function LeftBar({
       const { meioPasso: _p, ...resto } = h
       return meio ? { ...resto, meioPasso: meio } : resto
     })
-    const p = calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).passos[idx]
+    const p = calcularViagem({ hexes, terrenoDe, rotaDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).passos[idx]
     return p ? { dias: p.dias, meios: p.meios, bloqueado: p.bloqueado } : undefined
   }
   useEffect(() => {
@@ -685,6 +689,7 @@ function LeftBar({
     }
   }, [meioMenu])
   const nomeTerreno = (k: string) => viagemCfg?.terrenos.find((t) => t.chave === k)?.nome ?? k
+  const nomeRota = (k: string) => viagemCfg?.rotas?.find((r) => r.chave === k)?.nome ?? k
   const icones = (meios: string[]) => (viagemCfg ? meios.map((m) => iconeDoMeio(viagemCfg, m)).join('') : '')
   /** Tempo do trecho que CHEGA na parada `idx` (desde a parada anterior; a
    *  1ª parada não tem) + ícones dos meios usados; ⚠ vermelho se bloqueado. */
@@ -728,7 +733,7 @@ function LeftBar({
   const diasPasso = (h: GroupHex, idx: number) => {
     const p = viagem?.passos[idx]
     if (!p) return null
-    const terreno = nomeTerreno(p.terreno)
+    const terreno = `${nomeTerreno(p.terreno)}${p.rota ? ` + ${nomeRota(p.rota)}` : ''}`
     return (
       <span
         data-viagem-passo={h.id}
@@ -1395,9 +1400,18 @@ function LeftBar({
   )
 }
 
+/** Pincel do pintor: a CAMADA (terreno-base ou rotas) + a chave (null =
+ *  limpar aquela camada). */
+interface Pincel {
+  camada: CamadaTerreno
+  chave: string | null
+}
+
 /** Barra do PINTOR DE TERRENO (Modo Dev): toggle + um pincel por terreno da
- *  config (amostra de cor + nome) + Limpar. Sobreposta ao mapa (vale também
- *  em tela cheia). Grava rascunho LOCAL — publicar/exportar é na Config. */
+ *  config (amostra de cor + nome) + Limpar; e, numa linha separada, os
+ *  pincéis da camada de ROTAS (estrada, rota marítima) + Limpar rota.
+ *  Sobreposta ao mapa (vale também em tela cheia). Grava rascunho LOCAL —
+ *  publicar/exportar é na Config. */
 function PintorTerreno({
   cfg,
   ligado,
@@ -1408,9 +1422,10 @@ function PintorTerreno({
   cfg: ViagemCfg
   ligado: boolean
   onToggle: () => void
-  pincel: string | null
-  onPincel: (k: string | null) => void
+  pincel: Pincel
+  onPincel: (p: Pincel) => void
 }) {
+  const on = (camada: CamadaTerreno, chave: string | null) => pincel.camada === camada && pincel.chave === chave
   return (
     <div
       onPointerDown={(e) => e.stopPropagation()}
@@ -1452,11 +1467,11 @@ function PintorTerreno({
               <button
                 key={t.chave}
                 data-pincel={t.chave}
-                aria-pressed={pincel === t.chave}
+                aria-pressed={on('terreno', t.chave)}
                 aria-label={t.nome}
                 title={`Custo de movimento ×${t.custo}`}
-                onClick={() => onPincel(t.chave)}
-                style={{ ...pillStyle(pincel === t.chave), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                onClick={() => onPincel({ camada: 'terreno', chave: t.chave })}
+                style={{ ...pillStyle(on('terreno', t.chave)), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
               >
                 <span
                   aria-hidden
@@ -1467,13 +1482,42 @@ function PintorTerreno({
             ))}
             <button
               data-pincel-limpar=""
-              aria-pressed={pincel === null}
-              onClick={() => onPincel(null)}
-              style={{ ...pillStyle(pincel === null), padding: '3px 8px', fontSize: 9.5 }}
+              aria-pressed={on('terreno', null)}
+              onClick={() => onPincel({ camada: 'terreno', chave: null })}
+              style={{ ...pillStyle(on('terreno', null)), padding: '3px 8px', fontSize: 9.5 }}
             >
               ⌫ Limpar
             </button>
           </div>
+          {cfg.rotas?.length ? (
+            <div data-pintor-rotas="" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+              {cfg.rotas.map((r) => (
+                <button
+                  key={r.chave}
+                  data-pincel-rota={r.chave}
+                  aria-pressed={on('rotas', r.chave)}
+                  aria-label={r.nome}
+                  title={`Rota: +${r.bonus} hex/dia pra ${r.meios.join(', ')}`}
+                  onClick={() => onPincel({ camada: 'rotas', chave: r.chave })}
+                  style={{ ...pillStyle(on('rotas', r.chave)), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                >
+                  <span
+                    aria-hidden
+                    style={{ width: 7, height: 7, borderRadius: '50%', background: r.cor ?? 'var(--muted)', border: '1px solid var(--line2)', flex: 'none' }}
+                  />
+                  {r.nome}
+                </button>
+              ))}
+              <button
+                data-pincel-rota-limpar=""
+                aria-pressed={on('rotas', null)}
+                onClick={() => onPincel({ camada: 'rotas', chave: null })}
+                style={{ ...pillStyle(on('rotas', null)), padding: '3px 8px', fontSize: 9.5 }}
+              >
+                ⌫ Limpar rota
+              </button>
+            </div>
+          ) : null}
           <span style={{ ...fieldLabelStyle, fontSize: 9 }}>
             arraste pra pintar · rascunho local — publique em Config › Modo Dev
           </span>
@@ -1593,14 +1637,20 @@ export function PanelExploracao({
   const podePintar = desenvolvedor && !!viagemCfg && !!terrenoMundo.doc
   const [pintando, setPintando] = useState(false)
   const pintor = pintando && podePintar
-  const [pincel, setPincel] = useState<string | null>(
-    () => viagemCfg?.terrenos.find((t) => t.chave !== viagemCfg.padrao)?.chave ?? null,
-  )
+  const [pincel, setPincel] = useState<Pincel>(() => ({
+    camada: 'terreno',
+    chave: viagemCfg?.terrenos.find((t) => t.chave !== viagemCfg.padrao)?.chave ?? null,
+  }))
   const tracoRef = useRef<{ pointerId: number; cells: Map<string, HexCell>; last: HexCell | null; d: string } | null>(
     null,
   )
   const tracoPathRef = useRef<SVGPathElement | null>(null)
-  const corPincel = (pincel && viagemCfg?.terrenos.find((t) => t.chave === pincel)?.cor) || 'var(--muted)'
+  const corPincel =
+    (pincel.chave &&
+      (pincel.camada === 'rotas'
+        ? viagemCfg?.rotas?.find((r) => r.chave === pincel.chave)?.cor
+        : viagemCfg?.terrenos.find((t) => t.chave === pincel.chave)?.cor)) ||
+    'var(--muted)'
   const tintas = useMemo(() => {
     if (!pintor || !viagemCfg) return []
     const porChave = new Map<string, { col: number; row: number }[]>()
@@ -1613,6 +1663,19 @@ export function PanelExploracao({
       .filter((t) => porChave.has(t.chave))
       .map((t) => ({ chave: t.chave, cor: t.cor ?? 'var(--muted)', d: hexesPath(porChave.get(t.chave)!) }))
   }, [pintor, viagemCfg, terrenoMundo.indice])
+  // camada de ROTAS: um ponto por hex (por cima da tinta do terreno)
+  const tintasRotas = useMemo(() => {
+    if (!pintor || !viagemCfg?.rotas) return []
+    const porChave = new Map<string, { col: number; row: number }[]>()
+    for (const [hex, chave] of terrenoMundo.indiceRotas) {
+      const [col, row] = hex.split(',').map(Number) as [number, number]
+      if (!porChave.has(chave)) porChave.set(chave, [])
+      porChave.get(chave)!.push({ col, row })
+    }
+    return viagemCfg.rotas
+      .filter((r) => porChave.has(r.chave))
+      .map((r) => ({ chave: r.chave, cor: r.cor ?? 'var(--muted)', d: pontosPath(porChave.get(r.chave)!) }))
+  }, [pintor, viagemCfg, terrenoMundo.indiceRotas])
 
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
@@ -1713,7 +1776,8 @@ export function PanelExploracao({
     tracoRef.current = null
     tracoPathRef.current?.setAttribute('d', '')
     ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
-    if (terrenoMundo.doc && viagemCfg) gravarTracoTerreno(terrenoMundo.doc, [...t.cells.values()], pincel, viagemCfg)
+    if (terrenoMundo.doc && viagemCfg)
+      gravarTracoTerreno(terrenoMundo.doc, [...t.cells.values()], pincel.chave, viagemCfg, pincel.camada)
   }
 
   const onPointerDown = (e: React.PointerEvent) => {
@@ -1953,6 +2017,7 @@ export function PanelExploracao({
             setAddMode('parada')
           }}
           terrenoDe={terrenoMundo.terrenoDe}
+          rotaDe={terrenoMundo.rotaDe}
           addMode={addMode}
           onSetMode={(m) =>
             setAddMode((cur) => {
@@ -2106,15 +2171,28 @@ export function PanelExploracao({
                       vectorEffect="non-scaling-stroke"
                     />
                   ))}
+                  {tintasRotas.map((tp) => (
+                    <path
+                      key={`rota:${tp.chave}`}
+                      data-rota-tinta={tp.chave}
+                      d={tp.d}
+                      fill={tp.cor}
+                      fillOpacity={0.9}
+                      stroke="#000"
+                      strokeOpacity={0.55}
+                      strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))}
                   {pintor ? (
                     <path
                       ref={tracoPathRef}
                       data-terreno-traco=""
                       d=""
-                      fill={pincel ? corPincel : 'transparent'}
+                      fill={pincel.chave && pincel.camada === 'terreno' ? corPincel : 'transparent'}
                       fillOpacity={0.5}
-                      stroke={pincel ? corPincel : 'var(--text)'}
-                      strokeDasharray={pincel ? undefined : '4 3'}
+                      stroke={pincel.chave ? corPincel : 'var(--text)'}
+                      strokeDasharray={pincel.chave && pincel.camada === 'terreno' ? undefined : '4 3'}
                       strokeWidth={1.5}
                       vectorEffect="non-scaling-stroke"
                     />
@@ -2353,6 +2431,8 @@ export function PanelExploracao({
           hexMap={hexMap}
           meioTrecho={selecionado.meioPasso ?? meioDoTrecho(state.hexes, state.hexes.indexOf(selecionado), hexIsParada)}
           terrenoDe={terrenoMundo.terrenoDe}
+          rotaDe={terrenoMundo.rotaDe}
+          anterior={state.hexes[state.hexes.indexOf(selecionado) - 1]}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
             removeGroupHex(groupId, selecionado.id)
@@ -2448,6 +2528,8 @@ function HexInfo({
   hexMap,
   meioTrecho,
   terrenoDe,
+  rotaDe,
+  anterior,
   atual,
   onRemove,
 }: {
@@ -2457,6 +2539,10 @@ function HexInfo({
   hexMap: HexMapCell[]
   /** Terreno do mundo por hex (nota `viagem.terreno`). */
   terrenoDe: (col: number, row: number) => string | undefined
+  /** Camada de rotas do mundo por hex. */
+  rotaDe: (col: number, row: number) => string | undefined
+  /** Hex anterior na trilha (de onde se entra neste — decide a COSTA). */
+  anterior?: { col: number; row: number }
   /** Meio escolhido do trecho deste hex (meioDoTrecho) — pro tempo de cruzá-lo. */
   meioTrecho?: string
   atual: boolean
@@ -2476,9 +2562,21 @@ function HexInfo({
   // VIAGEM (2026-10-04): terreno do hex (nota do mundo ou o padrão da
   // config) + dias pra cruzá-lo com o meio do trecho (ou o automático).
   const viagemCfg = activeContextoDef()?.viagem ?? null
+  // A ROTA (estrada, rota marítima) vem da camada de rotas; o hex de onde se
+  // entra (o anterior da trilha; com buraco, o vizinho na linha) decide a costa.
   const chaveTerreno = terrenoDe(hex.col, hex.row)
+  const chaveRota = rotaDe(hex.col, hex.row)
   const terreno = viagemCfg ? terrenoDoHex(chaveTerreno, viagemCfg) : null
-  const travessia = viagemCfg ? custoHexNoTrecho(chaveTerreno, viagemCfg, meioTrecho) : null
+  const rota = chaveRota ? viagemCfg?.rotas?.find((r) => r.chave === chaveRota) : undefined
+  const de = anterior ? hexLine(anterior, hex).slice(-2)[0] : undefined
+  const travessia = viagemCfg
+    ? custoHexNoTrecho(
+        { terreno: chaveTerreno, rota: chaveRota },
+        viagemCfg,
+        meioTrecho,
+        de && (de.col !== hex.col || de.row !== hex.row) ? { terreno: terrenoDe(de.col, de.row), rota: rotaDe(de.col, de.row) } : null,
+      )
+    : null
   return (
     <div
       data-hex-info=""
@@ -2534,10 +2632,15 @@ function HexInfo({
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
         {terreno && travessia ? (
-          <div data-hex-terreno={terreno.chave} style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '1 1 100%' }}>
+          <div
+            data-hex-terreno={terreno.chave}
+            {...(rota ? { 'data-hex-rota': rota.chave } : {})}
+            style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '1 1 100%' }}
+          >
             <span style={fieldLabelStyle}>TERRENO</span>
             <span style={{ fontSize: 13, color: 'var(--text)' }}>
               {terreno.nome}
+              {rota ? ` + ${rota.nome}` : ''}
               {' · '}
               {travessia.dias === null ? (
                 <span data-hex-terreno-bloqueado="" style={{ color: 'var(--red)' }}>

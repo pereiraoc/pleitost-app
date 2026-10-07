@@ -180,17 +180,36 @@ export function renderContextoDoc(contexto, typeByBasename) {
     out.push(...tabela("Regras do mundo — Companheiro Animal", linhas, ["Ajuste", "Valor"]));
   }
 
-  // Viagem do hexcrawl (2026-10-04) — renderiza do FM cru (snake), como o resto.
+  // Viagem do hexcrawl (regras v3, 2026-10-06) — renderiza do FM cru (snake), como o resto.
   if (c.viagem && typeof c.viagem === "object") {
     const ter = c.viagem.terrenos && typeof c.viagem.terrenos === "object" ? c.viagem.terrenos : {};
+    const rot = c.viagem.rotas && typeof c.viagem.rotas === "object" ? c.viagem.rotas : {};
     const nomeDe = (k) => ter[k]?.nome ?? k;
     out.push(...tabela("Viagem: custo de movimento por terreno", Object.entries(ter).map(([k, t]) => [
       `${t?.nome ?? k} (\`${k}\`)`,
-      `×${t?.custo}${k === c.viagem.padrao ? " · padrão (hex sem terreno)" : ""}${t?.cor ? ` · cor \`${t.cor}\`` : ""}`,
+      [
+        `×${t?.custo}`,
+        k === c.viagem.padrao ? "padrão (hex sem terreno)" : "",
+        t?.agua === true ? "água (passo da costa)" : "",
+        ...Object.entries(t?.custo_por_meio ?? {}).map(([m, n]) => `${m} ×${n}`),
+        t?.cor ? `cor \`${t.cor}\`` : "",
+      ].filter(Boolean).join(" · "),
     ]), ["Terreno", "Custo"]));
+    if (Object.keys(rot).length) {
+      out.push(...tabela("Viagem: rotas (camada sobre o terreno)", Object.entries(rot).map(([k, r]) => [
+        `${r?.nome ?? k} (\`${k}\`)`,
+        [`+${r?.bonus} hex/dia pra ${(r?.meios ?? []).join(", ")}`, r?.cor ? `cor \`${r.cor}\`` : ""].filter(Boolean).join(" · "),
+      ]), ["Rota", "Efeito"]));
+    }
     out.push(...tabela("Viagem: meios de transporte (hex por dia)", (c.viagem.meios ?? []).map((m) => [
       `${m.icone ? `${m.icone} ` : ""}${m.nome}`,
-      `${m.hex_por_dia} hex/dia · ${(m.em ?? []).map(nomeDe).join(", ")}${m.padrao === true ? " · padrão do grupo" : ""}`,
+      [
+        `${m.hex_por_dia} hex/dia`,
+        m.so_em_rota ? `só com ${rot[m.so_em_rota]?.nome ?? m.so_em_rota}` : (m.em ?? []).map(nomeDe).join(", "),
+        m.costa === true ? "costa" : "",
+        m.padrao === true ? "padrão do grupo" : "",
+        Array.isArray(m.antigos) && m.antigos.length ? `antes: ${m.antigos.join(", ")}` : "",
+      ].filter(Boolean).join(" · "),
     ]), ["Meio", "Velocidade · terrenos"]));
     if (typeof c.viagem.terreno === "string" && c.viagem.terreno.trim()) {
       out.push(...tabela("Viagem: terreno do mundo", [["nota", c.viagem.terreno.trim()]], ["Campo", "Valor"]));

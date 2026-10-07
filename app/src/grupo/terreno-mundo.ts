@@ -1,8 +1,10 @@
 // TERRENO DO MUNDO (viagem do hexcrawl, 2026-10-05) — o terreno de cada hex é
 // DADO DO MUNDO, não do mestre: vive na nota apontada por `viagem.terreno` do
-// Contexto-Def ("Terreno do Mundo Livre"), FM `Terreno`: chave do terreno →
-// lista de "col,row" nas MESMAS coords da trilha (GroupHex col/row, atlas-grid
-// flat-top odd-q). Hex fora das listas = `viagem.padrao`.
+// Contexto-Def ("Terreno do Mundo Livre"), em DUAS CAMADAS (2026-10-06):
+// FM `Terreno` (BASE: chave do terreno → lista de "col,row"; hex fora das
+// listas = `viagem.padrao`) e FM `Rotas` (por CIMA: estrada, rota marítima →
+// lista de "col,row"; um hex tem no máximo uma rota). Coords = as MESMAS da
+// trilha (GroupHex col/row, atlas-grid flat-top odd-q).
 //
 // Edição só no MODO DEV (pintor da Exploração): cada traço grava UM rascunho
 // local do FM do doc (local-draft-store); Config › Modo Dev publica pro overlay
@@ -16,7 +18,7 @@ import { useCatalog } from '../data/CatalogContext'
 import { useDoc } from '../data/useDoc'
 import { localDraftFor, setLocalDraft } from '../data/local-draft-store'
 import type { VaultDoc } from '../data/types'
-import { atlasHexVertices } from '../map/atlas-grid'
+import { ATLAS_HEX_SIZE, atlasHexCenter, atlasHexVertices } from '../map/atlas-grid'
 
 export type TerrenoFm = Record<string, string[]>
 
@@ -24,7 +26,7 @@ const CHAVE_HEX = /^\s*(-?\d+)\s*,\s*(-?\d+)\s*$/
 
 const memo = new WeakMap<object, Map<string, string>>()
 
-/** Índice "col,row" → chave do terreno a partir do FM `Terreno` (memoizado no
+/** Índice "col,row" → chave a partir de um FM de camada (`Terreno` ou `Rotas`; memoizado no
  *  próprio objeto do FM — o doc efetivo devolve o mesmo objeto enquanto nada
  *  muda). Entradas que não são "col,row" são ignoradas. */
 export function indiceTerreno(raw: unknown): Map<string, string> {
@@ -50,21 +52,20 @@ function ordenar(a: string, b: string): number {
   return ac - bc || ar - br
 }
 
-/** FM `Terreno` novo com os `cells` pintados de `chave` (null ou o terreno
- *  padrão = limpar). Toda chave não-padrão da config aparece (lista vazia se
- *  nada pintado); chaves desconhecidas do FM antigo são preservadas. Listas
- *  ordenadas (col, row) pro export ficar estável. Não muta o original. */
-export function pintarTerreno(
+/** Lista pintada de uma camada: os `cells` vão pra `alvo` (null = limpar),
+ *  saindo de qualquer outra lista. Toda chave `declaradas` aparece (lista
+ *  vazia se nada pintado); chaves desconhecidas do FM antigo são preservadas.
+ *  Listas ordenadas (col, row) pro export ficar estável. Não muta o original. */
+function pintarCamada(
   raw: unknown,
   cells: readonly { col: number; row: number }[],
-  chave: string | null,
-  cfg: ViagemCfg,
+  alvo: string | null,
+  declaradas: readonly string[],
 ): TerrenoFm {
-  const alvo = chave && chave !== cfg.padrao ? chave : null
   const tirar = new Set(cells.map((c) => `${c.col},${c.row}`))
   const atual = indiceTerreno(raw)
   const listas = new Map<string, string[]>()
-  for (const t of cfg.terrenos) if (t.chave !== cfg.padrao) listas.set(t.chave, [])
+  for (const k of declaradas) listas.set(k, [])
   if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
     for (const k of Object.keys(raw)) if (!listas.has(k)) listas.set(k, [])
   }
@@ -82,17 +83,49 @@ export function pintarTerreno(
   return out
 }
 
-/** Grava UM rascunho local (Modo Dev) com o traço pintado. Parte do rascunho
- *  atual (o mais novo) ou do FM efetivo do doc. */
+/** FM `Terreno` (camada BASE) novo com os `cells` pintados de `chave` (null
+ *  ou o terreno padrão = limpar). Toda chave não-padrão da config aparece. */
+export function pintarTerreno(
+  raw: unknown,
+  cells: readonly { col: number; row: number }[],
+  chave: string | null,
+  cfg: ViagemCfg,
+): TerrenoFm {
+  const alvo = chave && chave !== cfg.padrao ? chave : null
+  const declaradas = cfg.terrenos.filter((t) => t.chave !== cfg.padrao).map((t) => t.chave)
+  return pintarCamada(raw, cells, alvo, declaradas)
+}
+
+/** FM `Rotas` (camada de ROTAS) novo com os `cells` na rota `chave` (null =
+ *  limpar rota; o terreno-base não muda). Toda rota da config aparece. */
+export function pintarRota(
+  raw: unknown,
+  cells: readonly { col: number; row: number }[],
+  chave: string | null,
+  cfg: ViagemCfg,
+): TerrenoFm {
+  return pintarCamada(raw, cells, chave, (cfg.rotas ?? []).map((r) => r.chave))
+}
+
+export type CamadaTerreno = 'terreno' | 'rotas'
+
+/** Grava UM rascunho local (Modo Dev) com o traço pintado na camada dada
+ *  (`terreno` → FM `Terreno`; `rotas` → FM `Rotas`; a outra fica como está).
+ *  Parte do rascunho atual (o mais novo) ou do FM efetivo do doc. */
 export function gravarTracoTerreno(
   doc: VaultDoc,
   cells: readonly { col: number; row: number }[],
   chave: string | null,
   cfg: ViagemCfg,
+  camada: CamadaTerreno = 'terreno',
 ): void {
   if (cells.length === 0) return
   const fm = (localDraftFor(doc.id)?.frontmatter ?? doc.frontmatter ?? {}) as Record<string, unknown>
-  setLocalDraft(doc.id, { frontmatter: { ...fm, Terreno: pintarTerreno(fm.Terreno, cells, chave, cfg) } })
+  const novo =
+    camada === 'rotas'
+      ? { Rotas: pintarRota(fm.Rotas, cells, chave, cfg) }
+      : { Terreno: pintarTerreno(fm.Terreno, cells, chave, cfg) }
+  setLocalDraft(doc.id, { frontmatter: { ...fm, ...novo } })
 }
 
 /** `d` de um path com TODOS os hexes dados (um subpath por hex) — um elemento
@@ -106,11 +139,28 @@ export function hexesPath(cells: Iterable<{ col: number; row: number }>): string
   return d
 }
 
+/** `d` de um path com um PONTO (círculo) no centro de cada hex dado — a
+ *  tinta da camada de ROTAS, distinta da tinta do terreno-base (hex cheio). */
+export function pontosPath(cells: Iterable<{ col: number; row: number }>, raio = ATLAS_HEX_SIZE * 0.28): string {
+  let d = ''
+  const r = raio.toFixed(1)
+  const dr = (raio * 2).toFixed(1)
+  for (const c of cells) {
+    const p = atlasHexCenter(c.col, c.row)
+    d += `M${(p.x - raio).toFixed(1)},${p.y.toFixed(1)}a${r},${r} 0 1,0 ${dr},0a${r},${r} 0 1,0 -${dr},0Z`
+  }
+  return d
+}
+
 export interface TerrenoMundo {
   /** Doc efetivo da nota de terreno (undefined: sem config/carregando). */
   doc: VaultDoc | undefined
+  /** Camada BASE: "col,row" → chave do terreno. */
   indice: Map<string, string>
+  /** Camada de ROTAS: "col,row" → chave da rota. */
+  indiceRotas: Map<string, string>
   terrenoDe: (col: number, row: number) => string | undefined
+  rotaDe: (col: number, row: number) => string | undefined
 }
 
 const VAZIO = new Map<string, string>()
@@ -125,7 +175,10 @@ export function useTerrenoMundo(cfg: ViagemCfg | null): TerrenoMundo {
   }, [catalog, cfg])
   const { doc } = useDoc(docId)
   const raw = doc?.frontmatter?.Terreno
+  const rawRotas = doc?.frontmatter?.Rotas
   const indice = raw ? indiceTerreno(raw) : VAZIO
+  const indiceRotas = rawRotas ? indiceTerreno(rawRotas) : VAZIO
   const terrenoDe = useMemo(() => (col: number, row: number) => indice.get(`${col},${row}`), [indice])
-  return { doc, indice, terrenoDe }
+  const rotaDe = useMemo(() => (col: number, row: number) => indiceRotas.get(`${col},${row}`), [indiceRotas])
+  return { doc, indice, indiceRotas, terrenoDe, rotaDe }
 }

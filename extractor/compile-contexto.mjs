@@ -316,17 +316,23 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     }
   }
 
-  // VIAGEM DO HEXCRAWL (2026-10-04, regras v2): `custo` do terreno =
-  // MULTIPLICADOR do movimento (normal 1, difícil 2, muito difícil 3); cada
-  // meio declara `hex_por_dia` (hex percorridos em 1 dia de viagem em terreno
-  // de custo 1) e `em` (terrenos onde anda). Tempo por hex = custo /
-  // hex_por_dia DIAS. Chave do terreno = o que fica gravado na célula do
-  // hexmap; `nome` = rótulo que o app mostra (o app nunca deriva rótulo da
-  // chave); `cor` opcional = tinta do hex no editor. Ordem do FM preservada
-  // (lista do pintor). Sem o bloco, o app não mostra nada de viagem.
+  // VIAGEM DO HEXCRAWL (regras v3, 2026-10-06): `custo` do terreno =
+  // MULTIPLICADOR do movimento (normal 1, difícil 2, muito difícil 3, mar 3);
+  // `custo_por_meio` = multiplicador próprio de um meio (Barco no mar = 1);
+  // `agua: true` = hex de água (passo entre água e terra = COSTA). `rotas` =
+  // CAMADA sobre o terreno (estrada, rota marítima): `bonus` hex/dia a mais
+  // pros `meios` listados no hex com a rota. Cada meio declara `hex_por_dia`
+  // e `em` (terrenos onde anda); `so_em_rota` = só anda em hex com aquela rota
+  // (Caravana → estrada); `costa: true` = faz o passo da costa (Barco, A pé);
+  // `antigos` = nomes antigos gravados nas trilhas (Carruagem → Caravana).
+  // Tempo por hex = custo / (hex_por_dia + bônus) DIAS. Chave = o que fica
+  // gravado na nota de terreno; `nome` = rótulo do app (nunca derivado da
+  // chave); `cor` opcional = tinta no editor. Ordem do FM preservada. Sem o
+  // bloco, o app não mostra nada de viagem.
   let viagem = null;
   if (def.viagem !== undefined && def.viagem !== null) {
     const v = isPlainObject(def.viagem) ? def.viagem : {};
+    const nomesMeios = new Set(Array.isArray(v.meios) ? v.meios.filter((m) => isPlainObject(m) && typeof m.nome === "string").map((m) => m.nome.trim()) : []);
     const terrenos = [];
     if (!isPlainObject(v.terrenos) || Object.keys(v.terrenos).length === 0) {
       problems.push("viagem.terrenos: mapa chave → { custo, nome, cor? } obrigatório");
@@ -337,15 +343,57 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
         if (!(Number.isFinite(custo) && custo > 0)) problems.push(`viagem.terrenos.${chave}: custo esperado > 0 (multiplicador do movimento)`);
         if (typeof t.nome !== "string" || !t.nome.trim()) problems.push(`viagem.terrenos.${chave}: nome obrigatório (rótulo no app)`);
         if (t.cor !== undefined && (typeof t.cor !== "string" || !t.cor.trim())) problems.push(`viagem.terrenos.${chave}: cor esperada string (ex.: "#c9a36b")`);
-        terrenos.push({ chave, nome: String(t.nome ?? "").trim(), custo, ...(typeof t.cor === "string" && t.cor.trim() ? { cor: t.cor.trim() } : {}) });
+        if (t.agua !== undefined && typeof t.agua !== "boolean") problems.push(`viagem.terrenos.${chave}: agua esperado true/false`);
+        let custoPorMeio = null;
+        if (t.custo_por_meio !== undefined) {
+          if (!isPlainObject(t.custo_por_meio)) problems.push(`viagem.terrenos.${chave}: custo_por_meio esperado mapa meio → custo`);
+          else {
+            custoPorMeio = {};
+            for (const [meio, c] of Object.entries(t.custo_por_meio)) {
+              if (!nomesMeios.has(meio)) problems.push(`viagem.terrenos.${chave}: custo_por_meio "${meio}" não é meio declarado`);
+              const n = Number(c);
+              if (!(Number.isFinite(n) && n > 0)) problems.push(`viagem.terrenos.${chave}: custo_por_meio "${meio}" esperado > 0`);
+              custoPorMeio[meio] = n;
+            }
+          }
+        }
+        terrenos.push({
+          chave,
+          nome: String(t.nome ?? "").trim(),
+          custo,
+          ...(typeof t.cor === "string" && t.cor.trim() ? { cor: t.cor.trim() } : {}),
+          ...(t.agua === true ? { agua: true } : {}),
+          ...(custoPorMeio ? { custoPorMeio } : {}),
+        });
       }
     }
     const chaves = new Set(terrenos.map((t) => t.chave));
     const padrao = typeof v.padrao === "string" ? v.padrao.trim() : "";
     if (!chaves.has(padrao)) problems.push(`viagem.padrao: "${v.padrao}" não é terreno declarado (${[...chaves].join("|")})`);
+    // rotas (camada sobre o terreno)
+    const rotas = [];
+    if (v.rotas !== undefined && v.rotas !== null) {
+      if (!isPlainObject(v.rotas)) problems.push("viagem.rotas: mapa chave → { nome, bonus, meios } esperado");
+      else {
+        for (const [chave, r] of Object.entries(v.rotas)) {
+          if (!isPlainObject(r)) { problems.push(`viagem.rotas.${chave}: esperado { nome, bonus, meios }`); continue; }
+          if (chaves.has(chave)) problems.push(`viagem.rotas.${chave}: chave já é terreno (rotas são outra camada)`);
+          if (typeof r.nome !== "string" || !r.nome.trim()) problems.push(`viagem.rotas.${chave}: nome obrigatório (rótulo no app)`);
+          const bonus = Number(r.bonus);
+          if (!(Number.isFinite(bonus) && bonus > 0)) problems.push(`viagem.rotas.${chave}: bonus esperado > 0 (hex/dia a mais)`);
+          const meiosR = Array.isArray(r.meios) ? r.meios.map((x) => String(x).trim()) : [];
+          if (!Array.isArray(r.meios)) problems.push(`viagem.rotas.${chave}: meios esperado lista`);
+          for (const m of meiosR) if (!nomesMeios.has(m)) problems.push(`viagem.rotas.${chave}: meio "${m}" não declarado`);
+          if (r.cor !== undefined && (typeof r.cor !== "string" || !r.cor.trim())) problems.push(`viagem.rotas.${chave}: cor esperada string`);
+          rotas.push({ chave, nome: String(r.nome ?? "").trim(), ...(typeof r.cor === "string" && r.cor.trim() ? { cor: r.cor.trim() } : {}), bonus, meios: meiosR });
+        }
+      }
+    }
+    const chavesRotas = new Set(rotas.map((r) => r.chave));
     const meios = [];
     if (!Array.isArray(v.meios) || v.meios.length === 0) problems.push("viagem.meios: lista de { nome, hex_por_dia, em } obrigatória");
     else {
+      const antigosVistos = new Set();
       for (const m of v.meios) {
         if (!isPlainObject(m) || typeof m.nome !== "string" || !m.nome.trim()) { problems.push("viagem.meios: cada meio precisa de `nome`"); continue; }
         const nome = m.nome.trim();
@@ -358,14 +406,41 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
         // ícone (2026-10-05): o app mostra ao lado do tempo — nunca hardcoded
         const icone = typeof m.icone === "string" ? m.icone.trim() : "";
         if (!icone) problems.push(`viagem.meios: "${nome}" icone obrigatório (emoji exibido no app)`);
-        // padrao: entra no conjunto do grupo enquanto ele não escolher meios
+        // padrao: entra no automático (o 1º, básico, entra sempre)
         if (m.padrao !== undefined && typeof m.padrao !== "boolean") problems.push(`viagem.meios: "${nome}" padrao esperado true/false`);
-        meios.push({ nome, icone, padrao: m.padrao === true, hexPorDia, em });
+        let soEmRota = null;
+        if (m.so_em_rota !== undefined && m.so_em_rota !== null) {
+          soEmRota = String(m.so_em_rota).trim();
+          if (!chavesRotas.has(soEmRota)) problems.push(`viagem.meios: "${nome}" so_em_rota "${soEmRota}" não é rota declarada`);
+        }
+        if (m.costa !== undefined && typeof m.costa !== "boolean") problems.push(`viagem.meios: "${nome}" costa esperado true/false`);
+        let antigos = null;
+        if (m.antigos !== undefined && m.antigos !== null) {
+          if (!Array.isArray(m.antigos) || m.antigos.some((x) => typeof x !== "string" || !x.trim())) problems.push(`viagem.meios: "${nome}" antigos esperado lista de nomes`);
+          else {
+            antigos = m.antigos.map((x) => x.trim());
+            for (const a of antigos) {
+              if (nomesMeios.has(a)) problems.push(`viagem.meios: "${nome}" antigo "${a}" já é nome de meio`);
+              if (antigosVistos.has(a)) problems.push(`viagem.meios: "${nome}" antigo "${a}" duplicado`);
+              antigosVistos.add(a);
+            }
+          }
+        }
+        meios.push({
+          nome,
+          icone,
+          padrao: m.padrao === true,
+          hexPorDia,
+          em,
+          ...(soEmRota ? { soEmRota } : {}),
+          ...(m.costa === true ? { costa: true } : {}),
+          ...(antigos ? { antigos } : {}),
+        });
       }
     }
-    // terreno (2026-10-05): wikilink da nota com o FM `Terreno` (chave →
-    // lista de "col,row" na grade da trilha) — dado do MUNDO, editado no Modo
-    // Dev do app (pintar → publicar → exportar). Resolve pro basename.
+    // terreno (2026-10-05): wikilink da nota com o FM `Terreno` (camada base)
+    // e `Rotas` (camada de rotas) — chave → lista de "col,row" na grade da
+    // trilha; dado do MUNDO, editado no Modo Dev do app. Resolve pro basename.
     let terrenoNota = null;
     if (v.terreno !== undefined && v.terreno !== null) {
       const raw = typeof v.terreno === "string" ? v.terreno.trim() : "";
@@ -373,7 +448,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       if (!terrenoNota) problems.push("viagem.terreno: esperado wikilink da nota de terreno");
       else if (!basenames.has(terrenoNota)) problems.push(`viagem.terreno: "${terrenoNota}" não existe na vault`);
     }
-    viagem = { padrao, terrenos, meios, ...(terrenoNota ? { terreno: terrenoNota } : {}) };
+    viagem = { padrao, terrenos, ...(rotas.length ? { rotas } : {}), meios, ...(terrenoNota ? { terreno: terrenoNota } : {}) };
   }
 
   const pericias = asStringMap(def.pericias, "pericias", problems);

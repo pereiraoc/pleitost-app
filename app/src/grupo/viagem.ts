@@ -11,8 +11,8 @@
 //  • MEIO (2026-10-06, "um meio por trecho"): cada TRECHO (da parada
 //    anterior até a parada de chegada) pode ter UM meio escolhido, gravado na
 //    parada de CHEGADA (`GroupHex.meio`). Em cada hex do trecho: se o meio
-//    escolhido anda naquele terreno, usa ele; senão (carruagem fora da
-//    estrada, cavalo na montanha, navio em terra) cai no AUTOMÁTICO. Sem
+//    escolhido faz aquele passo, usa ele; senão (caravana fora da
+//    estrada, cavalo na montanha, barco em terra) cai no AUTOMÁTICO. Sem
 //    escolha = automático em todo o trecho. Nome que a config não conhece =
 //    sem escolha.
 //  • AJUSTE POR ITEM (2026-10-06, "trecho define, item ajusta"): qualquer
@@ -24,12 +24,18 @@
 //    trechos, não antes ou depois"): caminho ANTES da 1ª parada e DEPOIS da
 //    última não tem trecho → sem passo (null), fora do total, sem bloqueio.
 //    A 1ª parada não tem tempo.
-//  • AUTOMÁTICO: o mais rápido (maior `hexPorDia`) entre os meios automáticos
-//    (o PRIMEIRO da config, o básico A pé, + os `padrao`: carruagem na
-//    estrada, navio no mar) que andam ali; DIAS = terreno.custo /
-//    meio.hexPorDia (1 dia: a pé 2 hex, cavalo 3, carruagem 4, navio 5;
-//    custo ×1/×2/×3). Nenhum → passo BLOQUEADO (reporta hex + terreno) e não
-//    soma.
+//  • AUTOMÁTICO: o mais rápido (menos DIAS) entre os meios automáticos (o
+//    PRIMEIRO da config, o básico A pé, + os `padrao`: caravana, barco) que
+//    fazem o passo. Nenhum → passo BLOQUEADO (reporta hex + terreno), não soma.
+//  • REGRAS v3 (2026-10-06): DIAS = custo do terreno entrado (custoPorMeio ??
+//    custo: normal 1, difícil 2, montanha 3, mar 3 — Barco no mar 1) /
+//    (hexPorDia + bônus da ROTA do hex entrado: estrada +1 pra Cavalo e
+//    Caravana, rota marítima +1 pro Barco). Caravana só em hex com estrada
+//    (`soEmRota`). COSTA = passo entre hex de água e de terra: só meios
+//    `costa` (Barco, A pé); o Barco paga pelo hex de mar (×1 + rota marítima
+//    dele), o A pé pelo hex entrado (mar ×3 / terreno da terra). Mar → mar só
+//    quem anda no mar (Barco). Nomes antigos gravados (Carruagem, Navio)
+//    resolvem pelos `antigos` da config (resolverMeio).
 //  • SOMA EXATA: custo/hexPorDia vira fração (inteiros → num/den reduzidos) e
 //    a soma é racional, sem 0,999…; config não inteira cai pra float.
 //  • TRECHOS: por PARADA de chegada (que tenha parada antes), a soma dos
@@ -116,14 +122,32 @@ export function hexLine(a: Hex, b: Hex): Hex[] {
 }
 
 /** Meios AUTOMÁTICOS, na ordem da config: o básico (1º) sempre + os
- *  `padrao` (a pé + carruagem + navio na Fantasia). */
+ *  `padrao` (a pé + caravana + barco na Fantasia). */
 export function meiosAutomaticos(cfg: ViagemCfg): string[] {
   return cfg.meios.filter((m, i) => i === 0 || m.padrao === true).map((m) => m.nome)
 }
 
-/** Ícone (config) de um meio pelo nome; '' se a config não conhece. */
+/** Nome canônico de um meio gravado na trilha: o próprio nome ou um dos
+ *  `antigos` da config (Carruagem → Caravana, Navio → Barco). undefined =
+ *  a config não conhece (vale como "sem escolha"). */
+export function resolverMeio(cfg: ViagemCfg, nome: string | undefined): string | undefined {
+  if (!nome) return undefined
+  return (cfg.meios.find((m) => m.nome === nome) ?? cfg.meios.find((m) => m.antigos?.includes(nome)))?.nome
+}
+
+/** Ícone (config) de um meio pelo nome (ou nome antigo); '' se a config não conhece. */
 export function iconeDoMeio(cfg: ViagemCfg, nome: string): string {
-  return cfg.meios.find((m) => m.nome === nome)?.icone ?? ''
+  const n = resolverMeio(cfg, nome)
+  return cfg.meios.find((m) => m.nome === n)?.icone ?? ''
+}
+
+/** Onde o meio anda, em rótulos da config: a rota exigida (`soEmRota`:
+ *  Caravana → "Estrada") ou os terrenos `em`. '' se a config não conhece. */
+export function ondeAnda(cfg: ViagemCfg, nome: string): string {
+  const m = cfg.meios.find((x) => x.nome === resolverMeio(cfg, nome))
+  if (!m) return ''
+  if (m.soEmRota) return cfg.rotas?.find((r) => r.chave === m.soEmRota)?.nome ?? m.soEmRota
+  return m.em.map((k) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k).join(', ')
 }
 
 function terrenoEfetivo(chave: string | undefined, cfg: ViagemCfg) {
@@ -134,58 +158,112 @@ function terrenoEfetivo(chave: string | undefined, cfg: ViagemCfg) {
   )
 }
 
+/** O que um hex tem pra viagem: terreno-base (chave pintada; ausente =
+ *  padrão) e a rota da camada de rotas (estrada, rota marítima), se houver. */
+export interface HexTerreno {
+  terreno?: string
+  rota?: string
+}
+
 interface Custo {
   dias: number | null
   meio: string | null
-  /** Fração exata [num, den] quando custo e hexPorDia são inteiros. */
+  /** Fração exata [num, den] quando custo e velocidade são inteiros. */
   frac: [number, number] | null
 }
+
+const NENHUM: Custo = { dias: null, meio: null, frac: null }
 
 function gcd(a: number, b: number): number {
   return b === 0 ? Math.abs(a) : gcd(b, a % b)
 }
 
-function custoInterno(chave: string | undefined, cfg: ViagemCfg, meios: readonly string[]): Custo {
-  const t = terrenoEfetivo(chave, cfg)
-  if (!t) return { dias: null, meio: null, frac: null }
-  let melhor: ViagemCfg['meios'][number] | null = null
+type MeioCfg = ViagemCfg['meios'][number]
+type TerrenoCfg = ViagemCfg['terrenos'][number]
+
+function bonusDaRota(rota: string | undefined, meio: MeioCfg, cfg: ViagemCfg): number {
+  if (!rota) return 0
+  const r = cfg.rotas?.find((x) => x.chave === rota)
+  return r && r.meios.includes(meio.nome) ? r.bonus : 0
+}
+
+function fracao(custo: number, velocidade: number, meio: string): Custo {
+  const inteiros = Number.isInteger(custo) && Number.isInteger(velocidade)
+  const g = inteiros ? gcd(custo, velocidade) : 1
+  return { dias: custo / velocidade, meio, frac: inteiros ? [custo / g, velocidade / g] : null }
+}
+
+/** Custo de UM meio pra entrar em `para` vindo de `de` (null = não faz o
+ *  passo).
+ *  • COSTA (um dos dois hexes é água, o outro terra): só meios `costa`
+ *    (Barco, A pé). Quem anda na água (Barco) paga pelo hex de ÁGUA (custo
+ *    dele pro meio + a rota marítima dele); o resto (A pé) paga pelo hex em
+ *    que ENTRA (mar ×3 embarcando; o terreno da terra desembarcando).
+ *  • Fora da costa: o meio precisa andar no terreno entrado (`em`) e, com
+ *    `soEmRota`, o hex entrado precisa ter a rota (Caravana → estrada).
+ *  Dias = custo (custoPorMeio ?? custo) / (hexPorDia + bônus da rota). */
+function custoDoMeio(m: MeioCfg, para: HexTerreno, de: HexTerreno | null | undefined, cfg: ViagemCfg): Custo {
+  const tp = terrenoEfetivo(para.terreno, cfg)
+  if (!tp) return NENHUM
+  const td = de ? terrenoEfetivo(de.terreno, cfg) : null
+  let base: { t: TerrenoCfg; rota: string | undefined } = { t: tp, rota: para.rota }
+  if (td && !!td.agua !== !!tp.agua) {
+    if (!m.costa) return NENHUM
+    const agua = tp.agua ? base : { t: td, rota: de!.rota }
+    if (m.em.includes(agua.t.chave)) base = agua
+  } else {
+    if (!m.em.includes(tp.chave)) return NENHUM
+    if (m.soEmRota && para.rota !== m.soEmRota) return NENHUM
+  }
+  const custo = base.t.custoPorMeio?.[m.nome] ?? base.t.custo
+  return fracao(custo, m.hexPorDia + bonusDaRota(base.rota, m, cfg), m.nome)
+}
+
+/** O mais rápido (menos DIAS; empate = ordem da config) entre `meios` que
+ *  fazem o passo. */
+function custoInterno(
+  para: HexTerreno,
+  cfg: ViagemCfg,
+  meios: readonly string[],
+  de?: HexTerreno | null,
+): Custo {
+  let melhor: Custo = NENHUM
   for (const m of cfg.meios) {
-    if (!meios.includes(m.nome) || !m.em.includes(t.chave)) continue
-    if (!melhor || m.hexPorDia > melhor.hexPorDia) melhor = m
+    if (!meios.includes(m.nome)) continue
+    const c = custoDoMeio(m, para, de, cfg)
+    if (c.dias === null) continue
+    if (melhor.dias === null || c.dias < melhor.dias - 1e-12) melhor = c
   }
-  if (!melhor) return { dias: null, meio: null, frac: null }
-  const inteiros = Number.isInteger(t.custo) && Number.isInteger(melhor.hexPorDia)
-  const g = inteiros ? gcd(t.custo, melhor.hexPorDia) : 1
-  return {
-    dias: t.custo / melhor.hexPorDia,
-    meio: melhor.nome,
-    frac: inteiros ? [t.custo / g, melhor.hexPorDia / g] : null,
-  }
+  return melhor
 }
 
-/** Custo de entrar no hex com o meio ESCOLHIDO do trecho, se ele anda ali;
- *  senão (ou sem escolha) o automático. `fallback` = havia escolha e ela não
- *  serviu neste terreno. */
+/** Custo do passo com o meio ESCOLHIDO (nome canônico ou antigo), se ele faz
+ *  o passo; senão (ou sem escolha) o automático. `fallback` = havia escolha e
+ *  ela não serviu. */
 function custoComEscolha(
-  chave: string | undefined,
+  para: HexTerreno,
   cfg: ViagemCfg,
   escolha: string | undefined,
+  de?: HexTerreno | null,
 ): Custo & { fallback: boolean } {
-  if (escolha && cfg.meios.some((m) => m.nome === escolha)) {
-    const c = custoInterno(chave, cfg, [escolha])
+  const nome = resolverMeio(cfg, escolha)
+  if (nome) {
+    const c = custoInterno(para, cfg, [nome], de)
     if (c.dias !== null) return { ...c, fallback: false }
-    return { ...custoInterno(chave, cfg, meiosAutomaticos(cfg)), fallback: true }
+    return { ...custoInterno(para, cfg, meiosAutomaticos(cfg), de), fallback: true }
   }
-  return { ...custoInterno(chave, cfg, meiosAutomaticos(cfg)), fallback: false }
+  return { ...custoInterno(para, cfg, meiosAutomaticos(cfg), de), fallback: false }
 }
 
-/** Dias pra entrar num hex com o meio escolhido do trecho (ou automático). */
+/** Dias pra entrar num hex (vindo de `de`, se conhecido — decide a costa) com
+ *  o meio escolhido do trecho (ou automático). */
 export function custoHexNoTrecho(
-  chave: string | undefined,
+  para: HexTerreno,
   cfg: ViagemCfg,
   escolha: string | undefined,
+  de?: HexTerreno | null,
 ): { dias: number | null; meio: string | null } {
-  const { dias, meio } = custoComEscolha(chave, cfg, escolha)
+  const { dias, meio } = custoComEscolha(para, cfg, escolha, de)
   return { dias, meio }
 }
 
@@ -204,14 +282,15 @@ export function meioDoTrecho<H extends Hex & { kind?: 'parada' | 'caminho'; meio
   return undefined
 }
 
-/** Dias pra entrar num hex do terreno `chave` com os meios dados
- *  (ex.: meiosAutomaticos). `dias: null` = nenhum meio anda ali (bloqueado). */
+/** Dias pra entrar em `para` (vindo de `de`) com os meios dados (ex.:
+ *  meiosAutomaticos) — o mais rápido. `dias: null` = nenhum faz o passo. */
 export function custoHex(
-  chave: string | undefined,
+  para: HexTerreno,
   cfg: ViagemCfg,
   meios: readonly string[],
+  de?: HexTerreno | null,
 ): { dias: number | null; meio: string | null } {
-  const { dias, meio } = custoInterno(chave, cfg, meios)
+  const { dias, meio } = custoInterno(para, cfg, meios, de)
   return { dias, meio }
 }
 
@@ -269,6 +348,8 @@ export interface PassoViagem {
   meios: string[]
   /** Chave do terreno efetivo (pintado ou padrão) do hex de chegada. */
   terreno: string
+  /** Rota (camada de rotas, chave conhecida) do hex de chegada. */
+  rota?: string
   bloqueado: boolean
   /** Ajuste do item (`meioPasso` do hex entrado, nome conhecido): o meio
    *  pedido SÓ pra este passo; ausente = herda do trecho. */
@@ -307,6 +388,7 @@ type HexViagem = Hex & { kind?: 'parada' | 'caminho'; meio?: string; meioPasso?:
 export function calcularViagem({
   hexes,
   terrenoDe,
+  rotaDe = () => undefined,
   cfg,
   ehParada = (h) => h.kind !== 'caminho',
 }: {
@@ -314,12 +396,14 @@ export function calcularViagem({
    *  `meioPasso` em qualquer hex = ajuste SÓ do passo que entra nele. */
   hexes: readonly HexViagem[]
   terrenoDe: (col: number, row: number) => string | undefined
+  /** Camada de rotas por hex (estrada, rota marítima); ausente = nenhuma. */
+  rotaDe?: (col: number, row: number) => string | undefined
   cfg: ViagemCfg
   ehParada?: (h: HexViagem) => boolean
 }): Viagem {
   // escolha por hex ENTRADO: a da parada de chegada do trecho (varre de trás
   // pra frente). Só há trecho entre a 1ª e a última parada.
-  const conhecido = (m: string | undefined) => (m && cfg.meios.some((x) => x.nome === m) ? m : undefined)
+  const conhecido = (m: string | undefined) => resolverMeio(cfg, m)
   const escolhaDe: (string | undefined)[] = new Array(hexes.length).fill(undefined)
   let corrente: string | undefined
   for (let i = hexes.length - 1; i >= 1; i--) {
@@ -353,16 +437,18 @@ export function calcularViagem({
     const passo = new Soma()
     let andou = false
     let bloqueado = false
-    let ultimo: { meio: string | null; terreno: string } = { meio: null, terreno: cfg.padrao }
+    let ultimo: { meio: string | null; terreno: string; rota?: string } = { meio: null, terreno: cfg.padrao }
     const meiosPasso: string[] = []
     const ajuste = ajusteDe[i + 1]
     const escolhaPasso = ajuste ?? escolhaDe[i + 1]
+    const infoDe = (q: Hex): HexTerreno => ({ terreno: terrenoDe(q.col, q.row), rota: rotaDe(q.col, q.row) })
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
-      const chave = terrenoDe(p.col, p.row)
-      const c = custoComEscolha(chave, cfg, escolhaPasso)
-      const terreno = terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao
-      ultimo = { meio: c.meio, terreno }
+      const para = infoDe(p)
+      const c = custoComEscolha(para, cfg, escolhaPasso, infoDe(linha[k - 1]!))
+      const terreno = terrenoEfetivo(para.terreno, cfg)?.chave ?? cfg.padrao
+      const rota = para.rota && cfg.rotas?.some((r) => r.chave === para.rota) ? para.rota : undefined
+      ultimo = { meio: c.meio, terreno, ...(rota ? { rota } : {}) }
       if (c.dias === null) {
         bloqueado = true
         cur.seg.bloqueios.push({ col: p.col, row: p.row, terreno })
@@ -389,6 +475,7 @@ export function calcularViagem({
       meio: ultimo.meio,
       meios: meiosPasso,
       terreno: ultimo.terreno,
+      ...(ultimo.rota ? { rota: ultimo.rota } : {}),
       bloqueado,
       ...(ajuste ? { ajuste } : {}),
     })

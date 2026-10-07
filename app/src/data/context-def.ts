@@ -11,28 +11,48 @@
 import { WORLD_DATA_DIR, type WorldId } from './world'
 import { withBase } from './base-url'
 
-/** Bloco `viagem` do contexto.json (shape do compile-contexto.mjs). */
+/** Bloco `viagem` do contexto.json (shape do compile-contexto.mjs; regras v3,
+ *  2026-10-06: terreno-base + camada de ROTAS + passo da COSTA). */
 export interface ViagemCfg {
   /** Chave do terreno de um hex SEM terreno pintado. */
   padrao: string
-  /** Na ordem do FM. `chave` = o que a célula do hexmap guarda; `nome` =
+  /** Na ordem do FM. `chave` = o que a nota de terreno guarda; `nome` =
    *  rótulo exibido (nunca derivado da chave); `cor` = tinta no editor;
-   *  `custo` = multiplicador do movimento (normal 1, difícil 2, muito difícil 3). */
-  terrenos: { chave: string; nome: string; custo: number; cor?: string }[]
-  /** O PRIMEIRO é o meio básico (sempre disponível — A pé). `hexPorDia` = hex
-   *  percorridos em 1 dia (terreno de custo 1); `em` = chaves de terreno onde
-   *  o meio anda. Tempo por hex = custo / hexPorDia DIAS. */
+   *  `custo` = multiplicador do movimento (normal 1, difícil 2, muito difícil
+   *  3, mar 3); `custoPorMeio` = multiplicador próprio de um meio (Barco no
+   *  mar = 1); `agua` = hex de água — passo entre água e terra é COSTA. */
+  terrenos: {
+    chave: string
+    nome: string
+    custo: number
+    cor?: string
+    agua?: boolean
+    custoPorMeio?: Record<string, number>
+  }[]
+  /** CAMADA DE ROTAS sobre o terreno (estrada, rota marítima): `bonus` =
+   *  +hex/dia pros `meios` listados quando o hex ENTRADO tem a rota. */
+  rotas?: { chave: string; nome: string; cor?: string; bonus: number; meios: string[] }[]
+  /** O PRIMEIRO é o meio básico (sempre automático — A pé). `hexPorDia` = hex
+   *  percorridos em 1 dia (custo 1, sem rota); `em` = terrenos onde o meio
+   *  anda. Tempo por hex = custo / (hexPorDia + bônus da rota) DIAS. */
   meios: {
     nome: string
     /** Emoji ao lado do tempo de viagem (config, nunca hardcoded). */
     icone: string
-    /** Ligado no grupo enquanto ele não escolheu meios (a pé, carruagem, navio). */
+    /** Entra no automático (o básico entra sempre). */
     padrao?: boolean
     hexPorDia: number
     em: string[]
+    /** Só anda em hex com esta rota (Caravana → estrada). */
+    soEmRota?: string
+    /** Faz o passo da COSTA (embarcar/desembarcar): Barco e A pé. */
+    costa?: boolean
+    /** Nomes antigos gravados nas trilhas (Carruagem → Caravana). */
+    antigos?: string[]
   }[]
-  /** Basename da nota com o FM `Terreno` (chave → lista de "col,row" na grade
-   *  da trilha) — dado do MUNDO, pintado no Modo Dev. Ausente = tudo padrão. */
+  /** Basename da nota com o FM `Terreno` (base) e `Rotas` (chave → lista de
+   *  "col,row" na grade da trilha) — dado do MUNDO, pintado no Modo Dev.
+   *  Ausente = tudo padrão, sem rotas. */
   terreno?: string
 }
 
