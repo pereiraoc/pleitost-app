@@ -73,7 +73,7 @@ const DEF: ContextoDef = {
       { nome: 'Cavalo', icone: '🐎', hexPorDia: 3, em: ['normal', 'dificil'] },
       {
         nome: 'Caravana',
-        icone: '🛞',
+        icone: '🐪',
         padrao: true,
         hexPorDia: 4,
         em: ['normal', 'dificil', 'muito_dificil'],
@@ -186,7 +186,7 @@ describe('tempo de viagem na exploração', () => {
     await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('2 dias'))
   })
 
-  it('padrões da config: estrada → Caravana 🛞; embarque e desembarque → Barco ⛵ (ícones nos passos)', async () => {
+  it('padrões da config: estrada → Caravana 🐪; embarque e desembarque → Barco ⛵ (ícones nos passos)', async () => {
     setGroupStateFull(GROUP_ID, {
       grade: 'mundo',
       hexes: [
@@ -201,7 +201,7 @@ describe('tempo de viagem na exploração', () => {
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-collapsed-run="a"]')).not.toBeNull())
     fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
-    await waitFor(() => expect(container.querySelector('[data-viagem-passo="b"]')!.textContent).toBe('🛞 ⅕ dia'))
+    await waitFor(() => expect(container.querySelector('[data-viagem-passo="b"]')!.textContent).toBe('🐪 ⅕ dia'))
     expect(container.querySelector('[data-viagem-passo="c"]')!.textContent).toBe('⛵ ⅕ dia') // embarca
     expect(container.querySelector('[data-viagem-passo="d"]')!.textContent).toBe('⛵ ⅕ dia') // desembarca
     expect(container.querySelector('[data-viagem-passo="b"]')!.getAttribute('title')).toBe('⅕ dia · Caravana · Gramado + Estrada')
@@ -229,7 +229,7 @@ describe('tempo de viagem na exploração', () => {
     const td = container.querySelector('[data-parada="d"] [data-viagem-trecho="d"]')!
     expect(td.textContent).toBe('⛵🚶 0,9 dia')
     expect(td.getAttribute('title')).toBe('Desde a parada anterior: 0,9 dia\n⛵ Barco · ⅖ dia\n🚶 A pé · ½ dia')
-    expect(container.querySelector('[data-viagem-trecho="e"]')!.textContent).toBe('🛞 ⅕ dia')
+    expect(container.querySelector('[data-viagem-trecho="e"]')!.textContent).toBe('🐪 ⅕ dia')
     // linha do caminho (recolhida e aberta) sem tempo, mas com os ícones dos
     // meios do trecho que ela percorre; sem conector ↓
     expect(container.querySelector('[data-collapsed-run="a"] [data-viagem-segmento]')).toBeNull()
@@ -313,14 +313,14 @@ describe('tempo de viagem na exploração', () => {
     terrenoPublicado({}, { estrada: ['60,21'] })
     const { container } = renderPanel(DEF)
     await waitFor(() => expect(container.querySelector('[data-viagem-rota-meios="a"]')).not.toBeNull())
-    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🐪🚶')
     expect(container.querySelector('[data-viagem-rota-meios="c"]')!.textContent).toBe('🚶')
     fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
     expect(container.querySelector('[data-collapse-run="a"]')).not.toBeNull()
-    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🐪🚶')
     // no EDITAR, o seletor fica ao lado dos ícones
     fireEvent.click(container.querySelector('[data-editar-trilha]')!)
-    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🛞🚶')
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('🐪🚶')
     expect(container.querySelector('[data-meio-rota="c"]')).not.toBeNull()
     expect(container.querySelector('[data-meio-rota="e"]')).not.toBeNull()
   })
@@ -423,7 +423,7 @@ describe('tempo de viagem na exploração', () => {
     expect(container.querySelector('[data-meio-menu]')).toBeNull()
   })
 
-  it('Carruagem gravada (nome antigo = Caravana) num trecho estrada + gramado: 🛞 na estrada, automático no gramado', async () => {
+  it('Carruagem gravada (nome antigo = Caravana) num trecho estrada + gramado: 🐪 na estrada, automático no gramado', async () => {
     setGroupStateFull(GROUP_ID, {
       grade: 'mundo',
       hexes: [
@@ -434,9 +434,9 @@ describe('tempo de viagem na exploração', () => {
     })
     terrenoPublicado({}, { estrada: ['60,21'] })
     const { container } = renderPanel(DEF)
-    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🛞🚶 0,7 dia'))
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🐪🚶 0,7 dia'))
     expect(container.querySelector('[data-viagem-trecho="c"]')!.getAttribute('title')).toBe(
-      'Desde a parada anterior: 0,7 dia\n🛞 Caravana · ⅕ dia\n🚶 A pé (Gramado, sem Caravana) · ½ dia',
+      'Desde a parada anterior: 0,7 dia\n🐪 Caravana · ⅕ dia\n🚶 A pé (Gramado, sem Caravana) · ½ dia',
     )
   })
 
@@ -454,7 +454,7 @@ describe('tempo de viagem na exploração', () => {
 
   it('report 2026-10-06: o menu mostra o TEMPO do trecho com cada meio e marca quem não anda ali', async () => {
     // sem terreno pintado (tudo Gramado): Carruagem/Navio caíam no automático
-    // em silêncio — o botão virava 🛞 e o tempo não mudava ("não muda").
+    // em silêncio — o botão virava 🐪 e o tempo não mudava ("não muda").
     setGroupStateFull(GROUP_ID, {
       grade: 'mundo',
       hexes: [
@@ -495,12 +495,12 @@ describe('tempo de viagem na exploração', () => {
     })
     terrenoPublicado({}, { estrada: ['60,21', '60,22'] })
     const { container } = renderPanel(DEF)
-    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🛞 ⅖ dia'))
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('🐪 ⅖ dia'))
     fireEvent.click(container.querySelector('[data-editar-trilha]')!)
     fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
     const menu = container.querySelector('[data-meio-menu="c"]')!
     expect(menu.querySelector('[data-meio-opcao="A pé"] [data-meio-previa]')!.textContent).toBe('🚶 1 dia')
-    expect(menu.querySelector('[data-meio-opcao="Caravana"] [data-meio-previa]')!.textContent).toBe('🛞 ⅖ dia')
+    expect(menu.querySelector('[data-meio-opcao="Caravana"] [data-meio-previa]')!.textContent).toBe('🐪 ⅖ dia')
     expect(menu.querySelector('[data-meio-opcao="Caravana"]')!.hasAttribute('data-meio-inutil')).toBe(false)
     // cavalo também ganha da estrada (+1): ¼ por hex
     expect(menu.querySelector('[data-meio-opcao="Cavalo"] [data-meio-previa]')!.textContent).toBe('🐎 ½ dia')
@@ -810,5 +810,39 @@ describe('meio por item do caminho', () => {
     fireEvent.click(container.querySelector('[data-meio-trecho="d"]')!)
     fireEvent.click(container.querySelector('[data-meio-menu="d"] [data-meio-opcao="A pé"]')!)
     expect(meioPasso('b')).toBeUndefined()
+  })
+})
+
+describe('Portal (meio instantâneo, 2026-10-06)', () => {
+  const DEF_PORTAL = {
+    ...DEF,
+    viagem: {
+      ...DEF.viagem!,
+      meios: [
+        ...DEF.viagem!.meios,
+        { nome: 'Portal', icone: '✨', hexPorDia: 0, instantaneo: true, em: ['normal', 'dificil', 'muito_dificil', 'mar'] },
+      ],
+    },
+  } as ContextoDef
+
+  it('trecho com Portal: ✨ 0 dias na linha da parada e ✨ na rota; prévia do menu mostra 0 dias', async () => {
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'parada', meio: 'Portal' },
+      ],
+    })
+    terrenoPublicado({ mar: ['60,21'] })
+    const { container } = renderPanel(DEF_PORTAL)
+    await waitFor(() => expect(container.querySelector('[data-viagem-trecho="c"]')!.textContent).toBe('✨ 0 dias'))
+    expect(container.querySelector('[data-viagem-rota-meios="a"]')!.textContent).toBe('✨')
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="c"]')!)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    expect(menu.querySelector('[data-meio-opcao="Portal"] [data-meio-previa]')!.textContent).toBe('✨ 0 dias')
+    // automático não usa o Portal
+    expect(menu.querySelector('[data-meio-opcao=""] [data-meio-previa]')!.textContent).not.toContain('✨')
   })
 })

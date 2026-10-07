@@ -63,7 +63,17 @@ import {
   terrenoDoHex,
   type ViagemCfg,
 } from './viagem'
-import { gravarTracoTerreno, hexesPath, pontosPath, useTerrenoMundo, type CamadaTerreno } from './terreno-mundo'
+import {
+  gravarTracoTerreno,
+  hexesPath,
+  marcaDeLinha,
+  marcaPath,
+  marcasDoMapa,
+  pontosPath,
+  useTerrenoMundo,
+  type CamadaTerreno,
+  type MarcaMapa,
+} from './terreno-mundo'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -71,7 +81,7 @@ import { AvisoPreparandoMapa } from '../components/compendium/AtlasMapaPage'
 import { GradeCanvas } from '../map/GradeCanvas'
 import { escolherGrade, useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
-import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
+import { MapControls, btnStyle as mapBtnStyle, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
 import { useHexMapMundoSync } from '../map/use-hexmapmundo-sync'
 import { useSettings } from '../settings'
@@ -465,7 +475,7 @@ function MeioMenu({
     ...cfg.meios.map((m) => ({
       nome: m.nome,
       rotulo: `${m.icone} ${m.nome}`,
-      dica: `${m.hexPorDia} hex/dia · ${ondeAnda(cfg, m.nome)}`,
+      dica: `${m.instantaneo ? 'instantâneo (0 dias)' : `${m.hexPorDia} hex/dia`} · ${ondeAnda(cfg, m.nome)}`,
     })),
   ]
   const aqui = alvo === 'trecho' ? 'deste trecho' : 'deste passo'
@@ -1400,6 +1410,92 @@ function LeftBar({
   )
 }
 
+const CHAVE_MODIFICADORES = 'pleitost.exploracao.modificadores'
+const SEM_MARCAS: MarcaMapa[] = []
+
+/** Toggle dos modificadores: por APARELHO (localStorage; sem storage = desligado). */
+function lerModificadores(): boolean {
+  try {
+    return window.localStorage.getItem(CHAVE_MODIFICADORES) === '1'
+  } catch {
+    return false
+  }
+}
+function gravarModificadores(v: boolean): void {
+  try {
+    window.localStorage.setItem(CHAVE_MODIFICADORES, v ? '1' : '0')
+  } catch {
+    /* storage bloqueado: fica só nesta sessão */
+  }
+}
+
+/** Pintura de uma classe de marca: forma de LINHA (onda, degrau) = traço
+ *  escurecido da cor da config; forma CHEIA = cor da config com contorno
+ *  escuro fino (legível sobre o pergaminho e sobre o mar). */
+function estiloMarca(m: Pick<MarcaMapa, 'forma' | 'cor'>): React.SVGProps<SVGPathElement> {
+  return marcaDeLinha(m.forma)
+    ? {
+        fill: 'none',
+        stroke: `color-mix(in srgb,${m.cor} 45%,#000)`,
+        strokeWidth: 1.6,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+      }
+    : { fill: m.cor, stroke: 'rgba(0,0,0,.7)', strokeWidth: 1, strokeLinejoin: 'round' }
+}
+
+/** Ícone do botão: um ▲ sobre uma onda. */
+function IconModificadores() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" aria-hidden>
+      <path d="M4 8 7 3l3 5Z" />
+      <path d="M2 12.5q1.5-2 3 0t3 0 3 0 3 0" />
+    </svg>
+  )
+}
+
+/** Legenda (rótulo mono + a própria marca), nomes da config; abaixo dos
+ *  controles do mapa. */
+function LegendaModificadores({ marcas }: { marcas: MarcaMapa[] }) {
+  return (
+    <div
+      data-modificadores-legenda=""
+      onPointerDown={(e) => e.stopPropagation()}
+      style={{
+        position: 'absolute',
+        top: 58,
+        right: 14,
+        zIndex: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 3,
+        padding: '6px 8px',
+        background: 'color-mix(in srgb,var(--panel) 90%,transparent)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(6),
+        pointerEvents: 'auto',
+      }}
+    >
+      {marcas.map((m) => (
+        <span
+          key={m.classe}
+          data-modificadores-item={m.classe}
+          style={{ ...fieldLabelStyle, fontSize: 9, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+        >
+          <svg width={22} height={16} viewBox="-14 -20 28 20" aria-hidden style={{ flex: 'none', overflow: 'visible' }}>
+            <path
+              d={marcaPath(m.forma, 0, m.camada === 'rotas' ? -23 : 0)}
+              {...estiloMarca(m)}
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+          {m.nome}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 /** Pincel do pintor: a CAMADA (terreno-base ou rotas) + a chave (null =
  *  limpar aquela camada). */
 interface Pincel {
@@ -1676,6 +1772,24 @@ export function PanelExploracao({
       .filter((r) => porChave.has(r.chave))
       .map((r) => ({ chave: r.chave, cor: r.cor ?? 'var(--muted)', d: pontosPath(porChave.get(r.chave)!) }))
   }, [pintor, viagemCfg, terrenoMundo.indiceRotas])
+
+  // ── MODIFICADORES DO MAPA (2026-10-06, pra todos) ─────────────────────────
+  // Marcas por hex da nota de terreno (doc efetivo: publicado + rascunho).
+  // UM path por classe, memoizado nos índices + recorte da vista; vive no SVG
+  // da camada transformada (pan/pinça não re-renderizam nada — #573).
+  const [modificadores, setModificadores] = useState(lerModificadores)
+  const marcas = useMemo(
+    () =>
+      modificadores && viagemCfg
+        ? marcasDoMapa(terrenoMundo.indice, terrenoMundo.indiceRotas, viagemCfg, crop)
+        : SEM_MARCAS,
+    [modificadores, viagemCfg, terrenoMundo.indice, terrenoMundo.indiceRotas, crop],
+  )
+  const alternarModificadores = () =>
+    setModificadores((v) => {
+      gravarModificadores(!v)
+      return !v
+    })
 
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
@@ -2184,6 +2298,15 @@ export function PanelExploracao({
                       vectorEffect="non-scaling-stroke"
                     />
                   ))}
+                  {marcas.map((m) => (
+                    <path
+                      key={m.classe}
+                      data-marca-mapa={m.classe}
+                      d={m.d}
+                      {...estiloMarca(m)}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))}
                   {pintor ? (
                     <path
                       ref={tracoPathRef}
@@ -2357,7 +2480,32 @@ export function PanelExploracao({
           ) : null}
 
           {/* #80 Controles de tela cheia + zoom sobrepostos */}
-          {mapEntry ? <MapControls map={map} /> : null}
+          {mapEntry ? (
+            <MapControls
+              map={map}
+              extra={
+                viagemCfg ? (
+                  <button
+                    type="button"
+                    data-modificadores-toggle=""
+                    aria-pressed={modificadores}
+                    aria-label="Mostrar modificadores do mapa"
+                    title="Mostrar modificadores do mapa"
+                    onClick={alternarModificadores}
+                    style={{
+                      ...mapBtnStyle,
+                      ...(modificadores
+                        ? { background: 'color-mix(in srgb,var(--accent) 22%,var(--panel))', borderColor: 'var(--accent)' }
+                        : {}),
+                    }}
+                  >
+                    <IconModificadores />
+                  </button>
+                ) : undefined
+              }
+            />
+          ) : null}
+          {mapEntry && modificadores && marcas.length > 0 ? <LegendaModificadores marcas={marcas} /> : null}
           {mapEntry && podePintar && viagemCfg ? (
             <PintorTerreno
               cfg={viagemCfg}

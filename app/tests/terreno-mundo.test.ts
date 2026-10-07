@@ -5,7 +5,7 @@
 // Dev (rascunho local → publicar → exportar). Módulo puro: índices rápidos
 // col,row → chave e a pintura de um traço em cada camada.
 import { describe, expect, it, beforeEach } from 'vitest'
-import { gravarTracoTerreno, indiceTerreno, pintarRota, pintarTerreno } from '../src/grupo/terreno-mundo'
+import { gravarTracoTerreno, indiceTerreno, marcasDoMapa, pintarRota, pintarTerreno } from '../src/grupo/terreno-mundo'
 import { reconstructMarkdown } from '../src/data/dev-publish'
 import { localDraftFor, clearLocalDraft } from '../src/data/local-draft-store'
 import type { ViagemCfg } from '../src/grupo/viagem'
@@ -114,5 +114,56 @@ describe('EXPORTAR do Modo Dev', () => {
       Rotas: { estrada: ['60,21'], rota_maritima: [] },
     })
     expect(md.endsWith('# Terreno do Mundo Livre\n')).toBe(true)
+  })
+})
+
+// MODIFICADORES DO MAPA (toggle da Exploração, 2026-10-06): uma marca por hex
+// derivada da CONFIG (nunca da chave): água = onda; terreno com custo > 1 =
+// triângulos (custo − 1: difícil ▲, montanha ▲▲); rota cujos meios só andam
+// na água = anel; as outras rotas, por ordem: losango, degrau, barra. UM path
+// por classe (geometria concatenada) — DOM constante no gesto (#573).
+describe('marcasDoMapa', () => {
+  const CFG_M: ViagemCfg = {
+    ...CFG,
+    terrenos: [...CFG.terrenos, { chave: 'muito_dificil', nome: 'Montanha', custo: 3, cor: '#8a8a8a' }],
+    rotas: [...CFG.rotas!, { chave: 'escadaria', nome: 'Escadaria', bonus: 1, meios: ['A pé'] }],
+    meios: [...CFG.meios, { nome: 'Barco', icone: '⛵', hexPorDia: 5, em: ['mar'] }],
+  }
+  const T = indiceTerreno({ dificil: ['10,10', '11,10', '12,10'], muito_dificil: ['13,10'], mar: ['14,10', '15,10'] })
+  const R = indiceTerreno({ estrada: ['10,10', '11,10'], rota_maritima: ['14,10'], escadaria: ['13,10'] })
+  const subpaths = (d: string) => (d.match(/M/g) ?? []).length
+
+  it('uma marca por classe presente, na ordem da config, com nome/cor/forma da config', () => {
+    const m = marcasDoMapa(T, R, CFG_M)
+    expect(m.map((x) => [x.classe, x.forma, x.nome])).toEqual([
+      ['terreno:mar', 'onda', 'Mar'],
+      ['terreno:dificil', 'tri1', 'Difícil'],
+      ['terreno:muito_dificil', 'tri2', 'Montanha'],
+      ['rota:estrada', 'losango', 'Estrada'],
+      ['rota:rota_maritima', 'anel', 'Rota marítima'],
+      ['rota:escadaria', 'degrau', 'Escadaria'],
+    ])
+    expect(m.find((x) => x.chave === 'muito_dificil')!.cor).toBe('#8a8a8a')
+  })
+  it('a geometria cobre cada hex (subpaths por hex: tri1 = 1, tri2 = 2, onda = 2)', () => {
+    const m = new Map(marcasDoMapa(T, R, CFG_M).map((x) => [x.chave, x.d]))
+    expect(subpaths(m.get('dificil')!)).toBe(3)
+    expect(subpaths(m.get('muito_dificil')!)).toBe(2)
+    expect(subpaths(m.get('mar')!)).toBe(4)
+    expect(subpaths(m.get('estrada')!)).toBe(2)
+    expect(subpaths(m.get('rota_maritima')!)).toBe(1)
+    expect(subpaths(m.get('escadaria')!)).toBe(1)
+  })
+  it('número de marcas não cresce com o número de hexes', () => {
+    const muitos = indiceTerreno({ dificil: Array.from({ length: 500 }, (_, i) => `${i},3`) })
+    expect(marcasDoMapa(muitos, new Map(), CFG_M)).toHaveLength(1)
+  })
+  it('recorte (área da vista) deixa de fora hexes longe; memoizado por índice + recorte', () => {
+    const area = { x: 0, y: 0, w: 1000, h: 1000 }
+    const longe = indiceTerreno({ dificil: ['1,1', '80,50'] })
+    const semRotas = new Map<string, string>()
+    const m = marcasDoMapa(longe, semRotas, CFG_M, area)
+    expect(subpaths(m[0]!.d)).toBe(1)
+    expect(marcasDoMapa(longe, semRotas, CFG_M, { ...area })).toBe(m)
   })
 })

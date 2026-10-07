@@ -325,6 +325,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   // e `em` (terrenos onde anda); `so_em_rota` = só anda em hex com aquela rota
   // (Caravana → estrada); `costa: true` = faz o passo da costa (Barco, A pé);
   // `antigos` = nomes antigos gravados nas trilhas (Carruagem → Caravana).
+  // `instantaneo: true` (Portal) = 0 dias em qualquer passo, sem hex_por_dia.
   // Tempo por hex = custo / (hex_por_dia + bônus) DIAS. Chave = o que fica
   // gravado na nota de terreno; `nome` = rótulo do app (nunca derivado da
   // chave); `cor` opcional = tinta no editor. Ordem do FM preservada. Sem o
@@ -397,8 +398,11 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       for (const m of v.meios) {
         if (!isPlainObject(m) || typeof m.nome !== "string" || !m.nome.trim()) { problems.push("viagem.meios: cada meio precisa de `nome`"); continue; }
         const nome = m.nome.trim();
-        const hexPorDia = Number(m.hex_por_dia);
-        if (!(Number.isFinite(hexPorDia) && hexPorDia > 0)) problems.push(`viagem.meios: "${nome}" hex_por_dia esperado > 0`);
+        // instantaneo (2026-10-06, Portal): 0 dias em qualquer passo — dispensa hex_por_dia
+        if (m.instantaneo !== undefined && typeof m.instantaneo !== "boolean") problems.push(`viagem.meios: "${nome}" instantaneo esperado true/false`);
+        const instantaneo = m.instantaneo === true;
+        const hexPorDia = instantaneo && (m.hex_por_dia === undefined || m.hex_por_dia === null) ? 0 : Number(m.hex_por_dia);
+        if (!instantaneo && !(Number.isFinite(hexPorDia) && hexPorDia > 0)) problems.push(`viagem.meios: "${nome}" hex_por_dia esperado > 0`);
         const em = Array.isArray(m.em) ? m.em.map((x) => String(x).trim()) : [];
         if (em.length === 0) problems.push(`viagem.meios: "${nome}" precisa de \`em\` (terrenos onde anda)`);
         for (const k of em) if (!chaves.has(k)) problems.push(`viagem.meios: "${nome}" em terreno "${k}" não declarado`);
@@ -435,6 +439,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
           ...(soEmRota ? { soEmRota } : {}),
           ...(m.costa === true ? { costa: true } : {}),
           ...(antigos ? { antigos } : {}),
+          ...(instantaneo ? { instantaneo: true } : {}),
         });
       }
     }

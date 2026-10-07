@@ -204,7 +204,7 @@ export function renderContextoDoc(contexto, typeByBasename) {
     out.push(...tabela("Viagem: meios de transporte (hex por dia)", (c.viagem.meios ?? []).map((m) => [
       `${m.icone ? `${m.icone} ` : ""}${m.nome}`,
       [
-        `${m.hex_por_dia} hex/dia`,
+        m.instantaneo === true ? "instantâneo (0 dias)" : `${m.hex_por_dia} hex/dia`,
         m.so_em_rota ? `só com ${rot[m.so_em_rota]?.nome ?? m.so_em_rota}` : (m.em ?? []).map(nomeDe).join(", "),
         m.costa === true ? "costa" : "",
         m.padrao === true ? "padrão do grupo" : "",

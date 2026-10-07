@@ -8,6 +8,10 @@
 //    a config não conhece mais) = `padrao`.
 //  • BURACOS: hexes consecutivos não adjacentes na trilha são ligados pela
 //    linha hex mais curta (cube lerp) — cada hex do meio também é entrado.
+//    Os hexes preenchidos herdam o caráter comum das pontas (mesma rota /
+//    as duas na água — ver lacunaHerdada), 2026-10-06.
+//  • INSTANTÂNEO (2026-10-06): meio `instantaneo` (Portal) custa 0 em todo
+//    terreno do `em` — sem costa nem rota; nunca automático (não é padrão).
 //  • MEIO (2026-10-06, "um meio por trecho"): cada TRECHO (da parada
 //    anterior até a parada de chegada) pode ter UM meio escolhido, gravado na
 //    parada de CHEGADA (`GroupHex.meio`). Em cada hex do trecho: se o meio
@@ -205,6 +209,8 @@ function fracao(custo: number, velocidade: number, meio: string): Custo {
 function custoDoMeio(m: MeioCfg, para: HexTerreno, de: HexTerreno | null | undefined, cfg: ViagemCfg): Custo {
   const tp = terrenoEfetivo(para.terreno, cfg)
   if (!tp) return NENHUM
+  // INSTANTÂNEO (Portal): 0 dias em todo terreno de `em` — sem costa, sem rota
+  if (m.instantaneo) return m.em.includes(tp.chave) ? { dias: 0, meio: m.nome, frac: [0, 1] } : NENHUM
   const td = de ? terrenoEfetivo(de.terreno, cfg) : null
   let base: { t: TerrenoCfg; rota: string | undefined } = { t: tp, rota: para.rota }
   if (td && !!td.agua !== !!tp.agua) {
@@ -383,6 +389,30 @@ export interface Viagem {
   bloqueado: boolean
 }
 
+/** LACUNA (2026-10-06): dois hexes marcados consecutivos NÃO vizinhos são
+ *  ligados pela linha hex reta, que pode sair da estrada curva ou cortar um
+ *  cabo de terra no meio do mar — e aí o meio escolhido (Caravana, Barco)
+ *  deixava de valer nos hexes preenchidos. Regra: quando as duas PONTAS
+ *  dividem o caráter da rota, os preenchidos herdam esse caráter em vez do
+ *  terreno pintado deles:
+ *   • mesma ROTA nas duas pontas (estrada, rota marítima, escadaria) → os
+ *     preenchidos têm essa rota e o terreno da ponta de CHEGADA (o custo da
+ *     própria rota: estrada no gramado = ×1; a reta pode cortar uma montanha
+ *     que a estrada contorna);
+ *   • as duas pontas na ÁGUA (sem rota em comum) → os preenchidos são o
+ *     terreno de água da ponta de chegada (o Barco não "encalha" num cabo);
+ *   • pontas misturadas → null: cada preenchido usa o próprio terreno.
+ *  O meio dos preenchidos é o do PASSO (meioPasso da chegada ?? meio do
+ *  trecho ?? automático), como sempre. */
+function lacunaHerdada(a: HexTerreno, b: HexTerreno, cfg: ViagemCfg): HexTerreno | null {
+  const rota = a.rota && a.rota === b.rota && cfg.rotas?.some((r) => r.chave === a.rota) ? a.rota : undefined
+  if (rota) return { terreno: b.terreno, rota }
+  const ta = terrenoEfetivo(a.terreno, cfg)
+  const tb = terrenoEfetivo(b.terreno, cfg)
+  if (ta?.agua && tb?.agua) return { terreno: tb.chave }
+  return null
+}
+
 type HexViagem = Hex & { kind?: 'parada' | 'caminho'; meio?: string; meioPasso?: string }
 
 export function calcularViagem({
@@ -441,11 +471,15 @@ export function calcularViagem({
     const meiosPasso: string[] = []
     const ajuste = ajusteDe[i + 1]
     const escolhaPasso = ajuste ?? escolhaDe[i + 1]
-    const infoDe = (q: Hex): HexTerreno => ({ terreno: terrenoDe(q.col, q.row), rota: rotaDe(q.col, q.row) })
+    const infoPintado = (q: Hex): HexTerreno => ({ terreno: terrenoDe(q.col, q.row), rota: rotaDe(q.col, q.row) })
+    const lacuna = lacunaHerdada(infoPintado(h), infoPintado(next), cfg)
+    // hexes PREENCHIDOS (entre as pontas) herdam o caráter comum das pontas
+    const infoDe = (q: Hex, k: number): HexTerreno =>
+      lacuna && k > 0 && k < linha.length - 1 ? lacuna : infoPintado(q)
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
-      const para = infoDe(p)
-      const c = custoComEscolha(para, cfg, escolhaPasso, infoDe(linha[k - 1]!))
+      const para = infoDe(p, k)
+      const c = custoComEscolha(para, cfg, escolhaPasso, infoDe(linha[k - 1]!, k - 1))
       const terreno = terrenoEfetivo(para.terreno, cfg)?.chave ?? cfg.padrao
       const rota = para.rota && cfg.rotas?.some((r) => r.chave === para.rota) ? para.rota : undefined
       ultimo = { meio: c.meio, terreno, ...(rota ? { rota } : {}) }

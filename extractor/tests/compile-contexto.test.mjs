@@ -400,7 +400,7 @@ const VIAGEM_OK = {
   meios: [
     { nome: "A pé", icone: "🚶", padrao: true, hex_por_dia: 2, em: ["normal", "dificil", "muito_dificil"], costa: true },
     { nome: "Cavalo", icone: "🐎", hex_por_dia: 3, em: ["normal", "dificil"] },
-    { nome: "Caravana", icone: "🛞", padrao: true, hex_por_dia: 4, em: ["normal", "dificil", "muito_dificil"], so_em_rota: "estrada", antigos: ["Carruagem"] },
+    { nome: "Caravana", icone: "🐪", padrao: true, hex_por_dia: 4, em: ["normal", "dificil", "muito_dificil"], so_em_rota: "estrada", antigos: ["Carruagem"] },
     { nome: "Barco", icone: "⛵", padrao: true, hex_por_dia: 5, em: ["mar"], costa: true, antigos: ["Navio"] },
   ],
 };
@@ -422,7 +422,7 @@ test("viagem: compila terrenos (ordem do FM), rotas e meios", () => {
     meios: [
       { nome: "A pé", icone: "🚶", padrao: true, hexPorDia: 2, em: ["normal", "dificil", "muito_dificil"], costa: true },
       { nome: "Cavalo", icone: "🐎", padrao: false, hexPorDia: 3, em: ["normal", "dificil"] },
-      { nome: "Caravana", icone: "🛞", padrao: true, hexPorDia: 4, em: ["normal", "dificil", "muito_dificil"], soEmRota: "estrada", antigos: ["Carruagem"] },
+      { nome: "Caravana", icone: "🐪", padrao: true, hexPorDia: 4, em: ["normal", "dificil", "muito_dificil"], soEmRota: "estrada", antigos: ["Carruagem"] },
       { nome: "Barco", icone: "⛵", padrao: true, hexPorDia: 5, em: ["mar"], costa: true, antigos: ["Navio"] },
     ],
   });
@@ -487,7 +487,22 @@ test("viagem: o bloco auto renderiza a tabela de terrenos, de rotas e de meios",
   assert.match(bloco, /\| Rota marítima \(`rota_maritima`\) \| \+1 hex\/dia pra Barco \|/);
   assert.match(bloco, /#### Viagem: meios de transporte \(hex por dia\)/);
   assert.match(bloco, /\| 🐎 Cavalo \| 3 hex\/dia · Gramado, Difícil \|/);
-  assert.match(bloco, /\| 🛞 Caravana \| 4 hex\/dia · só com Estrada · padrão do grupo · antes: Carruagem \|/);
+  assert.match(bloco, /\| 🐪 Caravana \| 4 hex\/dia · só com Estrada · padrão do grupo · antes: Carruagem \|/);
   assert.match(bloco, /\| ⛵ Barco \| 5 hex\/dia · Mar · costa · padrão do grupo · antes: Navio \|/);
   assert.match(bloco, /\| 🚶 A pé \| 2 hex\/dia · Gramado, Difícil, Montanha · costa · padrão do grupo \|/);
+});
+
+// PORTAL (2026-10-06): meio `instantaneo` — 0 dias, dispensa hex_por_dia;
+// nunca padrão por si (não entra no automático se não for `padrao`).
+test("viagem: meio instantâneo (Portal) compila sem hex_por_dia e o doc mostra instantâneo", async () => {
+  const portal = { nome: "Portal", icone: "✨", instantaneo: true, em: ["normal", "dificil", "muito_dificil", "mar"] };
+  const out = compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem: { ...VIAGEM_OK, meios: [...VIAGEM_OK.meios, portal] } }), defBase()], basenames: BASENAMES, typeByBasename: new Map() });
+  assert.deepEqual(out.viagem.meios.at(-1), { nome: "Portal", icone: "✨", padrao: false, hexPorDia: 0, em: ["normal", "dificil", "muito_dificil", "mar"], instantaneo: true });
+  const run = (m) => () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem: { ...VIAGEM_OK, meios: [...VIAGEM_OK.meios, m] } }), defBase()], basenames: BASENAMES, typeByBasename: new Map() });
+  assert.throws(run({ ...portal, instantaneo: "sim" }), /viagem\.meios: "Portal" instantaneo esperado true\/false/);
+  // sem instantaneo, hex_por_dia continua obrigatório
+  assert.throws(run({ ...portal, instantaneo: false }), /viagem\.meios: "Portal" hex_por_dia/);
+  const { renderContextoDoc } = await import("../contexto-doc.mjs");
+  const bloco = renderContextoDoc({ id: "fantasia", viagem: { ...VIAGEM_OK, meios: [...VIAGEM_OK.meios, portal] } }, new Map());
+  assert.match(bloco, /\| ✨ Portal \| instantâneo \(0 dias\) · Gramado, Difícil, Montanha, Mar \|/);
 });

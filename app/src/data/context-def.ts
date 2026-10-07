@@ -49,6 +49,9 @@ export interface ViagemCfg {
     costa?: boolean
     /** Nomes antigos gravados nas trilhas (Carruagem → Caravana). */
     antigos?: string[]
+    /** Meio INSTANTÂNEO (Portal): 0 dias em qualquer passo de `em`, sem
+     *  costa nem rota; `hexPorDia` não se aplica (0). */
+    instantaneo?: boolean
   }[]
   /** Basename da nota com o FM `Terreno` (base) e `Rotas` (chave → lista de
    *  "col,row" na grade da trilha) — dado do MUNDO, pintado no Modo Dev.

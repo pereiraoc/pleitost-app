@@ -9,7 +9,8 @@ function clip(n: number): NonNullable<CSSProperties['clipPath']> {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
 }
 
-const btnStyle: CSSProperties = {
+/** Estilo dos botões do canto do mapa (36px) — pra botões `extra` seguirem o idioma. */
+export const btnStyle: CSSProperties = {
   width: 36,
   height: 36,
   display: 'inline-flex',

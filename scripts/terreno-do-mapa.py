@@ -18,6 +18,19 @@ Camada BASE (Terreno):
                     ondulada da Serra do Bode e as terras rachadas (Pencas,
                     Rharos) ficam normais
   • (resto)       — normal (não listado)
+FORA DO PNG COLORIDO (2026-10-06): o PNG cobre só o leste do atlas; todo hex
+do atlas.webp que o PNG não cobre é classificado mar×terra pela cor do
+pergaminho (mar azul-acinzentado: B−R ≥ 0; terra sépia: B−R ≤ −25), contando
+os pixels do miolo do hex (linhas da grade, rótulos e a rota pontilhada não
+votam). Hex de costa: terra se ≥40% dos pixels votantes são terra (cidade na
+costa fica em terra). Dentro da cobertura do PNG vale a classificação do PNG.
+ILHA DE PÁTRIA AURORA (2026-10-06, curado do atlas.webp): fora do PNG
+colorido, as montanhas desenhadas da ilha viram `muito_dificil`, a trilha
+tracejada que sobe nelas vira a rota `escadaria` (+1 pro A pé) e a estrada
+tracejada da planície (Magna Vigília–Lucerna–Firmamentum–Velimar) vira
+`estrada`. Listas FIXAS (ILHA_*): a densidade de traço escuro sozinha erra
+(cidades/emblemas viram montanha; encostas claras sob as nuvens somem) —
+o recorte de revisão (terreno-revisao-ilha.png) confere.
 Os tiles da arte são carimbos idênticos: cada hex é classificado pela mediana
 de cor de 7 setores (votação — rótulos/cidades cobrem só parte do hex) contra
 protótipos medidos na própria arte.
@@ -28,10 +41,11 @@ Camada ROTAS:
                     tipo (carimbo limpo); conta pixels cor-de-estrada que
                     DIFEREM do fundo (rio azul e fronteira vermelha não têm a
                     cor; árvore/tronco do carimbo some na subtração).
-  • rota_maritima — hexes de mar cortados pela rota branca pontilhada. O PNG
-                    colorido não desenha a rota; ela vem do atlas.webp (mesma
-                    grade re-renderizada, atlas-grid.ts: size 55.335; cols do
-                    mundo direto), contando pixels brancos sobre o mar.
+  • rota_maritima — hexes de mar (do atlas INTEIRO) cortados pela rota branca
+                    pontilhada. O PNG colorido não desenha a rota; ela vem do
+                    atlas.webp (mesma grade re-renderizada, atlas-grid.ts:
+                    size 55.335; cols do mundo direto), contando pixels
+                    brancos sobre o mar.
 
 Uso (de qualquer pasta):
   python3 scripts/terreno-do-mapa.py              # só o PNG de revisão
@@ -54,7 +68,8 @@ VAULT = Path('/data/vaults/pleitost')
 MAPA = VAULT / 'Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png'
 ATLAS = VAULT / 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
 NOTA = VAULT / 'Atlas/Mundo Livre/Terreno do Mundo Livre.md'
-REVISAO = Path('/tmp/claude-1000/-data-vaults-pleitost/8c31f3d6-f6e9-48ed-8bee-5bbb84a590a6/scratchpad/terreno-revisao.png')
+REVISAO = Path('/tmp/claude-1000/-data-vaults-pleitost/2a09bd07-9734-4c25-8bf8-a05289693fe8/scratchpad/terreno-revisao.png')
+REVISAO_ATLAS = REVISAO.with_name('terreno-revisao-atlas.png')
 
 # grade antiga (exploracao.ts)
 S = 74
@@ -243,9 +258,89 @@ def detectar_estradas(img, grupos, chaves, janelas):
     return score
 
 
+_ATLAS = None
+
+
+def atlas_img():
+    global _ATLAS
+    if _ATLAS is None:
+        _ATLAS = np.asarray(Image.open(ATLAS).convert('RGB')).astype(np.int16)
+    return _ATLAS
+
+
+def atlas_centro(col, row):
+    return A_OX + 1.5 * A_S * col, A_OY + math.sqrt(3) * A_S * (row + 0.5 * (col & 1))
+
+
+# grade do atlas inteira (centros dentro da imagem): cols 0..89, rows 0..54
+A_COLS = range(0, 90)
+A_ROWS = range(0, 55)
+TERRA_MIN = 0.40
+
+
+def _hexes(txt):
+    return {tuple(map(int, h.split(','))) for h in txt.split()}
+
+
+# Pátria Aurora (coords do mundo), conferido hex a hex no atlas.webp
+ILHA_MONTANHA = _hexes('''
+    31,6 32,6 33,6 35,6 36,6 37,6
+    30,7 31,7 32,7 33,7 34,7 35,7 36,7 37,7
+    30,8 31,8 32,8 33,8 34,8 35,8 36,8 37,8
+    32,9 33,9 34,9 35,9 36,9
+''')
+# trilha tracejada que sobe a serra (só nos hexes de montanha)
+ILHA_ESCADARIA = _hexes('''
+    31,6 32,6 33,6 35,6 36,6
+    30,7 31,7 32,7 34,7 36,7 37,7
+    31,8 32,8 34,8 35,8 36,8
+    32,9 33,9 34,9
+''')
+# estrada tracejada da planície (Magna Vigília/Lucerna → Firmamentum → Velimar)
+ILHA_ESTRADA = _hexes('''
+    28,8 28,9 29,7 29,8 30,9 31,9 32,10 33,10 34,10 35,10 36,10 37,9 38,9
+''')
+
+
+def mar_do_atlas(cobertos):
+    """Hexes de MAR (coords do mundo) fora da cobertura do PNG colorido, pela
+    cor do atlas.webp. Votam só pixels claramente mar (B−R ≥ 0) ou terra
+    (B−R ≤ −25, claro); tinta escura (grade, rótulos, montanhas) e o branco
+    da rota não votam. Terra se ≥ TERRA_MIN dos votos."""
+    at = atlas_img()
+    h, w = at.shape[:2]
+    R = 44
+    yy, xx = np.mgrid[-R:R + 1, -R:R + 1]
+    disco = np.hypot(xx, yy) <= 46
+    pad = np.pad(at, ((R, R), (R, R), (0, 0)), mode='edge')
+    mar, frac = set(), {}
+    for col in A_COLS:
+        for row in A_ROWS:
+            if (col, row) in cobertos:
+                continue
+            cx, cy = atlas_centro(col, row)
+            x, y = int(round(cx)), int(round(cy))
+            if not (0 <= x < w and 0 <= y < h):
+                continue
+            jan = pad[y:y + 2 * R + 1, x:x + 2 * R + 1]
+            r, g, b = jan[..., 0], jan[..., 1], jan[..., 2]
+            lum = (r + g + b) / 3
+            branco = (r > 215) & (g > 215) & (b > 215)
+            v_mar = disco & ~branco & (b - r >= 0) & (lum > 110)
+            v_terra = disco & ~branco & (b - r <= -25) & (lum > 120)
+            nm, nt = int(v_mar.sum()), int(v_terra.sum())
+            if nm + nt == 0:
+                continue
+            f = nt / (nm + nt)
+            frac[(col, row)] = f
+            if f < TERRA_MIN:
+                mar.add((col, row))
+    return mar, frac
+
+
 def rota_maritima_atlas(mar_mundo):
     """Hexes de mar (coords do MUNDO) cortados pela rota branca no atlas.webp."""
-    at = np.asarray(Image.open(ATLAS).convert('RGB')).astype(np.int16)
+    at = atlas_img()
     h, w = at.shape[:2]
     a_hs, a_vs = 1.5 * A_S, math.sqrt(3) * A_S
     # origem da grade do mundo no atlas (ATLAS_HEX_OFFSET_X/Y) — confere com
@@ -300,6 +395,7 @@ def escrever_nota(base, rotas):
         'Rotas:\n'
         f'  estrada: {fmt(rotas["estrada"])}\n'
         f'  rota_maritima: {fmt(rotas["rota_maritima"])}\n'
+        f'  escadaria: {fmt(rotas["escadaria"])}\n'
         '---\n'
     )
     NOTA.write_text(fm + txt[m.end():], encoding='utf-8')
@@ -330,6 +426,40 @@ def revisao(img, base, rotas, destino):
     Image.alpha_composite(fundo, cam).convert('RGB').save(destino)
 
 
+def revisao_atlas(base, rotas, cobertos, destino):
+    """Atlas inteiro (~1600px) com as tintas: mar azul, difícil laranja, muito
+    difícil vermelho; estrada = contorno magenta; rota marítima = ponto
+    branco; contorno fino verde = limite da cobertura do PNG colorido."""
+    at = Image.open(ATLAS).convert('RGB')
+    W = 1600
+    sc = W / at.size[0]
+    fundo = at.resize((W, int(at.size[1] * sc)), Image.LANCZOS).convert('RGBA')
+    cam = Image.new('RGBA', fundo.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(cam)
+    cores = {'mar': (0, 60, 255, 90), 'muito_dificil': (230, 0, 0, 130), 'dificil': (255, 140, 0, 130)}
+
+    def poly(col, row, enc=1.0):
+        cx, cy = atlas_centro(col, row)
+        return [((cx + A_S * enc * math.cos(math.radians(60 * k))) * sc,
+                 (cy + A_S * enc * math.sin(math.radians(60 * k))) * sc) for k in range(6)]
+
+    for chave, ks in base.items():
+        for (c, r) in ks:
+            d.polygon(poly(c, r, 0.92), fill=cores[chave])
+    for (c, r) in cobertos:
+        if not all(n in cobertos for n in vizinhos(c, r)):
+            d.polygon(poly(c, r, 0.5), outline=(0, 200, 0, 200), width=1)
+    for (c, r) in rotas['estrada']:
+        d.polygon(poly(c, r, 0.6), outline=(255, 0, 255, 255), width=2)
+    for (c, r) in rotas['escadaria']:
+        d.polygon(poly(c, r, 0.45), outline=(0, 255, 255, 255), width=2)
+    for (c, r) in rotas['rota_maritima']:
+        cx, cy = atlas_centro(c, r)
+        d.ellipse([cx * sc - 3, cy * sc - 3, cx * sc + 3, cy * sc + 3], fill=(255, 255, 255, 255), outline=(0, 0, 0, 255))
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    Image.alpha_composite(fundo, cam).convert('RGB').save(destino)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--write', action='store_true', help='reescreve o FM da nota de terreno')
@@ -350,6 +480,16 @@ def main():
         elif g == 'floresta' or k in deserto:
             base['dificil'].add(mundo(k))
 
+    # fora da cobertura do PNG colorido: mar×terra pelo atlas.webp
+    cobertos = {mundo(k) for k, g in grupos.items() if g != 'fora'}
+    mar_png = len(base['mar'])
+    mar_fora, _frac = mar_do_atlas(cobertos)
+    base['mar'] |= mar_fora
+    # Pátria Aurora: serra (o 37,6 da encosta sobre a costa sai do mar)
+    base['mar'] -= ILHA_MONTANHA
+    base['muito_dificil'] |= ILHA_MONTANHA
+    print(f'mar: {mar_png} do PNG + {len(mar_fora)} do atlas (fora da cobertura: {len(cobertos)} hexes cobertos)')
+
     score = detectar_estradas(img, grupos, chaves, janelas)
     est = {k for k, (tot, anel) in score.items() if tot >= ESTRADA_MIN_TOT and anel >= ESTRADA_MIN_ANEL}
     # a arte da cidade cobre a estrada no próprio hex: lugar nomeado (seed do
@@ -364,10 +504,10 @@ def main():
         ns = [n for n in vizinhos(*k) if n in est]
         if any(b not in vizinhos(*a) for i, a in enumerate(ns) for b in ns[i + 1:]):
             est.add(k)
-    estrada = {mundo(k) for k in est}
+    estrada = {mundo(k) for k in est} | ILHA_ESTRADA
     lane = rota_maritima_atlas(base['mar'])
     rota = {k for k, n in lane.items() if n >= ROTA_MIN}
-    rotas = {'estrada': estrada, 'rota_maritima': rota}
+    rotas = {'estrada': estrada, 'rota_maritima': rota, 'escadaria': set(ILHA_ESCADARIA)}
 
     if a.debug:
         for k in ordenar(score):
@@ -376,6 +516,7 @@ def main():
             if lane[k]:
                 print('rota', k, lane[k])
     revisao(img, base, rotas, a.revisao)
+    revisao_atlas(base, rotas, cobertos, REVISAO_ATLAS if a.revisao == REVISAO else a.revisao.with_name(a.revisao.stem + '-atlas.png'))
     for kk, v in {**base, **rotas}.items():
         print(f'{kk}: {len(v)}')
     print(f'revisão: {a.revisao}')

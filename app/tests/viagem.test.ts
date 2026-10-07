@@ -47,7 +47,7 @@ const CFG: ViagemCfg = {
     { nome: 'Cavalo', icone: '🐎', hexPorDia: 3, em: ['normal', 'dificil'] },
     {
       nome: 'Caravana',
-      icone: '🛞',
+      icone: '🐪',
       padrao: true,
       hexPorDia: 4,
       em: ['normal', 'dificil', 'muito_dificil'],
@@ -159,7 +159,7 @@ describe('meios: automáticos, nomes antigos, escolha', () => {
     expect(resolverMeio(CFG, 'Dragão')).toBeUndefined()
     expect(resolverMeio(CFG, undefined)).toBeUndefined()
     expect(iconeDoMeio(CFG, 'Navio')).toBe('⛵')
-    expect(iconeDoMeio(CFG, 'Carruagem')).toBe('🛞')
+    expect(iconeDoMeio(CFG, 'Carruagem')).toBe('🐪')
   })
   it('ondeAnda: rótulos da config — a rota exigida (Caravana) ou os terrenos', () => {
     expect(ondeAnda(CFG, 'Caravana')).toBe('Estrada')
@@ -540,4 +540,146 @@ it('meioPasso com nome antigo (Navio) vale como Barco', () => {
   })
   expect(v.passos[2]!.ajuste).toBe('Barco')
   expect(v.passos[2]!.meio).toBe('Barco')
+})
+
+// ── 2026-10-06 (leva 4): escadaria, Portal e a regra da LACUNA ─────────────
+/** CFG + rota `escadaria` (+1 pro A pé) + meio instantâneo Portal (não padrão). */
+const CFG4: ViagemCfg = {
+  ...CFG,
+  rotas: [...CFG.rotas!, { chave: 'escadaria', nome: 'Escadaria', bonus: 1, meios: ['A pé'] }],
+  meios: [
+    ...CFG.meios,
+    { nome: 'Portal', icone: '✨', instantaneo: true, em: ['normal', 'dificil', 'muito_dificil', 'mar'] },
+  ],
+}
+
+describe('escadaria (rota +1 pro A pé na montanha)', () => {
+  const montanha = { terreno: 'muito_dificil' }
+  it('A pé na montanha com escadaria = 1 dia/hex (3 / (2+1)); sem escadaria = 1½', () => {
+    expect(custoHex({ ...montanha, rota: 'escadaria' }, CFG4, ['A pé'])).toEqual({ dias: 1, meio: 'A pé' })
+    expect(custoHex(montanha, CFG4, ['A pé'])).toEqual({ dias: 1.5, meio: 'A pé' })
+  })
+  it('Cavalo continua proibido na montanha, mesmo com escadaria', () => {
+    expect(custoHex({ ...montanha, rota: 'escadaria' }, CFG4, ['Cavalo'])).toEqual({ dias: null, meio: null })
+  })
+})
+
+describe('Portal (meio instantâneo)', () => {
+  it('não entra no automático', () => {
+    expect(meiosAutomaticos(CFG4)).toEqual(['A pé', 'Caravana', 'Barco'])
+    expect(custoHex(N, CFG4, meiosAutomaticos(CFG4))).toEqual({ dias: 0.5, meio: 'A pé' })
+  })
+  it('0 dias em qualquer terreno, inclusive na costa e no mar, sem rota', () => {
+    expect(custoHex(N, CFG4, ['Portal'])).toEqual({ dias: 0, meio: 'Portal' })
+    expect(custoHex(MAR, CFG4, ['Portal'], N)).toEqual({ dias: 0, meio: 'Portal' })
+    expect(custoHex(MAR, CFG4, ['Portal'], MAR)).toEqual({ dias: 0, meio: 'Portal' })
+    expect(custoHex({ terreno: 'muito_dificil', rota: 'estrada' }, CFG4, ['Portal'])).toEqual({ dias: 0, meio: 'Portal' })
+    expect(iconeDoMeio(CFG4, 'Portal')).toBe('✨')
+  })
+  it('trecho com Portal = 0 dias, só ✨', () => {
+    const v = calcularViagem({
+      hexes: comMeio(coluna(3, { 0: 'parada', 3: 'parada' }), { 3: 'Portal' }),
+      terrenoDe: mapaDe({ '10,2': 'mar', '10,3': 'muito_dificil' }),
+      cfg: CFG4,
+    })
+    expect(v.total).toBe(0)
+    expect(v.trechos.get(3)!.meios).toEqual(['Portal'])
+    expect(v.trechos.get(3)!.dias).toBe(0)
+    expect(formatarDias(v.trechos.get(3)!.dias)).toBe('0 dias')
+    expect(v.bloqueado).toBe(false)
+  })
+  it('lacuna LONGA com Portal (teleporte, cruza mar e montanha) = 0, nada bloqueia', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 20, kind: 'parada', meio: 'Portal' },
+      ],
+      terrenoDe: (c, r) => (r % 3 === 0 ? 'mar' : r % 3 === 1 ? 'muito_dificil' : undefined),
+      cfg: CFG4,
+    })
+    expect(v.total).toBe(0)
+    expect(v.passos[1]!.meios).toEqual(['Portal'])
+    expect(v.bloqueado).toBe(false)
+  })
+})
+
+describe('LACUNA entre hexes marcados não vizinhos herda o caráter da rota', () => {
+  it('estrada nas duas pontas: os hexes preenchidos contam como estrada (Caravana segue Caravana), custo do terreno da ponta', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 3, kind: 'parada', meio: 'Caravana' },
+      ],
+      // a linha reta passa por uma montanha e um hex sem estrada pintada
+      terrenoDe: mapaDe({ '10,1': 'muito_dificil' }),
+      rotaDe: mapaDe({ '10,0': 'estrada', '10,3': 'estrada' }),
+      cfg: CFG,
+    })
+    expect(v.passos[1]!.meios).toEqual(['Caravana'])
+    expect(v.total).toBeCloseTo(0.6, 12)
+    expect(v.trechos.get(1)!.partes).toEqual([{ meio: 'Caravana', dias: expect.closeTo(0.6, 12) }])
+  })
+  it('mar nas duas pontas: preenchidos contam como mar — Barco segue Barco mesmo se a reta cruza terra', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 4, kind: 'parada', meio: 'Barco' },
+      ],
+      // 10,1 e 10,2 = terra (terra → terra o Barco não faz)
+      terrenoDe: mapaDe({ '10,0': 'mar', '10,3': 'mar', '10,4': 'mar' }),
+      cfg: CFG,
+    })
+    expect(v.passos[1]!.meios).toEqual(['Barco'])
+    expect(v.total).toBeCloseTo(0.8, 12)
+    expect(v.bloqueado).toBe(false)
+  })
+  it('rota marítima nas duas pontas: preenchidos herdam a rota (⅙ por hex)', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 3, kind: 'parada', meio: 'Barco' },
+      ],
+      terrenoDe: mapaDe({ '10,0': 'mar', '10,3': 'mar' }),
+      rotaDe: mapaDe({ '10,0': 'rota_maritima', '10,3': 'rota_maritima' }),
+      cfg: CFG,
+    })
+    expect(v.total).toBe(0.5)
+  })
+  it('o meio dos preenchidos é o do passo (meioPasso do hex de chegada)', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'x', col: 10, row: 3, kind: 'caminho', meioPasso: 'Caravana' },
+        { id: 'b', col: 10, row: 4, kind: 'parada' },
+      ],
+      terrenoDe: () => undefined,
+      rotaDe: mapaDe({ '10,0': 'estrada', '10,3': 'estrada' }),
+      cfg: CFG_BASE,
+    })
+    expect(v.passos[1]!.meios).toEqual(['Caravana'])
+    expect(v.passos[1]!.dias).toBeCloseTo(0.6, 12)
+  })
+  it('pontas misturadas: cada hex preenchido usa o próprio terreno (como antes)', () => {
+    const v = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 3, kind: 'parada', meio: 'Caravana' },
+      ],
+      terrenoDe: () => undefined,
+      rotaDe: mapaDe({ '10,0': 'estrada' }),
+      cfg: CFG,
+    })
+    expect(v.passos[1]!.meios).toEqual(['A pé'])
+    expect(v.total).toBe(1.5)
+    // mar numa ponta e terra na outra: o meio do mar não atravessa a terra
+    const m = calcularViagem({
+      hexes: [
+        { id: 'a', col: 10, row: 0, kind: 'parada' },
+        { id: 'b', col: 10, row: 3, kind: 'parada', meio: 'Barco' },
+      ],
+      terrenoDe: mapaDe({ '10,0': 'mar' }),
+      cfg: CFG,
+    })
+    expect(m.passos[1]!.meios).toEqual(['Barco', 'A pé'])
+  })
 })

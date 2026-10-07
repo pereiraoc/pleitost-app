@@ -56,7 +56,7 @@ const DEF: ContextoDef = {
       { nome: 'Cavalo', icone: '🐎', hexPorDia: 3, em: ['normal', 'dificil'] },
       {
         nome: 'Caravana',
-        icone: '🛞',
+        icone: '🐪',
         padrao: true,
         hexPorDia: 4,
         em: ['normal', 'dificil', 'muito_dificil'],
