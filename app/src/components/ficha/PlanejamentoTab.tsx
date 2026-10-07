@@ -43,10 +43,9 @@ import {
   TECNICAS_PATH_PREFIX,
   TEC_GROUP_LETTER,
   Losango,
-  custoDigits,
   type HabChoice,
 } from './HabilidadesTab'
-import { ATTR_EMOJI, magiaEmoji, rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
+import { ATTR_EMOJI, magiaEmoji, rankGroupLabel, tokens, type RankLetter, type RankStateKey } from './registry'
 import { AttrBadge, RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
@@ -60,7 +59,7 @@ import { slugify } from './registry'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { ITEM_CARD_CSS, ItemHover, docImageUrl, docTier, itemCardHtml } from '../item-card'
 import { pushLog } from '../../data/debug-log'
-import { linkIconForEntry } from '../../markdown/link-icon'
+import { custoIcone, linkIcone } from '../AcaoIcone'
 
 // Emojis por TIPO de slot — do registro supercharged (supercharged-icons.ts;
 // nunca inventar): Perícia 🧠, Energia Mágica 🔷 (slots de magia), Técnica 📘,
@@ -161,7 +160,7 @@ function PlanChip({
    *  elemento/escola, ações pelo custo, etc). */
   fallbackIcon?: string
 }) {
-  const icone = linkIconForEntry(doc ?? undefined) || fallbackIcon || ''
+  const icone = linkIcone(doc ?? undefined) || fallbackIcon || ''
   const chip = (
     <span
       style={{
@@ -208,8 +207,9 @@ function PbRow({
   kickerTxt: string
   valor: string
   doc?: VaultDoc | null
-  /** Emoji do registro (linkIconForEntry do alvo, ou o do TIPO do slot). */
-  icon?: string
+  /** Ícone do registro (linkIcone do alvo — custo de ação vira <AcaoIcone> —,
+   *  ou o emoji do TIPO do slot). */
+  icon?: ReactNode
   depth?: number
   expanded: boolean
   onToggle: (rid: string) => void
@@ -969,7 +969,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             .filter((wl) => !conhecidas.has(wikiTarget(wl)))
             .map((wl) => {
               const d = docDe(wl) ?? (tecnicaDocs ? [...tecnicaDocs.values()].find((x) => x.basename === wikiTarget(wl)) : undefined)
-              const custo = d ? tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']) : ''
+              const custo = d ? custoIcone((d.inlineFields as Record<string, unknown>)['custo'], 'tecnica') : ''
               return { wl, d, custo }
             })
           if (!linhas.length) return null
@@ -985,7 +985,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                         aplicaTecnica(wl, rank),
                       ),
                     )}
-                    <span style={{ fontSize: 12, flex: 'none', width: 17, textAlign: 'center' }}>{custo}</span>
+                    <span style={{ fontSize: 12, flex: 'none', minWidth: 17, textAlign: 'center' }}>{custo}</span>
                     <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
                     <ItemHover doc={d ?? undefined} fullBody>
                       <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -1722,11 +1722,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             doc={docDe(wl)}
             icon={(() => {
               const d = docDe(wl)
-              const viaRegistro = linkIconForEntry(d)
+              const viaRegistro = linkIcone(d)
               if (viaRegistro) return viaRegistro
               // Ações não têm categoria no mapa — usam o badge de CUSTO,
               // como as Ações de Habilidade da ficha
-              const custo = d ? custoDigits((d.frontmatter as Record<string, unknown>)['custo']) : ''
+              const custo = d ? custoIcone((d.frontmatter as Record<string, unknown>)['custo'], 'badge') : ''
               return custo || undefined
             })()}
             depth={depth}
@@ -1754,7 +1754,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               icon={(() => {
                 const d = docDe(m.link)
                 return (
-                  linkIconForEntry(d) ||
+                  linkIcone(d) ||
                   (d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia)
                 )
               })()}
@@ -1823,7 +1823,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             kickerTxt={r.kicker}
             valor={r.valor}
             doc={r.doc}
-            icon={linkIconForEntry(r.doc ?? undefined) || r.icon}
+            icon={linkIcone(r.doc ?? undefined) || r.icon}
             expanded={expandidos.has(r.rid)}
             onToggle={toggleRow}
           />

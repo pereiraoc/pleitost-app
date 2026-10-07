@@ -93,9 +93,9 @@ import {
   magiaEmoji,
   rankGroupLabel,
   slugify,
-  tecnicaCustoEmoji,
   tokens,
 } from './registry'
+import { custoIcone } from '../AcaoIcone'
 import {
   fmOf,
   fmPath,
@@ -175,11 +175,7 @@ const PROF_COLS_EDIT_SEM_ITEM = 'minmax(96px,1.25fr) 0.75fr 1fr'
  *  quando não é numérico ("R" reação, "L" livre, "P", "Min"). Antes o não-numérico
  *  caía em "" e a reação virava um quadradinho VAZIO (#329) — agora mostra "R".
  *  Fonte de verdade = o próprio valor do campo `custo`, nada inventado. */
-export function custoDigits(custo: unknown): string {
-  const c = str(custo).trim()
-  const m = /^(\d+)/.exec(c)
-  return m ? m[1]! : c
-}
+export { custoDigits } from '../acao-custo'
 
 /** Rank (Adepta/Experiente/Mestre) de um doc: inline rank::, senão subcategoria. */
 export function docRankGroup(doc: VaultDoc | undefined): string {
@@ -2662,7 +2658,7 @@ export function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {entries.map((e) => {
           const d = refs.refDoc(e.target)
-          const badge = custoDigits(fmOf(d)['custo'])
+          const badge = custoIcone(fmOf(d)['custo'], 'badge')
           return (
             <div key={e.target} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Losango />
@@ -2880,7 +2876,7 @@ export function TecnicasPanel({
   const naoAprendidas = useMemo(() => {
     if (!edit || !tecnicaDocs) return []
     const learned = new Set(entries.map((e) => e.target))
-    const byRank = new Map<string, { custo: string; txt: string; doc: VaultDoc }[]>()
+    const byRank = new Map<string, { custo: ReactNode; txt: string; doc: VaultDoc }[]>()
     for (const d of tecnicaDocs.values()) {
       if (learned.has(d.basename)) continue
       // Filtro de classe pelo `classe::` da nota — espelho de
@@ -2896,7 +2892,7 @@ export function TecnicasPanel({
       if (!letter || num(slotsFmTec?.[letter]) <= 0) continue
       const list = byRank.get(rank) ?? []
       list.push({
-        custo: tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']),
+        custo: custoIcone((d.inlineFields as Record<string, unknown>)['custo'], 'tecnica'),
         txt: d.basename,
         doc: d,
       })
@@ -3171,7 +3167,7 @@ export function TecnicasPanel({
                       >
                         +
                       </button>
-                      <span style={{ fontSize: 12, flex: 'none', width: 17, textAlign: 'center' }}>
+                      <span style={{ fontSize: 12, flex: 'none', minWidth: 17, textAlign: 'center' }}>
                         {row.custo}
                       </span>
                       <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
@@ -3657,7 +3653,7 @@ export function MagiasHabPanel({
                                   flex: 'none',
                                 }}
                               >
-                                {custoDigits(spellFm['custo'])}
+                                {custoIcone(spellFm['custo'], 'badge')}
                               </span>
                               <span style={{ fontSize: 13, flex: 'none' }}>{magiaEmoji(spellFm)}</span>
                               <ItemHover doc={refs.refDoc(e.target)} fullBody formulaCtx={formulaCtxDeMagia(mfm, nome)}>
@@ -3800,7 +3796,7 @@ export function MagiasHabPanel({
                                     flex: 'none',
                                   }}
                                 >
-                                  {custoDigits(d.frontmatter['custo'])}
+                                  {custoIcone(d.frontmatter['custo'], 'badge')}
                                 </span>
                                 <span style={{ fontSize: 13, flex: 'none' }}>
                                   {magiaEmoji(d.frontmatter as Record<string, unknown>)}

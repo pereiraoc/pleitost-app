@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { docPath } from '../paths'
 import { useDetail, type DetailTarget } from '../data/detail-context'
+import type { AcaoTipo } from './acao-custo'
+import { ACAO_NO_LINK, AcaoIcone } from './AcaoIcone'
 
 /** id do doc a partir de um caminho /doc/<segmentos codificados> (inverso do docPath). */
 function docIdFromPath(to: string): string | undefined {
@@ -36,6 +38,7 @@ export function DetailLink({
   className,
   children,
   dataLinkIcon,
+  acao,
   detailKind = 'doc',
 }: {
   id?: string
@@ -48,7 +51,11 @@ export function DetailLink({
    *  a[data-link-icon]::before o prepende). Sem repassar isto, o ícone se perdia
    *  no render dos wikilinks (o override do MarkdownBody só passava href/children). */
   dataLinkIcon?: string
+  /** Custo de ação do doc-alvo: desenha o <AcaoIcone> antes do rótulo, no
+   *  lugar do emoji supercharged (o svg não entra no textContent). */
+  acao?: AcaoTipo | null
 }) {
+  const icone = acao ? <AcaoIcone tipo={acao} style={ACAO_NO_LINK} /> : null
   const detail = useDetail()
   const docId = id ?? (to ? docIdFromPath(to) : undefined)
   // `to` é HREF, `id` é ID DE DOC. Passar um id cru em `to` gera href RELATIVO,
@@ -69,12 +76,14 @@ export function DetailLink({
           detail.open({ kind: detailKind, id: docId })
         }}
       >
+        {icone}
         {children}
       </a>
     )
   }
   return (
     <Link to={href} className={className} data-link-icon={dataLinkIcon || undefined}>
+      {icone}
       {children}
     </Link>
   )

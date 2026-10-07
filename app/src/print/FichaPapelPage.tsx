@@ -12,6 +12,7 @@ import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
 import { familiaOf, familiaTemPericia } from '../data/familia'
+import { custoIcone } from '../components/AcaoIcone'
 import { COND_CATEGORIA_POR_ID, COND_CATEGORIAS_ORDEM, COND_GRUPOS, custoEmoji, slugify } from '../components/ficha/registry'
 import {
   baseDoItem,
@@ -255,12 +256,12 @@ function Linha({ it }: { it: ItemResumo }) {
   return (
     <div className="pp-ln">
       {it.tag ? <span className="pp-tag">{it.tag}</span> : null}
-      {/* custo VERBATIM da vault (1A/2A/P/L/R...) — não existe registro de
-          rótulo textual, então nada de traduzir/inventar label aqui. */}
+      {/* custo da vault: de ação (1A/2A/3A/L/R) → glifo <AcaoIcone>; os
+          demais (P...) seguem VERBATIM — nada de traduzir/inventar label. */}
       {it.custo ? (
         <>
           {' '}
-          <span className="pp-tag pp-tag-custo">{it.custo}</span>
+          <span className="pp-tag pp-tag-custo">{custoIcone(it.custo, 'texto')}</span>
         </>
       ) : null}{' '}
       <b>{it.nome}</b>

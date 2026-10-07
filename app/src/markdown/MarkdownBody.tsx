@@ -14,7 +14,9 @@ import { remarkSoftBreaks } from './remark-soft-breaks'
 import { remarkInlineDataview } from './remark-inline-dataview'
 import { remarkReskinText } from './remark-reskin-text'
 import { remarkWikilinks } from './remark-wikilinks'
-import { linkIconForEntry } from './link-icon'
+import { linkAcaoForEntry, linkIconForEntry } from './link-icon'
+import { acaoTipo } from '../components/acao-custo'
+import { ACAO_NO_LINK, AcaoIcone } from '../components/AcaoIcone'
 import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { useRefInterna } from './ref-interna'
@@ -90,6 +92,8 @@ export function MarkdownBody({
           resolve: catalog.resolve,
           // #303: ícones supercharged nos links (toggle do CONFIG, default on).
           iconFor: linkIcons ? (id) => linkIconForEntry(catalog.entryById.get(id)) : undefined,
+          // custo de ação no lugar do emoji: glifo <AcaoIcone> (acao-custo.ts)
+          acaoFor: linkIcons ? (id) => linkAcaoForEntry(catalog.entryById.get(id)) : undefined,
         }),
       // #519: cascata de termos do mundo na prosa (depois dos wikilinks —
       // labels já saem reskinados de lá; aqui é o texto solto).
@@ -128,17 +132,20 @@ export function MarkdownBody({
         // o ícone se perdia e o ::before nunca disparava).
         const rawIcon = (props as Record<string, unknown>)['data-link-icon']
         const icon = typeof rawIcon === 'string' ? rawIcon : undefined
+        // custo de ação (data-link-acao do remark-wikilinks) → glifo no lugar do emoji
+        const acao = acaoTipo((props as Record<string, unknown>)['data-link-acao'])
         // #88: links de doc abrem nos DETALHES da sidebar (se houver); demais
         // internos roteiam pela SPA; externos abrem em nova aba.
         if (href?.startsWith('/doc/'))
           return (
-            <DetailLink to={href} dataLinkIcon={icon}>
+            <DetailLink to={href} dataLinkIcon={icon} acao={acao}>
               {children}
             </DetailLink>
           )
         if (href?.startsWith('/'))
           return (
             <Link to={href} data-link-icon={icon || undefined}>
+              {acao ? <AcaoIcone tipo={acao} style={ACAO_NO_LINK} /> : null}
               {children}
             </Link>
           )

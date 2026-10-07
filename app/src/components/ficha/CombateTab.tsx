@@ -17,7 +17,8 @@
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { formulaCtxDeMagia, type FormulaCtx } from '../../interativa/formula-ctx'
 import { execucaoDe } from '../../interativa/execucao'
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { custoIcone } from '../AcaoIcone'
 import { reskinExecucao, reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote, linkLabelDisplay } from '../../markdown/dataview-value'
@@ -73,7 +74,6 @@ import {
   MANOBRAS,
   RANK_EM_CUSTO,
   RANK_GROUP_ORDER,
-  custoEmoji,
   defesaEmoji,
   displayName,
   ESPECIALIDADE_EMOJI,
@@ -2560,9 +2560,10 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                       }}
                     >
                       {(() => {
-                        // Ícone do CUSTO de ações (1️⃣/2️⃣/3️⃣/↩️…) em vez do
+                        // Ícone do CUSTO de ações (glifo de 1/2/3 ações, reação,
+                        // livre; emoji do registro pros demais) em vez do
                         // pontinho — fonte: `custo` do doc da ação (#164).
-                        const ico = custoEmoji(docField(ac, 'custo'))
+                        const ico = custoIcone(docField(ac, 'custo'))
                         return ico ? (
                           <span style={{ fontSize: 11 }}>{ico}</span>
                         ) : (
@@ -2781,7 +2782,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 interface MagiaRow {
   n: string
   ic: string
-  acao: string
+  acao: ReactNode
   doc?: VaultDoc
   /** #466: potência do bloco + MOD da escola — o hover interpola as fórmulas. */
   formulaCtx?: FormulaCtx
@@ -2805,7 +2806,7 @@ export function magiaGroups(
       const row: MagiaRow = {
         n: entry.label,
         ic: magiaEmoji(spellFm),
-        acao: custoEmoji(spellFm['custo']),
+        acao: custoIcone(spellFm['custo']),
         doc: spellDoc ?? undefined,
         formulaCtx: formulaCtxDeMagia(fm, str(escola['Nome'])),
       }

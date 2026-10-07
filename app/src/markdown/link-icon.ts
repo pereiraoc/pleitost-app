@@ -10,6 +10,7 @@
 import type { IndexDocEntry } from '../data/types'
 import { reskinName } from '../data/reskin'
 import { SC_SELECTORS, type ScSelector } from './supercharged-icons'
+import { custoAcaoTipo, type AcaoTipo } from '../components/acao-custo'
 
 export type IconEntry = Pick<IndexDocEntry, 'type' | 'subtype' | 'grupo'> &
   Partial<Pick<IndexDocEntry, 'path' | 'custo' | 'escola' | 'elemento' | 'sintonia' | 'tipo'>>
@@ -74,14 +75,28 @@ function casa(sel: ScSelector, entry: IconEntry): boolean {
  *  entrada de índice OU o VaultDoc inteiro (mesmas facetas). '' = sem ícone,
  *  como no Obsidian quando nenhum seletor casa. */
 export function linkIconForEntry(entry: IconEntry | undefined): string {
-  if (!entry) return ''
+  return seletorVencedor(entry)?.icone ?? ''
+}
+
+/** O seletor que vence a cascata pro doc-alvo (o último que casa), ou null. */
+function seletorVencedor(entry: IconEntry | undefined): ScSelector | null {
+  if (!entry) return null
   // Mundo com Empregado (POA): patinhas não — o CA vira gente/drone.
   const alvo: IconEntry =
     entry.subtype?.normalize('NFC').trim() === 'Companheiro Animal' &&
     reskinName('Companheiro Animal') !== 'Companheiro Animal'
       ? { ...entry, subtype: 'Heroi', grupo: null }
       : entry
-  let icone = ''
-  for (const sel of SC_SELECTORS) if (casa(sel, alvo)) icone = sel.icone
-  return icone
+  let vencedor: ScSelector | null = null
+  for (const sel of SC_SELECTORS) if (casa(sel, alvo)) vencedor = sel
+  return vencedor
+}
+
+/** Quando o ícone do link é um CUSTO DE AÇÃO (o seletor vencedor é o de
+ *  `custo` 1A/2A/3A/L/R), o tipo pro <AcaoIcone> — quem renderiza desenha o
+ *  glifo no lugar do emoji (que segue em linkIconForEntry pra texto puro). */
+export function linkAcaoForEntry(entry: IconEntry | undefined): AcaoTipo | null {
+  const sel = seletorVencedor(entry)
+  if (!sel || sel.tipo !== 'attribute' || sel.nome.toLowerCase() !== 'custo') return null
+  return custoAcaoTipo(sel.valor)
 }

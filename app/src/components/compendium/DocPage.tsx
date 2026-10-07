@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
 import type { VaultDoc } from '../../data/types'
-import { linkIconForEntry } from '../../markdown/link-icon'
+import { linkIcone } from '../AcaoIcone'
 import { reskinName, reskinText } from '../../data/reskin'
 import { tokens } from '../ficha/registry'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
@@ -66,14 +66,14 @@ function DocViewCorpo({
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
   // Emoji do doc = o MESMO do link supercharged (facetas), como no Obsidian.
-  const icone = linkIconForEntry(doc) || escolaIcon(doc.basename)
+  const icone = linkIcone(doc) || escolaIcon(doc.basename)
 
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
-        <h1>{icone ? `${icone} ` : ''}{reskinName(doc.basename)}</h1>
+        <h1>{icone ? <>{icone} </> : ''}{reskinName(doc.basename)}</h1>
         {/* Feedback do mestre: a categoria (doc.type) foi pro kicker; aqui fica
             só o subtype quando existe (ex.: "Arcana Negra"). */}
         {doc.subtype ? <span className="doc-type">{reskinText(doc.subtype)}</span> : null}

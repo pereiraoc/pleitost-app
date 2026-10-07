@@ -10,7 +10,7 @@
 // coluna de leitura renderiza ambas bem (o MarkdownBody avalia o dataview).
 import type { VaultDoc } from '../../data/types'
 import { reskinName } from '../../data/reskin'
-import { linkIconForEntry } from '../../markdown/link-icon'
+import { linkIcone } from '../AcaoIcone'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
@@ -35,7 +35,7 @@ export function RegraView({
         {/* Emoji pela FACETA (supercharged): subtype decide — "Potência
             Mágica" 🌟, "Energia Mágica" 🔷, o mesmo dos chips/links (#452 r8);
             sem faceta casada, 📕 (o padrão histórico das Regras). */}
-        <h1>{linkIconForEntry(doc) || '📕'} {reskinName(doc.basename)}</h1>
+        <h1>{linkIcone(doc) || '📕'} {reskinName(doc.basename)}</h1>
         <span className="doc-type">Regra{doc.subtype ? ` · ${doc.subtype}` : ''}</span>
       </header>
       <div className="doc-reading-body">

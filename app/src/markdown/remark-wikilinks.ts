@@ -12,6 +12,10 @@ interface Options {
   /** #303: ícone (emoji) do link resolvido — prefixado ao rótulo quando não-vazio
    *  (supercharged links). Ausente/'' → link sem ícone. */
   iconFor?: (id: string) => string
+  /** Custo de ação do doc-alvo (1/2/3 ações, reação, livre) — quando presente
+   *  o link leva `data-link-acao` e o render desenha o <AcaoIcone> no lugar do
+   *  emoji de iconFor. */
+  acaoFor?: (id: string) => string | null
 }
 
 /**
@@ -24,7 +28,7 @@ interface Options {
  * A `#subpath` já foi colapsada no nível da string (normalizeNoteEmbeds), então
  * aqui o embed chega como um único token casável.
  */
-export function remarkWikilinks({ resolve, iconFor }: Options) {
+export function remarkWikilinks({ resolve, iconFor, acaoFor }: Options) {
   return (tree: Root) => {
     findAndReplace(tree, [
       WIKILINK,
@@ -87,12 +91,17 @@ export function remarkWikilinks({ resolve, iconFor }: Options) {
         // #303: ícone (supercharged) do doc-alvo como ATRIBUTO — CSS o prepende
         // via ::before (como o Obsidian). Não entra no textContent, então o
         // rótulo do link segue navegável/buscável pelo texto puro.
-        const icon = iconFor?.(res.id) ?? ''
+        const acao = acaoFor?.(res.id) ?? null
+        const icon = acao ? '' : (iconFor?.(res.id) ?? '')
         return {
           type: 'link',
           url: docPath(res.id),
           children: [{ type: 'text', value: label }],
-          ...(icon ? { data: { hProperties: { 'data-link-icon': icon } } } : {}),
+          ...(acao
+            ? { data: { hProperties: { 'data-link-acao': acao } } }
+            : icon
+              ? { data: { hProperties: { 'data-link-icon': icon } } }
+              : {}),
         }
       },
     ])
