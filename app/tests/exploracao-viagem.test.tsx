@@ -23,6 +23,7 @@ import {
   getGroupState,
   groupStateJson,
   setGroupStateFull,
+  setMeioPasso,
   setMeioTrecho,
 } from '../src/data/group-store'
 import { InMemorySessionRepo } from '../src/data/session-repo/in-memory'
@@ -638,5 +639,125 @@ describe('pintor de terreno (Modo Dev)', () => {
     expect(fm.Terreno.dificil).toEqual(['60,22'])
     // clique durante a pintura não vira parada nem seleção
     expect(getGroupState(GROUP_ID).hexes).toHaveLength(3)
+  })
+})
+
+// MEIO POR ITEM (2026-10-06, "trecho define, item ajusta"): no EDITAR, cada
+// hex DENTRO de um trecho (filho da rota aberta e a própria parada de
+// chegada) ganha um seletor pequeno que ajusta SÓ o passo que entra nele
+// (`GroupHex.meioPasso`). "Herdar do trecho" limpa. Trocar o meio do trecho
+// limpa os ajustes daquele trecho.
+describe('meio por item do caminho', () => {
+  const trilha = () =>
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'b', col: 60, row: 21, kind: 'caminho' },
+        { id: 'c', col: 60, row: 22, kind: 'caminho' },
+        { id: 'd', col: 60, row: 23, kind: 'parada' },
+        { id: 'e', col: 60, row: 24, kind: 'caminho' },
+        { id: 'f', col: 60, row: 25, kind: 'parada' },
+      ],
+    })
+  const meioPasso = (id: string) => getGroupState(GROUP_ID).hexes.find((h) => h.id === id)!.meioPasso
+
+  it('store: setMeioPasso grava/limpa; setMeioTrecho limpa os ajustes SÓ do trecho; sync preserva', () => {
+    trilha()
+    setMeioPasso(GROUP_ID, 'b', 'Cavalo')
+    setMeioPasso(GROUP_ID, 'd', 'Cavalo')
+    setMeioPasso(GROUP_ID, 'e', 'Cavalo')
+    expect(meioPasso('b')).toBe('Cavalo')
+    expect(groupStateJson(getGroupState(GROUP_ID))).toContain('"meioPasso":"Cavalo"')
+    __resetGroupStoreMemoryForTests() // reload: hidrata do localStorage
+    expect(meioPasso('b')).toBe('Cavalo')
+    setMeioPasso(GROUP_ID, 'b', null)
+    expect('meioPasso' in getGroupState(GROUP_ID).hexes.find((h) => h.id === 'b')!).toBe(false)
+    setMeioPasso(GROUP_ID, 'b', 'A pé')
+    setMeioTrecho(GROUP_ID, 'd', 'Navio') // trecho a→d = b, c, d
+    expect(meioPasso('b')).toBeUndefined()
+    expect(meioPasso('d')).toBeUndefined()
+    expect(meioPasso('e')).toBe('Cavalo') // outro trecho (d→f)
+    expect(getGroupState(GROUP_ID).hexes.find((h) => h.id === 'd')!.meio).toBe('Navio')
+  })
+
+  it('seletor por item só no EDITAR, só dentro de trechos (filhos + parada de chegada)', async () => {
+    trilha()
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-collapsed-run="a"]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
+    expect(container.querySelector('[data-meio-passo]')).toBeNull()
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    const ids = [...container.querySelectorAll('[data-meio-passo]')].map((b) => b.getAttribute('data-meio-passo'))
+    // 'a' é a partida; o passo da PARADA de chegada só com a rota dela aberta
+    expect(ids).toEqual(['b', 'c', 'd'])
+    fireEvent.click(container.querySelector('[data-collapsed-run="d"]')!)
+    const ids2 = [...container.querySelectorAll('[data-meio-passo]')].map((b) => b.getAttribute('data-meio-passo'))
+    expect(ids2).toEqual(['b', 'c', 'd', 'e', 'f'])
+  })
+
+  it('trecho de um passo só (parada → parada) não ganha seletor extra', async () => {
+    const { container } = renderPanel(DEF)
+    setGroupStateFull(GROUP_ID, {
+      grade: 'mundo',
+      hexes: [
+        { id: 'a', col: 60, row: 20, kind: 'parada' },
+        { id: 'c', col: 60, row: 21, kind: 'parada' },
+      ],
+    })
+    await waitFor(() => expect(container.querySelector('[data-editar-trilha]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    await waitFor(() => expect(container.querySelector('[data-meio-trecho="c"]')).not.toBeNull())
+    expect(container.querySelector('[data-meio-passo]')).toBeNull()
+  })
+
+  it('escolher um meio pro item muda só aquele passo; Herdar do trecho limpa', async () => {
+    trilha()
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-collapsed-run="a"]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-collapsed-run="a"]')!)
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-passo="c"]')!)
+    const menu = container.querySelector('[data-meio-menu="c"]')!
+    expect([...menu.querySelectorAll('[role="menuitemradio"]')].map((b) => b.getAttribute('data-meio-opcao'))).toEqual([
+      '',
+      'A pé',
+      'Cavalo',
+      'Carruagem',
+      'Navio',
+    ])
+    expect(menu.querySelector('[data-meio-opcao=""]')!.textContent).toContain('Herdar do trecho')
+    expect(menu.querySelector('[data-meio-opcao=""]')!.getAttribute('aria-checked')).toBe('true')
+    const previa = (m: string) => menu.querySelector(`[data-meio-opcao="${m}"] [data-meio-previa]`)?.textContent
+    expect(previa('')).toBe('🚶 ½ dia')
+    expect(previa('Cavalo')).toBe('🐎 ⅓ dia')
+    expect(menu.querySelector('[data-meio-opcao="Navio"]')!.hasAttribute('data-meio-inutil')).toBe(true)
+    expect(menu.querySelector('[data-meio-opcao="Navio"]')!.textContent).toContain('só em Mar navegável')
+    fireEvent.click(menu.querySelector('[data-meio-opcao="Cavalo"]')!)
+    expect(meioPasso('c')).toBe('Cavalo')
+    expect(container.querySelector('[data-meio-menu]')).toBeNull()
+    await waitFor(() => expect(container.querySelector('[data-viagem-passo="c"]')!.textContent).toBe('🐎 ⅓ dia'))
+    expect(container.querySelector('[data-viagem-passo="b"]')!.textContent).toBe('🚶 ½ dia')
+    expect(container.querySelector('[data-viagem-trecho="d"]')!.textContent).toBe('🚶🐎 1⅓ dias')
+    const btn = container.querySelector('[data-meio-passo="c"]')!
+    expect(btn.hasAttribute('data-meio-passo-ajustado')).toBe(true)
+    expect(btn.textContent).toBe('🐎')
+    expect(container.querySelector('[data-meio-passo="b"]')!.hasAttribute('data-meio-passo-ajustado')).toBe(false)
+    // herdar
+    fireEvent.click(btn)
+    fireEvent.click(container.querySelector('[data-meio-menu="c"] [data-meio-opcao=""]')!)
+    expect(meioPasso('c')).toBeUndefined()
+    await waitFor(() => expect(container.querySelector('[data-viagem-passo="c"]')!.textContent).toBe('🚶 ½ dia'))
+  })
+
+  it('trocar o meio do TRECHO limpa os ajustes dos itens dele', async () => {
+    trilha()
+    setMeioPasso(GROUP_ID, 'b', 'Cavalo')
+    const { container } = renderPanel(DEF)
+    await waitFor(() => expect(container.querySelector('[data-meio-trecho]') ?? container.querySelector('[data-editar-trilha]')).not.toBeNull())
+    fireEvent.click(container.querySelector('[data-editar-trilha]')!)
+    fireEvent.click(container.querySelector('[data-meio-trecho="d"]')!)
+    fireEvent.click(container.querySelector('[data-meio-menu="d"] [data-meio-opcao="A pé"]')!)
+    expect(meioPasso('b')).toBeUndefined()
   })
 })

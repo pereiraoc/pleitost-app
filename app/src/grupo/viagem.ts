@@ -15,6 +15,11 @@
 //    estrada, cavalo na montanha, navio em terra) cai no AUTOMÁTICO. Sem
 //    escolha = automático em todo o trecho. Nome que a config não conhece =
 //    sem escolha.
+//  • AJUSTE POR ITEM (2026-10-06, "trecho define, item ajusta"): qualquer
+//    hex do trecho (caminho ou a própria parada de chegada) pode ter
+//    `GroupHex.meioPasso` — vale SÓ no passo que ENTRA nele. Resolução:
+//    meioPasso ?? meio do trecho ?? automático, sempre respeitando o terreno
+//    (o resolvido não faz o passo → automático naquele passo).
 //  • SÓ ENTRE PARADAS (2026-10-06, "a distância sempre tem que ser entre
 //    trechos, não antes ou depois"): caminho ANTES da 1ª parada e DEPOIS da
 //    última não tem trecho → sem passo (null), fora do total, sem bloqueio.
@@ -265,6 +270,9 @@ export interface PassoViagem {
   /** Chave do terreno efetivo (pintado ou padrão) do hex de chegada. */
   terreno: string
   bloqueado: boolean
+  /** Ajuste do item (`meioPasso` do hex entrado, nome conhecido): o meio
+   *  pedido SÓ pra este passo; ausente = herda do trecho. */
+  ajuste?: string
 }
 
 /** Trecho que CHEGA numa parada: da parada anterior até ela — o tempo que a
@@ -294,17 +302,20 @@ export interface Viagem {
   bloqueado: boolean
 }
 
+type HexViagem = Hex & { kind?: 'parada' | 'caminho'; meio?: string; meioPasso?: string }
+
 export function calcularViagem({
   hexes,
   terrenoDe,
   cfg,
   ehParada = (h) => h.kind !== 'caminho',
 }: {
-  /** `meio` na PARADA = meio escolhido do trecho que chega nela. */
-  hexes: readonly (Hex & { kind?: 'parada' | 'caminho'; meio?: string })[]
+  /** `meio` na PARADA = meio escolhido do trecho que chega nela;
+   *  `meioPasso` em qualquer hex = ajuste SÓ do passo que entra nele. */
+  hexes: readonly HexViagem[]
   terrenoDe: (col: number, row: number) => string | undefined
   cfg: ViagemCfg
-  ehParada?: (h: Hex & { kind?: 'parada' | 'caminho'; meio?: string }) => boolean
+  ehParada?: (h: HexViagem) => boolean
 }): Viagem {
   // escolha por hex ENTRADO: a da parada de chegada do trecho (varre de trás
   // pra frente). Só há trecho entre a 1ª e a última parada.
@@ -315,6 +326,8 @@ export function calcularViagem({
     if (ehParada(hexes[i]!)) corrente = conhecido(hexes[i]!.meio)
     escolhaDe[i] = corrente
   }
+  // ajuste do item (meioPasso) vence o meio do trecho, só no passo dele
+  const ajusteDe = hexes.map((h) => conhecido(h.meioPasso))
   const segs: { seg: SegmentoViagem; soma: Soma }[] = []
   const passos: (PassoViagem | null)[] = hexes.length ? [null] : []
   const trechos = new Map<number, TrechoViagem>()
@@ -342,10 +355,12 @@ export function calcularViagem({
     let bloqueado = false
     let ultimo: { meio: string | null; terreno: string } = { meio: null, terreno: cfg.padrao }
     const meiosPasso: string[] = []
+    const ajuste = ajusteDe[i + 1]
+    const escolhaPasso = ajuste ?? escolhaDe[i + 1]
     for (let k = 1; k < linha.length; k++) {
       const p = linha[k]!
       const chave = terrenoDe(p.col, p.row)
-      const c = custoComEscolha(chave, cfg, escolhaDe[i + 1])
+      const c = custoComEscolha(chave, cfg, escolhaPasso)
       const terreno = terrenoEfetivo(chave, cfg)?.chave ?? cfg.padrao
       ultimo = { meio: c.meio, terreno }
       if (c.dias === null) {
@@ -360,7 +375,8 @@ export function calcularViagem({
         let pm = trecho.porMeio.get(c.meio!)
         if (!pm) trecho.porMeio.set(c.meio!, (pm = new Soma()))
         pm.add(c)
-        if (c.fallback) {
+        // fallback do MEIO DO TRECHO (o ajuste do item não conta aqui)
+        if (c.fallback && !ajuste) {
           let ts = trecho.fallbackTerrenos.get(c.meio!)
           if (!ts) trecho.fallbackTerrenos.set(c.meio!, (ts = []))
           if (!ts.includes(terreno)) ts.push(terreno)
@@ -368,7 +384,14 @@ export function calcularViagem({
         if (!meiosPasso.includes(c.meio!)) meiosPasso.push(c.meio!)
       }
     }
-    passos.push({ dias: andou ? passo.valor : null, meio: ultimo.meio, meios: meiosPasso, terreno: ultimo.terreno, bloqueado })
+    passos.push({
+      dias: andou ? passo.valor : null,
+      meio: ultimo.meio,
+      meios: meiosPasso,
+      terreno: ultimo.terreno,
+      bloqueado,
+      ...(ajuste ? { ajuste } : {}),
+    })
     // chegou numa PARADA: fecha o trecho (da parada anterior / início até aqui)
     if (ehParada(next)) {
       const meiosT = [...trecho.porMeio.keys()]

@@ -60,7 +60,6 @@ import {
   custoHexNoTrecho,
   meioDoTrecho,
   terrenoDoHex,
-  type TrechoViagem,
   type ViagemCfg,
 } from './viagem'
 import { gravarTracoTerreno, hexesPath, useTerrenoMundo } from './terreno-mundo'
@@ -84,6 +83,7 @@ import {
   moveGroupHex,
   removeGroupHex,
   setAtualHex,
+  setMeioPasso,
   setMeioTrecho,
   setRegiaoAtiva,
   subscribeGroup,
@@ -426,41 +426,55 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
   return segs
 }
 
-/** Seletor ÚNICO do meio de um TRECHO (viagem do hexcrawl, 2026-10-06 —
- *  "um meio por trecho"): menu inline sob a linha da parada, SÓ no EDITAR.
- *  "Automático" limpa (`GroupHex.meio` some); um meio grava na parada de
- *  chegada. O meio vale nos hexes onde o terreno deixa; o resto cai no
- *  automático (viagem.ts). */
-function MeioTrechoMenu({
+/** Prévia de uma opção do menu de meio: como o trecho (ou o passo) fica. */
+interface PreviaMeio {
+  dias: number | null
+  meios: string[]
+  bloqueado: boolean
+}
+
+/** Seletor do meio (viagem do hexcrawl, 2026-10-06), menu inline SÓ no
+ *  EDITAR. `alvo: 'trecho'` — "um meio por trecho": "Automático" limpa
+ *  (`GroupHex.meio` some), um meio grava na parada de chegada. `alvo:
+ *  'passo'` — "trecho define, item ajusta": "Herdar do trecho" limpa
+ *  (`GroupHex.meioPasso` some), um meio vale SÓ no passo que entra no hex.
+ *  O meio vale onde o terreno deixa; o resto cai no automático (viagem.ts). */
+function MeioMenu({
   cfg,
   hexId,
+  alvo,
   atual,
   previa,
   onEscolher,
 }: {
   cfg: ViagemCfg
   hexId: string
+  alvo: 'trecho' | 'passo'
   atual: string | undefined
-  /** Como o trecho fica com cada escolha (report 2026-10-06: sem terreno
-   *  pintado, Carruagem/Navio caíam no automático em silêncio — "não muda").
-   *  null = automático. */
-  previa: (meio: string | null) => TrechoViagem | undefined
+  /** Como o trecho/passo fica com cada escolha (report 2026-10-06: sem
+   *  terreno pintado, Carruagem/Navio caíam no automático em silêncio — "não
+   *  muda"). null = automático / herdar. */
+  previa: (meio: string | null) => PreviaMeio | undefined
   onEscolher: (meio: string | null) => void
 }) {
   const nomeT = (k: string) => cfg.terrenos.find((t) => t.chave === k)?.nome ?? k
   const opcoes: { nome: string; rotulo: string; dica: string }[] = [
-    { nome: '', rotulo: 'Automático', dica: 'O mais rápido entre os meios padrão em cada hex' },
+    alvo === 'trecho'
+      ? { nome: '', rotulo: 'Automático', dica: 'O mais rápido entre os meios padrão em cada hex' }
+      : { nome: '', rotulo: 'Herdar do trecho', dica: 'Usa o meio escolhido pro trecho (ou o automático)' },
     ...cfg.meios.map((m) => ({
       nome: m.nome,
       rotulo: `${m.icone} ${m.nome}`,
       dica: `${m.hexPorDia} hex/dia · ${m.em.map(nomeT).join(', ')}`,
     })),
   ]
+  const aqui = alvo === 'trecho' ? 'deste trecho' : 'deste passo'
   return (
     <div
       data-meio-menu={hexId}
+      data-meio-menu-alvo={alvo}
       role="menu"
-      aria-label="Meio do trecho"
+      aria-label={alvo === 'trecho' ? 'Meio do trecho' : 'Meio deste passo'}
       onClick={(e) => e.stopPropagation()}
       style={{
         display: 'flex',
@@ -477,11 +491,15 @@ function MeioTrechoMenu({
         const on = (atual ?? '') === o.nome
         const t = previa(o.nome || null)
         const meioCfg = o.nome ? cfg.meios.find((m) => m.nome === o.nome) : undefined
-        // escolhido mas não anda em NENHUM hex do trecho → tudo no automático
+        // escolhido mas não anda em NENHUM hex do trecho/passo → automático
         const inutil = !!meioCfg && !!t && !t.meios.includes(o.nome)
-        const tempo = t
-          ? `${t.bloqueios.length ? '⚠ ' : ''}${t.meios.map((m) => iconeDoMeio(cfg, m)).join('')} ${formatarDias(t.dias)}`
-          : ''
+        const terrenosMeio = meioCfg ? meioCfg.em.map(nomeT).join(', ') : ''
+        const tempo =
+          t && t.dias !== null
+            ? `${t.bloqueado ? '⚠ ' : ''}${t.meios.map((m) => iconeDoMeio(cfg, m)).join('')} ${formatarDias(t.dias)}`
+            : t?.bloqueado
+              ? '⚠'
+              : ''
         return (
           <button
             key={o.nome || 'auto'}
@@ -490,7 +508,7 @@ function MeioTrechoMenu({
             aria-checked={on}
             data-meio-opcao={o.nome}
             {...(inutil ? { 'data-meio-inutil': '' } : {})}
-            title={inutil ? `${o.dica}\nNão anda em nenhum hex deste trecho — fica tudo no automático` : o.dica}
+            title={inutil ? `${o.dica}\nNão anda em nenhum hex ${aqui} — fica no automático` : o.dica}
             onClick={() => onEscolher(o.nome || null)}
             style={{
               display: 'flex',
@@ -512,7 +530,7 @@ function MeioTrechoMenu({
               <span style={{ whiteSpace: 'nowrap' }}>{o.rotulo}</span>
               {inutil && meioCfg ? (
                 <span style={{ fontSize: 9, fontStyle: 'italic', whiteSpace: 'nowrap' }}>
-                  {`só em ${meioCfg.em.map(nomeT).join(', ')}`}
+                  {`só em ${terrenosMeio}`}
                 </span>
               ) : null}
             </span>
@@ -610,30 +628,50 @@ function LeftBar({
   // Escape, clique fora ou ao sair do EDITAR.
   // `onde`: aberto pela linha da PARADA de chegada ou pela ROTA (N HEX) que
   // percorre o trecho — o menu aparece sob quem o abriu.
-  const [meioMenuAberto, setMeioMenuAberto] = useState<{ id: string; onde: 'parada' | 'rota' } | null>(null)
+  // `passo` (2026-10-06): menu do AJUSTE do item (meioPasso), sob a linha
+  // do hex.
+  const [meioMenuAberto, setMeioMenuAberto] = useState<{ id: string; onde: 'parada' | 'rota' | 'passo' } | null>(null)
   const meioMenu = meioMenuAberto?.id ?? null
   const setMeioMenu = (id: string | null) => setMeioMenuAberto(id ? { id, onde: 'parada' } : null)
-  const alternarMeioMenu = (id: string, onde: 'parada' | 'rota') =>
+  const alternarMeioMenu = (id: string, onde: 'parada' | 'rota' | 'passo') =>
     setMeioMenuAberto((m) => (m?.id === id && m.onde === onde ? null : { id, onde }))
   useEffect(() => {
     if (!podeEditar) setMeioMenuAberto(null)
   }, [podeEditar])
   /** Trecho que chega na parada `idx` se ela tivesse o meio `meio` (prévia do
    *  menu; mesma conta da lista). */
-  const previaTrecho = (idx: number) => (meio: string | null) => {
+  const previaTrecho = (idx: number) => (meio: string | null): PreviaMeio | undefined => {
+    if (!viagemCfg) return undefined
+    // trocar o meio do trecho limpa os ajustes dele (setMeioTrecho) — a
+    // prévia faz a mesma conta
+    let ini = idx
+    while (ini > 0 && !hexIsParada(state.hexes[ini - 1]!)) ini--
+    const hexes = state.hexes.map((h, i) => {
+      if (i < ini || i > idx) return h
+      const { meio: _m, meioPasso: _p, ...resto } = h
+      if (i !== idx) return resto
+      return meio ? { ...resto, meio } : resto
+    })
+    const t = calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).trechos.get(idx)
+    return t ? { dias: t.dias, meios: t.meios, bloqueado: t.bloqueios.length > 0 } : undefined
+  }
+  /** Passo que entra no hex `idx` se ele tivesse o ajuste `meio` (null =
+   *  herdar do trecho). */
+  const previaPasso = (idx: number) => (meio: string | null): PreviaMeio | undefined => {
     if (!viagemCfg) return undefined
     const hexes = state.hexes.map((h, i) => {
       if (i !== idx) return h
-      const { meio: _m, ...resto } = h
-      return meio ? { ...resto, meio } : resto
+      const { meioPasso: _p, ...resto } = h
+      return meio ? { ...resto, meioPasso: meio } : resto
     })
-    return calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).trechos.get(idx)
+    const p = calcularViagem({ hexes, terrenoDe, cfg: viagemCfg, ehParada: (h) => hexIsParada(h as GroupHex) }).passos[idx]
+    return p ? { dias: p.dias, meios: p.meios, bloqueado: p.bloqueado } : undefined
   }
   useEffect(() => {
     if (!meioMenu) return
     const onDown = (e: PointerEvent) => {
       const el = e.target as Element | null
-      if (el?.closest?.('[data-meio-menu],[data-meio-trecho],[data-meio-rota]')) return
+      if (el?.closest?.('[data-meio-menu],[data-meio-trecho],[data-meio-rota],[data-meio-passo]')) return
       setMeioMenu(null)
     }
     const onKey = (e: KeyboardEvent) => {
@@ -753,12 +791,83 @@ function LeftBar({
     )
   }
 
+  /** Botão pequeno do AJUSTE do item (2026-10-06, "trecho define, item
+   *  ajusta"; EDITAR): meio SÓ do passo que entra em `h`. Herdando, mostra
+   *  um ▾ apagado; ajustado, o ícone do meio realçado. Só dentro de trecho. */
+  const passoBotao = (h: GroupHex, idx: number) => {
+    const p = viagem?.passos[idx]
+    if (!p || !viagemCfg || !podeEditar) return null
+    const ajuste = p.ajuste
+    const aberto = meioMenuAberto?.id === h.id && meioMenuAberto.onde === 'passo'
+    const rotulo = `Meio deste passo: ${ajuste ?? 'Herdar do trecho'}`
+    return (
+      <button
+        type="button"
+        data-meio-passo={h.id}
+        {...(ajuste ? { 'data-meio-passo-ajustado': '' } : {})}
+        aria-haspopup="menu"
+        aria-expanded={aberto}
+        aria-label={rotulo}
+        title={`${rotulo} (clica pra ajustar só este passo)`}
+        onClick={(e) => {
+          e.stopPropagation()
+          alternarMeioMenu(h.id, 'passo')
+        }}
+        style={{
+          flex: 'none',
+          minWidth: 20,
+          padding: '0 3px',
+          cursor: 'pointer',
+          fontSize: ajuste ? 11 : 9,
+          lineHeight: 1.4,
+          color: ajuste ? 'var(--text)' : 'var(--muted)',
+          background: ajuste
+            ? 'color-mix(in srgb,var(--accent) 28%,transparent)'
+            : aberto
+              ? 'color-mix(in srgb,var(--accent) 16%,transparent)'
+              : 'transparent',
+          border: `1px ${ajuste ? 'solid' : 'dashed'} ${ajuste ? 'var(--accent)' : 'var(--line2)'}`,
+          borderRadius: 3,
+        }}
+      >
+        {ajuste ? iconeDoMeio(viagemCfg, ajuste) : '▾'}
+      </button>
+    )
+  }
+
+  /** O ajuste do passo que entra numa PARADA só aparece com a rota que chega
+   *  nela ABERTA (é quando se edita item a item); trecho de um passo só não
+   *  tem o seletor extra — o do trecho já é o do passo. */
+  const passoDaParadaVisivel = (idx: number) => {
+    let j = idx - 1
+    while (j >= 0 && !hexIsParada(state.hexes[j]!)) j--
+    if (j < 0 || j === idx - 1) return false
+    return expanded.has(state.hexes[j]!.id)
+  }
+
+  /** Menu do ajuste do passo que entra em `h` (se aberto pra ele). */
+  const passoMenuDe = (h: GroupHex, idx: number) =>
+    meioMenuAberto?.onde === 'passo' && meioMenu === h.id && podeEditar && viagemCfg ? (
+      <MeioMenu
+        cfg={viagemCfg}
+        hexId={h.id}
+        alvo="passo"
+        atual={viagem?.passos[idx]?.ajuste}
+        previa={previaPasso(idx)}
+        onEscolher={(m) => {
+          setMeioPasso(groupId, h.id, m)
+          setMeioMenu(null)
+        }}
+      />
+    ) : null
+
   /** Menu do meio do trecho que chega em `h` (se aberto pra ela). */
   const meioMenuDe = (h: GroupHex, idx: number) =>
     meioMenu === h.id && podeEditar && viagemCfg ? (
-      <MeioTrechoMenu
+      <MeioMenu
         cfg={viagemCfg}
         hexId={h.id}
+        alvo="trecho"
         atual={viagem?.trechos.get(idx)?.escolhido}
         previa={previaTrecho(idx)}
         onEscolher={(m) => {
@@ -809,6 +918,19 @@ function LeftBar({
 
   // Reordenação por PONTEIRO (funciona no TOQUE): arrasta pelo handle; o alvo é
   // o ÍNDICE (data-order) do primeiro item visível cujo meio o dedo cruzou.
+  // REPORT 2026-10-06 ("clico na parte de drag e já move pra um lugar
+  // aleatório, o scroll muda na hora"): o pointerdown ligava o arraste na hora
+  // — os "+" de inserir sumiam (display:none), a lista encolhia e rolava, e o
+  // pointerup SEM movimento soltava no índice recalculado sobre a geometria
+  // deslocada. Agora: (1) o arraste só começa depois de LIMIAR_ARRASTE px de
+  // movimento — tocar/clicar e soltar nunca reordena; (2) começar o arraste
+  // NÃO muda o layout (os "+" ficam com visibility:hidden, o indicador de
+  // soltura é absoluto); (3) só solta com um alvo calculado DURANTE o
+  // arraste; pointercancel aborta; (4) perto da borda da lista rola um pouco
+  // (controlado, só durante o arraste).
+  const LIMIAR_ARRASTE = 6
+  const pendenteRef = useRef<{ id: string; y: number } | null>(null)
+  const dropIndexRef = useRef<number | null>(null)
   const dropIndexAt = (clientY: number): number => {
     const items = listRef.current ? [...listRef.current.querySelectorAll('[data-parada]')] : []
     for (const el of items) {
@@ -817,28 +939,60 @@ function LeftBar({
     }
     return state.hexes.length
   }
-  const onHandleDown = (h: GroupHex) => (e: React.PointerEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dragIdRef.current = h.id
-    setDragId(h.id)
-    setDropIndex(null)
-    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
-  }
-  const onHandleMove = (e: React.PointerEvent) => {
-    if (!dragIdRef.current) return
-    setDropIndex(dropIndexAt(e.clientY))
-  }
-  const onHandleUp = (e: React.PointerEvent) => {
-    const id = dragIdRef.current
-    if (!id) return
-    const target = dropIndex ?? dropIndexAt(e.clientY)
-    const from = state.hexes.findIndex((x) => x.id === id)
-    if (from !== -1) moveGroupHex(groupId, id, target > from ? target - 1 : target)
+  const encerrarArraste = () => {
+    pendenteRef.current = null
     dragIdRef.current = null
+    dropIndexRef.current = null
     setDragId(null)
     setDropIndex(null)
   }
+  const onHandleDown = (h: GroupHex) => (e: React.PointerEvent) => {
+    if (e.button !== undefined && e.button > 0) return // só botão principal / toque
+    e.preventDefault()
+    e.stopPropagation()
+    pendenteRef.current = { id: h.id, y: e.clientY }
+    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+  }
+  const onHandleMove = (e: React.PointerEvent) => {
+    const pend = pendenteRef.current
+    if (!pend) return
+    if (!dragIdRef.current) {
+      if (Math.abs(e.clientY - pend.y) < LIMIAR_ARRASTE) return
+      dragIdRef.current = pend.id
+      setDragId(pend.id)
+    }
+    e.preventDefault()
+    // rolagem controlada perto das bordas da lista (passo fixo por evento)
+    const lista = listRef.current
+    if (lista) {
+      const r = lista.getBoundingClientRect()
+      const BORDA = 28
+      if (e.clientY < r.top + BORDA) lista.scrollTop -= 8
+      else if (e.clientY > r.bottom - BORDA) lista.scrollTop += 8
+    }
+    const alvo = dropIndexAt(e.clientY)
+    dropIndexRef.current = alvo
+    setDropIndex(alvo)
+  }
+  const onHandleUp = () => {
+    const id = dragIdRef.current
+    const target = dropIndexRef.current
+    encerrarArraste()
+    if (!id || target === null) return // toque/clique sem arraste: nada muda
+    const from = state.hexes.findIndex((x) => x.id === id)
+    if (from !== -1) moveGroupHex(groupId, id, target > from ? target - 1 : target)
+  }
+  /** Indicador de soltura SEM ocupar layout (absoluto sobre a borda). */
+  const marcaSoltura = (ativo: boolean) => (
+    <div aria-hidden style={{ position: 'relative', height: 0 }}>
+      {ativo ? (
+        <div
+          data-drop-marca=""
+          style={{ position: 'absolute', left: 0, right: 0, top: -2, height: 3, background: 'var(--accent)', borderRadius: 2 }}
+        />
+      ) : null}
+    </div>
+  )
 
   /** Uma linha de parada (principal proeminente OU filho hex-only pequeno). */
   const paradaRow = (h: GroupHex, idx: number, variant: 'principal' | 'child') => {
@@ -848,15 +1002,7 @@ function LeftBar({
     const child = variant === 'child'
     return (
       <div key={h.id} style={{ display: 'flex', flexDirection: 'column', gap: 0, marginLeft: child ? 22 : 0 }}>
-        <div
-          style={{
-            height: dragId && dropIndex === idx ? 3 : 0,
-            margin: dragId && dropIndex === idx ? '2px 0' : 0,
-            background: 'var(--accent)',
-            borderRadius: 2,
-            transition: 'height .08s',
-          }}
-        />
+        {marcaSoltura(!!dragId && dropIndex === idx)}
         <div
           data-parada={h.id}
           data-order={idx}
@@ -889,7 +1035,8 @@ function LeftBar({
                   onPointerDown: onHandleDown(h),
                   onPointerMove: onHandleMove,
                   onPointerUp: onHandleUp,
-                  onPointerCancel: onHandleUp,
+                  onPointerCancel: encerrarArraste,
+                  onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
                 })}
             onClick={(e) => e.stopPropagation()}
             style={{
@@ -931,7 +1078,12 @@ function LeftBar({
             </span>
           </TipHover>
           {viagem ? (child ? diasPasso(h, idx) : diasTrecho(h, idx)) : null}
-          {podeEditar && viagemCfg && !child && viagem?.trechos.has(idx) ? meioBotao(h, idx) : null}
+          {/* rota que chega nesta parada ABERTA: o seletor do trecho já está na
+              linha da rota — aqui fica o ajuste do passo (cabe em 240px) */}
+          {podeEditar && viagemCfg && !child && viagem?.trechos.has(idx) && !passoDaParadaVisivel(idx)
+            ? meioBotao(h, idx)
+            : null}
+          {child || passoDaParadaVisivel(idx) ? passoBotao(h, idx) : null}
           {!podeEditar ? null : (
           <button
             onClick={(e) => {
@@ -955,6 +1107,7 @@ function LeftBar({
           )}
         </div>
         {meioMenuAberto?.onde === 'parada' ? meioMenuDe(h, idx) : null}
+        {passoMenuDe(h, idx)}
       </div>
     )
   }
@@ -972,7 +1125,10 @@ function LeftBar({
       style={{
         alignSelf: 'stretch',
         marginLeft: indent ? 22 : 0,
-        display: dragId ? 'none' : 'flex',
+        // durante o arraste fica INVISÍVEL mas no layout (display:none
+        // encolhia a lista e deslocava o alvo sob o dedo — report 2026-10-06)
+        display: 'flex',
+        visibility: dragId ? 'hidden' : undefined,
         alignItems: 'center',
         justifyContent: 'center',
         height: insertAt === index ? 20 : 10,
@@ -1154,14 +1310,7 @@ function LeftBar({
                   </div>
                 )
               })}
-              <div
-                style={{
-                  height: dragId && dropIndex === state.hexes.length ? 3 : 0,
-                  margin: dragId && dropIndex === state.hexes.length ? '2px 0' : 0,
-                  background: 'var(--accent)',
-                  borderRadius: 2,
-                }}
-              />
+              {marcaSoltura(!!dragId && dropIndex === state.hexes.length)}
             </>
           )}
         </div>
@@ -2202,7 +2351,7 @@ export function PanelExploracao({
           readOnly={!podeEditar}
           hex={selecionado}
           hexMap={hexMap}
-          meioTrecho={meioDoTrecho(state.hexes, state.hexes.indexOf(selecionado), hexIsParada)}
+          meioTrecho={selecionado.meioPasso ?? meioDoTrecho(state.hexes, state.hexes.indexOf(selecionado), hexIsParada)}
           terrenoDe={terrenoMundo.terrenoDe}
           atual={selecionado.id === atual?.id}
           onRemove={() => {

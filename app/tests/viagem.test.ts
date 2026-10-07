@@ -407,3 +407,47 @@ describe('formatarDias', () => {
     expect(formatarDias(1 / 3 + 1 / 5)).toBe('0,5 dia')
   })
 })
+
+// MEIO POR ITEM (2026-10-06, "trecho define, item ajusta"): o seletor do
+// trecho grava `meio` na parada de chegada; cada hex do trecho pode ajustar
+// SÓ o passo que entra nele com `meioPasso`. Resolução por passo:
+// hex.meioPasso ?? parada.meio ?? automático — sempre respeitando o terreno
+// (o meio resolvido não anda ali → automático naquele passo).
+describe('meioPasso (ajuste por item do trecho)', () => {
+  const comPasso = <T extends object>(hexes: T[], m: Record<number, string>) =>
+    hexes.map((h, i) => (m[i] ? { ...h, meioPasso: m[i] } : h))
+
+  it('ajuste vale só no passo que entra no hex; o resto segue o trecho', () => {
+    const base = comMeio(coluna(3, { 0: 'parada', 3: 'parada' }), { 3: 'Cavalo' })
+    const v = calcularViagem({ hexes: comPasso(base, { 2: 'A pé' }), terrenoDe: () => undefined, cfg: CFG_PADRAO })
+    expect(v.passos.map((p) => p?.meio ?? null)).toEqual([null, 'Cavalo', 'A pé', 'Cavalo'])
+    expect(v.trechos.get(3)!.dias).toBe(7 / 6)
+    expect(v.trechos.get(3)!.escolhido).toBe('Cavalo')
+    expect(v.passos[2]!.ajuste).toBe('A pé')
+    expect(v.passos[1]!.ajuste).toBeUndefined()
+  })
+
+  it('ajuste na PARADA de chegada vale só no passo que entra nela', () => {
+    const v = calcularViagem({
+      hexes: comPasso(coluna(2, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo' }),
+      terrenoDe: () => undefined,
+      cfg: CFG_PADRAO,
+    })
+    expect(v.passos.map((p) => p?.meio ?? null)).toEqual([null, 'A pé', 'Cavalo'])
+    expect(v.trechos.get(2)!.escolhido).toBeUndefined()
+  })
+
+  it('ajuste que não anda no terreno cai no automático naquele passo', () => {
+    const base = comMeio(coluna(2, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo' })
+    const v = calcularViagem({ hexes: comPasso(base, { 1: 'Carruagem' }), terrenoDe: () => undefined, cfg: CFG_PADRAO })
+    expect(v.passos[1]!.meio).toBe('A pé')
+    expect(v.passos[2]!.meio).toBe('Cavalo')
+  })
+
+  it('ajuste com nome desconhecido = herda do trecho; fora de trecho não conta', () => {
+    const base = comMeio(coluna(3, { 0: 'parada', 2: 'parada' }), { 2: 'Cavalo' })
+    const v = calcularViagem({ hexes: comPasso(base, { 1: 'Balão', 3: 'Cavalo' }), terrenoDe: () => undefined, cfg: CFG_PADRAO })
+    expect(v.passos[1]!.meio).toBe('Cavalo')
+    expect(v.passos[3]).toBeNull()
+  })
+})

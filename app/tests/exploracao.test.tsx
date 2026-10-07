@@ -682,6 +682,76 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     )
   })
 
+  // REPORT 2026-10-06 (Firefox Android + PC): "quando eu clico na parte pra
+  // mover um item (drag) tu já move ele pra um lugar aleatório, o scroll muda
+  // na hora". Causa: o pointerdown já ligava o arraste — os "+" de inserir
+  // sumiam (display:none), a lista encolhia/rolava, e o pointerup SEM
+  // movimento soltava no índice recalculado sobre a geometria deslocada.
+  it('report 2026-10-06: tocar e soltar o handle SEM mover nunca reordena (mesmo com layout deslocado)', async () => {
+    setHexLocal(MAPA_MUNDO_ID, 47, 8, KRASNOGOR_ID)
+    setHexLocal(MAPA_MUNDO_ID, 50, 11, KRASNOGOR_ID)
+    setHexLocal(MAPA_MUNDO_ID, 53, 14, KRASNOGOR_ID)
+    const a = addGroupHex(GROUP_ID, { col: 47, row: 8 })
+    const b = addGroupHex(GROUP_ID, { col: 50, row: 11 })
+    const c = addGroupHex(GROUP_ID, { col: 53, row: 14 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    entrarEdicao(container)
+    // geometria que "desliza" 20px pra cima depois do pointerdown (o que o
+    // layout fazia quando o arraste ligava no toque)
+    let shift = 0
+    const fixa = () =>
+      ([...container.querySelectorAll('[data-parada]')] as HTMLElement[]).forEach((el, i) => {
+        el.getBoundingClientRect = () =>
+          ({ top: i * 30 + shift, bottom: i * 30 + 30 + shift, left: 0, right: 240, width: 240, height: 30, x: 0, y: i * 30 + shift }) as DOMRect
+      })
+    fixa()
+    const handleB = () => container.querySelector(`[data-drag-handle="${b.id}"]`) as HTMLElement
+    fireEvent.pointerDown(handleB(), { pointerId: 1, clientY: 58 })
+    shift = -20
+    fixa()
+    fireEvent.pointerUp(handleB(), { pointerId: 1, clientY: 58 })
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // tremidinha abaixo do limiar (3px) também não é arraste
+    shift = 0
+    fixa()
+    fireEvent.pointerDown(handleB(), { pointerId: 1, clientY: 40 })
+    fireEvent.pointerMove(handleB(), { pointerId: 1, clientY: 43 })
+    fireEvent.pointerUp(handleB(), { pointerId: 1, clientY: 43 })
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // pointercancel (o navegador tomou o gesto) aborta sem soltar
+    fireEvent.pointerDown(handleB(), { pointerId: 1, clientY: 40 })
+    fireEvent.pointerMove(handleB(), { pointerId: 1, clientY: 100 })
+    fireEvent.pointerCancel(handleB(), { pointerId: 1, clientY: 100 })
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // passou do limiar → arrasta e solta no índice certo (fim → a, c, b)
+    fireEvent.pointerDown(handleB(), { pointerId: 1, clientY: 40 })
+    fireEvent.pointerMove(handleB(), { pointerId: 1, clientY: 100 })
+    fireEvent.pointerUp(handleB(), { pointerId: 1, clientY: 100 })
+    await waitFor(() => expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, c.id, b.id]))
+  })
+
+  it('report 2026-10-06: arrastar não muda a altura da lista (os "+" de inserir ficam no layout, invisíveis)', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 47, row: 8 })
+    addGroupHex(GROUP_ID, { col: 48, row: 9, kind: 'caminho' })
+    const c = addGroupHex(GROUP_ID, { col: 49, row: 10 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    entrarEdicao(container)
+    fireEvent.click(container.querySelector(`[data-collapsed-run="${a.id}"]`) as HTMLElement)
+    const ins = () => [...container.querySelectorAll('[data-insert-at]')] as HTMLElement[]
+    expect(ins().length).toBeGreaterThan(0)
+    const handleC = container.querySelector(`[data-drag-handle="${c.id}"]`) as HTMLElement
+    fireEvent.pointerDown(handleC, { pointerId: 1, clientY: 200 })
+    fireEvent.pointerMove(handleC, { pointerId: 1, clientY: 0 })
+    for (const el of ins()) {
+      expect(el.style.display).not.toBe('none')
+      expect(el.style.visibility).toBe('hidden')
+    }
+    fireEvent.pointerCancel(handleC, { pointerId: 1, clientY: 0 })
+    for (const el of ins()) expect(el.style.visibility).not.toBe('hidden')
+  })
+
   it('#82 caminho HIERÁRQUICO: principais visíveis, hex-only COLAPSADOS (expande no clique)', async () => {
     setHexLocal(MAPA_MUNDO_ID, 46, 7, KRASNOGOR_ID) // (46,7) = LUGAR → principal
     const p = addGroupHex(GROUP_ID, { col: 46, row: 7 })

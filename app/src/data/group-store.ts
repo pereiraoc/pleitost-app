@@ -60,6 +60,11 @@ export interface GroupHex {
    *  `viagem.meios` do Contexto-Def) pro TRECHO que CHEGA nesta parada.
    *  Ausente = automático. Fica preso ao hex ao reordenar/remover paradas. */
   meio?: string
+  /** AJUSTE POR ITEM (2026-10-06, "trecho define, item ajusta"): meio SÓ do
+   *  passo que ENTRA neste hex (vale em hex de caminho e na parada de
+   *  chegada). Ausente = herda o `meio` do trecho. Trocar o meio do trecho
+   *  limpa os ajustes dele (setMeioTrecho). */
+  meioPasso?: string
 }
 
 export interface GroupState {
@@ -138,7 +143,8 @@ function isHex(raw: unknown): raw is GroupHex {
     (h.localId === undefined || typeof h.localId === 'string') &&
     (h.label === undefined || typeof h.label === 'string') &&
     (h.kind === undefined || h.kind === 'parada' || h.kind === 'caminho') &&
-    (h.meio === undefined || typeof h.meio === 'string')
+    (h.meio === undefined || typeof h.meio === 'string') &&
+    (h.meioPasso === undefined || typeof h.meioPasso === 'string')
   )
 }
 
@@ -327,17 +333,43 @@ export function setRegiaoAtiva(groupId: string, regionId: string): void {
 // ── Meio por trecho (viagem do hexcrawl, 2026-10-06) ───────────────────────
 
 /** Define o meio do TRECHO que chega na parada `hexId` (nome da config
- *  `viagem.meios`); null/'' volta ao automático (remove o campo). */
+ *  `viagem.meios`); null/'' volta ao automático (remove o campo). Limpa, no
+ *  mesmo commit, os ajustes por item (`meioPasso`) dos hexes do trecho — da
+ *  parada anterior (exclusive) até esta (inclusive). */
 export function setMeioTrecho(groupId: string, hexId: string, meio: string | null): void {
   const cur = hydrate(groupId)
   const idx = cur.hexes.findIndex((h) => h.id === hexId)
   if (idx === -1) return
   const alvo = meio && meio.trim() ? meio : undefined
-  if (cur.hexes[idx]!.meio === alvo) return
+  let ini = idx
+  while (ini > 0 && cur.hexes[ini - 1]!.kind === 'caminho') ini--
+  const temAjuste = cur.hexes.slice(ini, idx + 1).some((h) => h.meioPasso !== undefined)
+  if (cur.hexes[idx]!.meio === alvo && !temAjuste) return
+  const next = cur.hexes.map((h, i) => {
+    if (i < ini || i > idx) return h
+    const c = { ...h }
+    delete c.meioPasso
+    if (i === idx) {
+      if (alvo) c.meio = alvo
+      else delete c.meio
+    }
+    return c
+  })
+  commit(groupId, { ...cur, hexes: next })
+}
+
+/** Ajusta o meio SÓ do passo que entra no hex `hexId` (`meioPasso`);
+ *  null/'' = herdar do trecho (remove o campo). */
+export function setMeioPasso(groupId: string, hexId: string, meio: string | null): void {
+  const cur = hydrate(groupId)
+  const idx = cur.hexes.findIndex((h) => h.id === hexId)
+  if (idx === -1) return
+  const alvo = meio && meio.trim() ? meio : undefined
+  if (cur.hexes[idx]!.meioPasso === alvo) return
   const next = cur.hexes.slice()
   const h = { ...next[idx]! }
-  if (alvo) h.meio = alvo
-  else delete h.meio
+  if (alvo) h.meioPasso = alvo
+  else delete h.meioPasso
   next[idx] = h
   commit(groupId, { ...cur, hexes: next })
 }
