@@ -213,29 +213,35 @@ export function marcaDeLinha(forma: FormaMarca): boolean {
 
 const f1 = (n: number) => n.toFixed(1)
 
-/** `d` de UMA marca centrada no hex (cx,cy) — px da fonte (hex de raio 55). */
+/** Escala das marcas (px da fonte; o hex tem raio 55): legível sem cobrir a arte. */
+const K = 1.5
+
+/** `d` de UMA marca centrada no hex (cx,cy) — px da fonte. Terreno no alto
+ *  do hex, rota embaixo. */
 export function marcaPath(forma: FormaMarca, cx: number, cy: number): string {
-  const tri = (x: number) => `M${f1(x - 7)},${f1(cy - 5)}L${f1(x)},${f1(cy - 17)}L${f1(x + 7)},${f1(cy - 5)}Z`
-  const yr = cy + 13
+  const X = (dx: number) => f1(cx + dx * K)
+  const Y = (dy: number) => f1(cy + dy * K)
+  const r = (n: number) => f1(n * K)
+  const tri = (dx: number) => `M${X(dx - 6)},${Y(-4)}L${X(dx)},${Y(-14)}L${X(dx + 6)},${Y(-4)}Z`
   switch (forma) {
     case 'tri1':
-      return tri(cx)
+      return tri(0)
     case 'tri2':
-      return tri(cx - 8) + tri(cx + 8)
+      return tri(-7) + tri(7)
     case 'tri3':
-      return tri(cx - 15) + tri(cx) + tri(cx + 15)
+      return tri(-13) + tri(0) + tri(13)
     case 'onda': {
-      const onda = (y: number) => `M${f1(cx - 12)},${f1(y)}q3,-4 6,0t6,0t6,0t6,0`
-      return onda(cy - 15) + onda(cy - 8)
+      const onda = (dy: number) => `M${X(-10)},${Y(dy)}q${r(2.5)},${r(-4)} ${r(5)},0t${r(5)},0t${r(5)},0t${r(5)},0`
+      return onda(-13) + onda(-6)
     }
     case 'anel':
-      return `M${f1(cx - 5)},${f1(yr)}a5,5 0 1,0 10,0a5,5 0 1,0 -10,0Z`
+      return `M${X(-4.5)},${Y(10)}a${r(4.5)},${r(4.5)} 0 1,0 ${r(9)},0a${r(4.5)},${r(4.5)} 0 1,0 ${r(-9)},0Z`
     case 'losango':
-      return `M${f1(cx)},${f1(yr - 6)}L${f1(cx + 6)},${f1(yr)}L${f1(cx)},${f1(yr + 6)}L${f1(cx - 6)},${f1(yr)}Z`
+      return `M${X(0)},${Y(5)}L${X(5)},${Y(10)}L${X(0)},${Y(15)}L${X(-5)},${Y(10)}Z`
     case 'degrau':
-      return `M${f1(cx - 9)},${f1(yr + 6)}h5v-4h5v-4h5v-4h3`
+      return `M${X(-8)},${Y(15)}h${r(4)}v${r(-3.5)}h${r(4)}v${r(-3.5)}h${r(4)}v${r(-3.5)}h${r(4)}`
     case 'barra':
-      return `M${f1(cx - 9)},${f1(yr - 2)}h18v4h-18Z`
+      return `M${X(-8)},${Y(8)}h${r(16)}v${r(4)}h${r(-16)}Z`
   }
 }
 

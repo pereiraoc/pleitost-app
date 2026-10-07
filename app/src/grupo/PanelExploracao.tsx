@@ -74,6 +74,7 @@ import {
   type CamadaTerreno,
   type MarcaMapa,
 } from './terreno-mundo'
+import { useMarcasAssadas } from './marcas-assadas'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -1431,17 +1432,20 @@ function gravarModificadores(v: boolean): void {
 
 /** Pintura de uma classe de marca: forma de LINHA (onda, degrau) = traço
  *  escurecido da cor da config; forma CHEIA = cor da config com contorno
- *  escuro fino (legível sobre o pergaminho e sobre o mar). */
+ *  escuro fino (legível sobre o pergaminho e sobre o mar). Traço em px da
+ *  FONTE (sem non-scaling-stroke): o zoom da camada é transform CSS, que
+ *  engrossaria um traço "fixo" até a marca virar borrão — assim a marca
+ *  inteira escala junto, sempre na mesma proporção. */
 function estiloMarca(m: Pick<MarcaMapa, 'forma' | 'cor'>): React.SVGProps<SVGPathElement> {
   return marcaDeLinha(m.forma)
     ? {
         fill: 'none',
-        stroke: `color-mix(in srgb,${m.cor} 45%,#000)`,
-        strokeWidth: 1.6,
+        stroke: `color-mix(in srgb,${m.cor} 55%,#000)`,
+        strokeWidth: 2.2,
         strokeLinecap: 'round',
         strokeLinejoin: 'round',
       }
-    : { fill: m.cor, stroke: 'rgba(0,0,0,.7)', strokeWidth: 1, strokeLinejoin: 'round' }
+    : { fill: m.cor, stroke: 'rgba(0,0,0,.6)', strokeWidth: 1.2, strokeLinejoin: 'round' }
 }
 
 /** Ícone do botão: um ▲ sobre uma onda. */
@@ -1482,11 +1486,10 @@ function LegendaModificadores({ marcas }: { marcas: MarcaMapa[] }) {
           data-modificadores-item={m.classe}
           style={{ ...fieldLabelStyle, fontSize: 9, display: 'inline-flex', alignItems: 'center', gap: 6 }}
         >
-          <svg width={22} height={16} viewBox="-14 -20 28 20" aria-hidden style={{ flex: 'none', overflow: 'visible' }}>
+          <svg width={22} height={16} viewBox="-21 -24 42 30" aria-hidden style={{ flex: 'none', overflow: 'visible' }}>
             <path
-              d={marcaPath(m.forma, 0, m.camada === 'rotas' ? -23 : 0)}
+              d={marcaPath(m.forma, 0, m.camada === 'rotas' ? -24 : 0)}
               {...estiloMarca(m)}
-              vectorEffect="non-scaling-stroke"
             />
           </svg>
           {m.nome}
@@ -1785,6 +1788,9 @@ export function PanelExploracao({
         : SEM_MARCAS,
     [modificadores, viagemCfg, terrenoMundo.indice, terrenoMundo.indiceRotas, crop],
   )
+  // #573: no navegador as marcas viram UM bitmap na camada (o SVG cheio de
+  // marcas custava ~4× o paint por quadro no Gecko); enquanto assa, os paths
+  const marcasSrc = useMarcasAssadas(marcas, crop)
   const alternarModificadores = () =>
     setModificadores((v) => {
       gravarModificadores(!v)
@@ -2212,6 +2218,16 @@ export function PanelExploracao({
                     visibility: camadas.estado.imgVisivel ? 'visible' : 'hidden',
                   }}
                 />
+                {marcasSrc ? (
+                  <img
+                    data-marcas-assadas=""
+                    src={marcasSrc}
+                    alt=""
+                    aria-hidden
+                    draggable={false}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+                  />
+                ) : null}
                 {/* Overlay em px da FONTE (viewBox = crop; escala com o mapa) */}
                 <svg
                   viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
@@ -2298,13 +2314,12 @@ export function PanelExploracao({
                       vectorEffect="non-scaling-stroke"
                     />
                   ))}
-                  {marcas.map((m) => (
+                  {(marcasSrc ? SEM_MARCAS : marcas).map((m) => (
                     <path
                       key={m.classe}
                       data-marca-mapa={m.classe}
                       d={m.d}
                       {...estiloMarca(m)}
-                      vectorEffect="non-scaling-stroke"
                     />
                   ))}
                   {pintor ? (

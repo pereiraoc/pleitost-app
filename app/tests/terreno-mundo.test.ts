@@ -167,3 +167,18 @@ describe('marcasDoMapa', () => {
     expect(marcasDoMapa(longe, semRotas, CFG_M, { ...area })).toBe(m)
   })
 })
+
+describe('marcas assadas (bitmap das marcas, #573)', () => {
+  it('escala ≤ 1, respeita o teto de pixels e de lado', async () => {
+    const { escalaDoAssado } = await import('../src/grupo/marcas-assadas')
+    expect(escalaDoAssado({ x: 0, y: 0, w: 1000, h: 1000 })).toBe(1)
+    const s = escalaDoAssado({ x: 0, y: 0, w: 3700, h: 5262 })
+    expect(3700 * s * 5262 * s).toBeLessThanOrEqual(6_000_001)
+    expect(escalaDoAssado({ x: 0, y: 0, w: 20000, h: 100 }) * 20000).toBeLessThanOrEqual(4096.0001)
+  })
+  it('escurecer mistura #rrggbb com preto; outra notação passa direto', async () => {
+    const { escurecer } = await import('../src/grupo/marcas-assadas')
+    expect(escurecer('#ffffff', 0.5)).toBe('rgb(128,128,128)')
+    expect(escurecer('rgb(1,2,3)', 0.5)).toBe('rgb(1,2,3)')
+  })
+})
