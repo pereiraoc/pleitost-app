@@ -71,3 +71,17 @@ describe('trilha real TQDMER: Barco/Caravana escolhidos valem', () => {
       expect(ter.get(h), h).toBe('mar')
   })
 })
+
+// CAUSA RAIZ do report (2026-10-06): `terreno:` desindentado no FM do Contexto
+// Fantasia saiu do bloco `viagem` — o app não achava a nota, todo hex virava
+// Gramado sem estrada e Barco/Caravana caíam no automático em toda a trilha.
+describe('dataset real: a viagem aponta pra nota de terreno', () => {
+  it('viagem.terreno do contexto.json resolve pra nota no catálogo', async () => {
+    const vd = path.join(path.dirname(path.dirname(dir)), 'vault-data')
+    const ctx = JSON.parse(fs.readFileSync(path.join(vd, 'contexto.json'), 'utf8'))
+    expect(ctx.viagem.terreno).toBe('Terreno do Mundo Livre')
+    const { buildCatalog } = await import('../src/data/catalog')
+    const cat = buildCatalog(JSON.parse(fs.readFileSync(path.join(vd, 'index.json'), 'utf8')))
+    expect(cat.resolve(ctx.viagem.terreno).kind).toBe('doc')
+  })
+})

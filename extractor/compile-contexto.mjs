@@ -331,6 +331,9 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   // chave); `cor` opcional = tinta no editor. Ordem do FM preservada. Sem o
   // bloco, o app não mostra nada de viagem.
   let viagem = null;
+  // `terreno` desindentado (report 2026-10-06) virava chave solta do Contexto
+  // e passava calado: o app não achava a nota e todo hex virava o padrão.
+  if (def.terreno !== undefined) problems.push("terreno: fica dentro de `viagem` (viagem.terreno), não no nível do Contexto");
   if (def.viagem !== undefined && def.viagem !== null) {
     const v = isPlainObject(def.viagem) ? def.viagem : {};
     const nomesMeios = new Set(Array.isArray(v.meios) ? v.meios.filter((m) => isPlainObject(m) && typeof m.nome === "string").map((m) => m.nome.trim()) : []);

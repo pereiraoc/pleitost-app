@@ -506,3 +506,10 @@ test("viagem: meio instantâneo (Portal) compila sem hex_por_dia e o doc mostra 
   const bloco = renderContextoDoc({ id: "fantasia", viagem: { ...VIAGEM_OK, meios: [...VIAGEM_OK.meios, portal] } }, new Map());
   assert.match(bloco, /\| ✨ Portal \| instantâneo \(0 dias\) · Gramado, Difícil, Montanha, Mar \|/);
 });
+
+// report 2026-10-06: `terreno:` desindentado pro nível do Contexto (fora de
+// `viagem`) passava calado — o app não achava a nota e tudo virava Gramado.
+test("viagem: `terreno` fora do bloco viagem quebra o extract", () => {
+  const run = () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem: VIAGEM_OK, terreno: "[[Terreno do Mundo Livre]]" }), defBase()], basenames: BASENAMES, typeByBasename: new Map() });
+  assert.throws(run, /terreno: fica dentro de `viagem`/);
+});
