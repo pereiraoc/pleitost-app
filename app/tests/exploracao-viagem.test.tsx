@@ -7,8 +7,7 @@
 // um seletor único (AUTO ou o ícone do meio) que grava `meio` na parada de
 // chegada; o meio vale onde o terreno deixa, o resto cai no automático. O terreno é DADO DO MUNDO (nota
 // `viagem.terreno`, FM `Terreno`), lido pelo doc efetivo (overlay publicado /
-// rascunho do Modo Dev). O pintor (✎ TERRENO) só existe no Modo Dev e grava UM
-// rascunho por traço. Sem o bloco (POA), nada de viagem aparece.
+// rascunho do Modo Dev). O pintor (✎ TERRENO) mora no Atlas (atlas-terreno.test). Sem o bloco (POA), nada de viagem aparece.
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -594,102 +593,13 @@ async function mapaPronto(container: HTMLElement) {
   return container.querySelector('[data-mapa-viewport]') as HTMLElement
 }
 
-describe('pintor de terreno (Modo Dev)', () => {
-  it('sem Modo Dev não há ✎ TERRENO', async () => {
+describe('pintor de terreno NÃO mora na Exploração (2026-10-07: só no Atlas)', () => {
+  it('nem com Modo Dev há ✎ TERRENO', async () => {
+    ligarDev()
     const { container } = renderPanel(DEF)
     await mapaPronto(container)
+    await waitFor(() => expect(container.querySelector('[data-viagem-total]')).not.toBeNull())
     expect(container.querySelector('[data-pintor-terreno-toggle]')).toBeNull()
-  })
-
-  it('Modo Dev: pincéis da config + Limpar; um traço arrastado grava UM rascunho com as listas certas', async () => {
-    ligarDev()
-    const { container } = renderPanel(DEF)
-    const vp = await mapaPronto(container)
-    await waitFor(() => expect(container.querySelector('[data-pintor-terreno-toggle]')).not.toBeNull())
-    fireEvent.click(container.querySelector('[data-pintor-terreno-toggle]')!)
-    const barra = container.querySelector('[data-pintor-terreno]')!
-    expect([...barra.querySelectorAll('[data-pincel]')].map((b) => b.textContent)).toEqual([
-      'Gramado',
-      'Difícil',
-      'Montanha',
-      'Mar',
-    ])
-    expect(barra.querySelector('[data-pincel-limpar]')).not.toBeNull()
-    // pincéis da camada de ROTAS, separados dos de terreno
-    expect([...barra.querySelectorAll('[data-pincel-rota]')].map((b) => b.textContent)).toEqual([
-      'Estrada',
-      'Rota marítima',
-    ])
-    expect(barra.querySelector('[data-pincel-rota-limpar]')).not.toBeNull()
-    expect(barra.textContent).toContain('rascunho local')
-    fireEvent.click(barra.querySelector('[data-pincel="mar"]')!)
-    // traço: 60,20 → 60,22 (passa por 60,21)
-    let escritas = 0
-    const orig = window.localStorage.setItem.bind(window.localStorage)
-    window.localStorage.setItem = (k: string, v: string) => {
-      if (k === 'pleitost.compendio.drafts') escritas++
-      orig(k, v)
-    }
-    fireEvent.pointerDown(vp, coords({ col: 60, row: 20 }))
-    fireEvent.pointerMove(vp, coords({ col: 60, row: 21 }))
-    fireEvent.pointerMove(vp, coords({ col: 60, row: 22 }))
-    expect(escritas).toBe(0) // nada gravado no meio do traço
-    fireEvent.pointerUp(vp, coords({ col: 60, row: 22 }))
-    window.localStorage.setItem = orig
-    expect(escritas).toBe(1)
-    const fm = localDraftFor(TERRENO_ID)!.frontmatter as { Terreno: Record<string, string[]> }
-    expect(fm.Terreno.mar).toEqual(['60,20', '60,21', '60,22'])
-    expect(Object.keys(allLocalDrafts())).toEqual([TERRENO_ID])
-    // a viagem já usa o rascunho (mar → mar de barco, padrão: 2 × ⅕)
-    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('⅖ dia'))
-    // tinta por terreno no mapa
-    await waitFor(() => expect(container.querySelector('[data-terreno-tinta="mar"]')).not.toBeNull())
-  })
-
-  it('toque único pinta um hex; Limpar tira; pan desligado durante a pintura', async () => {
-    ligarDev()
-    terrenoPublicado({ dificil: ['60,21', '60,22'] })
-    const { container } = renderPanel(DEF)
-    const vp = await mapaPronto(container)
-    await waitFor(() => expect(container.querySelector('[data-pintor-terreno-toggle]')).not.toBeNull())
-    fireEvent.click(container.querySelector('[data-pintor-terreno-toggle]')!)
-    fireEvent.click(container.querySelector('[data-pincel-limpar]')!)
-    const antes = (container.querySelector('[data-mapa]') as HTMLElement).style.transform
-    fireEvent.pointerDown(vp, coords({ col: 60, row: 21 }))
-    fireEvent.pointerUp(vp, coords({ col: 60, row: 21 }))
-    fireEvent.click(vp, coords({ col: 60, row: 21 }))
-    expect((container.querySelector('[data-mapa]') as HTMLElement).style.transform).toBe(antes)
-    const fm = localDraftFor(TERRENO_ID)!.frontmatter as { Terreno: Record<string, string[]> }
-    expect(fm.Terreno.dificil).toEqual(['60,22'])
-    // clique durante a pintura não vira parada nem seleção
-    expect(getGroupState(GROUP_ID).hexes).toHaveLength(3)
-  })
-
-  it('pincel de ROTA grava a camada `Rotas` (o terreno-base fica); Limpar rota tira; tinta própria no mapa', async () => {
-    ligarDev()
-    terrenoPublicado({ dificil: ['60,21'] }, { rota_maritima: ['60,22'] })
-    const { container } = renderPanel(DEF)
-    const vp = await mapaPronto(container)
-    await waitFor(() => expect(container.querySelector('[data-pintor-terreno-toggle]')).not.toBeNull())
-    fireEvent.click(container.querySelector('[data-pintor-terreno-toggle]')!)
-    fireEvent.click(container.querySelector('[data-pincel-rota="estrada"]')!)
-    expect(container.querySelector('[data-pincel-rota="estrada"]')!.getAttribute('aria-pressed')).toBe('true')
-    fireEvent.pointerDown(vp, coords({ col: 60, row: 21 }))
-    fireEvent.pointerMove(vp, coords({ col: 60, row: 22 }))
-    fireEvent.pointerUp(vp, coords({ col: 60, row: 22 }))
-    let fm = localDraftFor(TERRENO_ID)!.frontmatter as { Terreno: Record<string, string[]>; Rotas: Record<string, string[]> }
-    expect(fm.Rotas).toEqual({ estrada: ['60,21', '60,22'], rota_maritima: [] })
-    expect(fm.Terreno.dificil).toEqual(['60,21'])
-    // caravana na estrada: difícil ⅖ + gramado ⅕
-    await waitFor(() => expect(container.querySelector('[data-viagem-total]')!.textContent).toContain('⅗ dia'))
-    await waitFor(() => expect(container.querySelector('[data-rota-tinta="estrada"]')).not.toBeNull())
-    expect(container.querySelector('[data-terreno-tinta="dificil"]')).not.toBeNull()
-    fireEvent.click(container.querySelector('[data-pincel-rota-limpar]')!)
-    fireEvent.pointerDown(vp, coords({ col: 60, row: 22 }))
-    fireEvent.pointerUp(vp, coords({ col: 60, row: 22 }))
-    fm = localDraftFor(TERRENO_ID)!.frontmatter as { Terreno: Record<string, string[]>; Rotas: Record<string, string[]> }
-    expect(fm.Rotas.estrada).toEqual(['60,21'])
-    expect(fm.Terreno.dificil).toEqual(['60,21'])
   })
 })
 

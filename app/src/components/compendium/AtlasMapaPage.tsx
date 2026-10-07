@@ -64,6 +64,19 @@ import { useDocs } from '../../data/useDoc'
 import { HexInfoBar } from '../../map/HexInfoBar'
 import { useHexMapMundoSync } from '../../map/use-hexmapmundo-sync'
 import { useMapaAtlasSync } from '../../map/use-mapaatlas-sync'
+import { activeContextoDef } from '../../data/reskin'
+import { useTerrenoMundo, type AreaFonte } from '../../grupo/terreno-mundo'
+import {
+  BotaoModificadores,
+  CamadaPintor,
+  LegendaModificadores,
+  MarcasAssadasImg,
+  MarcasSvg,
+  PintorTerreno,
+  semAutoScroll,
+  useModificadores,
+  usePintorTerreno,
+} from '../../grupo/terreno-no-mapa'
 // Paths dos assets do mapa: agora em map/atlas-grid.ts (módulo neutro — o
 // wizard de criação também consome sem importar componente de página);
 // re-exportados aqui pra compatibilidade dos consumidores existentes.
@@ -74,6 +87,8 @@ export { ATLAS_MAPA_ASSET, ATLAS_OVERLAY_ASSET }
  *  desta imagem (mesmo contrato do MAP_W/MAP_H da exploração). */
 export const ATLAS_MAPA_W = 7440
 export const ATLAS_MAPA_H = 5262
+/** O Atlas mostra a fonte inteira — área dos modificadores/terreno. */
+const ATLAS_AREA: AreaFonte = { x: 0, y: 0, w: ATLAS_MAPA_W, h: ATLAS_MAPA_H }
 
 type ModoMestre = 'nav' | 'regiao' | 'hexes' | 'hex-lugar' | 'hex-area'
 
@@ -108,7 +123,7 @@ export function AtlasMapaPage() {
   const catalog = useCatalog()
   const navigate = useNavigate()
   const map = useMapView()
-  const { mestre } = useSettings()
+  const { mestre, desenvolvedor } = useSettings()
   const grupoMesa = useMesaGrupoPersistenteId()
 
   // Adoção + push do mapaAtlas com a mesa (hook compartilhado com a ficha do
@@ -119,9 +134,11 @@ export function AtlasMapaPage() {
   // da mesa; sem grupo → DEFAULT_VIEWER ("(sem grupo)").
   const [previewGrupo, setPreviewGrupo] = useState<string>(DEFAULT_VIEWER)
   const viewerGrupo = mestre ? previewGrupo : (grupoMesa ?? DEFAULT_VIEWER)
+  // MODO DEV (2026-10-07): o Atlas é onde se define o mundo — mostra TUDO,
+  // sem o overlay do desconhecido, em qualquer preview de grupo.
   const desabilitadas = useMemo(
-    () => regioesDesabilitadas(cfg, viewerGrupo),
-    [cfg, viewerGrupo],
+    () => (desenvolvedor ? [] : regioesDesabilitadas(cfg, viewerGrupo)),
+    [desenvolvedor, cfg, viewerGrupo],
   )
 
   // Feedback do mestre ("marcar sempre hex inteiro"): regiões desenhadas a
@@ -202,9 +219,35 @@ export function AtlasMapaPage() {
   })
   const preparandoMapa = !!overlayEntry && desabilitadas.length > 0 && !camadas.estado.imgVisivel
 
+  // TERRENO DO MUNDO (2026-10-07): modificadores pra todos + PINTOR do Modo
+  // Dev (só aqui — "é no Atlas que definimos o mundo"). Botão esquerdo/dedo
+  // pinta; o do meio arrasta o mapa.
+  const viagemCfg = activeContextoDef()?.viagem ?? null
+  const terrenoMundo = useTerrenoMundo(viagemCfg)
+  const mod = useModificadores(viagemCfg, terrenoMundo, ATLAS_AREA)
+  const pintor = usePintorTerreno({
+    cfg: viagemCfg,
+    terreno: terrenoMundo,
+    desenvolvedor,
+    hexAtClient: (x, y) => {
+      const f = map.fracAtClient(x, y)
+      return f ? atlasFracToHex(f.fx, f.fy) : null
+    },
+  })
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (!pintor.onPointerDown(e)) map.onPointerDown(e)
+  }
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!pintor.onPointerMove(e)) map.onPointerMove(e)
+  }
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (!pintor.onPointerUp(e)) map.onPointerUp(e)
+  }
+
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
     if (map.consumeMoved()) return
+    if (pintor.ligado) return // o toque já pintou no pointerdown/up
     const f = map.fracAtClient(e.clientX, e.clientY)
     if (!f) return
     const p = { x: Math.round(f.fx * ATLAS_MAPA_W), y: Math.round(f.fy * ATLAS_MAPA_H) }
@@ -293,10 +336,11 @@ export function AtlasMapaPage() {
           <div
             ref={map.viewportRef}
             data-mapa-viewport=""
-            onPointerDown={map.onPointerDown}
-            onPointerMove={map.onPointerMove}
-            onPointerUp={map.onPointerUp}
-            onPointerCancel={map.onPointerUp}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            onMouseDown={semAutoScroll}
             onClick={onMapClick}
             style={{
               height: map.fullscreen ? '100%' : 'min(74vh, 720px)',
@@ -305,7 +349,7 @@ export function AtlasMapaPage() {
               overflow: 'hidden',
               touchAction: 'none',
               cursor:
-                mestre && modo !== 'nav' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
+                pintor.ligado || (mestre && modo !== 'nav') ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
               userSelect: 'none',
             }}
           >
@@ -329,6 +373,7 @@ export function AtlasMapaPage() {
                 draggable={false}
                 style={{ height: '100%', width: 'auto', display: 'block', visibility: camadas.estado.imgVisivel ? 'visible' : 'hidden' }}
               />
+              <MarcasAssadasImg src={mod.src} />
               {/* Camadas em px da FONTE — escalam junto com o transform. */}
               <svg
                 viewBox={`0 0 ${ATLAS_MAPA_W} ${ATLAS_MAPA_H}`}
@@ -390,6 +435,8 @@ export function AtlasMapaPage() {
                       )),
                     )
                   : null}
+                <CamadaPintor pintor={pintor} />
+                <MarcasSvg mod={mod} />
                 {/* Hex SELECIONADO (info aberta) — realce discreto. */}
                 {hexSel ? (
                   <polygon
@@ -466,7 +513,20 @@ export function AtlasMapaPage() {
             mapa indisponível no vault-data
           </div>
         )}
-        <MapControls map={map} />
+        <MapControls
+          map={map}
+          extra={viagemCfg ? <BotaoModificadores ligado={mod.ligado} onClick={mod.alternar} /> : undefined}
+        />
+        {mapEntry && mod.ligado && mod.marcas.length > 0 ? <LegendaModificadores marcas={mod.marcas} /> : null}
+        {mapEntry && pintor.pode && viagemCfg ? (
+          <PintorTerreno
+            cfg={viagemCfg}
+            ligado={pintor.ligado}
+            onToggle={pintor.alternar}
+            pincel={pintor.pincel}
+            onPincel={pintor.setPincel}
+          />
+        ) : null}
         {preparandoMapa ? <AvisoPreparandoMapa /> : null}
         {/* Barra de INFO do hex — PRIMEIRO o que está NESTE hex (a cidade que
             mora só ali, cor de destaque), depois as áreas/região que o
@@ -608,7 +668,11 @@ export function AtlasMapaPage() {
                     </option>
                   ))}
                 </select>
-                <span style={mono9}>o mapa acima mostra o PREVIEW deste grupo</span>
+                <span style={mono9}>
+                  {desenvolvedor
+                    ? 'Modo Dev: o mapa acima mostra o mundo inteiro (sem o desconhecido)'
+                    : 'o mapa acima mostra o PREVIEW deste grupo'}
+                </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {cfg.regioes.map((r) => {

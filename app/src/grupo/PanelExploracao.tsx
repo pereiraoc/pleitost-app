@@ -63,18 +63,14 @@ import {
   terrenoDoHex,
   type ViagemCfg,
 } from './viagem'
+import { useTerrenoMundo } from './terreno-mundo'
 import {
-  gravarTracoTerreno,
-  hexesPath,
-  marcaDeLinha,
-  marcaPath,
-  marcasDoMapa,
-  pontosPath,
-  useTerrenoMundo,
-  type CamadaTerreno,
-  type MarcaMapa,
-} from './terreno-mundo'
-import { useMarcasAssadas } from './marcas-assadas'
+  BotaoModificadores,
+  LegendaModificadores,
+  MarcasAssadasImg,
+  MarcasSvg,
+  useModificadores,
+} from './terreno-no-mapa'
 import { useSrcDoMapa } from '../map/mapa-src'
 import { useMapaAssado } from '../map/mapa-assado'
 import { useCamadasOverlay } from '../map/camadas-overlay'
@@ -82,7 +78,7 @@ import { AvisoPreparandoMapa } from '../components/compendium/AtlasMapaPage'
 import { GradeCanvas } from '../map/GradeCanvas'
 import { escolherGrade, useMapaDebug } from '../map/mapa-debug'
 import { useMapView } from '../map/useMapView'
-import { MapControls, btnStyle as mapBtnStyle, fullscreenContainerStyle } from '../map/MapControls'
+import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
 import { useHexMapMundoSync } from '../map/use-hexmapmundo-sync'
 import { useSettings } from '../settings'
@@ -1411,220 +1407,6 @@ function LeftBar({
   )
 }
 
-const CHAVE_MODIFICADORES = 'pleitost.exploracao.modificadores'
-const SEM_MARCAS: MarcaMapa[] = []
-
-/** Toggle dos modificadores: por APARELHO (localStorage; sem storage = desligado). */
-function lerModificadores(): boolean {
-  try {
-    return window.localStorage.getItem(CHAVE_MODIFICADORES) === '1'
-  } catch {
-    return false
-  }
-}
-function gravarModificadores(v: boolean): void {
-  try {
-    window.localStorage.setItem(CHAVE_MODIFICADORES, v ? '1' : '0')
-  } catch {
-    /* storage bloqueado: fica só nesta sessão */
-  }
-}
-
-/** Pintura de uma classe de marca: forma de LINHA (onda, degrau) = traço
- *  escurecido da cor da config; forma CHEIA = cor da config com contorno
- *  escuro fino (legível sobre o pergaminho e sobre o mar). Traço em px da
- *  FONTE (sem non-scaling-stroke): o zoom da camada é transform CSS, que
- *  engrossaria um traço "fixo" até a marca virar borrão — assim a marca
- *  inteira escala junto, sempre na mesma proporção. */
-function estiloMarca(m: Pick<MarcaMapa, 'forma' | 'cor'>): React.SVGProps<SVGPathElement> {
-  return marcaDeLinha(m.forma)
-    ? {
-        fill: 'none',
-        stroke: `color-mix(in srgb,${m.cor} 55%,#000)`,
-        strokeWidth: 2.2,
-        strokeLinecap: 'round',
-        strokeLinejoin: 'round',
-      }
-    : { fill: m.cor, stroke: 'rgba(0,0,0,.6)', strokeWidth: 1.2, strokeLinejoin: 'round' }
-}
-
-/** Ícone do botão: um ▲ sobre uma onda. */
-function IconModificadores() {
-  return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" aria-hidden>
-      <path d="M4 8 7 3l3 5Z" />
-      <path d="M2 12.5q1.5-2 3 0t3 0 3 0 3 0" />
-    </svg>
-  )
-}
-
-/** Legenda (rótulo mono + a própria marca), nomes da config; abaixo dos
- *  controles do mapa. */
-function LegendaModificadores({ marcas }: { marcas: MarcaMapa[] }) {
-  return (
-    <div
-      data-modificadores-legenda=""
-      onPointerDown={(e) => e.stopPropagation()}
-      style={{
-        position: 'absolute',
-        top: 58,
-        right: 14,
-        zIndex: 5,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3,
-        padding: '6px 8px',
-        background: 'color-mix(in srgb,var(--panel) 90%,transparent)',
-        border: '1px solid var(--line2)',
-        clipPath: clip(6),
-        pointerEvents: 'auto',
-      }}
-    >
-      {marcas.map((m) => (
-        <span
-          key={m.classe}
-          data-modificadores-item={m.classe}
-          style={{ ...fieldLabelStyle, fontSize: 9, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-        >
-          <svg width={22} height={16} viewBox="-21 -24 42 30" aria-hidden style={{ flex: 'none', overflow: 'visible' }}>
-            <path
-              d={marcaPath(m.forma, 0, m.camada === 'rotas' ? -24 : 0)}
-              {...estiloMarca(m)}
-            />
-          </svg>
-          {m.nome}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-/** Pincel do pintor: a CAMADA (terreno-base ou rotas) + a chave (null =
- *  limpar aquela camada). */
-interface Pincel {
-  camada: CamadaTerreno
-  chave: string | null
-}
-
-/** Barra do PINTOR DE TERRENO (Modo Dev): toggle + um pincel por terreno da
- *  config (amostra de cor + nome) + Limpar; e, numa linha separada, os
- *  pincéis da camada de ROTAS (estrada, rota marítima) + Limpar rota.
- *  Sobreposta ao mapa (vale também em tela cheia). Grava rascunho LOCAL —
- *  publicar/exportar é na Config. */
-function PintorTerreno({
-  cfg,
-  ligado,
-  onToggle,
-  pincel,
-  onPincel,
-}: {
-  cfg: ViagemCfg
-  ligado: boolean
-  onToggle: () => void
-  pincel: Pincel
-  onPincel: (p: Pincel) => void
-}) {
-  const on = (camada: CamadaTerreno, chave: string | null) => pincel.camada === camada && pincel.chave === chave
-  return (
-    <div
-      onPointerDown={(e) => e.stopPropagation()}
-      style={{
-        position: 'absolute',
-        top: 14,
-        left: 14,
-        zIndex: 4,
-        maxWidth: 'calc(100% - 90px)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: 6,
-      }}
-    >
-      <button
-        data-pintor-terreno-toggle=""
-        aria-pressed={ligado}
-        onClick={onToggle}
-        style={{ ...pillStyle(ligado), padding: '5px 10px', fontSize: 10 }}
-      >
-        ✎ TERRENO
-      </button>
-      {ligado ? (
-        <div
-          data-pintor-terreno=""
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 6,
-            padding: '8px 10px',
-            background: 'color-mix(in srgb,var(--panel) 92%,transparent)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(8),
-          }}
-        >
-          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-            {cfg.terrenos.map((t) => (
-              <button
-                key={t.chave}
-                data-pincel={t.chave}
-                aria-pressed={on('terreno', t.chave)}
-                aria-label={t.nome}
-                title={`Custo de movimento ×${t.custo}`}
-                onClick={() => onPincel({ camada: 'terreno', chave: t.chave })}
-                style={{ ...pillStyle(on('terreno', t.chave)), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
-              >
-                <span
-                  aria-hidden
-                  style={{ width: 9, height: 9, borderRadius: 2, background: t.cor ?? 'var(--muted)', flex: 'none' }}
-                />
-                {t.nome}
-              </button>
-            ))}
-            <button
-              data-pincel-limpar=""
-              aria-pressed={on('terreno', null)}
-              onClick={() => onPincel({ camada: 'terreno', chave: null })}
-              style={{ ...pillStyle(on('terreno', null)), padding: '3px 8px', fontSize: 9.5 }}
-            >
-              ⌫ Limpar
-            </button>
-          </div>
-          {cfg.rotas?.length ? (
-            <div data-pintor-rotas="" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-              {cfg.rotas.map((r) => (
-                <button
-                  key={r.chave}
-                  data-pincel-rota={r.chave}
-                  aria-pressed={on('rotas', r.chave)}
-                  aria-label={r.nome}
-                  title={`Rota: +${r.bonus} hex/dia pra ${r.meios.join(', ')}`}
-                  onClick={() => onPincel({ camada: 'rotas', chave: r.chave })}
-                  style={{ ...pillStyle(on('rotas', r.chave)), padding: '3px 8px', fontSize: 9.5, display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                >
-                  <span
-                    aria-hidden
-                    style={{ width: 7, height: 7, borderRadius: '50%', background: r.cor ?? 'var(--muted)', border: '1px solid var(--line2)', flex: 'none' }}
-                  />
-                  {r.nome}
-                </button>
-              ))}
-              <button
-                data-pincel-rota-limpar=""
-                aria-pressed={on('rotas', null)}
-                onClick={() => onPincel({ camada: 'rotas', chave: null })}
-                style={{ ...pillStyle(on('rotas', null)), padding: '3px 8px', fontSize: 9.5 }}
-              >
-                ⌫ Limpar rota
-              </button>
-            </div>
-          ) : null}
-          <span style={{ ...fieldLabelStyle, fontSize: 9 }}>
-            arraste pra pintar · rascunho local — publique em Config › Modo Dev
-          </span>
-        </div>
-      ) : null}
-    </div>
-  )
-}
 
 /** `readOnly` (pedido do usuário, follow-up #379 r2): fora da MESA CONECTADA o
  *  caminho é SOMENTE LEITURA — a trilha é sincronizada com o session state
@@ -1651,7 +1433,7 @@ export function PanelExploracao({
   const hexMap = hexMapState.cells
   // #430: jogador da mesa adota o mapa-múndi autorado pelo mestre (lugares/
   // áreas) — assim a exploração do grupo mostra o que o mestre marcou.
-  const { mestre, desenvolvedor } = useSettings()
+  const { mestre } = useSettings()
   useHexMapMundoSync(mestre)
   // TERRENO DO MUNDO (2026-10-05): nota `viagem.terreno` lida pelo doc efetivo
   // (overlay publicado ⊕ rascunho do Modo Dev).
@@ -1728,74 +1510,10 @@ export function PanelExploracao({
   // Pan / PINÇA / roda / TELA CHEIA compartilhados (#80).
   const map = useMapView()
 
-  // ── PINTOR DE TERRENO (Modo Dev, 2026-10-05) ──────────────────────────────
-  // Arrastar pinta todo hex sob o ponteiro (pan desligado); toque pinta um.
-  // O traço acumula num REF e o preview é um <path> atualizado por
-  // setAttribute (sem re-render do painel por pointermove); no pointerup vira
-  // UM rascunho local do FM da nota de terreno.
-  const podePintar = desenvolvedor && !!viagemCfg && !!terrenoMundo.doc
-  const [pintando, setPintando] = useState(false)
-  const pintor = pintando && podePintar
-  const [pincel, setPincel] = useState<Pincel>(() => ({
-    camada: 'terreno',
-    chave: viagemCfg?.terrenos.find((t) => t.chave !== viagemCfg.padrao)?.chave ?? null,
-  }))
-  const tracoRef = useRef<{ pointerId: number; cells: Map<string, HexCell>; last: HexCell | null; d: string } | null>(
-    null,
-  )
-  const tracoPathRef = useRef<SVGPathElement | null>(null)
-  const corPincel =
-    (pincel.chave &&
-      (pincel.camada === 'rotas'
-        ? viagemCfg?.rotas?.find((r) => r.chave === pincel.chave)?.cor
-        : viagemCfg?.terrenos.find((t) => t.chave === pincel.chave)?.cor)) ||
-    'var(--muted)'
-  const tintas = useMemo(() => {
-    if (!pintor || !viagemCfg) return []
-    const porChave = new Map<string, { col: number; row: number }[]>()
-    for (const [hex, chave] of terrenoMundo.indice) {
-      const [col, row] = hex.split(',').map(Number) as [number, number]
-      if (!porChave.has(chave)) porChave.set(chave, [])
-      porChave.get(chave)!.push({ col, row })
-    }
-    return viagemCfg.terrenos
-      .filter((t) => porChave.has(t.chave))
-      .map((t) => ({ chave: t.chave, cor: t.cor ?? 'var(--muted)', d: hexesPath(porChave.get(t.chave)!) }))
-  }, [pintor, viagemCfg, terrenoMundo.indice])
-  // camada de ROTAS: um ponto por hex (por cima da tinta do terreno)
-  const tintasRotas = useMemo(() => {
-    if (!pintor || !viagemCfg?.rotas) return []
-    const porChave = new Map<string, { col: number; row: number }[]>()
-    for (const [hex, chave] of terrenoMundo.indiceRotas) {
-      const [col, row] = hex.split(',').map(Number) as [number, number]
-      if (!porChave.has(chave)) porChave.set(chave, [])
-      porChave.get(chave)!.push({ col, row })
-    }
-    return viagemCfg.rotas
-      .filter((r) => porChave.has(r.chave))
-      .map((r) => ({ chave: r.chave, cor: r.cor ?? 'var(--muted)', d: pontosPath(porChave.get(r.chave)!) }))
-  }, [pintor, viagemCfg, terrenoMundo.indiceRotas])
-
   // ── MODIFICADORES DO MAPA (2026-10-06, pra todos) ─────────────────────────
-  // Marcas por hex da nota de terreno (doc efetivo: publicado + rascunho).
-  // UM path por classe, memoizado nos índices + recorte da vista; vive no SVG
-  // da camada transformada (pan/pinça não re-renderizam nada — #573).
-  const [modificadores, setModificadores] = useState(lerModificadores)
-  const marcas = useMemo(
-    () =>
-      modificadores && viagemCfg
-        ? marcasDoMapa(terrenoMundo.indice, terrenoMundo.indiceRotas, viagemCfg, crop)
-        : SEM_MARCAS,
-    [modificadores, viagemCfg, terrenoMundo.indice, terrenoMundo.indiceRotas, crop],
-  )
-  // #573: no navegador as marcas viram UM bitmap na camada (o SVG cheio de
-  // marcas custava ~4× o paint por quadro no Gecko); enquanto assa, os paths
-  const marcasSrc = useMarcasAssadas(marcas, crop)
-  const alternarModificadores = () =>
-    setModificadores((v) => {
-      gravarModificadores(!v)
-      return !v
-    })
+  // Marcas por hex da nota de terreno (doc efetivo: publicado + rascunho),
+  // recortadas na vista. O PINTOR de terreno mora só no Atlas (2026-10-07).
+  const mod = useModificadores(viagemCfg, terrenoMundo, crop)
 
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
@@ -1870,55 +1588,13 @@ export function PanelExploracao({
     return f ? atlasPixelToHex(crop.x + f.fx * crop.w, crop.y + f.fy * crop.h) : null
   }
 
-  const tracarAte = (cell: HexCell | null) => {
-    const t = tracoRef.current
-    if (!t || !cell) return
-    if (t.last && t.last.col === cell.col && t.last.row === cell.row) return
-    // ponteiro rápido pula hexes: liga pela linha hex (sem buracos no traço)
-    const linha = t.last ? hexLine(t.last, cell).slice(1) : [cell]
-    let novo = ''
-    for (const c of linha) {
-      const k = `${c.col},${c.row}`
-      if (t.cells.has(k)) continue
-      t.cells.set(k, { col: c.col, row: c.row })
-      novo += hexesPath([c])
-    }
-    t.last = cell
-    if (novo) {
-      t.d += novo
-      tracoPathRef.current?.setAttribute('d', t.d)
-    }
-  }
-  const fecharTraco = (e: React.PointerEvent) => {
-    const t = tracoRef.current
-    if (!t || t.pointerId !== e.pointerId) return
-    tracarAte(hexAtClient(e.clientX, e.clientY))
-    tracoRef.current = null
-    tracoPathRef.current?.setAttribute('d', '')
-    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
-    if (terrenoMundo.doc && viagemCfg)
-      gravarTracoTerreno(terrenoMundo.doc, [...t.cells.values()], pincel.chave, viagemCfg, pincel.camada)
-  }
-
   const onPointerDown = (e: React.PointerEvent) => {
-    if (pintor) {
-      if (tracoRef.current) return // 2º dedo durante o traço: ignora
-      e.preventDefault()
-      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
-      tracoRef.current = { pointerId: e.pointerId, cells: new Map(), last: null, d: '' }
-      tracarAte(hexAtClient(e.clientX, e.clientY))
-      return
-    }
     pressedRef.current = true
     if (hoverHex) setHoverHex(null)
     setMapTip(null)
     map.onPointerDown(e)
   }
   const onPointerMove = (e: React.PointerEvent) => {
-    if (tracoRef.current) {
-      if (e.pointerId === tracoRef.current.pointerId) tracarAte(hexAtClient(e.clientX, e.clientY))
-      return
-    }
     // Arrasto do token (#71): não faz pan/pinça, marca a célula-alvo.
     if (tokenDragRef.current) {
       const cell = hexAtClient(e.clientX, e.clientY)
@@ -1943,10 +1619,6 @@ export function PanelExploracao({
     }
   }
   const onPointerUp = (e: React.PointerEvent) => {
-    if (tracoRef.current) {
-      fecharTraco(e)
-      return
-    }
     pressedRef.current = false
     map.onPointerUp(e)
   }
@@ -1973,7 +1645,6 @@ export function PanelExploracao({
   }
 
   const onMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (pintor) return // o toque já pintou no pointerdown/up
     if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
@@ -2178,7 +1849,7 @@ export function PanelExploracao({
                 justifyContent: 'center',
                 overflow: 'hidden',
                 touchAction: 'none',
-                cursor: pintor || addMode !== 'off' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
+                cursor: addMode !== 'off' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
                 userSelect: 'none',
               }}
             >
@@ -2218,16 +1889,7 @@ export function PanelExploracao({
                     visibility: camadas.estado.imgVisivel ? 'visible' : 'hidden',
                   }}
                 />
-                {marcasSrc ? (
-                  <img
-                    data-marcas-assadas=""
-                    src={marcasSrc}
-                    alt=""
-                    aria-hidden
-                    draggable={false}
-                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-                  />
-                ) : null}
+                <MarcasAssadasImg src={mod.src} />
                 {/* Overlay em px da FONTE (viewBox = crop; escala com o mapa) */}
                 <svg
                   viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
@@ -2285,56 +1947,7 @@ export function PanelExploracao({
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
-                  {/* TERRENO do mundo (pintor do Modo Dev ligado): uma tinta
-                      por terreno (um path só cada, DOM enxuto no gesto) +
-                      o preview do traço em andamento (d via ref). */}
-                  {tintas.map((tp) => (
-                    <path
-                      key={`terreno:${tp.chave}`}
-                      data-terreno-tinta={tp.chave}
-                      d={tp.d}
-                      fill={tp.cor}
-                      fillOpacity={0.32}
-                      stroke={tp.cor}
-                      strokeOpacity={0.6}
-                      strokeWidth={1}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  ))}
-                  {tintasRotas.map((tp) => (
-                    <path
-                      key={`rota:${tp.chave}`}
-                      data-rota-tinta={tp.chave}
-                      d={tp.d}
-                      fill={tp.cor}
-                      fillOpacity={0.9}
-                      stroke="#000"
-                      strokeOpacity={0.55}
-                      strokeWidth={1}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  ))}
-                  {(marcasSrc ? SEM_MARCAS : marcas).map((m) => (
-                    <path
-                      key={m.classe}
-                      data-marca-mapa={m.classe}
-                      d={m.d}
-                      {...estiloMarca(m)}
-                    />
-                  ))}
-                  {pintor ? (
-                    <path
-                      ref={tracoPathRef}
-                      data-terreno-traco=""
-                      d=""
-                      fill={pincel.chave && pincel.camada === 'terreno' ? corPincel : 'transparent'}
-                      fillOpacity={0.5}
-                      stroke={pincel.chave ? corPincel : 'var(--text)'}
-                      strokeDasharray={pincel.chave && pincel.camada === 'terreno' ? undefined : '4 3'}
-                      strokeWidth={1.5}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  ) : null}
+                  <MarcasSvg mod={mod} />
                   {/* Hexes com LUGAR pontual (#70): realce sutil pra sinalizar
                       info clicável. Só o LUGAR — não as células de ÁREA de
                       região (senão o mapa inteiro parece marcado; pedido do
@@ -2500,36 +2113,12 @@ export function PanelExploracao({
               map={map}
               extra={
                 viagemCfg ? (
-                  <button
-                    type="button"
-                    data-modificadores-toggle=""
-                    aria-pressed={modificadores}
-                    aria-label="Mostrar modificadores do mapa"
-                    title="Mostrar modificadores do mapa"
-                    onClick={alternarModificadores}
-                    style={{
-                      ...mapBtnStyle,
-                      ...(modificadores
-                        ? { background: 'color-mix(in srgb,var(--accent) 22%,var(--panel))', borderColor: 'var(--accent)' }
-                        : {}),
-                    }}
-                  >
-                    <IconModificadores />
-                  </button>
+                  <BotaoModificadores ligado={mod.ligado} onClick={mod.alternar} />
                 ) : undefined
               }
             />
           ) : null}
-          {mapEntry && modificadores && marcas.length > 0 ? <LegendaModificadores marcas={marcas} /> : null}
-          {mapEntry && podePintar && viagemCfg ? (
-            <PintorTerreno
-              cfg={viagemCfg}
-              ligado={pintor}
-              onToggle={() => setPintando((p) => !p)}
-              pincel={pincel}
-              onPincel={setPincel}
-            />
-          ) : null}
+          {mapEntry && mod.ligado && mod.marcas.length > 0 ? <LegendaModificadores marcas={mod.marcas} /> : null}
           {mapEntry && preparandoMapa ? <AvisoPreparandoMapa /> : null}
 
           {/* #71 Botão "Adicionar parada" (após soltar o token numa célula nova) */}
