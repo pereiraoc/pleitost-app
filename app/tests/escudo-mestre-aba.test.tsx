@@ -472,13 +472,12 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(within(vista(goblin.id)!).queryByText('Competente')).toBeNull()
   })
 
-  it('atalho ESCUDO DO MESTRE na face SESSÃO leva o GM pra aba combate da ficha', async () => {
+  it('2026-10-08: a face SESSÃO não tem mais o atalho do escudo (fica só na barra esquerda)', async () => {
     const repo = new InMemorySessionRepo()
     renderApp(repo, { id: 'gm-1', nome: 'Mestre' }, heroPath(CARLOS_ID))
     await mesaComCombate(repo)
-    const atalho = await screen.findByTitle('Abrir o Escudo do Mestre')
-    fireEvent.click(atalho)
-    await waitFor(() => expect(escudo()).not.toBeNull())
+    await screen.findByText(/FICHA DO GRUPO/)
+    expect(screen.queryByTitle('Abrir o Escudo do Mestre')).toBeNull()
   })
 
   it('jogador na mesma mesa: aba combate segue sendo o COMBATE e a face SESSÃO não tem o atalho', async () => {

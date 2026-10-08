@@ -87,9 +87,7 @@ import { activeWorld } from '../../data/world'
 import { applyFmEdits, getHeroEdits, onHeroWrite, writeHeroEdit } from '../../data/hero-store'
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
-import { heroPath } from '../../paths'
 import { StatsLinha } from './StatsLinha'
-import { useSelectedCreature } from '../../data/selected-creature-store'
 import { Lightbox } from '../Lightbox'
 import { MuralPanel } from './MuralPanel'
 import { useMuralNovos } from '../../data/mural-vistos'
@@ -2020,8 +2018,6 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const navigate = useNavigate()
   const live = useLiveSession()
-  const user = useSessionUser()
-  const selectedId = useSelectedCreature()
   const mesaGroupImage = useMesaGroupImageUrl()
   const members = useGroupMembers(catalog, sess.grupoId ?? '')
   // Nome do grupo = apelidos dos HERÓIS (não o nome da sessão nem os companheiros
@@ -2100,59 +2096,6 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
         </div>
         <span style={{ flex: 'none', color: 'var(--muted)', fontSize: 18 }}>→</span>
       </button>
-      {/* ESCUDO DO MESTRE (2026-10-02): atalho do GM pra aba COMBATE da ficha em
-          modo mestre (todos os combatentes com vida/defesas/ataques/…). O Escudo
-          mora na rota de uma ficha — abre a do personagem selecionado, senão a
-          do primeiro herói da mesa; GM sem herói nenhum não tem como abrir. */}
-      {(() => {
-        const isGm = !!live && !!user && live.gmUserId === user.id
-        const alvo = selectedId ?? heroChars.find((c) => c.kind === 'heroi')?.characterPath ?? null
-        if (!isGm || !alvo) return null
-        return (
-          <button
-            data-escudo-atalho=""
-            onClick={() => navigate(heroPath(alvo, 'combate'))}
-            title="Abrir o Escudo do Mestre"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 15,
-              padding: '12px 18px',
-              background: 'var(--panel)',
-              border: '1px solid var(--line2)',
-              cursor: 'pointer',
-              textAlign: 'left',
-              clipPath: clip(15),
-            }}
-          >
-            <span
-              style={{
-                width: 44,
-                height: 44,
-                flex: 'none',
-                background: 'color-mix(in srgb,var(--red) 18%,var(--panel))',
-                border: '1px solid color-mix(in srgb,var(--red) 40%,var(--line2))',
-                clipPath: clip(9),
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 20,
-              }}
-            >
-              🛡️
-            </span>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={mono({ fontSize: 10, letterSpacing: '.16em', color: 'var(--muted)', marginBottom: 4 })}>
-                ESCUDO DO MESTRE ↗
-              </div>
-              <div style={{ fontSize: 13, color: 'var(--text)' }}>
-                Todos os combatentes: vida, defesas, ataques, magias, perícias, habilidades e pertences.
-              </div>
-            </div>
-            <span style={{ flex: 'none', color: 'var(--muted)', fontSize: 18 }}>→</span>
-          </button>
-        )
-      })()}
       {/* Sala remota (#186): HERÓIS da mesa com a vida ao vivo — some
           enquanto há combate ativo (#238, todo mundo tá na lista dele). */}
       <SalaRemota sess={sess} />
