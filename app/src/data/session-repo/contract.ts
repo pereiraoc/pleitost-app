@@ -33,6 +33,8 @@ export interface CharacterSummary {
   sintonia?: string
   raca?: string
   nivel: number
+  /** Tier do MONSTRO (FM `Tier`; 0 vale) — herói/companheiro usam `nivel`. */
+  tier?: number
   atributos: { FOR: number; AGI: number; INT: number; PRE: number }
   vitalidadeMax: number
   moralMax?: number

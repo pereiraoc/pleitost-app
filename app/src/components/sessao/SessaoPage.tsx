@@ -80,7 +80,7 @@ import {
 } from '../../data/initiative-blocks'
 import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
-import { ladoDoCombatente, maskedNames, sugereMorte, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
+import { ladoDoCombatente, maskedNames, subtituloCombatente, sugereMorte, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { tokens } from '../../generated/tokens'
 import { getLocalDoc, localEntriesOfKind, localStoreVersion, useLocalStoreVersion } from '../../data/local-entities'
 import { activeWorld } from '../../data/world'
@@ -1464,6 +1464,14 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
     const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
     // report 2026-09-12: na iniciativa vale o Apelido; sem ele, o nome inteiro
     const nomeExib = mostraReal ? nomeDeIniciativa(c.summary.nome, c.fmBlob) : (nomes.get(c.id) ?? c.summary.nome)
+    // classe embaixo do nome no ESCUDO; NPC disfarçado: Tier do fmBlob do segredo
+    const classeExib =
+      variante === 'escudo' && mostraReal
+        ? subtituloCombatente(
+            c.summary,
+            Object.keys(c.fmBlob ?? {}).length ? c.fmBlob : readDisguiseSecret(live.sessionId, c.id)?.fmBlob,
+          )
+        : ''
     const portrait = mostraReal
       ? (c.summary.retrato ?? creatureImageUrl(synthDocFromCharacter(c), assets, true))
       : null
@@ -1604,6 +1612,25 @@ export function CombateDaSala({ sess, filtro, extraPorCombatente, variante = 'si
               </button>
             ) : null}
           </div>
+          {/* ESCUDO DO MESTRE (pedido 2026-10-08): classe embaixo do nome —
+              "Soldado Competente · Tier 1" / "Pirata Pugilista · Nível 2". */}
+          {classeExib ? (
+            <div
+              data-combatente-classe=""
+              style={mono({
+                fontSize: 10,
+                letterSpacing: '.06em',
+                color: 'var(--muted)',
+                paddingLeft: 39,
+                marginTop: -4,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              })}
+            >
+              {classeExib}
+            </div>
+          ) : null}
           {/* #486: controles de EDIÇÃO numa linha própria com wrap — na linha 1,
               o painel direito de 340px estourava e o clipPath do card cortava os
               últimos botões (o 📕 de liberar a ficha renderizava FORA da área

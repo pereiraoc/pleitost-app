@@ -268,6 +268,21 @@ describe('ESCUDO DO MESTRE — combate ativo na mesa', () => {
     expect(vista(heroi.id)!.querySelector('[data-escudo-condicao-chip="Cego"]')).toBeNull() // só as ligadas
   })
 
+  it('pedido 2026-10-08: classe embaixo do nome — monstro com Tier, herói com Nível', async () => {
+    modoMestre(true)
+    const repo = new InMemorySessionRepo()
+    renderApp(repo, { id: 'gm-1', nome: 'Mestre' })
+    const { heroi, goblin } = await mesaComCombate(repo)
+    await waitFor(() => expect(linha(goblin.id)).toBeTruthy())
+    expect(linha(goblin.id).querySelector('[data-combatente-classe]')!.textContent).toBe('Batedor · Tier 0')
+    fireEvent.click(document.querySelector('[data-escudo-filtro="todos"]')!)
+    await waitFor(() => expect(linha(heroi.id)).toBeTruthy())
+    // nome da classe no mundo ativo (o reskin troca Menestrel → Trovador)
+    expect(linha(heroi.id).querySelector('[data-combatente-classe]')!.textContent).toMatch(
+      /^\S+ Inspirador de Luta Artística · Nível 7$/,
+    )
+  })
+
   it('linha: defesas sempre embaixo da vida (sem toggle 🛡️); vista POR LINHA (goblin ATAQUES desc, herói PERTENCES sem armas); chip vazio desabilitado; chip ativo fecha', async () => {
     const repo = new InMemorySessionRepo()
     renderApp(repo, { id: 'gm-1', nome: 'Mestre' })

@@ -72,6 +72,7 @@ export function buildCharacterSummary(
   // é síncrona (localStorage) e já redimensionada pro tamanho de card.
   const retrato = syncedImageDataUrl(doc.id)
   if (retrato) summary.retrato = retrato
+  if (fm['Tier'] !== undefined && fm['Tier'] !== null && fm['Tier'] !== '') summary.tier = num(fm['Tier'])
   const classe = linkLabel(str(fm['Classe']))
   if (classe) summary.classe = classe
   const sintonia = linkLabel(str(fm['Sintonia']))

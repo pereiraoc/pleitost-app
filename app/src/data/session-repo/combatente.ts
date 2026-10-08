@@ -11,6 +11,7 @@
 import type { CharacterSummary, SessionCharacter } from './contract'
 import { ladoDe, type Lado } from '../initiative-blocks'
 import { FICHA_FAMILIA } from '../familia'
+import { reskinName } from '../reskin'
 
 /** 'Morrendo' = nome da CONDIÇÃO da vault (Sistema/Regras/Condições/Morrendo.md;
  *  catálogo do plugin condicoes-catalog.ts) — o estado de quem tem moral e
@@ -120,4 +121,19 @@ export function ladoDoCombatente(
     if (tutor) return ladoDe(tutor.summary.family)
   }
   return ladoDe(c.summary.family)
+}
+
+/** Linha embaixo do nome na iniciativa do ESCUDO (pedido 2026-10-08): classe
+ *  (nome no mundo ativo) + "Tier N" pro monstro ou "Nível N" pro resto, ex.:
+ *  "Soldado Competente · Tier 1" / "Pirata Pugilista · Nível 2". Monstro
+ *  publicado antes do `tier` no summary cai no `Tier` do fmBlob. */
+export function subtituloCombatente(s: CharacterSummary, fmBlob?: Record<string, unknown> | null): string {
+  if (!s.classe) return ''
+  const classe = reskinName(s.classe)
+  if (s.family === 'Monstro') {
+    const bruto = s.tier ?? fmBlob?.['Tier']
+    const tier = typeof bruto === 'number' ? bruto : typeof bruto === 'string' && bruto.trim() ? Number(bruto) : NaN
+    return Number.isFinite(tier) ? `${classe} · Tier ${tier}` : classe
+  }
+  return s.nivel > 0 ? `${classe} · Nível ${s.nivel}` : classe
 }
