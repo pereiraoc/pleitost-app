@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { CONTEXTS, useTheme } from '../../theme'
 import { Link, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useWorld, WORLD_BRAND } from '../../data/world'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
@@ -48,6 +49,31 @@ function NavIcon({ id }: { id: string }) {
       strokeLinejoin="round"
       dangerouslySetInnerHTML={{ __html: paths }}
     />
+  )
+}
+
+/** TROCAR CONTEXTO (pedido 2026-10-08): ação, não rota — alterna Fantasia ⇄
+ *  POA1987 pelo mesmo setter da Config (theme.context). Fica logo acima do
+ *  CONFIG. */
+function TrocarContextoButton({ onTrocar }: { onTrocar: () => void }) {
+  const { context, setContext } = useTheme()
+  const destino = CONTEXTS.find((c) => c.id !== context) ?? CONTEXTS[0]!
+  return (
+    <button
+      type="button"
+      className="nav-item"
+      data-trocar-contexto=""
+      title={`Trocar para ${destino.label}`}
+      onClick={() => {
+        setContext(destino.id)
+        onTrocar()
+      }}
+    >
+      <span className="nav-ic" aria-hidden>
+        <NavIcon id="trocar-contexto" />
+      </span>
+      <span className="nav-label">TROCAR CONTEXTO</span>
+    </button>
   )
 }
 
@@ -396,8 +422,13 @@ export function AppShell() {
           </nav>
           <div className="sidebar-spacer" />
           <nav className="nav-group">
-            {APP_NAV.filter((item) => (NAV_MUNDOS[item.id] ?? [world]).includes(world)).map(
-              (item) => (
+            {APP_NAV.filter((item) => (NAV_MUNDOS[item.id] ?? [world]).includes(world)).map((item) =>
+              item.id === 'config' ? (
+                <Fragment key={item.id}>
+                  <TrocarContextoButton onTrocar={closeDrawer} />
+                  <NavButton item={item} onNavigate={closeDrawer} secao={section} />
+                </Fragment>
+              ) : (
                 <NavButton key={item.id} item={item} onNavigate={closeDrawer} secao={section} />
               ),
             )}
