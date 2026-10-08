@@ -4,10 +4,10 @@
 // com textarea; o envio vai pro canal aberto de bug-report.ts (sem login).
 import { useEffect, useState, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
-import { enviarBugReport, type ResultadoReport, type TipoReport } from '../../data/bug-report'
+import { enviarBugReport, type TipoReport } from '../../data/bug-report'
 import { isDebugOn, logCount, onDebugChange, setDebugOn } from '../../data/debug-log'
 import { MapaDebugToggles } from '../../map/MapaDebugToggles'
-import { canOpenGitHubIssue, gitHubLogin } from '../../data/github-issue'
+import { gitHubLogin } from '../../data/github-login'
 import { clip } from '../ficha/bits'
 
 const overlayStyle: CSSProperties = {
@@ -36,7 +36,6 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
   const [texto, setTexto] = useState('')
   const [estado, setEstado] = useState<Estado>('editando')
   const [erro, setErro] = useState('')
-  const [resultado, setResultado] = useState<ResultadoReport | null>(null)
   const [tipo, setTipo] = useState<TipoReport>('bug')
   // Modo debug (persistido): quando ligado, o app captura logs dos pontos
   // instrumentados e eles vão ANEXADOS neste reporte.
@@ -52,15 +51,13 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
     setOpen(false)
     setEstado('editando')
     setErro('')
-    setResultado(null)
     setTipo('bug')
   }
 
   const enviar = async () => {
     setEstado('enviando')
     try {
-      const r = await enviarBugReport(texto, tipo)
-      setResultado(r)
+      await enviarBugReport(texto, tipo)
       setEstado('enviado')
       setTexto('')
     } catch (e) {
@@ -133,17 +130,7 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
             {estado === 'enviado' ? (
               <>
                 <div style={{ fontSize: 13.5 }}>
-                  {resultado?.canal === 'github' ? (
-                    <>
-                      ✅ Issue{' '}
-                      <a href={resultado.url} target="_blank" rel="noreferrer" style={{ color: 'var(--red)' }}>
-                        #{resultado.number}
-                      </a>{' '}
-                      aberta no GitHub como você — valeu!
-                    </>
-                  ) : (
-                    <>✅ Reporte enviado — valeu! Vamos olhar e corrigir.</>
-                  )}
+                  ✅ Reporte enviado — valeu! Vamos olhar e corrigir.
                 </div>
                 <button type="button" onClick={fechar} style={btnStyle(false)}>
                   FECHAR
@@ -182,10 +169,8 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
                   ))}
                 </div>
                 <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>{DICA[tipo]}</div>
-                {canOpenGitHubIssue() ? (
-                  <div style={{ fontSize: 12, color: 'var(--muted)' }}>
-                    🔗 Sua issue será aberta no GitHub{gitHubLogin() ? ` como @${gitHubLogin()}` : ''}.
-                  </div>
+                {gitHubLogin() ? (
+                  <div style={{ fontSize: 12, color: 'var(--muted)' }}>Enviado como @{gitHubLogin()}.</div>
                 ) : null}
                 {/* Modo debug: captura logs técnicos pra anexar no reporte. */}
                 <label

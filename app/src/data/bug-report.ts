@@ -1,14 +1,13 @@
 // REPORTAR BUG (#220) — req do usuário: "Quero que qualquer um consiga
-// fazer". Dois canais:
-//  • autor logado com GitHub (N4) → a issue é aberta DIRETO no repo, COMO ele,
-//    via provider_token (github-issue.ts);
-//  • convidado / GitHub indisponível → INSERT anônimo na tabela bug_reports do
-//    Supabase (RLS: anon/authenticated só INSEREM; leitura só no dashboard).
-// Schema em supabase/bug-reports.sql.
+// fazer". Canal ÚNICO: INSERT na tabela bug_reports do Supabase (RLS:
+// anon/authenticated só INSEREM; leitura só no dashboard), com o LOGIN do
+// GitHub de quem mandou em contexto.reporter. A issue é aberta na triagem
+// (2026-10-08: saiu a issue direta pela conta do autor — exigia o escopo
+// public_repo no login). Schema em supabase/bug-reports.sql.
 import { supabaseClient } from './session-repo/supabase'
 import { APP_VERSION } from '../pwa-update'
 import { getLogs, isDebugOn, type DebugEntry } from './debug-log'
-import { canOpenGitHubIssue, gitHubLogin, openGitHubIssue } from './github-issue'
+import { gitHubLogin } from './github-login'
 
 /** Tipo do report — escolhido pelo autor no modal. Vira a label da issue
  *  (bug/enhancement), pra priorizar bugs primeiro. */
@@ -20,47 +19,25 @@ export interface BugReport {
   /** Contexto automático que ajuda a reproduzir (rota, versão, navegador).
    *  `logs` só vem preenchido quando o modo debug estava ligado — o rastro dos
    *  pontos instrumentados antes do bug, pra entrar junto na issue. */
-  contexto: { pagina: string; versao: string; userAgent: string; tipo: TipoReport; logs?: DebugEntry[] }
+  contexto: {
+    pagina: string
+    versao: string
+    userAgent: string
+    tipo: TipoReport
+    /** Login do GitHub de quem mandou (ausente = convidado). */
+    reporter?: string
+    logs?: DebugEntry[]
+  }
 }
 
 /** O que aconteceu com o report — a UI usa pra dar o retorno certo. */
-export type ResultadoReport =
-  | { canal: 'github'; url: string; number: number }
-  | { canal: 'anon' }
+export type ResultadoReport = { canal: 'anon' }
 
 type Sender = (r: BugReport) => Promise<void>
 // Injeção pros testes (o InMemory não tem tabela) — produção usa o Supabase.
 let sender: Sender | null = null
 export function __setBugSenderForTests(s: Sender | null): void {
   sender = s
-}
-
-/** Título da issue = 1ª linha não-vazia do texto, enxuta. */
-function tituloDe(texto: string): string {
-  const primeira = texto.split('\n').map((l) => l.trim()).find(Boolean) ?? 'Report do app'
-  return primeira.length > 90 ? primeira.slice(0, 87) + '…' : primeira
-}
-
-/** Corpo markdown da issue: texto + contexto + logs (se houver). O marcador
- *  `pleitost:tipo=...` (comentário invisível) é o que o workflow do repo lê pra
- *  aplicar a label — o param `labels` da API é descartado pra quem não tem push. */
-function corpoIssue(report: BugReport): string {
-  const c = report.contexto
-  const partes = [
-    report.texto,
-    '',
-    '---',
-    `**Tipo:** ${report.tipo === 'bug' ? '🐞 Bug' : '💡 Sugestão'}`,
-    `**Página:** \`${c.pagina}\``,
-    `**Versão:** \`${c.versao}\``,
-    `**Navegador:** \`${c.userAgent}\``,
-  ]
-  if (c.logs?.length) {
-    const linhas = c.logs.map((l) => `${new Date(l.t).toISOString()} [${l.tag}] ${l.msg}`).join('\n')
-    partes.push('', '<details><summary>Logs do modo debug</summary>', '', '```', linhas, '```', '</details>')
-  }
-  partes.push('', `<!-- pleitost:tipo=${report.tipo} -->`, '', '_Aberta pelo autor via Reportar Bug do app._')
-  return partes.join('\n')
 }
 
 /** Redige padrões de credencial (JWT, tokens GitHub, Bearer, api keys) — os
@@ -74,14 +51,7 @@ function redactSecrets(s: string): string {
 async function inserirAnon(report: BugReport): Promise<void> {
   const sb = supabaseClient()
   if (!sb) throw new Error('Servidor de reportes indisponível — tenta de novo mais tarde.')
-  // Atribuição (pedido 2026-08-15): o canal anônimo agora carrega o LOGIN do
-  // GitHub do autor logado (contexto.reporter) — a triagem cita "Reportado
-  // por @fulano" na issue e dá pra medir quem contribui com reports.
-  const reporter = gitHubLogin()
-  const { error } = await sb.from('bug_reports').insert({
-    texto: report.texto,
-    contexto: { ...report.contexto, ...(reporter ? { reporter } : {}) },
-  })
+  const { error } = await sb.from('bug_reports').insert({ texto: report.texto, contexto: report.contexto })
   if (error) throw new Error(`Não deu pra enviar (${error.message}) — tenta de novo.`)
 }
 
@@ -98,6 +68,7 @@ export async function enviarBugReport(texto: string, tipo: TipoReport = 'bug'): 
         .slice(-200)
         .map((l) => ({ ...l, msg: redactSecrets(l.msg) }))
     : []
+  const reporter = gitHubLogin()
   const report: BugReport = {
     texto: limpo,
     tipo,
@@ -106,37 +77,14 @@ export async function enviarBugReport(texto: string, tipo: TipoReport = 'bug'): 
       versao: APP_VERSION,
       userAgent: navigator.userAgent,
       tipo,
+      // Atribuição (pedido 2026-08-15): a triagem cita "Reportado por @fulano"
+      ...(reporter ? { reporter } : {}),
       ...(logs.length ? { logs } : {}),
     },
   }
   if (sender) {
     await sender(report)
     return { canal: 'anon' }
-  }
-  // N4: autor logado com GitHub → abre a issue COMO ele. Se falhar (escopo/rede/
-  // token expirado), NÃO perde o report: cai no canal anônimo.
-  if (canOpenGitHubIssue()) {
-    try {
-      // Labels padrão do GitHub: bug / enhancement. Só aplicam pra quem tem push;
-      // pros demais o workflow label-reports.yml lê o marcador do corpo.
-      const labels = tipo === 'bug' ? ['bug'] : ['enhancement']
-      const issue = await openGitHubIssue(tituloDe(limpo), corpoIssue(report), labels)
-      // Espelha no Supabase já triado (github_issue), pra o dashboard bater —
-      // best-effort, um erro aqui não invalida a issue já criada.
-      try {
-        const sb = supabaseClient()
-        await sb?.from('bug_reports').insert({
-          texto: report.texto,
-          contexto: { ...report.contexto, reporter: gitHubLogin() ?? undefined },
-          github_issue: issue.number,
-        })
-      } catch {
-        /* espelho é opcional */
-      }
-      return { canal: 'github', url: issue.url, number: issue.number }
-    } catch {
-      // fallback silencioso pro canal anônimo (o report não pode se perder)
-    }
   }
   await inserirAnon(report)
   return { canal: 'anon' }

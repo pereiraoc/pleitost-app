@@ -690,10 +690,9 @@ export async function signInWithGitHub(): Promise<void> {
   if (!sb) throw new Error('Supabase não configurado')
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'github',
-    // N4: `public_repo` deixa o provider_token abrir a issue do report como o
-    // próprio autor (github-issue.ts). Sem isso a criação da issue dá 403 e o
-    // report cai no canal anônimo.
-    options: { redirectTo: oauthRedirectUrl(), scopes: 'public_repo' },
+    // Só identidade (escopo padrão do GitHub) — 2026-10-08: o `public_repo` da
+    // issue direta pedia "ler e escrever todos os repositórios públicos".
+    options: { redirectTo: oauthRedirectUrl() },
   })
   if (error) throw error
 }
