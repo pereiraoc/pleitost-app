@@ -23,6 +23,9 @@ const SessaoFichaPage = lazy(() =>
 const ContextoPage = lazy(() =>
   import('./components/compendium/ContextoPage').then((m) => ({ default: m.ContextoPage })),
 )
+const EscudoPage = lazy(() =>
+  import('./components/mestre/escudo/EscudoPage').then((m) => ({ default: m.EscudoPage })),
+)
 const AtlasMapaPage = lazy(() =>
   import('./components/compendium/AtlasMapaPage').then((m) => ({ default: m.AtlasMapaPage })),
 )
@@ -72,6 +75,7 @@ const router = createBrowserRouter(
         { path: '/doc/*', element: L(<DocPage />) },
         // Mapa do mundo (fase 1 do atlas completo) — entrada no FolderView do Atlas.
         { path: '/mapa', element: L(<AtlasMapaPage />) },
+        { path: '/escudo', element: L(<EscudoPage />) },
         // CONTEXTO (2026-09-09): os dossiês do mundo agrupados, sem passar
         // pelo compêndio (o botão da sidebar vem do design-nav).
         { path: '/contexto', element: L(<ContextoPage />) },

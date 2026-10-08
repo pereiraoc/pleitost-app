@@ -297,7 +297,9 @@ export function AppShell() {
 
   // Seção ativa (destaque da sidebar + título da topbar): o registro central
   // resolve pelo prefixo mais longo, então /compendio/Atlas é ATLAS.
-  const section = fichaOpen ? fichaTab : navSection(pathname)
+  // /escudo (rota própria do ESCUDO DO MESTRE) acende a aba `combate`.
+  const naRotaEscudo = pathname === '/escudo'
+  const section = fichaOpen ? fichaTab : naRotaEscudo ? 'combate' : navSection(pathname)
   const title = tituloDaSecao(section, escudo)
   const closeDrawer = () => setDrawerOpen(false)
 
@@ -305,6 +307,12 @@ export function AppShell() {
     // navega pra ficha do personagem selecionado, na aba pedida (#86: funciona
     // mesmo estando na tela de seleção — não fica "não clicável").
     if (heroId) navigate(heroPath(heroId, id === 'perfil' ? undefined : id))
+    closeDrawer()
+  }
+  // ESCUDO DO MESTRE (report 2026-10-08): é da sessão, não do personagem —
+  // vai sempre pra rota própria, com ou sem alguém selecionado.
+  const abrirEscudo = () => {
+    navigate('/escudo')
     closeDrawer()
   }
 
@@ -362,7 +370,14 @@ export function AppShell() {
         >
           <nav className="nav-group">
             {charTabs.map((item) =>
-              // #86: clicáveis sempre que HÁ personagem (rota OU selecionado) —
+              escudo && item.id === 'combate' ? (
+                <CharTabButton
+                  key={item.id}
+                  item={item}
+                  active={naRotaEscudo || (fichaOpen && fichaTab === item.id)}
+                  onSelect={abrirEscudo}
+                />
+              ) : // #86: clicáveis sempre que HÁ personagem (rota OU selecionado) —
               // não ficam mortas na tela de seleção. Só destacam a aba ativa
               // quando de fato na ficha.
               heroId ? (
