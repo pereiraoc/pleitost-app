@@ -4,6 +4,11 @@
 // — é ali que o mestre vê a vida/ataques DAQUELA criatura sem mesa.
 import type { SheetFamily } from '../../../data/familia'
 
-export function escudoAtivo(mestre: boolean, familia: SheetFamily | null): boolean {
-  return mestre && (familia === null || familia === 'Heroi')
+//
+// Report 2026-10-08: CONECTADO à mesa como mestre, o escudo vale em QUALQUER
+// ficha selecionada — com um companheiro selecionado (aberto pela
+// iniciativa), o ESCUDO DO MESTRE sumia da barra e a aba levava pro combate
+// do bicho. Na mesa o escudo já mostra todos os combatentes, ele incluso.
+export function escudoAtivo(mestre: boolean, familia: SheetFamily | null, naMesa = false): boolean {
+  return mestre && (naMesa || familia === null || familia === 'Heroi')
 }

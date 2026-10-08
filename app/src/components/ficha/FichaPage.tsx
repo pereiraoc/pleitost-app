@@ -182,6 +182,8 @@ export function FichaPage() {
   // HERÓI vira o painel do mestre (todos os combatentes da sala); jogador, e a
   // ficha de monstro/CA aberta pelo mestre, seguem no COMBATE (escudo-gate).
   const { mestre } = useSettings()
+  // conectado à mesa (mestre travado no papel): escudo em qualquer ficha
+  const conectado = useLiveSelector((l) => !!l?.sessionId)
   // Abas por FAMÍLIA (#201): o CA não tem ANOTAÇÕES (plugin mount-
   // interativa.ts:897 — CA fica só com Recursos). Mesmo predicado central do
   // sidebar (abaFichaVisivel); rota direta numa aba invisível cai no PERFIL.
@@ -224,7 +226,7 @@ export function FichaPage() {
       {tab === 'grupos' ? <GruposTab doc={doc} /> : null}
       {tab === 'habilidades' ? <HabilidadesTab doc={doc} refs={refs} /> : null}
       {tab === 'inventario' ? <InventarioTab doc={doc} refs={refs} /> : null}
-      {tab === 'combate' ? (escudoAtivo(mestre, familiaOf(doc)) ? <EscudoDoMestreTab /> : <CombateTab doc={doc} refs={refs} />) : null}
+      {tab === 'combate' ? (escudoAtivo(mestre, familiaOf(doc), conectado) ? <EscudoDoMestreTab /> : <CombateTab doc={doc} refs={refs} />) : null}
     </div>
   )
 }

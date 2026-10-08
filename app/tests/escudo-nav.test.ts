@@ -48,4 +48,10 @@ describe('escudoAtivo (gate)', () => {
     expect(escudoAtivo(true, 'CompanheiroAnimal')).toBe(false)
     expect(escudoAtivo(false, 'Heroi')).toBe(false)
   })
+  it('report 2026-10-08: MESTRE NA MESA vê o escudo em qualquer ficha selecionada (companheiro/monstro) — fora da mesa, o COMBATE próprio', () => {
+    expect(escudoAtivo(true, 'CompanheiroAnimal', true)).toBe(true)
+    expect(escudoAtivo(true, 'Monstro', true)).toBe(true)
+    expect(escudoAtivo(true, 'CompanheiroAnimal', false)).toBe(false)
+    expect(escudoAtivo(false, 'CompanheiroAnimal', true)).toBe(false)
+  })
 })

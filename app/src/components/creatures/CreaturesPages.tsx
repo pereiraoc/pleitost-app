@@ -1284,6 +1284,11 @@ export function HeroisPage() {
   const navigate = useNavigate()
   const selectedGroup = searchParams.get('grupo')
   const [tab, setTab] = useState(selectedGroup ? 'grupos' : 'herois')
+  // ?grupo= chegando com a página já aberta (FICHA DO GRUPO da sessão,
+  // report 2026-10-08) também abre a aba GRUPOS — não só na montagem.
+  useEffect(() => {
+    if (selectedGroup) setTab('grupos')
+  }, [selectedGroup])
   const index = Math.max(0, HEROIS_TABS.findIndex((t) => t.id === tab))
 
   const selectGroup = (id: string | null) => {

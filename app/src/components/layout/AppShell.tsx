@@ -256,7 +256,8 @@ export function AppShell() {
   // ESCUDO DO MESTRE (2026-10-02): em modo mestre, na ficha de HERÓI, a aba
   // COMBATE troca rótulo/ícone (charTabParaModo) — o id fica, o conteúdo troca
   // na FichaPage (mesmo gate: escudo-gate).
-  const escudo = escudoAtivo(mestre, heroDoc ? familiaOf(heroDoc) : null)
+  const conectado = useLiveSelector((l) => !!l?.sessionId)
+  const escudo = escudoAtivo(mestre, heroDoc ? familiaOf(heroDoc) : null, conectado)
   const charTabs = (heroDoc
     ? CHAR_TABS.filter((t) => abaFichaVisivel(familiaOf(heroDoc), t.id))
     : CHAR_TABS
