@@ -13,7 +13,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-LOCK="${TMPDIR:-/tmp}/pleitost-app-deploy.lock"
+# Trava no PRÓPRIO checkout: $TMPDIR muda por sessão (duas sessões do Claude
+# não se viam e limpavam o app/dist uma da outra — 2026-10-09).
+LOCK="$(pwd)/.deploy.lock"
 # `>>` e não `>`: abrir pra truncar apagaria o PID do dono antes mesmo de saber
 # se a trava é nossa.
 exec 9>>"$LOCK"

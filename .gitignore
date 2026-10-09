@@ -42,3 +42,4 @@ __pycache__/
 
 # scripts descartáveis de screenshot (playwright) — nunca versionar
 *-tmp.mjs
+.deploy.lock
