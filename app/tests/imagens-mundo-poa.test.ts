@@ -172,17 +172,9 @@ describe('bestiário do mundo', () => {
   // de prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
   // 2026-10-02: os dois fiéis da Doutrina Simbiótica nasceram sem leva de arte.
   // 2026-10-09: as seis criaturas das organizações novas (Carris, CRT, Bancários,
-  // Cassados, Replicantes, Engenheiros) nasceram antes da leva de arte.
-  const AGUARDANDO_ARTE: string[] = [
-    'Fiel do Círculo',
-    'Guru do Círculo',
-    'Fiscal da Carris',
-    'Técnico da CRT',
-    'Delegado Sindical dos Bancários',
-    'Portador da Carta',
-    'Roadie do Porão',
-    'Produtor de Turnê',
-  ]
+  // Cassados, Replicantes, Engenheiros) nasceram antes da leva de arte; a leva
+  // do Codex da mesma madrugada cobriu as oito e a lista voltou a zero.
+  const AGUARDANDO_ARTE: string[] = []
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
