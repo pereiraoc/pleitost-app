@@ -10,7 +10,7 @@
 import { fmPath, num, str } from '../components/ficha/hero-model'
 import { reskinExecucao } from '../data/reskin'
 import { execucaoDe } from './execucao'
-import type { FormulaCtx } from './formulas'
+import { interpolarFormulas, type FormulaCtx } from './formulas'
 
 export type { FormulaCtx } from './formulas'
 
@@ -30,4 +30,13 @@ export function formulaCtxDeMagia(mfm: Record<string, unknown>, escola: string |
   const mod = atributo ? num(fmPath(mfm, 'Atributos', atributo)) : null
   const execucao = escola ? reskinExecucao(execucaoDe(mfm), escola) : null
   return { potencia: potencia > 0 ? potencia : null, mod: atributo ? mod : null, ...(execucao ? { execucao } : {}) }
+}
+
+/** Report 93ddfa12: o que ROLAR — as fórmulas da prosa já resolvidas com os
+ *  valores do herói ("4d6+6"), na ordem do texto. Vazio quando a magia não
+ *  tem fórmula reconhecida ou falta potência/MOD (aí o hover segue com a
+ *  prosa). Fonte = o `resumo` da nota, a mesma linha que o card mostra. */
+export function rolagensDaMagia(resumo: string, ctx: FormulaCtx | undefined): Array<{ calc: string; motivo: string }> {
+  if (!ctx || !resumo) return []
+  return interpolarFormulas(resumo, ctx).substituicoes.map((s) => ({ calc: s.para, motivo: `${s.de} — ${s.motivo}` }))
 }

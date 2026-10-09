@@ -15,7 +15,7 @@
 // breakdown das fontes no title. Toggles do design agora escrevem o estado
 // REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
-import { formulaCtxDeMagia, type FormulaCtx } from '../../interativa/formula-ctx'
+import { formulaCtxDeMagia, rolagensDaMagia, type FormulaCtx } from '../../interativa/formula-ctx'
 import { execucaoDe } from '../../interativa/execucao'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { custoIcone } from '../AcaoIcone'
@@ -3136,6 +3136,27 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
               <ItemHover doc={m.doc} fullBody formulaCtx={m.formulaCtx}>
                 <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{reskinName(m.n)}</span>
               </ItemHover>
+              {/* Report 93ddfa12: o que ROLAR aparece na linha (antes só no
+                  hover — no celular ninguém via). Mesmo chip do dano da arma. */}
+              {rolagensDaMagia(str(docField(m.doc, 'resumo')).replace(/^"|"$/g, ''), m.formulaCtx).map((r, ri) => (
+                <span
+                  key={ri}
+                  data-magia-rolagem=""
+                  title={r.motivo}
+                  style={{
+                    flex: 'none',
+                    padding: '5px 10px',
+                    background: 'var(--card)',
+                    border: '1px solid var(--line2)',
+                    clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                    fontFamily: 'var(--mono)',
+                    fontSize: 12.5,
+                    color: 'var(--accent)',
+                  }}
+                >
+                  {r.calc}
+                </span>
+              ))}
               <span
                 title="Custo de ação"
                 style={{
