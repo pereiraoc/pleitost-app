@@ -26,6 +26,7 @@ import { useDetail } from '../../data/detail-context'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
+import { RetratoAmpliavel } from '../RetratoAmpliavel'
 import { clip, PanelTrack, TrackPanel } from '../ficha/bits'
 import {
   createLocalEntity,
@@ -854,6 +855,7 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   // lia só a vault; o hook local-first (o MESMO dos cards de criatura, #280)
   // prioriza a imagem do IndexedDB e reage ao upload sem reload.
   const portrait = useCreaturePortrait(doc, true)
+  const portraitCheio = useCreaturePortrait(doc, false)
   // Badge NVL com a cor do tier do herói (issue #17): tierFromLevel (espelho
   // de tier-from-level.ts) + registro partyTierBar (1-3 bronze, 4-6 prata,
   // 7-9 ouro, 10+ cristal). Sem Nível carregado, fica nas cores do design.
@@ -881,7 +883,7 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
     >
       <span className="hero-card-stripe" aria-hidden />
       {portrait ? (
-        <div className="hero-portrait" style={{ backgroundImage: `url("${portrait}")` }} />
+        <RetratoAmpliavel as="div" className="hero-portrait" src={portrait} cheia={portraitCheio} nome={nome} />
       ) : (
         <span className="hero-ini">{initials(nome)}</span>
       )}
@@ -1125,6 +1127,7 @@ function GroupCard({
   // Imagem do grupo (issue #16): Retratos/<basename do grupo> via
   // groupImageUrl; sem retrato mantém o fallback ⚔️. #280: card pequeno → thumb.
   const portrait = groupImageUrl(entry.basename, assets, true)
+  const portraitCheio = groupImageUrl(entry.basename, assets, false)
   // Rank box com as cores do registro partyBountyRank (issue #16) — espelha
   // o rankBadge do plugin (render-party-sheet.ts:215-219) com o glow de
   // .pleitost-party__rank (styles.css:12420: 0 2px 8px var(--party-glow)).
@@ -1133,7 +1136,14 @@ function GroupCard({
     <button className="hero-card" onClick={onOpen}>
       <span className="hero-card-stripe" aria-hidden />
       {portrait ? (
-        <div className="hero-portrait" style={{ backgroundImage: `url("${portrait}")` }} />
+        <RetratoAmpliavel
+          as="div"
+          className="hero-portrait"
+          src={portrait}
+          cheia={portraitCheio}
+          nome={entry.basename ?? entry.id}
+          focavel={false}
+        />
       ) : (
         <span className="hero-ini" aria-hidden>
           ⚔️
@@ -1233,7 +1243,7 @@ function GruposPanel({
               grupo (subida > herdada, useMesaGroupImageUrl) — antes hardcodava
               o fallback ⚔️ ("duas espadas"). */}
           {mesaImg ? (
-            <div className="hero-portrait" style={{ backgroundImage: `url("${mesaImg}")` }} />
+            <RetratoAmpliavel as="div" className="hero-portrait" src={mesaImg} nome="Mesa" focavel={false} />
           ) : (
             <span className="hero-ini">⚔️</span>
           )}
@@ -1416,6 +1426,7 @@ function NpcCard({
   // avulsa via FM ImgId) tem precedência; senão hierarquia da vault. #280: ícone
   // da lista de NPCs (pequeno) → thumb.
   const portrait = useCreaturePortrait(doc, true)
+  const portraitCheio = useCreaturePortrait(doc, false)
 
   // Badge do losango por subtipo:
   //  - Monstro (issue #19): a divisão é por FM `Tier` (não têm Nível) — o
@@ -1510,7 +1521,7 @@ function NpcCard({
       style={{ position: 'relative' }}
     >
       {portrait ? (
-        <span className="npc-ic" style={{ backgroundImage: `url("${portrait}")` }} />
+        <RetratoAmpliavel className="npc-ic" src={portrait} cheia={portraitCheio} nome={nome} />
       ) : (
         <span className="npc-ic npc-ini">{initials(nome)}</span>
       )}
@@ -1837,6 +1848,7 @@ function PessoaDeAnotacaoCard({
 }) {
   const navigate = useNavigate()
   const portrait = usePessoaPortrait(row.alvo, row.imgId)
+  const portraitCheio = usePessoaPortrait(row.alvo, row.imgId, false)
   return (
     <button
       className="npc-card"
@@ -1844,7 +1856,7 @@ function PessoaDeAnotacaoCard({
       title={`Anotações de ${row.heroNome}`}
     >
       {portrait ? (
-        <span className="npc-ic" style={{ backgroundImage: `url("${portrait}")` }} />
+        <RetratoAmpliavel className="npc-ic" src={portrait} cheia={portraitCheio} nome={row.Nome} focavel={false} />
       ) : (
         <span className="npc-ic npc-ini">{initials(row.Nome)}</span>
       )}

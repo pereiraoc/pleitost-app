@@ -277,11 +277,12 @@ export function useCreaturePortrait(
  * linha avulsa mostra a imagem própria subida no form (key = `ImgId`).
  * null = sem imagem — o caller mostra o fallback usual de iniciais.
  */
-export function usePessoaPortrait(alvo?: string, imgId?: string): string | null {
+export function usePessoaPortrait(alvo?: string, imgId?: string, small = true): string | null {
   const docs = useDocs(alvo ? [alvo] : [])
   const alvoDoc = alvo ? docs?.get(alvo) : undefined
-  // #280: linha de Pessoa é sempre um chip pequeno → thumb do retrato do alvo.
-  const alvoPortrait = useCreaturePortrait(alvoDoc, true)
+  // #280: linha de Pessoa é sempre um chip pequeno → thumb do retrato do alvo
+  // (`small=false` só pro lightbox do card).
+  const alvoPortrait = useCreaturePortrait(alvoDoc, small)
   const own = useEntityImageUrl(alvo ? null : (imgId ?? null))
   return alvo ? alvoPortrait : own
 }
