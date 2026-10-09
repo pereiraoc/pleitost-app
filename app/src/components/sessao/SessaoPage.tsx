@@ -2436,6 +2436,95 @@ export function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeo
   )
 }
 
+/** Report 17c0a783: o MESTRE remove um jogador da mesa — tira o membro e os
+ *  personagens dele (herói + companheiro). O RLS já permitia
+ *  (members_delete/characters_delete: is_session_gm); faltava o botão. Mora
+ *  nos DETALHES (#233: nome de jogador não aparece na lista de heróis). Pra
+ *  voltar, o jogador precisa do código de novo. */
+function RemoverJogadores({ sessionId }: { sessionId: string }) {
+  const live = useLiveSession()
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  // fechado por padrão: o painel DETALHES fica montado no trilho junto da
+  // sala (#233 — nome de jogador fora da lista de heróis) e remover é
+  // destrutivo, então a lista só abre a pedido.
+  const [aberto, setAberto] = useState(false)
+  if (!live || !repo || !user || live.gmUserId !== user.id) return null
+  const outros = live.members.filter((m) => m.userId !== user.id)
+  if (outros.length === 0) return null
+  return (
+    <div data-membros-mesa="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <button
+        onClick={() => setAberto((v) => !v)}
+        aria-expanded={aberto}
+        style={mono({
+          alignSelf: 'flex-start',
+          padding: '7px 12px',
+          background: 'transparent',
+          border: '1px solid var(--line2)',
+          color: 'var(--muted)',
+          cursor: 'pointer',
+          fontSize: 11,
+          letterSpacing: '.14em',
+          clipPath: clip(6),
+        })}
+      >
+        {`${aberto ? '▾' : '▸'} GERENCIAR JOGADORES · ${outros.length}`}
+      </button>
+      {!aberto ? null : outros.map((m) => {
+        const deles = live.characters.filter((c) => c.memberId === m.userId)
+        return (
+          <div
+            key={m.userId}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '11px 15px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(10),
+            }}
+          >
+            <span style={{ fontSize: 14, fontWeight: 600 }}>{m.displayName || 'Jogador'}</span>
+            <span style={mono({ fontSize: 10.5, color: 'var(--muted)' })}>
+              {deles.length === 1 ? '1 personagem' : `${deles.length} personagens`}
+            </span>
+            <span style={{ flex: 1 }} />
+            <button
+              aria-label={`Remover ${m.displayName || 'jogador'} da mesa`}
+              onClick={() => {
+                if (
+                  !window.confirm(
+                    `Remover ${m.displayName || 'este jogador'} da mesa? Os personagens dele saem junto; pra voltar ele precisa do código.`,
+                  )
+                )
+                  return
+                void (async () => {
+                  for (const c of deles) await repo.removeCharacter(c.id).catch(() => {})
+                  await repo.removeMember(sessionId, m.userId).catch(() => {})
+                })()
+              }}
+              style={mono({
+                padding: '4px 10px',
+                background: 'transparent',
+                border: '1px solid color-mix(in srgb,var(--red) 50%,var(--line2))',
+                color: 'var(--red)',
+                cursor: 'pointer',
+                fontSize: 10.5,
+                letterSpacing: '.08em',
+                clipPath: clip(5),
+              })}
+            >
+              ✕ REMOVER
+            </button>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function DetalhesPanel({ sess }: { sess: SessionRec }) {
   // #223: conectado, a fonte é a SALA (membros com papel + personagens
   // publicados) — o modelo local (claims de heróis) é só o fallback offline.
@@ -2607,6 +2696,7 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </div>
         </div>
       ))}
+      {sess.remoteId ? <RemoverJogadores sessionId={sess.remoteId} /> : null}
       {/* #234 → feedback do mestre: DESCONECTAR (fica no histórico p/ rejoin) +
           ABANDONAR (jogador) OU ENCERRAR (criador, some pra todos). Espelha o
           pleitost-sync (view.ts). */}

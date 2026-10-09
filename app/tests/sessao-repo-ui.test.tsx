@@ -743,3 +743,50 @@ describe('excluir vale em todos os aparelhos', () => {
     expect(listSessions().map((s) => s.codigo)).not.toContain(codigo)
   })
 })
+
+// Report 17c0a783 (2026-10-08, @mguindani-ael): "Não existe maneira de remover
+// um personagem/jogador de uma sessão/grupo." O mestre ganha, na mesa, a
+// lista JOGADORES NA MESA (DETALHES DA SESSÃO) com ✕ REMOVER: tira o membro e os personagens dele.
+describe('mestre remove jogador da mesa (report 17c0a783)', () => {
+  it('GM remove → membro e herói somem do servidor e da mesa', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    const codigo = listSessions()[0].codigo
+    const remoteId = listSessions()[0].remoteId!
+    cleanup()
+
+    __resetSessionStoreForTests()
+    const heroiId = createLocalEntity('Heroi', 'Bia Removível', { ...emptyHeroFrontmatter(), Classe: '[[Bardo]]' })
+    renderCliente(repo, { id: 'p-1', nome: 'Jogadora Bia' })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
+    fireEvent.click(screen.getByText('Entrar →'))
+    fireEvent.change(await screen.findByLabelText('Selecionar meu personagem'), { target: { value: heroiId } })
+    fireEvent.click(screen.getByText('Entrar na mesa →'))
+    await waitFor(async () => expect((await repo.findCharactersBySession(remoteId)).length).toBe(1))
+    cleanup()
+
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
+    fireEvent.click(screen.getByText('Entrar →'))
+    await screen.findByText('Bia Removível')
+    // a lista de remoção mora nos DETALHES DA SESSÃO (#233)
+    fireEvent.click(await screen.findByText('DETALHES DA SESSÃO'))
+    fireEvent.click(await screen.findByText(/GERENCIAR JOGADORES/))
+    const remover = await screen.findByLabelText(/Remover Jogadora Bia da mesa/)
+    const confirmOrig = window.confirm
+    window.confirm = () => true
+    try {
+      fireEvent.click(remover)
+      await waitFor(async () => {
+        expect((await repo.findCharactersBySession(remoteId)).length).toBe(0)
+        expect((await repo.listMembers(remoteId)).map((m) => m.userId)).toEqual(['gm-1'])
+      })
+      await waitFor(() => expect(screen.queryByLabelText(/Remover Jogadora Bia da mesa/)).toBeNull())
+    } finally {
+      window.confirm = confirmOrig
+    }
+  }, 40000)
+})
