@@ -139,3 +139,34 @@ describe('#77: ATAQUES mostram a imagem da arma + imbuição no canto', () => {
     })
   })
 })
+
+// Report 362a7f82 (2026-10-08, @thallesagm): "Apunhalante nas Garras do Rei
+// Mago não ta subindo valor do dado pra Mera quando tem vantagem de combate."
+// As armas CUSTOM (efeito `tipo: Arma`) não entravam na lista de armas do
+// motor de efeitos nem no lookup de propriedades — e a nota da propriedade
+// (Apunhalante, que declara o PassoDeDado sob VC) nem era carregada pra elas.
+describe('Apunhalante nas armas custom (report 362a7f82)', () => {
+  it('Mera FOR 2: Vantagem de Combate sobe o dado da Mão Primária (tem Apunhalante)', async () => {
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(MERA_ID, 'combate')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    const linha = async () => {
+      const el = await screen.findByText('Garras do Rei-Mago (Mão Primária)')
+      let row: HTMLElement | null = el
+      while (row && !/⚔️/.test(row.textContent ?? '')) row = row.parentElement
+      return row!.textContent ?? ''
+    }
+    // a Mera da vault já está com Vantagem de Combate LIGADA: Apunhalante
+    // sobe o d6 da Mão Primária (FOR 2) pra d8; desligar volta pro d6.
+    await waitFor(async () => expect(await linha()).toMatch(/⚔️ \d+d8/), { timeout: 10000 })
+    const chip = (await screen.findAllByText('Vantagem de Combate'))[0]!
+    chip.closest('button')!.click()
+    await waitFor(async () => expect(await linha()).toMatch(/⚔️ \d+d6/), { timeout: 8000 })
+  }, 30000)
+})

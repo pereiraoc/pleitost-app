@@ -34,6 +34,7 @@ import { blocoParaDescritor, blocoTier, BUILTIN_EFEITOS_BLOCOS, type EffectDescr
 import { buildEffectContext } from './build-effect-context'
 import { makeArmaPropsLookup, wikilinkBasename, type ArmaPropsLookup, type EngineModel } from './guard-evaluator'
 import { mergeContexts } from './merge'
+import { collectCustomAtaques } from './arma-custom'
 import { isCondicaoOn } from './state'
 
 export type RefDoc = (value: unknown) => VaultDoc | undefined
@@ -256,6 +257,10 @@ export function collectDescriptors(sources: DescriptorSources): EffectDescriptor
     }
     const blocos = fmOf(doc)['Efeitos_Interativos']
     if (!Array.isArray(blocos)) return
+    // Report 362a7f82: arma CUSTOM (`tipo: Arma`, ex.: Garras do Rei-Mago)
+    // declara as propriedades por degrau de FOR — as notas delas (Apunhalante
+    // etc.) também trazem efeitos e precisam entrar, como as das armas comuns.
+    for (const raw of propsDeArmasCustom(blocos)) pushDoc(refDoc(raw))
     const sourceNote = doc.id
     const docBase = doc.basename ?? doc.id.split('/').pop() ?? doc.id
     for (const bloco of blocos) {
@@ -309,6 +314,20 @@ function wikiRaws(value: unknown): string[] {
   return out
 }
 
+/** Wikilinks de propriedade de TODOS os degraus `porFor` dos blocos `tipo:
+ *  Arma` (report 362a7f82) — o degrau efetivo depende do FOR, mas carregar
+ *  todos é barato e não muda com o atributo. */
+export function propsDeArmasCustom(blocos: unknown): string[] {
+  if (!Array.isArray(blocos)) return []
+  const out = new Set<string>()
+  for (const b of blocos as Record<string, unknown>[]) {
+    if (!b || b['tipo'] !== 'Arma') continue
+    const porFor = (b['porFor'] ?? {}) as Record<string, { propriedades?: unknown }>
+    for (const deg of Object.values(porFor)) for (const r of wikiRaws(deg?.propriedades)) out.add(r)
+  }
+  return [...out]
+}
+
 export function armaPropsLookupFromFm(fm: Record<string, unknown>, refDoc: RefDoc): ArmaPropsLookup {
   const armas = ((fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[])
   const options: Array<{ nome: string; propriedades: string[]; grupo?: string; maos?: number }> = []
@@ -345,6 +364,16 @@ export function computeInterativaCtx(sources: DescriptorSources): InterativaComp
   const model = buildEngineModel(sources.fm, descriptors)
   const catalog = conditionCatalogFromDocs(sources.condicaoDocs)
   const armaPropsLookup = armaPropsLookupFromFm(sources.fm, sources.refDoc)
+  // Report 362a7f82: as armas CUSTOM entram como armas do motor (alvo dos
+  // efeitos TodasAsArmas/ArmaSelecionada) e do lookup de propriedades, pelo
+  // MESMO nome que a linha de ataque usa como sourceId (o label do efeito).
+  const { values: at } = heroAtributos(sources.fm)
+  for (const c of collectCustomAtaques(descriptors, at['FOR'] ?? 0, at['AGI'] ?? 0)) {
+    if (!model.inventario.armas.lista.some((a) => a.nome === c.label))
+      model.inventario.armas.lista.push({ nome: c.label, bonusItem: c.bonusItem })
+    armaPropsLookup.byName.set(c.label, wikiRaws(c.propriedades))
+    if (c.grupo) armaPropsLookup.byGrupo?.set(c.label, c.grupo)
+  }
   const condCtx = buildConditionContext(model.interativa.condicoesAtivas, catalog)
   const effCtx = buildEffectContext(model, descriptors, armaPropsLookup)
   return { ctx: mergeContexts(condCtx, effCtx), model, descriptors, catalog }

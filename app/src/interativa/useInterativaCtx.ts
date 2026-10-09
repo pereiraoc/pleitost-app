@@ -8,7 +8,7 @@ import { useDocs } from '../data/useDoc'
 import { useHeroModel } from '../data/useHeroModel'
 import { useHeroRules } from '../rules/useHeroRules'
 import type { HeroRefs } from '../components/ficha/useHeroRefs'
-import { docField, fmOf, fmPath, str } from '../components/ficha/hero-model'
+import { docField, fmOf, fmPath, str, wikiTarget } from '../components/ficha/hero-model'
 import { wikiStrip } from '../components/ficha/local-tip'
 import { magiaEmoji } from '../components/ficha/registry'
 import {
@@ -16,6 +16,7 @@ import {
   ERGUER_ESCUDO_ID,
   computeInterativaCtx,
   isCondicaoDoc,
+  propsDeArmasCustom,
   type InterativaComputed,
 } from './hero-context'
 import type { EffectDescriptor } from './descriptor'
@@ -82,6 +83,13 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
           const res = catalog.resolve(m[1]!.trim())
           if (res.kind === 'doc') out.add(res.id)
         }
+      }
+    }
+    // Report 362a7f82: propriedades das armas CUSTOM (tipo: Arma) dos tesouros.
+    for (const t of (fmPath(fm, 'Inventario', 'Tesouros') as unknown[]) ?? []) {
+      for (const raw of propsDeArmasCustom(fmOf(refs.refDoc(t))['Efeitos_Interativos'])) {
+        const res = catalog.resolve(wikiTarget(raw))
+        if (res.kind === 'doc') out.add(res.id)
       }
     }
     return [...out]
