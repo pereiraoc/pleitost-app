@@ -380,8 +380,15 @@ export function AppShell() {
           }}
           aria-pressed={rightOpen}
           title="Sessão / Detalhes"
+          aria-label="Mostrar barra lateral direita"
         >
-          ⧉
+          {/* Sugestão 5130ef72: o "⧉" lia como COPIAR — o ícone agora é o
+              desenho de uma janela com o painel da DIREITA destacado. */}
+          <svg data-icon="painel-direito" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.8" />
+            <rect x="14" y="4" width="7" height="16" rx="1" fill="currentColor" opacity={rightOpen ? 0.9 : 0.45} />
+            <line x1="14" y1="4" x2="14" y2="20" stroke="currentColor" strokeWidth="1.8" />
+          </svg>
         </button>
       </header>
       <div className="body-row">
