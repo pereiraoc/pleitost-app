@@ -55,6 +55,8 @@ ANGULO = 137.508
 TIPOS = {
     # Bom Fim
     "Bicicletaria do Alemão": "Industrial",
+    # Centro: açougue de tábua no piso flutuante da Fernando Machado
+    "Açougue do Arvoredo": "Mercado",
     "Farmácia Panvel da Independência": "Hospital",
     "Igreja Nosso Senhor do Bom Fim": "Ponto de Interesse",
     "Imobiliária Independência": "Ponto de Interesse",
@@ -204,6 +206,8 @@ ANCORAS = {
     "Locadora Gurgel da Rua da Praia": "Praça da Alfândega",
     "Banca da Esquina Democrática": "Viaduto da Borges",
     "Bar do Zeca": "Duque de Caxias",
+    # a Rua do Arvoredo (Cel. Fernando Machado) é a paralela de cima da Duque
+    "Açougue do Arvoredo": "Duque de Caxias",
     "Plaza São Rafael": "Estação Central",
     # as palafitas e a ponte são a Cidade Baixa alagada
     "Armazém da Palafita": "Cidade Baixa",
@@ -269,7 +273,9 @@ ANCORAS = {
 
 # Lugar sem bairro E sem âncora: posição escolhida à mão (lat, long do bloco).
 # O Guaíba é a água a oeste da cidade — nenhum bairro o contém.
-POSICOES_FIXAS = {"Lago Guaíba": (700.0, 130.0)}
+# Laçador: Largo do Bombeiro (Farrapos × Av. dos Estados, entrada norte; -29.9958, -51.1878),
+# convertido pelas graduações do mapa (51°10'W→x388, 51°0'W→x752, 30°0'S→y212, 30°10'S→y634).
+POSICOES_FIXAS = {"Lago Guaíba": (700.0, 130.0), "Estátua do Laçador": (969.0, 342.0)}
 
 # Ícone do plugin leaflet do Obsidian por tipo (o app tem o registro próprio em
 # map/leaflet-local.ts; aqui é só pra vault mostrar o mesmo desenho).

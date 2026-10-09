@@ -171,7 +171,18 @@ describe('bestiário do mundo', () => {
   // ficha mudou DEPOIS da imagem) não se cobra aqui: quem sabe disso é o selo
   // de prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
   // 2026-10-02: os dois fiéis da Doutrina Simbiótica nasceram sem leva de arte.
-  const AGUARDANDO_ARTE: string[] = ['Fiel do Círculo', 'Guru do Círculo']
+  // 2026-10-09: as seis criaturas das organizações novas (Carris, CRT, Bancários,
+  // Cassados, Replicantes, Engenheiros) nasceram antes da leva de arte.
+  const AGUARDANDO_ARTE: string[] = [
+    'Fiel do Círculo',
+    'Guru do Círculo',
+    'Fiscal da Carris',
+    'Técnico da CRT',
+    'Delegado Sindical dos Bancários',
+    'Portador da Carta',
+    'Roadie do Porão',
+    'Produtor de Turnê',
+  ]
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)

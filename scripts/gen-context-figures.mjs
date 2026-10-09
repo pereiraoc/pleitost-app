@@ -382,6 +382,8 @@ const LOGOS = {
   'Geral do Grêmio': 'o escudo REAL do Grêmio nas faixas, camisas e bandeiras da torcida',
   'Brigada Militar Metropolitana': 'a insígnia e o brasão REAIS da Brigada Militar do Rio Grande do Sul',
   'Companhia Estadual de Energia Elétrica': 'o logotipo REAL da CEEE',
+  'Companhia Riograndense de Telecomunicações': 'o logotipo REAL da CRT (Companhia Riograndense de Telecomunicações, a telefônica gaúcha) no prédio e nos uniformes',
+  'Milícia da Carris': 'o logotipo REAL da Companhia Carris Porto-Alegrense nos coletes amarelos dos fiscais e na lateral dos ônibus parados',
   'Prefeitura de Porto Alegre': 'o brasão REAL do município de Porto Alegre',
   'Governo Militar Brasileiro': 'a bandeira do Brasil e o brasão REAL da República',
   'Governo Americano': 'a bandeira dos Estados Unidos e o selo REAL do governo americano',
