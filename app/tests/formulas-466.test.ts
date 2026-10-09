@@ -24,8 +24,11 @@ describe('×potência', () => {
     expect(t('1d6*potência')).toBe('4d6 (potência × 1d6)')
   })
   it('[expr]×potência distribui: dados ×k e constantes ×k, com MOD e (MOD/2)', () => {
-    expect(t('Cura [1d6+(MOD/2)]×potência de EH')).toBe('Cura 4d6+4 (potência × [1d6+(MOD/2)]) de EH')
-    expect(t('igual a [3+(MOD/2)]×potência por 10 turnos')).toBe('igual a 16 (potência × [3+(MOD/2)]) por 10 turnos')
+    // report a6dc1c5d: (MOD/2) NÃO arredonda antes de multiplicar — 3/2×4 = 6, não 1×4
+    expect(t('Cura [1d6+(MOD/2)]×potência de EH')).toBe('Cura 4d6+6 (potência × [1d6+(MOD/2)]) de EH')
+    expect(t('igual a [3+(MOD/2)]×potência por 10 turnos')).toBe('igual a 18 (potência × [3+(MOD/2)]) por 10 turnos')
+    // arredonda pra baixo só no TOTAL: (1+3/2)×3 = 7,5 → 7
+    expect(t('[1+(MOD/2)]×potência', { potencia: 3, mod: 3 })).toBe('7 (potência × [1+(MOD/2)])')
     expect(t('[1d6+MOD]×potência', { potencia: 2, mod: 3 })).toBe('2d6+6 (potência × [1d6+MOD])')
   })
   it('N×potência sem dado vira o produto, inclusive com unidade', () => {
@@ -67,7 +70,7 @@ describe('contexto incompleto e registro', () => {
     const r = interpolarFormulas('1d6×potência e [1d6+(MOD/2)]×potência', ctx)
     expect(r.substituicoes).toEqual([
       { de: '1d6×potência', para: '4d6', motivo: 'potência 4' },
-      { de: '[1d6+(MOD/2)]×potência', para: '4d6+4', motivo: 'potência 4 · MOD 3' },
+      { de: '[1d6+(MOD/2)]×potência', para: '4d6+6', motivo: 'potência 4 · MOD 3' },
     ])
   })
   it('texto sem fórmula volta igual, sem substituições', () => {

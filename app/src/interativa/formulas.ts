@@ -69,7 +69,8 @@ function avaliar(expr: string, mod: number | null): Avaliado | null {
     } else if (/^\(?MOD\/2\)?$/.test(corpo)) {
       if (mod === null) return null
       out.usaMod = true
-      out.constante += sinal * Math.floor(mod / 2)
+      // report a6dc1c5d: fração preservada — arredonda só o TOTAL (escrever)
+      out.constante += sinal * (mod / 2)
     } else if (/^\(?MOD\)?$/.test(corpo)) {
       if (mod === null) return null
       out.usaMod = true
@@ -89,7 +90,7 @@ function escrever(av: Avaliado, k: number): string {
     if (n === 0) continue
     partes.push(`${partes.length && n > 0 ? '+' : ''}${n}d${d.faces}`)
   }
-  const c = av.constante * k
+  const c = Math.floor(av.constante * k)
   if (c !== 0 || !partes.length) partes.push(`${partes.length && c > 0 ? '+' : ''}${c}`)
   return partes.join('')
 }
