@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Hospedaria do Jardim",
+  "path": "Contexto/Recursos/Moradia/Noite na Hospedaria do Jardim.md",
+  "basename": "Noite na Hospedaria do Jardim",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Hospedaria do Jardim]]",
+    "Preço": 500,
+    "Cobrança": "noite",
+    "Nível": 4,
+    "Onde": [
+      "[[Jardim Botânico]]",
+      "[[Hospedaria do Jardim]]"
+    ],
+    "Resumo": "Diária numa hospedaria de família com vista pro parque: quarto com banheiro, café de padaria e portão com interfone.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Hospedaria do Jardim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Hospedaria do Jardim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padaria do Jardim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Hospedaria do Jardim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Hospedaria do Jardim.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Hospedaria do Jardim]] é a casa grande de 1960 que virou hospedaria: quarto com banheiro, café da [[Padaria do Jardim]] e o portão que só abre pelo interfone. Hospeda técnico de fora, família em visita e quem paga pra dormir num bairro monitorado.\n\n> [!info] Especificação\n> **Quarto:** duplo com banheiro, janela pro parque\n> **Inclui:** café da padaria, telefone na sala\n> **Regra:** registro com documento — a Embratel ouve o interfone\n> **Nível:** 4 — Classe Média\n"
+}

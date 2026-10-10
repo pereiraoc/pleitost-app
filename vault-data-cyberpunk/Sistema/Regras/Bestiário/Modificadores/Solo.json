@@ -1,0 +1,111 @@
+{
+  "id": "Sistema/Regras/Bestiário/Modificadores/Solo",
+  "path": "Sistema/Regras/Bestiário/Modificadores/Solo.md",
+  "basename": "Solo",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 1 \"Solo\"",
+      "Complementar Habilidades.Lista [[Competente]]",
+      "Multiplicar Vida.Vitalidade 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Você é Solo.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 1 \"Solo\"",
+      "parsed": [
+        {
+          "sourceNote": "Solo",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Solo"
+          },
+          "raw": "Alias Classe Compor 1 \"Solo\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Competente]]",
+      "parsed": [
+        {
+          "sourceNote": "Solo",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Competente]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Competente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Multiplicar Vida.Vitalidade 3",
+      "parsed": [
+        {
+          "sourceNote": "Solo",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "multiplicar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "3"
+          },
+          "raw": "Multiplicar Vida.Vitalidade 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Competente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Você é Solo.\"\n%%\n##### `= this.file.name`\nVocê é Solo, ganha 4 Ações para usar e uma ação livre.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Aguardar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Aguardar.md",
+  "basename": "Aguardar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "L",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Decide agir mais tarde, esperando a oportunidade certa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Decide agir mais tarde, esperando a oportunidade certa.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nNo início do seu turno, pode decidir Aguardar. Você não joga seu turno e a iniciativa segue normalmente. No fim do turno de uma criatura, você pode decidir voltar a jogar. Sua iniciativa é permanentemente movida para essa nova posição. Você não pode realizar reações enquanto você está Aguardando. Caso você siga Aguardando até chegar sua posição original na iniciativa, você perde seu turno previamente Aguardado e sua iniciativa não muda.\n\nQuando você Aguarda, efeitos positivos que acabariam no seu turno acabam imediatamente e efeitos negativos que se aplicariam no seu turno acontecem imediatamente, impedindo que você estenda efeitos positivos ou evite efeitos negativos.\n\n```autosheet-rules\n```\n"
+}

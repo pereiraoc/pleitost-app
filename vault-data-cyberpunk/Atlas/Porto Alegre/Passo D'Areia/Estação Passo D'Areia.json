@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Estação Passo D'Areia",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Estação Passo D'Areia.md",
+  "basename": "Estação Passo D'Areia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Passo D'Areia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Passo D'Areia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Passo D'Areia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Estação de dois pisos com bilheteria, catraca dupla (carteira PIRA e cartão TRI), banca de jornal na entrada e o boteco embaixo da via.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Estação de concreto com painel de azulejo comemorativo de 1978, plataforma coberta, vagão entrando, placa do Shopping Iguatemi atrás e fila na catraca.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Estação de dois pisos com bilheteria, catraca dupla (carteira PIRA e cartão TRI), banca de jornal na entrada e o boteco embaixo da via.",
+    "aparencia": "Estação de concreto com painel de azulejo comemorativo de 1978, plataforma coberta, vagão entrando, placa do Shopping Iguatemi atrás e fila na catraca.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

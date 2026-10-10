@@ -1,0 +1,33 @@
+{
+  "id": "Contexto/Recursos/Serviços/Serviços",
+  "path": "Contexto/Recursos/Serviços/Serviços.md",
+  "basename": "Serviços",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Transporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nO que se **contrata e não vira posse**: os planos do mês (plano TRI, moradia por classe e padrão de alimentação, pagos adiantado — escolher aqui é escolher a classe) e o que se paga por uso pra andar pela cidade (passagem avulsa, corrida na mão, aluguel de veículo por dia, combustível).\n\nAs linhas por onde esses planos valem estão em [[Transporte]]; a regra do mês, em [[Custo de Vida]].\n\n**Planos do mês** — um por eixo, seis classes cada:\n```dataview\nTABLE WITHOUT ID file.link AS \"Plano\", subcategoria AS \"Eixo\", Nível AS \"Classe\", Preço AS \"Cz$/mês\", Vagas AS \"Vagas\"\nFROM \"Contexto/Recursos/Serviços\"\nWHERE categoria = \"Recurso\" AND Tipo = \"Estilo de Vida\"\nSORT subcategoria ASC, Nível ASC\n```\n\n**Pago por uso** — o plano TRI cobre a passagem; o resto se paga na hora:\n```dataview\nTABLE WITHOUT ID file.link AS \"Serviço\", Tipo AS \"Tipo\", Marca AS \"Marca\", Preço AS \"Cz$\", Cobrança AS \"Cobrança\", Onde AS \"Onde\"\nFROM \"Contexto/Recursos/Serviços\"\nWHERE categoria = \"Recurso\" AND Tipo != \"Estilo de Vida\"\nSORT Tipo ASC, Preço ASC\n```\n"
+}

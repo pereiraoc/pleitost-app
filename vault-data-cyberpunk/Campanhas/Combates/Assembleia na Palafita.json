@@ -1,0 +1,57 @@
+{
+  "id": "Campanhas/Combates/Assembleia na Palafita",
+  "path": "Campanhas/Combates/Assembleia na Palafita.md",
+  "basename": "Assembleia na Palafita",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Palafitas do Mercado]] · [[Centro Histórico]]",
+    "Situação": "A ata estava aberta e o portador tinha acabado de chegar de Rivera quando o apito soou na passarela: a formação de choque vindo pela tábua.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Delegado Sindical dos Bancários",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Portador da Carta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sargento de Pelotão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Delegado Sindical dos Bancários]] lento\n- 1 [[Portador da Carta]] rápido\n- 1 [[Sargento de Pelotão]] rápido\n- 2 [[Cabo de Choque]] lento\n- 3 [[Brigadiano de Esquina]] lento\n```\n"
+}

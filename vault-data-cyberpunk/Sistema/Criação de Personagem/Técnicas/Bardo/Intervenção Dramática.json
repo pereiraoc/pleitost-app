@@ -1,0 +1,88 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Intervenção Dramática",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Intervenção Dramática.md",
+  "basename": "Intervenção Dramática",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"(1 EM) Reage ao inimigo causar dano dependendo das performances conhecidas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    },
+    {
+      "target": "Reforçar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acelerar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enervar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"(1 EM) Reage ao inimigo causar dano dependendo das performances conhecidas.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê intervêm dramaticamente em momentos críticos. Você aprende a habilidade Intervenção Dramática.\n\n**Intervenção Dramática - R**\nCusta 1 [[Energia Mágica|EM]] para ativar. Pode ser usado quando um aliado em 6q recebe dano.\nEscolha um efeito, dependendo das performances que você conhece:\n* [[Inspiração]] - Faça um [[Atacar|Ataque]] contra o inimigo que causou o dano. Você causa 1 + [[Dados de Dano|dados de dano da arma]] de dano adicional com esse ataque;\n* [[Reforçar]] - Reduza o dano recebido em 16;\n* [[Acelerar]] - O aliado [[Mover]] como ação livre;\n* [[Enervar]] - Faça um teste de [[Atuação]] contra o inimigo que causou o dano. Ele recebe 4d4 dano mental e fica [[Abalado]] no sucesso, 6d4 e [[Abalado]] no sucesso decisivo e 2d4 na falha.\n\n```autosheet-rules\n```\n"
+}

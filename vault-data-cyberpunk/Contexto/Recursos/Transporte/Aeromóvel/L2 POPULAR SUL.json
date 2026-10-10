@@ -1,0 +1,95 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/L2 POPULAR SUL",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/L2 POPULAR SUL.md",
+  "basename": "L2 POPULAR SUL",
+  "type": "Linha",
+  "subtype": "Aeromóvel",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Aeromóvel",
+    "Letreiro": "L2 POPULAR SUL",
+    "Operador": "Trensurb; energia da [[Companhia Estadual de Energia Elétrica|CEEE]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Aeromóvel Linha Popular]]",
+    "Qualidade": 3,
+    "Cor": "#1f8f3f",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Central]]",
+      "[[Estação Cidade Baixa]]",
+      "[[Estação Porto Novo]]",
+      "[[Estação Estádios]]",
+      "[[Estação PUCRS]]",
+      "[[Estação Jardim Botânico]]",
+      "[[Estação Campus do Vale]]"
+    ],
+    "Aparência": "Viaduto de concreto passando por cima de água barrenta e palafita, estação com grade anti-invasão, torcedores de bandeira na plataforma, guindaste do porto atrás.",
+    "Resumo": "A linha do jogo e do porto: passa por cima do alagado da Cidade Baixa, deixa o estivador no Porto Novo e a torcida nos estádios; termina no Jardim Botânico.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "L2 POPULAR SUL.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Estádios",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação PUCRS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Campus do Vale",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "L2 POPULAR SUL.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[L2 POPULAR SUL.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA linha do jogo e do porto. Sai da [[Estação Central]] por cima da água barrenta da [[Estação Cidade Baixa]], deixa o estivador na [[Estação Porto Novo]] (onde a balsa da Zaffari encosta embaixo), a torcida na [[Estação Estádios]], o estudante de blazer na [[Estação PUCRS]] e termina entre árvores na [[Estação Jardim Botânico]]. Em dia de Gre-Nal a Brigada fecha a Estação Estádios uma hora antes e depois do apito e o [[Consórcio das Bandeiras]] vende ingresso na escada. Mesmo vagão da L1, menos lotado — menos gente de crachá mora no sul. É a última linha popular: ao sul da Praia de Belas não há trilho nem ônibus.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

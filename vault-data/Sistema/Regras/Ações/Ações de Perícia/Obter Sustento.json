@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Obter Sustento",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Obter Sustento.md",
+  "basename": "Obter Sustento",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "240 Min",
+    "dg-publish": "true="
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Sobrevivência]]\", \"[[Sociedades]]\"",
+    "propriedades": "",
+    "resumo": "\"Busca mantimentos e abrigo no ambiente para sobreviver.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fadigado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Sobrevivência]]\", \"[[Sociedades]]\"\npropriedades:: \nresumo:: \"Busca mantimentos e abrigo no ambiente para sobreviver.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê tenta obter alimento e abrigo. Faça um teste de [[Sobrevivência]]/[[Sociedades]] contra a [[CD]] do ambiente. No sucesso, você consegue comida e abrigo decentes para 2 pessoas pelo dia. No sucesso decisivo, você consegue comida e abrigo decentes para 4 pessoas pelo dia. Na falha, você não consegue comida e abrigo e fica [[Fadigado]] até conseguir mantimentos. Na falha decisiva, você piora a situação, seja comida estragada ou um abrigo que causa problemas, você fica [[Fadigado]] e recebe -2 de [[Penalidades|penalidade de circunstância]] para Obter Sustento num próximo dia.\n\nO teste usa [[Sobrevivência]] para lidar com ambientes naturais.\nO teste usa [[Sociedades]] para lidar com ambientes urbanos.\n\n```autosheet-rules\n```\n"
+}

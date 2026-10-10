@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Fechar Formação",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Fechar Formação.md",
+  "basename": "Fechar Formação",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Aliados adjacentes a você recebem +1 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]]. Se você cai, o bônus some.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Aliados adjacentes a você recebem +1 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]]. Se você cai, o bônus some.\"\n%%\n##### `= this.file.name`\nAliados adjacentes a você recebem +1 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]]. Se você cai, o bônus some.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel Carajás Picape",
+  "path": "Contexto/Recursos/Veículos/Gurgel Carajás Picape.md",
+  "basename": "Gurgel Carajás Picape",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 700000,
+    "Cobrança": "única",
+    "Usado": 250000,
+    "Manutenção": 5000,
+    "Nível": 5,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Nova Sarandi]]",
+      "[[Zona Deserta]]"
+    ],
+    "Resumo": "Picape de fibra com caçamba de 800 kg: frete, carga da Caixinha e mudança de palafita. Leve nota — a Brigada para lona.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel Carajás Picape.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel Carajás Picape.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel Carajás Picape.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA picape do frete e do contrabando. Caçamba de 800 kg, motor a álcool sofrendo na subida da Bento e uma lona\nque a [[Brigada Militar Metropolitana]] levanta em toda blitz. Quem trabalha de [[A Caixinha|Caixinha]] tem uma\nou conhece quem tem; quem trabalha de frete do [[Zaffari]] dirige a da empresa.\n\n> [!info] Especificação\n> **Modelo:** Gurgel Carajás Picape 1986, cabine simples, caçamba de fibra com 800 kg\n> **Motor:** VW 1.8 a álcool; 7 km/l carregada\n> **Uso:** frete, mudança, carga de sucata da [[Zona Deserta]], entrega da Caixinha\n> **Usado:** Cz$ 250.000 com a caçamba trincada e o motor cansado\n> **Blitz:** picape com lona é parada em toda blitz — leve nota ou leve dose pro brigadiano\n> **Manutenção:** Cz$ 5.000 por mês\n"
+}

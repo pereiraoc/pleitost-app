@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Combinação Arcana",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Combinação Arcana.md",
+  "basename": "Combinação Arcana",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Mago]]\"",
+    "resumo": "\"Você conjura uma magia arcana não-básica (2 ações) de [[Magia Arcana Mista Limitada]] e faz um [[Atacar|Ataque]] com sua [[arma arcana]] no mesmo alvo (ou que o inclua na área), em qualquer ordem; a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Mago]]\"\n\nresumo:: \"Você conjura uma magia arcana não-básica (2 ações) de [[Magia Arcana Mista Limitada]] e faz um [[Atacar|Ataque]] com sua [[arma arcana]] no mesmo alvo (ou que o inclua na área), em qualquer ordem; a magia não provoca reações do alvo. Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê conjura uma Magia Arcana não-básica que requer 2 ações usando [[Magia Arcana Mista Limitada]] e faz um [[Atacar|Ataque]] com sua [[arma arcana]]. A Magia precisa ter como alvo o mesmo alvo do Ataque ou incluir o alvo do Ataque em sua área. Você escolhe qual das ações realizar antes. A Magia conjurada durante Combinação Arcana não provoca reações do alvo do Ataque. Combinação Arcana conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

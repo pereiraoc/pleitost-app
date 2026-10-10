@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Almoço no Gambrinus",
+  "path": "Contexto/Recursos/Alimentação/Almoço no Gambrinus.md",
+  "basename": "Almoço no Gambrinus",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Restaurante Gambrinus (desde 1889)",
+    "Preço": 450,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Peixe à moda da casa, toalha branca e garçom de gravata no restaurante mais antigo da cidade, dentro do Mercado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink",
+      "alias": "enchente"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Gambrinus está no mesmo canto do [[Mercado Público]] desde 1889 — atravessou quase um século e a [[Grande Enchente de 1986|enchente]] sem mudar de lugar. Toalha branca, garçom de gravata borboleta, peixe do Guaíba com o carimbo de inspeção da [[Panvel]] e um cardápio que não muda desde que o avô do dono morreu. Quem almoça aqui está sendo visto almoçando aqui: é mesa de acerto, de proposta e de despedida.\n\n> [!info] Especificação\n> **Prato:** peixe à moda da casa (tainha ou traíra), arroz, pirão e salada\n> **Mesa:** reserva com o maître; sem gravata, fica pro balcão\n> **Quem senta:** comerciante, vereador, gente da a Associação dos Permissionários\n> **Preço:** Cz$ 450 por pessoa, bebida à parte\n"
+}

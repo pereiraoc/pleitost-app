@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Impulso/Inércia",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Impulso/Inércia.md",
+  "basename": "Inércia",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Atletismo]]",
+    "resumo": "\"Empurra muito.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink",
+      "alias": "Empurra"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Atletismo]]\nresumo:: \"Empurra muito.\"\n%%\n### `= this.file.name`\n* Quando você [[Empurrar|Empurra]] e a criatura não consegue mover a distância necessária, pois há uma parede, superfície ou outra criatura, você tem [[Vantagem de Combate]] contra a criatura alvo de Empurrar até o final do seu turno.\n\n*Requer Impulso*\n\n```autosheet-rules\n```\n"
+}

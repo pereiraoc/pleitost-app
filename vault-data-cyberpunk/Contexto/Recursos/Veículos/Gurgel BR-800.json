@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel BR-800",
+  "path": "Contexto/Recursos/Veículos/Gurgel BR-800.md",
+  "basename": "Gurgel BR-800",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 250000,
+    "Cobrança": "única",
+    "Manutenção": 2000,
+    "Nível": 4,
+    "Onde": [
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "O carro popular que a Gurgel promete pra 1988: pré-série de dois lugares e meio, comprado por cota no consórcio da fábrica.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel BR-800.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Concessionária Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel BR-800.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel BR-800.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO BR-800 é o 'carro do povo' que a [[Gurgel]] anuncia em outdoor no [[Passo D'Areia]] há dois anos: motor próprio de\ndois cilindros, carroceria de fibra, lugar pra dois adultos e uma criança. Só se compra por cota no consórcio da\nfábrica — quem tem carteira PIRA na Gurgel entra na fila primeiro. Não existe usado: quem tem, não vende.\n\n> [!info] Especificação\n> **Modelo:** Gurgel BR-800 pré-série 1987, 2+1 lugares, fibra\n> **Motor:** Gurgel Enertron 0.8 bicilíndrico, 33 cv; 14 km/l\n> **Velocidade:** 105 km/h\n> **Como comprar:** cota no consórcio da [[Concessionária Gurgel]]; entrega em 6 a 12 meses\n> **Manutenção:** Cz$ 2.000 por mês — peça só na concessionária\n"
+}

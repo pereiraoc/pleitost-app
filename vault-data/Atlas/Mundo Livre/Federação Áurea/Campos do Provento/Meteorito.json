@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Meteorito",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Meteorito.md",
+  "basename": "Meteorito",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Meteorito.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Meteorito.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Meteorito.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Cratera colossal aberta pela queda de um corpo celeste nas planícies a oeste de [[Iluminada]] — quilômetros de terra arrasada onde nada mais cresce, num campo de queda chamuscado que mancha o [[Campos do Provento]]. No fundo da bacia, um poço perfeitamente circular espirala para o negro absoluto: o ponto do impacto, de profundidade desconhecida. Na borda leste, um acampamento de escavação protegido por um anel de cristais violeta perfura a rocha dia e noite, atrás do que quer que tenha caído ali.\n> \n> 👁️**Aparência do Local:** Uma bacia circular de quilômetros, de paredes estratificadas que descem em anéis e terraços concêntricos de rocha cinza-parda até o poço central — um abismo vertical de paredes estriadas que somem na escuridão total. Dentro e fora da cratera, só rocha nua, cascalho e poeira; nenhuma vegetação resiste, e a borda externa ergue-se num anel de ejeção enrugado em cristas radiais. No platô da borda leste, dezenas de tendas, carroças, uma grua de madeira e uma torre de perfuração apinham-se dentro de um círculo de menires de ametista ligados por uma linha contínua de energia violeta — a única cor viva da paisagem, junto às lanternas que pontilham os andaimes e escadas em zigue-zague das escavações que descem a parede da cratera. Em volta, sob céu encoberto e opressivo, a planície devastada se estende até cadeias de montanhas denteadas no horizonte; nenhuma estrada leva até aqui.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cratera colossal aberta pela queda de um corpo celeste nas planícies a oeste de [[Iluminada]] — quilômetros de terra arrasada onde nada mais cresce, num campo de queda chamuscado que mancha o [[Campos do Provento]]. No fundo da bacia, um poço perfeitamente circular espirala para o negro absoluto: o ponto do impacto, de profundidade desconhecida. Na borda leste, um acampamento de escavação protegido por um anel de cristais violeta perfura a rocha dia e noite, atrás do que quer que tenha caído ali.",
+    "aparencia": "Uma bacia circular de quilômetros, de paredes estratificadas que descem em anéis e terraços concêntricos de rocha cinza-parda até o poço central — um abismo vertical de paredes estriadas que somem na escuridão total. Dentro e fora da cratera, só rocha nua, cascalho e poeira; nenhuma vegetação resiste, e a borda externa ergue-se num anel de ejeção enrugado em cristas radiais. No platô da borda leste, dezenas de tendas, carroças, uma grua de madeira e uma torre de perfuração apinham-se dentro de um círculo de menires de ametista ligados por uma linha contínua de energia violeta — a única cor viva da paisagem, junto às lanternas que pontilham os andaimes e escadas em zigue-zague das escavações que descem a parede da cratera. Em volta, sob céu encoberto e opressivo, a planície devastada se estende até cadeias de montanhas denteadas no horizonte; nenhuma estrada leva até aqui.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

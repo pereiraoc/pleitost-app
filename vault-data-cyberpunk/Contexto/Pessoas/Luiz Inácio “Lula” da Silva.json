@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Luiz Inácio “Lula” da Silva",
+  "path": "Contexto/Pessoas/Luiz Inácio “Lula” da Silva.md",
+  "basename": "Luiz Inácio “Lula” da Silva",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Lula",
+      "Luiz Inácio da Silva"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Metalúrgicos]]",
+    "Função": "Líder metalúrgico do ABC paulista, clandestino desde a greve de 1980; a voz que chega a Porto Alegre por fita e rádio pirata",
+    "Aparência": "Quarenta e um anos, barba cerrada escura, cabelo crespo escuro, camisa de manga arregaçada, dedo mindinho faltando na mão esquerda; nas fitas, a voz rouca sobre o ruído de uma assembleia que não cabe no salão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Luiz Inácio “Lula” da Silva.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Metalúrgicos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Luiz Inácio “Lula” da Silva.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Luiz Inácio “Lula” da Silva.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

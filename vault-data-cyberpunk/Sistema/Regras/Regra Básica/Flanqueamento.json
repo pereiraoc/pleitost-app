@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Flanqueamento",
+  "path": "Sistema/Regras/Regra Básica/Flanqueamento.md",
+  "basename": "Flanqueamento",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "flanqueado",
+      "flanqueando",
+      "flanquear"
+    ],
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Flanqueamento"
+    }
+  ],
+  "body": "## Flanqueamento\nSe houverem duas criaturas em lados opostos que sejam capazes de fazer um ataque corpo-a-corpo contra uma mesma criatura essas estão flanqueando a criatura. Flanqueamento garante [[Vantagem de Combate]] para ataques corpo-a-corpo.\n\n```autosheet-rules\n```\n"
+}

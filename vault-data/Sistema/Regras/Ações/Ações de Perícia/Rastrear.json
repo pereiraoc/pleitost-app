@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Rastrear",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Rastrear.md",
+  "basename": "Rastrear",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Sobrevivência]]\"",
+    "propriedades": "",
+    "resumo": "\"Procura e segue rastros deixados por criaturas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Sobrevivência]]\"\npropriedades:: \nresumo:: \"Procura e segue rastros deixados por criaturas.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Sobrevivência]] contra a [[CD]] da trilha a ser seguida. No sucesso, você consegue seguir a trilha numa distância de até 1 hora de caminhada e tem uma ideia vaga da criatura que deixou os rastros. No sucesso decisivo, como em sucesso mas você sabe qual criatura deixou os rastros. Na falha você acredita que os rastros são confusos e não levam a lugar algum.\n\nSeguir uma trilha reduz sua [[movimentação]] de viagem a metade.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estaleiro do Cais",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estaleiro do Cais.md",
+  "basename": "Estaleiro do Cais",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Tibúrcio Anacleto",
+    "Descrição": null,
+    "Serviços": [
+      "[[Bote de Alumínio com Motor]]",
+      "[[Barco de Pesca de Madeira]]",
+      "[[Lancha de Fibra]] usado",
+      "[[Bote de Alumínio com Motor]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Porto"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estaleiro do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bote de Alumínio com Motor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barco de Pesca de Madeira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Fibra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estaleiro do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estaleiro do Cais.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bote de alumínio com motor, barco de pesca e lancha de fibra usada; conserta casco e vende motor de popa contrabandeado.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão de zinco na beira da água, rampa de concreto, botes virados e cheiro de resina.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bote de alumínio com motor, barco de pesca e lancha de fibra usada; conserta casco e vende motor de popa contrabandeado.",
+    "aparencia": "Galpão de zinco na beira da água, rampa de concreto, botes virados e cheiro de resina.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

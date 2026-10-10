@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Múltiplos Ângulos",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Múltiplos Ângulos.md",
+  "basename": "Múltiplos Ângulos",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando você rolar um dado de comando por qualquer motivo, pode rolá-lo duas vezes e ficar com o melhor resultado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando você rolar um dado de comando por qualquer motivo, pode rolá-lo duas vezes e ficar com o melhor resultado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você se aproveita de uma abertura sua visão ampla permite abordá-la por ângulos diferentes, maximizando sua eficácia. Quando você rola um dado de comando por qualquer motivo, pode rolá-lo duas vezes e ficar com o melhor resultado.\n*Requer Estratagema Estrategista*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,258 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Escudo Obra-prima",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade/Escudo Obra-prima.md",
+  "basename": "Escudo Obra-prima",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [],
+    "resumo": "Dureza melhorada. Bônus para [[Escudada]].",
+    "preço": "30 PO",
+    "bonus_tipo": "dureza",
+    "descrição": {
+      "adepto": "Esse Escudo bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 5, +1 de bônus de item em Ataques com Escudada.",
+      "experiente": "Esse Escudo bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 7, +2 de bônus de item em Ataques com Escudada.",
+      "mestre": "Esse Escudo bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate. Dureza 10, +3 de bônus de item em Ataques com Escudada."
+    },
+    "bonus": {
+      "adepto": "5",
+      "experiente": "7",
+      "mestre": "10"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Escudo Grupo,escudo",
+      "Categoria Adepto Definir Inventario.Escudo.Dureza 5",
+      "Categoria Experiente Definir Inventario.Escudo.Dureza 7",
+      "Categoria Mestre Definir Inventario.Escudo.Dureza 10",
+      "Categoria Adepto Definir Ataques.Lista.[[Escudada]].Bonus_Item 1",
+      "Categoria Experiente Definir Ataques.Lista.[[Escudada]].Bonus_Item 2",
+      "Categoria Mestre Definir Ataques.Lista.[[Escudada]].Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Escudo Grupo,escudo",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Escudo"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "escudo"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Escudo Grupo,escudo",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Inventario.Escudo.Dureza 5",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "5"
+          },
+          "raw": "Categoria Adepto Definir Inventario.Escudo.Dureza 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Inventario.Escudo.Dureza 7",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "7"
+          },
+          "raw": "Categoria Experiente Definir Inventario.Escudo.Dureza 7",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Inventario.Escudo.Dureza 10",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "10"
+          },
+          "raw": "Categoria Mestre Definir Inventario.Escudo.Dureza 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Ataques.Lista.[[Escudada]].Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.[[Escudada]].Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Ataques.Lista.[[Escudada]].Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Ataques.Lista.[[Escudada]].Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.[[Escudada]].Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Ataques.Lista.[[Escudada]].Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Ataques.Lista.[[Escudada]].Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Escudo Obra-prima",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.[[Escudada]].Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Ataques.Lista.[[Escudada]].Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo",
+      "kind": "wikilink",
+      "alias": "escudo"
+    },
+    {
+      "target": "Escudada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Mundano - escudo*\nEsse [[Escudo|escudo]] bem trabalhado tem qualidade superior, seja em estabilidade, absorção ou material, garantindo uma maior proteção em combate.\n* Adepto: Dureza 5, +1 de bônus de item em Ataques com [[Escudada]].\n* Experiente: Dureza 7, +2 de bônus de item em Ataques com [[Escudada]].\n* Mestre: Dureza 10, +3 de bônus de item em Ataques com [[Escudada]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n```carta-item\ntipo: qualidades\n```\n\n```autosheet-rules\n```\n"
+}

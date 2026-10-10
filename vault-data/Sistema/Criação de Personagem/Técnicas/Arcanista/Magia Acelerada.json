@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Acelerada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Acelerada.md",
+  "basename": "Magia Acelerada",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "custo": "L",
+    "resumo": "\"Se sua próxima ação é conjurar uma magia que usa 2 ações ou mais, reduza o custo de ações em 1. Você perde 10 [[Energia Vital|EV]] para ativar Magia Acelerada.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\ncusto:: L\n\nresumo:: \"Se sua próxima ação é conjurar uma magia que usa 2 ações ou mais, reduza o custo de ações em 1. Você perde 10 [[Energia Vital|EV]] para ativar Magia Acelerada.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Acelerada.\n\n**Magia Acelerada - L**\nSe sua próxima ação é conjurar uma magia que usa 2 ações ou mais, reduza o custo de ações em 1. Você perde 10 [[Energia Vital|EV]] para ativar Magia Acelerada.\n\n```autosheet-rules\n```\n"
+}

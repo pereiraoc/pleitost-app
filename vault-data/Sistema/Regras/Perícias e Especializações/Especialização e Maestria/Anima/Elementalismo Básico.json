@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Básico",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Básico.md",
+  "basename": "Elementalismo Básico",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Magias.Slots.B 1",
+      "Definir Magias.Lista.Anima.Proficiencia A"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Anima]]",
+    "resumo": "\"[[Identificar Magia|Identifica]] Magia Anima como ação livre. Aprende uma [[Magia Anima Básica]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Magias.Slots.B 1",
+      "parsed": [
+        {
+          "sourceNote": "Elementalismo Básico",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.B 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Elementalismo Básico",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink",
+      "alias": "Identifica"
+    },
+    {
+      "target": "Magia Anima Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Anima]]\nresumo:: \"[[Identificar Magia|Identifica]] Magia Anima como ação livre. Aprende uma [[Magia Anima Básica]].\"\n%%\n### `= this.file.name`\n* Você pode [[Identificar Magia]] como ação livre uma vez por turno para [[Magia Anima]].\n* Você se torna [[Adepto]] em [[Magia Anima]] e aprende uma [[Magia Anima Básica]] referente a sua sintonia.\n\n```autosheet-rules\n```\n"
+}

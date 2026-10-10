@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Voar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Voar.md",
+  "basename": "Voar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Move sua movimentação aérea e/ou se mantém no ar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Move sua movimentação aérea e/ou se mantém no ar.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nMova um numero de quadrados até um máximo de sua movimentação aérea. Mover para cima conta como [[Terreno Difícil]]. Mover para baixo custa metade do movimento. Se você estiver no ar e terminar um turno sem usar a ação Voar, você cai. Você pode usar Voar sem se mover para se manter no ar.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Tenente-Coronel Ivar Dornelles",
+  "path": "Contexto/Pessoas/Tenente-Coronel Ivar Dornelles.md",
+  "basename": "Tenente-Coronel Ivar Dornelles",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Ivar Dornelles",
+      "Tenente-Coronel Dornelles"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Companhia Riograndense de Telecomunicações]]",
+    "Função": "Interventor da CRT",
+    "Aparência": "Cinquenta anos, farda cáqui com a insígnia de transmissões, cabelo grisalho à escovinha, óculos de leitura na ponta do nariz; gabinete no andar alto do prédio da CRT, com a central telefônica zumbindo atrás da porta de vidro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tenente-Coronel Ivar Dornelles.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Companhia Riograndense de Telecomunicações",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Tenente-Coronel Ivar Dornelles.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Tenente-Coronel Ivar Dornelles.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

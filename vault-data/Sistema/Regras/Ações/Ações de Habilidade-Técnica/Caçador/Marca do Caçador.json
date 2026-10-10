@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Caçador/Marca do Caçador",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Caçador/Marca do Caçador.md",
+  "basename": "Marca do Caçador",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Alvo de Caça",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "🎯",
+          "iconeDesligado": "🚫",
+          "ancorar": "AtaquesEAcoes"
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Caçador]]\"",
+    "resumo": "Marca uma criatura como alvo de caça, aumentando seu alcance contra ela e mitigando suas resistências contra seus ataques."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Caçador]]\"\n\nresumo:: Marca uma criatura como alvo de caça, aumentando seu alcance contra ela e mitigando suas resistências contra seus ataques.\n%%\n### `= this.file.name` - `= this.custo`\nVocê marca uma criatura que você consegue ver como seu alvo de caça. Ataques a distância feitos contra seu alvo de caça tem seu alcance dobrado. Ataques corpo-a-corpo contra seu alvo de caça ignoram 4 de resistência ao tipo de dano da sua arma, aumentando para 6 no 4º nível e para 8 no 7º nível. A Marca do Caçador persiste até seu alvo morrer ou você usar esta habilidade em outra criatura.\n\n```autosheet-rules\n```\n"
+}

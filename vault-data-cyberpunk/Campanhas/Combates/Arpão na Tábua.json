@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Arpão na Tábua",
+  "path": "Campanhas/Combates/Arpão na Tábua.md",
+  "basename": "Arpão na Tábua",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Cidade Baixa]] · [[Lago Guaíba]]",
+    "Situação": "A passarela é deles. O arpão vem primeiro, e quem é fisgado sai da tábua pra água.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Arpoador do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atirador de Palafita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barqueiro Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Arpoador do Cais]] lento\n- 2 [[Atirador de Palafita]] lento\n- 4 [[Barqueiro Armado]] rápido\n```\n"
+}

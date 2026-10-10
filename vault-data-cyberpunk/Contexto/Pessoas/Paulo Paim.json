@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Pessoas/Paulo Paim",
+  "path": "Contexto/Pessoas/Paulo Paim.md",
+  "basename": "Paulo Paim",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Paim"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Metalúrgicos]]",
+    "Função": "Metalúrgico; presidente do Sindicato dos Metalúrgicos, com base em Canoas e nas oficinas de Nova Sarandi",
+    "Aparência": "Trinta e sete anos, negro, bigode, cabelo curto, macacão azul aberto sobre camiseta, mãos marcadas de óleo; na porta das oficinas de vagões de [[Nova Sarandi]], com a prancheta da assembleia e o apito no pescoço.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Paulo Paim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Metalúrgicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Paulo Paim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Paulo Paim.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Organizações/Facções/Doutrina Simbiótica",
+  "path": "Contexto/Organizações/Facções/Doutrina Simbiótica.md",
+  "basename": "Doutrina Simbiótica",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Doutrina"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "nenhum — cada Círculo tem o seu Guru",
+    "Descrição": null,
+    "Resumo": "O culto com sacramento dos anos 80 que a rua chama de igreja dos nóias — células litúrgicas (Círculos) que guardam um par de linhas de reagente e formulam a dose que faz o fiel ouvir o simbionte.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Doutrina Simbiótica.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "Nóia"
+    }
+  ],
+  "images": [
+    {
+      "target": "Doutrina Simbiótica.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Doutrina Simbiótica.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Não tem templo, tem Círculo: uma célula de meia dúzia que se reúne em palafita, guarda **um par de linhas de reagente** e formula o **sacramento** pro par. O [[Druida|Nóia]] toma a dose no descanso — dez minutos pra onda pegar — e a onda é a Energia Metabólica dele: cada reação gasta um pedaço, e quando ela baixa o que o simbionte sustentava se desfaz. Quatro Círculos, um por par: **Círculo da Brasa** (termoquímica e materiais — Fogo e Terra), **Círculo do Minuano** (fluidos e gases — Água e Vento), **Círculo do Bafo** (termoquímica e gases — Fogo e Vento) e **Círculo da Lama** (fluidos e materiais — Água e Terra). Cada Forma Mutante é uma receita do Círculo; o Espírito Mutante é o simbionte manifestado fora do corpo. Quem conduz a célula é o **Guru**; quem a comunidade segue é o **Profeta** — e a comunidade some com ele quando a Brigada chega. Onde a rua vê alucinação, o fiel diz que ouve.\n\n"
+}

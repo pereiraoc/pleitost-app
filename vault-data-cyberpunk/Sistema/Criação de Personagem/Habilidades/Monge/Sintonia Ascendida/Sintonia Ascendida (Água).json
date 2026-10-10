@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Água)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Água).md",
+  "basename": "Sintonia Ascendida (Água)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Sintonia Profunda (Água)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Seu alcance corpo-a-corpo é terreno difícil para seus inimigos.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Água)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida (Água)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Sintonia Profunda (Água)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Água)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Água)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Mestre]]\n\nresumo:: \"Seu alcance corpo-a-corpo é terreno difícil para seus inimigos.\"\n%%\n##### `= this.file.name`\nSeus movimentos e ataques são como uma tempestade oceânica. Enquanto você for capaz de realizar ataques corpo-a-corpo, seu alcance corpo-a-corpo (tipicamente 2q) conta como [[Terreno Difícil]] para seus inimigos.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Ponto da Kombi da Voluntários",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Ponto da Kombi da Voluntários.md",
+  "basename": "Ponto da Kombi da Voluntários",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Dono": "Cooperativa dos Kombeiros (Dona Alba)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Lotação Clandestina]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto da Kombi da Voluntários.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto da Kombi da Voluntários.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto da Kombi da Voluntários.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Lotação clandestina pro Centro e pro Passo D'Areia; Cz$ 80 de dia, Cz$ 160 de madrugada, saindo da rave.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Kombis com farol apagado numa esquina escura, um cobrador de boné e a fila da rave.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Lotação clandestina pro Centro e pro Passo D'Areia; Cz$ 80 de dia, Cz$ 160 de madrugada, saindo da rave.",
+    "aparencia": "Kombis com farol apagado numa esquina escura, um cobrador de boné e a fila da rave.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

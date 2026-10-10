@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Boteco do Estivador",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Boteco do Estivador.md",
+  "basename": "Boteco do Estivador",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Manoel Estivador",
+    "Descrição": null,
+    "Serviços": [
+      "[[Polar Tradicional]]",
+      "[[Cachaça de Boteco]]",
+      "[[Churrasquinho de Barraca]]",
+      "[[Brahma Chopp]]",
+      "[[Amendoim Japonês]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Boteco do Estivador.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasquinho de Barraca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Boteco do Estivador.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Boteco do Estivador.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Polar, cachaça de garrafão, churrasquinho na porta e Brahma em dia de jogo; amendoim do camelô no balcão.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Porta de madeira com a metade de baixo comida pela umidade, balcão de zinco, garrafão sem rótulo e cheiro de carvão e maresia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Polar, cachaça de garrafão, churrasquinho na porta e Brahma em dia de jogo; amendoim do camelô no balcão.",
+    "aparencia": "Porta de madeira com a metade de baixo comida pela umidade, balcão de zinco, garrafão sem rótulo e cheiro de carvão e maresia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Regras/Regra Básica/CD",
+  "path": "Sistema/Regras/Regra Básica/CD.md",
+  "basename": "CD",
+  "type": "Regra",
+  "subtype": "CD",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "CD",
+      "CD-Nível"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "CD",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Classe de Dificuldade"
+    },
+    {
+      "level": 4,
+      "text": "CD-Nível"
+    }
+  ],
+  "body": "## Classe de Dificuldade\nClasses de Dificuldade (CD), são o valor que a rolagem de um teste deve exceder para obter sucesso.\nTarefas no mundo tem CDs definidas pelo Mestre.\nEm combate, geralmente as CDs são a [[Defesa]], as [[Resistências]] ou a CD-nível do alvo.\nSe uma CD de algum tipo de ataque, perícia ou sentido for necessária, use 10+modificador do ataque/perícia/sentido.\n\n#### CD-Nível\n\n| Nível | CD Fácil | CD Base | CD Difícil |\n|:-----:|:--------:|:-------:|:----------:|\n|   0   |    11    |   13    |     15     |\n|   1   |    12    |   14    |     16     |\n|   2   |    13    |   15    |     17     |\n|   3   |    13    |   15    |     17     |\n|   4   |    14    |   16    |     18     |\n|   5   |    15    |   17    |     19     |\n|   6   |    15    |   17    |     19     |\n|   7   |    16    |   18    |     20     |\n|   8   |    17    |   19    |     21     |\n|   9   |    17    |   19    |     21     |\n|  10   |    18    |   20    |     22     |\n"
+}

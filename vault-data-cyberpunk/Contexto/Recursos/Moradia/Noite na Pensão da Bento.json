@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão da Bento",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão da Bento.md",
+  "basename": "Noite na Pensão da Bento",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão da Bento]]",
+    "Preço": 300,
+    "Cobrança": "noite",
+    "Nível": 3,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Pensão da Bento]]"
+    ],
+    "Resumo": "Quarto por noite na pensão de família da Bento Gonçalves: chave, toalha e a fofoca da Tramontina no café.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão da Bento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão da Bento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão da Bento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão da Bento.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão da Bento]] hospeda técnico em treinamento na Tramontina, parente de funcionário e o viajante que quer dormir num bairro inteiro. Quarto com chave, toalha limpa e café de mesa posta.\n\n> [!info] Especificação\n> **Quarto:** solteiro com chave, banheiro no corredor\n> **Inclui:** café de mesa posta, roupa lavada na sexta\n> **Regra:** silêncio depois das dez\n> **Nível:** 3 — Classe Média Baixa\n"
+}

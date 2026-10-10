@@ -1,0 +1,70 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Montanhas de Vidro",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Montanhas de Vidro.md",
+  "basename": "Montanhas de Vidro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Âmbar"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Montanhas de Vidro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Montanhas de Vidro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Montanhas de Vidro.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Cordilheira que nasce na costa noroeste de [[Pedra Fina]] e corre para o sul até o ponto onde o [[Grande Muro]] a continua — a muralha natural que fecha o oeste da [[Federação Áurea]] contra a [[Magna Pátria]]. Deve o nome aos seus cumes: areia derretida que se cristalizou em vidro verdadeiro, coroando cada pico. Sob a rocha vivem os anões de [[Krasnogor]], que extraem da montanha o âmbar e o vidro de suas lentes; aos pés da encosta, o portal de [[Primeiro Contato]] guarda a travessia da cadeia.\n> \n> 👁️**Aparência do Local:** Uma muralha natural contínua: dezenas de picos enfileirados que recuam em diagonal até sumir na bruma do horizonte. A base e as encostas são de rocha árida marrom-acinzentada, escarpada e estriada, sem vegetação; as cristas, porém, são agulhas e lascas de vidro translúcido, como estilhaços gigantes apontados para o céu, que captam o sol em clarões e reflexos — o contraste entre a rocha fosca embaixo e o vidro luminoso em cima se repete pico após pico. Aos pés da cordilheira estende-se um deserto pedregoso de areia ocre-dourada corrida pelo vento entre afloramentos de rocha escura, com a bruma de poeira e calor engolindo o horizonte. Nenhuma construção, estrada ou figura é visível na cadeia — apenas grandes aves de rapina circulando sobre os cumes.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cordilheira que nasce na costa noroeste de [[Pedra Fina]] e corre para o sul até o ponto onde o [[Grande Muro]] a continua — a muralha natural que fecha o oeste da [[Federação Áurea]] contra a [[Magna Pátria]]. Deve o nome aos seus cumes: areia derretida que se cristalizou em vidro verdadeiro, coroando cada pico. Sob a rocha vivem os anões de [[Krasnogor]], que extraem da montanha o âmbar e o vidro de suas lentes; aos pés da encosta, o portal de [[Primeiro Contato]] guarda a travessia da cadeia.",
+    "aparencia": "Uma muralha natural contínua: dezenas de picos enfileirados que recuam em diagonal até sumir na bruma do horizonte. A base e as encostas são de rocha árida marrom-acinzentada, escarpada e estriada, sem vegetação; as cristas, porém, são agulhas e lascas de vidro translúcido, como estilhaços gigantes apontados para o céu, que captam o sol em clarões e reflexos — o contraste entre a rocha fosca embaixo e o vidro luminoso em cima se repete pico após pico. Aos pés da cordilheira estende-se um deserto pedregoso de areia ocre-dourada corrida pelo vento entre afloramentos de rocha escura, com a bruma de poeira e calor engolindo o horizonte. Nenhuma construção, estrada ou figura é visível na cadeia — apenas grandes aves de rapina circulando sobre os cumes.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

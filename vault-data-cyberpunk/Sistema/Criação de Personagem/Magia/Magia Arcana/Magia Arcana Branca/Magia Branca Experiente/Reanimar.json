@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Reanimar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Reanimar.md",
+  "basename": "Reanimar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Reanimar (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Reanimar",
+        "tipo": "Condição",
+        "grupo": "Negativa",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "Pericias",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Ataque",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "MagiaAtaque",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Defesa",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Resistencias",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 2q revive com [[Energia Vital|EV]] mínimo e 2×potência [[Energia Heroica|EH]] se morreu no último turno. Alvo recebe -2 em testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 10t.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataques Mágicos"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 2q revive com [[Energia Vital|EV]] mínimo e 2×potência [[Energia Heroica|EH]] se morreu no último turno. Alvo recebe -2 em testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 10t.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Revive uma criatura que morreu no último turno. A criatura fica com [[Energia Vital|EV]] negativos igual a [[Energia Vital|EV]] máxima da criatura - 1 e recebe 2×potência [[Energia Heroica|EH]] temporária. A criatura recebe -2 de [[Penalidades|penalidade de condição]] em todos os testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 10 turnos.\n\n```autosheet-rules\n```\n"
+}

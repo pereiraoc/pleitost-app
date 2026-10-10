@@ -1,0 +1,57 @@
+{
+  "id": "Campanhas/Combates/Sarau na Redenção",
+  "path": "Campanhas/Combates/Sarau na Redenção.md",
+  "basename": "Sarau na Redenção",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Redenção]] · [[Bom Fim]]",
+    "Situação": "O produtor armou o palco no gramado, os roadies puxaram o cabo do poste, e a 'Operação Silêncio' chegou antes da primeira música.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Produtor de Turnê",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Roadie do Porão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiscal da Ordem dos Músicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Produtor de Turnê]] rápido\n- 3 [[Roadie do Porão]] lento\n- 1 [[Fiscal da Ordem dos Músicos]] lento\n- 1 [[Cabo de Choque]] lento\n- 6 [[Brigadiano de Esquina]] lento\n```\n"
+}

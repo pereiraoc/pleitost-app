@@ -1,0 +1,100 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Vento)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Vento).md",
+  "basename": "Sintonia Profunda (Vento)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Corpo em Sintonia (Vento)]]",
+      "Complementar Acoes.Lista [[Rajada de Golpes]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprende a habilidade [[Rajada de Golpes]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Vento)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda (Vento)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Corpo em Sintonia (Vento)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Vento)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Rajada de Golpes]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda (Vento)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Rajada de Golpes]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Rajada de Golpes]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rajada de Golpes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Vento)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprende a habilidade [[Rajada de Golpes]].\"\n%%\n##### `= this.file.name`\nVocê aprende a habilidade [[Rajada de Golpes]].\n\n```autosheet-rules\n```\n"
+}

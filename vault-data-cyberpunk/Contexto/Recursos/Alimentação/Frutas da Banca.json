@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Frutas da Banca",
+  "path": "Contexto/Recursos/Alimentação/Frutas da Banca.md",
+  "basename": "Frutas da Banca",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Bancas de hortifrúti do Mercado",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Fruta da estação no quilo — laranja, bergamota, banana — nas bancas de madeira pintada do pavilhão central.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAs bancas de hortifrúti ocupam o pavilhão central com caixas empilhadas e preço escrito a giz. Laranja do Vale do Caí, bergamota no inverno, banana o ano todo. A fruta que não vende até sexta vira doce ou salada de frutas da Banca 40.\n\n> [!info] Especificação\n> **Unidade:** o quilo\n> **Inverno:** bergamota por Cz$ 20 o quilo\n> **Fim de feira:** sábado às 14h, metade do preço e metade da qualidade\n"
+}

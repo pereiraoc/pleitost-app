@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Regras/Regras",
+  "path": "Sistema/Regras/Regras.md",
+  "basename": "Regras",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Regra",
+    "dg-publish": true,
+    "dg-home": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Regras]]",
+    "next": "[[Atributos]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Regras"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Regras]]\nnext:: [[Atributos]]\n%%\n# Regras\n\n---\n```dataview\nLIST\nWHERE categoria = \"regra\" and subcategoria = null and file.name != this.file.name\nSORT file.name ASC\n```\n\n```autosheet-rules\n```\n"
+}

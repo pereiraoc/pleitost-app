@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Instauração da Ditadura no Brasil",
+  "path": "Contexto/Histórias/Contexto Histórico/Instauração da Ditadura no Brasil.md",
+  "basename": "Instauração da Ditadura no Brasil",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1964-04-01",
+    "Descrição": "Golpe militar depõe o governo civil e instala o regime que governa o Brasil até hoje. Em Porto Alegre, o aparato de segurança e os contratos estatais passam a moldar toda a economia — a base sobre a qual a fusão entre Estado e megacorporações seria construída.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

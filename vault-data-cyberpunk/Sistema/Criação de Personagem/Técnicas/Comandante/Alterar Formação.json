@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Alterar Formação",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Alterar Formação.md",
+  "basename": "Alterar Formação",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Role o dado de comando e escolha 2 aliados na sua área de influência que te ouçam; eles podem, como reação, [[Mover|Mover-se]] metade do movimento, com o resultado do dado como [[bônus de circunstância]] na [[Defesa]] durante o movimento, e devem terminar dentro da sua área de influência. Conta como [[Comandos de Batalha]]. Se seu [[Estratagema]] for Combatente, você também pode [[Mover|Mover-se]] metade do seu movimento depois deles, mantendo ambos na sua área de influência durante e ao final do seu movimento.\"\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Role o dado de comando e escolha 2 aliados na sua área de influência que te ouçam; eles podem, como reação, [[Mover|Mover-se]] metade do movimento, com o resultado do dado como [[bônus de circunstância]] na [[Defesa]] durante o movimento, e devem terminar dentro da sua área de influência. Conta como [[Comandos de Batalha]]. Se seu [[Estratagema]] for Combatente, você também pode [[Mover|Mover-se]] metade do seu movimento depois deles, mantendo ambos na sua área de influência durante e ao final do seu movimento.\"\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Alterar Formação.\n\n**Alterar Formação - 1A**\nRole o dado de comando e escolha dois aliados dentro da sua área de influência que conseguem te ouvir. Esses aliados podem, como uma reação, [[Mover|Mover-se]] metade do movimento deles. Adicione o resultado do dado como um [[bônus de circunstância]] na [[Defesa]] dos aliados durante o movimento. Os aliados devem terminar o movimento dentro da sua área de influência. Alterar Formação conta como uma habilidade de [[Comandos de Batalha]].\n\nSe seu [[Estratagema]] for Combatente, você também pode, como parte de Alterar Formação, [[Mover|Mover-se]] metade do seu movimento depois dos aliados se moverem, mas deve mantê-los ambos na sua área de influência durante e no final do seu movimento.\n\n```autosheet-rules\n```\n"
+}

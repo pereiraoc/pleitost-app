@@ -1,0 +1,36 @@
+{
+  "id": "Recursos e Mídia/Recursos de Contextos/Campanhas/Pós Grenal/ESCALA E IMPRESSÃO",
+  "path": "Recursos e Mídia/Recursos de Contextos/Campanhas/Pós Grenal/ESCALA E IMPRESSÃO.md",
+  "basename": "ESCALA E IMPRESSÃO",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "… — grid 25 mm.png",
+      "kind": "wikilink",
+      "alias": "grid 25 mm",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "… — grid 25 mm.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Escala e impressão"
+    },
+    {
+      "level": 2,
+      "text": "Retífica com grid de 25 mm"
+    }
+  ],
+  "body": "# Escala e impressão\n\nPDFs A3 paisagem: 420 × 297 mm. Imprimir a 100% / tamanho real, sem ajuste automático. Margem superior/inferior próxima de 8,8 mm; margem lateral varia para preservar a proporção nativa. As artes originais não têm grid; a Retífica (07 e 08) tem também uma versão com grid de 25 mm (seção abaixo).\n\nPara acrescentar um grid digital quadrado, use o valor abaixo em ambos os eixos, com origem no canto superior esquerdo do PNG. Uma célula terá 25,4 mm no PDF a 100%; referência narrativa sugerida de 1,5 m por célula. As bordas podem conter células parciais. No app que aceite apenas pixels inteiros, use 97 ou 95 px, respectivamente; para correspondência mais exata prefira os valores decimais.\n\n| Mapa | PNG nativo | Arte no A3 (mm) | Grid digital (px por célula) |\n|---|---|---|---|\n| 01 Beira-Rio | 1491 × 1055 | 394,87 × 279,40 | Não aplicar: mapa de orientação sem escala |\n| 02 Rampa sul | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n| 03 Galerias | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n| 04 Estação | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n| 05 Casa da Drenagem | 1472 × 1069 | 384,73 × 279,40 | 97,182 |\n| 06 Quiosque | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n| 07 Retífica térreo | 1513 × 1040 | 406,40 × 279,35 | 94,563 |\n| 08 Retífica superior | 1512 × 1040 | 406,20 × 279,40 | 94,545 |\n| 09 Gasômetro | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n| 10 Boteco | 1470 × 1070 | 383,85 × 279,40 | 97,273 |\n\nNa escala dos PDFs originais, a Retífica tem aproximadamente 16 × 11 células jogáveis no quadro completo, equivalentes a 24 × 16,5 m. Os mapas de proporção mais estreita ficam próximos de 15,1 × 11 células. As dimensões são uma convenção de jogo deste pacote: não há plantas cotadas canônicas no texto da aventura. Mobiliário e portas foram revisados visualmente para circulação; não constituem um levantamento técnico.\n\nOs PDFs preservam o PNG original, sem recorte, reamostragem ou geração de detalhes artificiais. A densidade real em A3 fica entre 94,5 e 97,3 ppi. Para um acabamento gráfico de 300 ppi reais seria necessária outra geração em resolução maior; mudar apenas a etiqueta DPI não produziria esse detalhe.\n\nO caderno contém as mesmas dez folhas dos PDFs individuais. Não há segredos escritos nele, mas imprima/revele apenas as folhas dos locais que a mesa já descobriu. Uma planta completa pode revelar cômodos ainda não visitados: cubra-os ou use neblina de guerra.\n\n## Retífica com grid de 25 mm\n\nOs mapas 07 e 08 têm uma versão com grid quadrado leve (linha branca a 30%) de **25 mm** no A3, alinhado à arte e não ao canto do PNG: o galpão fecha em 12 × 6 quadrados pelo eixo das paredes, a fachada ocupa uma fileira e a calçada outra, e a porta pequena da entrada cabe inteira num quadrado. As paredes laterais estão em perspectiva (o prédio é mais estreito no fundo), então só coincidem com o grid no meio da altura; nas pontas desviam cerca de 0,2 quadrado. No vagão, uma linha passa no meio da passarela, que é mais estreita que um quadrado.\n\n| Mapa | Grid (px por quadrado) | Origem da primeira linha (x · y px) | Arte no A3 (mm) | DPI gravado no PNG com grid |\n|---|---|---|---|---|\n| 07 Retífica térreo | 100,87 | 38,2 · 21,0 | 375,0 × 257,8 | 102,49 |\n| 08 Retífica superior | 98,87 | 47,5 · 22,1 | 382,3 × 263,0 | 100,46 |\n\nNessa escala o quadro completo tem cerca de 15 × 10,3 quadrados. O PNG com grid grava a escala física (DPI) no próprio arquivo; é dela que o app tira o tamanho de papel, e as duas versões (com e sem grid) têm os mesmos pixels. Na nota da aventura, o link simples ao lado de cada mapa de mesa (`· [[… — grid 25 mm.png|grid 25 mm]]`) declara a versão com grid: a tela mostra só o mapa limpo, e o \"imprimir mapas\" do app sai em A3 com uma chave com/sem grid, sempre nessa escala. PDFs prontos: [07 com grid](<Impressão/07 — Retífica Sertório — térreo — grid 25 mm — A3.pdf>) · [08 com grid](<Impressão/08 — Retífica Sertório — vagão e passarela — grid 25 mm — A3.pdf>).\n"
+}

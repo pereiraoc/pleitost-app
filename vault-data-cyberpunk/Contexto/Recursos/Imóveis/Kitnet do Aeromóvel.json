@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Kitnet do Aeromóvel",
+  "path": "Contexto/Recursos/Imóveis/Kitnet do Aeromóvel.md",
+  "basename": "Kitnet do Aeromóvel",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Condomínios do Aeromóvel",
+    "Preço": 6000,
+    "Cobrança": "mês",
+    "Compra": 600000,
+    "Manutenção": 1500,
+    "Nível": 4,
+    "Onde": [
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "Conjugado de 28 m² com porteiro, água e luz oficiais e o vagão passando a cada seis minutos na janela. Endereço de verdade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Kitnet do Aeromóvel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Kitnet do Aeromóvel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Kitnet do Aeromóvel.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs condomínios erguidos ao longo da via do Aeromóvel no [[Passo D'Areia]] são a classe média possível: kitnet\nde 28 m², porteiro, água e luz oficiais, telefone na fila da [[Embratel]]. É o primeiro endereço fixo de\nverdade — serve pra laudo, cadastro na [[Panvel]] e conta na loja. O vagão passa a cada seis minutos e a\njanela treme junto.\n\n> [!info] Especificação\n> **Imóvel:** 28 m² conjugado, banheiro, kitchenette; janela pra via do Aeromóvel\n> **Inclui:** condomínio com porteiro, água e luz oficiais (com apagão), telefone na fila da [[Embratel]]\n> **Endereço:** fixo — laudo, cadastro, alvará, conta na [[Panvel]] e crédito na loja\n> **Compra:** Cz$ 600.000 — financiamento só via megacorp, com desconto em folha\n> **Barulho:** o vagão passa a cada 6 minutos das 5h às 23h\n> **Nível:** 4 — Classe Média\n"
+}

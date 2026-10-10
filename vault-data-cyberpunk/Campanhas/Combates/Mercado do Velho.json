@@ -1,0 +1,57 @@
+{
+  "id": "Campanhas/Combates/Mercado do Velho",
+  "path": "Campanhas/Combates/Mercado do Velho.md",
+  "basename": "Mercado do Velho",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Mercado Público]] · [[Centro Histórico]] · [[Palafitas do Mercado]]",
+    "Situação": "O velho recebe sentado e não levanta. Quem levanta é a mesa inteira em volta dele.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Velho da Família",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Leão de Chácara",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobrador de Ponto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agulha de Beco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Velho da Família]] lento\n- 4 [[Leão de Chácara]] lento\n- 2 [[Cobrador de Ponto]] lento\n- 2 [[Agulha de Beco]] rápido\n```\n"
+}

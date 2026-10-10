@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Açougue do Arvoredo",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Açougue do Arvoredo.md",
+  "basename": "Açougue do Arvoredo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Açougue da Fernando Machado",
+      "Rua do Arvoredo"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Seu Valdomiro “Miro” Claus",
+    "Descrição": null,
+    "Serviços": [
+      "[[Linguiça do Arvoredo]]",
+      "[[Carne de Segunda do Açougue]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Açougue do Arvoredo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praça da Alfândega",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Riograndense de Telecomunicações",
+      "kind": "wikilink",
+      "alias": "CRT"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Linguiça do Arvoredo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carne de Segunda do Açougue",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Açougue do Arvoredo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Açougue do Arvoredo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Açougue de tábua no piso flutuante sobre a antiga rua, a dois quarteirões da [[Praça da Alfândega]]: um balcão, uma serra, dois ganchos e a linguiça mais barata do Centro, pra freguês do [[Mercado Público]] que não paga o [[Corte Especial Zaffari]] nem o açougue de dentro. O dono jura que o nome é piada de freguês e que a carne vem de Viamão; a cidade compra, ri da piada e não pergunta.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Caixote de tábua pintada de vermelho sobre pontões, toldo de lona, balcão de mármore salvo da enchente, serra elétrica ligada num fio puxado do poste da [[Companhia Riograndense de Telecomunicações|CRT]], jornal pra embrulhar, cheiro de tempero forte demais; pela seção de vidro do piso, lá embaixo, a porta do porão de 1864 fechada pela água.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Açougue de tábua no piso flutuante sobre a antiga rua, a dois quarteirões da [[Praça da Alfândega]]: um balcão, uma serra, dois ganchos e a linguiça mais barata do Centro, pra freguês do [[Mercado Público]] que não paga o [[Corte Especial Zaffari]] nem o açougue de dentro. O dono jura que o nome é piada de freguês e que a carne vem de Viamão; a cidade compra, ri da piada e não pergunta.",
+    "aparencia": "Caixote de tábua pintada de vermelho sobre pontões, toldo de lona, balcão de mármore salvo da enchente, serra elétrica ligada num fio puxado do poste da [[Companhia Riograndense de Telecomunicações|CRT]], jornal pra embrulhar, cheiro de tempero forte demais; pela seção de vidro do piso, lá embaixo, a porta do porão de 1864 fechada pela água.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

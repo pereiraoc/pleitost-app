@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Sobrevivência",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Sobrevivência.md",
+  "basename": "Sobrevivência",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Medicina]]",
+    "next": "[[Diplomacia]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Intuir Direção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Obter Sustento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Sobrevivência ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Medicina]]\nnext:: [[Diplomacia]]\n%% \n## Sobrevivência ([[Inteligência|INT]])\n[[Intuir Direção]], [[Rastrear]], [[Obter Sustento]], [[Comandar Animal]]. Sobrevivência rege a capacidade de viver em condições naturais, entender a natureza e os animais, construir abrigos e rastrear."
+}

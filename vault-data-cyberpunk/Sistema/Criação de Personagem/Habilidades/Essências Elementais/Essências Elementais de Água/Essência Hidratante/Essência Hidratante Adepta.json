@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Hidratante/Essência Hidratante Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Hidratante/Essência Hidratante Adepta.md",
+  "basename": "Essência Hidratante Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Água",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Atadura d'Água]]",
+      "Complementar Magias.Lista [[Hidrovitalizar]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Atadura d'Água]], adepta [[Hidrovitalizar]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Atadura d'Água]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Hidratante Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Atadura d'Água]]"
+          },
+          "raw": "Complementar Magias.Lista [[Atadura d'Água]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Hidrovitalizar]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Hidratante Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Hidrovitalizar]]"
+          },
+          "raw": "Complementar Magias.Lista [[Hidrovitalizar]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atadura d'Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Hidrovitalizar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Atadura d'Água]], adepta [[Hidrovitalizar]]\"\n%%\n#### `= this.file.name`\n* basica [[Atadura d'Água]]\n* adepta [[Hidrovitalizar]]\n\n```autosheet-rules\n```\n"
+}

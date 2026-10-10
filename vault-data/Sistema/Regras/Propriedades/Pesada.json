@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Regras/Propriedades/Pesada",
+  "path": "Sistema/Regras/Propriedades/Pesada.md",
+  "basename": "Pesada",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Arma extremamente pesada que restringe movimentos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Arma extremamente pesada que restringe movimentos.\"\n%%\n## `= this.file.name`\nEsta arma é pesada e difícil de manejar. Você recebe -1 de [[Penalidades|penalidade de especialização]] nas perícias de [[Agilidade|AGI]], [[Evasão]] e [[Defesa]] e recebe -1q de [[Penalidades|penalidade de especialização]] na [[Movimentação]] enquanto empunha essa arma.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n```autosheet-rules\n```\n"
+}

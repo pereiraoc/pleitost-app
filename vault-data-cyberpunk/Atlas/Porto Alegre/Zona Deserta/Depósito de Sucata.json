@@ -1,0 +1,109 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata.md",
+  "basename": "Depósito de Sucata",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Dono": "[[Clã da Ferrugem]] ([[Maria “Ferrugem” Souza]])",
+    "Descrição": null,
+    "Serviços": [
+      "[[Gurgel Carajás]] usado",
+      "[[Gurgel Carajás Picape]] usado",
+      "[[Gurgel X-12 Anfíbio]] usado",
+      "[[Gurgel Motomachine]] usado",
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Volkswagen Kombi]] usado",
+      "[[Fiat 147]]",
+      "[[Carroça com Cavalo]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Depósito de Sucata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maria “Ferrugem” Souza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás Picape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel X-12 Anfíbio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiat 147",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Depósito de Sucata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Depósito de Sucata.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Acúmulo de carcaças de máquinas e veículos.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Montanhas de metal, poeira densa, som de metal batendo.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Acúmulo de carcaças de máquinas e veículos.",
+    "aparencia": "Montanhas de metal, poeira densa, som de metal batendo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

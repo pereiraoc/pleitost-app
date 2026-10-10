@@ -1,0 +1,299 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma.md",
+  "basename": "Especialização Menor em Arma",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Especialização Menor em Arma (Lâminas)]], [[Especialização Menor em Arma (Duelo)]], [[Especialização Menor em Arma (Concussão)]], [[Especialização Menor em Arma (Machados)]], [[Especialização Menor em Arma (Arcos)]], [[Especialização Menor em Arma (Bestas)]], [[Especialização Menor em Arma (Armas de Haste)]], [[Especialização Menor em Arma (Armas Atípicas)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso."
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Especialização Menor em Arma (Lâminas)]], [[Especialização Menor em Arma (Duelo)]], [[Especialização Menor em Arma (Concussão)]], [[Especialização Menor em Arma (Machados)]], [[Especialização Menor em Arma (Arcos)]], [[Especialização Menor em Arma (Bestas)]], [[Especialização Menor em Arma (Armas de Haste)]], [[Especialização Menor em Arma (Armas Atípicas)]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização Menor em Arma",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_67511cf3",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Especialização Menor em Arma (Lâminas)]]",
+              "[[Especialização Menor em Arma (Duelo)]]",
+              "[[Especialização Menor em Arma (Concussão)]]",
+              "[[Especialização Menor em Arma (Machados)]]",
+              "[[Especialização Menor em Arma (Arcos)]]",
+              "[[Especialização Menor em Arma (Bestas)]]",
+              "[[Especialização Menor em Arma (Armas de Haste)]]",
+              "[[Especialização Menor em Arma (Armas Atípicas)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Especialização Menor em Arma (Lâminas)]], [[Especialização Menor em Arma (Duelo)]], [[Especialização Menor em Arma (Concussão)]], [[Especialização Menor em Arma (Machados)]], [[Especialização Menor em Arma (Arcos)]], [[Especialização Menor em Arma (Bestas)]], [[Especialização Menor em Arma (Armas de Haste)]], [[Especialização Menor em Arma (Armas Atípicas)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Lâminas)\\",
+      "kind": "wikilink",
+      "alias": "Lâminas"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Duelo)\\",
+      "kind": "wikilink",
+      "alias": "Duelo"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Concussão)\\",
+      "kind": "wikilink",
+      "alias": "Concussão"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça Estrela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Martelo de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Machados)\\",
+      "kind": "wikilink",
+      "alias": "Machados"
+    },
+    {
+      "target": "Machadinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machado de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Arcos)\\",
+      "kind": "wikilink",
+      "alias": "Arcos"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Bestas)\\",
+      "kind": "wikilink",
+      "alias": "Bestas"
+    },
+    {
+      "target": "Besta de Mão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Armas de Haste)\\",
+      "kind": "wikilink",
+      "alias": "Armas de Haste"
+    },
+    {
+      "target": "Azagaia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alabarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pique",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma (Armas Atípicas)\\",
+      "kind": "wikilink",
+      "alias": "Armas Atípicas"
+    },
+    {
+      "target": "Porrete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Funda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Lâminas)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Duelo)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Concussão)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Machados)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Arcos)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Bestas)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Armas de Haste)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma (Armas Atípicas)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n%%\n#### `= this.file.name`\nEscolha um grupo de [[Armas]]. Para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| [[Especialização em Arma (Lâminas)\\|Lâminas]]        | [[Espada Curta]], [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]], [[Montante]]                |\n| [[Especialização em Arma (Duelo)\\|Duelo]]          | [[Espada Curta]], [[Espada Curva]], [[Adaga]], [[Punhal]], [[Adaga de Duelo]], [[Rapieira]]                 |\n| [[Especialização em Arma (Concussão)\\|Concussão]]      | [[Maça]], [[Tacape]], [[Maça Estrela]], [[Martelo de Guerra]], [[Picareta de Guerra]], [[Malho]] |\n| [[Especialização em Arma (Machados)\\|Machados]]       | [[Machadinha]], [[Machado de Batalha]], [[Machadão]]                           |\n| [[Especialização em Arma (Arcos)\\|Arcos]]          | [[Arco Curto]], [[Arco de Caça]], [[Arco de Guerra]], [[Arco Longo]]                             |\n| [[Especialização em Arma (Bestas)\\|Bestas]]         | [[Besta de Mão]], [[Besta Leve]], [[Besta]], [[Besta Pesada]]                  |\n| [[Especialização em Arma (Armas de Haste)\\|Armas de Haste]] | [[Azagaia]], [[Lança]], [[Alabarda]], [[Pique]]                                |\n| [[Especialização em Arma (Armas Atípicas)\\|Armas Atípicas]] | [[Porrete]], [[Manopla]], [[Funda]], [[Bordão]]                    |\n\n```autosheet-rules\n```\n"
+}

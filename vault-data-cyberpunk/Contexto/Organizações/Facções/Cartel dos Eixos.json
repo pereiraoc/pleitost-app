@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Organizações/Facções/Cartel dos Eixos",
+  "path": "Contexto/Organizações/Facções/Cartel dos Eixos.md",
+  "basename": "Cartel dos Eixos",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Roubo de protótipo, peça sem origem e aposta em corrida clandestina, a partir das oficinas do Passo D'Areia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cartel dos Eixos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink",
+      "alias": "Kombi"
+    },
+    {
+      "target": "Gurgel de Aluguel",
+      "kind": "wikilink",
+      "alias": "aluguel"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cartel dos Eixos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Cartel dos Eixos.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Não é gangue de rua, é cadeia de fornecimento. Começaram donos de oficina embaixo dos pilares do Aeromóvel e viraram o atravessador de quem precisa da peça hoje: o carro entra inteiro à noite e sai em partes de manhã — a [[Volkswagen Kombi|Kombi]] usada com placa de outro estado, o motor \"revisado\", o [[Gurgel de Aluguel|aluguel]] sem documento pra quem não pergunta. Protegem o pequeno comerciante do bairro, e não por caridade: cliente que dorme tranquilo não conversa com a Brigada.\n\n"
+}

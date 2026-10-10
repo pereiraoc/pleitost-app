@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Facções/Sociedade dos Jardins",
+  "path": "Contexto/Organizações/Facções/Sociedade dos Jardins.md",
+  "basename": "Sociedade dos Jardins",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Dra. Beatriz Salgado]]",
+    "Descrição": null,
+    "Resumo": "Colarinho branco de Moinhos de Vento: lavagem em clínicas de luxo, tráfico de informação e chantagem corporativa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedade dos Jardins.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Dra. Beatriz Salgado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sociedade dos Jardins.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sociedade dos Jardins.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** O crime que não suja as mãos: clínicas de luxo lavam dinheiro, jantares recolhem segredos e cada escândalo corporativo encoberto vira uma dívida a cobrar. Influencia eleições internas e decisões de megacorp sem nunca aparecer num boletim de ocorrência.\n\n"
+}

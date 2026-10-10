@@ -1,0 +1,105 @@
+{
+  "id": "Sistema/Regras/Condições/Caído",
+  "path": "Sistema/Regras/Condições/Caído.md",
+  "basename": "Caído",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Caídos, Caída, Caídas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Ataque -2",
+      "Derivar Condicao Desprevenido"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "[[Desprevenido]], +2 [[Defesa]] de circunstância vs ataques a distância, -2 de circunstância em [[Ataques]] (exceto com bestas), só pode mover para [[Levantar]] ou [[Arrastar-se]]."
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Ataque -2",
+      "parsed": [
+        {
+          "sourceNote": "Caído",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Ataque",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.Ataque -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "ataque",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Derivar Condicao Desprevenido",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Desprevenido"
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: [[Desprevenido]], +2 [[Defesa]] de circunstância vs ataques a distância, -2 de circunstância em [[Ataques]] (exceto com bestas), só pode mover para [[Levantar]] ou [[Arrastar-se]].\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

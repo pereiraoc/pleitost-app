@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Nilo “Catraca” Bragança",
+  "path": "Contexto/Pessoas/Nilo “Catraca” Bragança.md",
+  "basename": "Nilo “Catraca” Bragança",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Catraca",
+      "Nilo Bragança"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Milícia da Carris]]",
+    "Função": "Fiscal-chefe da Carris",
+    "Aparência": "Cinquenta e poucos anos, corpulento, colete amarelo da Carris sobre camisa social, prancheta na mão e cassetete no cinto, bigode fino, boné da companhia; na porta da garagem da Rua Albion, entre monoblocos novos que nunca rodaram.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Nilo “Catraca” Bragança.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Milícia da Carris",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Nilo “Catraca” Bragança.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Nilo “Catraca” Bragança.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

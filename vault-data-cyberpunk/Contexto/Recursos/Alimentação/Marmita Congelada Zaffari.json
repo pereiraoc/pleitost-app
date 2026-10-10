@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Marmita Congelada Zaffari",
+  "path": "Contexto/Recursos/Alimentação/Marmita Congelada Zaffari.md",
+  "basename": "Marmita Congelada Zaffari",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "[[Zaffari]]",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Passo D'Areia]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "Arroz, feijão e um pedaço de carne de origem não declarada em bandeja de alumínio; esquenta no vapor do Aeromóvel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Marmita Congelada Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Marmita Congelada Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Marmita Congelada Zaffari.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA marmita congelada do [[Zaffari]] alimenta metade da cidade. Bandeja de alumínio com arroz, feijão, uma\ncarne que o rótulo chama de 'bovina' e uma colher de purê. Esquenta na chapa do boteco, no vapor do Aeromóvel\nou no motor do Gurgel. Validade de um ano, diz o rótulo.\n\n> [!info] Especificação\n> **Conteúdo:** arroz, feijão, 80 g de carne 'bovina', purê\n> **Embalagem:** bandeja de alumínio com tampa de papel; 400 g\n> **Como esquenta:** chapa do boteco, vapor do Aeromóvel, coletor do motor\n> **Validade:** um ano, segundo o rótulo\n> **Onde:** qualquer Zaffari e armazém de bairro; em crédito PIRA no balcão da empresa\n"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "Contexto/Pessoas/Pedro Simon",
+  "path": "Contexto/Pessoas/Pedro Simon.md",
+  "basename": "Pedro Simon",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Simon"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Oposição Cassada]]",
+    "Função": "Advogado; deputado estadual cassado com o fechamento da Assembleia (1968)",
+    "Aparência": "Cinquenta e sete anos, calvície avançada, óculos de armação grossa, terno marrom, pasta de documentos sempre fechada; mesa de canto num escritório emprestado do Centro, de passagem entre Caxias e Porto Alegre.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pedro Simon.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Oposição Cassada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oposição Cassada",
+      "kind": "wikilink",
+      "alias": "Cassados"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pedro Simon.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Pedro Simon.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

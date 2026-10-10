@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Agrale 27.5",
+  "path": "Contexto/Recursos/Veículos/Agrale 27.5.md",
+  "basename": "Agrale 27.5",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Agrale (Caxias do Sul)",
+    "Preço": 90000,
+    "Cobrança": "única",
+    "Usado": 35000,
+    "Manutenção": 800,
+    "Nível": 3,
+    "Onde": [
+      "[[Jardim Itu]]",
+      "[[Nova Sarandi]]",
+      "[[Costa e Silva]]"
+    ],
+    "Resumo": "A moto gaúcha da Agrale, de Caxias: pequena, feia, dura — a moto do interior que a periferia adotou.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Agrale 27.5.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moto Center Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina Paraguassu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Agrale 27.5.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Agrale 27.5.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Agrale faz motos em Caxias do Sul desde os anos 60 e a 27.5 é a mais simples delas: 50 cilindradas, partida no\npedal, sem frescura. É a moto do peão de fábrica e do vigia; não chama a atenção de ninguém, nem do ladrão.\n\n> [!info] Especificação\n> **Modelo:** Agrale 27.5 1985, 2 tempos\n> **Motor:** 50 cc, 5 cv; 45 km/l\n> **Velocidade:** 70 km/h\n> **Novo:** [[Moto Center Assis Brasil]], [[Oficina Paraguassu]]\n> **Usado:** Cz$ 35.000 em qualquer oficina\n> **Manutenção:** Cz$ 800 por mês\n"
+}

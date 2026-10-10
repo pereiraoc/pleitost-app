@@ -1,0 +1,177 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Poderoso",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Poderoso.md",
+  "basename": "Ataque Poderoso",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ataque Poderoso",
+        "tipo": "AtaqueLocal",
+        "origem": "Técnica",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "⚔️",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtraDaArma",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "naoPropriedade": "Ágil"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 2,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "naoPropriedade": "Ágil"
+              },
+              {
+                "proficiencia": "=E"
+              },
+              {
+                "empunhadura": 1
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 4,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "naoPropriedade": "Ágil"
+              },
+              {
+                "proficiencia": "=M"
+              },
+              {
+                "empunhadura": 1
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 3,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "naoPropriedade": "Ágil"
+              },
+              {
+                "proficiencia": "=E"
+              },
+              {
+                "empunhadura": 2
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 6,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              },
+              {
+                "naoPropriedade": "Ágil"
+              },
+              {
+                "proficiencia": "=M"
+              },
+              {
+                "empunhadura": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo com arma não-[[ágil]]; se acertar, adicione 1 dado de dano da arma adicional, mais dano conforme proficiência (se [[Experiente]]: +2, ou +3 com duas mãos; se [[Mestre]]: +4, ou +6 com duas mãos). Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo com arma não-[[ágil]]; se acertar, adicione 1 dado de dano da arma adicional, mais dano conforme proficiência (se [[Experiente]]: +2, ou +3 com duas mãos; se [[Mestre]]: +4, ou +6 com duas mãos). Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Poderoso.\n\n**Ataque Poderoso - 2A**\nFaça um [[Atacar|Ataque]] corpo-a-corpo com uma arma não-[[ágil]], caso tenha sucesso, você causa dano adicional igual a um dado de dano da arma. Adicionalmente, se você for [[Experiente]] em [[Ataques]], o dano adicional é acrescido em 2, ou 3 se estiver empunhando a arma com duas mãos (total 1dX+2, 1dX+3 para duas mãos). Se você for [[Mestre]] em [[Ataques]], o dano adicional é acrescido novamente em 2 ou 3, dependendo da empunhadura (total 1dX+4, 1dX+6 para duas mãos). Este ataque conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

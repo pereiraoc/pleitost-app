@@ -1,0 +1,48 @@
+{
+  "id": "Contexto/Recursos/Serviços/Sem Rancho",
+  "path": "Contexto/Recursos/Serviços/Sem Rancho.md",
+  "basename": "Sem Rancho",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Sem Plano Mensal de Alimentação"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Nível": 1,
+    "Onde": null,
+    "Resumo": "Sem padrão do mês: come o que aparece — ração vencida, resto de barraca, peixe da Aliança — e paga a refeição avulsa quando dá.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sem Rancho.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ração PIRA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar da Estrada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sem Rancho.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sem Rancho.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNenhum padrão do mês. Come o que aparece: [[Ração PIRA]] vencida da barraca de escambo, resto de churrasquinho, peixe frito no [[Bar da Estrada]] em troca de serviço. Quando precisa MESMO comer, paga a refeição avulsa num boteco — e o Mestre desconta da ficha.\n\n> [!info] Especificação\n> **Refeições garantidas:** nenhuma\n> **Dá direito a:** nada — cada refeição se paga na hora, se pagar\n> **Quem vive assim:** catador, palafita, criança da vila\n> **Classe:** Sem Plano Mensal\n"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Perfurante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Disparo Perfurante.md",
+  "basename": "Disparo Perfurante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Escolha 2 criaturas em linha, onde uma fornece [[Cobertura]] para a outra contra seu ataque à distância; faça um [[Atacar|Ataque]] que atinge ambas, ignorando o bônus de [[Defesa]] da [[Cobertura]] entre elas. Conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Escolha 2 criaturas em linha, onde uma fornece [[Cobertura]] para a outra contra seu ataque à distância; faça um [[Atacar|Ataque]] que atinge ambas, ignorando o bônus de [[Defesa]] da [[Cobertura]] entre elas. Conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Disparo Perfurante\n\n**Disparo Perfurante - 2A**\nEscolha um par de criaturas, onde uma está provendo [[Cobertura]] para a outra contra um [[Atacar|Ataque]] seu usando uma arma de distância. Faça um [[Atacar|Ataque]] contra essas duas criaturas, ignorando o bônus na [[Defesa]] dado pela [[Cobertura]] provida pela criatura. Disparo Perfurante conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

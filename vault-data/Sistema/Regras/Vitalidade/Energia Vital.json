@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Vitalidade/Energia Vital",
+  "path": "Sistema/Regras/Vitalidade/Energia Vital.md",
+  "basename": "Energia Vital",
+  "type": "Regra",
+  "subtype": "Vitalidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "EV"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Vitalidade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Vitalidade|Vitalidade]]",
+    "prev": "[[Vitalidade|Vitalidade]]",
+    "next": "[[Energia Heroica]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink",
+      "alias": "Vitalidade"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Energia Vital (EV)"
+    },
+    {
+      "level": 4,
+      "text": "Energia Vital como Recurso"
+    }
+  ],
+  "body": "%%\nup:: [[Vitalidade|Vitalidade]]\nprev:: [[Vitalidade|Vitalidade]]\nnext:: [[Energia Heroica]]\n%%\n## Energia Vital (EV)\nEnergia Vital é a capacidade de uma criatura de sustentar ferimentos. É a última linha de resistência de uma criatura quando alvejada por um ataque de qualquer natureza. Criaturas normais, como NPCs e monstros, tem somente Energia Vital e estes são derrotados quando chegam a zero, a não ser que o Mestre julgue necessário outras condições. A Energia Vital dos jogadores é definida pela classe escolhida.\n\n#### Energia Vital como Recurso\nAlguns efeitos, técnicas, habilidades, magias ou ações requerem que você perca EV para ativá-los. Quando você voluntariamente perde EV, não pode ficar com menos de 1 EV. Por exemplo, para ativar um efeito com custo de 5 EV, você precisa ter ao menos 6 EV no momento da ativação. Similarmente, quando um efeito permite que você escolha quanta EV vai perder, você não pode escolher um valor que te deixaria com menos de 1 de EV."
+}

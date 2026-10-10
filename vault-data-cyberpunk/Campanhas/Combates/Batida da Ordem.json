@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Batida da Ordem",
+  "path": "Campanhas/Combates/Batida da Ordem.md",
+  "basename": "Batida da Ordem",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Teatro Quarto Distrito]] · [[Bom Fim]]",
+    "Situação": "Pararam o show pra pedir registro, e a casa não gostou. Agora é o instrumento contra o cassetete.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cabo de Fiscalização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiscal da Ordem dos Músicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Boêmio Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Cabo de Fiscalização]] lento\n- 2 [[Fiscal da Ordem dos Músicos]] lento\n- 4 [[Boêmio Armado]] rápido\n```\n"
+}

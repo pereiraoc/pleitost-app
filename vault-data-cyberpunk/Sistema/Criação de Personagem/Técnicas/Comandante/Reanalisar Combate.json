@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Reanalisar Combate",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Reanalisar Combate.md",
+  "basename": "Reanalisar Combate",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Se sua última ação foi uma [[Análise de Combate]] que falhou, você pode fazer uma nova [[Análise de Combate]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Se sua última ação foi uma [[Análise de Combate]] que falhou, você pode fazer uma nova [[Análise de Combate]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Reanalisar Combate.\n\n**Reanalisar Combate - 1A**\nSe sua última ação foi uma [[Análise de Combate]] que resultou em uma falha, faça uma nova [[Análise de Combate]].\n\n```autosheet-rules\n```\n"
+}

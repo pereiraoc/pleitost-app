@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Magia Anima Mestre",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Magia Anima Mestre.md",
+  "basename": "Magia Anima Mestre",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Anima Mestre"
+    }
+  ],
+  "body": "### Magia Anima Mestre\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Mestre\"\n```"
+}

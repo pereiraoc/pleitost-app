@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão Farroupilha",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão Farroupilha.md",
+  "basename": "Noite na Pensão Farroupilha",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão Farroupilha]]",
+    "Preço": 250,
+    "Cobrança": "noite",
+    "Nível": 3,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Pensão Farroupilha]]"
+    ],
+    "Resumo": "Quarto por uma noite na pensão de estudante do Bom Fim: lençol limpo, café às sete e a dona que finge não ver o livro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão Farroupilha.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão Farroupilha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão Farroupilha.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão Farroupilha]] aluga o quarto vago por noite pra quem perdeu o último ônibus na [[Redenção]] ou chegou de fora pra ver alguém do [[Colégio Rosário]]. Registro no caderno, sem sobrenome; a dona conhece a Brigada e avisa da batida.\n\n> [!info] Especificação\n> **Quarto:** solteiro, lençol limpo, banheiro no corredor\n> **Inclui:** café às sete, recado anotado\n> **Regra:** porta fecha às onze; visita só na sala\n> **Nível:** 3 — Classe Média Baixa\n"
+}

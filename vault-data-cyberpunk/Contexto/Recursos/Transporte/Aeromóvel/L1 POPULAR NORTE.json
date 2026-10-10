@@ -1,0 +1,94 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/L1 POPULAR NORTE",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/L1 POPULAR NORTE.md",
+  "basename": "L1 POPULAR NORTE",
+  "type": "Linha",
+  "subtype": "Aeromóvel",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Aeromóvel",
+    "Letreiro": "L1 POPULAR NORTE",
+    "Operador": "Trensurb; energia da [[Companhia Estadual de Energia Elétrica|CEEE]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Aeromóvel Linha Popular]]",
+    "Qualidade": 3,
+    "Cor": "#1f5fbf",
+    "Horário": "5h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Zaffari]]",
+      "[[Estação Sarandi]]",
+      "[[Estação Passo D'Areia]]",
+      "[[Estação Nogueiras]]",
+      "[[Estação Independência]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Viaduto de concreto cinza com manchas de infiltração, vagão branco e verde de janelas apertadas com adesivo do regime, plataforma com catraca de leitor de carteira, cabine de vidro fumê da Brigada, cartaz 'PIRA — PRODUTIVIDADE É LIBERDADE'.",
+    "Resumo": "A linha do turno: Nova Sarandi e Passo D'Areia ao Centro em doze minutos, superlotada, vigiada e grátis com carteira PIRA.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "L1 POPULAR NORTE.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Nogueiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "L1 POPULAR NORTE.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[L1 POPULAR NORTE.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA linha do turno. Enche às cinco na [[Estação Zaffari]] e na [[Estação Sarandi]] com macacão da [[Tramontina]] e da [[Marcopolo]], para nos condomínios da [[Estação Nogueiras]], cruza a [[Estação Independência]] cheia de estudante e desce na [[Estação Central]] em doze minutos — volta às dezoito, mais cheia ainda. Brigadiano em cada plataforma: flagrante é \"subversão\". A carteira PIRA abre a catraca de graça; o resto passa o cartão TRI. Quando a CEEE corta a periferia, o trilho continua — prioridade absoluta do regime. Baldeação com todo ônibus da Assis Brasil nas estações Nogueiras, Passo D'Areia e Independência.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

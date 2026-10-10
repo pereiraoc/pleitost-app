@@ -1,0 +1,182 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Amplificador Audiovisual",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Amplificador Audiovisual.md",
+  "basename": "Amplificador Audiovisual",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus de [[Percepção]]. Ver no escuro.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Percepção. Com 1 ação, pode ativar em si Visão no Escuro por 3 turnos (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Percepção. Com 1 ação, pode ativar em si Visão no Escuro por 1 minuto (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Percepção. Você fica permanentemente sob efeito de Visão no Escuro. Se o efeito for dissipado, volta após 10 minutos."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "Categoria Experiente Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "Categoria Mestre Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+      "Complementar Magias.Lista.Tesouros.Lista [[Visão no Escuro]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Amplificador Audiovisual",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Amplificador Audiovisual",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Amplificador Audiovisual",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Visão no Escuro]]",
+      "parsed": [
+        {
+          "sourceNote": "Amplificador Audiovisual",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Visão no Escuro]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Visão no Escuro]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visão no Escuro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - visor*\nEste visor transparente cobre seus olhos e envolve uma orelha. Deixa as cores mais vívidas e amplifica o som.\n* Adepto: +1 de [[bônus de item]] em [[Percepção]]. Uma vez a cada 10 minutos, você pode [[Interagir]] com o amplificador, recebendo os efeitos de [[Visão no Escuro]] por 3 turnos.\n* Experiente: +2 de [[bônus de item]] em [[Percepção]]. Uma vez a cada 10 minutos, você pode [[Interagir]] com o amplificador, recebendo os efeitos de [[Visão no Escuro]] por 1 minuto.\n* Mestre: +3 de [[bônus de item]] em [[Percepção]]. Você fica permanentemente sob efeito de [[Visão no Escuro]]. Se o efeito for dissipado, volta após 10 minutos.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

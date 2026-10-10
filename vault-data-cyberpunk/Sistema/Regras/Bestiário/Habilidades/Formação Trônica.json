@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Formação Trônica",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Formação Trônica.md",
+  "basename": "Formação Trônica",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"A criatura estudou a trônica: conhece [[Magia Arcana Essencial|magias essenciais]], que contam como magias da escola dela.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink",
+      "alias": "magias essenciais"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"A criatura estudou a trônica: conhece [[Magia Arcana Essencial|magias essenciais]], que contam como magias da escola dela.\"\n%%\n#### `= this.file.name`\nCriaturas com Formação Trônica não aprenderam a operar na rua: passaram por\nbanco de ensaio, manual e prova. Além da escola que rodam, conhecem\n[[Magia Arcana Essencial|magias essenciais]] — e elas contam como magias da\nprópria escola para todos os efeitos, ocupando as mesmas vagas.\n\n```autosheet-rules\n```\n"
+}

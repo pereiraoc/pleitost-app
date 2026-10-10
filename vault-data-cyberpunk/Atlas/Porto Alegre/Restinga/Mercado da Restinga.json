@@ -1,0 +1,84 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Mercado da Restinga",
+  "path": "Atlas/Porto Alegre/Restinga/Mercado da Restinga.md",
+  "basename": "Mercado da Restinga",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "[[Movimento Restinga Livre]] ([[Renato “Livre” Costa]])",
+    "Descrição": null,
+    "Serviços": [
+      "[[Barraco de Metal da Restinga]]",
+      "[[Água Mineral em Galão]]",
+      "[[Grapette]]",
+      "[[Carona no Caminhão do Sindicato]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado da Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Renato “Livre” Costa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Barraco de Metal da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Água Mineral em Galão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado da Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mercado da Restinga.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bancas de lona e tábua vendendo comida, remédio e sucata.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Tabuleiros coloridos, poeira da estrada, cheiro de fritura e álcool gel.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bancas de lona e tábua vendendo comida, remédio e sucata.",
+    "aparencia": "Tabuleiros coloridos, poeira da estrada, cheiro de fritura e álcool gel.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/VIP PORTO",
+  "path": "Contexto/Recursos/Transporte/Lotação/VIP PORTO.md",
+  "basename": "VIP PORTO",
+  "type": "Linha",
+  "subtype": "Lotação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Lotação",
+    "Letreiro": "VIP PORTO",
+    "Operador": "concessionárias privadas com rádio [[Embratel]]",
+    "Acesso": "[[TRI Ouro]]",
+    "Tarifa": "[[Lotação VIP]]",
+    "Qualidade": 4,
+    "Cor": "#5f5f5f",
+    "Horário": "6h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Centro Corporativo]]",
+      "[[Estação Praia de Belas]]",
+      "[[Estação Porto Novo]]"
+    ],
+    "Aparência": "Van Marcopolo prateada com vidro fumê e antena de rádio comprida, letreiro digital vermelho, motorista de gravata fina, poltronas de veludo azul, sinaleira abrindo verde à frente enquanto o ônibus do lado espera.",
+    "Resumo": "A lotação do Centro Corporativo ao escritório do porto e ao cais, sem parar em sinal.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "VIP PORTO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação VIP",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "VIP PORTO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[VIP PORTO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nDe baixo do deck da [[Estação Centro Corporativo]] ao escritório do porto na [[Estação Praia de Belas]] e ao cais da [[Estação Porto Novo]], sem parar em sinal. Leva o gerente que não tem crachá de Linha Executiva e o despachante da Zaffari com a pasta na mão. Ouro pra cima; a guarita do porto conhece a van.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

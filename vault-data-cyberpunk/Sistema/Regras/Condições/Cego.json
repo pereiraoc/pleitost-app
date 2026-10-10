@@ -1,0 +1,118 @@
+{
+  "id": "Sistema/Regras/Condições/Cego",
+  "path": "Sistema/Regras/Condições/Cego.md",
+  "basename": "Cego",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Cegos, Cega, Cegas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Derivar Condicao Desprevenido",
+      "Somar Condicao.Percepcao -4"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Dificuldade de mover, [[Desprevenido]], 50% de chance de errar ataques.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Derivar Condicao Desprevenido",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Desprevenido"
+        ]
+      }
+    },
+    {
+      "raw": "Somar Condicao.Percepcao -4",
+      "parsed": [
+        {
+          "sourceNote": "Cego",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Percepcao",
+            "valueRaw": "-4"
+          },
+          "raw": "Somar Condicao.Percepcao -4",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "percepcao",
+            "value": -4
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataques Mágicos"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Dificuldade de mover, [[Desprevenido]], 50% de chance de errar ataques.\"\n%%\n## `= this.file.name`\nTodo terreno contra como [[Terreno Difícil]]. Fica [[Desprevenido]]. [[Magia|Ataques Mágicos]] de alvo único, [[Atacar|Ataques]] e [[Ataques#Manobras de Ataque|Manobras de Ataque]] tem 50% de chance de falha. Recebe -4 de [[Penalidades|penalidade de condição]] na [[Percepção]].\n\n```autosheet-rules\n```\n"
+}

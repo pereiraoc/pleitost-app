@@ -1,0 +1,74 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Porto Novo",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Porto Novo.md",
+  "basename": "Porto Novo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "[[Zaffari]] (administração do porto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Uísque de Contrabando]]",
+      "[[Balsa de Carga Zaffari]]"
+    ],
+    "Completo": true,
+    "markerTag": "Porto"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Porto Novo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Balsa de Carga Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Porto Novo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Porto Novo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Grande complexo de docas e armazéns que domina a margem do [[Guaíba]], responsável por receber todas as mercadorias vindas pelo mar, de insumos industriais a cargas secretas de selênicos.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Longos píeres de madeira reforçada e concreto, guindastes articulados erguendo contêineres enferrujados, galpões de zinco alinhados à beira d’água, pilhas de caixas de madeira marcadas com selos oficiais e um constante odor de óleo diesel e salinidade.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Grande complexo de docas e armazéns que domina a margem do [[Guaíba]], responsável por receber todas as mercadorias vindas pelo mar, de insumos industriais a cargas secretas de selênicos.",
+    "aparencia": "Longos píeres de madeira reforçada e concreto, guindastes articulados erguendo contêineres enferrujados, galpões de zinco alinhados à beira d’água, pilhas de caixas de madeira marcadas com selos oficiais e um constante odor de óleo diesel e salinidade.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

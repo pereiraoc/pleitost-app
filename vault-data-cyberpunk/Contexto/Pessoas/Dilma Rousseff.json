@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Pessoas/Dilma Rousseff",
+  "path": "Contexto/Pessoas/Dilma Rousseff.md",
+  "basename": "Dilma Rousseff",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Dilma"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Resistência Urbana Gaúcha]]",
+    "Função": "Economista; ex-presa política (1970–72), vigiada desde que chegou a Porto Alegre em 1973",
+    "Aparência": "Trinta e nove anos, cabelo escuro curto, óculos grandes de armação escura, blazer sobre blusa de gola, pasta de papéis com planilhas feitas à mão; mesa de fundo de sala, de costas pra parede e longe da janela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Dilma Rousseff.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Dilma Rousseff.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Dilma Rousseff.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

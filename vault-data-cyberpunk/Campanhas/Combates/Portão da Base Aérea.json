@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Portão da Base Aérea",
+  "path": "Campanhas/Combates/Portão da Base Aérea.md",
+  "basename": "Portão da Base Aérea",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Base Aérea de Canoas]] · [[Canoas]]",
+    "Situação": "Fora de Porto Alegre a Brigada não vale nada, e quem manda aqui não negocia com civil.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pelotão de Guarnição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficial de Operações",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bateria da Torre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Base Aérea de Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Pelotão de Guarnição]] lento\n- 1 [[Oficial de Operações]] super rápido\n- 1 [[Bateria da Torre]] lento\n```\n"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "README",
+  "path": "README.md",
+  "basename": "README",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "🧭 Sistema Pleitost RPG"
+    },
+    {
+      "level": 2,
+      "text": "📖 Sobre o Projeto"
+    },
+    {
+      "level": 2,
+      "text": "⚙️ Capacidades do Sistema"
+    },
+    {
+      "level": 2,
+      "text": "🧩 Estrutura do Projeto"
+    },
+    {
+      "level": 2,
+      "text": "🧾 Fichas Automáticas (Autosheet)"
+    },
+    {
+      "level": 2,
+      "text": "🧙‍♂️ Magia"
+    },
+    {
+      "level": 2,
+      "text": "⚔️ Equipamentos"
+    },
+    {
+      "level": 2,
+      "text": "💎 Recursos Visuais"
+    },
+    {
+      "level": 2,
+      "text": "🧰 Integração com Obsidian"
+    },
+    {
+      "level": 2,
+      "text": "🚀 Como Usar"
+    },
+    {
+      "level": 2,
+      "text": "🪶 Contribuidores"
+    },
+    {
+      "level": 2,
+      "text": "📅 Linha do Tempo"
+    },
+    {
+      "level": 2,
+      "text": "🧠 Roadmap"
+    },
+    {
+      "level": 2,
+      "text": "🪩 Licença"
+    }
+  ],
+  "body": "# 🧭 Sistema Pleitost RPG\n\n> *Um sistema modular de RPG totalmente integrado ao Obsidian — combinando automação, estética e expansibilidade.*\n\n---\n\n## 📖 Sobre o Projeto\n\nO **Sistema Pleitost RPG** é um framework de RPG de mesa digital pensado para ser **jogado, gerenciado e expandido dentro do Obsidian**.  \nEle combina anotações em Markdown com automações via **DataviewJS**, **Templater** e templates modulares, permitindo desde o registro de aventuras até o uso de fichas interativas em tempo real.\n\n> **Versão atual:** veja as *Releases* no GitHub.\n\n---\n\n## ⚙️ Capacidades do Sistema\n\n✅ **Regras completas** – combate, ações, atributos, perícias, magias, condições, defesas e progressão  \n✅ **Fichas modulares (autosheet)** – famílias de `Jogador` e `Companheiro Animal` com modos Leitura, Interativa, Editável e Automática  \n✅ **Magia modular** – Anima, Arcana (Branca/Negra/Essencial) e Especial  \n✅ **Classes jogáveis** – Animista, Arcanista, Bardo, Caçador, Comandante, Druida, Guerreiro, Ladino, Mago e Monge  \n✅ **Equipamentos** – armas, armaduras, escudos, implementos, tesouros e imbuições  \n✅ **Recursos visuais do vault** – retratos, ícones, fundos de UI e assets dedicados para companheiros animais  \n✅ **Conteúdo publicável** – estrutura compatível com **Digital Garden** (wiki)  \n✅ **Vault organizado** – separação clara entre Sistema, Mídia, Atlas e Contexto\n\n---\n\n## 🧩 Estrutura do Projeto\n\n| Categoria | Caminho | Descrição |\n|---|---|---|\n| 🗺️ **Atlas** | `Atlas/` | Geografia e regiões do mundo |\n| 📚 **Contexto** | `Contexto/` | Histórias, diários e organizações do mundo |\n| 🧠 **Regras** | `Sistema/Regras/` | Ações, combate, condições, atributos, defesas, resistências, propriedades e movimentação |\n| ✨ **Criação de Personagem** | `Sistema/Criação de Personagem/` | Classes, habilidades, técnicas, magia, sintonia, evolução e companheiro animal |\n| ⚔️ **Equipamento** | `Sistema/Equipamento/` | Armas, armaduras, escudos e tesouros |\n| 🐾 **Criaturas** | `Sistema/Criaturas/` | Bestiário, jogadores e companheiros animais |\n| 🧾 **Templates** | `Recursos e Mídia/Templates/Templates de Sistema/` | Famílias de templates para `Jogador`, `Companheiro Animal`, `Monstro` e elementos de regra |\n| 💎 **Mídia** | `Recursos e Mídia/Imagens/` | Ícones, emblemas, fundos, mapas, retratos e assets de companheiros animais |\n\n---\n\n## 🧾 Fichas Automáticas (Autosheet)\n\nAs fichas são renderizadas com **DataviewJS** e compostas por templates modulares para consulta, edição e uso em mesa.\n\nHoje o sistema mantém duas famílias principais de ficha:\n- **Jogador** — cobertura completa de atributos, perícias, magias, inventário, recursos e progressão\n- **Companheiro Animal** — variante própria com domínio reduzido, interface específica e documentação dedicada\n\n**Modos de uso**\n- 👁️ **Leitura** — visual limpo para consulta\n- ⚙️ **Interativa** — uso em mesa com botões, contadores e ações rápidas\n- 🖊️ **Editável** — criação e ajustes manuais do frontmatter\n- 🧠 **Automática** — ficha orientada por `Elementos de Regra`, com cálculo, diff e save protegido\n\n**Recursos comuns**\n- Cálculos e exibição automáticos de atributos, perícias, defesas, recursos e, no caso de `Jogador`, **potência mágica**\n- Exibição vinculada de armas, magias, consumíveis, tesouros, imbuições e implementos conforme o domínio da ficha\n- Ícones dinâmicos, seletores inline e estilos condicionais  \n- Templates no pacote em `Recursos e Mídia/Templates/Templates de Sistema/`\n- Estrutura modular por família e por modo em `Criatura/Jogador/`, `Criatura/Companheiro Animal/` e `Criatura/Monstro/`\n\n**Destaque da ficha Automática**\n- Usa `Elementos de Regra` como base declarativa para calcular o estado esperado da ficha\n- Compara o estado atual com o esperado e expõe divergências em painel de detalhes/changelog\n- Protege a persistência com validação, canonicalização e serialização específica por tipo de propriedade\n\n**Documentação técnica**\n- `Recursos e Mídia/Templates/Templates de Sistema/Criatura/Jogador/doc-Ficha-de-Jogador.md` — visão geral e índice técnico das fichas de jogador\n- `Recursos e Mídia/Templates/Templates de Sistema/Criatura/Companheiro Animal/doc-Fichas-de-Companheiro-Animal.md` — visão geral e índice técnico das fichas de companheiro animal\n- `Recursos e Mídia/Templates/Templates de Sistema/Criatura/Elementos de Regra.md` — referência compartilhada da DSL de regras das fichas automáticas\n\n---\n\n## 🧙‍♂️ Magia\n\nLocal: `Sistema/Criação de Personagem/Magia/`  \n- **Magia Anima** — Fogo, Água, Terra, Vento (Adepta/Básica/Experiente/Mestre)  \n- **Magia Arcana** — Branca, Negra, Essencial (quatro patamares cada)  \n- **Magia Especial** — efeitos singulares e habilidades assinatura  \n- Magias escaláveis e documentadas para uso direto via links dentro do vault\n\n---\n\n## ⚔️ Equipamentos\n\nLocal: `Sistema/Equipamento/`  \n- **Armas** — Simples, Marciais, Naturais, Especiais  \n- **Armaduras** — Leves, Pesadas, Sem Armadura  \n- **Escudos** — Broquel, Escudo  \n- **Tesouros** — Consumíveis, Equipamentos (Ataque/Defesa/Perícia), **Imbuições & Qualidades**, **Implementos**  \n- Materiais visuais em `Recursos e Mídia/Imagens/`\n\n---\n\n## 💎 Recursos Visuais\n\n- Assets de companheiros animais, retratos e materiais de apoio visual do vault\n- Ícones (dados, emblemas, tipos de dano, bônus) e fundos de UI\n\n---\n\n## 🧰 Integração com Obsidian\n\n**Plugins-base recomendados:**\n- 🧮 Dataview  \n- 🧠 Templater  \n- 🧩 Buttons  \n- 🧭 QuickAdd  \n- 🎨 Style Settings  \n\n**Plugins complementares usados no vault:**\n- 🔍 Omnisearch\n- 🗺️ Excalidraw\n- 🗂️ Folder Notes\n- 🔗 Supercharged Links\n- 🧾 Table Editor\n- 🧠 JS Engine\n- 🗺️ Leaflet\n\n**Snippets versionados:**\n- `oculta-no-dg.css`\n- `supercharged-links-gen.css`\n\n**Tema recomendado:** ITS Theme\n\n---\n\n## 🚀 Como Usar\n\n1. Clonar o repositório (ou baixar uma Release)\n2. Abrir no Obsidian: **“Abrir pasta como vault”**\n3. Ativar os plugins-base do sistema (`Dataview`, `Templater`, `Buttons`, `QuickAdd`, `Style Settings`)\n4. Ativar os snippets CSS versionados (`oculta-no-dg.css`, `supercharged-links-gen.css`)\n5. Abrir uma ficha em `Sistema/Criaturas/Jogadores/` ou um companheiro em `Sistema/Criaturas/Companheiros Animais/`\n6. Alternar entre `Leitura`, `Interativa`, `Editável` e `Automática` na própria ficha\n\n---\n\n## 🪶 Contribuidores\n\n| Nome | Função |\n|---|---|\n| **@sfynz** | Design do sistema, Regras centrais, mecânicas, balanceamento |\n| **@pereiraoc** | Product Manager, autosheets, arte/cartas e integração Obsidian |\n\n---\n\n## 📅 Linha do Tempo\n\n- **Jun 2025** — Estrutura inicial do vault e base das fichas  \n- **Jul 2025** — Itens, armas e sistema de tesouros/imbuições  \n- **Ago 2025** — Revisões de classes e expansão de criaturas  \n- **Set 2025** — Reclassificação de magias e progressão  \n- **Out 2025** — Polimento visual, padronizações e melhorias de automação\n- **Nov 2025** — Mapas e ajustes oriundos do playtest\n- **Dez 2025** — Consolidação de resumos, correções e evolução do autosheet\n- **Mar 2026** — Reorganização da arquitetura de fichas, promoção de `Companheiro Animal` a família própria e expansão do conteúdo jogável\n\n> Esta linha do tempo é incremental e deve ser complementada conforme novas versões forem publicadas.\n\n---\n\n## 🧠 Roadmap\n\n- Expansão de magias, técnicas e especializações  \n- Ampliação do bestiário e ferramentas de Mestre  \n\n---\n\n## 🪩 Licença\n\n**Todos os direitos reservados.** Este repositório e seu conteúdo **não** concedem permissão de uso, cópia, redistribuição, adaptação ou exploração por terceiros sem autorização prévia e expressa dos autores.\n"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/NAVEGANTES — CENTRO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/NAVEGANTES — CENTRO.md",
+  "basename": "NAVEGANTES — CENTRO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "NAVEGANTES",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#ff7f0e",
+    "Horário": "5h–22h50",
+    "Circular": false,
+    "Paradas": [
+      "[[Velha Indústria]]",
+      "[[Teatro Quarto Distrito]]",
+      "[[Farrapos]]",
+      "[[Galeria do Rosário]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "A linha do Quarto Distrito pela Voluntários da Pátria: operário de dia, artista de noite, o último sai às 22h50 cheio.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "NAVEGANTES — CENTRO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "NAVEGANTES — CENTRO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[NAVEGANTES — CENTRO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA Voluntários da Pátria de ponta a ponta. De dia leva o operário da [[Velha Indústria]]; de noite leva o artista do [[Teatro Quarto Distrito]] e quem sai dos bares da [[Farrapos]] antes do toque. Para na [[Galeria do Rosário]] e acaba na [[Estação Central]]. TRI Bronze no turno da Velha Indústria, Prata o resto do dia. O último sai às 22h50 cheio de artista — e a [[Ordem dos Subsolos]] sabe quem estava nele.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

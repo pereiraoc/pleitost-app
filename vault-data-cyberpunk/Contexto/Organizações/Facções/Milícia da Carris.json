@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Organizações/Facções/Milícia da Carris",
+  "path": "Contexto/Organizações/Facções/Milícia da Carris.md",
+  "basename": "Milícia da Carris",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Carris",
+      "Companhia Carris"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Nilo “Catraca” Bragança]]",
+    "Descrição": null,
+    "Resumo": "O que sobrou da Companhia Carris depois que a Prefeitura entregou as linhas à Marcopolo: a garagem da Rua Albion, os fiscais e os cobradores — que hoje cobram na parada, de colete e cassetete, o que não cobram mais na catraca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Milícia da Carris.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Prefeitura"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nilo “Catraca” Bragança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Milícia da Carris.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Milícia da Carris.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** A Companhia Carris Porto-Alegrense é de 1872 — o bonde a mula, depois o elétrico, municipal desde 1953, sem bonde desde 1970, na Rua Albion desde 1973. Até a [[Grande Enchente de 1986]] era a empresa de ônibus da cidade. Com o Centro e a Cidade Baixa debaixo d'água, a [[Prefeitura de Porto Alegre|Prefeitura]] entregou as linhas ao contrato da [[Marcopolo]], que tinha o ônibus anfíbio, e a Carris ficou com o que não flutua: a garagem, a frota nova encostada e um quadro de fiscais, cobradores e motoristas sem linha. Foi o fiscal-chefe [[Nilo “Catraca” Bragança]] quem achou a saída: se a companhia não pode cobrar na catraca, cobra na parada. O colete amarelo da Carris voltou às ruas com prancheta, catraca portátil e cassetete; o \"complemento de passagem\" é cobrado de quem embarca, com recibo de bloco e sem lei que o autorize; quem não paga não sobe, e o motorista da Marcopolo finge que não vê. A Prefeitura chama isso de fiscalização e recebe a parte dela. A cidade chama de milícia e paga.\n\n"
+}

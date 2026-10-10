@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Sabotagem",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Sabotagem.md",
+  "basename": "Sabotagem",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Ladinagem]]",
+    "resumo": "\"Sabota item de inimigo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Ladinagem]]\nresumo:: \"Sabota item de inimigo.\"\n%%\n### `= this.file.name`\n* 1A faz teste de [[Ladinagem]] contra [[Evasão]] de alvo adjacente. Se sucesso, sabota item ou arma em posse/empunhada, dando 20% de chance de falha em ações com o item por 1t. Inimigo fica imune por 1 min.\n\n*Requer Malandragem*\n\n```autosheet-rules\n```\n"
+}

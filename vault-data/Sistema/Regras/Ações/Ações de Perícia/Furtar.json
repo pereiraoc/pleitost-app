@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Furtar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Furtar.md",
+  "basename": "Furtar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Ladinagem]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta pegar um objeto solto ou portado por uma criatura sem ser percebido.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Ladinagem]]\"\npropriedades:: \nresumo:: \"Tenta pegar um objeto solto ou portado por uma criatura sem ser percebido.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Ladinagem]] contra a [[CD]] de [[Percepção]] das criaturas que poderiam perceber o furto, incluindo o portador, caso haja. Uma falha contra a [[Percepção]] do portador impede o furto. Dependendo de como o objeto estiver guardado, pode ser aplicado um [[Bônus de Circunstância|bônus de circunstância]] para a CD de Percepção. Criaturas em combate estão com a guarda alta, impedindo furtos.\n\n```autosheet-rules\n```\n"
+}

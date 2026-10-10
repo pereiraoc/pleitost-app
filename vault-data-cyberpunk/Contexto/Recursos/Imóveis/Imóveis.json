@@ -1,0 +1,33 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Imóveis",
+  "path": "Contexto/Recursos/Imóveis/Imóveis.md",
+  "basename": "Imóveis",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Serviços",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moradia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nAs **moradias com endereço**: cada uma tem aluguel por mês e, quando dá pra comprar, o preço à vista e a manutenção. O plano de moradia por classe está em [[Serviços]]; teto por noite, em [[Moradia]].\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Imóvel\", Marca AS \"Quem aluga\", Nível AS \"Classe\", Preço AS \"Aluguel/mês\", Compra AS \"Compra\", Manutenção AS \"Manutenção/mês\", Onde AS \"Onde\"\nFROM \"Contexto/Recursos/Imóveis\"\nWHERE categoria = \"Recurso\"\nSORT Nível ASC, Preço ASC\n```\n"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Salame Colonial",
+  "path": "Contexto/Recursos/Alimentação/Salame Colonial.md",
+  "basename": "Salame Colonial",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Cooperativas da serra",
+    "Preço": 300,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Salame colonial de colono italiano, a peça pendurada no teto do armazém — dura um mês na mochila.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAs peças ficam penduradas no teto do armazém como sinos. Salame de colono italiano da serra, curado com alho e pimenta, gordura branca bem marcada. É a comida de quem vai passar dias fora: não estraga, não precisa de fogo e rende uma semana de sanduíche.\n\n> [!info] Especificação\n> **Unidade:** a peça, cerca de 600 g\n> **Dura:** um mês sem refrigeração\n> **Na estrada:** o que o caminhoneiro leva pra [[Zona Deserta]]\n"
+}

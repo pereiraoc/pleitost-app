@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Fenda Tectônica",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Mestre/Fenda Tectônica.md",
+  "basename": "Fenda Tectônica",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fenda Tectônica (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Mestre",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] numa linha de 3q de largura e até 10q a partir de você com 1d6×potência de dano de contusão e derruba (metade na falha). Atordoada 1 se decisivo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] numa linha de 3q de largura e até 10q a partir de você com 1d6×potência de dano de contusão e derruba (metade na falha). Atordoada 1 se decisivo.\"\n%%\n# `= this.file.name` - `= this.custo`\nDesenhe uma linha de largura 3q originando de você de até 10q de comprimento. Faça um Ataque Mágico contra [[Evasão]] das criaturas na área definida.\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de contusão e fica [[Caído|Caída]].\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior e a criatura fica [[Atordoado|Atordoada 1]].\n**Falha:** A criatura recebe metade de 1d6×potência de dano de contusão.\n**Falha Decisiva:** A criatura não é afetada."
+}

@@ -1,0 +1,87 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Corpo-a-Corpo Marcial/Adaga de Duelo",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Corpo-a-Corpo Marcial/Adaga de Duelo.md",
+  "basename": "Adaga de Duelo",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "cac-marcial",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "cac-marcial",
+    "especial": "Permite usar uma ação para aparar com essa arma, garantindo +1 de bônus de circunstância na defesa. Você pode realizar Desarmar com a mão ocupada por essa arma, caso faça, pode aplicar o bônus de item em ataque dessa arma para Desarmar.",
+    "dg-publish": true,
+    "dano": "d4+2",
+    "tipo": "perfuração",
+    "mãos": 1,
+    "propriedades": [
+      "[[Precisa]]",
+      "[[Arremesso|Arremesso 3]]",
+      "[[Ágil]]",
+      "[[Especial]]"
+    ],
+    "ordem": 2,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Corpo-a-Corpo Marcial|Marcial]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corpo-a-Corpo Marcial",
+      "kind": "wikilink",
+      "alias": "Marcial"
+    },
+    {
+      "target": "Especial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arremesso",
+      "kind": "wikilink",
+      "alias": "Arremesso 3"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Corpo-a-Corpo Marcial|Marcial]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nAdaga feita especialmente para duelar.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: Permite usar uma ação para aparar com essa arma, garantindo +1 de [[bônus de circunstância]] na [[Defesa]]. Você pode realizar [[Desarmar]] com a mão ocupada por essa arma, caso faça, pode aplicar o [[Bônus de Item|bônus de item]]  em [[Atacar|Ataque]] dessa arma para [[Desarmar]].\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Cobertura no Edifício Concorde",
+  "path": "Contexto/Recursos/Imóveis/Cobertura no Edifício Concorde.md",
+  "basename": "Cobertura no Edifício Concorde",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Edifício Concorde",
+    "Preço": 60000,
+    "Cobrança": "mês",
+    "Compra": 6000000,
+    "Manutenção": 15000,
+    "Nível": 6,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Edifício Concorde]]"
+    ],
+    "Resumo": "300 m² no último andar do Concorde, heliponto, água e luz privadas, motorista na garagem. Ninguém da rua sobe.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cobertura no Edifício Concorde.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cobertura no Edifício Concorde.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cobertura no Edifício Concorde.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO [[Edifício Concorde]] separa o morador da cidade: tudo chega até ele. Trezentos metros no último andar,\nheliponto, água e luz que não passam pela CEEE, telefone privado da [[Embratel]] e um motorista na garagem.\nNinguém da rua sobe sem a [[A Caixinha|Caixinha]] marcar — e a Brigada bate continência no saguão.\n\n> [!info] Especificação\n> **Imóvel:** cobertura de 300 m², 4 suítes, terraço, heliponto no prédio\n> **Inclui:** água e luz privadas, telefone privado [[Embratel]], segurança própria, garagem com motorista\n> **Regra:** ninguém da rua sobe sem a Caixinha marcar; visitante é fotografado no saguão\n> **Vizinhos:** diretoria da [[Gradiente]] e da [[Zaffari]], um general\n> **Compra:** Cz$ 6.000.000 — e uma conversa com o síndico\n> **Nível:** 6 — Classe Alta\n"
+}

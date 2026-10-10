@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Independência",
+  "path": "Atlas/Porto Alegre/Bom Fim/Independência.md",
+  "basename": "Independência",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "ninguém — comércio da rua",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Cueca Virada]]",
+      "[[Guaraná Fruki]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Independência.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Independência.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Independência.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Ladeiras arborizadas, casarões do final do século XIX e pequenas praças de convívio.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Ruas de paralelepípedo contornadas por laranjeiras em flor, fachadas em tons pastel desgastados, aroma suave de madeira antiga, canto esporádico de pássaros urbanos e o tato firme das pedras sob os pés.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ladeiras arborizadas, casarões do final do século XIX e pequenas praças de convívio.",
+    "aparencia": "Ruas de paralelepípedo contornadas por laranjeiras em flor, fachadas em tons pastel desgastados, aroma suave de madeira antiga, canto esporádico de pássaros urbanos e o tato firme das pedras sob os pés.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

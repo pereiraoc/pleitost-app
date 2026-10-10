@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Terras Formadoras",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Terras Formadoras.md",
+  "basename": "Terras Formadoras",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Depois que você conjura uma [[Magia Anima]] não-básica do elemento Terra, um pilar de rocha de 1q de largura e até 2q de altura se forma em 1q desocupado dentro da área do efeito da magia (para uma magia com área), adjacente ao alvo (para uma magia com alvo único), ou 1q desocupado adjacente a você.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Depois que você conjura uma [[Magia Anima]] não-básica do elemento Terra, um pilar de rocha de 1q de largura e até 2q de altura se forma em 1q desocupado dentro da área do efeito da magia (para uma magia com área), adjacente ao alvo (para uma magia com alvo único), ou 1q desocupado adjacente a você.\"\n%%\n#### `= this.file.name` - `= this.rank`\nDepois que você conjura uma [[Magia Anima]] não-básica do elemento Terra, escolha um:\n* 1q desocupado dentro da área de efeito da magia (para uma magia com área);\n* 1q desocupado adjacente ao alvo da magia (para uma magia com alvo único);\n* 1q desocupado adjacente a você.\n\nUm pilar de rocha de 1q de largura e até 2q de altura se forma nesse espaço.\n\n```autosheet-rules\n```\n"
+}

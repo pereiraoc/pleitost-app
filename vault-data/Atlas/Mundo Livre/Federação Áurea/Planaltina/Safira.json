@@ -1,0 +1,118 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Safira",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Safira.md",
+  "basename": "Safira",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Safira",
+      "[[Martelo de Guerra]]",
+      "[[Malho]]",
+      "[[Picareta de Guerra]]",
+      "[[Manopla]]",
+      "[[Imbuição Torrencial]]",
+      "[[Imbuição Hidratante]]",
+      "[[Imbuição Congelante]]",
+      "[[Luvas do Ladrão]]",
+      "[[Luvas Purificadas]]",
+      "[[Braceletes de Pedra]]",
+      "[[Armadura Obra-prima|Armadura Pesada]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Safira.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Martelo de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Hidratante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Congelante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luvas do Ladrão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luvas Purificadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Braceletes de Pedra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Armadura Pesada"
+    }
+  ],
+  "images": [
+    {
+      "target": "Safira.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Safira.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Capital de [[Planaltina]] e uma das três cidades fundadoras da [[Federação Áurea]], Safira dá nome à gema azul que sustenta sua economia: das minas da [[Grande Mata]] chega o minério que a cidade lapida, imbui e embarca, e da Alquimia Azul saem as poções de cura azuis à base de safira que são sua grande exportação. Não há catedral: o poder aqui é civil, e a maior construção da cidade é o Paço do Governador, sede do governo regional. Boa parte da capital funciona como dormitório e entreposto das minas — casario operário, estábulos e pátios de caravanas fazem a ponte diária com as frentes de extração —, enquanto as Feiras da Safira concentram o comércio e a construção da [[Sociedade Aberta]], onde os aventureiros pegam suas missões. \n>\n> 👁️**Aparência do Local:** Cidade circular murada de casario ao estilo português, erguida num platô costeiro elevado: muralha alta de pedra cinzenta com torres redondas e quatro portões (do Norte, do Leste, do Sul e do Oeste), com as vias convergindo para a grande fonte azul da Praça da Fonte. Cada distrito se reconhece de longe pela cor dos telhados — ardósia e dourado no Alto do Paço, ocre nas Feiras, marrom operário, teal no cais, vermelho-ferrugem nas Forjas Bélicas, oliva no Pátio dos Artífices, azul e azul-violeta na Alquimia Azul e no Círculo das Imbuições. O skyline é dominado pelo Paço do Governador no alto norte; ao sul, a muralha desce até a água e o Portão do Sul abre para a enseada do Cais da Safira, coalhada de navios a vela. Fora das muralhas a vida continua: floresta densa de coníferas ao norte e leste, estradas em ziguezague descendo a encosta oeste com as caravanas das minas, e o Farol de Safira numa ponta rochosa a sudoeste, servido por uma estrada costeira de mulas. \n> \n\n> [!info] Distritos e Locais de Interesse\n> **Alto do Paço** *(dourado — norte)* — o distrito do poder, em terreno elevado de jardins, terraços e coníferas escuras.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)",
+    "descricao": "Capital de [[Planaltina]] e uma das três cidades fundadoras da [[Federação Áurea]], Safira dá nome à gema azul que sustenta sua economia: das minas da [[Grande Mata]] chega o minério que a cidade lapida, imbui e embarca, e da Alquimia Azul saem as poções de cura azuis à base de safira que são sua grande exportação. Não há catedral: o poder aqui é civil, e a maior construção da cidade é o Paço do Governador, sede do governo regional. Boa parte da capital funciona como dormitório e entreposto das minas — casario operário, estábulos e pátios de caravanas fazem a ponte diária com as frentes de extração —, enquanto as Feiras da Safira concentram o comércio e a construção da [[Sociedade Aberta]], onde os aventureiros pegam suas missões.",
+    "aparencia": "Cidade circular murada de casario ao estilo português, erguida num platô costeiro elevado: muralha alta de pedra cinzenta com torres redondas e quatro portões (do Norte, do Leste, do Sul e do Oeste), com as vias convergindo para a grande fonte azul da Praça da Fonte. Cada distrito se reconhece de longe pela cor dos telhados — ardósia e dourado no Alto do Paço, ocre nas Feiras, marrom operário, teal no cais, vermelho-ferrugem nas Forjas Bélicas, oliva no Pátio dos Artífices, azul e azul-violeta na Alquimia Azul e no Círculo das Imbuições. O skyline é dominado pelo Paço do Governador no alto norte; ao sul, a muralha desce até a água e o Portão do Sul abre para a enseada do Cais da Safira, coalhada de navios a vela. Fora das muralhas a vida continua: floresta densa de coníferas ao norte e leste, estradas em ziguezague descendo a encosta oeste com as caravanas das minas, e o Farol de Safira numa ponta rochosa a sudoeste, servido por uma estrada costeira de mulas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Alto do Paço** *(dourado — norte)* — o distrito do poder, em terreno elevado de jardins, terraços e coníferas escuras.",
+    "leaflet": null
+  }
+}

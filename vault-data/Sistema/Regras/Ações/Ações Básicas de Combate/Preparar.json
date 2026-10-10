@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Preparar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Preparar.md",
+  "basename": "Preparar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Se prepara para usar uma ação reativamente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Se prepara para usar uma ação reativamente.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nPrepara uma ação com custo 1 para ser usada como uma reação diante de uma condição estipulada.\n\n```autosheet-rules\n```\n"
+}

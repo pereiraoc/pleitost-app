@@ -1,0 +1,191 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Técnicas Sombrias",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Técnicas Sombrias.md",
+  "basename": "Técnicas Sombrias",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+      "Definir Magias.Potencia 4",
+      "Nivel 7 Definir Magias.Potencia 6",
+      "Somar Magias.Slots.A 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Aprende duas duas [[Magia Negra Adepta|Magias Negras Adeptas]] que alvejem inimigos. Potência Mágica 4. Alvos recebem -2 nas resistências caso tenha Vantagem de Combate.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Técnicas Sombrias",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Ladino (Artista Sombrio)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Técnicas Sombrias",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Potencia 6",
+      "parsed": [
+        {
+          "sourceNote": "Técnicas Sombrias",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "6"
+          },
+          "raw": "Nivel 7 Definir Magias.Potencia 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Técnicas Sombrias",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink",
+      "alias": "Magias Negras Adeptas"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Flanqueamento",
+      "kind": "wikilink",
+      "alias": "Flanqueando"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invisível",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Aprende duas duas [[Magia Negra Adepta|Magias Negras Adeptas]] que alvejem inimigos. Potência Mágica 4. Alvos recebem -2 nas resistências caso tenha Vantagem de Combate.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê expande seu repertório de técnicas sombrias, aprendendo magias que afetam seus inimigos.\nVocê aprende duas [[Magia Negra Adepta|Magias Negras Adeptas]] que alvejem criaturas além de você e causem dano ou efeitos negativos. Você pode conjurar essas magias normalmente com [[Energia Mágica|EM]] de Artista Sombrio. Sua Potência Mágica para magias de Ladino é 4 (6 no 7º nível).\nAdicionalmente, se você for capaz de realizar um [[Atacar|Ataque]] com [[Vantagem de Combate]] (pois está [[Flanqueamento|Flanqueando]], [[Escondido]], [[Invisível]], a criatura está [[Desprevenido|Desprevenida]], etc) contra uma criatura, essa criatura recebe -2 de [[Penalidades|penalidade de circunstância]] nas [[Resistências]] contra essas Magias.\n*Requer Estilo Artista Sombrio*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Amendoim Japonês",
+  "path": "Contexto/Recursos/Alimentação/Amendoim Japonês.md",
+  "basename": "Amendoim Japonês",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Camelô do ônibus",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Nova Sarandi]]",
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "Saquinho de amendoim com casquinha crocante vendido no corredor do ônibus: 'olha o japonês', Cz$ 20 ou dois por 30.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Amendoim Japonês.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Amendoim Japonês.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Amendoim Japonês.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\n'Olha o japonês, olha o japonês' — o camelô entra pela porta de trás do ônibus da [[Marcopolo]] e sai pela\nda frente com o saquinho vendido. Amendoim com casquinha de farinha crocante, Cz$ 20 ou dois por 30. É o\nlanche do trajeto de uma hora e meia até [[Nova Sarandi]].\n\n> [!info] Especificação\n> **Saquinho:** 50 g de amendoim com casquinha crocante\n> **Preço:** Cz$ 20; dois por Cz$ 30\n> **Onde:** corredor do ônibus, parada do Aeromóvel, porta do Mercado\n> **O camelô:** paga Cz$ 10 por dia pro cobrador e sabe o horário da blitz\n"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "Atlas/Mundo Livre/Principado das Flores/Principado das Flores",
+  "path": "Atlas/Mundo Livre/Principado das Flores/Principado das Flores.md",
+  "basename": "Principado das Flores",
+  "type": "Localização",
+  "subtype": "Nação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Nação",
+    "Geolocalização": "[[Mundo Livre]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Nação mais meridional do [[Mundo Livre]], separada da [[Federação Áurea]] por uma fronteira que corre de costa a costa — um principado agrícola e vinícola governado por seu príncipe a partir de [[Canto Alto]], a capital portuária. Vive do que a terra dá: os grãos de [[Pencas]], o gado de [[Varadas]] e o vinho de [[Vinhedos]] descem em caravanas de tropeiros pelas estradas de terra até os cais da capital. A identidade é campeira e orgulhosa — chimarrão no galpão, tropilhas nas estradas, e disputas que se resolvem na peleia, no grito e no truco.\n> \n> 👁️**Aparência do Local:** Terra de colinas de arbustos e morros pardos de vegetação mediterrânea, com badlands de areia a oeste, perto de [[Pencas]], e uma costa sul recortada — do porto de [[Canto Alto]] avista-se, do outro lado do estreito, a ilha vulcânica onde fica [[Riqueza]]. O casario colorido de empenas escalonadas holandesas e os muitos moinhos de vento distinguem suas cidades à primeira vista de qualquer outra do [[Mundo Livre]]. Uma única rede de estradas de terra costura a nação — [[Vinhedos]] assentada sobre a própria linha da fronteira, [[Pencas]] entre as lavouras, [[Varadas]] entre os pastos e a capital à beira-mar — vigiada, na estrada que vem do norte, por uma atalaia listrada de vermelho e branco.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Principado das Flores\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Nação mais meridional do [[Mundo Livre]], separada da [[Federação Áurea]] por uma fronteira que corre de costa a costa — um principado agrícola e vinícola governado por seu príncipe a partir de [[Canto Alto]], a capital portuária. Vive do que a terra dá: os grãos de [[Pencas]], o gado de [[Varadas]] e o vinho de [[Vinhedos]] descem em caravanas de tropeiros pelas estradas de terra até os cais da capital. A identidade é campeira e orgulhosa — chimarrão no galpão, tropilhas nas estradas, e disputas que se resolvem na peleia, no grito e no truco.",
+    "aparencia": "Terra de colinas de arbustos e morros pardos de vegetação mediterrânea, com badlands de areia a oeste, perto de [[Pencas]], e uma costa sul recortada — do porto de [[Canto Alto]] avista-se, do outro lado do estreito, a ilha vulcânica onde fica [[Riqueza]]. O casario colorido de empenas escalonadas holandesas e os muitos moinhos de vento distinguem suas cidades à primeira vista de qualquer outra do [[Mundo Livre]]. Uma única rede de estradas de terra costura a nação — [[Vinhedos]] assentada sobre a própria linha da fronteira, [[Pencas]] entre as lavouras, [[Varadas]] entre os pastos e a capital à beira-mar — vigiada, na estrada que vem do norte, por uma atalaia listrada de vermelho e branco.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

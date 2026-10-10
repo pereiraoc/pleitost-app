@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Vaga no Sobrado da Velha Indústria",
+  "path": "Contexto/Recursos/Imóveis/Vaga no Sobrado da Velha Indústria.md",
+  "basename": "Vaga no Sobrado da Velha Indústria",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Sobrado da Velha Indústria",
+    "Preço": 2000,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": [
+      "[[Quarto Distrito]]",
+      "[[Velha Indústria]]"
+    ],
+    "Resumo": "Quarto num sobrado fabril com pé-direito alto e vidro quebrado; a banda ensaia até as três e a Ordem cobra pra entrar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vaga no Sobrado da Velha Indústria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vaga no Sobrado da Velha Indústria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Vaga no Sobrado da Velha Indústria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNos sobrados da [[Velha Indústria]] mora quem faz música, teatro e panfleto no [[Quarto Distrito]]. O quarto é\ngrande, frio e barulhento; o ensaio da banda do lado vai até as três. O aluguel é barato — o custo escondido é\no pedágio: a [[Ordem dos Subsolos]] cobra pra entrar no bairro à noite e a Brigada cobra pra sair.\n\n> [!info] Especificação\n> **Quarto:** 20 m² de sobrado fabril, pé-direito de 4 m, vidro quebrado tapado com lona\n> **Inclui:** gato de luz, banheiro por andar, ensaio de banda como despertador\n> **Custo escondido:** pedágio noturno da [[Ordem dos Subsolos]] e propina da Brigada na saída\n> **Vizinhos:** [[Teatro Quarto Distrito]], racha de Motomachine na Voluntários\n> **Nível:** 3 — Classe Média Baixa\n"
+}

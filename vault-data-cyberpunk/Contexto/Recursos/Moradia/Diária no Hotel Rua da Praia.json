@@ -1,0 +1,52 @@
+{
+  "id": "Contexto/Recursos/Moradia/Diária no Hotel Rua da Praia",
+  "path": "Contexto/Recursos/Moradia/Diária no Hotel Rua da Praia.md",
+  "basename": "Diária no Hotel Rua da Praia",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "Hotéis da Rua da Praia",
+    "Preço": 600,
+    "Cobrança": "noite",
+    "Nível": 4,
+    "Onde": [
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Hotel de 1930 na Rua da Praia com o saguão no segundo andar; café, gerador e um livro de hóspedes que a Brigada lê.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diária no Hotel Rua da Praia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Diária no Hotel Rua da Praia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Diária no Hotel Rua da Praia.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs hotéis antigos da Rua da Praia subiram um andar depois da enchente: recepção no segundo, barcos no\nsaguão antigo. Quarto com janela pro Guaíba, café da manhã, gerador quando a CEEE corta e uma portaria que\nanota quem entra — a [[Brigada Militar Metropolitana]] confere o livro na terça.\n\n> [!info] Especificação\n> **Prédio:** hotel de 1930, 4 andares, recepção no segundo, elevador que funciona no gerador\n> **Inclui:** café da manhã, gerador, portaria 24h, telefone na recepção\n> **Registro:** livro de hóspedes com identidade — conferido pela Brigada toda terça\n> **Público:** viajante do interior, mercador do [[Mercado Público]], quem precisa de endereço por uns dias\n> **Mês:** Cz$ 18.000 pelos 30 dias\n> **Nível:** 4 — Classe Média\n"
+}

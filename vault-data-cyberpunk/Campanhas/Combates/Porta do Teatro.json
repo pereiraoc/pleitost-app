@@ -1,0 +1,41 @@
+{
+  "id": "Campanhas/Combates/Porta do Teatro",
+  "path": "Campanhas/Combates/Porta do Teatro.md",
+  "basename": "Porta do Teatro",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Teatro Quarto Distrito]]",
+    "Situação": "Dois muros na frente e uma agulha que já está atrás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Leão de Chácara",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agulha da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Leão de Chácara]] lento\n- 2 [[Agulha da Ordem]] super rápido\n```\n"
+}

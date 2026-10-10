@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Pensão do Cais",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Pensão do Cais.md",
+  "basename": "Pensão do Cais",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Dona Neusa Amaral",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vaga na Pensão do Cais]]",
+      "[[Noite na Pensão do Cais]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão do Cais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga na Pensão do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão do Cais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão do Cais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão do Cais.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Quarto de solteiro ou duplo por mês; janta, roupa lavada e recado anotado.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sobrado de tijolo aparente com janela pro cais, escada de madeira e cheiro de maresia e sopa.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Quarto de solteiro ou duplo por mês; janta, roupa lavada e recado anotado.",
+    "aparencia": "Sobrado de tijolo aparente com janela pro cais, escada de madeira e cheiro de maresia e sopa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

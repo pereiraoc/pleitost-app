@@ -1,0 +1,59 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Apartamento no Bom Fim",
+  "path": "Contexto/Recursos/Imóveis/Apartamento no Bom Fim.md",
+  "basename": "Apartamento no Bom Fim",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Imobiliária Independência",
+    "Preço": 8000,
+    "Cobrança": "mês",
+    "Compra": 800000,
+    "Manutenção": 2000,
+    "Nível": 4,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Independência]]"
+    ],
+    "Resumo": "Dois dormitórios num prédio de 1960 na Independência: sacada pra Redenção, elevador que funciona e livro proibido no prédio inteiro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Apartamento no Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobiliária Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Apartamento no Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Apartamento no Bom Fim.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs prédios da [[Independência]] são de professor, médico e jornalista: dois dormitórios, sacada pra [[Redenção]],\nporteiro que conhece a Brigada pelo nome. Aluga-se ou compra-se na [[Imobiliária Independência]]; o condomínio\ninclui o gerador e a discrição.\n\n> [!info] Especificação\n> **Imóvel:** 2 dormitórios, 65 m², prédio de 1960 com elevador\n> **Inclui:** portaria, água e luz oficiais, telefone\n> **Compra:** Cz$ 800.000\n> **Manutenção:** Cz$ 2.000 por mês de condomínio e IPTU\n> **Classe:** Classe Média\n"
+}

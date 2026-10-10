@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Campus Centro da UFRGS",
+  "path": "Atlas/Porto Alegre/Bom Fim/Campus Centro da UFRGS.md",
+  "basename": "Campus Centro da UFRGS",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Reitoria da UFRGS (vigiada pela [[Brigada Militar Metropolitana]])",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campus Centro da UFRGS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Campus Centro da UFRGS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Campus Centro da UFRGS.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Prédios de 1930 e 1960 em volta do pátio; detector de selênicos na porta de cada sala, brigadiano na guarita, cartaz de matrícula com o selo do regime; o ônibus do estudante sai da esquina.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Portão de ferro com guarita, prédio de tijolo à vista com colunas, estudantes de mochila e livro embrulhado, viaduto ao fundo e a água do Centro afundado no fim da rua.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Prédios de 1930 e 1960 em volta do pátio; detector de selênicos na porta de cada sala, brigadiano na guarita, cartaz de matrícula com o selo do regime; o ônibus do estudante sai da esquina.",
+    "aparencia": "Portão de ferro com guarita, prédio de tijolo à vista com colunas, estudantes de mochila e livro embrulhado, viaduto ao fundo e a água do Centro afundado no fim da rua.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

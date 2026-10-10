@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Conhecimento",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Conhecimento.md",
+  "basename": "Conhecimento",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias de Ofício]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Conhecimento ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias de Ofício]]\nprev:: \nnext:: \n%%\n### Conhecimento ([[Inteligência|INT]])\nConhecimento é referente a uma área de conhecimento, como: engenharia, geografia, natureza, um tipo de criatura, etc..."
+}

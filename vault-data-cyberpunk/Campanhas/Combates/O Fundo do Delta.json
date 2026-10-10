@@ -1,0 +1,53 @@
+{
+  "id": "Campanhas/Combates/O Fundo do Delta",
+  "path": "Campanhas/Combates/O Fundo do Delta.md",
+  "basename": "O Fundo do Delta",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Delta Radioativo]] · [[Lagoa do Pinheiro]]",
+    "Situação": "O fundo do Delta inteiro se mexe junto. Ela não persegue: o resto é que traz.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Mãe do Delta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jacaré do Arroio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cão Mutante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rato-do-Delta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lagoa do Pinheiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[A Mãe do Delta]] lento\n- 2 [[Jacaré do Arroio]] lento\n- 4 [[Cão Mutante]] rápido\n- 6 [[Rato-do-Delta]] rápido\n```\n"
+}

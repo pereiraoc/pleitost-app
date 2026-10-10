@@ -1,0 +1,37 @@
+{
+  "id": "Campanhas/Combates/Confusão no Boteco",
+  "path": "Campanhas/Combates/Confusão no Boteco.md",
+  "basename": "Confusão no Boteco",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 0,
+    "Onde": "Genérico — qualquer boteco depois da segunda rodada.",
+    "Situação": "Começa com um empurrão e termina com a rua inteira olhando. Ninguém puxa arma de fogo: é briga de bar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Arruaceiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Boêmio Armado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 0 — rank C (níveis 1–3)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Arruaceiro]] lento\n- 2 [[Boêmio Armado]] rápido\n```\n"
+}

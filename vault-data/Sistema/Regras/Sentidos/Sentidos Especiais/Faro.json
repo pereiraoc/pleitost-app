@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Sentidos/Sentidos Especiais/Faro",
+  "path": "Sistema/Regras/Sentidos/Sentidos Especiais/Faro.md",
+  "basename": "Faro",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Você sente o cheiro de criaturas dentro do alcance do Faro.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse::\nrank:: \n\nresumo:: \"Você sente o cheiro de criaturas dentro do alcance do Faro.\"\n%%\n#### `= this.file.name`\nVocê sente o cheiro de criaturas dentro do alcance do Faro, sabendo o quadrado que ela ocupa, mas com 50% de chance de falha para efeitos de alvo único. Caso a criatura esteja ocultando seu odor de alguma forma, você pode [[Procurar]] usando Faro para descobrir o quadrado que ocupa, usando seu modificador de [[Percepção]].\n\n```autosheet-rules\n```\n"
+}

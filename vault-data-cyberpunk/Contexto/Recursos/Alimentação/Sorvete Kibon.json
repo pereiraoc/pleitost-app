@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Sorvete Kibon",
+  "path": "Contexto/Recursos/Alimentação/Sorvete Kibon.md",
+  "basename": "Sorvete Kibon",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Kibon",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Redenção]]",
+      "[[Shopping Iguatemi]]",
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Eskibon de baunilha com casca de chocolate no palito, do carrinho da Redenção: verão de 40 graus e apagão — derrete antes de pagar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sorvete Kibon.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sorvete Kibon.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sorvete Kibon.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO carrinho da Kibon toca a sineta na [[Redenção]] no domingo e no balcão do [[Shopping Iguatemi]] o dia inteiro.\nEskibon — baunilha com casca de chocolate no palito — Cz$ 40. No verão de 40 graus com o apagão da CEEE o\ncarrinho vira sopa antes das duas da tarde, e o sorveteiro vende 'de canudo' por Cz$ 20.\n\n> [!info] Especificação\n> **Sorvete:** Eskibon (baunilha e chocolate no palito); Chicabon Cz$ 50; Frutare Cz$ 30\n> **Marca:** Kibon; carrinho azul com sineta\n> **Preço:** Cz$ 40; Cz$ 60 no [[Shopping Iguatemi]]\n> **Apagão:** derretido vira 'sorvete de canudo' a Cz$ 20\n"
+}

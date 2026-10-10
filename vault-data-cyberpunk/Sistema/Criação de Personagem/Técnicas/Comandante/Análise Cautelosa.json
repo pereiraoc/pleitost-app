@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Análise Cautelosa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Análise Cautelosa.md",
+  "basename": "Análise Cautelosa",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Faça uma [[Análise de Combate]] e depois pode [[Pegar Cobertura]]; se souber [[Usar Escudo]], pode [[Erguer Escudo]] em vez de [[Pegar Cobertura]].\"\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pegar Cobertura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Faça uma [[Análise de Combate]] e depois pode [[Pegar Cobertura]]; se souber [[Usar Escudo]], pode [[Erguer Escudo]] em vez de [[Pegar Cobertura]].\"\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Análise Cautelosa.\n\n**Análise Cautelosa - 1A**\nFaça uma [[Análise de Combate]], você pode então [[Pegar Cobertura]]. Se você souber [[Usar Escudo]], pode [[Erguer Escudo]] em vez de [[Pegar Cobertura]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Heróis",
+  "path": "Sistema/Criaturas/Heróis/Heróis.md",
+  "basename": "Heróis",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Heróis"
+    }
+  ],
+  "body": "# Heróis\n```button\nname NOVO: Herói 👤\ntype command\naction QuickAdd: NOVO: Herói\n```\n^button-criar-novo-heroi\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  Classe AS \"Classe\",\n  Sintonia AS \"Sintonia\",\n  Nível AS \"Nível\"\nFROM \"Sistema/Criaturas/Heróis\"\nWHERE subcategoria = \"Heroi\" and file.name != this.file.name\nSORT Nível DESC, Classe ASC, file.name ASC\n```"
+}

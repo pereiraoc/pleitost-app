@@ -1,0 +1,146 @@
+{
+  "id": "Sistema/Regras/Condições/Inconsciente",
+  "path": "Sistema/Regras/Condições/Inconsciente.md",
+  "basename": "Inconsciente",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Inconscientes",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Defesa -4",
+      "Somar Condicao.Reflexo -4",
+      "Derivar Condicao Desprevenido",
+      "Derivar Condicao Cego"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Não pode agir, [[Desprevenido]], [[Cego]], -4 [[Defesa]] e [[Evasão]] de circunstância.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Defesa -4",
+      "parsed": [
+        {
+          "sourceNote": "Inconsciente",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Defesa",
+            "valueRaw": "-4"
+          },
+          "raw": "Somar Condicao.Defesa -4",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "defesa",
+            "value": -4
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Reflexo -4",
+      "parsed": [
+        {
+          "sourceNote": "Inconsciente",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Reflexo",
+            "valueRaw": "-4"
+          },
+          "raw": "Somar Condicao.Reflexo -4",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "reflexo",
+            "value": -4
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Derivar Condicao Desprevenido",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Desprevenido"
+        ]
+      }
+    },
+    {
+      "raw": "Derivar Condicao Cego",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Cego"
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Não pode agir, [[Desprevenido]], [[Cego]], -4 [[Defesa]] e [[Evasão]] de circunstância.\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

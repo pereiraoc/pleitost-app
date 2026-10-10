@@ -1,0 +1,161 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Luvas Purificadas",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Luvas Purificadas.md",
+  "basename": "Luvas Purificadas",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Água|Água]]"
+    ],
+    "resumo": "Bônus de [[Medicina]]. Restaurar [[Energia Heroica|EH]].",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em testes de Medicina. Pode curar 1d6+3 EH de criatura adjacente (recarga 10 min).",
+      "experiente": "+2 de bônus de item em testes de Medicina. Pode curar 2d6+3 EH de criatura em 2q (recarga 10 min).",
+      "mestre": "+3 de bônus de item em testes de Medicina. Pode curar 3d6+3 EH de criatura em 6q (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Medicina.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luvas Purificadas",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Medicina.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luvas Purificadas",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Medicina.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Medicina.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luvas Purificadas",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Medicina.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - luvas*\nEstas luvas estão sempre limpas, mesmo nas situações mais inesperadas. Elas ajudam a tratar ferimentos, limpando o que elas tocam e abrandando dores.\n* Adepto: +1 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura adjacente a você, fazendo com que ela recupere 1d6+3 [[Energia Heroica|EH]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura em até 2q, fazendo com que ela recupere 2d6+3 [[Energia Heroica|EH]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura em até 6q, fazendo com que ela recupere 3d6+3 [[Energia Heroica|EH]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

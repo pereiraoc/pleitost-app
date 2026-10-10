@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco de Caça",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco de Caça.md",
+  "basename": "Arco de Caça",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-marcial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-marcial",
+    "dg-publish": true,
+    "dano": "d6+3",
+    "tipo": "perfuração",
+    "mãos": "1+",
+    "propriedades": [
+      "[[Alcance|Alcance 15]]",
+      "[[Força X|Força 1]]",
+      "[[Propulsão|Propulsão 10]]"
+    ],
+    "ordem": 3,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Distância Marcial|Marcial]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Marcial"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 15"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 1"
+    },
+    {
+      "target": "Propulsão",
+      "kind": "wikilink",
+      "alias": "Propulsão 10"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Distância Marcial|Marcial]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

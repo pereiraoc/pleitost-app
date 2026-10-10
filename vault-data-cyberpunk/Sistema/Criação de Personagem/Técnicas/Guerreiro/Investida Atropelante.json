@@ -1,0 +1,86 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Investida Atropelante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Investida Atropelante.md",
+  "basename": "Investida Atropelante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"[[Mover|Mova-se]] e, durante o movimento, faça testes de [[Atletismo]] contra o [[Vigor]] de criaturas no caminho para atravessar os quadrados delas (para se falhar, você para). Ao terminar, faça um [[Atacar|Ataque]] corpo-a-corpo com [[Vantagem de Combate]] contra criaturas cujo espaço você atravessou com sucesso. Se estiver com [[Erguer Escudo|Escudo Erguido]], some no teste de [[Atletismo]] um [[Bônus de Circunstância|bônus de circunstância]] igual ao bônus de [[Defesa]] do escudo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova-se"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Escudo Erguido"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"[[Mover|Mova-se]] e, durante o movimento, faça testes de [[Atletismo]] contra o [[Vigor]] de criaturas no caminho para atravessar os quadrados delas (para se falhar, você para). Ao terminar, faça um [[Atacar|Ataque]] corpo-a-corpo com [[Vantagem de Combate]] contra criaturas cujo espaço você atravessou com sucesso. Se estiver com [[Erguer Escudo|Escudo Erguido]], some no teste de [[Atletismo]] um [[Bônus de Circunstância|bônus de circunstância]] igual ao bônus de [[Defesa]] do escudo.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Investida Atropelante.\n*Requer Adepto em Atletismo*\n\n**Investida Atropelante - 2A**\n[[Mover|Mova]]. Durante o movimento, você pode fazer testes de [[Atletismo]] contra o [[Vigor]] de criaturas em seu caminho para mover-se pelos quadrados ocupados por elas, parando seu movimento em caso de falha. Quando você terminar seu movimento, seja por opção sua ou por ser impedido de cruzar um espaço de inimigo, você pode então fazer um [[Atacar|Ataque]] corpo-a-corpo. Você tem [[Vantagem de Combate]] nesse ataque contra criaturas que você passou pelo espaço com sucesso.\n\nCaso esteja com [[Erguer Escudo|Escudo Erguido]], você recebe um [[Bônus de Circunstância|bônus de circunstância]] para esses testes de [[Atletismo]] igual ao bônus de [[Defesa]] do escudo.\n\n```autosheet-rules\n```\n"
+}

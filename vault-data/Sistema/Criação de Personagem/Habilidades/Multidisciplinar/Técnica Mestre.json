@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Técnica Mestre",
+  "path": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Técnica Mestre.md",
+  "basename": "Técnica Mestre",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você recebe uma Técnica Mestre da sua classe de sua escolha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse::\nrank:: [[Mestre]]\n\nresumo:: \"Você recebe uma Técnica Mestre da sua classe de sua escolha.\"\n%%\n#### `= this.file.name`\nVocê recebe uma Técnica Mestre da sua classe de sua escolha.\n\n```autosheet-rules\n```\n"
+}

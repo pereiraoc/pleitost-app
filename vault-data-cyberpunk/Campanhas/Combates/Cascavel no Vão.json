@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Cascavel no Vão",
+  "path": "Campanhas/Combates/Cascavel no Vão.md",
+  "basename": "Cascavel no Vão",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Quarto Distrito]] · [[Cidade Baixa]]",
+    "Situação": "Mexer na carga errada. O guizo vem de três lados do vão do cais ao mesmo tempo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cascavel do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rato-do-Delta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 5 [[Cascavel do Cais]] rápido\n- 2 [[Rato-do-Delta]] rápido\n```\n"
+}

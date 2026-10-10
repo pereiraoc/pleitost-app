@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Jantar nos Moinhos",
+  "path": "Campanhas/Combates/Jantar nos Moinhos.md",
+  "basename": "Jantar nos Moinhos",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Padre Chagas]] · [[Moinhos de Vento]]",
+    "Situação": "Combate social: começar a briga já custa. O Supressor tira um do grupo por três rodadas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corretor de Chantagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta Particular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Envenenador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Corretor de Chantagem]] lento\n- 3 [[Escolta Particular]] rápido\n- 2 [[Envenenador]] lento\n```\n"
+}

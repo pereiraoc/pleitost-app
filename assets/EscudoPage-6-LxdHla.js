@@ -1,0 +1,1 @@
+import{An as e,jn as t}from"./hero-model-CGF0thGu.js";import{n}from"./chunk-KS7C4IRE-BRmzNtsJ.js";import{t as r}from"./EscudoDoMestreTab-1DWS5fio.js";var i=e();function a(){let{mestre:e}=t();return e?(0,i.jsx)(r,{}):(0,i.jsx)(n,{to:`/herois`,replace:!0})}export{a as EscudoPage};

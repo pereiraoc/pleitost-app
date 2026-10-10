@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Enfermaria do Porto",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Enfermaria do Porto.md",
+  "basename": "Enfermaria do Porto",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Praia de Belas]]",
+    "Dono": "Seu Valdir Fagundes (enfermeiro da Marinha, reformado)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Enfermaria do Porto.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Enfermaria do Porto.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Enfermaria do Porto.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Curativo, sutura, tala e soro; sem médico, sem registro, paga em dinheiro ou em carga; quem precisa de mais vai de balsa pra Santa Casa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Sala de tijolo dentro do armazém, maca de lona, armário de vidro com gaze e iodo, cartaz da Marinha, cheiro de maresia e diesel.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Curativo, sutura, tala e soro; sem médico, sem registro, paga em dinheiro ou em carga; quem precisa de mais vai de balsa pra Santa Casa.",
+    "aparencia": "Sala de tijolo dentro do armazém, maca de lona, armário de vidro com gaze e iodo, cartaz da Marinha, cheiro de maresia e diesel.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

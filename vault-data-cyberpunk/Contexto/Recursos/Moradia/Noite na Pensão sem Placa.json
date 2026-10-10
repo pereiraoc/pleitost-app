@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão sem Placa",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão sem Placa.md",
+  "basename": "Noite na Pensão sem Placa",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "Pensão sem placa",
+    "Preço": 150,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Quarto Distrito]]",
+      "[[Farrapos]]"
+    ],
+    "Resumo": "Cama, lençol trocado às vezes e uma chave que não fecha: Cz$ 150 a noite, sem pergunta e sem registro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão sem Placa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão sem Placa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão sem Placa.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPra quem perdeu o último ônibus, saiu da rave do [[Farrapos]] ou precisa sumir por uma noite. A pensão não\ntem placa, não tem registro e não pergunta o nome. Paga na frente, sobe a escada, tranca com a cadeira.\n\n> [!info] Especificação\n> **Quarto:** cama de solteiro, lençol trocado às vezes, chave que não fecha\n> **Registro:** nenhum — a Brigada sabe disso e faz batida na sexta\n> **Público:** quem perdeu o ônibus, quem saiu da rave, quem está sendo procurado\n> **Mês:** Cz$ 4.500 se ficar o mês inteiro (30 noites arredondadas pra cima)\n> **Nível:** 2 — Classe Baixa\n"
+}

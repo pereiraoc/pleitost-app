@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Serviços/Balsa de Carga Zaffari",
+  "path": "Contexto/Recursos/Serviços/Balsa de Carga Zaffari.md",
+  "basename": "Balsa de Carga Zaffari",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Corrida",
+    "Marca": "[[Zaffari]]",
+    "Preço": 100,
+    "Cobrança": "viagem",
+    "Volume": 1000,
+    "Nível": 2,
+    "Onde": [
+      "[[Porto Novo]]",
+      "[[Depósito Zaffari]]"
+    ],
+    "Resumo": "Balsa fiscalizada entre o Depósito Zaffari e o Porto Novo, duas vezes ao dia: Cz$ 100 a pessoa, Cz$ 1.000 o volume.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Balsa de Carga Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Depósito Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Balsa de Carga Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Balsa de Carga Zaffari.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA balsa que abastece o [[Porto Novo]] leva gente no convés por Cz$ 100 — sentada em cima da própria carga. Sai\nàs 6h e às 18h em ponto, com um fiscal do [[Zaffari]] e um brigadiano contando caixas. Volume grande paga\nCz$ 1.000 e vai anotado.\n\n> [!info] Especificação\n> **Embarcação:** balsa de 20 m com empurrador, capacidade de 40 toneladas\n> **Trajeto:** [[Depósito Zaffari]] → [[Porto Novo]] → [[Ipanema]] (só com pedido)\n> **Horário:** 6h e 18h, sem atraso — perdeu, espera a próxima\n> **Carga:** por volume: Cz$ 1.000 até 1 m³, conferido e anotado\n> **Fiscalização:** [[Zaffari]] + [[Brigada Militar Metropolitana]]; lona não engana ninguém\n"
+}

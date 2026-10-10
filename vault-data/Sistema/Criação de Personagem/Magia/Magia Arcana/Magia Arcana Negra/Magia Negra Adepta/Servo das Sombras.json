@@ -1,0 +1,164 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Servo das Sombras",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Servo das Sombras.md",
+  "basename": "Servo das Sombras",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Servo das Sombras",
+        "tipo": "Invocação",
+        "origem": "Magia",
+        "invocacao": {
+          "porProficienciaEm": "Magia Arcana Negra",
+          "proficienciaMinima": "A",
+          "stats": {
+            "EV": {
+              "porNivel": {
+                "1": "5×potência"
+              }
+            },
+            "Defesa": {
+              "porProficiencia": {
+                "A": 14,
+                "E": 16,
+                "M": 18
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Vigor": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Evasão": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Impeto": {
+              "porProficiencia": {
+                "A": 12,
+                "E": 14,
+                "M": 16
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Percepção": {
+              "porProficiencia": {
+                "A": 2,
+                "E": 2,
+                "M": 4
+              },
+              "porProficienciaEm": "Magia Arcana"
+            },
+            "Movimento": 5
+          },
+          "ataques": [
+            {
+              "nome": "Ataque Mental",
+              "tipo": "corpo-a-corpo",
+              "bonus": {
+                "doInvocador": "MagiaAtaque"
+              },
+              "dano": {
+                "porProficiencia": {
+                  "A": "1d4+2",
+                  "E": "2d4+2",
+                  "M": "3d4+2"
+                },
+                "porProficienciaEm": "Magia Arcana Negra"
+              }
+            }
+          ],
+          "habilidadesEspeciais": [
+            {
+              "label": "Toque Aterrorizante",
+              "descricao": "Ataque Mental com sucesso deixa o alvo Nervoso por 1 turno."
+            }
+          ],
+          "notas": [
+            "Você pode comandar a criatura uma vez por turno com uma ação, dando duas ações para ela. Pode dissipá-la como ação livre."
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Conjura sombra com EV 5×potência que pode atacar e deixa inimigos nervosos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Conjura sombra com EV 5×potência que pode atacar e deixa inimigos nervosos.\"\n%%\n# `= this.file.name` - `= this.custo`\nConjura uma pequena criatura amorfa de energias negativas que causa medo em seus inimigos em até 6q por 10t. Você pode comandar a criatura uma vez por turno com uma ação, dando duas ações para ela. Você pode dissipá-la como uma ação livre.\n\nOs atributos base da criatura são:\n* [[Energia Vital|EV]] 5×potência\n* [[Defesa]] 14 (16 se [[Experiente]] em [[Magia Arcana]], 18 se [[Mestre]])\n* [[Vigor]], [[Evasão]] e [[Ímpeto]] 12 (14 se [[Experiente]] em [[Magia Arcana]], 16 se [[Mestre]])\n* [[Percepção]] +2 (+4 se [[Mestre]] em [[Magia Arcana]])\n* Ataque Mental corpo-a-corpo com bônus de ataque igual ao seu Ataque Mágico, 1d4+2 dano mental (2d4+2 se [[Experiente]] em [[Magia Arcana Negra]], 3d4+2 se [[Mestre]])\n* Ataque Mental com sucesso deixa o alvo [[Nervoso]] por 1 turno\n* Movimentação Terrestre 5q\n\n```autosheet-rules\n```\n"
+}

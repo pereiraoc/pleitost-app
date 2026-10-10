@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Ronda da Portaria",
+  "path": "Campanhas/Combates/Ronda da Portaria.md",
+  "basename": "Ronda da Portaria",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Moinhos de Vento]] · [[Ipanema]] · [[Escola Técnica Gradiente]]",
+    "Situação": "Entrar sem crachá. O drone vê antes do porteiro — derrubar o drone é a primeira decisão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Segurança de Crachá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drone de Vigilância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Técnica Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Segurança de Crachá]] lento\n- 3 [[Drone de Vigilância]] rápido\n```\n"
+}

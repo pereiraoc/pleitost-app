@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Sequência Arcana",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Mago/Sequência Arcana.md",
+  "basename": "Sequência Arcana",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Mago]]\"",
+    "resumo": "\"Faça 2 [[Atacar|Ataques]] com sua [[arma arcana]] no mesmo alvo usando a [[Penalidade por Ataque Múltiplo|PAM]] atual: o 1º causa dano normal e o 2º causa dano de força (1d6+3 se corpo-a-corpo; 1d4+2 se arco). Requer 1 mão livre e conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Mago]]\"\n\nresumo:: \"Faça 2 [[Atacar|Ataques]] com sua [[arma arcana]] no mesmo alvo usando a [[Penalidade por Ataque Múltiplo|PAM]] atual: o 1º causa dano normal e o 2º causa dano de força (1d6+3 se corpo-a-corpo; 1d4+2 se arco). Requer 1 mão livre e conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê manifesta uma lâmina ou flecha de energia que acompanha seu ataque. Faça dois [[Atacar|Ataques]] contra o mesmo alvo com sua [[arma arcana]] na [[Penalidade por Ataque Múltiplo|PAM]] atual. O primeiro Ataque causa dano normalmente. O segundo Ataque causa dano de força igual a 1d6+3 se a arma arcana utilizada seja corpo-a-corpo ou 1d4+2 se a arma arcana utilizada seja um arco. Sequência Arcana conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Você precisa de uma mão livre para utilizar Sequência Arcana, como se conjurasse uma Magia.\n\n```autosheet-rules\n```\n"
+}

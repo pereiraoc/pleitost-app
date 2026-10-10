@@ -1,0 +1,294 @@
+{
+  "id": "Sistema/Regras/Condições/Fadigado",
+  "path": "Sistema/Regras/Condições/Fadigado.md",
+  "basename": "Fadigado",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Fadigada",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Ataque -1",
+      "Somar Condicao.Defesa -1",
+      "Somar Condicao.Resistencias -1",
+      "Somar Condicao.Sentidos -1",
+      "Somar Condicao.Pericias -1",
+      "Somar Condicao.Movimento -1",
+      "Somar Condicao.MagiaAtaque -1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"-1 de condição para [[Ataques]], ataques mágicos, [[Defesa]], [[Resistências]], [[Sentidos]], [[Perícias]] e [[Movimentação]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Ataque -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Ataque",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Ataque -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "ataque",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Defesa -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Defesa",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Defesa -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "defesa",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Resistencias -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Resistencias",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Resistencias -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number_group",
+            "group": "resistencias",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Sentidos -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Sentidos",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Sentidos -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number_group",
+            "group": "sentidos",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Pericias -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Pericias",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Pericias -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "skill_all",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.Movimento -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Movimento",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.Movimento -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "movimento",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.MagiaAtaque -1",
+      "parsed": [
+        {
+          "sourceNote": "Fadigado",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.MagiaAtaque",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.MagiaAtaque -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "magiaAtaque",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"-1 de condição para [[Ataques]], ataques mágicos, [[Defesa]], [[Resistências]], [[Sentidos]], [[Perícias]] e [[Movimentação]].\"\n%%\n## `= this.file.name`\n`= this.resumo` Cura ao dormir uma noite completa.\n\n```autosheet-rules\n```\n"
+}

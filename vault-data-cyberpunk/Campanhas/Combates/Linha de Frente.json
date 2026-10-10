@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Linha de Frente",
+  "path": "Campanhas/Combates/Linha de Frente.md",
+  "basename": "Linha de Frente",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Costa e Silva]] · [[Centro Histórico]] · [[Canoas]]",
+    "Situação": "Fecharam a rua de parede a parede. Não vieram vencer: vieram não deixar sair.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Companhia de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sargento de Pelotão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Companhia de Choque]] lento\n- 1 [[Sargento de Pelotão]] rápido\n```\n"
+}

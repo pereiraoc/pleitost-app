@@ -1,0 +1,130 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado (Manipulador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado (Manipulador).md",
+  "basename": "Método Aprimorado (Manipulador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Método Artístico (Manipulador)]]",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "Somar Magias.Slots.E 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende uma [[Magia Negra Experiente]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Método Artístico (Manipulador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Manipulador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Método Artístico (Manipulador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Método Artístico (Manipulador)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Manipulador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado (Manipulador)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Manipulador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende uma [[Magia Negra Experiente]].\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Magia Arcana Negra]] e aprende uma [[Magia Negra Experiente]].\n\n```autosheet-rules\n```\n"
+}

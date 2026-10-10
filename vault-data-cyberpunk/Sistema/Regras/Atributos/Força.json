@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Regras/Atributos/Força",
+  "path": "Sistema/Regras/Atributos/Força.md",
+  "basename": "Força",
+  "type": "Regra",
+  "subtype": "Atributo",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "FOR, Força (FOR)",
+    "categoria": "Regra",
+    "subcategoria": "Atributo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Atributos|Atributo]]",
+    "prev": "[[Atributos]]",
+    "next": "[[Agilidade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataques corpo-a-corpo"
+    },
+    {
+      "target": "Armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capacidade de carga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Força (FOR)"
+    }
+  ],
+  "body": "%%\nup:: [[Atributos|Atributo]]\nprev:: [[Atributos]]\nnext:: [[Agilidade]]\n%%\n## Força (FOR)\nForça representa a força física. Contribui com:\n* [[Ataques|Ataques corpo-a-corpo]]\n* Capacidade de usar [[Armas]] mais poderosas\n* [[Capacidade de carga]]\n* [[Defesa]], pela capacidade de usar armaduras mais pesadas\n* [[Resistências|Resistência]] [[Vigor]]\n* [[Perícias|Perícia]] [[Atletismo]]"
+}

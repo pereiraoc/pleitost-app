@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Uso Cotidiano e Normalização Social",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Uso Cotidiano e Normalização Social.md",
+  "basename": "Uso Cotidiano e Normalização Social",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Como o consumo se integra a rituais diários, trabalho, lazer e hierarquias sociais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Uso Cotidiano e Normalização Social.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Uso Cotidiano e Normalização Social.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Rotinas Diárias"
+    },
+    {
+      "level": 4,
+      "text": "Cultura Organizacional"
+    },
+    {
+      "level": 4,
+      "text": "Lazer e Eventos Sociais"
+    },
+    {
+      "level": 5,
+      "text": "Estigma do Não-Uso"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Uso Cotidiano e Normalização Social.png]]\n\nEm Porto Alegre, 1987, o consumo de selênicos tornou-se profundamente arraigado na rotina social e profissional, integrando-se a hábitos cotidianos, rituais de trabalho e lazer, e moldando as hierarquias sociais.\n#### Rotinas Diárias\n- Selênicos são incorporados já no café da manhã, frequentemente servidos em canecas térmicas padronizadas que mantém a temperatura ideal para a absorção rápida das substâncias. Essa prática é amplamente difundida entre profissionais e estudantes, sendo vista como necessária para iniciar o dia com produtividade e foco.\n\n#### Cultura Organizacional\n- Empresas distribuem regularmente “kits de produção” contendo pílulas de selênicos para garantir atenção constante durante longas reuniões e jornadas intensas de trabalho. Esses kits simbolizam compromisso e dedicação à eficiência corporativa.\n- Promoções internas e reconhecimento profissional muitas vezes dependem da adesão visível ao consumo regular, reforçando um vínculo direto entre uso de selênicos e sucesso profissional.\n\n#### Lazer e Eventos Sociais\n- O lazer também é permeado pelo uso de selênicos, frequentemente disponibilizados em eventos sociais como shows, jogos esportivos e festas corporativas, contribuindo para o reforço da aceitação social.\n- Bares e cafés populares oferecem bebidas e refeições enriquecidas com pequenas doses de selênicos, promovendo uma sensação contínua de bem-estar e energia.\n\n##### Estigma do Não-Uso\n- Indivíduos que optam por não consumir selênicos ou que demonstram resistência são frequentemente estigmatizados, sendo vistos como fracos ou descomprometidos. Essa percepção negativa pode levar ao isolamento social, prejuízos na carreira profissional e até mesmo à marginalização em círculos sociais."
+}

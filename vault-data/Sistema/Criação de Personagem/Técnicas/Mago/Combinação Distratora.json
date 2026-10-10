@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Combinação Distratora",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Combinação Distratora.md",
+  "basename": "Combinação Distratora",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando você usar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Finta|Fintar]] ou [[Distrair]] o alvo do [[Atacar|Ataque]] como ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink",
+      "alias": "Fintar"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando você usar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Finta|Fintar]] ou [[Distrair]] o alvo do [[Atacar|Ataque]] como ação livre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê cria sombras (para magia negra) ou brilhos (para magia branca) que deixam seu alvo desatento quando combina arma e magia. Quando você usa [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode [[Finta|Fintar]] ou [[Distrair]] o alvo do [[Atacar|Ataque]] como ação livre.\n\n%%adicionar nota pra ser não-basica caso eu crie algo q de magia basica com combinacao/melhoramento\n\n```autosheet-rules\n```\n"
+}

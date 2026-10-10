@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco Longo",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Arco Longo.md",
+  "basename": "Arco Longo",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-marcial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-marcial",
+    "especial": "Arco grande e pesado, díficil de manejar em espaços pequenos e curtas distâncias. Não pode ser usado montado. Recebe -2 nos ataques contra inimigos em até 5q de distância.",
+    "dg-publish": true,
+    "dano": "d8+4",
+    "tipo": "perfuração",
+    "mãos": "1+",
+    "propriedades": [
+      "[[Alcance|Alcance 20]]",
+      "[[Força X|Força 2]]",
+      "[[Propulsão|Propulsão 10]]",
+      "[[Especial]]"
+    ],
+    "ordem": 4,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Distância Marcial|Marcial]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Marcial"
+    },
+    {
+      "target": "Especial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 20"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força 2"
+    },
+    {
+      "target": "Propulsão",
+      "kind": "wikilink",
+      "alias": "Propulsão 10"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Distância Marcial|Marcial]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: arco grande e pesado, díficil de manejar em espaços pequenos e curtas distâncias. Não pode ser usado montado. Recebe -2 nos [[Atacar|Ataques]] contra inimigos em até 5q de distância.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

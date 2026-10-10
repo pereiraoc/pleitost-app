@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Apagão no Quarto Distrito",
+  "path": "Campanhas/Combates/Apagão no Quarto Distrito.md",
+  "basename": "Apagão no Quarto Distrito",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Quarto Distrito]] · [[Centro Histórico]]",
+    "Situação": "A luz cai primeiro, e com ela o implante de quem depende de um. Só depois é que entram.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Interventor da CEEE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sargento de Pelotão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Interventor da CEEE]] lento\n- 2 [[Sargento de Pelotão]] rápido\n- 4 [[Cabo de Choque]] lento\n```\n"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Bruto Aterrorizador",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Bruto Aterrorizador.md",
+  "basename": "Bruto Aterrorizador",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Causa mais dano contra alvo [[Abalado]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalados"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Causa mais dano contra alvo [[Abalado]].\"\n%%\n##### `= this.file.name`\n[[Atacar|Ataques]] causam 2/3/4 de dano adicional contra alvos [[Abalado|Abalados]].\n\n```autosheet-rules\n```\n"
+}

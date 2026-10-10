@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Benzedura da Erveira",
+  "path": "Contexto/Recursos/Ofícios/Benzedura da Erveira.md",
+  "basename": "Benzedura da Erveira",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Benzedura",
+    "Marca": "Banca de Ervas do Mercado",
+    "Preço": 100,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "A erveira da banca benze com ramo de arruda, reza baixo e receita o chá — pra quebranto, susto e mau-olhado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chá de Ervas da Banca",
+      "kind": "wikilink",
+      "alias": "chá de ervas"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA mesma erveira que vende o [[Chá de Ervas da Banca|chá de ervas]] benze na cadeira do fundo da banca: ramo de arruda, reza baixa, sinal da cruz. Quebranto, susto, mau-olhado, cobreiro. Não promete milagre — manda tomar o chá e voltar na semana que vem.\n\n> [!info] Especificação\n> **Benzedura:** dez minutos, com ramo de arruda\n> **Receita:** sempre acompanha um chá da banca\n> **Pagamento:** o que puder, mas Cz$ 100 é o costume\n"
+}

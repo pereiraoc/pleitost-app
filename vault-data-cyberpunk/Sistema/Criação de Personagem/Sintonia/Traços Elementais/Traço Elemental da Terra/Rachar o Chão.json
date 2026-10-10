@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Rachar o Chão",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Rachar o Chão.md",
+  "basename": "Rachar o Chão",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Terra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Terra]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Rachar o Chão"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Terra]]\nprev::\nnext::\n%%\n### Rachar o Chão\nVocê consegue estremecer e danificar o chão com seus pés. Como uma ação, sua posição e todos os quadrados adjacentes a você se tornam terreno difícil. Você não pode usar esse traço novamente até [[Descansar]]."
+}

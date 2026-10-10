@@ -1,0 +1,1 @@
+import{Yt as e}from"./hero-model-CGF0thGu.js";import{r as t}from"./auth-state-Bc2A0iKm.js";function n(){let n=e(e=>e?.sessionId??null),r=e(e=>e?.gmUserId??null),i=t(),a=!!n&&!!i&&!!r;return{locked:a,roleMestre:a&&r===i.id}}export{n as t};

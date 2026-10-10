@@ -1,0 +1,223 @@
+{
+  "id": "fantasia",
+  "nome": "Fantasia",
+  "fonte": "Recursos e Mídia/Configurações de Contextos/Contexto Fantasia.md",
+  "moeda": {
+    "simbolo": "PO",
+    "nome": "Peças de Ouro",
+    "fator": 1
+  },
+  "atlas": {
+    "raiz": "Atlas",
+    "mapa": null
+  },
+  "pericias": {},
+  "reskin": {
+    "notas": {},
+    "notasFuturas": {},
+    "termos": {},
+    "excecoes": [],
+    "descricoes": {},
+    "chamadas": {},
+    "chamadasSintonia": {},
+    "execucao": {
+      "padrao": {},
+      "classes": {},
+      "habilidades": {},
+      "sintonias": {}
+    }
+  },
+  "disponibilidade": {
+    "padrao": "disponivel",
+    "indisponiveis": [],
+    "restritos": {}
+  },
+  "viagem": {
+    "padrao": "normal",
+    "terrenos": [
+      {
+        "chave": "normal",
+        "nome": "Gramado",
+        "custo": 1,
+        "cor": "#7fb069"
+      },
+      {
+        "chave": "dificil",
+        "nome": "Terreno difícil",
+        "custo": 2,
+        "cor": "#b5835a"
+      },
+      {
+        "chave": "muito_dificil",
+        "nome": "Terreno muito difícil",
+        "custo": 3,
+        "cor": "#8a8a8a"
+      },
+      {
+        "chave": "mar",
+        "nome": "Mar",
+        "custo": 3,
+        "cor": "#4a90c2",
+        "agua": true,
+        "custoPorMeio": {
+          "Barco": 1
+        }
+      }
+    ],
+    "rotas": [
+      {
+        "chave": "estrada",
+        "nome": "Estrada",
+        "cor": "#c9a36b",
+        "bonus": 1,
+        "meios": [
+          "Cavalo",
+          "Caravana"
+        ]
+      },
+      {
+        "chave": "rota_maritima",
+        "nome": "Rota marítima",
+        "cor": "#ffffff",
+        "bonus": 1,
+        "meios": [
+          "Barco"
+        ]
+      },
+      {
+        "chave": "escadaria",
+        "nome": "Escadaria",
+        "cor": "#e8d8b0",
+        "bonus": 1,
+        "meios": [
+          "A pé"
+        ]
+      }
+    ],
+    "meios": [
+      {
+        "nome": "A pé",
+        "icone": "🚶",
+        "padrao": true,
+        "hexPorDia": 2,
+        "em": [
+          "normal",
+          "dificil",
+          "muito_dificil"
+        ],
+        "costa": true
+      },
+      {
+        "nome": "Cavalo",
+        "icone": "🐎",
+        "padrao": false,
+        "hexPorDia": 3,
+        "em": [
+          "normal",
+          "dificil"
+        ]
+      },
+      {
+        "nome": "Caravana",
+        "icone": "🐪",
+        "padrao": true,
+        "hexPorDia": 4,
+        "em": [
+          "normal",
+          "dificil",
+          "muito_dificil"
+        ],
+        "soEmRota": "estrada",
+        "antigos": [
+          "Carruagem"
+        ]
+      },
+      {
+        "nome": "Barco",
+        "icone": "⛵",
+        "padrao": true,
+        "hexPorDia": 5,
+        "em": [
+          "mar"
+        ],
+        "costa": true,
+        "antigos": [
+          "Navio"
+        ]
+      },
+      {
+        "nome": "Portal",
+        "icone": "✨",
+        "padrao": false,
+        "hexPorDia": 0,
+        "em": [
+          "normal",
+          "dificil",
+          "muito_dificil",
+          "mar"
+        ],
+        "instantaneo": true
+      }
+    ],
+    "terreno": "Terreno do Mundo Livre"
+  },
+  "base": {
+    "sempreDisponiveis": [],
+    "conteudoDeMundo": {
+      "pastas": [
+        "Atlas/",
+        "Contexto/",
+        "Campanhas/",
+        "Recursos e Mídia/Notas de Mudanças/",
+        "Recursos e Mídia/Ferramentas de GM/"
+      ],
+      "tipos": [
+        "Criatura",
+        "Grupo",
+        "Pessoa",
+        "Organização",
+        "Contexto",
+        "Localização",
+        "Aventura",
+        "Combate",
+        "Recurso",
+        "Linha"
+      ]
+    },
+    "aventura": {
+      "secoes": {
+        "resumo": "1. Resumo",
+        "roteiro": "Roteiro em uma página",
+        "contexto": "2. Contexto",
+        "contexto_aventura": "2.1 Contexto da Aventura",
+        "notas_mestre": "2.2 Notas para o Mestre",
+        "personagens": "2.3 Personagens",
+        "locais": "2.4 Locais",
+        "mapa": "Mapa",
+        "combates": "2.5 Combates",
+        "cenas": "3. Cenas",
+        "abertura": "Abertura",
+        "cena": "Cena",
+        "desfecho": "Desfecho"
+      },
+      "tiposDeCena": [
+        "Social",
+        "Exploração",
+        "Investigação",
+        "Combate",
+        "Interlúdio",
+        "Epílogo"
+      ],
+      "camposListaTrancada": [
+        "Chamada",
+        "rank",
+        "Formato",
+        "Prazo",
+        "Duração",
+        "Jogadores",
+        "Tom"
+      ]
+    }
+  },
+  "regras": {}
+}

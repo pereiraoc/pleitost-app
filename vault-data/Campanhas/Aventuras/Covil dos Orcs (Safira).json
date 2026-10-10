@@ -1,0 +1,28 @@
+{
+  "id": "Campanhas/Aventuras/Covil dos Orcs (Safira)",
+  "path": "Campanhas/Aventuras/Covil dos Orcs (Safira).md",
+  "basename": "Covil dos Orcs (Safira)",
+  "type": "Aventura",
+  "subtype": "Neutralização",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Neutralização",
+    "rank": "B",
+    "disponivel": [
+      "[[Safira]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Neutralização de Covil de Orcs\n\nRecompensa:\n- Marcas: {min: 13, max: 17}\n- Extra: \"2 tesouros à nossa escolha\"\nObjetivo:\n- \"Limpar o covil dos orcs e eliminar o Rei Anão Orc Corrupto.\"\nLocal:\n- \"[[Safira]] (Covil dos Orcs a 4h da cidade)\"\nContato: \"Carlito Otilhos (Comandante da Gremiação de Safira)\"\nFinanciador: \"Sociedade Aberta\"\n```"
+}

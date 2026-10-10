@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Estação Zaffari",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Estação Zaffari.md",
+  "basename": "Estação Zaffari",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Trensurb (chefe de estação)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Zaffari.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma de concreto sobre o pátio do depósito; catraca de carteira PIRA, cabine da Brigada e o cheiro de arroz do armazém.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Viaduto cinza saindo do meio dos galpões, plataforma lotada de macacão, letreiro 'L1 POPULAR NORTE', contêineres com o esquilo da Zaffari embaixo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma de concreto sobre o pátio do depósito; catraca de carteira PIRA, cabine da Brigada e o cheiro de arroz do armazém.",
+    "aparencia": "Viaduto cinza saindo do meio dos galpões, plataforma lotada de macacão, letreiro 'L1 POPULAR NORTE', contêineres com o esquilo da Zaffari embaixo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

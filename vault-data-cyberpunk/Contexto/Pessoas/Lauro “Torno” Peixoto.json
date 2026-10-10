@@ -1,0 +1,45 @@
+{
+  "id": "Contexto/Pessoas/Lauro “Torno” Peixoto",
+  "path": "Contexto/Pessoas/Lauro “Torno” Peixoto.md",
+  "basename": "Lauro “Torno” Peixoto",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Lauro Peixoto",
+      "Torno"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Metalúrgicos]]",
+    "Função": "Conselheiro fiscal do Sindicato dos Metalúrgicos — o fiador que o sindicato manda",
+    "Aparência": "Sessenta e cinco, dedo faltando na mão esquerda, boina, jaqueta do [[Sindicato dos Metalúrgicos]]; senta no mesmo banco do boteco da [[Rua da Sarandi]] toda tarde.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lauro “Torno” Peixoto.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Metalúrgicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua da Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lauro “Torno” Peixoto.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Lauro “Torno” Peixoto.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

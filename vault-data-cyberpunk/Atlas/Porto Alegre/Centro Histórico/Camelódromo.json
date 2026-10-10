@@ -1,0 +1,111 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Camelódromo",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Camelódromo.md",
+  "basename": "Camelódromo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "comissão dos camelôs (Nego Dito)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Gurgel Motomachine]] usado",
+      "[[Gurgel Carajás]] usado",
+      "[[Amendoim Japonês]]",
+      "[[Chiclete Ping Pong]]",
+      "[[Bubbaloo]]",
+      "[[Diamante Negro]]",
+      "[[Gurgel XEF]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Honda CG 125]] usado",
+      "[[Mobilete Caloi]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Camelódromo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chiclete Ping Pong",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bubbaloo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diamante Negro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel XEF",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Camelódromo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Camelódromo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Feira de sucata tecnológica e implantes ilegais.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Lonas escuras, bancas improvisadas, cheiro de solda e miasmas de óleo.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Feira de sucata tecnológica e implantes ilegais.",
+    "aparencia": "Lonas escuras, bancas improvisadas, cheiro de solda e miasmas de óleo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Farejar Dose",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Farejar Dose.md",
+  "basename": "Farejar Dose",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Percebe selênico consumido ou carregado a até 6q, mesmo sem linha de visão.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Percebe selênico consumido ou carregado a até 6q, mesmo sem linha de visão.\"\n%%\n##### `= this.file.name`\nPercebe selênico consumido ou carregado a até 6q, mesmo sem linha de visão.\n\n```autosheet-rules\n```\n"
+}

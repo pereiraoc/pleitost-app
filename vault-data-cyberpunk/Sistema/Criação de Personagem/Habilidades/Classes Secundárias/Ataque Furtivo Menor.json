@@ -1,0 +1,112 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Ataque Furtivo Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Ataque Furtivo Menor.md",
+  "basename": "Ataque Furtivo Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ataque Furtivo Menor",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "links": {
+          "requer": [
+            "Vantagem de Combate"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtraPorNivel",
+            "valor": {
+              "porNivel": {
+                "1": 1,
+                "4": "d2",
+                "7": "d4"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Precisa"
+              }
+            ]
+          },
+          {
+            "somar": "DadoExtraPorNivel",
+            "valor": {
+              "porNivel": {
+                "1": 1,
+                "4": "d2",
+                "7": "d4"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "distância"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Treinamento de Ladino]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Quando você causa dano a uma criatura que você tem [[Vantagem de Combate]] contra usando um [[Atacar|Ataque]] com uma arma com a [[Propriedades|propriedade]] [[Precisa]] ou uma arma de distância, você causa 1 e dano adicional como dano de precisão. Esse dano adicional aumenta para 1d2 quando você chega no 4º nível, e 1d4 quando chega ao 7º nível.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Propriedades",
+      "kind": "wikilink",
+      "alias": "propriedade"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Treinamento de Ladino]]\nrank:: [[Adepto]]\n\nresumo:: \"Quando você causa dano a uma criatura que você tem [[Vantagem de Combate]] contra usando um [[Atacar|Ataque]] com uma arma com a [[Propriedades|propriedade]] [[Precisa]] ou uma arma de distância, você causa 1 e dano adicional como dano de precisão. Esse dano adicional aumenta para 1d2 quando você chega no 4º nível, e 1d4 quando chega ao 7º nível.\"\n%%\n#### `= this.file.name`\nQuando você causa dano a uma criatura que você tem [[Vantagem de Combate]] contra usando um [[Atacar|Ataque]] com uma arma com a [[Propriedades|propriedade]] [[Precisa]] ou uma arma de distância, você causa 1 de dano adicional como dano de precisão.\n\nEsse dano adicional aumenta para 1d2 quando você chega no 4º nível, e 1d4 quando chega ao 7º nível.\n\n```autosheet-rules\n```\n"
+}

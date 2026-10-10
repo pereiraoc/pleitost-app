@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Ataque de Oportunidade",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Ataque de Oportunidade.md",
+  "basename": "Ataque de Oportunidade",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": "AdO",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "R",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Aproveita de uma abertura na defesa do inimigo, atacando oportunamente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Manipulação"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Aproveita de uma abertura na defesa do inimigo, atacando oportunamente.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nSe uma criatura dentro do seu alcance corpo-a-corpo usar uma ação de [[Ações Básicas de Manipulação|Manipulação]], fizer um ataque a distância, usar uma ação de [[Ações Básicas de Movimento|Movimento]], ou mover-se durante uma ação de [[Ações Básicas de Movimento|Movimento]], faça um [[Atacar|Ataque]] com uma arma corpo-a-corpo que você esteja empunhando, seja capaz de causar dano letal e tenha proficiência com esta. Neste caso, o dano causado é somente o dano base da arma. Caso você seja [[Mestre]] em [[Ataques]], adicione um dado de dano da arma no dano.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,107 @@
+{
+  "id": "Sistema/Regras/Conjuração Mágica/Conjuração Mágica",
+  "path": "Sistema/Regras/Conjuração Mágica/Conjuração Mágica.md",
+  "basename": "Conjuração Mágica",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Arcana",
+      "kind": "embed",
+      "subpath": "Magia Arcana"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "embed",
+      "subpath": "Magia Anima"
+    },
+    {
+      "target": "Potência Mágica",
+      "kind": "embed",
+      "subpath": "Potência Mágica"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "embed",
+      "subpath": "Energia Mágica"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descansa"
+    },
+    {
+      "target": "Reserva Mágica",
+      "kind": "embed",
+      "subpath": "Reserva Mágica"
+    },
+    {
+      "target": "Princípios Arcanos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reserva Mágica",
+      "kind": "wikilink",
+      "alias": "RM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Magia"
+    },
+    {
+      "level": 2,
+      "text": "Conjurando uma Magia"
+    },
+    {
+      "level": 3,
+      "text": "Recursos Mágicos"
+    },
+    {
+      "level": 4,
+      "text": "Misturando Recursos"
+    },
+    {
+      "level": 2,
+      "text": "Implementos Magicos"
+    },
+    {
+      "level": 3,
+      "text": "Recursos Mágicos"
+    },
+    {
+      "level": 4,
+      "text": "Conjurando sem Recursos"
+    },
+    {
+      "level": 4,
+      "text": "Misturando Recursos"
+    }
+  ],
+  "body": "\n# Magia\n\nCom gestos e palavras mágicas, um conjurador pode manifestar energias naturais para atacar, proteger-se, afetar o corpo e mente de uma criatura ou até criar algo do nada. Cada classe com poderes de conjurador tem seu próprio método mágico, com foco em aspectos diferentes da magia. Cada magia tem um efeito especifico que amplia as possibilidades do conjurador que optar por aprende-la.\n\n![[Magia Arcana#Magia Arcana]]\n![[Magia Anima#Magia Anima]]\n\n## Conjurando uma Magia\nConjurar uma Magia de qualquer tipo necessita de ao menos uma mão livre para realizar os gestos mágicos. Uma mão ocupada por um implemento mágico conta como livre para conjurar magias. Caso a Magia use pelo menos uma ação, esses gestos contam como uma ação de Manipulação. Magias que tem tempo de conjuração de 2 ações ou mais requerem também a capacidade de falar livremente, em tom forte.\n\n![[Potência Mágica#Potência Mágica]]\n\n### Recursos Mágicos\nUm conjurador não pode continuamente despejar poder mágico expressivo. Qualquer Magia de poder superior a uma magia básica requer recursos para ser conjurada. O recurso usual para utilizar magia é [[Energia Mágica]].  Conjurar uma Magia Adepta custa 2 de Energia Mágica, uma Magia Experiente requer 3 e uma Magia Mestre requer 5.\n\n![[Energia Mágica#Energia Mágica]]\n\n#### Misturando Recursos\nSe você obtiver [[Energia Mágica|EM]] de mais de uma fonte, como por exemplo, sendo um [[Arcanista]] que pega [[Mago]] como classe secundária, esses recursos são separados: você não pode conjurar ou ativar qualquer Magia ou habilidade de Arcanista usando os recursos garantidos pela sua classe secundária e vice-versa.\n\n## Implementos Magicos\nImplementos são tesouros que potencializam, flexibilizam e expandem o uso de magia. Todo implemento mágico é conectado a magia do seu portador, em um processo de sintonização. Quando você [[Descansar|Descansa]] e recupera [[Energia Mágica|EM]], você sintoniza com os implementos mágicos em sua posse. Implementos sintonizados por um conjurador, não podem ser sintonizados por outro até que esse se desconecte deles, Descansando sem sintonizá-los. Você pode Carregar e Drenar implementos que você está sintonizado com. Cada implemento possui ações específicas para Carga e Dreno, que são a forma de utilizá-lo adequadamente. Um implemento ganha cargas usando a suas ações Carregar e perde cargas ao ser Drenado ou quando você Descansa e recupera EM.\n\n%%\n### Recursos Mágicos\nUm conjurador não pode continuamente despejar poder mágico expressivo. Qualquer Magia de poder superior a uma magia básica requer recursos para ser conjurada. Existem dois tipos de recurso para utilizar magia: Energia e Reserva. Para fins de conjurar uma Magia, Energia e Reserva são equivalentes, e podem ser combinadas para satisfazer o custo de uma magia, porém seu método de recarga difere. Conjurar uma Magia Adepta custa 2 de Energia e/ou Reserva Mágica, uma Magia Experiente requer 3 e uma Magia Mestre requer 5.\n\n![[Reserva Mágica#Reserva Mágica]]\n![[Energia Mágica#Energia Mágica]]\n\n#### Conjurando sem Recursos\nAlgumas habilidades permitem que você conjure uma Magia específica ou em situações específicas sem usar recursos (como em [[Princípios Arcanos]]). Nesses casos, a magia tem seu efeito completo, como se fosse conjurada usando [[Reserva Mágica|RM]].\n\n#### Misturando Recursos\nSe você obtiver [[Energia Mágica|EM]] ou [[Reserva Mágica|RM]] de mais de uma fonte, como por exemplo, sendo um [[Arcanista]] que pega [[Mago]] como classe secundária, esses recursos são separados: você não pode conjurar ou ativar qualquer Magia ou habilidade de Arcanista usando os recursos garantidos pela sua classe secundária e vice-versa.\n%%"
+}

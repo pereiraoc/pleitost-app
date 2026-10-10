@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Organizações/Símbolos e Marcas",
+  "path": "Contexto/Organizações/Símbolos e Marcas.md",
+  "basename": "Símbolos e Marcas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Registro único do que cada organização pode mostrar numa imagem — marca real, símbolo do sistema ou nenhum — e as regras de marca e cena que valem pra toda arte da POA 1987.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Regras que valem pra toda imagem"
+    },
+    {
+      "level": 2,
+      "text": "Registro (do frontmatter das organizações)"
+    },
+    {
+      "level": 2,
+      "text": "Lugares usados como afiliação"
+    },
+    {
+      "level": 2,
+      "text": "Base de arquivos"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\nFonte única (decisão do mestre, 2026-10-10): **o símbolo de cada organização vive no frontmatter da nota dela** — `Símbolo` (o que é), `Símbolo_Onde` (onde pode aparecer) e `Símbolo_Arquivo` (o arquivo de referência em `Recursos e Mídia/Recursos de Contextos/_geracao/logos/`: `logo-*.png` pras marcas reais, `simbolo-*.png` pros símbolos do sistema). Esta nota só agrega. Só existe símbolo que esteja aqui; nota sem o campo = nenhum símbolo. O gerador de figuras (`gen-context-figures.mjs`) lê esses campos pra montar o bloco de afiliação e anexa o arquivo citado.\n\n## Regras que valem pra toda imagem\n\n- todo logotipo/emblema é cópia IDÊNTICA do arquivo anexado (mesma forma, cores e proporção) e igual em TODAS as ocorrências da imagem; se não der para reproduzir fielmente, superfície LISA — nunca aproximar, nunca inventar\n- só existe símbolo que esteja neste registro; facção com 'nenhum' não ganha emblema, crachá, patch, braçadeira nem bandeira com marca\n- figurantes com rostos DISTINTOS entre si e do protagonista (idade, cabelo, pele, tipo) — ou de costas/desfocados\n- lâmina guardada = EMBAINHADA (cabo à mostra, lâmina coberta); arma sempre SEGURA por uma mão, apoiada no ombro/antebraço ou pendurada em bandoleira — nunca flutuando, nunca apoiada na cabeça\n- escudo com ALÇA de antebraço e EMPUNHADURA visíveis; a mão fechada na empunhadura\n- prótese 'sob a pele' aparece só como relevo/cicatriz (e vapor fino quando ventila) — nunca metal, luz ou fio por cima da roupa\n\n## Registro (do frontmatter das organizações)\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, file.name) AS \"Organização\",\n  subcategoria AS \"Tipo\",\n  Símbolo AS \"Símbolo\",\n  Símbolo_Onde AS \"Onde aparece\",\n  Símbolo_Arquivo AS \"Arquivo\"\nWHERE categoria = \"Organização\" AND Símbolo\nSORT subcategoria ASC, file.name ASC\n```\n\n## Lugares usados como afiliação\n\nDelta Radioativo, Restinga, Quarto Distrito, Jardim Botânico, Lagoa do Pinheiro, Complexo de Testes Orion e Base Fantasma são **lugares**, não donos: nenhuma insígnia, nenhum crachá. Máquina do Complexo Orion leva só faixas de perigo amarelas e pretas e número de patrimônio a estêncil.\n\n## Base de arquivos\n\n- Marcas reais: 22 `logo-*.png`, versão de 1987 ou a mais próxima que a marca tem em acervo público (fontes em `Rascunhos/Inbox de Imagens/_logos-1987/FONTES-1987.txt`).\n- Símbolos do sistema: 17 `simbolo-*.png` aprovados em 2026-10-10 (15 criados nessa revisão + o 'C' da Milícia da Carris, estabelecido no retrato de Nilo 'Catraca', + o 'R' pichado dos Replicantes). Nascem no manifesto de correção (categoria Símbolos), passam pela revisão do mestre em `Inbox de Imagens/Símbolos/` e só então entram em `_geracao/logos/`.\n- Torcidas: Camisa 12 usa a camisa vermelha do Internacional com o escudo real (jaqueta vermelha com faixas brancas e '12' grafitado por cima); a Geral do Grêmio usa blazer azul-preto, lenço branco e 'GDG' bordado, com o escudo real do Grêmio só nas bandeiras.\n"
+}

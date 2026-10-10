@@ -1,0 +1,85 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Trapiche da Aliança",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Trapiche da Aliança.md",
+  "basename": "Trapiche da Aliança",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Cidade Baixa]]",
+    "Dono": "[[Aliança Livre das Palafitas]] (Seu Bagé, barqueiro-chefe)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Lancha do Barqueiro]]",
+      "[[Lancha de Aluguel]]",
+      "[[Palafita da Cidade Baixa]]",
+      "[[Bote de Alumínio com Motor]] usado",
+      "[[Noite na Palafita]]"
+    ],
+    "Completo": true,
+    "markerTag": "Porto"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Trapiche da Aliança.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Aluguel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafita da Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bote de Alumínio com Motor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Palafita",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Trapiche da Aliança.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Trapiche da Aliança.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Ponto dos barqueiros, aluguel de bote e a única 'imobiliária' das palafitas: quem quer teto na [[Cidade Baixa]] combina aqui e paga o pedágio.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Tábuas escorregadias sobre o Guaíba, botes de alumínio batendo uns nos outros, uma lanterna a querosene e um homem sentado numa caixa de peixe que decide quem passa.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ponto dos barqueiros, aluguel de bote e a única 'imobiliária' das palafitas: quem quer teto na [[Cidade Baixa]] combina aqui e paga o pedágio.",
+    "aparencia": "Tábuas escorregadias sobre o Guaíba, botes de alumínio batendo uns nos outros, uma lanterna a querosene e um homem sentado numa caixa de peixe que decide quem passa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

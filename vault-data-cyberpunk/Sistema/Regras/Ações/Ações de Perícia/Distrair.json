@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Distrair",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Distrair.md",
+  "basename": "Distrair",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Enganação]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta distrair uma criatura, removendo-se do campo de visão dessa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "escondido"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Enganação]]\"\npropriedades:: \nresumo:: \"Tenta distrair uma criatura, removendo-se do campo de visão dessa.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Enganação]] vs [[Percepção]]/[[Intuição]] (o que for maior) de uma criatura em até 10q. Uma criatura que já foi alvo do seu Distrair no último minuto não é afetada.\n\n**Sucesso:** Sua próxima ação conta como se você estivesse [[Escondido|escondido]] para essa criatura\n**Sucesso Decisivo:** Suas próximas duas ações contam como se você estivesse [[Escondido|escondido]] para essa criatura.\n**Falha:** Você não consegue distrair a criatura.\n\n```autosheet-rules\n```\n"
+}

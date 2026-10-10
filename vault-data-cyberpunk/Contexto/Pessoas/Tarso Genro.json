@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Pessoas/Tarso Genro",
+  "path": "Contexto/Pessoas/Tarso Genro.md",
+  "basename": "Tarso Genro",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Tarso"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Metalúrgicos]]",
+    "Função": "Advogado trabalhista dos sindicatos; vereador cassado em Santa Maria, exilado em Rivera (1971–73)",
+    "Aparência": "Quarenta anos, barba escura aparada, óculos redondos, terno sem gravata e pasta cheia de petições; escritório de uma sala no piso flutuante do [[Centro Histórico]], com a janela pro Guaíba e a máquina de escrever sempre com papel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tarso Genro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Metalúrgicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Tarso Genro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Tarso Genro.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

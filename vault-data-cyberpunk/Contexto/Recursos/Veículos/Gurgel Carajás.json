@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel Carajás",
+  "path": "Contexto/Recursos/Veículos/Gurgel Carajás.md",
+  "basename": "Gurgel Carajás",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 400000,
+    "Cobrança": "única",
+    "Usado": 150000,
+    "Manutenção": 3000,
+    "Nível": 5,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Camelódromo]]",
+      "[[Shopping Iguatemi]]"
+    ],
+    "Resumo": "O carro de fibra da cidade: novo Cz$ 400.000 na concessionária, usado Cz$ 150.000 no ferro-velho, sem documento.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel Carajás.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel Carajás.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel Carajás.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Carajás é o carro que Porto Alegre dirige. Carroceria de fibra que não enferruja na umidade, motor VW a\nálcool que pega na terceira tentativa em manhã de inverno, e um porta-malas onde cabe uma mudança de palafita.\nUm ano inteiro de salário de sargento — por isso a cidade anda de ônibus e o roubo de carro é o crime que\nmais paga.\n\n> [!info] Especificação\n> **Modelo:** Gurgel Carajás 1986, carroceria de fibra Plasteel, 4 portas, 5 lugares\n> **Motor:** VW 1.8 a álcool, 4 cilindros, 85 cv; 8 km/l na cidade\n> **Novo:** concessionária [[Gurgel]] do [[Passo D'Areia]], com nota e placa\n> **Usado:** [[Camelódromo]] e ferro-velho da [[Zona Deserta]]: sem documento; placa 'limpa' Cz$ 30.000 no despachante da [[Aliança dos Fundadores]]\n> **Manutenção:** Cz$ 3.000 por mês entre oficina de bairro, pneu e álcool racionado\n> **Combustível:** 20 litros por semana por placa; o resto no mercado negro ×3\n"
+}
