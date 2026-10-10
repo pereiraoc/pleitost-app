@@ -174,7 +174,11 @@ describe('bestiário do mundo', () => {
   // 2026-10-09: as seis criaturas das organizações novas (Carris, CRT, Bancários,
   // Cassados, Replicantes, Engenheiros) nasceram antes da leva de arte; a leva
   // do Codex da mesma madrugada cobriu as oito e a lista voltou a zero.
-  const AGUARDANDO_ARTE: string[] = []
+  // Cabeça da Geral (criada 2026-10-09) entrou na rodada de correção de
+  // 2026-10-10 e foi REPROVADA duas vezes (barba no lugar do rosto barbeado,
+  // cápsulas dos ombros não representadas) — ficou na fila dos adiados, sem
+  // arte no lugar. Sai daqui quando a imagem dela for aprovada e ingerida.
+  const AGUARDANDO_ARTE: string[] = ['Cabeça da Geral']
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
