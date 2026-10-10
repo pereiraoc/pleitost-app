@@ -28,7 +28,7 @@ export const ptAlpha = new Intl.Collator('pt')
  *  AFILIAÇÃO É PLURAL (2026-09-13, pedido do mestre): "pode ter uma criatura
  *  afiliada a mais de uma organização, se ela for genérica suficientemente pra
  *  isso". O Estivador de Confiança responde ao Consórcio das Bandeiras e ao
- *  Mercosul; o Leão de Chácara segura porta do Quarto Distrito, do Grêmio e do
+ *  Governo Militar; o Leão de Chácara segura porta do Quarto Distrito, do Grêmio e do
  *  Inter. Nesses casos a criatura aparece em CADA grupo — ler só o primeiro
  *  wikilink escondia a organização do mestre que procura pela facção. */
 export function chavesDoCriterio(

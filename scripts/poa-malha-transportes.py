@@ -265,7 +265,7 @@ noite("Noite na Hospedaria do Jardim", "[[Hospedaria do Jardim]]", 500, 4, [W("J
       [("Quarto", "duplo com banheiro, janela pro parque"), ("Inclui", "café da padaria, telefone na sala"), ("Regra", "registro com documento — a Embratel ouve o interfone"), ("Nível", "4 — Classe Média")])
 noite("Diária no Hotel Padre Chagas", "[[Hotel Padre Chagas]]", 1500, 5, [W("Moinhos de Vento"), W("Hotel Padre Chagas")],
       "Diária num hotel de charme da Padre Chagas: suíte, bar de piano, garagem vigiada e a certeza de que a Gradiente sabe o nome de quem dormiu.",
-      "O [[Hotel Padre Chagas]] hospeda o executivo em trânsito, o médico de congresso e o estrangeiro do Mercosul que não quis o Plaza. Suíte com telefone Embratel, bar de piano e segurança da Gradiente na porta.",
+      "O [[Hotel Padre Chagas]] hospeda o executivo em trânsito, o médico de congresso e o estrangeiro do Prata que não quis o Plaza. Suíte com telefone Embratel, bar de piano e segurança da Gradiente na porta.",
       [("Quarto", "suíte com telefone, ar-condicionado e frigobar"), ("Inclui", "café servido, garagem vigiada, jornal censurado na porta"), ("Regra", "registro com passaporte ou crachá"), ("Nível", "5 — Classe Média Alta")])
 noite("Noite na Pousada da Balsa", "[[Pousada da Balsa]]", 100, 1, [W("Restinga"), W("Pousada da Balsa")],
       "Rede ou colchão por noite no sobrado do Bar da Balsa, na Restinga: sem pergunta, sem registro, sem Brigada.",
@@ -296,7 +296,7 @@ PENSOES = [
  ("Moinhos de Vento", "Hotel Padre Chagas", "Moinhos de Vento", "Grupo hoteleiro da [[Gradiente]] (gerente Sr. Renato Ely)", "Hotel de charme aberto em 1984 na Padre Chagas pra executivo que não quer o Plaza: suíte, bar de piano e segurança da Gradiente.",
   "Diária de suíte com telefone Embratel, garagem vigiada e jornal na porta; registro com passaporte ou crachá — a Gradiente sabe quem dormiu.",
   "Fachada de tijolo à vista e vidro fumê entre restaurantes, porteiro de luva, Gurgel Carajás preto na porta, bar de piano aceso.",
-  ["[[Gradiente]] — dona do hotel", "[[Sociedade dos Jardins]] — o bar é ponto de reunião"], "Um estrangeiro do Mercosul deixou uma pasta no cofre e não voltou.", [W("Diária no Hotel Padre Chagas")]),
+  ["[[Gradiente]] — dona do hotel", "[[Sociedade dos Jardins]] — o bar é ponto de reunião"], "Um estrangeiro do Prata deixou uma pasta no cofre e não voltou.", [W("Diária no Hotel Padre Chagas")]),
  ("Restinga", "Pousada da Balsa", "Restinga", "Nego Ari (dono do [[Bar da Balsa]])", "O andar de cima do Bar da Balsa virou dormitório em 1984, quando a balsa da Zaffari passou a deixar gente na Restinga de noite.",
   "Rede ou colchão por noite, cadeado próprio, café do bar; sem registro e sem Brigada, cobra em dinheiro, dólar ou peixe.",
   "Sobrado de zinco e tábua sobre o bar, redes penduradas em salão comum, lampião, o lago escuro pela janela sem vidro.",

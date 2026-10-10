@@ -299,7 +299,7 @@ CRIATURAS += [
       [A("Maça", "Arma Obra-prima", 2), A("Espada Curva", "Imbuição da Ventania", 2)],
       INV(armadura="Armadura Leve", tesouros=["Cinto dos Ermos"],
           consumiveis=["Poção da Velocidade"], ouro=8, tier=2),
-      mod="Competente", org=["[[Zaffari]]", "[[Fruki]]", "[[Polar]]", "[[Charrua]]"], bairros=["[[Praia de Belas]]", "[[Nova Sarandi]]", "[[Lago Guaíba]]", "[[Canoas]]"],
+      mod="Competente", org=["[[Zaffari]]", "[[Fruki]]", "[[Polar]]", "[[Madrugada]]"], bairros=["[[Praia de Belas]]", "[[Nova Sarandi]]", "[[Lago Guaíba]]", "[[Canoas]]"],
       habilidades=["Oportunista", "Pelo Telhado"], tipagem="O−",
       descricao="Protege carga em movimento. A luta dele é sempre em cima de algo que anda."),
 ]
@@ -308,7 +308,7 @@ CRIATURAS += [
     # ─────────────────────────── Facções ───────────────────────────
     C("Cobrador de Ponto", 0, "Soldado", "FOR", 3, 1, 0, 2,
       [("Atletismo", "A"), ("Malandragem", "A"), ("Intimidação", "A")],
-      [A("Manopla")], INV(tier=0), org=["[[Aliança dos Fundadores]]", "[[Sicredi]]"], bairros=["[[Centro Histórico]]"],
+      [A("Manopla")], INV(tier=0), org=["[[Aliança dos Fundadores]]"], bairros=["[[Centro Histórico]]"],
       tipagem="A−", descricao="Passa na banca toda sexta. Educado até a terceira semana sem pagamento."),
     C("Velho da Família", 2, "Líder", "PRE", 1, 0, 2, 3,
       [("Sociedades", "E"), ("Diplomacia", "E"), ("Enganação", "A"), ("Intimidação", "A"),
@@ -398,7 +398,7 @@ CRIATURAS += [
       [("Atletismo", "A"), ("Acrobacia", "A"), ("Malandragem", "A"), ("Sociedades", "A"), ("Sobrevivência", "A"), ("Intimidação", "A")],
       [A("Maça Estrela"), A("Alabarda")],
       INV(armadura="Armadura Leve", ouro=1, tier=1),
-      org=["[[Consórcio das Bandeiras]]", "[[Mercosul]]"], bairros=["[[Praia de Belas]]", "[[Lago Guaíba]]", "[[Canoas]]"],
+      org=["[[Consórcio das Bandeiras]]"], bairros=["[[Praia de Belas]]", "[[Lago Guaíba]]", "[[Canoas]]"],
       tipagem="O−", descricao="Briga de gancho e corrente no cais. Conhece cada contêiner do Porto Novo."),
     C("Chefe de Armazém", 2, "Líder", "PRE", 2, 0, 1, 3,
       [("Sociedades", "E"), ("Intimidação", "E"), ("Malandragem", "A"), ("Guerra", "A"), ("Diplomacia", "A")],
@@ -884,7 +884,7 @@ CRIATURAS += [
        ("Enganação", "A")],
       [A("Adaga de Duelo"), A("Manopla")],
       INV(armadura="Armadura Leve", consumiveis=["Poção da Velocidade"], ouro=3, tier=1),
-      org="[[Sicredi]]", bairros=["[[Nova Sarandi]]", "[[Passo D'Areia]]", "[[Petrópolis]]"],
+      org="[[A Caixinha]]", bairros=["[[Nova Sarandi]]", "[[Passo D'Areia]]", "[[Petrópolis]]"],
       habilidades=["Alvo de Assassinato"], tipagem="B−",
       descricao="Não procura quem sumiu: procura quem assinou embaixo. Chega no fiador antes do fiador saber que virou devedor."),
 
@@ -925,7 +925,7 @@ CRIATURAS += [
       [("Medicina", "A"), ("Sociedades", "A"), ("Malandragem", "A"), ("Diplomacia", "A"),
        ("Enganação", "A"), ("Trônicos", "A")],
       [A("Adaga")], INV(consumiveis=["Poção da Nutrição"], tier=0),
-      org="[[Charrua]]", bairros=["[[Centro Histórico]]", "[[Praia de Belas]]", "[[Bom Fim]]"],
+      org="[[Madrugada]]", bairros=["[[Centro Histórico]]", "[[Praia de Belas]]", "[[Bom Fim]]"],
       habilidades=["Dose no Braço"], escola="Positrônica",
       descricao="A cuia dele levanta defunto e todo mundo aceita uma. Ninguém pergunta o que ele põe na erva."),
 
@@ -959,7 +959,7 @@ CRIATURAS += [
        ("Guerra", "A"), ("Intimidação", "A")],
       [A("Porrete")],
       INV(armadura="Armadura Leve", tesouros=["Anel Mensageiro"], ouro=5, tier=1),
-      org="[[Mercosul]]", bairros=["[[Praia de Belas]]", "[[Canoas]]", "[[Zona Deserta]]"],
+      org="[[Governo Militar Brasileiro]]", bairros=["[[Praia de Belas]]", "[[Canoas]]", "[[Zona Deserta]]"],
       habilidades=["Ordem de Ataque", "Apito"], tipagem="AB−",
       descricao="O selo dele abre a fronteira ou fecha ela na tua cara. Nunca é a mesma taxa duas vezes."),
 

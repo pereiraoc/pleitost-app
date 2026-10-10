@@ -361,7 +361,8 @@ const CONCEITO_EQUIP = {
 
 
 // Marcas/organizações com identidade REAL: o mundo é fantasia, mas as marcas
-// verdadeiras aparecem com seus logotipos atuais — senão o contexto confunde.
+// verdadeiras aparecem com seus logotipos DE 1987 (ou a versão mais próxima que existe,
+// anexada como referência) — senão o contexto confunde. Base: _geracao/logos/logo-<Marca>.png.
 const LOGOS = {
   'Gradiente': 'o logotipo REAL da Gradiente (marca brasileira de eletrônicos)',
   'Panvel': 'o logotipo REAL da Panvel (rede de farmácias gaúcha)',
@@ -372,7 +373,7 @@ const LOGOS = {
   'Gurgel': 'o logotipo REAL da Gurgel Motores',
   'Embratel': 'o logotipo REAL da Embratel',
   'Mercur': 'o logotipo REAL da Mercur (borrachas, RS)',
-  'Charrua': 'o logotipo REAL da erva-mate Charrua (ervateira gaúcha)',
+  'Madrugada': 'o logotipo REAL da erva-mate Madrugada (ervateira gaúcha de Venâncio Aires, 1942)',
   'Fruki': 'o logotipo REAL da Fruki (refrigerantes gaúchos do Vale do Taquari)',
   'Polar': 'o logotipo REAL da cerveja Polar (a cerveja do Rio Grande do Sul)',
   'Federação Gaúcha de Futebol': 'o escudo REAL da Federação Gaúcha de Futebol',
@@ -493,7 +494,7 @@ const CONSUMIVEL = {
   'Taurilênico': {
     forma: 'uma LATA (ou garrafinha) de refrigerante ULTRACONCENTRADO — energético de taurina selênica com ERVA-MATE',
     nome: 'Mate Touro',
-    rotulo: 'co-branding com os logotipos REAIS de Panvel e da erva-mate Charrua (o da Charrua é o wordmark CHARRUA amarelo de contorno preto com "ERVA-MATE" em cima e duas folhas verdes — exatamente como na referência anexada); a CABEÇA DE TOURO própria da marca Mate Touro como símbolo central (sem copiar marca real de energético) e folhas de erva-mate no rótulo',
+    rotulo: 'co-branding com os logotipos REAIS de Panvel e da erva-mate Madrugada (o da Madrugada é o wordmark "Madrugada" em serifa branca com uma folha verde sobre o "u" — exatamente como na referência anexada); a CABEÇA DE TOURO própria da marca Mate Touro como símbolo central (sem copiar marca real de energético) e folhas de erva-mate no rótulo',
   },
 }
 // Identidade Mate Touro (r9): mesma cabeça de touro em todas as versões; o
@@ -615,8 +616,8 @@ const RODAPE_PECAS = RODAPE_T.replace('Objeto único isolado', 'Somente as peça
 // e Panvel saíram inventados).
 const LOGOS_DIR = join(GERACAO, 'logos')
 // Arquivos prefixados com "logo-" pra NUNCA colidirem por basename com as
-// imagens das organizações homônimas (Charrua.png etc. — r13).
-const LOGO_FILES = ['Charrua', 'Gradiente', 'Panvel', 'Tramontina']
+// imagens das organizações homônimas (Madrugada.png etc. — r13).
+const LOGO_FILES = ['Madrugada', 'Gradiente', 'Panvel', 'Tramontina', 'Banrisul', 'BrigadaMilitar', 'CEEE', 'CRT', 'Carris', 'Embratel', 'FGF', 'Fruki', 'Gremio', 'Gurgel', 'Internacional', 'Marcopolo', 'Mercur', 'Polar', 'PrefeituraPOA', 'Renner', 'Republica', 'Zaffari']
 function logosDoPrompt(prompt) {
   if (!/logotipos? REA/i.test(prompt)) return []
   return LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => join(LOGOS_DIR, `logo-${n}.png`)).filter(existsSync)
@@ -903,7 +904,7 @@ function promptOrganizacao(nome, sub, excerto) {
     `Imagem de identidade visual da organização "${nome}" (${sub || 'organização'}) para o RPG, ${MUNDO}.` +
     ` Uma cena emblemática que comunique de imediato quem é essa organização, baseada neste contexto do mundo: ${excerto}` +
     (logo
-      ? ` USE ${logo} — o logotipo/escudo VERDADEIRO, como é conhecido hoje, aplicado com destaque à cena de 1987 (fachada, uniforme, frota, letreiro, bandeira). O mundo é fantasia, mas as marcas reais aparecem como são. Nenhum texto legível além do logotipo/escudo da marca.`
+      ? ` USE ${logo} — o logotipo/escudo VERDADEIRO, como era em 1987 (ou a versão mais próxima que existe — igual à referência anexada), aplicado com destaque à cena de 1987 (fachada, uniforme, frota, letreiro, bandeira). O mundo é fantasia, mas as marcas reais aparecem como são. Nenhum texto legível além do logotipo/escudo da marca.`
       : ` Se marcas reais do mundo aparecerem na cena (Gradiente, Panvel, Tramontina, Zaffari com o esquilo, Embratel, CEEE…), use seus logotipos verdadeiros; fora isso, sem texto legível.`) +
     ` Estilo: pintura digital cinematográfica, estética brasileira dos anos 80.` +
     ` Proporção paisagem 3:2 (1536×1024).`

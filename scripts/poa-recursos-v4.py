@@ -312,9 +312,9 @@ def poi(pasta, nome, geo, dono, contexto, descricao, aparencia, influencias, aco
 # atalhos de ofertas por tipo de estabelecimento (o que muda entre bairros é o que ENTRA e quanto rola)
 PADARIA = [L("Café da Manhã de Padaria"), L("Café Passado"), L("Empada de Padaria"), L("Bolo de Padaria"), L("Cueca Virada")]
 BOTECO = [L("Polar Tradicional"), L("Cachaça de Boteco"), L("Café Passado"), L("Churrasquinho de Barraca")]
-ARMAZEM = [L("Cesta Básica Zaffari"), L("Água Mineral em Galão"), L("Erva-Mate Charrua"), L("Cream Cracker Isabela"), L("Grapette"), L("Guaraná Fruki"), L("Bala Soft"), L("Chiclete Ping Pong")]
+ARMAZEM = [L("Cesta Básica Zaffari"), L("Água Mineral em Galão"), L("Erva-Mate Madrugada"), L("Cream Cracker Isabela"), L("Grapette"), L("Guaraná Fruki"), L("Bala Soft"), L("Chiclete Ping Pong")]
 LANCHERIA = [L("Xis"), L("Guaraná Fruki"), L("Laranjinha Fruki"), L("Polar Tradicional"), L("Café Passado")]
-BANCA = [L("Mate Gelado Charrua"), L("Chá Mate Leão"), L("Elma Chips"), L("Bubbaloo"), L("Chiclete Ping Pong"), L("Diamante Negro"), L("Amendoim Japonês")]
+BANCA = [L("Mate Gelado Madrugada"), L("Chá Mate Leão"), L("Elma Chips"), L("Bubbaloo"), L("Chiclete Ping Pong"), L("Diamante Negro"), L("Amendoim Japonês")]
 TAXI = [L("Táxi Gurgel")]
 BARQUEIRO = [L("Lancha do Barqueiro"), L("Lancha de Aluguel")]
 
@@ -430,7 +430,7 @@ NOVOS = [
   ["[[Fábrica Itú Química]] — dona da vila", "[[Sindicato dos Metalúrgicos]] — panfleta na entrada"], "Uma família foi despejada no dia em que o laudo do pai deu positivo.", [L("Vaga na Vila da Itú Química")]),
  ("Jardim Itu", "Armazém do Itu", "Jardim Itu", "Seu Tadeu Borges", "Armazém de fundo de quintal no Jardim Itu; a cesta chega de Kombi e o fiado é anotado a lápis.",
   "Cesta, marmita congelada, refrigerante, mate gelado, bolacha e água; ração PIRA vencida por baixo.", "Garagem virada em armazém, prateleira de caixote, freezer de marmita e um caderno pendurado.",
-  ["[[Zaffari]] — cota", "[[Clã da Ferrugem]] — gato de luz do freezer"], "O freezer queimou no apagão e as marmitas foram vendidas pela metade no mesmo dia.", ARMAZEM + [L("Marmita Congelada Zaffari"), L("Mate Gelado Charrua"), L("Ração PIRA")]),
+  ["[[Zaffari]] — cota", "[[Clã da Ferrugem]] — gato de luz do freezer"], "O freezer queimou no apagão e as marmitas foram vendidas pela metade no mesmo dia.", ARMAZEM + [L("Marmita Congelada Zaffari"), L("Mate Gelado Madrugada"), L("Ração PIRA")]),
  ("Jardim Itu", "Padaria do Itu", "Jardim Itu", "Dona Cecília Pinto", "Padaria de bairro na rua da fábrica; abre às cinco pro turno e fecha quando o pão acaba.",
   "Cacetinho, café e bolo de fubá; pão dormido de graça pra quem varre a frente.", "Casinha com balcão na janela, forno de tijolo e fila de operário de capacete.",
   ["[[Fábrica Itú Química]] — o turno", "[[Resistência Urbana Gaúcha]] — sopa de terça"], "A padaria começou a vender pão pela metade depois das nove; a fila mudou de horário.", [L("Café da Manhã de Padaria"), L("Café Passado"), L("Bolo de Padaria")]),
@@ -458,7 +458,7 @@ NOVOS = [
   [L("Volkswagen Kombi", "usado"), L("Volkswagen Fusca"), L("Mercedes-Benz 1113", "usado"), L("Honda CG 125", "usado"), L("Agrale 27.5", "usado"), L("Volkswagen Brasília")]),
  ("Nova Sarandi", "Cantina da Fábrica", "Nova Sarandi", "Dona Ilse Brand", "Cantina da rua das fábricas; serve o turno da Tramontina e da Marcopolo com marmita, mate e café.",
   "Marmita congelada, ração PIRA em crédito, mate gelado e café; PF ao meio-dia pra quem paga em espécie.", "Salão de mesa comprida, balcão de alumínio, caldeirão de sopa e a fila de macacão.",
-  ["[[Tramontina]] e [[Marcopolo]] — o crédito PIRA vale aqui", "[[Sindicato dos Metalúrgicos]] — reunião no fundo"], "O Sindicato usou o fundo da cantina pra uma assembleia; a Brigada chegou atrasada.", [L("Marmita Congelada Zaffari"), L("Ração PIRA"), L("Mate Gelado Charrua"), L("Café Passado"), L("Prato Feito da Cantina do Mercado")]),
+  ["[[Tramontina]] e [[Marcopolo]] — o crédito PIRA vale aqui", "[[Sindicato dos Metalúrgicos]] — reunião no fundo"], "O Sindicato usou o fundo da cantina pra uma assembleia; a Brigada chegou atrasada.", [L("Marmita Congelada Zaffari"), L("Ração PIRA"), L("Mate Gelado Madrugada"), L("Café Passado"), L("Prato Feito da Cantina do Mercado")]),
  ("Nova Sarandi", "Boteco do Apito", "Nova Sarandi", "Seu Piá Rodrigues", "Boteco na frente da portaria da Tramontina; abre no apito das cinco e fecha no das dezoito.",
   "Cachaça antes do turno, Polar depois, churrasquinho e café; fiado até o vale.", "Balcão de tábua, banco de ferro, um rádio e a portaria da fábrica do outro lado da rua.",
   ["[[Tramontina]] — a clientela", "[[Brigada Militar Metropolitana]] — a ronda do turno"], "A portaria proibiu entrar bêbado; o Seu Piá passou a vender café mais forte.", BOTECO),
@@ -519,7 +519,7 @@ NOVOS = [
   ["[[Sport Club Internacional]] — dia de jogo", "[[Zaffari]] — farinha"], "A padaria vendeu 2.000 cacetinhos num Gre-Nal; a farinha acabou na segunda.", [L("Café da Manhã de Padaria"), L("Café Passado"), L("Bolo de Padaria"), L("Sanduíche de Mortadela do Mercado")]),
  ("Praia de Belas", "Armazém do Porto", "Praia de Belas", "Dona Zenaide Farias", "Armazém de secos e molhados no cais; a cesta chega de balsa e o dólar de marinheiro.",
   "Cesta, água, refrigerante, bolacha e mate gelado; aceita dólar de estivador.", "Loja de porta de ferro, prateleira de caixote, balança de prato e um marinheiro comprando bala.",
-  ["[[Zaffari]] — a balsa traz a cota", "[[Clube dos Sete Portos]] — o dólar"], "Um lote de bolacha veio de contêiner sem nota; o armazém vendeu pela metade.", ARMAZEM + [L("Mate Gelado Charrua")]),
+  ["[[Zaffari]] — a balsa traz a cota", "[[Clube dos Sete Portos]] — o dólar"], "Um lote de bolacha veio de contêiner sem nota; o armazém vendeu pela metade.", ARMAZEM + [L("Mate Gelado Madrugada")]),
  # ── Quarto Distrito (Rua de Comércio)
  ("Quarto Distrito", "Garagem dos Rachas", "Quarto Distrito", "Beto Racha", "Garagem num galpão da Voluntários onde a molecada envenena Motomachine e RD pra correr de madrugada.",
   "Motomachine, RD 135, Fusca envenenado e CG de segunda mão; escape aberto e motor mexido, sem documento.", "Galpão com portão de correr, motos na fila, um Fusca rebaixado e som alto.",
@@ -541,7 +541,7 @@ NOVOS = [
   [L("Barco de Pesca de Madeira"), L("Bote de Alumínio com Motor", "usado"), L("Barco de Pesca de Madeira", "usado")]),
  ("Restinga", "Armazém do Renato", "Restinga", "Dona Marta (pelo Movimento)", "Armazém do Movimento Restinga Livre no meio das palafitas de metal; tudo em dólar redondo.",
   "Cesta, água em galão, bolacha, refrigerante, mate gelado e cachaça; nada vale menos de um dólar, vende-se em lote.", "Contêiner cortado com balcão, prateleira de sucata, galões de água e um quadro com o câmbio do dia.",
-  ["[[Movimento Restinga Livre]] — dono", "[[Clã da Ferrugem]] — o contêiner"], "O câmbio do quadro subiu duas vezes na mesma semana; a Dona Marta diz que é o mundo.", ARMAZEM + [L("Mate Gelado Charrua"), L("Cachaça de Boteco")]),
+  ["[[Movimento Restinga Livre]] — dono", "[[Clã da Ferrugem]] — o contêiner"], "O câmbio do quadro subiu duas vezes na mesma semana; a Dona Marta diz que é o mundo.", ARMAZEM + [L("Mate Gelado Madrugada"), L("Cachaça de Boteco")]),
  ("Restinga", "Bar da Balsa", "Restinga", "Seu Osório Lemos", "Bar na chegada da balsa do Zaffari; o marinheiro desce e bebe antes de subir de novo.",
   "Polar, cachaça, churrasquinho, pescado frito e café; em dólar, em lote.", "Balcão de tábua sobre a água, grelha de tambor, bandeira do Movimento e a balsa encostando.",
   ["[[Movimento Restinga Livre]] — o pedágio", "[[Zaffari]] — a balsa traz a clientela"], "A balsa atrasou um dia inteiro; o bar vendeu todo o pescado.", BOTECO + [L("Pescado do Mercado Flutuante")]),
