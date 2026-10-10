@@ -625,8 +625,11 @@ const LOGOS_DIR = join(GERACAO, 'logos')
 // imagens das organizações homônimas (Madrugada.png etc. — r13).
 const LOGO_FILES = ['Madrugada', 'Gradiente', 'Panvel', 'Tramontina', 'Banrisul', 'BrigadaMilitar', 'CEEE', 'CRT', 'Carris', 'Embratel', 'FGF', 'Fruki', 'Gremio', 'Gurgel', 'Internacional', 'Marcopolo', 'Mercur', 'Polar', 'PrefeituraPOA', 'Renner', 'Republica', 'Zaffari']
 function logosDoPrompt(prompt) {
-  if (!/logotipos? REA/i.test(prompt)) return []
-  return LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => join(LOGOS_DIR, `logo-${n}.png`)).filter(existsSync)
+  // marca citada pelo nome (LOGO_FILES) OU arquivo citado literalmente no prompt —
+  // é assim que os simbolo-*.png do registro único chegam como referência.
+  const porNome = LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => `logo-${n}.png`)
+  const citados = [...prompt.matchAll(/\b(?:logo|simbolo)-[A-Za-z0-9]+\.png/g)].map((m) => m[0])
+  return [...new Set([...porNome, ...citados])].map((f) => join(LOGOS_DIR, f)).filter(existsSync)
 }
 
 function promptFigura(sub, orig, novo) {
@@ -912,6 +915,8 @@ function promptOrganizacao(nome, sub, excerto) {
     (logo
       ? ` USE ${logo} — o logotipo/escudo VERDADEIRO, como era em 1987 (ou a versão mais próxima que existe — igual à referência anexada), aplicado com destaque à cena de 1987 (fachada, uniforme, frota, letreiro, bandeira). O mundo é fantasia, mas as marcas reais aparecem como são. Nenhum texto legível além do logotipo/escudo da marca.`
       : ` Se marcas reais do mundo aparecerem na cena (Gradiente, Panvel, Tramontina, Zaffari com o esquilo, Embratel, CEEE…), use seus logotipos verdadeiros; fora isso, sem texto legível.`) +
+    simboloDe(nome) +
+    REGRAS_SIMBOLO +
     ` Estilo: pintura digital cinematográfica, estética brasileira dos anos 80.` +
     ` Proporção paisagem 3:2 (1536×1024).`
   )
@@ -998,6 +1003,34 @@ function promptLocal(nome, sub, bairro, excerto, pasta) {
 const ORGANIZACOES = new Set(
   walk(join(VAULT, 'Contexto/Organizações')).map((p) => basename(p, '.md')),
 )
+// REGISTRO ÚNICO DE SÍMBOLOS (decisão do mestre, 2026-10-10): o que cada
+// organização PODE mostrar vem do frontmatter da nota dela — `Símbolo` (o que
+// é), `Símbolo_Onde` (onde aparece) e `Símbolo_Arquivo` (logo-*.png real ou
+// simbolo-*.png do sistema, em _geracao/logos). Nota-dona:
+// Contexto/Organizações/Símbolos e Marcas. Sem campo = NENHUM símbolo. Antes o
+// prompt dizia só "a marca de quem paga a conta" e o modelo inventava um
+// emblema pra cada facção (lua, engrenagem, folha, X dourado…).
+const SIMBOLOS = new Map(
+  walk(join(VAULT, 'Contexto/Organizações')).map((p) => {
+    const { fm } = lerNota(p)
+    return [basename(p, '.md'), { texto: fm['Símbolo'] ?? '', onde: fm['Símbolo_Onde'] ?? '', arquivo: fm['Símbolo_Arquivo'] ?? '' }]
+  }),
+)
+function simboloDe(nome) {
+  const s = SIMBOLOS.get(nome)
+  if (!s || !s.texto) return ` NENHUM símbolo registrado para ${nome}: sem emblema, crachá, patch, braçadeira ou bandeira com marca.`
+  return (
+    ` SÍMBOLO de ${nome} (registro Símbolos e Marcas): ${s.texto}.` +
+    (s.onde ? ` Onde: ${s.onde}.` : '') +
+    (s.arquivo ? ` Reproduza IDÊNTICO ao arquivo anexado ${s.arquivo}.` : '')
+  )
+}
+// Revisão do mestre (2026-10-10) sobre a leva corrigida: logo "aproximado" mesmo
+// com referência, mesma marca diferente dentro do quadro, figurantes clonados,
+// lâmina sem bainha, escudo sem alça, prótese subcutânea como hardware. Vale
+// pra toda criatura e toda cena de organização.
+const REGRAS_SIMBOLO =
+  ' REGRAS DE MARCA E CENA (registro único Símbolos e Marcas): todo logotipo/emblema é cópia IDÊNTICA do arquivo anexado (forma, cores, proporção) e igual em TODAS as ocorrências da imagem — se não der para reproduzir fielmente, superfície LISA, nunca aproximar, nunca inventar; só existe símbolo que esteja no registro; figurantes com rostos DISTINTOS entre si e do protagonista (ou de costas); lâmina guardada EMBAINHADA; arma sempre segura por uma mão, apoiada no ombro/antebraço ou em bandoleira, nunca flutuando nem apoiada na cabeça; escudo com ALÇA de antebraço e EMPUNHADURA visíveis; prótese "sob a pele" só como relevo e cicatriz, nunca metal, luz ou fio por cima da roupa.'
 const BESTIARIO_DIR = fileURLToPath(
   new URL('../vault-data-cyberpunk/Sistema/Criaturas/Bestiário/', import.meta.url),
 )
@@ -1321,11 +1354,11 @@ function promptCriatura(nome, fm, refPessoa) {
 
   // A quem responde, na língua da espécie.
   const vinculo = daOrg
-    ? especie === 'maquina'
-      ? ` É patrimônio de ${afiliacao}: a marca da firma e o número de patrimônio estampados na carcaça.`
-      : especie === 'bicho'
-        ? ` Tem dono — ${afiliacao}: coleira, arreio ou chapa de identificação com a insígnia.`
-        : ` Responde a ${afiliacao} — o uniforme, o crachá ou a marca de quem paga a conta tem que aparecer em algum lugar.`
+    ? (especie === 'maquina'
+        ? ` É patrimônio de ${afiliacao}: número de patrimônio a estêncil na carcaça.`
+        : especie === 'bicho'
+          ? ` Tem dono — ${afiliacao}: coleira, arreio ou chapa de identificação.`
+          : ` Responde a ${afiliacao}.`) + simboloDe(afiliacao)
     : afiliacao
       ? especie === 'gente'
         ? ` Não tem firma nem farda: o que identifica é ${afiliacao}, o lugar de onde ele é.`
@@ -1391,10 +1424,11 @@ function promptCriatura(nome, fm, refPessoa) {
     (bairros.length
       ? ` Fundo: ${bairros.join(' ou ')} — Porto Alegre de 1987, reconhecível, sem virar cartão-postal.`
       : '') +
+    REGRAS_SIMBOLO +
     ` DECRETO DAS ARMAS FRIAS (pólvora é monopólio do Estado): ${
       temPolvora
         ? 'esta criatura É autorizada a portar arma de fogo — a arma arcanônica aparece, de aspecto artesanal e cano único, claramente de 1987 e nunca uma pistola moderna'
-        : 'NADA que pareça arma de fogo; o que tem alcance é besta, dardo, funda ou arco'
+        : 'NADA que pareça arma de fogo; o que tem alcance é arma de AR COMPRIMIDO (carabina ou pistola de dardos: coronha, cano e êmbolo, SEM braços de arco nem corda), funda, estilingue ou arco — NUNCA besta medieval'
     }.` +
     ` Estilo: pintura digital cinematográfica SEMIRREALISTA — o MESMO estilo das demais ilustrações do sistema, luz de rua, paleta suja de época.` +
     ` Corpo inteiro ou três quartos, a criatura ocupando o quadro. Sem texto legível. Formato retrato 1024×1536.`
@@ -1408,9 +1442,9 @@ function add(item) {
   const extras = logosDoPrompt(item.prompt)
   if (extras.length) {
     item.refsExtra = extras
-    item.prompt += ` ANEXADOS como referência adicional: os logotipos REAIS de ${extras
-      .map((f) => basename(f, '.png').replace(/^logo-/, ''))
-      .join(' e ')} — reproduza cada logotipo FIELMENTE como na referência, sem redesenhar nem estilizar.`
+    item.prompt += ` ANEXADOS como referência adicional: os logotipos/símbolos de ${extras
+      .map((f) => basename(f, '.png').replace(/^(?:logo|simbolo)-/, ''))
+      .join(' e ')} — reproduza cada um IDÊNTICO à referência, sem redesenhar nem estilizar.`
   }
   const alvo = item.out
   if (alvos.has(alvo)) throw new Error(`colisão de alvo: ${alvos.get(alvo)} e ${item.base} → ${alvo}`)
@@ -1511,6 +1545,9 @@ for (const path of walk(join(VAULT, 'Contexto/Histórias/Contexto Atual'))) {
 for (const path of walk(join(VAULT, 'Contexto/Organizações'))) {
   const base = basename(path, '.md')
   const { fm, corpo } = lerNota(path)
+  // a pasta também guarda notas de Contexto (a nota-dona Símbolos e Marcas): só
+  // nota de Organização vira cena de organização
+  if (fm.categoria && fm.categoria !== 'Organização') continue
   const excerto = cap([fm.Resumo, limpar(corpo)].filter(Boolean).join(' '), 650)
   add({
     cat: 'Organizações', sub: 'Organizações', chave: `Organizações/${base}`, base, novo: base,
