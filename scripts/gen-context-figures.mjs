@@ -28,11 +28,14 @@
 //                                        pra agente externo (Codex) iterar
 //   node scripts/gen-context-figures.mjs --ingest        # valida/normaliza o
 //                                        que caiu em _inbox/ e arquiva
+//   node scripts/gen-context-figures.mjs --ingest-lista <lista.json> [--plan]
+//                                        # ingest SELETIVO: copia só o que a
+//                                        lista fechada aprova, sem apagar o Inbox
 //   node scripts/gen-context-figures.mjs                 # gera via API o que falta
 //   node scripts/gen-context-figures.mjs --force --only "Figura/Adaga" --quality high
 //
 // Credencial (só pro caminho API): OPENAI_API_KEY ou ~/.secrets/openai.key.
-import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlinkSync } from 'node:fs'
+import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlinkSync, copyFileSync } from 'node:fs'
 import { join, basename, dirname, extname } from 'node:path'
 import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
@@ -87,6 +90,9 @@ const PLAN = flag('--plan')
 const CHATGPT = flag('--chatgpt')
 const MANIFEST = flag('--manifest')
 const INGEST = flag('--ingest')
+// --ingest-lista <lista.json>: ingest SELETIVO a partir de uma lista fechada
+// (ver o bloco INGEST_LISTA, mais abaixo).
+const INGEST_LISTA = opt('--ingest-lista', null)
 const FORCE = flag('--force')
 const ONLY = opt('--only', null)
 // --codex "<Categoria>": doc de UMA categoria só, no formato que o user cola no
@@ -1569,7 +1575,8 @@ for (const f of readdirSync(BESTIARIO_DIR).filter((x) => x.endsWith('.json')).so
 const CATS = [...new Set(trabalho.map((t) => t.cat))]
 const inboxDirDe = (t) => dirname(t.inbox)
 
-if (PLAN) {
+// (com --ingest-lista, o --plan vira a simulação DAQUELE modo — ver abaixo)
+if (PLAN && !INGEST_LISTA) {
   for (const t of trabalho) console.log(`${t.chave}  →  ${t.novo}${t.base !== t.novo ? '' : '  (mantém)'}${t.ref ? '' : '  [sem ref]'}`)
   for (const c of CATS) console.log(`${c}: ${trabalho.filter((t) => t.cat === c).length}`)
   console.log(`total: ${trabalho.length} · destino: ${CTX_ROOT}`)
@@ -1857,6 +1864,64 @@ if (INGEST) {
   const faltam = trabalho.filter(pendente)
   console.log(`\ningeridas: ${ok} · desconhecidas: ${desconhecidos} · pendentes ${faltam.length}/${trabalho.length}`)
   process.exit(desconhecidos ? 1 : 0)
+}
+
+// --ingest-lista <lista.json>: ingest SELETIVO e NÃO DESTRUTIVO (handoff de
+// 2026-10-10). O --ingest clássico varre as pastas do Inbox e APAGA o que
+// ingeriu — serve pra leva inteira. Quando só PARTE da leva foi aprovada (68 de
+// 127, e os 59 adiados ficam na fila dentro do MESMO Inbox), a lista fechada
+// diz exatamente o que entra, e cada arquivo é COPIADO byte a byte pro alvo da
+// ficha; o Inbox fica intacto. Os controles seguem a MESMA semântica do
+// --ingest, só que entrada a entrada: sai de regerar.json e ganha o selo do
+// prompt de hoje. A lista é a dos aprovados (ingest-aprovados-*.json:
+// categoria, novo, arquivo_inbox, destino_ingest, sha256_inbox,
+// sha256_anterior) — os hashes são CONFERIDOS antes de copiar: se o master
+// mudou depois do handoff ou o Inbox foi mexido, só aquela entrada para e
+// avisa; as outras seguem. Com --plan só lista o que faria.
+if (INGEST_LISTA) {
+  const lista = JSON.parse(readFileSync(INGEST_LISTA, 'utf8'))
+  const entradas = Array.isArray(lista) ? lista : (lista.entradas ?? [])
+  const sha256 = (p) => createHash('sha256').update(readFileSync(p)).digest('hex')
+  const porChave = new Map(trabalho.map((t) => [`${t.sub}/${t.novo}`, t]))
+  const avisos = []
+  let ok = 0, conflitos = 0
+  for (const e of entradas) {
+    const chave = `${e.categoria}/${e.novo}`
+    const t = porChave.get(chave)
+    const para = (msg) => { console.error(`CONFLITO ${chave}: ${msg}`); conflitos++ }
+    if (!t) { para('nome desconhecido (não é alvo do gerador)'); continue }
+    if (e.destino_ingest && e.destino_ingest !== t.out) { para(`destino da lista (${e.destino_ingest}) ≠ alvo da ficha (${t.out})`); continue }
+    const src = e.arquivo_inbox ?? t.inbox
+    if (!existsSync(src)) { para(`arquivo do Inbox não existe: ${src}`); continue }
+    if (e.sha256_inbox && sha256(src) !== e.sha256_inbox) { para('o arquivo do Inbox mudou depois da lista (sha256 difere)'); continue }
+    const destino = t.out.replace(/\.[^.]+$/, extname(src).toLowerCase())
+    const anterior = existsSync(destino) ? sha256(destino) : null
+    if ('sha256_anterior' in e && (e.sha256_anterior ?? null) !== anterior) {
+      para(anterior
+        ? `o master atual (${anterior.slice(0, 12)}) não é o registrado na lista (${String(e.sha256_anterior).slice(0, 12)})`
+        : 'a lista registra um master anterior, mas o alvo não existe')
+      continue
+    }
+    const meta = await sharp(src).metadata()
+    if (t.transparente && !meta.hasAlpha) avisos.push(`${t.chave}: SEM canal alfa — fundo provavelmente opaco, refazer?`)
+    if (t.size && `${meta.width}x${meta.height}` !== t.size) avisos.push(`${t.chave}: ${meta.width}x${meta.height} (a ficha pede ${t.size})`)
+    if (!PLAN) {
+      mkdirSync(dirname(destino), { recursive: true })
+      copyFileSync(src, destino)
+      REGERAR.delete(t.chave)
+      PROMPTS[t.chave] = selo(t.prompt)
+    }
+    console.log(`${PLAN ? 'faria' : 'ok'}: ${t.chave} → ${basename(destino)}${anterior ? '' : ' (novo)'}`)
+    ok++
+  }
+  if (!PLAN) {
+    if (existsSync(REGERAR_PATH)) writeFileSync(REGERAR_PATH, JSON.stringify([...REGERAR].sort(), null, 1))
+    gravaSelos()
+  }
+  for (const a of avisos) console.warn(`AVISO ${a}`)
+  const faltam = trabalho.filter(pendente)
+  console.log(`\n${PLAN ? 'ingeriria' : 'ingeridas'}: ${ok} de ${entradas.length} · conflitos: ${conflitos} · pendentes ${faltam.length}/${trabalho.length}`)
+  process.exit(conflitos ? 1 : 0)
 }
 
 // ---- geração via API (OpenAI gpt-image-1) ---------------------------------
