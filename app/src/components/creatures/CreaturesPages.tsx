@@ -27,6 +27,8 @@ import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { RetratoAmpliavel } from '../RetratoAmpliavel'
+import { CHAR_TABS } from '../layout/design-nav'
+import { SLUG_DISPLAY_TABLE } from '../../generated/display-names'
 import { clip, PanelTrack, TrackPanel } from '../ficha/bits'
 import {
   createLocalEntity,
@@ -1807,6 +1809,7 @@ function PessoasDeAnotacoes() {
     const out: Array<{
       heroId: string
       heroNome: string
+      idx: number
       Nome: string
       rel: string
       alvo?: string
@@ -1815,9 +1818,10 @@ function PessoasDeAnotacoes() {
     for (const h of localEntriesOfKind('Heroi')) {
       const fmp = getLocalDoc(h.id)?.frontmatter as Record<string, unknown> | undefined
       const pessoas = Array.isArray(fmp?.['Pessoas']) ? (fmp!['Pessoas'] as Record<string, string>[]) : []
-      for (const p of pessoas) {
+      for (const [idx, p] of pessoas.entries()) {
         out.push({
           heroId: h.id,
+          idx,
           heroNome: h.basename ?? h.id,
           Nome: p['Nome'] ?? '',
           rel: p['Relação'] ?? '',
@@ -1839,24 +1843,58 @@ function PessoasDeAnotacoes() {
   )
 }
 
+/** Linha `Pessoas[idx]` do FM do herói (a mesma que a aba ANOTAÇÕES edita). */
+function pessoaDaAnotacao(heroId: string, idx: number): Record<string, string> | undefined {
+  const lista = getLocalDoc(heroId)?.frontmatter?.['Pessoas']
+  return Array.isArray(lista) ? (lista[idx] as Record<string, string> | undefined) : undefined
+}
+
+/** Regrava a linha editada no FM do herói — mesmo contrato do PessoasPanel
+ *  (re-carimba `addedAt`: a versão editada vence a união do merge entre devices). */
+function salvarPessoaDaAnotacao(heroId: string, idx: number, f: PessoaFields2): void {
+  const lista = getLocalDoc(heroId)?.frontmatter?.['Pessoas']
+  if (!Array.isArray(lista) || !lista[idx]) return
+  const next = lista.map((r, i) =>
+    i === idx ? { ...(r as Record<string, unknown>), ...f, addedAt: new Date().toISOString() } : r,
+  )
+  setLocalEntityFm(heroId, 'Pessoas', next)
+}
+
+const TAB_ANOTACOES = CHAR_TABS.find((t) => t.id === 'anotacoes')
+
 /** Card de pessoa das anotações — retrato (#200): Alvo → retrato do alvo;
- *  avulsa → imagem própria (ImgId); sem imagem → iniciais (fallback padrão). */
+ *  avulsa → imagem própria (ImgId); sem imagem → iniciais (fallback padrão).
+ *  Report 67bcf4d7 (2026-10-15): o clique EDITA a pessoa ali mesmo (antes
+ *  mandava pra aba ANOTAÇÕES do herói, "não faz sentido"); a ida pras
+ *  anotações fica no menu ⋯. */
 function PessoaDeAnotacaoCard({
   row,
 }: {
-  row: { heroId: string; heroNome: string; Nome: string; rel: string; alvo?: string; imgId?: string }
+  row: { heroId: string; heroNome: string; idx: number; Nome: string; rel: string; alvo?: string; imgId?: string }
 }) {
   const navigate = useNavigate()
   const portrait = usePessoaPortrait(row.alvo, row.imgId)
   const portraitCheio = usePessoaPortrait(row.alvo, row.imgId, false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [editando, setEditando] = useState(false)
+  const editar = () => setEditando(true)
   return (
-    <button
+    <div
       className="npc-card"
-      onClick={() => navigate(heroPath(row.heroId, 'anotacoes'))}
-      title={`Anotações de ${row.heroNome}`}
+      role="button"
+      tabIndex={0}
+      onClick={editar}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          editar()
+        }
+      }}
+      title={`Conhecido de ${row.heroNome}`}
+      style={{ position: 'relative' }}
     >
       {portrait ? (
-        <RetratoAmpliavel className="npc-ic" src={portrait} cheia={portraitCheio} nome={row.Nome} focavel={false} />
+        <RetratoAmpliavel className="npc-ic" src={portrait} cheia={portraitCheio} nome={row.Nome} />
       ) : (
         <span className="npc-ic npc-ini">{initials(row.Nome)}</span>
       )}
@@ -1866,7 +1904,38 @@ function PessoaDeAnotacaoCard({
           {row.rel ? `${row.rel} · ` : ''}conhecido de {row.heroNome}
         </div>
       </div>
-    </button>
+      <CardDotsMenu
+        ariaLabel="Ações da pessoa"
+        open={menuOpen}
+        setOpen={setMenuOpen}
+        items={[
+          { label: '✎ Editar pessoa', onClick: editar },
+          {
+            label: `${TAB_ANOTACOES?.ic ?? ''} ${SLUG_DISPLAY_TABLE['Anotacoes']} de ${row.heroNome}`.trim(),
+            onClick: () => navigate(heroPath(row.heroId, 'anotacoes')),
+          },
+        ]}
+      />
+      {/* Portal + stopPropagation: mesmo arranjo do "✎ Editar pessoa" do
+          NpcCard (eventos de portal propagam pela árvore React). */}
+      {editando
+        ? createPortal(
+            <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+              <PessoaForm
+                initial={pessoaDaAnotacao(row.heroId, row.idx)}
+                lockNome={Boolean(row.alvo)}
+                withImage={!row.alvo}
+                onClose={() => setEditando(false)}
+                onSubmit={(f) => {
+                  salvarPessoaDaAnotacao(row.heroId, row.idx, f)
+                  setEditando(false)
+                }}
+              />
+            </div>,
+            document.body,
+          )
+        : null}
+    </div>
   )
 }
 

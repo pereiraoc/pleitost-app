@@ -243,4 +243,40 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     expect(await screen.findByText('Zeca do Bar')).toBeTruthy()
     expect(screen.getByText(/conhecido de Meu Herói/)).toBeTruthy()
   })
+  // Report 67bcf4d7 (2026-10-15, mestre): "Quando abro criaturas → pessoas e
+  // clico em editar tá me mandando pra tela de anotações, não faz sentido."
+  // O card da pessoa das anotações navegava pra aba ANOTAÇÕES do herói; agora
+  // o clique EDITA ali mesmo (PessoaForm), gravando no FM `Pessoas` do herói.
+  it('Criaturas/Pessoas: clicar na pessoa das anotações edita no lugar (report 67bcf4d7)', async () => {
+    const id = createLocalEntity('Heroi', 'Meu Herói', {
+      ...emptyHeroFrontmatter(),
+      Pessoas: [{ Nome: 'Zeca do Bar', Relação: 'Aliado', Organização: '', Posição: '', Detalhes: 'antes' }],
+    })
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <Routes>
+            <Route path="/" element={<NpcsPage />} />
+            <Route path="/heroi/*" element={<div>TELA DO HERÓI</div>} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    fireEvent.click(await screen.findByText('Zeca do Bar'))
+    const dialog = await screen.findByRole('dialog', { name: 'Adicionar Pessoa' })
+    expect(screen.queryByText('TELA DO HERÓI')).toBeNull()
+    fireEvent.change(within(dialog).getByLabelText('Detalhes'), { target: { value: 'depois' } })
+    fireEvent.click(within(dialog).getByText('Adicionar'))
+    await waitFor(() => {
+      const rows = getLocalDoc(id)?.frontmatter['Pessoas'] as Array<Record<string, string>>
+      expect(rows[0]?.['Detalhes']).toBe('depois')
+      expect(rows[0]?.['Nome']).toBe('Zeca do Bar')
+    })
+    expect(screen.queryByText('TELA DO HERÓI')).toBeNull()
+    // o caminho pras anotações continua no menu ⋯
+    fireEvent.click(screen.getByRole('button', { name: 'Ações da pessoa' }))
+    fireEvent.click(await screen.findByText('🪶 Anotações de Meu Herói'))
+    await screen.findByText('TELA DO HERÓI')
+  })
 })
+
