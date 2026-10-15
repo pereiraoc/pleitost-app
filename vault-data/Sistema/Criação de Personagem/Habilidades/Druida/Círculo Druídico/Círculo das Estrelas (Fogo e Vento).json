@@ -1,0 +1,275 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo das Estrelas (Fogo e Vento)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo das Estrelas (Fogo e Vento).md",
+  "basename": "Círculo das Estrelas (Fogo e Vento)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 2 \"das Estrelas\"",
+      "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "Nivel 3 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "Nivel 5 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Recebe acesso a 2 [[Essências Elementais]], sendo uma de sua sintonia e só pode escolher essências dos elementos Fogo e Vento.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 2 \"das Estrelas\"",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 2,
+            "fragment": "das Estrelas"
+          },
+          "raw": "Alias Classe Compor 2 \"das Estrelas\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_3e7ba23b",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]",
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]",
+              "[[Essência de Criação Adepta]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_3f7ba3ce",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]",
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]",
+              "[[Essência de Criação Adepta]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_0bb95ada",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]",
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]",
+              "[[Essência de Criação Adepta]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Nivel 3 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_eed68eb1",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Explosiva Adepta]]",
+              "[[Essência Flamejante Adepta]]",
+              "[[Essência Incendiária Adepta]]",
+              "[[Essência Ciclonal Adepta]]",
+              "[[Essência Relampejante Adepta]]",
+              "[[Essência Ventania Adepta]]",
+              "[[Essência de Criação Adepta]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Nivel 5 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Explosiva Adepta]], [[Essência Flamejante Adepta]], [[Essência Incendiária Adepta]], [[Essência Ciclonal Adepta]], [[Essência Relampejante Adepta]], [[Essência Ventania Adepta]], [[Essência de Criação Adepta]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invocar Elemental Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]] \n\nresumo:: \"Recebe acesso a 2 [[Essências Elementais]], sendo uma de sua sintonia e só pode escolher essências dos elementos Fogo e Vento.\"\n%%\n#####  `= this.file.name`\nVocê recebe acesso a duas [[Essências Elementais]], onde ao menos uma deve ser do elemento referente a sua [[sintonia]]. Você pode conjurar as formas Básicas e Adeptas dessas essências. Quando você escolhe [[Essências Elementais]], só pode escolher essências dos elementos Fogo e Vento.\n\nQuando você conjura uma Magia de uma essência universal (como [[Invocar Elemental Menor]] ou [[Forma Elemental]]), deve escolher o elemento Fogo ou Vento no momento da conjuração.\n\n```autosheet-rules\n```\n"
+}

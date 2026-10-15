@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Furto Sagaz",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Malandragem/Furto Sagaz.md",
+  "basename": "Furto Sagaz",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Ladinagem]]",
+    "resumo": "\"Escolhe item furtado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Ladinagem]]\nresumo:: \"Escolhe item furtado.\"\n%%\n### `= this.file.name`\n* Ao [[Furtar]] alvo, escolhe item de uma lista de descrições vagas.\n\n*Requer Malandragem*\n\n```autosheet-rules\n```\n"
+}

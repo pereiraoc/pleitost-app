@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Oportunidade Injusta",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Oportunidade Injusta.md",
+  "basename": "Oportunidade Injusta",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando um aliado acertar um [[Atacar|Ataque]] corpo-a-corpo contra uma criatura no seu alcance corpo-a-corpo, você pode fazer um [[Atacar|Ataque]] contra o mesmo alvo, reduzindo o dano em 1 dado de dano da arma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando um aliado acertar um [[Atacar|Ataque]] corpo-a-corpo contra uma criatura no seu alcance corpo-a-corpo, você pode fazer um [[Atacar|Ataque]] contra o mesmo alvo, reduzindo o dano em 1 dado de dano da arma.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Oportunidade Injusta.\n\n**Oportunidade Injusta - R**\nPode ser usado quando um aliado acerta um [[Atacar|Ataque]] corpo-a-corpo contra uma criatura no seu alcance corpo-a-corpo. Faça um [[Atacar|Ataque]] contra a criatura alvejada pelo aliado. Reduza o dano em um dado de dano da arma para este ataque.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,106 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Especialista em Caçada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Especialista em Caçada.md",
+  "basename": "Especialista em Caçada",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "Definir Pericias.Lista.Sobrevivencia.Bonus_Especial 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe +2 de [[bônus de especialização]] em testes de [[Furtividade]] e [[Sobrevivência]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialista em Caçada",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Sobrevivencia.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialista em Caçada",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Pericias.Lista.Sobrevivencia.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe +2 de [[bônus de especialização]] em testes de [[Furtividade]] e [[Sobrevivência]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe +2 de [[bônus de especialização]] em testes de [[Furtividade]] e [[Sobrevivência]].\n*Requer Furtividade ou Sobrevivência Adepto*\n\n```autosheet-rules\n```\n"
+}

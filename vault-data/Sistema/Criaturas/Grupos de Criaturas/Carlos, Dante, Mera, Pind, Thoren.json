@@ -1,0 +1,21 @@
+{
+  "id": "Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren",
+  "path": "Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren.md",
+  "basename": "Carlos, Dante, Mera, Pind, Thoren",
+  "type": "Grupo",
+  "subtype": "Aventureiros",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Grupo",
+    "subcategoria": "Aventureiros",
+    "grupo": null,
+    "dg-publish": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-grupo\ngrupo\n```\n"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Padaria Colonial do Bom Fim",
+  "path": "Atlas/Porto Alegre/Bom Fim/Padaria Colonial do Bom Fim.md",
+  "basename": "Padaria Colonial do Bom Fim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Seu Helmut Kruger",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Cueca Virada]]",
+      "[[Sonho de Valsa]]",
+      "[[Guaraná Fruki]]",
+      "[[Café Passado]]",
+      "[[Empada de Padaria]]",
+      "[[Bolo de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padaria Colonial do Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sonho de Valsa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empada de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padaria Colonial do Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padaria Colonial do Bom Fim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Café da manhã no balcão, cueca virada quente, sonho e guaraná gelado; fiado só pra freguês com nome no caderno.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Vitrine de vidro embaçada, balcão de mármore, forno a lenha nos fundos e a fila das seis da manhã na calçada.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Café da manhã no balcão, cueca virada quente, sonho e guaraná gelado; fiado só pra freguês com nome no caderno.",
+    "aparencia": "Vitrine de vidro embaçada, balcão de mármore, forno a lenha nos fundos e a fila das seis da manhã na calçada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

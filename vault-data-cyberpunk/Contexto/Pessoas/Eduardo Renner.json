@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Pessoas/Eduardo Renner",
+  "path": "Contexto/Pessoas/Eduardo Renner.md",
+  "basename": "Eduardo Renner",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Renner]]",
+    "Função": "Presidente da Renner",
+    "Aparência": "Sempre de uniforme da própria linha tática, como um mostruário ambulante.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Eduardo Renner.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Renner",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Eduardo Renner.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Eduardo Renner.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

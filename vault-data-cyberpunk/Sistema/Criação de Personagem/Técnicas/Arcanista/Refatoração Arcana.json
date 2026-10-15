@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Refatoração Arcana",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Refatoração Arcana.md",
+  "basename": "Refatoração Arcana",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Conjura uma [[Magia Arcana]] desconhecida da sua [[Escola Arcana|escola]] perdendo 4 EV (Adepta) ou 6 EV (Experiente); ações e EM normais.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana",
+      "kind": "wikilink",
+      "alias": "escola"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Conjura uma [[Magia Arcana]] desconhecida da sua [[Escola Arcana|escola]] perdendo 4 EV (Adepta) ou 6 EV (Experiente); ações e EM normais.\"\n%%\n#### `= this.file.name` - `= this.rank`\nCom o devido custo, quase qualquer magia está ao alcance das suas mãos. Você pode conjurar uma [[Magia Arcana]] da sua [[Escola Arcana|escola]] que você não conhece. Você perde 4 [[Energia Vital|EV]] para fazer isso para uma Magia Adepta e 6 [[Energia Vital|EV]] para uma Magia Experiente. Você não pode usar essa técnica para Magias Mestre. Você ainda usa as ações e [[Energia Mágica|EM]] normalmente para a Magia.\n\n```autosheet-rules\n```\n"
+}

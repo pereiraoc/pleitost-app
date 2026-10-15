@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Genéricas/Treinamento com Escudo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Genéricas/Treinamento com Escudo.md",
+  "basename": "Treinamento com Escudo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe a habilidade [[Usar Escudo]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe a habilidade [[Usar Escudo]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe a habilidade [[Usar Escudo]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Escudo Arcano",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Escudo Arcano.md",
+  "basename": "Escudo Arcano",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Crie um escudo energético em uma mão livre: +1 nas [[Resistências]] contra magias e +1 de [[bônus de circunstância]] na [[Defesa]] até o início do seu próximo turno (não ocupa a mão). Se você sofrer dano de fogo, frio, raio ou força, pode reagir para reduzir esse dano em 4 e dissipar o escudo (6 no 4º nível; 8 no 7º). O escudo dissipa se você empunhar algo com essa mão.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Crie um escudo energético em uma mão livre: +1 nas [[Resistências]] contra magias e +1 de [[bônus de circunstância]] na [[Defesa]] até o início do seu próximo turno (não ocupa a mão). Se você sofrer dano de fogo, frio, raio ou força, pode reagir para reduzir esse dano em 4 e dissipar o escudo (6 no 4º nível; 8 no 7º). O escudo dissipa se você empunhar algo com essa mão.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Escudo Arcano.\n\n**Escudo Arcano - 1A**\nCria um escudo energético numa mão livre, garantindo +1 nas [[Resistências]] contra Magias e +1 de [[bônus de circunstância]] na [[Defesa]]  até o início do seu próximo turno. Este escudo não ocupa sua mão. Se você receber dano de fogo, frio, raio ou força enquanto estiver com o escudo, você pode usar uma reação para reduzir o dano recebido destes tipos em 4, dissipando o escudo no processo. Se você empunhar um objeto com a mão do escudo, o escudo arcano é dissipado. A redução de dano aumenta para 6 no 4º nível e para 8 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

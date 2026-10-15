@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Não Recuem",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Não Recuem.md",
+  "basename": "Não Recuem",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Enquanto você está de pé, aliados que te ouvem são imunes a [[Abalado]]. Quando você cai, todos ficam [[Abalado]]s até o fim do próximo turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Enquanto você está de pé, aliados que te ouvem são imunes a [[Abalado]]. Quando você cai, todos ficam [[Abalado]]s até o fim do próximo turno.\"\n%%\n##### `= this.file.name`\nEnquanto você está de pé, aliados que te ouvem são imunes a [[Abalado]]. Quando você cai, todos ficam [[Abalado]]s até o fim do próximo turno.\n\n```autosheet-rules\n```\n"
+}

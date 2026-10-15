@@ -1,0 +1,790 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Thoren",
+  "path": "Sistema/Criaturas/Heróis/Thoren.md",
+  "basename": "Thoren",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Carlos, Dante, Mera, Pind, Thoren]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Carlos, Dante, Mera, Pind, Thoren]]"
+    ],
+    "Imagem": "",
+    "Nível": 7,
+    "Classe": "[[Guerreiro|Mestre-de-Armas Espadachim]]",
+    "Sintonia": "[[Traço Elemental do Fogo]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 30,
+      "Moral": 60
+    },
+    "Atributos": {
+      "Principal": "FOR",
+      "FOR": 3,
+      "AGI": 2,
+      "INT": 1,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "FOR",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 3,
+        "E": 3,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Impulso]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Guerreiro]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Braceletes de Pedra]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Tática]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Brasão Tático]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Navegação]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Cinto dos Ermos]]",
+              "M": "Slot.M"
+            },
+            {
+              "Bonus_Item": "Regra.[[Cinto dos Ermos]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Guerreiro]]"
+        },
+        {
+          "[[Especialização em Arma]]": "Regra.[[Guerreiro]]"
+        },
+        {
+          "[[Usar Escudo]]": "Regra.[[Guerreiro]]"
+        },
+        {
+          "[[Veterano]]": "Regra.[[Guerreiro]]"
+        },
+        {
+          "[[Especialização em Arma (Lâminas)]]": "Escolha.[[Especialização em Arma]]"
+        },
+        {
+          "[[Mestre-de-Armas]]": "Regra.[[Guerreiro]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 3,
+        "E": 3,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "[[Ataque Poderoso]]": "Slot.A"
+        },
+        {
+          "[[Trespassar]]": "Slot.A"
+        },
+        {
+          "[[Oportunidade Especializada]]": "Slot.A"
+        },
+        {
+          "[[Ataque Brutal]]": "Slot.E"
+        },
+        {
+          "[[Reflexos Acelerados]]": "Slot.E"
+        },
+        {
+          "[[Perseguição Decisiva]]": "Slot.E"
+        },
+        {
+          "[[Rapidez Marcial]]": "Slot.M"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Erguer Escudo]]": "Regra.[[Usar Escudo]]"
+        },
+        {
+          "[[Bloquear com Escudo]]": "Regra.[[Usar Escudo]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "M",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "[[Armadura Pesada]]",
+        "Categoria": "[[Experiente]]",
+        "Propriedade": "[[Armadura Obra-prima|Obra-prima]]",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "P"
+        }
+      },
+      "Escudo": {
+        "Nome": "[[Broquel]]",
+        "Dano": 0,
+        "Dureza": 3,
+        "Categoria": "[[Adepto]]",
+        "Propriedade": "[[Broquel Obra-prima|Obra-prima]]",
+        "Proficiencia": "P"
+      },
+      "Tesouros": [
+        "[[Anel da Resistência|Anel da Resistência (Experiente)]]",
+        "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+        "[[Braceletes de Pedra|Braceletes de Pedra (Adepto)]]",
+        "[[Brasão Tático|Brasão Tático (Experiente)]]",
+        "[[Cinto dos Ermos|Cinto dos Ermos (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção de Cura|Poção de Cura (Adepto) (x2)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Espada Bastarda]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 1,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Incendiária|Incendiária]]",
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Arco de Guerra]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Adepto]]",
+            "Propriedade": "[[Arma Obra-prima|Obra-prima]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [
+        {
+          "qtd": 4,
+          "texto": "Proteção de Carregamento de Esmeraldas (Lilá > Safira)"
+        },
+        {
+          "qtd": 3,
+          "texto": "Ordem Solar: Zumbis perto de Vinhedos"
+        },
+        {
+          "qtd": 14,
+          "texto": "Ordem Solar: Expedição à Tumba Selada"
+        },
+        {
+          "qtd": 24,
+          "texto": "Neutralização da Fenda de Energia Negativa"
+        },
+        {
+          "qtd": 41,
+          "texto": "Expedição com Príncipe Anão"
+        },
+        {
+          "qtd": 50,
+          "texto": "Resgate dos 12 cargas em Magna Pátria."
+        }
+      ],
+      "Reconhecimentos": [
+        {
+          "entidade": "Ordem Solar",
+          "texto": "Luz do Ápice"
+        },
+        {
+          "texto": "Desbravador Real",
+          "entidade": "Reino dos Anões"
+        },
+        {
+          "texto": "Salvador da Pátria",
+          "entidade": "Pátria Aurora"
+        }
+      ]
+    },
+    "Biografia": {
+      "Passado": "Ferreiro",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": "Documentos de Magna Pátria, coletados no escritório do general da torre.\nBloco de dinheiro de Magna Pátria"
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 0,
+      "Abatedor": 1,
+      "Vanguarda": 2
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": -12,
+        "Moral": 0,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      },
+      "Condicoes_Ativas": {
+        "Segurar com Duas Mãos": {
+          "value": 1,
+          "weaponSelector": "[[Espada Bastarda]]"
+        },
+        "Oportunidade Especializada": {
+          "value": 1
+        },
+        "Inspiração::Carlos Facão de Andradas": {
+          "value": 1
+        },
+        "Ato Inspirador::Carlos Facão de Andradas": {
+          "value": 1
+        }
+      },
+      "Efeitos_Ativos": {
+        "Oportunidade Especializada": {
+          "on": true
+        },
+        "Performance Bárdica Ativa": {
+          "on": true,
+          "auto": true,
+          "autoFrom": "Inspiração::Carlos Facão de Andradas"
+        },
+        "Ato Inspirador::Carlos Facão de Andradas": {
+          "on": true
+        }
+      },
+      "Usos_Recursos": {
+        "tes:Amplificador Audiovisual|tier:A": 1,
+        "tes:Brasão Tático|tier:E": 1,
+        "tes:Cinto dos Ermos|tier:A": 1
+      },
+      "Invocacoes_Ativas": {}
+    },
+    "Ouro": 0,
+    "Consumíveis": [
+      "[[Poção da Nutrição|Poção da Nutrição (Experiente) (x1)]]",
+      "[[Poção de Cura|Poção de Cura (Adepto) (x1)]]"
+    ],
+    "Tesouros_Especiais": ""
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink",
+      "alias": "Mestre-de-Armas Espadachim"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Impulso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Braceletes de Pedra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tática",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Navegação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cinto dos Ermos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Broquel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broquel Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink",
+      "alias": "Anel da Resistência (Experiente)"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink",
+      "alias": "Amplificador Audiovisual (Adepto)"
+    },
+    {
+      "target": "Braceletes de Pedra",
+      "kind": "wikilink",
+      "alias": "Braceletes de Pedra (Adepto)"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink",
+      "alias": "Brasão Tático (Experiente)"
+    },
+    {
+      "target": "Cinto dos Ermos",
+      "kind": "wikilink",
+      "alias": "Cinto dos Ermos (Adepto)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Adepto) (x2)"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Incendiária",
+      "kind": "wikilink",
+      "alias": "Incendiária"
+    },
+    {
+      "target": "Arco de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink",
+      "alias": "Poção da Nutrição (Experiente) (x1)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Adepto) (x1)"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

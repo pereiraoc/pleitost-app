@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Detectar Resistência",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Detectar Resistência.md",
+  "basename": "Detectar Resistência",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Arcana]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta identificar as [[Resistências]] de uma criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Arcana]]\"\npropriedades:: \nresumo:: \"Tenta identificar as [[Resistências]] de uma criatura.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Arcana]] vs [[CD|CD-Nível]] de uma criatura que você consegue ver.\n\n**Sucesso:** Você descobre a maior [[Resistências|Resistência]] da criatura.\n**Sucesso Decisivo:** Você descobre a maior e a menor [[Resistências|Resistência]] da criatura.\n**Falha:** Você não descobre nada.\n\n```autosheet-rules\n```\n"
+}

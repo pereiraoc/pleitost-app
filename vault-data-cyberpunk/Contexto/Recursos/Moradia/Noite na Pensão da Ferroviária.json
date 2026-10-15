@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão da Ferroviária",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão da Ferroviária.md",
+  "basename": "Noite na Pensão da Ferroviária",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão da Ferroviária]]",
+    "Preço": 150,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Pensão da Ferroviária]]"
+    ],
+    "Resumo": "Uma noite na pensão do pátio de manobras: cama de ferro, apito de trem e o turno das cinco batendo na porta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão da Ferroviária.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão da Ferroviária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão da Ferroviária.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão da Ferroviária.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão da Ferroviária]] é o dormitório de quem chega de trem de carga da Zaffari ou perdeu o Aeromóvel: cama de ferro, cobertor de lã e um apito a cada meia hora. Sem registro; a Brigada bate na sexta.\n\n> [!info] Especificação\n> **Quarto:** cama de ferro em quarto de seis\n> **Inclui:** chimarrão às quatro e meia\n> **Regra:** quem não sai pro turno paga o dobro\n> **Nível:** 2 — Classe Baixa\n"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Vila da Itú Química",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Vila da Itú Química.md",
+  "basename": "Vila da Itú Química",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Dr. Cláudio Werlang (gerente da fábrica)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Vaga na Vila da Itú Química]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vila da Itú Química.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga na Vila da Itú Química",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vila da Itú Química.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Vila da Itú Química.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Casa na vila pra quem tem carteira na fábrica; água e luz da fábrica, laudo mensal obrigatório.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Fileira de casas geminadas de reboco cinza, roupa no varal, chaminé da fábrica atrás.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Casa na vila pra quem tem carteira na fábrica; água e luz da fábrica, laudo mensal obrigatório.",
+    "aparencia": "Fileira de casas geminadas de reboco cinza, roupa no varal, chaminé da fábrica atrás.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

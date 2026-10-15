@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Sonho de Valsa",
+  "path": "Contexto/Recursos/Alimentação/Sonho de Valsa.md",
+  "basename": "Sonho de Valsa",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Lacta",
+    "Preço": 20,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Bom Fim]]",
+      "[[Redenção]]"
+    ],
+    "Resumo": "Bombom de castanha de caju no papel rosa e azul: o presente de namoro mais barato da cidade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sonho de Valsa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sonho de Valsa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Sonho de Valsa.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nBombom de castanha de caju coberto de chocolate, papel rosa e azul, Cz$ 20 na banca. É o que o estudante do\n[[Bom Fim]] leva pra namorada na [[Redenção]] e o que a criança rouba do armazém. Vem em caixa de 1 kg no\n[[Zaffari]] pra quem tem crachá.\n\n> [!info] Especificação\n> **Bombom:** castanha de caju, chocolate ao leite, papel rosa e azul\n> **Preço:** Cz$ 20 a unidade; caixa de 1 kg Cz$ 900\n> **Uso:** presente de namoro, troco de armazém, propina de criança\n> **Onde:** banca, armazém, [[Zaffari]]\n"
+}

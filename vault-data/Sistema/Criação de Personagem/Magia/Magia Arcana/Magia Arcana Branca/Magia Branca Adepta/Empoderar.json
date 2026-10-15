@@ -1,0 +1,110 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Empoderar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Empoderar.md",
+  "basename": "Empoderar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Empoderar",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "AtaquesDeAtributo",
+            "porAtributo": "FOR",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "PericiasDeAtributo",
+            "porAtributo": "FOR",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Vigor",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "DanoArmaPorDado",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Garante +1 em tudo que depende de [[Força|FOR]] de uma criatura em 2q por 10t. Criatura causa dano adicional igual a 1+[[Dados de Dano|número de dados]] com [[Atacar|Ataques]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "número de dados"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Garante +1 em tudo que depende de [[Força|FOR]] de uma criatura em 2q por 10t. Criatura causa dano adicional igual a 1+[[Dados de Dano|número de dados]] com [[Atacar|Ataques]].\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Por 10 turnos, a criatura recebe +1 de [[bônus de condição]] em [[Ataques]] usando [[Força|FOR]], testes de [[Atletismo]], [[Vigor]] e causa dano adicional com [[Atacar|Ataques]] corpo-a-corpo igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque.\n\n```autosheet-rules\n```\n"
+}

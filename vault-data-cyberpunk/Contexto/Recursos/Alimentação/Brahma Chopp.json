@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Brahma Chopp",
+  "path": "Contexto/Recursos/Alimentação/Brahma Chopp.md",
+  "basename": "Brahma Chopp",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Brahma",
+    "Preço": 50,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Moinhos de Vento]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "A cerveja de fora: garrafa de 600 ml da Brahma por Cz$ 50, pra quem quer parecer que não é daqui.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brahma Chopp.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Brahma Chopp.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Brahma Chopp.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Brahma chega do Rio de trem e custa Cz$ 10 a mais que a [[Polar Tradicional]] só por ser de fora. Bebe-se\nnos botecos do Centro e nos bares dos Moinhos; na boca de bairro o dono nem estoca — 'aqui é Polar'.\n\n> [!info] Especificação\n> **Garrafa:** 600 ml retornável, 4,8%\n> **Preço:** Cz$ 50; Cz$ 70 nos Moinhos\n> **Onde:** Centro, Moinhos, Praia de Belas; raro na periferia\n> **Rivalidade:** pedir Brahma em boteco da Cidade Baixa é procurar briga\n"
+}

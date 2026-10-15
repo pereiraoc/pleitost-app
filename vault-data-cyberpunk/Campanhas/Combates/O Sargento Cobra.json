@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/O Sargento Cobra",
+  "path": "Campanhas/Combates/O Sargento Cobra.md",
+  "basename": "O Sargento Cobra",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "Genérico — onde a Brigada souber que o grupo está.",
+    "Situação": "Brum cobra o que a Brigada finge não saber — e veio com turno inteiro atrás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sargento Valdir Brum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guarda Oficial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Sargento Valdir Brum]] super rápido\n- 1 [[Guarda Oficial]] lento\n- 4 [[Cabo de Choque]] lento\n- 4 [[Brigadiano de Esquina]] lento\n```\n"
+}

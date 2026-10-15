@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Companhia Riograndense de Telecomunicações",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Companhia Riograndense de Telecomunicações.md",
+  "basename": "Companhia Riograndense de Telecomunicações",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "CRT"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Tenente-Coronel Ivar Dornelles]]",
+    "Descrição": null,
+    "Resumo": "A telefônica do Estado: quem instala, cobra e desliga a linha fixa — numa fila de anos, paga adiantado — enquanto o tronco, o cadastro e a escuta são da Embratel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Companhia Riograndense de Telecomunicações.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Leonel Brizola",
+      "kind": "wikilink",
+      "alias": "Brizola"
+    },
+    {
+      "target": "Tenente-Coronel Ivar Dornelles",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Companhia Riograndense de Telecomunicações.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Companhia Riograndense de Telecomunicações.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Criada por decreto de 1962, no governo [[Leonel Brizola|Brizola]] — o mesmo que hoje escreve de Montevidéu —, encampando a telefônica da ITT com a promessa de \"telefone pra todo gaúcho\". A intervenção de 1964 trocou a promessa pelo cadastro: desde 1972 a CRT é sócia obrigada da [[Embratel]], que detém o tronco, o monopólio e a escuta, e a Companhia ficou com o que exige gente na rua — puxar o cabo, instalar o aparelho, cobrar a conta e cortar. Pedir uma linha é pagar adiantado e entrar numa fila de anos; receber a linha é entrar num arquivo. Em 1987 a CRT atende as megacorporações e as repartições em semanas, os bairros secos em anos e o Centro alagado nunca — o Centro fala por antena flutuante, orelhão de passarela e rádio pirata. O técnico da CRT é a única pessoa com uniforme que entra em qualquer prédio sem ordem judicial, e o corte de linha é a única pena que a cidade aplica sem juiz.\n\n"
+}

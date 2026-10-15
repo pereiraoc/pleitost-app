@@ -1,0 +1,71 @@
+{
+  "id": "Contexto/Recursos/Serviços/Passagem de Ônibus",
+  "path": "Contexto/Recursos/Serviços/Passagem de Ônibus.md",
+  "basename": "Passagem de Ônibus",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Passagem",
+    "Marca": "[[Marcopolo]]",
+    "Preço": 50,
+    "Cobrança": "viagem",
+    "Nível": 3,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Nova Sarandi]]",
+      "[[Jardim Botânico]]",
+      "[[Restinga]]"
+    ],
+    "Resumo": "O ônibus lotado da Marcopolo, pago no TRI: lento, quebra, e a parada é o lugar mais perigoso do trajeto.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Passagem de Ônibus.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Passagem de Ônibus.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Passagem de Ônibus.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO transporte de quem não tem carteira PIRA. Sai cheio do terminal, enche mais na segunda parada e chega\natrasado porque o motor da [[Marcopolo]] anda sem peça há dois anos. O cobrador só aceita o cartão TRI — quem\npaga em dinheiro paga pra ele, por fora, e fica em pé perto da porta.\n\n> [!info] Especificação\n> **Operador:** [[Marcopolo]] e cooperativas de bairro (as clandestinas não aceitam TRI)\n> **Modelo:** carroceria Marcopolo Torino de 1983 sobre chassi Mercedes-Benz OF-1313\n> **Lotação:** 40 sentados; 80 em pé no horário do turno\n> **Pagamento:** cartão TRI no validador da roleta; o crédito costuma vir do empregador\n> **Horário:** 5h às 23h — depois do toque de recolher só clandestino, ×2\n> **Risco:** assalto na parada da [[Cidade Baixa]] e de [[Nova Sarandi]]; a [[Camisa 12]] disputa o ponto\n"
+}

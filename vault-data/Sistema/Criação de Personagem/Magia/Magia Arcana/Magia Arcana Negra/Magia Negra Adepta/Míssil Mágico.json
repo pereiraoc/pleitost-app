@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Míssil Mágico",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Míssil Mágico.md",
+  "basename": "Míssil Mágico",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Míssil Mágico (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Causa [1d4+1]×potência de dano de força em criatura em 10q, nunca erra.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Causa [1d4+1]×potência de dano de força em criatura em 10q, nunca erra.\"\n%%\n# `= this.file.name` - `= this.custo`\n(1d4+1)×potência de dano de força. Alcance 10q. Nunca erra.\n\n```autosheet-rules\n```\n"
+}

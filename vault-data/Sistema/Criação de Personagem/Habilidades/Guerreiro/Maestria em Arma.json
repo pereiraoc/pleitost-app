@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Maestria em Arma",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Maestria em Arma.md",
+  "basename": "Maestria em Arma",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Sua maestria com suas armas de preferência vai além do comum. O [[bônus de especialização]] nas rolagens de ataque de [[Especialização em Arma]] aumenta para +2.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\n\nresumo:: \"Sua maestria com suas armas de preferência vai além do comum. O [[bônus de especialização]] nas rolagens de ataque de [[Especialização em Arma]] aumenta para +2.\"\n%%\n#### `= this.file.name`\nSua maestria com suas armas de preferência vai além do comum. O [[bônus de especialização]] nas rolagens de ataque de [[Especialização em Arma]] aumenta para +2.\n\n```autosheet-rules\n```\n"
+}

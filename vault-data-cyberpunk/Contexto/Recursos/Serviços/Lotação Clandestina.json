@@ -1,0 +1,67 @@
+{
+  "id": "Contexto/Recursos/Serviços/Lotação Clandestina",
+  "path": "Contexto/Recursos/Serviços/Lotação Clandestina.md",
+  "basename": "Lotação Clandestina",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Corrida",
+    "Marca": "Cooperativas de Kombi",
+    "Preço": 80,
+    "Cobrança": "viagem",
+    "Nível": 2,
+    "Onde": [
+      "[[Jardim Itu]]",
+      "[[Quarto Distrito]]",
+      "[[Jardim Botânico]]",
+      "[[Costa e Silva]]"
+    ],
+    "Resumo": "Kombi lotada de nove que sai quando enche, sem TRI e sem horário: a lotação da periferia, Cz$ 80 na mão do motorista.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lotação Clandestina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lotação Clandestina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Lotação Clandestina.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOnde o ônibus da [[Marcopolo]] não entra, entra a Kombi: nove passageiros sentados e mais três na porta, sai\nquando enche, para onde o passageiro grita. Não aceita TRI — é Cz$ 80 na mão do motorista, que paga a própria\npropina pra Brigada não parar. Depois do toque de recolher é o único transporte que existe, pelo dobro.\n\n> [!info] Especificação\n> **Veículo:** [[Volkswagen Kombi]] de 9 lugares (12 na prática)\n> **Preço:** Cz$ 80; Cz$ 160 depois do toque\n> **Pagamento:** na mão, sem TRI\n> **Onde pega:** ponto de Kombi de cada bairro; sinal de mão na avenida\n> **Risco:** a Brigada apreende a Kombi e deixa os passageiros na rua\n"
+}

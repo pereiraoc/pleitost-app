@@ -1,0 +1,206 @@
+{
+  "id": "Recursos e Mídia/Configurações de Contextos/Contexto Fantasia",
+  "path": "Recursos e Mídia/Configurações de Contextos/Contexto Fantasia.md",
+  "basename": "Contexto Fantasia",
+  "type": "Contexto-Def",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Contexto-Def",
+    "dg-publish": false,
+    "Contexto": {
+      "id": "fantasia",
+      "nome": "Fantasia",
+      "moeda": {
+        "simbolo": "PO",
+        "nome": "Peças de Ouro"
+      },
+      "atlas": {
+        "raiz": "Atlas",
+        "mapa": null
+      },
+      "pericias": {},
+      "reskin": {
+        "notas": {},
+        "termos": {},
+        "excecoes": []
+      },
+      "disponibilidade": {
+        "padrao": "disponivel",
+        "indisponiveis": [],
+        "restritos": {}
+      },
+      "viagem": {
+        "padrao": "normal",
+        "terrenos": {
+          "normal": {
+            "custo": 1,
+            "nome": "Gramado",
+            "cor": "#7fb069"
+          },
+          "dificil": {
+            "custo": 2,
+            "nome": "Terreno difícil",
+            "cor": "#b5835a"
+          },
+          "muito_dificil": {
+            "custo": 3,
+            "nome": "Terreno muito difícil",
+            "cor": "#8a8a8a"
+          },
+          "mar": {
+            "custo": 3,
+            "nome": "Mar",
+            "cor": "#4a90c2",
+            "agua": true,
+            "custo_por_meio": {
+              "Barco": 1
+            }
+          }
+        },
+        "rotas": {
+          "estrada": {
+            "nome": "Estrada",
+            "cor": "#c9a36b",
+            "bonus": 1,
+            "meios": [
+              "Cavalo",
+              "Caravana"
+            ]
+          },
+          "rota_maritima": {
+            "nome": "Rota marítima",
+            "cor": "#ffffff",
+            "bonus": 1,
+            "meios": [
+              "Barco"
+            ]
+          },
+          "escadaria": {
+            "nome": "Escadaria",
+            "cor": "#e8d8b0",
+            "bonus": 1,
+            "meios": [
+              "A pé"
+            ]
+          }
+        },
+        "meios": [
+          {
+            "nome": "A pé",
+            "icone": "🚶",
+            "padrao": true,
+            "hex_por_dia": 2,
+            "em": [
+              "normal",
+              "dificil",
+              "muito_dificil"
+            ],
+            "costa": true
+          },
+          {
+            "nome": "Cavalo",
+            "icone": "🐎",
+            "hex_por_dia": 3,
+            "em": [
+              "normal",
+              "dificil"
+            ]
+          },
+          {
+            "nome": "Caravana",
+            "icone": "🐪",
+            "padrao": true,
+            "hex_por_dia": 4,
+            "em": [
+              "normal",
+              "dificil",
+              "muito_dificil"
+            ],
+            "so_em_rota": "estrada",
+            "antigos": [
+              "Carruagem"
+            ]
+          },
+          {
+            "nome": "Barco",
+            "icone": "⛵",
+            "padrao": true,
+            "hex_por_dia": 5,
+            "em": [
+              "mar"
+            ],
+            "costa": true,
+            "antigos": [
+              "Navio"
+            ]
+          },
+          {
+            "nome": "Portal",
+            "icone": "✨",
+            "instantaneo": true,
+            "em": [
+              "normal",
+              "dificil",
+              "muito_dificil",
+              "mar"
+            ]
+          }
+        ],
+        "terreno": "[[Terreno do Mundo Livre]]"
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Contexto Base",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno do Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Contexto Fantasia"
+    },
+    {
+      "level": 2,
+      "text": "1. Dados de máquina"
+    },
+    {
+      "level": 4,
+      "text": "Identidade"
+    },
+    {
+      "level": 4,
+      "text": "Viagem: custo de movimento por terreno"
+    },
+    {
+      "level": 4,
+      "text": "Viagem: rotas (camada sobre o terreno)"
+    },
+    {
+      "level": 4,
+      "text": "Viagem: meios de transporte (hex por dia)"
+    },
+    {
+      "level": 4,
+      "text": "Viagem: terreno do mundo"
+    },
+    {
+      "level": 4,
+      "text": "Disponibilidade"
+    },
+    {
+      "level": 2,
+      "text": "2. Pendências"
+    }
+  ],
+  "body": "# Contexto Fantasia\n\n> [!info] Contexto-Def do mundo Fantasia\n> Compilada pelo extract em `vault-data/contexto.json`. A fantasia é a\n> nomenclatura canônica do sistema: sem reskin, tudo disponível por padrão.\n> O frontmatter é a única fonte de máquina; a seção\n> [Dados de máquina](#1-dados-de-máquina) é gerada dele e o extract falha\n> se divergirem. As regras trans-contexto vivem no [[Contexto Base]].\n\n## 1. Dados de máquina\n\nGerado do frontmatter — não editar à mão (`npm run contexto:doc`).\n\n<!-- auto:contexto -->\n#### Identidade\n\n| Campo | Valor |\n|---|---|\n| id | `fantasia` |\n| nome | Fantasia |\n| moeda | PO (Peças de Ouro) |\n| atlas | raiz `Atlas` |\n\n#### Viagem: custo de movimento por terreno\n\n| Terreno | Custo |\n|---|---|\n| Gramado (`normal`) | ×1 · padrão (hex sem terreno) · cor `#7fb069` |\n| Terreno difícil (`dificil`) | ×2 · cor `#b5835a` |\n| Terreno muito difícil (`muito_dificil`) | ×3 · cor `#8a8a8a` |\n| Mar (`mar`) | ×3 · água (passo da costa) · Barco ×1 · cor `#4a90c2` |\n\n#### Viagem: rotas (camada sobre o terreno)\n\n| Rota | Efeito |\n|---|---|\n| Estrada (`estrada`) | +1 hex/dia pra Cavalo, Caravana · cor `#c9a36b` |\n| Rota marítima (`rota_maritima`) | +1 hex/dia pra Barco · cor `#ffffff` |\n| Escadaria (`escadaria`) | +1 hex/dia pra A pé · cor `#e8d8b0` |\n\n#### Viagem: meios de transporte (hex por dia)\n\n| Meio | Velocidade · terrenos |\n|---|---|\n| 🚶 A pé | 2 hex/dia · Gramado, Terreno difícil, Terreno muito difícil · costa · padrão do grupo |\n| 🐎 Cavalo | 3 hex/dia · Gramado, Terreno difícil |\n| 🐪 Caravana | 4 hex/dia · só com Estrada · padrão do grupo · antes: Carruagem |\n| ⛵ Barco | 5 hex/dia · Mar · costa · padrão do grupo · antes: Navio |\n| ✨ Portal | instantâneo (0 dias) · Gramado, Terreno difícil, Terreno muito difícil, Mar |\n\n#### Viagem: terreno do mundo\n\n| Campo | Valor |\n|---|---|\n| nota | [[Terreno do Mundo Livre]] |\n\n#### Disponibilidade\n\n| Campo | Valor |\n|---|---|\n| padrão | disponivel |\n<!-- /auto:contexto -->\n\n## 2. Pendências\n\n1. Passe de disponibilidade: mapear `restritos` (onde cada tesouro se\n   compra) e avaliar itens exclusivos de outros contextos.\n2. Popular `sempre_disponiveis` no [[Contexto Base]].\n"
+}

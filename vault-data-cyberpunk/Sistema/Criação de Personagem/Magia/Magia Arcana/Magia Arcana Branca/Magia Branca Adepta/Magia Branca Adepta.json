@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Magia Branca Adepta",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Magia Branca Adepta.md",
+  "basename": "Magia Branca Adepta",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Branca Adepta"
+    }
+  ],
+  "body": "### Magia Branca Adepta\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Adepta\"\n```"
+}

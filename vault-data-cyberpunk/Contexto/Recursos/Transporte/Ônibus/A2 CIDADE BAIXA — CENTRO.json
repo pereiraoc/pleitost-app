@@ -1,0 +1,83 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/A2 CIDADE BAIXA — CENTRO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/A2 CIDADE BAIXA — CENTRO.md",
+  "basename": "A2 CIDADE BAIXA — CENTRO",
+  "type": "Linha",
+  "subtype": "Ônibus Anfíbio",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus Anfíbio",
+    "Letreiro": "A2 CIDADE BAIXA — CENTRO",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus Anfíbio]]",
+    "Qualidade": 1,
+    "Cor": "#039be5",
+    "Horário": "6h–22h",
+    "Circular": false,
+    "Paradas": [
+      "[[Trapiche da Aliança]]",
+      "[[Lancheria da Cidade Baixa]]",
+      "[[Estação Cidade Baixa]]",
+      "[[Estação Central]]"
+    ],
+    "Aparência": "Ônibus amarelo com a barriga de fibra branca suja de lodo, hélice enferrujada atrás, cobrador na proa com um remo, coletes salva-vidas pendurados no teto, água barrenta batendo na metade da roda.",
+    "Resumo": "O anfíbio das palafitas: do Trapiche da Aliança ao Centro; quando quebra fica boiando e a Aliança reboca — e cobra.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A2 CIDADE BAIXA — CENTRO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Trapiche da Aliança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancheria da Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus Anfíbio",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A2 CIDADE BAIXA — CENTRO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[A2 CIDADE BAIXA — CENTRO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO anfíbio das palafitas. Sai do [[Trapiche da Aliança]], encosta na [[Lancheria da Cidade Baixa]] e na escada da [[Estação Cidade Baixa]] e chega à passarela da [[Estação Central]]. Quando quebra fica boiando no meio do canal até a [[Aliança Livre das Palafitas]] rebocar — e cobrar de cada passageiro. É o ônibus das palafitas: TRI Bronze no turno, e o cobrador aceita peixe. A Brigada não sobe nele; revista na chegada.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

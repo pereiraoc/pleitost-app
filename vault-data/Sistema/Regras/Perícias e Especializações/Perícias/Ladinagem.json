@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Ladinagem",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Ladinagem.md",
+  "basename": "Ladinagem",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Furtividade]]",
+    "next": "[[Arcana]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Furtar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desativar Mecanismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Destrancar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ladinagem ([[Agilidade|AGI]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Furtividade]]\nnext:: [[Arcana]]\n%%\n##  Ladinagem ([[Agilidade|AGI]])\n[[Furtar]], [[Desativar Mecanismo]], [[Destrancar]]. [[Ladinagem]] rege atividades de precisão típicas de ladrões e invasores."
+}

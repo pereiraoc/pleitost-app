@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Facções/Consórcio das Bandeiras",
+  "path": "Contexto/Organizações/Facções/Consórcio das Bandeiras.md",
+  "basename": "Consórcio das Bandeiras",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Nelson “Estivador” Barbosa]]",
+    "Descrição": null,
+    "Resumo": "Contrabando portuário e domínio dos armazéns e pontos de venda de selênicos na Praia de Belas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Consórcio das Bandeiras.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nelson “Estivador” Barbosa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Consórcio das Bandeiras.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Consórcio das Bandeiras.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Os bicheiros históricos do cais: manipulam as rotas de importação de selênicos e atiçam a guerra entre as torcidas rivais para manter o território dividido — e o frete passando pelos armazéns certos.\n\n"
+}

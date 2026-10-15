@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Tocaia Flutuante",
+  "path": "Campanhas/Combates/Tocaia Flutuante.md",
+  "basename": "Tocaia Flutuante",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Cidade Baixa]]",
+    "Situação": "Três lados, chão instável, ninguém é aliado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Piloto de Anfíbio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atirador de Palafita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Cabo de Choque]] lento\n- 2 [[Piloto de Anfíbio]] rápido\n- 3 [[Atirador de Palafita]] lento\n```\n"
+}

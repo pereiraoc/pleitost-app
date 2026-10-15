@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Tática de Abertura",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Tática de Abertura.md",
+  "basename": "Tática de Abertura",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Quando seu primeiro turno do combate começar, faça [[Análise de Combate]] como ação livre (não conta no limite por turno). Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste, reduzido em 1 para cada criatura que agiu antes de você (até o mínimo de -2 de [[Penalidades|penalidade de circunstância]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Quando seu primeiro turno do combate começar, faça [[Análise de Combate]] como ação livre (não conta no limite por turno). Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste, reduzido em 1 para cada criatura que agiu antes de você (até o mínimo de -2 de [[Penalidades|penalidade de circunstância]]).\"\n%%\n#### `= this.file.name` - `= this.rank`\nNo momento que seu primeiro turno de um combate começa, realize [[Análise de Combate]] como uma ação livre. Esse uso de Análise de Combate não conta para o limite de usos por turno. Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no teste, reduzido de 1 para cada criatura que agiu antes de você (até um mínimo de -2 de [[Penalidades|penalidade de circunstância]]).\n\n%%talvez fazer rolar guerra na init, mas parece fraco - dar maneira de rolar guerra como init (se n tem surpise por exemplo) e dar o dado se superar xyz numero ou condicao%%\n\n```autosheet-rules\n```\n"
+}

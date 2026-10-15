@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Cultura de Substâncias e Dependência",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Cultura de Substâncias e Dependência.md",
+  "basename": "Cultura de Substâncias e Dependência",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Comércio Ilegal e Experimentação Química",
+      "kind": "embed"
+    },
+    {
+      "target": "Impactos na Saúde e Estratégias de Controle",
+      "kind": "embed"
+    },
+    {
+      "target": "Tipos de Substâncias e Legalidade",
+      "kind": "embed"
+    },
+    {
+      "target": "Uso Cotidiano e Normalização Social",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Comércio Ilegal e Experimentação Química]]\n![[Impactos na Saúde e Estratégias de Controle]]\n![[Tipos de Substâncias e Legalidade]]\n![[Uso Cotidiano e Normalização Social]]"
+}

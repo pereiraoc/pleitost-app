@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Veículos/Honda CG 125",
+  "path": "Contexto/Recursos/Veículos/Honda CG 125.md",
+  "basename": "Honda CG 125",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Honda",
+    "Preço": 120000,
+    "Cobrança": "única",
+    "Usado": 45000,
+    "Manutenção": 1000,
+    "Nível": 3,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Jardim Botânico]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Resumo": "A moto do office-boy, do entregador e da Caixinha: 125 cilindradas, gasta nada, passa em qualquer buraco.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Honda CG 125.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moto Center Assis Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Honda CG 125.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Honda CG 125.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA CG 125 é a moto mais vendida do país e a ferramenta do Contratado de rank baixo: passa entre os carros\nparados da Assis Brasil, sobe a passarela empurrada, gasta um tanque por semana. Usada, todo entregador tem uma;\nnova, é o primeiro salário de moto-boy do [[Shopping Iguatemi]].\n\n> [!info] Especificação\n> **Modelo:** Honda CG 125 1987, 4 tempos\n> **Motor:** 125 cc, 11 cv; 40 km/l\n> **Velocidade:** 100 km/h\n> **Novo:** [[Moto Center Assis Brasil]]\n> **Usado:** oficinas de bairro, Cz$ 45.000\n> **Manutenção:** Cz$ 1.000 por mês: gasolina de moto não tem cota\n"
+}

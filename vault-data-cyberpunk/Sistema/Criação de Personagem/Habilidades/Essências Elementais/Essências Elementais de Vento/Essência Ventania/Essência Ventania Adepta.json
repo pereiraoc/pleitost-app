@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ventania/Essência Ventania Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ventania/Essência Ventania Adepta.md",
+  "basename": "Essência Ventania Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Vento",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Vento Mensageiro]]",
+      "Complementar Magias.Lista [[Vento Guardião]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Vento Mensageiro]], adepta [[Vento Guardião]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Vento Mensageiro]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Ventania Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Vento Mensageiro]]"
+          },
+          "raw": "Complementar Magias.Lista [[Vento Mensageiro]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Vento Guardião]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Ventania Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Vento Guardião]]"
+          },
+          "raw": "Complementar Magias.Lista [[Vento Guardião]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vento Mensageiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vento Guardião",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Vento Mensageiro]], adepta [[Vento Guardião]]\"\n%%\n#### `= this.file.name`\n* basica [[Vento Mensageiro]]\n* adepta [[Vento Guardião]]\n\n```autosheet-rules\n```\n"
+}

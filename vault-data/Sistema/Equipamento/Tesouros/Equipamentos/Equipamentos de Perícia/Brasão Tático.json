@@ -1,0 +1,161 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Brasão Tático",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Brasão Tático.md",
+  "basename": "Brasão Tático",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Bônus de [[Guerra]]. Auxilia a coordenação em combate.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em testes de Guerra. Pode Coordenar como ação livre (recarga 10 min).",
+      "experiente": "+2 de bônus de item em testes de Guerra. Pode Coordenar como ação livre e no sucesso aliado recebe 4 EH temporária (recarga 10 min).",
+      "mestre": "+3 de bônus de item em testes de Guerra. Pode Coordenar como ação livre, no sucesso aliado recebe 6 EH temporária e resultado aumenta em um grau (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Guerra.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Brasão Tático",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Guerra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Brasão Tático",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Guerra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Guerra.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Brasão Tático",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Guerra.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coordenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - brasão*\nEste brasão tem marcações militares e representações de armaduras e armamentos. Amplifica seu ímpeto tático e entendimento das ferramentas da guerra.\n* Adepto: +1 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre.\n* Experiente: +2 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre e, em caso de sucesso, o aliado Coordenado recebe 4 de [[Energia Heroica|EH]] temporária por 1 turno.\n* Mestre: +3 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre e, em caso de sucesso, o aliado Coordenado recebe 6 de [[Energia Heroica|EH]] temporária por 1 turno. Para essa ativação, o resultado de Coordenar é aumentado em um grau de sucesso.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

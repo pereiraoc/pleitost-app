@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Megacorporações/Zaffari",
+  "path": "Contexto/Organizações/Megacorporações/Zaffari.md",
+  "basename": "Zaffari",
+  "type": "Organização",
+  "subtype": "Megacorporação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Megacorporação",
+    "Líder": "[[Márcia Zaffari]]",
+    "Descrição": null,
+    "Resumo": "Operadora logística e transporte multimodal de pessoas, alimentos e insumos industriais.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Márcia Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Zaffari.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Além de supermercados, mantém ferrovia própria, aeromóvel, centros de triagem de contêineres."
+}

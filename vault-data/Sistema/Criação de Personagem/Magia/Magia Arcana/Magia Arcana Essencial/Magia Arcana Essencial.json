@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Arcana Essencial",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Arcana Essencial.md",
+  "basename": "Magia Arcana Essencial",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Essencial Básica",
+      "kind": "embed",
+      "subpath": "Magia Essencial Básica"
+    },
+    {
+      "target": "Magia Essencial Adepta",
+      "kind": "embed",
+      "subpath": "Magia Essencial Adepta"
+    },
+    {
+      "target": "Magia Essencial Experiente",
+      "kind": "embed",
+      "subpath": "Magia Essencial Experiente"
+    },
+    {
+      "target": "Magia Essencial Mestre",
+      "kind": "embed",
+      "subpath": "Magia Essencial Mestre"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Magia Essencial"
+    }
+  ],
+  "body": "## Magia Essencial\n![[Magia Essencial Básica#Magia Essencial Básica]]\n![[Magia Essencial Adepta#Magia Essencial Adepta]]\n![[Magia Essencial Experiente#Magia Essencial Experiente]]\n![[Magia Essencial Mestre#Magia Essencial Mestre]]"
+}

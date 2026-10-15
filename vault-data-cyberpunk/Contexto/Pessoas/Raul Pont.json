@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Pessoas/Raul Pont",
+  "path": "Contexto/Pessoas/Raul Pont.md",
+  "basename": "Raul Pont",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Pont"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Resistência Urbana Gaúcha]]",
+    "Função": "Professor cassado da UFRGS; ex-presidente do DCE, preso e torturado no DOPS em 1971–72",
+    "Aparência": "Quarenta e três anos, barba grisalha cerrada, óculos de armação metálica, suéter sobre a camisa, livros debaixo do braço; sala emprestada do [[Campus Centro da UFRGS]] depois do expediente, com a porta encostada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Raul Pont.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Raul Pont.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Raul Pont.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

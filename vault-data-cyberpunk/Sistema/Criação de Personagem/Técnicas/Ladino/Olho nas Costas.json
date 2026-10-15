@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Olho nas Costas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Olho nas Costas.md",
+  "basename": "Olho nas Costas",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Criaturas que estão te [[Flanqueamento|flanqueando]], [[Escondido|escondidas]] ou [[Invisível|invisíveis]] não tem [[Vantagem de Combate]] contra você.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Flanqueamento",
+      "kind": "wikilink",
+      "alias": "flanqueando"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "escondidas"
+    },
+    {
+      "target": "Invisível",
+      "kind": "wikilink",
+      "alias": "invisíveis"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Criaturas que estão te [[Flanqueamento|flanqueando]], [[Escondido|escondidas]] ou [[Invisível|invisíveis]] não tem [[Vantagem de Combate]] contra você.\"\n%%\n#### `= this.file.name` - `= this.rank`\nCriaturas que estão te [[Flanqueamento|flanqueando]], [[Escondido|escondidas]] ou [[Invisível|invisíveis]] não tem [[Vantagem de Combate]] contra você.\n\n```autosheet-rules\n```\n"
+}

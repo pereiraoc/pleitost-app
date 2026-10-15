@@ -1,0 +1,160 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Despertar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Despertar.md",
+  "basename": "Despertar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Despertar",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "MagiaAtaque",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "PericiasDeAtributo",
+            "porAtributo": "INT",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "PericiasDeAtributo",
+            "porAtributo": "PRE",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Impeto",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Garante +1 em tudo que depende de [[Inteligência|INT]] e [[Presença|PRE]] de uma criatura em 2q por 10t. Criatura pode fazer certas ações mentais como ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataques Mágicos"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Estratégia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reconhecer",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Garante +1 em tudo que depende de [[Inteligência|INT]] e [[Presença|PRE]] de uma criatura em 2q por 10t. Criatura pode fazer certas ações mentais como ação livre.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Por 10 turnos, a criatura recebe +1 de [[bônus de condição]] em [[Magia|Ataques Mágicos]], testes de [[Percepção]], [[Intuição]], [[Guerra]], [[Arcana]], [[Sociedades]], [[Medicina]], [[Sobrevivência]], [[Anima]], [[Diplomacia]], [[Enganação]], [[Intimidação]] e [[Perícias de Ofício]], [[Ímpeto]] e, no início de cada um dos seus turnos, pode realizar [[Procurar]], [[Detectar Resistência]], [[Detectar Sintonia]], [[Identificar Estratégia]] ou [[Reconhecer]] como ação livre.\n\n```autosheet-rules\n```\n"
+}

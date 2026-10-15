@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Organizações/Facções/Oposição Cassada",
+  "path": "Contexto/Organizações/Facções/Oposição Cassada.md",
+  "basename": "Oposição Cassada",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Os Cassados",
+      "Cassados"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Leonel Brizola]]",
+    "Descrição": null,
+    "Resumo": "A oposição que existia por lei até 1968 e hoje existe por carta: um ex-governador no exílio, ex-deputados e vereadores cassados, advogados que ainda assinam — e um telefone da CRT que todo mundo sabe que a Embratel escuta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oposição Cassada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Leonel Brizola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oposição Cassada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Oposição Cassada.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Em 1964 eram governo e oposição legal; com o AI-5 e o Congresso fechado \"até hoje\", viraram cassados: sem direitos políticos, sem cargo, sem partido, com advogado, memória e paciência. Reunião é jantar; manifesto é carta; voto é promessa. O regime não os prende — prender cassado famoso dá manchete lá fora e o [[Governo Militar Brasileiro|Governo Militar]] prefere que eles envelheçam —, mas escuta cada telefone, lê cada carta e manda um brigadiano sem farda sentar na mesa ao lado. O centro de tudo é [[Leonel Brizola]], que governa do exílio o que não governa de verdade: cada carta de Montevidéu circula de mão em mão como se fosse decreto. Entre os cassados há quem queira o manifesto moderado que o regime possa fingir que leu e quem queira a rua; a [[Resistência Urbana Gaúcha]] os chama de \"a oposição de gravata\", e eles chamam a Resistência de \"os meninos\" — e um precisa do outro toda vez que alguém é preso.\n\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Combate/Iniciativa",
+  "path": "Sistema/Regras/Combate/Iniciativa.md",
+  "basename": "Iniciativa",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Iniciativas",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Combate]]",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Iniciativa"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Combate]]\nnext:: \n%%\n## Iniciativa\nPara um combate começar, é necessário organizar a iniciativa. A ordem que cada criatura tem seu turno durante a rodada. O Mestre pode declarar a iniciativa como ele quiser se a situação for clara em quem tem a primeira ação, mas tipicamente uma rolagem de alguma perícia ou sentido é feita e os maiores resultados jogam antes.\n\nAs rolagens típicas de iniciativa podem ser:\n* [[Percepção]] quando as partes se encontram frente a frente, repentinamente;\n* [[Agilidade]] quando todo mundo está preparado e é quem sacar a arma primeiro;\n* [[Furtividade]] para a parte que está tentando emboscar a outra parte, que usa [[Percepção]] como iniciativa\n* [[Intuição]] quando uma conversa está prestes a ser tornar uma briga\n* [[Atletismo]] quando uma parte arromba uma porta ou passagem para emboscar a outra parte, que usa Percepção como iniciativa\n\n```autosheet-rules\n```\n"
+}

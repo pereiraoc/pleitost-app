@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Ofuscante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Ofuscante.md",
+  "basename": "Magia Ofuscante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Se sua próxima ação é conjurar uma magia não-básica que ataca [[Ímpeto]], escolha uma criatura que é alvo da magia ou está na área de efeito da magia. Caso você tenha sucesso com a magia, a criatura é tratada como [[Cego|Cega]] em relação a você por 1 turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cego",
+      "kind": "wikilink",
+      "alias": "Cega"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Se sua próxima ação é conjurar uma magia não-básica que ataca [[Ímpeto]], escolha uma criatura que é alvo da magia ou está na área de efeito da magia. Caso você tenha sucesso com a magia, a criatura é tratada como [[Cego|Cega]] em relação a você por 1 turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Ofuscante.\n*Requer Escola Arcana (Estudos do Vazio)*\n\n**Magia Ofuscante - 1A**\nSe sua próxima ação é conjurar uma magia não-básica que ataca [[Ímpeto]], escolha uma criatura que é alvo da magia ou está na área de efeito da magia. Caso você tenha sucesso com a magia, a criatura é tratada como [[Cego|Cega]] em relação a você por 1 turno.\n\n```autosheet-rules\n```\n"
+}

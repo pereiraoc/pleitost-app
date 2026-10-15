@@ -1,0 +1,69 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Churrasco de Costela",
+  "path": "Contexto/Recursos/Alimentação/Churrasco de Costela.md",
+  "basename": "Churrasco de Costela",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Churrascarias de Petrópolis",
+    "Preço": 600,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Parcão]]"
+    ],
+    "Resumo": "Costela de oito horas no fogo de chão, espeto corrido de picanha, linguiça e coração; sal grosso e nada mais.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Churrasco de Costela.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coca-Cola",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parcão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Churrasco de Costela.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Churrasco de Costela.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nChurrascaria de verdade: costela oito horas no fogo de chão, espeto corrido de picanha, linguiça, coração de\ngalinha e o garçom que não para. Sal grosso e nada mais — molho é coisa de gente de fora. O estacionamento é\nvigiado pela [[Gradiente]] e o carro sai inteiro, o que na cidade é serviço.\n\n> [!info] Especificação\n> **Corte:** costela de 8 horas, picanha, linguiça, coração de galinha, fraldinha\n> **Serviço:** espeto corrido, Cz$ 600 por pessoa; bebida à parte\n> **Bebida:** [[Polar Tradicional]] Cz$ 60, [[Vinho Aurora]] Cz$ 300, [[Coca-Cola]] Cz$ 100\n> **Estacionamento:** vigiado pela [[Gradiente]]\n> **Corte especial:** o [[Corte Especial Zaffari]] vem em dia de semana pra quem reserva\n"
+}

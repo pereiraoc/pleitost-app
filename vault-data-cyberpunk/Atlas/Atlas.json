@@ -1,0 +1,15 @@
+{
+  "id": "Atlas/Atlas",
+  "path": "Atlas/Atlas.md",
+  "basename": "Atlas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```"
+}

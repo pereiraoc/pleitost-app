@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Ponto de Táxi de Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Ponto de Táxi de Ipanema.md",
+  "basename": "Ponto de Táxi de Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Seu Dirceu Ramos (chefe do ponto)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Táxi Gurgel]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ponto de Táxi de Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ponto de Táxi de Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ponto de Táxi de Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Táxi Gurgel conveniado com os condomínios; tarifa executiva, discrição incluída.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Quatro Carajás encerados numa baia coberta, telefone direto com as guaritas e um motorista lendo o jornal.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Táxi Gurgel conveniado com os condomínios; tarifa executiva, discrição incluída.",
+    "aparencia": "Quatro Carajás encerados numa baia coberta, telefone direto com as guaritas e um motorista lendo o jornal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

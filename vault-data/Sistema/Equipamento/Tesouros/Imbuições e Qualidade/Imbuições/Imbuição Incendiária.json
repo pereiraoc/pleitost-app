@@ -1,0 +1,194 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Incendiária",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Incendiária.md",
+  "basename": "Imbuição Incendiária",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Arma capaz de incendiar a sua volta.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 2): dano extra vira fogo; enquanto durar, criaturas que iniciarem o turno adjacentes a você sofrem 2 dano de fogo.",
+      "experiente": "+2 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 3): dano extra vira fogo; enquanto durar, criaturas que iniciarem o turno adjacentes a você sofrem 3 dano de fogo.",
+      "mestre": "+3 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 4): dano extra vira fogo; enquanto durar, criaturas que iniciarem o turno até 2q de você sofrem 4 dano de fogo."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Imbuição Incendiária Ativa",
+        "tier": "Adepto",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🔥"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d4",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 1,
+            "tipoBonus": "Unico"
+          }
+        ]
+      },
+      {
+        "label": "Imbuição Incendiária Ativa",
+        "tier": "Experiente",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🔥"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d6",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 2,
+            "tipoBonus": "Unico"
+          }
+        ]
+      },
+      {
+        "label": "Imbuição Incendiária Ativa",
+        "tier": "Mestre",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🔥"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d8",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 2,
+            "tipoBonus": "Unico"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Incendiária",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Encantar Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Fogo) - arma corpo-a-corpo*\nUma arma carregada do poder do fogo, portando uma gema vermelha em sua base. Pode ser ativada para envolver a arma em chamas.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 2. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno adjacentes a você recebem 2 de dano de fogo.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 3. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno adjacentes a você recebem 3 de dano de fogo.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 4. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno em até 2q de você recebem 4 de dano de fogo.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

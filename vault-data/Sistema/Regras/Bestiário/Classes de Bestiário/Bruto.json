@@ -1,0 +1,752 @@
+{
+  "id": "Sistema/Regras/Bestiário/Classes de Bestiário/Bruto",
+  "path": "Sistema/Regras/Bestiário/Classes de Bestiário/Bruto.md",
+  "basename": "Bruto",
+  "type": "Classe",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+      "Alias Classe Compor 0 \"Bruto\"",
+      "Tier 0 Restringir Atributos.Principal FOR",
+      "Tier 0 Definir Vida.Vitalidade 25",
+      "Tier 1 Definir Vida.Vitalidade 45",
+      "Tier 2 Definir Vida.Vitalidade 67",
+      "Tier 3 Definir Vida.Vitalidade 90",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Tier 0 Definir Ataques.Proficiencia A",
+      "Tier 2 Definir Ataques.Proficiencia E",
+      "Tier 3 Definir Ataques.Proficiencia M"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes de Bestiário]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Brutos são a vanguarda dos monstros, tem presença corpo-a-corpo, boa capacidade de absorver dano e bom dano, mas muitas vezes fracos mentalmente.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica de Monstro]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Evolução Básica de Monstro]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 0 \"Bruto\"",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Bruto"
+          },
+          "raw": "Alias Classe Compor 0 \"Bruto\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Restringir Atributos.Principal FOR",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "FOR"
+            ]
+          },
+          "raw": "Tier 0 Restringir Atributos.Principal FOR",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Vida.Vitalidade 25",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "25"
+          },
+          "raw": "Tier 0 Definir Vida.Vitalidade 25",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Vida.Vitalidade 45",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "45"
+          },
+          "raw": "Tier 1 Definir Vida.Vitalidade 45",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Vida.Vitalidade 67",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "67"
+          },
+          "raw": "Tier 2 Definir Vida.Vitalidade 67",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Vida.Vitalidade 90",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "90"
+          },
+          "raw": "Tier 3 Definir Vida.Vitalidade 90",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Tier 0 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Tier 2 Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Ataques.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Bruto",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Tier 3 Definir Ataques.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes de Bestiário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Retomar Fôlego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Poderoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trespassar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor Bruto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bruto Aterrorizador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evolução Básica de Monstro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Classes de Bestiário]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Brutos são a vanguarda dos monstros, tem presença corpo-a-corpo, boa capacidade de absorver dano e bom dano, mas muitas vezes fracos mentalmente.\"\n%%\n##### `= this.file.name`\nBrutos são a vanguarda dos monstros, tem presença corpo-a-corpo, boa capacidade de absorver dano e bom dano, mas muitas vezes fracos mentalmente.\n\nAtributo Principal: [[Força|FOR]]\n[[Energia Vital|EV]]: Alto (25/45/67/90)\n[[Defesa]]: No nível (A/A/E/M)\n[[Vigor]]: No nível (A/A/E/M)\n[[Evasão]]: No nível (A/A/E/M)\n[[Ímpeto]]: Abaixo (N/N/A/E)\n[[Percepção]]: Abaixo (N/N/A/E)\n[[Ataques]]: No nível (A/A/E/M)\nDano de ataque: d8+4 (focado em manobras), d10+5 (Bruto típico), d12+6 (Arma [[Pesada]])\n\nPerícias típicas:\n* [[Atletismo]] (para [[Empurrar]])\n* [[Sobrevivência]] (para [[Retomar Fôlego]])\n* [[Intimidação]] (para [[Assustar]])\n\nHabilidades típicas:\n* Técnicas de ataque de [[Guerreiro]], como [[Ataque Poderoso]], [[Trespassar]] e [[Ataque Brutal]]\n* Capacidade de absorver dano como: [[Fúria]] ou [[Vigor Bruto]]\n* Controle da linha de frente como: [[Oportunista]]\n* Aumento de dano como: [[Bruto Aterrorizador]]\n\n```autosheet-rules\n```\n"
+}

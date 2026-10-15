@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estação Férrea de Belas",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estação Férrea de Belas.md",
+  "basename": "Estação Férrea de Belas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Dono": "Ferrovia Federal",
+    "Descrição": null,
+    "Serviços": [
+      "[[TRI Prata]]",
+      "[[Amendoim Japonês]]",
+      "[[Café da Manhã de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Férrea de Belas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Férrea de Belas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Férrea de Belas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga estação de carga e passageiros.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Trilhos enferrujados, plataforma de madeira, som de rajadas de vento.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga estação de carga e passageiros.",
+    "aparencia": "Trilhos enferrujados, plataforma de madeira, som de rajadas de vento.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

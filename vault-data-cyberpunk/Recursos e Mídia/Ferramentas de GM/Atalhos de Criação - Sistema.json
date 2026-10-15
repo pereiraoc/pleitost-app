@@ -1,0 +1,68 @@
+{
+  "id": "Recursos e Mídia/Ferramentas de GM/Atalhos de Criação - Sistema",
+  "path": "Recursos e Mídia/Ferramentas de GM/Atalhos de Criação - Sistema.md",
+  "basename": "Atalhos de Criação - Sistema",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Criatura"
+    },
+    {
+      "level": 1,
+      "text": "Item"
+    },
+    {
+      "level": 2,
+      "text": "Arma"
+    },
+    {
+      "level": 2,
+      "text": "Escudo"
+    },
+    {
+      "level": 2,
+      "text": "Tesouro"
+    },
+    {
+      "level": 1,
+      "text": "Magia"
+    },
+    {
+      "level": 2,
+      "text": "Anima"
+    },
+    {
+      "level": 2,
+      "text": "Arcana"
+    },
+    {
+      "level": 3,
+      "text": "Negra"
+    },
+    {
+      "level": 3,
+      "text": "Branca"
+    },
+    {
+      "level": 1,
+      "text": "Criação de Personagem"
+    },
+    {
+      "level": 1,
+      "text": "Regra"
+    },
+    {
+      "level": 1,
+      "text": "Traço Elemental"
+    }
+  ],
+  "body": "# Criatura\n```button\nname NOVO: Herói 👤\ntype command\naction QuickAdd: NOVO: Herói\n```\n^button-criar-novo-jogador\n\n```button\nname NOVO: Monstro 👹\ntype command\naction QuickAdd: NOVO: Monstro\n```\n^button-criar-novo-monstro\n\n```button\nname NOVO: Grupo de Criaturas 👥\ntype command\naction QuickAdd: NOVO: Grupo de Criaturas\n```\n^button-criar-novo-grupo\n\n# Item\n## Arma\n```button\nname NOVA: Arma Corpo-a-Corpo Simples 🗡️\ntype command\naction QuickAdd: NOVA: Arma Corpo-a-Corpo Simples\n```\n^button-criar-nova-arma-cac-simples\n\n```button\nname NOVA: Arma Corpo-a-Corpo Marcial ⚔️\ntype command\naction QuickAdd: NOVA: Arma Corpo-a-Corpo Marcial\n```\n^button-criar-nova-arma-cac-marcial\n\n```button\nname NOVA: Arma de Distância Simples 🪃\ntype command\naction QuickAdd: NOVA: Arma de Distância Simples\n```\n^button-criar-nova-arma-d-simples\n\n```button\nname NOVA: Arma de Distância Marcial 🏹\ntype command\naction QuickAdd: NOVA: Arma de Distância Marcial\n```\n^button-criar-nova-arma-d-marcial\n\n## Escudo\n```button\nname NOVO: Escudo 🛡️\ntype command\naction QuickAdd: NOVO: Escudo\n```\n^button-criar-novo-escudo\n\n## Tesouro\n```button\nname NOVO: Tesouro 💍\ntype command\naction QuickAdd: NOVO: Tesouro\n```\n^button-criar-novo-escudo\n\n\n# Magia\n## Anima\n```button\nname NOVA: Magia Anima Básica 💧🔥🌿🌪️\ntype command\naction QuickAdd: NOVA: Magia Anima Básica\n```\n^button-criar-nova-magia-anima-basica\n\n```button\nname NOVA: Magia Anima Adepta 💧🔥🌿🌪️\ntype command\naction QuickAdd: NOVA: Magia Anima Adepta\n```\n^button-criar-nova-magia-anima-adepta\n\n```button\nname NOVA: Magia Anima Experiente 💧🔥🌿🌪️\ntype command\naction QuickAdd: NOVA: Magia Anima Experiente\n```\n^button-criar-nova-magia-anima-experiente\n\n```button\nname NOVA: Magia Anima Mestre 💧🔥🌿🌪️\ntype command\naction QuickAdd: NOVA: Magia Anima Mestre\n```\n^button-criar-nova-magia-anima-mestre\n\n\n## Arcana\n### Negra\n```button\nname NOVA: Magia Arcana Negra Básica 🔮\ntype command\naction QuickAdd: NOVA: Magia Arcana Negra Básica\n```\n^button-criar-nova-magia-arcana-negra-basica\n\n```button\nname NOVA: Magia Arcana Negra Adepta 🔮\ntype command\naction QuickAdd: NOVA: Magia Arcana Negra Adepta\n```\n^button-criar-nova-magia-arcana-negra-adepta\n\n```button\nname NOVA: Magia Arcana Negra Experiente 🔮\ntype command\naction QuickAdd: NOVA: Magia Arcana Negra Experiente\n```\n^button-criar-nova-magia-arcana-negra-experiente\n\n```button\nname NOVA: Magia Arcana Negra Mestre 🔮\ntype command\naction QuickAdd: NOVA: Magia Arcana Negra Mestre\n```\n^button-criar-nova-magia-arcana-negra-mestre\n\n### Branca\n```button\nname NOVA: Magia Arcana Branca Básica ✨\ntype command\naction QuickAdd: NOVA: Magia Arcana Branca Básica\n```\n^button-criar-nova-magia-arcana-branca-basica\n\n```button\nname NOVA: Magia Arcana Branca Adepta ✨\ntype command\naction QuickAdd: NOVA: Magia Arcana Branca Adepta\n```\n^button-criar-nova-magia-arcana-branca-adepta\n\n```button\nname NOVA: Magia Arcana Branca Experiente ✨\ntype command\naction QuickAdd: NOVA: Magia Arcana Branca Experiente\n```\n^button-criar-nova-magia-arcana-branca-experiente\n\n```button\nname NOVA: Magia Arcana Branca Mestre ✨\ntype command\naction QuickAdd: NOVA: Magia Arcana Branca Mestre\n```\n^button-criar-nova-magia-arcana-branca-mestre\n\n# Criação de Personagem\n```button\nname NOVA: Classe 👑\ntype command\naction QuickAdd: NOVA: Classe\n```\n^button-criar-nova-classe\n\n```button\nname NOVA: Habilidade 📕\ntype command\naction QuickAdd: NOVA: Habilidade\n```\n^button-criar-nova-habilidade\n\n```button\nname NOVA: Técnica 📘\ntype command\naction QuickAdd: NOVA: Técnica\n```\n^button-criar-nova-tecnica\n\n```button\nname NOVA: Ação Especial 🎴\ntype command\naction QuickAdd: NOVA: Ação Especial\n```\n^button-criar-nova-acao-especial\n\n# Regra\n```button\nname NOVA: Condição 💫\ntype command\naction QuickAdd: NOVA: Condição\n```\n^button-criar-nova-condicao\n\n```button\nname NOVA: Propriedade 💎\ntype command\naction QuickAdd: NOVA: Propriedade\n```\n^button-criar-nova-condicao\n\n# Traço Elemental\n```button\nname NOVO: Traço Elemental da Água 💧\ntype command\naction QuickAdd: NOVO: Traço Elemental da Água\n```\n^button-criar-novo-traco-elemental-agua\n\n```button\nname NOVO: Traço Elemental do Fogo 🔥\ntype command\naction QuickAdd: NOVO: Traço Elemental do Fogo\n```\n^button-criar-novo-traco-elemental-fogo\n\n```button\nname NOVO: Traço Elemental da Terra 🌿\ntype command\naction QuickAdd: NOVO: Traço Elemental da Terra\n```\n^button-criar-novo-traco-elemental-terra\n\n```button\nname NOVO: Traço Elemental do Vento 🌪️\ntype command\naction QuickAdd: NOVO: Traço Elemental do Vento\n```\n^button-criar-novo-traco-elemental-vento\n"
+}

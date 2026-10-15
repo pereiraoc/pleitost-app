@@ -1,0 +1,36 @@
+{
+  "id": "Contexto/Organizações/Facções/Engenheiros do Hawaii",
+  "path": "Contexto/Organizações/Facções/Engenheiros do Hawaii.md",
+  "basename": "Engenheiros do Hawaii",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Engenheiros"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "A banda da Arquitetura da UFRGS que toca de terno e canta 'toda forma de poder' no rádio com licença — o censor acha que é sobre o trânsito, a plateia sabe que não é.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Engenheiros do Hawaii.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Engenheiros do Hawaii.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Engenheiros do Hawaii.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Humberto Gessinger no baixo e na voz, Carlos Maltz na bateria e um guitarrista que mudou em 1986 (Carlos Stein saiu pra montar o Nenhum de Nós). Começaram tocando no Diretório, saíram no *Rock Grande do Sul* com \"Sopa de Letrinhas\" e \"Segurança\", e *Longe Demais das Capitais* (1986) foi o disco que a cidade inteira decorou. A marca deles é a frase de duas pontas: \"Toda Forma de Poder\" tocou na FM e virou grito de assembleia; \"Segurança\" passou pelo censor como canção de amor e é cantada na porta da Brigada; \"Infinita Highway\" é o hino de quem quer ir embora e não consegue. Tocam de terno e gravata, sem palavrão e sem bandeira, e é exatamente por isso que o regime os tolera e a Resistência desconfia — até ouvir a letra com atenção. Em 1987 são a banda que o pai ouve no rádio e o filho ouve no Ocidente, e as duas versões brigam na mesa do almoço.\n\n"
+}

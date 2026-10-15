@@ -1,0 +1,61 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Como Funciona",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Como Funciona.md",
+  "basename": "Como Funciona",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Modos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frontmatter",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementos de Regra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Debug",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Como o plugin funciona (visão simples)"
+    },
+    {
+      "level": 2,
+      "text": "Quando você abre uma ficha"
+    },
+    {
+      "level": 2,
+      "text": "Quando você edita um campo"
+    },
+    {
+      "level": 2,
+      "text": "Quando você clica Salvar"
+    },
+    {
+      "level": 2,
+      "text": "Quando você troca de modo"
+    },
+    {
+      "level": 2,
+      "text": "Os 4 modos hoje"
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Como o plugin funciona (visão simples)\n\nDoc pra entender o que acontece quando você abre uma ficha, edita, ou\nsalva. Sem nomes de função interna, sem detalhes de pipeline. Pra\nentender por dentro, ver [architecture/](../../../.obsidian/plugins/pleitost-autosheet/docs/architecture/).\n\n## Quando você abre uma ficha\n\n```mermaid\nflowchart LR\n  A[\"Você abre uma nota<br/>com bloco autosheet-yaml\"]\n  --> B[\"O plugin lê o YAML do topo da nota\"]\n  --> C[\"Roda as regras<br/>(do que sua classe/raça/habilidades dão)\"]\n  --> D[\"Renderiza a ficha no modo escolhido\"]\n```\n\nA ficha que aparece é o **YAML** + o **resultado das regras**. Tudo que\nsua classe/raça/habilidades adicionam (perícias treinadas, slots, magias,\nações, etc.) entra automaticamente — você não precisa repetir no YAML.\n\n## Quando você edita um campo\n\n```mermaid\nflowchart LR\n  A[\"Você clica num botão<br/>(rank de perícia, dropdown, etc.)\"]\n  --> B[\"Plugin guarda sua edição em memória\"]\n  --> C[\"Roda as regras de novo<br/>(sua escolha pode liberar/cancelar outras)\"]\n  --> D[\"Re-renderiza a ficha\"]\n  --> E[\"Botão Salvar fica destacado<br/>(tem mudança pendente)\"]\n```\n\nSua edição **NÃO** vai pro YAML imediatamente — fica \"em rascunho\" até\nvocê clicar Salvar. Antes disso, você pode ver no painel ℹ️ exatamente\no que vai mudar.\n\n## Quando você clica Salvar\n\n```mermaid\nflowchart LR\n  A[\"Você clica Salvar\"]\n  --> B[\"Plugin compara estado atual com o YAML\"]\n  --> C{\"Mesma coisa?\"}\n  C -->|sim| N[\"Não escreve nada<br/>(noop)\"]\n  C -->|não| V{\"Está válido?<br/>(campos obrigatórios preenchidos)\"}\n  V -->|não| BL[\"Bloqueia + mostra blockers\"]\n  V -->|sim| W[\"Escreve YAML + atualiza ficha\"]\n```\n\n**Princípio importante:** o que você vê no painel ℹ️ ANTES de clicar\nSalvar é exatamente o que o plugin vai escrever. Sem mutação silenciosa.\n\nSe clicar Salvar e nada mudar, é porque o YAML já estava igual ao que a\nficha mostra (o plugin já tinha completado tudo que faltava no load\nanterior). Isso é normal.\n\n**Auto-salvar Ficha Interativa (opcional)**: Settings → Pleitost\nAutosheet → toggle `Auto-salvar Ficha Interativa`. Quando ligado, edits\nna Ficha Interativa (vit, EM, toggles, contadores) gravam sozinhos\napós ~800 ms — sem precisar clicar Salvar. Cliques em rajada coalesce\nnum único save. O botão Salvar fica oculto. A Editável continua com\nsave manual (não é afetada). Útil pra jogadores que não querem se\npreocupar em salvar durante a sessão.\n\n## Quando você troca de modo\n\n```mermaid\nflowchart LR\n  A[\"Você clica em outro modo<br/>(Editável → Leitura, etc.)\"]\n  --> B[\"Plugin destrói a view atual\"]\n  --> C[\"Monta a view do novo modo\"]\n  --> D[\"Mesmo dado, visualização diferente\"]\n```\n\nOs 4 modos (Resumo / Interativa / Editável / Leitura) são\n**views diferentes** do mesmo YAML. Trocar de modo NÃO altera dado —\nsó muda como você vê.\n\nEdições não salvas **persistem** entre trocas de modo (ficam em memória).\nMas se você fechar o Obsidian sem salvar, perdem.\n\n## Os 4 modos hoje\n\n| Modo | Pra quê |\n|---|---|\n| **Resumo** | Ver a ficha em um cartão compacto. Read-only. Bom pra colocar em índices, painéis de campanha. |\n| **Interativa** | Usar a ficha em sessão. Tracking de Vitalidade/Moral/EM, condições ativas, efeitos sustentados. Save próprio (separado do Editável). |\n| **Editável** | Editar a ficha. Único modo com botões pra mudar valores. Tem painel ℹ️ pra ver o que vai mudar antes de salvar. |\n| **Leitura** | Ver a ficha denso e printável em A4. Read-only. `Ctrl+P` produz ficha de RPG digna de papel. |\n\n## Ver também\n\n- [[Modos]] — descrição mais detalhada de cada modo\n- [[Frontmatter]] — o que escrever no YAML\n- [[Elementos de Regra]] — como escrever `Elementos_de_Regra`\n- [[Debug]] — quando algo não funciona como esperado\n"
+}

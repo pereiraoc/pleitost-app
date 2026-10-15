@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Mimeógrafo no Porão",
+  "path": "Campanhas/Combates/Mimeógrafo no Porão.md",
+  "basename": "Mimeógrafo no Porão",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Bom Fim]] · [[Quarto Distrito]]",
+    "Situação": "A luz do quarteirão caiu de propósito. No escuro, alguém está rodando o que não pode ser impresso.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Célula de Impressão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sabotador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Boêmio Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Célula de Impressão]] lento\n- 4 [[Sabotador]] rápido\n- 6 [[Boêmio Armado]] rápido\n```\n"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/Lotação",
+  "path": "Contexto/Recursos/Transporte/Lotação/Lotação.md",
+  "basename": "Lotação",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lotação.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação Clandestina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lotação.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Lotação"
+    }
+  ],
+  "body": "# Lotação\n![[Lotação.png]]\n\nDuas lotações que não se cruzam: a **VIP** das concessionárias — van Marcopolo de doze poltronas, ar-condicionado e rádio [[Embratel]] que abre a sinaleira, [[TRI Ouro]] pra cima — e a **Kombi clandestina** das cooperativas de bairro, que sai quando enche, para onde gritam e não aceita TRI ([[Lotação Clandestina]]: Cz$ 80 na mão, o dobro depois das 23h). Depois do toque de recolher, só a Kombi roda.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte/Lotação\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Vento Mensageiro",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Vento Mensageiro.md",
+  "basename": "Vento Mensageiro",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Básica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Vento transporta silenciosamente até 5 palavras em 30q. Só o alvo pode ouví-las.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Vento transporta silenciosamente até 5 palavras em 30q. Só o alvo pode ouví-las.\"\n%%\n# `= this.file.name` - `= this.custo`\nVento transporta silenciosamente até 5 palavras em 30q. Só o alvo pode ouví-las. "
+}

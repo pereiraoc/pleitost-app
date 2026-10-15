@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Escuta nos Moinhos",
+  "path": "Campanhas/Combates/Escuta nos Moinhos.md",
+  "basename": "Escuta nos Moinhos",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Moinhos de Vento]] · [[Centro Histórico]]",
+    "Situação": "Eles sabem por onde o grupo entrou. A luta começa com o grupo já sem a rota de saída.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Escuta da Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drone de Vigilância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Segurança de Crachá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Escuta da Embratel]] lento\n- 4 [[Drone de Vigilância]] rápido\n- 3 [[Segurança de Crachá]] lento\n```\n"
+}

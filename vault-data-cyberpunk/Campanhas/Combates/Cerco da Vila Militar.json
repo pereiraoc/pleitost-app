@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Cerco da Vila Militar",
+  "path": "Campanhas/Combates/Cerco da Vila Militar.md",
+  "basename": "Cerco da Vila Militar",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Vila Militar do Paraguassu]] · [[Costa e Silva]]",
+    "Situação": "Milícia com treino de quartel e uma guarita cobrindo a única saída.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ex-Praça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atirador de Torre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vila Militar do Paraguassu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 7 [[Ex-Praça]] lento\n- 3 [[Atirador de Torre]] lento\n```\n"
+}

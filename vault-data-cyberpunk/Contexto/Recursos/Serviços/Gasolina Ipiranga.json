@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Serviços/Gasolina Ipiranga",
+  "path": "Contexto/Recursos/Serviços/Gasolina Ipiranga.md",
+  "basename": "Gasolina Ipiranga",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Combustível",
+    "Marca": "Ipiranga",
+    "Preço": 30,
+    "Cobrança": "litro",
+    "Nível": 4,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Petrópolis]]",
+      "[[Camelódromo]]"
+    ],
+    "Resumo": "Cz$ 30 o litro no posto, racionada em 20 litros por semana por placa; no galão do Camelódromo, ×3.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gasolina Ipiranga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trapiche da Aliança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gasolina Ipiranga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gasolina Ipiranga.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA gasolina é gaúcha — a refinaria da Ipiranga fica em Rio Grande — e mesmo assim falta. Vinte litros por\nsemana por placa, com carimbo na caderneta, e as frotas da [[Gurgel]] abastecem primeiro. O que sobra vai pro\ngalão do [[Camelódromo]] por três vezes o preço, com água misturada.\n\n> [!info] Especificação\n> **Posto:** Ipiranga (Rio Grande, 1937) — bandeira da maioria dos postos da cidade\n> **Racionamento:** 20 litros por semana por placa, caderneta carimbada pelo posto\n> **Mercado negro:** galão de 20 l no [[Camelódromo]] por Cz$ 1.800 (×3), com água\n> **Frota Gurgel:** abastece primeiro, sem caderneta\n> **Lancha:** no [[Trapiche da Aliança]] paga-se em dólar: US$ 1 por 3 litros\n"
+}

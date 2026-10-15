@@ -1,0 +1,20 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Armas Naturais",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Armas Naturais.md",
+  "basename": "Armas Naturais",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armas Naturais"
+    }
+  ],
+  "body": "# Armas Naturais\nArmas naturais são partes do corpo usadas para atacar de criaturas, animais ou formas de druida.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"natural\"\n```"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Contra-mágica Flexível",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Contra-mágica Flexível.md",
+  "basename": "Contra-mágica Flexível",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Se uma criatura em até 10q de distância conjura uma magia e você consegue ver suas manifestações, faça um teste de Identificar Magia, em caso de sucesso e a magia for uma magia Arcana, você pode gastar recursos mágicos equivalentes ao custo da magia conjurada pela criatura e realizar um componente Somático (Manipular) para dissipá-la, removendo quaisquer efeitos que ela tenha. Se você optou por dissipar a magia, você fica Lento 1 até o final do seu próximo turno. Caso já esteja Lento, o valor de Lento aumenta em 1 até o final do seu próximo turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Se uma criatura em até 10q de distância conjura uma magia e você consegue ver suas manifestações, faça um teste de Identificar Magia, em caso de sucesso e a magia for uma magia Arcana, você pode gastar recursos mágicos equivalentes ao custo da magia conjurada pela criatura e realizar um componente Somático (Manipular) para dissipá-la, removendo quaisquer efeitos que ela tenha. Se você optou por dissipar a magia, você fica Lento 1 até o final do seu próximo turno. Caso já esteja Lento, o valor de Lento aumenta em 1 até o final do seu próximo turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Contra-mágica Flexível.\n*Requer Escola Arcana (Estudos do Vazio)*\n\n**Contra-mágica Flexível - R**\nSe uma criatura em até 10q de distância conjura uma magia e você consegue ver suas manifestações, faça um teste de Identificar Magia, em caso de sucesso e a magia for uma magia Arcana, você pode gastar recursos mágicos equivalentes ao custo da magia conjurada pela criatura e realizar um componente Somático (Manipular) para dissipá-la, removendo quaisquer efeitos que ela tenha. Se você optou por dissipar a magia, você fica Lento 1 até o final do seu próximo turno. Caso já esteja Lento, o valor de Lento aumenta em 1 até o final do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

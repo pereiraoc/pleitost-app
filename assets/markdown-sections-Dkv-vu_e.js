@@ -1,0 +1,4 @@
+var e=/^(#{1,6})\s+(.*?)\s*#*\s*$/,t=/^\s*(```|~~~)/;function n(n){let r=[],i=null;for(let a=0;a<n.length;a++){let o=n[a],s=t.exec(o);if(s){i===null?i=s[1]:i===s[1]&&(i=null);continue}if(i)continue;let c=e.exec(o);c&&r.push({level:c[1].length,text:c[2].trim(),line:a})}return r}function r(e,t,n){let r=t.indexOf(n),i=e.length;for(let e=r+1;e<t.length;e++)if(t[e].level<=n.level){i=t[e].line;break}return e.slice(n.line+1,i)}function i(e,t){let n=e.indexOf(t),r=[];for(let i=n+1;i<e.length;i++){let n=e[i];if(n.level<=t.level)break;n.level===t.level+1&&r.push(n)}return r}function a(e,t,n){return e.find(e=>e.level===t&&e.text===n)??null}function o(e,t){let i=e.split(`
+`),a=n(i),o=a.filter(e=>e.level<=t),s=o[0]?.line??i.length,c=o.filter(e=>e.level===t).map(e=>({titulo:e.text,corpo:r(i,a,e).join(`
+`).trim()}));return{intro:i.slice(0,s).join(`
+`).trim(),secoes:c}}export{o as a,r as i,a as n,n as r,i as t};

@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Conserto de Rádio e Walkman",
+  "path": "Contexto/Recursos/Ofícios/Conserto de Rádio e Walkman.md",
+  "basename": "Conserto de Rádio e Walkman",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Conserto",
+    "Marca": "Oficina de eletrônicos do corredor",
+    "Preço": 600,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Rádio, walkman, toca-fitas e secretária eletrônica consertados na bancada do corredor — peça original ou do Camelódromo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA bancada fica atulhada de rádios abertos, ferro de solda e caixas de válvula. O técnico conserta rádio, walkman, toca-fitas, secretária eletrônica e, se ninguém estiver olhando, receptor que pega a frequência da Brigada. Peça original demora uma semana; peça do [[Camelódromo]] sai no mesmo dia e dura o que durar.\n\n> [!info] Especificação\n> **Prazo:** três dias; com peça original, uma semana\n> **Peça do Camelódromo:** no mesmo dia, garantia de boca\n> **Por baixo do balcão:** ajustar receptor pra frequência da Brigada — Cz$ 2.000\n"
+}

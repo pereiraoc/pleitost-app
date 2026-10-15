@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Pessoas/Olívio Dutra",
+  "path": "Contexto/Pessoas/Olívio Dutra.md",
+  "basename": "Olívio Dutra",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Olívio"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Bancários]]",
+    "Função": "Presidente cassado do Sindicato dos Bancários; bancário do Banrisul desde 1961",
+    "Aparência": "Quarenta e seis anos, bigode grosso, cabelo escuro repartido de lado, camisa de manga curta e pasta de couro gasta; na cabeceira de uma mesa de tábua nas [[Palafitas do Mercado]], com a ata aberta e um caixa de banco de vigia na passarela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Olívio Dutra.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sindicato dos Bancários",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Olívio Dutra.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Olívio Dutra.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "Contexto/Organizações/Facções/Aliança dos Fundadores",
+  "path": "Contexto/Organizações/Facções/Aliança dos Fundadores.md",
+  "basename": "Aliança dos Fundadores",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Comendador Artur Fontes]]",
+    "Descrição": null,
+    "Resumo": "As velhas famílias do Centro: lavagem nos mercados flutuantes, extorsão de comerciantes e contrabando pelo Camelódromo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aliança dos Fundadores.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro"
+    },
+    {
+      "target": "Comendador Artur Fontes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aliança dos Fundadores.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Aliança dos Fundadores.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Herdeiros do velho dinheiro do [[Centro Histórico|Centro]] que trataram a decadência como oportunidade: usam túneis e passarelas flutuantes para mover mercadoria ilegal, controlam quiosques do [[Mercado Público]] e cobram pedágio de quem quer comerciar — tradição de família desde antes da enchente.\n\n"
+}

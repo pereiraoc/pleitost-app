@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/Contemporaneidades/Alta-Sociedade",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/Contemporaneidades/Alta-Sociedade.md",
+  "basename": "Alta-Sociedade",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Obter Informação via Sociedades",
+        "tipo": "AçãoDePericia",
+        "origem": "Maestria",
+        "acoes": [
+          "[[Obter Informação]]"
+        ],
+        "detalhe": "(sobre autoridades relevantes presentes)"
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sociedades]]",
+    "resumo": "\"Sabe tudo de autoridades em cidades.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Obter Informação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Sociedades]]\nresumo:: \"Sabe tudo de autoridades em cidades.\"\n%%\n### `= this.file.name`\n* Pode [[Obter Informação]] usando [[Sociedades]] em uma cidade para obter nome, cargo e local de todas as autoridades e indivíduos relevantes presentes. Sucesso decisivo já melhora atitude destas em 1 grau.\n\n*Requer Contemporaneidades*\n\n```autosheet-rules\n```\n"
+}

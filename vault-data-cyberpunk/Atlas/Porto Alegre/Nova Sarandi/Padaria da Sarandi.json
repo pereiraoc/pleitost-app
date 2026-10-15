@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Padaria da Sarandi",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Padaria da Sarandi.md",
+  "basename": "Padaria da Sarandi",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "Seu Osmar Kunz",
+    "Descrição": null,
+    "Serviços": [
+      "[[Café da Manhã de Padaria]]",
+      "[[Café Passado]]",
+      "[[Bolo de Padaria]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padaria da Sarandi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café da Manhã de Padaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bolo de Padaria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padaria da Sarandi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padaria da Sarandi.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Cacetinho, café e bolo; pão dormido pela metade depois das nove.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Forno a lenha, balcão de madeira, fila de macacão às quatro e meia.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cacetinho, café e bolo; pão dormido pela metade depois das nove.",
+    "aparencia": "Forno a lenha, balcão de madeira, fila de macacão às quatro e meia.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

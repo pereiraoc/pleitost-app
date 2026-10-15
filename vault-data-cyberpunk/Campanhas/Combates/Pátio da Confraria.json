@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Pátio da Confraria",
+  "path": "Campanhas/Combates/Pátio da Confraria.md",
+  "basename": "Pátio da Confraria",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Ferroviária Nacional]] · [[Nova Sarandi]]",
+    "Situação": "O vagão está parado e o pátio inteiro sabe o que tem dentro. Quem manda ali já escolheu quem leva.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chefe de Pátio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Saqueador de Vagão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferroviária Nacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Chefe de Pátio]] lento\n- 6 [[Saqueador de Vagão]] rápido\n```\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Fio Rompido na Enchente",
+  "path": "Campanhas/Combates/Fio Rompido na Enchente.md",
+  "basename": "Fio Rompido na Enchente",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Viaduto da Borges]] · [[Centro Histórico]]",
+    "Situação": "Dois técnicos da CRT abriram a caixa do prédio dos advogados 'pra manutenção', e a Brigada ficou na passarela pra ninguém reclamar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnico da CRT",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigadiano de Esquina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Viaduto da Borges",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Técnico da CRT]] rápido\n- 1 [[Cabo de Choque]] lento\n- 5 [[Brigadiano de Esquina]] lento\n```\n"
+}

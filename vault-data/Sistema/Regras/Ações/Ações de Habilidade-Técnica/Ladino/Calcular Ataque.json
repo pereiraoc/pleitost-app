@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Calcular Ataque",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Calcular Ataque.md",
+  "basename": "Calcular Ataque",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Ladino]]\"",
+    "resumo": "\"Escolha uma criatura. Role 1d20 e guarde o resultado. Próximo Ataque deve usar o d20 rolado para o resultado. Faça teste de Percepção contra Defesa, no sucesso recebe VdC, pode usar ação para passar VdC para aliado e aumentar dano em 1+dados.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Ladino]]\"\n\nresumo:: \"Escolha uma criatura. Role 1d20 e guarde o resultado. Próximo Ataque deve usar o d20 rolado para o resultado. Faça teste de Percepção contra Defesa, no sucesso recebe VdC, pode usar ação para passar VdC para aliado e aumentar dano em 1+dados.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê procura uma brecha nas defesas do seu alvo, estimando uma próxima rota de ataque. Escolha uma criatura que você consegue ver e então:\n\n* Role 1d20 e guarde o resultado.\n\t* O primeiro [[Atacar|Ataque]] que você fizer contra a criatura escolhida nesse turno, **deve** usar o resultado do d20 como o resultado da rolagem do Ataque (somando seus modificadores normalmente) em vez de rolar um novo d20.\n\t* Se você tiver [[Penalidade por Ataque Múltiplo|PAM]] no ataque, role somente os dados adicionais da PAM (1 ou 2), usando o valor pré-rolado para uma das rolagens.\n* Faça um teste de [[Percepção]] contra a [[Defesa]] da criatura escolhida.\n\t* No sucesso, você encontra um bom ângulo de ataque, seu próximo ataque contra o alvo neste turno é feito com [[Vantagem de Combate]].\n\t* Você pode optar por imediatamente usar uma ação, abrindo mão da sua [[Vantagem de Combate]], mas guiando um aliado que consegue te ouvir com a forma ideal de atacar. Nesse caso o primeiro [[Atacar|Ataque]] que o aliado fizer contra a criatura no próximo turno dele tem [[Vantagem de Combate]] e causa dano de precisão adicional igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque em caso de sucesso.\n\t* No sucesso decisivo, os benefícios (seja para você ou para um aliado) duram até o final do turno (final do seu turno ou final do próximo turno do aliado guiado) em vez de somente para o primeiro [[Atacar|Ataque]].\n\nVocê só pode realizar Calcular Ataque uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

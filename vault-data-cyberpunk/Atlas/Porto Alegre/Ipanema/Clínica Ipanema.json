@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Clínica Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Clínica Ipanema.md",
+  "basename": "Clínica Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Dr. Fábio Lorentz",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clínica Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clínica Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Clínica Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Consultório, raio-X e dois leitos de observação; sem convênio, paga adiantado em cruzado ou dólar — e a guarita decide se entra.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casa branca de um andar com jardim aparado, placa de bronze, ambulância particular na garagem e guarita do condomínio na esquina.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Consultório, raio-X e dois leitos de observação; sem convênio, paga adiantado em cruzado ou dólar — e a guarita decide se entra.",
+    "aparencia": "Casa branca de um andar com jardim aparado, placa de bronze, ambulância particular na garagem e guarita do condomínio na esquina.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

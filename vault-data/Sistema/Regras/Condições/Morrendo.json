@@ -1,0 +1,85 @@
+{
+  "id": "Sistema/Regras/Condições/Morrendo",
+  "path": "Sistema/Regras/Condições/Morrendo.md",
+  "basename": "Morrendo",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Derivar Condicao Inconsciente"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Reduz ações, perde [[Energia Vital|EV]] ao usar ações.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Derivar Condicao Inconsciente",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Inconsciente"
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Reduz ações, perde [[Energia Vital|EV]] ao usar ações.\"\n%%\n## `= this.file.name`\nNúmero de ações reduzido em 1 ([[Energia Vital|EV]] 0 ~ -½ máximo) ou 2 ([[Energia Vital|EV]] -(½ máximo+1) ~  -máximo). Essa redução de ações acumula com [[Lento]].\n\nPerde 1d4 [[Energia Vital|EV]] para cada ação ou reação (2A perde 2d4 [[Energia Vital|EV]]; 3A, 3d4). [[Mover]], até metade da [[Movimentação]], [[Levantar]], [[Arrastar-se]] e [[Interagir]] com objetos são exceções não impõem perda de [[Energia Vital|EV]].\n\nDescrição completa em: [[Morte]].\n\n```autosheet-rules\n```\n"
+}

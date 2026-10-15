@@ -1,0 +1,62 @@
+{
+  "id": "Atlas/Mundo Livre/Principado das Flores/Pencas",
+  "path": "Atlas/Mundo Livre/Principado das Flores/Pencas.md",
+  "basename": "Pencas",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Principado das Flores]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Agricultura (Grãos)"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pencas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pencas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pencas.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade agrícola do [[Principado das Flores]] e celeiro de grãos da nação: tudo aqui gira em torno do plantio, da colheita e das sacas que partem em caravana pelas estradas rumo a [[Vinhedos]], [[Varadas]] e ao porto de [[Canto Alto]]. É uma cidade aberta e pacata, sem muralhas, com o mesmo casario holandês da capital em escala miúda. A vida social se divide entre a Praça do Grão e o Galpão das Tradições, onde os lavradores mantêm viva a cultura campeira do Principado.\n>\n> 👁️**Aparência do Local:** Casario de tijolo com empenas escalonadas em tons de ocre, marrom e vermelho — dois a três pisos, com quintais — espalhado em quarteirões irregulares e arborizados. Não há muralhas nem portões: as ruas de terra batida que irradiam da Praça do Grão simplesmente viram estradas e somem entre as lavouras. Uma colcha de talhões de grão, dourados de trigo maduro e verdes, cerca a cidade por todos os lados, recortada por sebes, renques de árvores e granjas isoladas. O skyline é baixo: destacam-se apenas a Casa do Conselho, o grande Galpão das Tradições e, a leste, o moinho de vento erguido no meio das plantações.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Praça do Grão** *(terracota — centro)* — o coração da cidade: a praça, a Casa do Conselho e o casario mais denso.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade agrícola do [[Principado das Flores]] e celeiro de grãos da nação: tudo aqui gira em torno do plantio, da colheita e das sacas que partem em caravana pelas estradas rumo a [[Vinhedos]], [[Varadas]] e ao porto de [[Canto Alto]]. É uma cidade aberta e pacata, sem muralhas, com o mesmo casario holandês da capital em escala miúda. A vida social se divide entre a Praça do Grão e o Galpão das Tradições, onde os lavradores mantêm viva a cultura campeira do Principado.",
+    "aparencia": "Casario de tijolo com empenas escalonadas em tons de ocre, marrom e vermelho — dois a três pisos, com quintais — espalhado em quarteirões irregulares e arborizados. Não há muralhas nem portões: as ruas de terra batida que irradiam da Praça do Grão simplesmente viram estradas e somem entre as lavouras. Uma colcha de talhões de grão, dourados de trigo maduro e verdes, cerca a cidade por todos os lados, recortada por sebes, renques de árvores e granjas isoladas. O skyline é baixo: destacam-se apenas a Casa do Conselho, o grande Galpão das Tradições e, a leste, o moinho de vento erguido no meio das plantações.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Praça do Grão** *(terracota — centro)* — o coração da cidade: a praça, a Casa do Conselho e o casario mais denso.",
+    "leaflet": null
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Celeridade",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Celeridade.md",
+  "basename": "Celeridade",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Celeridade",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "AtaquesDeAtributo",
+            "porAtributo": "AGI",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "PericiasDeAtributo",
+            "porAtributo": "AGI",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Defesa",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Reflexo",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Movimento",
+            "valor": 1,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Garante +1 em tudo que depende de [[Agilidade|AGI]] de uma criatura em 2q por 10t. Também se aplica para [[Defesa]] e [[Movimentação]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Garante +1 em tudo que depende de [[Agilidade|AGI]] de uma criatura em 2q por 10t. Também se aplica para [[Defesa]] e [[Movimentação]].\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Por 10 turnos, a criatura recebe +1 de [[bônus de condição]] em [[Ataques]] usando [[Agilidade|AGI]], testes de [[Acrobacia]], [[Furtividade]] e [[Ladinagem]], [[Defesa]], [[Evasão]] e +1q de [[Bônus de Condição|bônus de condição]] na [[Movimentação]].\n\n```autosheet-rules\n```\n"
+}

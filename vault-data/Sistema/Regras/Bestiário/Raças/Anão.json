@@ -1,0 +1,172 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Anão",
+  "path": "Sistema/Regras/Bestiário/Raças/Anão.md",
+  "basename": "Anão",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Sintonia [[Traço Elemental da Terra]]",
+      "Definir Tamanho Médio",
+      "Alias Raça Compor 0 \"Anão\"",
+      "Alias Raça Compor 1 \"(Médio)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Anão.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Sintonia [[Traço Elemental da Terra]]",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental da Terra]]"
+          },
+          "raw": "Definir Sintonia [[Traço Elemental da Terra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Anão\"",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Anão"
+          },
+          "raw": "Alias Raça Compor 0 \"Anão\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Médio)\"",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Médio)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Médio)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Anão",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Anão.\"\n%%\n##### `= this.file.name`\nVocê é um Anão. Antigo povo da terra.\n\n```autosheet-rules\n```\n"
+}

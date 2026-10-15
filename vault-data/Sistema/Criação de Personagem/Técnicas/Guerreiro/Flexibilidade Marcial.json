@@ -1,0 +1,248 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Flexibilidade Marcial",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Flexibilidade Marcial.md",
+  "basename": "Flexibilidade Marcial",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+      "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"No início do dia, escolha 1 [[Técnica Adepta]] e 1 [[Técnica Experiente]] de Guerreiro (que você cumpra os pré-requisitos e não tenha); você ganha essas técnicas até o início do próximo dia.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+      "parsed": [
+        {
+          "sourceNote": "Flexibilidade Marcial",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica do Dia",
+              "choiceKey": "__esc_h_215ac2ac",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Ambidestria]]",
+              "[[Aparar]]",
+              "[[Ataque Multidisciplinar]]",
+              "[[Ataque Poderoso]]",
+              "[[Avanço Defensivo]]",
+              "[[Bloqueio Agressivo]]",
+              "[[Bravura]]",
+              "[[Disparo Múltiplo]]",
+              "[[Disparo Suporte]]",
+              "[[Oportunidade Especializada]]",
+              "[[Preparado]]",
+              "[[Protetor]]",
+              "[[Tiro a Queima Roupa]]",
+              "[[Trespassar]]"
+            ],
+            "label": "Técnica do Dia"
+          },
+          "raw": "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])",
+      "parsed": [
+        {
+          "sourceNote": "Flexibilidade Marcial",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica do Dia",
+              "choiceKey": "__esc_h_26b14424",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Arsenal Diverso]]",
+              "[[Perseguição Decisiva]]",
+              "[[Disparo Debilitante]]",
+              "[[Ataque Preciso]]",
+              "[[Disparo Perfurante]]",
+              "[[Eliminar Covardia]]",
+              "[[Ataque Brutal]]",
+              "[[Reflexos Acelerados]]",
+              "[[Impulso de Velocidade]]",
+              "[[Investida Atropelante]]",
+              "[[Bloqueio Rápido]]",
+              "[[Contra-ataque Ágil]]"
+            ],
+            "label": "Técnica do Dia"
+          },
+          "raw": "Escolha_Habilidades \"Técnica do Dia\" Complementar Tecnicas.Lista Selecionar ([[Arsenal Diverso]], [[Perseguição Decisiva]], [[Disparo Debilitante]], [[Ataque Preciso]], [[Disparo Perfurante]], [[Eliminar Covardia]], [[Ataque Brutal]], [[Reflexos Acelerados]], [[Impulso de Velocidade]], [[Investida Atropelante]], [[Bloqueio Rápido]], [[Contra-ataque Ágil]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ambidestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Multidisciplinar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Poderoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avanço Defensivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloqueio Agressivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bravura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Suporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Especializada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preparado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Protetor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tiro a Queima Roupa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trespassar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arsenal Diverso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perseguição Decisiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Debilitante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Preciso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Perfurante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Eliminar Covardia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reflexos Acelerados",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Impulso de Velocidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Investida Atropelante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloqueio Rápido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contra-ataque Ágil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"No início do dia, escolha 1 [[Técnica Adepta]] e 1 [[Técnica Experiente]] de Guerreiro (que você cumpra os pré-requisitos e não tenha); você ganha essas técnicas até o início do próximo dia.\"\n%%\n#### `= this.file.name` - `= this.rank`\nNo início do dia, escolha uma [[Técnica Adepta]] e uma [[Técnica Experiente]] de Guerreiro que você satisfaz os pré-requisitos e não as tenha. Você recebe essas técnicas até o início do próximo dia.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Salto Alto",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Salto Alto.md",
+  "basename": "Salto Alto",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Salta mais alto, pegando impulso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Salte"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Salta mais alto, pegando impulso.\"\n%%\n### `= this.file.name` - `= this.custo`\n[[Mover|Mova]] e [[Saltar|Salte]]. Se você moveu ao menos 2q, faça um teste de [[Atletismo]] antes do Salto. Você pode aumentar a altura percorrida pelo Salto em até 1q para cada 10 acima de 10 do resultado do seu teste.\n\n```autosheet-rules\n```\n"
+}

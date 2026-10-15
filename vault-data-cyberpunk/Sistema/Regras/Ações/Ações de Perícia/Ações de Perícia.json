@@ -1,0 +1,94 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Ações de Perícia",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Ações de Perícia.md",
+  "basename": "Ações de Perícia",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação Básica de Perícia",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações|Ações]]",
+    "prev": "[[Ações Básicas de Combate]]",
+    "next": "[[Ações Especiais]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações de Perícia"
+    },
+    {
+      "level": 3,
+      "text": "Atletismo"
+    },
+    {
+      "level": 3,
+      "text": "Acrobacia"
+    },
+    {
+      "level": 3,
+      "text": "Furtividade"
+    },
+    {
+      "level": 3,
+      "text": "Ladinagem"
+    },
+    {
+      "level": 3,
+      "text": "Arcana"
+    },
+    {
+      "level": 3,
+      "text": "Guerra"
+    },
+    {
+      "level": 3,
+      "text": "Sociedades"
+    },
+    {
+      "level": 3,
+      "text": "Anima"
+    },
+    {
+      "level": 3,
+      "text": "Medicina"
+    },
+    {
+      "level": 3,
+      "text": "Sobrevivência"
+    },
+    {
+      "level": 3,
+      "text": "Diplomacia"
+    },
+    {
+      "level": 3,
+      "text": "Enganação"
+    },
+    {
+      "level": 3,
+      "text": "Intimidação"
+    }
+  ],
+  "body": "%%\nup:: [[Ações|Ações]]\nprev:: [[Ações Básicas de Combate]]\nnext:: [[Ações Especiais]]\n%%\n## Ações de Perícia\n### Atletismo\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Atletismo\")\n```\n\n### Acrobacia\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Acrobacia\")\n```\n\n### Furtividade\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Furtividade\")\n```\n\n### Ladinagem\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Ladinagem\")\n```\n\n### Arcana\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Arcana\")\n```\n\n### Guerra\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Guerra\")\n```\n\n### Sociedades\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Sociedades\")\n```\n\n### Anima\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Anima\")\n```\n\n### Medicina\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Medicina\")\n```\n\n### Sobrevivência\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Sobrevivência\")\n```\n\n### Diplomacia\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Diplomacia\")\n```\n\n### Enganação\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Enganação\")\n```\n\n### Intimidação\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Perícia\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\" and contains(perícia,\"Intimidação\")\n```\n\n```autosheet-rules\n```\n"
+}

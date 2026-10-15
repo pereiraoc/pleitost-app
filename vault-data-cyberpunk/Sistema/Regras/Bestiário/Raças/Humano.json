@@ -1,0 +1,150 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Humano",
+  "path": "Sistema/Regras/Bestiário/Raças/Humano.md",
+  "basename": "Humano",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Tamanho Médio",
+      "Alias Raça Compor 0 \"Humano\"",
+      "Alias Raça Compor 1 \"(Médio)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Humano.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Humano",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Humano\"",
+      "parsed": [
+        {
+          "sourceNote": "Humano",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Humano"
+          },
+          "raw": "Alias Raça Compor 0 \"Humano\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Médio)\"",
+      "parsed": [
+        {
+          "sourceNote": "Humano",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Médio)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Médio)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Humano",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Humano",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Humano.\"\n%%\n##### `= this.file.name`\nHumanos são a raça dominante do mundo em questão de população. Extremamente diversos, Humanos de todos os tipos são encontrados pelo continente. Inimigos humanos tem uma habilidade adicional, representando sua diversidade de estratégias e credos. Humanos dificilmente tem acesso a magia fora um uso eventual de [[Magia Arcana Essencial]], visto que as forças elementais e entrópicas deixam criaturas sem sintonia muito exaustas.\n\n```autosheet-rules\n```\n"
+}

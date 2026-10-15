@@ -1,0 +1,100 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Superior/Estratagema Superior (Estrategista)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Superior/Estratagema Superior (Estrategista).md",
+  "basename": "Estratagema Superior (Estrategista)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratagema (Estrategista)]]",
+      "Definir Pericias.Lista.Guerra.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em um passo (de d6 para d8 e d8 para d10).\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratagema (Estrategista)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Superior (Estrategista)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratagema (Estrategista)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratagema (Estrategista)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Guerra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Superior (Estrategista)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Pericias.Lista.Guerra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema (Estrategista)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em um passo (de d6 para d8 e d8 para d10).\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Guerra]]. Quando você recebe um dado de comando, aumente seu tamanho em um passo (de d6 para d8 e d8 para d10).\n\n```autosheet-rules\n```\n"
+}

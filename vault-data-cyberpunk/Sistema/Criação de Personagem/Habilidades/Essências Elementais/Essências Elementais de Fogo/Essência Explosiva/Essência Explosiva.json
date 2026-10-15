@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Explosiva/Essência Explosiva.md",
+  "basename": "Essência Explosiva",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Estouro]], adepta [[Coluna de Fogo]], experiente [[Propulsão Explosiva]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coluna de Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propulsão Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Explosiva Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Estouro]], adepta [[Coluna de Fogo]], experiente [[Propulsão Explosiva]]\"\n%%\n### `= this.file.name`\n![[Essência Explosiva Adepta#`= this.file.name`]]\n![[Essência Explosiva Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

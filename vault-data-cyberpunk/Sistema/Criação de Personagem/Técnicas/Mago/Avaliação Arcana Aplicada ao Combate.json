@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Avaliação Arcana Aplicada ao Combate",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Avaliação Arcana Aplicada ao Combate.md",
+  "basename": "Avaliação Arcana Aplicada ao Combate",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com sua [[Arma Arcana]] (se for à distância, alvo até 6q); se acertar, você pode [[Detectar Resistência]] como ação livre e, em sucesso decisivo, o resultado de [[Detectar Resistência]] melhora em 1 grau. Pode substituir o ataque de uma habilidade de [[Combate Arcano]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Arma Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate Arcano",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com sua [[Arma Arcana]] (se for à distância, alvo até 6q); se acertar, você pode [[Detectar Resistência]] como ação livre e, em sucesso decisivo, o resultado de [[Detectar Resistência]] melhora em 1 grau. Pode substituir o ataque de uma habilidade de [[Combate Arcano]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Avaliação Arcana Aplicada ao Combate.\n\n**Avaliação Arcana Aplicada ao Combate - 1A**\nFaça um [[Atacar|Ataque]] contra uma criatura usando sua [[Arma Arcana]]. Se o ataque for um ataque à distância, a criatura alvo deve estar no máximo a 6q de distância. Aplique os efeitos do ataque normalmente. Se tiver sucesso no ataque, você pode [[Detectar Resistência]] da criatura alvo como uma ação livre. Se o ataque foi um sucesso decisivo, o resultado de Detectar Resistência aumenta em um grau. Você pode usar esta habilidade no lugar do Ataque feito em uma habilidade de [[Combate Arcano]].\n\n```autosheet-rules\n```\n"
+}

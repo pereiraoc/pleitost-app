@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Propriedades/Força X",
+  "path": "Sistema/Regras/Propriedades/Força X.md",
+  "basename": "Força X",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Força 0, Força 1, Força 2, Força 3, Força 4",
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Valor de [[Força|FOR]] necessário para usar sem penalidades.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recarregar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Valor de [[Força|FOR]] necessário para usar sem penalidades.\"\n%%\n## `= this.file.name`\nArmas com a propriedade Força precisam de um valor mínimo de [[Força|FOR]] para serem utilizadas sem penalidades. O efeito muda dependendo do tipo de arma.\n\n**Arma Corpo-a-Corpo**: Essa arma é pesada para manejar e/ou precisa de força para causar dano corretamente. Para cada 1 de [[Força|FOR]] que o personagem tiver a menos que o valor da propriedade, este recebe cumulativamente -1 nas jogadas de ataque e dano com essa arma.\n\n**Arma de Distância sem [[Recarga]]**: Essa arma precisa de força para puxar a corda do arco ou outro mecanismo. Para cada 1 de [[Força|FOR]] que o personagem tiver a menos que o valor da propriedade, este recebe cumulativamente -2 nas jogadas de dano com essa arma e uma redução cumulativa de 5 no [[Alcance]].\n\n**Arma de Distância com [[Recarga]]**: O mecanismo de recarga dessa arma é pesado e precisa de força para ativar de forma rápida. Você precisa utilizar duas ações [[Recarregar]] para recarregar a arma completamente caso não tenha o valor de [[Força|FOR]] da propriedade.\n\n```autosheet-rules\n```\n"
+}

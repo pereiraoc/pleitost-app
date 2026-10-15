@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Proficiência/Mestre",
+  "path": "Sistema/Regras/Proficiência/Mestre.md",
+  "basename": "Mestre",
+  "type": "Regra",
+  "subtype": "Proficiência",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "M, Mestres",
+    "categoria": "Regra",
+    "subcategoria": "Proficiência",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Proficiência|Proficiência]]",
+    "prev": "[[Experiente]]",
+    "next": "[[Vitalidade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Mestre"
+    }
+  ],
+  "body": "%%\nup:: [[Proficiência|Proficiência]]\nprev:: [[Experiente]]\nnext:: [[Vitalidade]]\n%%\n## Mestre\n* Mestre é o nível máximo, garantindo um bônus de +6. Adicionalmente, subir uma perícia para Mestre garante uma maestria, ataques com armas nas quais você é Mestre causam 3 dados de dano. Certas atividades e [[Técnicas]] requerem um mínimo de Mestre para realizá-las."
+}

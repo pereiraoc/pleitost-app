@@ -1,0 +1,166 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Treinamento de Classe Secundária",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Treinamento de Classe Secundária.md",
+  "basename": "Treinamento de Classe Secundária",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Classe Secundária\" Complementar Habilidades.Lista Selecionar ([[Treinamento de Animista]], [[Treinamento de Arcanista]], [[Treinamento de Bardo]], [[Treinamento de Caçador]], [[Treinamento de Comandante]], [[Treinamento de Druida]], [[Treinamento de Guerreiro]], [[Treinamento de Ladino]], [[Treinamento de Mago]], [[Treinamento de Monge]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe treinamento em uma classe secundária.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Classe Secundária\" Complementar Habilidades.Lista Selecionar ([[Treinamento de Animista]], [[Treinamento de Arcanista]], [[Treinamento de Bardo]], [[Treinamento de Caçador]], [[Treinamento de Comandante]], [[Treinamento de Druida]], [[Treinamento de Guerreiro]], [[Treinamento de Ladino]], [[Treinamento de Mago]], [[Treinamento de Monge]])",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Classe Secundária",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Classe Secundária",
+              "choiceKey": "__esc_h_ab7d307d",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Treinamento de Animista]]",
+              "[[Treinamento de Arcanista]]",
+              "[[Treinamento de Bardo]]",
+              "[[Treinamento de Caçador]]",
+              "[[Treinamento de Comandante]]",
+              "[[Treinamento de Druida]]",
+              "[[Treinamento de Guerreiro]]",
+              "[[Treinamento de Ladino]]",
+              "[[Treinamento de Mago]]",
+              "[[Treinamento de Monge]]"
+            ],
+            "label": "Classe Secundária"
+          },
+          "raw": "Escolha_Habilidades \"Classe Secundária\" Complementar Habilidades.Lista Selecionar ([[Treinamento de Animista]], [[Treinamento de Arcanista]], [[Treinamento de Bardo]], [[Treinamento de Caçador]], [[Treinamento de Comandante]], [[Treinamento de Druida]], [[Treinamento de Guerreiro]], [[Treinamento de Ladino]], [[Treinamento de Mago]], [[Treinamento de Monge]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Monge",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe treinamento em uma classe secundária.\"\n%%\n#### `= this.file.name` - `= this.rank`\nAdquirir uma classe secundária garante os benefícios básicos descritos na técnica \"Treinamento de ...\" e permite que você troque técnicas da sua classe base por técnicas da sua classe secundária de uma categoria inferior, isso é, no lugar de uma Técnica Experiente da sua classe base pode optar por uma Técnica Adepta da classe secundária e no lugar de uma Técnica Mestre da sua classe base pode optar por uma Técnica Experiente da classe secundária.\n\nObter uma classe secundária garante benefícios mas impõe algumas restrições. Você não consegue dividir sua atenção mais vezes, sendo assim, você só pode ter uma classe secundária. Além disso, uma classe secundária não é somente uma distração, ela se torna parte integral da sua evolução como herói, portanto você **deve** escolher pelo menos uma Técnica Adepta da sua classe secundária no lugar de uma das Técnicas Experientes da sua classe base obtidas no 5º ou 6º nível e **deve** escolher pelo menos uma Técnica Experiente ou inferior da sua classe secundária no lugar de uma das Técnicas Mestre da sua classe base obtidas no 8º ou 9º nível.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Classe Secundária\",\n  rank as \"Categoria\"\nwhere categoria=\"Habilidade\" and subcategoria=\"Secundaria\"\nsort rank asc\n```\n\n```autosheet-rules\n```\n"
+}

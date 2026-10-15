@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Sísmica/Essência Sísmica Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Sísmica/Essência Sísmica Adepta.md",
+  "basename": "Essência Sísmica Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Terra",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Pulso Sísmico]]",
+      "Complementar Magias.Lista [[Onda de Choque]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Pulso Sísmico]], adepta [[Onda de Choque]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Pulso Sísmico]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Sísmica Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Pulso Sísmico]]"
+          },
+          "raw": "Complementar Magias.Lista [[Pulso Sísmico]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Onda de Choque]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Sísmica Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Onda de Choque]]"
+          },
+          "raw": "Complementar Magias.Lista [[Onda de Choque]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulso Sísmico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Onda de Choque",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Pulso Sísmico]], adepta [[Onda de Choque]]\"\n%%\n#### `= this.file.name`\n* basica [[Pulso Sísmico]]\n* adepta [[Onda de Choque]]\n\n```autosheet-rules\n```\n"
+}

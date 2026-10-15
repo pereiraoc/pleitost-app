@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Congelante/Essência Congelante Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Congelante/Essência Congelante Menor.md",
+  "basename": "Essência Congelante Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Água",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Frio Instantâneo]]",
+      "Complementar Magias.Secundaria.Lista [[Caminho de Gelo]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Frio Instantâneo]], adepta [[Caminho de Gelo]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Frio Instantâneo]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Congelante Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Frio Instantâneo]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Frio Instantâneo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Caminho de Gelo]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Congelante Menor",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Caminho de Gelo]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Caminho de Gelo]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frio Instantâneo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caminho de Gelo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Frio Instantâneo]], adepta [[Caminho de Gelo]]\"\n%%\n#### `= this.file.name`\n* basica [[Frio Instantâneo]]\n* adepta [[Caminho de Gelo]]\n\n```autosheet-rules\n```\n"
+}

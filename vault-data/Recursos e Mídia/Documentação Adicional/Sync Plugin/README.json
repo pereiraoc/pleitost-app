@@ -1,0 +1,53 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/README",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/README.md",
+  "basename": "README",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iniciar Sessão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Personagens na Mesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ficha do Grupo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Configuração",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Documentação — Pleitost Sync"
+    },
+    {
+      "level": 2,
+      "text": "Fluxo típico (sessão)"
+    },
+    {
+      "level": 2,
+      "text": "Quer ler a doc técnica?"
+    }
+  ],
+  "body": "# Documentação — Pleitost Sync\n\nMesa multi-jogador via Supabase, fichas vivas sincronizadas em tempo real.\n\n| Doc | Quando ler |\n|---|---|\n| [[Como Funciona]] | Modelo: topologia + regra do claim + o que viaja via servidor |\n| [[Iniciar Sessão]] | Criar, entrar, sair, trocar de sessão + initial sync |\n| [[Personagens na Mesa]] | Cards: heroi/companheiro/NPC/invocação, edição, anonimização |\n| [[Ficha do Grupo]] | Publicar grupo inteiro como placeholders + claim |\n| [[Combate]] | Combates Preparados / Ativos / Arquivados + turn tracker |\n| [[Configuração]] | Login, nickname, debug, backend Supabase, kill switch bidi |\n\n## Fluxo típico (sessão)\n\n```mermaid\nflowchart TB\n    A[\"Mestre inicia sessão<br/>gera código de 6 chars\"]\n    B[\"Mestre seleciona<br/>Ficha do Grupo<br/>(opcional)\"]\n    C[\"Jogadores entram<br/>com código + nickname\"]\n    D[\"Jogadores reivindicam<br/>seus heróis<br/>(claim)\"]\n    E[\"Jogo:<br/>cada player edita o próprio;<br/>Mestre aplica dano em NPCs\"]\n    F[\"Mestre prepara combate<br/>(🔗 no tracker)\"]\n    G[\"Mestre inicia combate<br/>NPCs anonimizados<br/>pros players\"]\n    H[\"Mestre encerra combate<br/>arquivado\"]\n    I[\"Mestre encerra sessão\"]\n\n    A --> B --> C --> D --> E\n    E --> F --> G --> H --> E\n    E --> I\n```\n\n## Quer ler a doc técnica?\n\nVive em `.obsidian/plugins/pleitost-sync/docs/` (pasta oculta no Obsidian, acessível via FS/GitHub). Schema do banco em `supabase/install.sql` — rode 1× no Supabase ao provisionar.\n"
+}

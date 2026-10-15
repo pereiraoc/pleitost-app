@@ -1,0 +1,72 @@
+{
+  "id": "Contexto/Recursos/Veículos/Chevrolet Monza",
+  "path": "Contexto/Recursos/Veículos/Chevrolet Monza.md",
+  "basename": "Chevrolet Monza",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Chevrolet",
+    "Preço": 700000,
+    "Cobrança": "única",
+    "Usado": 280000,
+    "Manutenção": 5000,
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Petrópolis]]",
+      "[[Ipanema]]"
+    ],
+    "Resumo": "O sedã do executivo de megacorp em início de carreira: ar-condicionado, vidro fumê e vaga com nome no estacionamento.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chevrolet Monza.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revenda Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chevrolet Monza.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chevrolet Monza.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Monza é o carro que o RH da [[Gradiente]] financia pro gerente novo: sedã de quatro portas, ar-condicionado,\ndireção hidráulica, rádio toca-fitas. Anda na [[Padre Chagas]] com o vidro fumê fechado e estaciona na vaga com\no nome na placa. Usado, vem do leilão da própria empresa.\n\n> [!info] Especificação\n> **Modelo:** Monza Classic 1987, 4 portas, ar-condicionado\n> **Motor:** GM 2.0 gasolina/álcool, 110 cv; 8 km/l\n> **Velocidade:** 170 km/h\n> **Novo:** [[Revenda Moinhos]], [[Auto Petrópolis]]\n> **Usado:** leilão de frota de megacorp\n> **Manutenção:** Cz$ 5.000 por mês\n"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Magia Branca Experiente",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Magia Branca Experiente.md",
+  "basename": "Magia Branca Experiente",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Branca Experiente"
+    }
+  ],
+  "body": "### Magia Branca Experiente\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Experiente\"\n```"
+}

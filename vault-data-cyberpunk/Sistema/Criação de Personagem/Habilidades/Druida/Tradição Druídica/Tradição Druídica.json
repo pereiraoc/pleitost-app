@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Tradição Druídica.md",
+  "basename": "Tradição Druídica",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Tradição Druídica (Guardião)]], [[Tradição Druídica (Xamã)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Escolhe entre a tradição de Guardião (Forma Feral) ou Xamã (Espírito Feral)\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Tradição Druídica (Guardião)]], [[Tradição Druídica (Xamã)]])",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Druídica",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_266e12fc",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Tradição Druídica (Guardião)]]",
+              "[[Tradição Druídica (Xamã)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Tradição Druídica (Guardião)]], [[Tradição Druídica (Xamã)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink",
+      "alias": "Formas Ferais"
+    },
+    {
+      "target": "Tradição Druídica (Guardião)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Druídica (Xamã)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Druídica (Guardião)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica (Xamã)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]]\n\nresumo:: \"Escolhe entre a tradição de Guardião (Forma Feral) ou Xamã (Espírito Feral)\"\n%%\n####  `= this.file.name`\nEscolha a tradição druídica que você segue, definindo como você protege a natureza. Druidas manifestam sua magia usando-se de [[Forma Feral|Formas Ferais]]: Guardiões se transformam nessas formas, usando as armas da natureza contra seus inimigos diretamente e Xamãs manifestam espíritos com essas formas, poderosos aliados a seu lado. Sua proficiência druídica é [[Adepto]] para essas habilidades.\n\n![[Tradição Druídica (Guardião)#`= this.file.name`]]\n![[Tradição Druídica (Xamã)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

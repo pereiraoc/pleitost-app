@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Estação Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Estação Ipanema.md",
+  "basename": "Estação Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "Trensurb + segurança [[Gradiente]]",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma ajardinada com guarita, cancela e segurança da Gradiente; de lá, carrinho elétrico até o resort.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Estação de vidro entre palmeiras, cancela de condomínio, segurança de terno, vagão preto vazio, o lago azul ao fundo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma ajardinada com guarita, cancela e segurança da Gradiente; de lá, carrinho elétrico até o resort.",
+    "aparencia": "Estação de vidro entre palmeiras, cancela de condomínio, segurança de terno, vagão preto vazio, o lago azul ao fundo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

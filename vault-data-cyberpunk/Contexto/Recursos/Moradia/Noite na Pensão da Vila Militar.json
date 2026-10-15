@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pensão da Vila Militar",
+  "path": "Contexto/Recursos/Moradia/Noite na Pensão da Vila Militar.md",
+  "basename": "Noite na Pensão da Vila Militar",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pensão da Vila Militar]]",
+    "Preço": 200,
+    "Cobrança": "noite",
+    "Nível": 3,
+    "Onde": [
+      "[[Costa e Silva]]",
+      "[[Pensão da Vila Militar]]"
+    ],
+    "Resumo": "Uma noite na pensão da Dona Zulmira: café às cinco, luz apagada às dez e o quartel do outro lado da rua.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pensão da Vila Militar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pensão da Vila Militar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pensão da Vila Militar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pensão da Vila Militar.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pensão da Vila Militar]] recebe por noite parente de soldado, fornecedor do quartel e quem precisa dormir perto de quem manda. Regras de quartel e a certeza de que o sargento da esquina sabe quem entrou.\n\n> [!info] Especificação\n> **Quarto:** solteiro, armário, banheiro no corredor\n> **Inclui:** café das cinco\n> **Regra:** luz apagada às dez; visita nunca\n> **Nível:** 3 — Classe Média Baixa\n"
+}

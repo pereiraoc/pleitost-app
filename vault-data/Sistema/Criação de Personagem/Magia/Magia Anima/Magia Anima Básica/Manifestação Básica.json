@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Manifestação Básica",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Manifestação Básica.md",
+  "basename": "Manifestação Básica",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": null,
+    "rank": "Básica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em criatura em 2q, imbuir um elemento para que o 1º [[Atacar|Ataque]] dela até o fim do próximo turno cause +1 dano no sucesso (tipo: fogo, frio, raio, contusão/perfuração/corte). Bônus vira +2 se [[Experiente]] em [[Magia Anima]] e +3 se [[Mestre]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em criatura em 2q, imbuir um elemento para que o 1º [[Atacar|Ataque]] dela até o fim do próximo turno cause +1 dano no sucesso (tipo: fogo, frio, raio, contusão/perfuração/corte). Bônus vira +2 se [[Experiente]] em [[Magia Anima]] e +3 se [[Mestre]].\"\n%%\n# `= this.file.name` - `= this.custo`\nUma pequena manifestação elemental é criada em uma criatura em 2q. O primeiro [[Atacar|Ataque]] que essa criatura fizer até o fim do próximo turno dela causa 1 de dano adicional no sucesso. O tipo do dano depende da escolha do elemento na hora da conjuração.\n\nO dano adicional aumenta para 2 ao se tornar [[Experiente]] com [[Magia Anima]] e 3 ao se tornar [[Mestre]].\n\n| Elemento | Tipo do Dano                  |\n| -------- | ----------------------------- |\n| Fogo     | Fogo                          |\n| Água     | Frio                          |\n| Vento    | Raio                          |\n| Terra    | Contusão, Perfuração ou Corte | "
+}

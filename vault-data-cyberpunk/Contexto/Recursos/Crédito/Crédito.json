@@ -1,0 +1,35 @@
+{
+  "id": "Contexto/Recursos/Crédito/Crédito",
+  "path": "Contexto/Recursos/Crédito/Crédito.md",
+  "basename": "Crédito",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "Empréstimo"
+    },
+    {
+      "target": "Custo de Vida",
+      "kind": "wikilink",
+      "subpath": "O que cada classe compra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\nOnde se pega dinheiro emprestado em Porto Alegre, e a que preço. A regra — dívida, juros ao mês e amortização — está em [[Custo de Vida#Empréstimo]]; que classe alcança cada fonte, em [[Custo de Vida#O que cada classe compra]].\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Fonte\", Marca AS \"Quem empresta\", Nível AS \"Classe mínima\", Juros AS \"Juros/mês (%)\", Teto_Meses AS \"Teto (meses do plano)\", Preço AS \"Teto fixo (Cz$)\"\nFROM \"Contexto/Recursos/Crédito\"\nWHERE categoria = \"Recurso\" AND Tipo = \"Empréstimo\"\nSORT Juros ASC\n```\n"
+}

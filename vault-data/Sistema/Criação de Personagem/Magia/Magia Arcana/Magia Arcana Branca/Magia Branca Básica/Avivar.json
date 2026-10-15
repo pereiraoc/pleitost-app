@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Básica/Avivar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Básica/Avivar.md",
+  "basename": "Avivar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "Escola": "Branca",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em até 6q recebe 4 EH temporária por 1 turno (6 se Experiente, 8 se Mestre).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em até 6q recebe 4 EH temporária por 1 turno (6 se Experiente, 8 se Mestre).\"\n%%\n# `= this.file.name` - `= this.custo`\nCriatura em até 6q é energizada. O alvo recebe 4 [[Energia Heroica|EH]] temporária por 1 turno. A [[Energia Heroica|EH]] recebida aumenta para 6 ao se tornar [[Experiente]] com [[Magia Arcana]] e 8 ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

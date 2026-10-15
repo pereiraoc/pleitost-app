@@ -1,0 +1,89 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/UFRGS — BARRA",
+  "path": "Contexto/Recursos/Transporte/Ônibus/UFRGS — BARRA.md",
+  "basename": "UFRGS — BARRA",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "UFRGS — BARRA",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 2,
+    "Cor": "#00897b",
+    "Horário": "6h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Colégio Rosário]]",
+      "[[Campus Centro da UFRGS]]",
+      "[[Armazém Sarmento Leite]]",
+      "[[Redenção]]",
+      "[[Estação Férrea de Belas]]",
+      "[[Estação Porto Novo]]"
+    ],
+    "Aparência": "Marcopolo Torino amarelo desbotado com faixa verde da prefeitura, letreiro de plástico branco com o nome em preto, adesivo 'TRI — Trensurb' na porta, roleta de ferro, poltrona de courvin rasgado, gente em pé pendurada, chuva na janela.",
+    "Resumo": "O ônibus do estudante: do campus à 'Barra' do Porto Novo, cheio de livro proibido, com a Brigada subindo na Redenção.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "UFRGS — BARRA.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armazém Sarmento Leite",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Férrea de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "UFRGS — BARRA.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[UFRGS — BARRA.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO ônibus do estudante — a única linha com dois nomes e nenhum número. Sai do [[Colégio Rosário]], para no portão do [[Campus Centro da UFRGS]], desce pela esquina do [[Armazém Sarmento Leite]], contorna a [[Redenção]] e vai até a \"Barra\": a [[Estação Férrea de Belas]] e a [[Estação Porto Novo]]. Cheio de livro embrulhado em jornal; a Brigada sobe na Redenção pra ver o que tem no embrulho.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

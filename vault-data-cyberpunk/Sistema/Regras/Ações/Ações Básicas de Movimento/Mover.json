@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Mover",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Mover.md",
+  "basename": "Mover",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Move sua movimentação terrestre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Move sua movimentação terrestre.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nMova um numero de quadrados até um máximo de sua movimentação terrestre.\n\n```autosheet-rules\n```\n"
+}

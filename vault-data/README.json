@@ -1,0 +1,98 @@
+{
+  "id": "README",
+  "path": "README.md",
+  "basename": "README",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "",
+      "kind": "wikilink",
+      "subpath": "🧾 Fichas na prática"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "🧭 Sistema Pleitost RPG"
+    },
+    {
+      "level": 2,
+      "text": "📖 Sobre o Projeto"
+    },
+    {
+      "level": 3,
+      "text": "Releases: pacote do mestre e pacote do jogador"
+    },
+    {
+      "level": 2,
+      "text": "⚙️ Capacidades"
+    },
+    {
+      "level": 3,
+      "text": "🎲 O jogo na mesa"
+    },
+    {
+      "level": 3,
+      "text": "💻 A vault como apoio digital"
+    },
+    {
+      "level": 2,
+      "text": "🧾 Fichas na prática"
+    },
+    {
+      "level": 2,
+      "text": "🧩 Estrutura do Projeto"
+    },
+    {
+      "level": 2,
+      "text": "💎 Recursos visuais"
+    },
+    {
+      "level": 2,
+      "text": "🧰 Plugins (Obsidian)"
+    },
+    {
+      "level": 3,
+      "text": "✅ Plugins Necessários"
+    },
+    {
+      "level": 3,
+      "text": "🌐 Plugin de Mesa (opcional, recomendado pra multi-jogador)"
+    },
+    {
+      "level": 3,
+      "text": "✨ Plugins Opcionais"
+    },
+    {
+      "level": 3,
+      "text": "🎨 Visual e snippets"
+    },
+    {
+      "level": 2,
+      "text": "🚀 Como usar"
+    },
+    {
+      "level": 2,
+      "text": "🪶 Contribuidores"
+    },
+    {
+      "level": 2,
+      "text": "📅 Linha do tempo"
+    },
+    {
+      "level": 2,
+      "text": "🧠 Roadmap"
+    },
+    {
+      "level": 2,
+      "text": "🪩 Licença"
+    }
+  ],
+  "body": "# 🧭 Sistema Pleitost RPG\n\n> *Sistema de RPG de mesa com apoio no Obsidian — regras, fichas e ferramentas para preparação, consulta e jogo presencial.*\n\n---\n\n## 📖 Sobre o Projeto\n\nO **Pleitost** usa o **Obsidian** como base para **preparação**, **consulta** e **jogo digital na mesa**, com fichas que podem ser usadas em **computador**, **celular** ou **tablet**. Ao mesmo tempo, o sistema também funciona em **papel e caneta**, com **fichas impressas** quando esse for o formato preferido do grupo. As regras e conteúdos ficam em Markdown, as fichas, a **ficha de grupo** (`autosheet-grupo`) e o **tracker de combate** (`autosheet-combat-tracker`) usam o plugin **Pleitost Autosheet**; blocos auxiliares de apresentação (`class-roles`, `bounty`) usam **Pleitost Views**; **sessões multi-jogador em tempo real** (mesa virtual com mestre + jogadores conectados via Supabase) usam **Pleitost Sync**.\n\n> **Versão:** acompanhe as *Releases* no [repositório GitHub](https://github.com/sfynz/pleitost).\n\n### Releases: pacote do mestre e pacote do jogador\n\nAs *releases* publicam **dois arquivos** para baixar: um com **tudo o que o mestre precisa** (campanhas, bestiário, ferramentas fechadas, rascunhos) e outro **enxuto para jogadores**, sem spoiler de aventura e sem arquivos só de mestre. A configuração do Obsidian (mesmos plugins ativos) é **idêntica** nos dois; muda só o conjunto de notas e pastas incluídas.\n\n> 🔧 **Detalhes técnicos** do script de ZIP e workflow de CI ficam em [`.github/scripts/release/`](.github/scripts/release/) (`build-releases.sh` + `player-exclude.txt`) e [`.github/workflows/release-vault.yml`](.github/workflows/).\n\n---\n\n## ⚙️ Capacidades\n\n### 🎲 O jogo na mesa\n\n- **🎯 Base do sistema**\n  - Sistema **d20** pensado para **sessões presenciais**.\n  - **10 classes** jogáveis.\n  - Funções de combate para leitura rápida de papel na mesa: **Líder**, **Abatedor**, **Controlador** e **Vanguarda**.\n\n- **✨ Magia e progressão**\n  - Magias de **Anima** (elementos), **Arcana** (**branca** e **negra**) e **Essencial**.\n  - Efeitos **especiais** e progressão organizada para campanha.\n  - Personagens evoluem do **nível 1 ao 10**.\n  - A progressão de **tier** se conecta a **missões** e **testes de progressão**.\n\n- **⚔️ Equipamento e desafio**\n  - Armas, armaduras, escudos, **imbuições**, tesouros e outros itens.\n  - Opções que reforçam **perícias**, **ataques** e **defesas**.\n  - Bestiário com **4 tiers** de desafio e **modificadores** para ajustar dificuldade.\n\n- **🧭 Filosofia do sistema**\n  - **Menos atrito** no acompanhamento do personagem no dia a dia.\n  - **Mais recuperação após combate**.\n  - Economia e progressão organizadas por **tiers**.\n\n- **🗺️ Mundo modular**\n  - **Atlas** e **Contexto** reaproveitáveis em campanhas diferentes.\n  - Locais, recursos disponíveis e ganchos de aventura descritos de forma modular.\n\n### 💻 A vault como apoio digital\n\n- **🧾 Fichas**\n  - Fichas de **Herói**, **Companheiro Animal** e **Monstro**.\n  - Modos de exibição na barra do Autosheet: **Resumo**, **Leitura**, **Interativa**, **Editável** e **Manual**.\n  - **Ficha de grupo** (party sheet): bloco `autosheet-grupo` no plugin **Pleitost Autosheet** — agrega integrantes, estatísticas, perícias, magias, balanceamento de papéis e riqueza da mesa a partir da nota do grupo (wikilink ou palavra-chave `grupo`). Documentação em [Ficha de Grupo](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Ficha%20de%20Grupo.md).\n  - Ver detalhes em [[#🧾 Fichas na prática]].\n\n- **⚙️ Uso em sessão**\n  - **Editável**: usa **Elementos de Regra**, automação, *diff* e gravação segura.\n  - **Interativa**: ajuda na mesa com **condições**, **vida** e **recursos**, podendo ser usada em **computador**, **celular** ou **tablet**.\n  - **Leitura**: boa para consulta ampla e **impressão em papel**.\n  - **Resumo**: consulta rápida, especialmente útil para **monstros**.\n\n- **🛡️ Ferramentas de mestre**\n  - **Escudo do Mestre**.\n  - Acompanhamento de **combate**.\n  - **Resumo de grupo** em evolução para tesouro e visão geral da party.\n\n- **🌐 Mesa multi-jogador (Pleitost Sync)**\n  - Mestre cria sessão; jogadores entram com código pelo painel lateral.\n  - **Bidi sync** das fichas: vida, moral, condições, recursos e invocações sincronizam em tempo real entre todas as máquinas.\n  - **Encounter compartilhado**: combat-tracker integrado, dificuldade no GM, NPCs anonimizados pro jogador (reveláveis sob comando do Mestre).\n  - Backend padrão (Supabase) já configurado nos ZIPs de *release*; opcional apontar pra projeto próprio.\n\n- **🃏 Produção e apoio**\n  - Geração de **cartas** a partir de notas.\n  - **Equipamento** já coberto; **magias** previstas.\n  - Exportação em **lote** para impressão rápida.\n  - Fluxo de **criação de aventuras** alinhado ao resto da vault.\n\n- **🗺️ Navegação e campanha**\n  - **Mapas interativos** com Leaflet.\n  - Estrutura de pastas, **previews** e **busca rápida** para manter a vault utilizável em sessão.\n\n---\n\n## 🧾 Fichas na prática\n\nExistem **três famílias** de ficha: **Herói**, **Companheiro Animal** e **Monstro**. Cada nota de criatura pode ser vista em **cinco modos** na barra do **Pleitost Autosheet**:\n\n| Modo | Uso típico |\n|------|------------|\n| **Resumo** | Vista compacta; na UI, sobretudo para **monstro** (Herói e Companheiro Animal usam **Leitura** para consulta ampla). |\n| **Leitura** | Consulta completa; boa para **papel**; para **monstro**, o botão Leitura fica desligado em favor do Resumo. |\n| **Interativa** | **Mesa**: condições, vida, recursos, atalhos; estado pode ficar no bloco quando a ficha é **referência** a outra nota. |\n| **Editável** | Construção e evolução com **Elementos de Regra**, cálculo esperado, *diff* e *save* protegido. |\n| **Manual** | Ajuste direto do *frontmatter* sem o ciclo completo de regras do modo Editável. |\n\n**Referência de ficha:** em outra nota, use o bloco *autosheet-ref* para embutir a ficha alvo (útil para o mestre ou fichas de apoio).\n\n**Ficha de grupo:** na nota de um **grupo** de criaturas (`categoria: Grupo`), insira um bloco de código `autosheet-grupo` com um wikilink para a nota do grupo ou a palavra `grupo` na primeira linha para usar a própria nota. Implementação e opções em [Ficha de Grupo](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Ficha%20de%20Grupo.md).\n\n**Tracker de combate:** em qualquer nota (notas de sessão, Escudo do Mestre, planejamento de encontro), insira um bloco `autosheet-combat-tracker` (ou alias `combat-tracker`/`combat-marker`) com a lista de combatentes — herói, monstros, NPCs. Documentação em [Combat Tracker](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Combat%20Tracker.md).\n\n**Documentação do plugin:**\n\n- **Pra quem usa o plugin no vault** (escreve fichas, edita YAML, configura efeitos): [`Recursos e Mídia/Documentação Adicional/Autosheet Plugin/`](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/) — 6 docs em PT-BR acessíveis via Obsidian:\n  - [Como Funciona](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Como%20Funciona.md) — visão simples dos fluxos\n  - [Modos](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Modos.md) — os 5 modos da ficha\n  - [Frontmatter](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Frontmatter.md) — o que o plugin lê/grava no YAML\n  - [Elementos de Regra](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Elementos%20de%20Regra.md) — como escrever regras numa nota\n  - [Efeitos Interativos](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Efeitos%20Interativos.md) — bloco YAML `Efeitos_Interativos:`\n  - [Debug](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Autosheet%20Plugin/Debug.md) — settings + cenários comuns\n- **Pra quem entende ou mexe no plugin**: [`.obsidian/plugins/pleitost-autosheet/docs/`](.obsidian/plugins/pleitost-autosheet/docs/) — `architecture/` (overview, pipeline, data-model, modes, flows, painel ℹ️), `reference/` (extending, rule elements spec completa, spec modificadores, interativa catálogos, testing), `roadmap.md` + `roadmap/`, `archived/`. [Índice](.obsidian/plugins/pleitost-autosheet/docs/README.md).\n- **README do plugin**: [`.obsidian/plugins/pleitost-autosheet/README.md`](.obsidian/plugins/pleitost-autosheet/README.md).\n\n---\n\n## 🧩 Estrutura do Projeto\n\n| Categoria | Caminho | Descrição |\n|---|---|---|\n| 🗺️ **Atlas** | `Atlas/` | Geografia e regiões |\n| 📚 **Contexto** | `Contexto/` | História, facções, ganchos |\n| 🧠 **Regras** | `Sistema/Regras/` | Ações, combate, condições, atributos, progressão, classe secundária |\n| ✨ **Criação de Personagem** | `Sistema/Criação de Personagem/` | Classes, habilidades, magia, evolução |\n| ⚔️ **Equipamento** | `Sistema/Equipamento/` | Armas, armaduras, tesouros, imbuições |\n| 🐾 **Criaturas** | `Sistema/Criaturas/` | Heróis, companheiros, bestiário, grupos |\n| 🧾 **Templates** | `Recursos e Mídia/Templates/Templates de Sistema/` | Fichas e templates de sistema |\n| 🧰 **Ferramentas de GM** | `Recursos e Mídia/Ferramentas de GM/` | Escudo do Mestre, utilitários de mesa |\n| 📤 **Exportação** | `Recursos e Mídia/Exportação/` | Cartas e materiais para impressão |\n| 💎 **Mídia** | `Recursos e Mídia/Imagens/` | Ícones, mapas, retratos |\n\n---\n\n## 💎 Recursos visuais\n\nRetratos, ícones, fundos de UI e *assets* para fichas e mesa — sobretudo em `Recursos e Mídia/Imagens/`.\n\n---\n\n## 🧰 Plugins (Obsidian)\n\nA lista **ativa** por padrão fica em `.obsidian/community-plugins.json`.\n\n> 🏷️ **Legenda:** `*(customizado)*` = plugin próprio do ecossistema Pleitost.\n\n### ✅ Plugins Necessários\n\n- **Pleitost Autosheet** *(customizado)* — fichas (Editável/Interativa/Resumo/Leitura), barra de modos, **ficha de grupo** (`autosheet-grupo`) e **tracker de combate** (`autosheet-combat-tracker`).\n- **Pleitost Views** *(customizado)* — blocos auxiliares `class-roles` e `bounty`.\n- **Dataview** — consultas e fichas em DataviewJS.\n- **Style Settings** — tema e ajustes visuais.\n- **Supercharged Links** — estilo de *links* com o *snippet* `supercharged-links-gen.css`.\n- **Folder Notes** — notas de pasta.\n- **JS Engine** — apoio a scripts nos templates.\n- **Leaflet** — mapas interativos.\n- **Templater** — inserção de templates em massa.\n- **Buttons** — botões em notas.\n- **QuickAdd** — comandos rápidos ligados a esses botões.\n- **Icon Folder** — ícones nas pastas da vault.\n\n> ⚠️ **Importante:** hoje, fluxos como o botão **NOVO: Herói** em [`Sistema/Criaturas/Heróis/Heróis.md`](Sistema/Criaturas/Heróis/Heróis.md) ainda dependem de **Templater**, **Buttons** e **QuickAdd**. Remover esses plugins sem substituir o fluxo quebra atalhos importantes.\n\n### 🌐 Plugin de Mesa (opcional, recomendado pra multi-jogador)\n\n- **Pleitost Sync** *(customizado)* — mesa virtual com sincronização em tempo real via Supabase. Mestre cria sessão, jogadores entram com código, mudanças em vida/condições/recursos sincronizam entre todas as máquinas. Depende do **Pleitost Autosheet** (visual + dados de personagem). Para mesa solo / single-vault, pode ficar desligado. Documentação em [`Recursos e Mídia/Documentação Adicional/Sync Plugin/`](Recursos%20e%20M%C3%ADdia/Documenta%C3%A7%C3%A3o%20Adicional/Sync%20Plugin/).\n\n### ✨ Plugins Opcionais\n\n- **Excalidraw** — diagramas e apoio visual.\n- **Omnisearch** — busca melhorada.\n- **Settings Search** — navegação mais rápida pelas configurações.\n- **Natural Language Dates** — datas em linguagem natural.\n- **Table Editor** — edição de tabelas.\n- **Digital Garden** — **experimental / possivelmente desatualizado**; existe em `.obsidian/plugins/digitalgarden/`, mas **não está ativo** na configuração padrão.\n\n### 🎨 Visual e snippets\n\n- **Snippets usados/recomendados:** `oculta-no-dg.css`, `supercharged-links-gen.css`.\n- **Tema sugerido:** **ITS Theme**.\n\n---\n\n## 🚀 Como usar\n\n1. Obtenha a vault (**clone** ou **ZIP** de *release* — veja as [Releases no GitHub](https://github.com/sfynz/pleitost/releases)).\n2. No Obsidian: **Abrir pasta como vault** e selecione a pasta **completa** extraída (com `.obsidian` dentro).\n3. Quando o Obsidian pedir, **confie na vault** (*Trust author* / confiar no autor) para permitir plugins e scripts locais.\n4. Em **Configurações → Comunidade**, ative **Community plugins** (plugins de terceiros) e confira se os plugins listados em `.obsidian/community-plugins.json` estão **habilitados** (nos ZIPs de *release* isso costuma vir pré-configurado).\n5. Ative os **snippets** citados acima, se necessário.\n6. **Criar personagem herói:** abra [`Sistema/Criaturas/Heróis/Heróis.md`](Sistema/Criaturas/Heróis/Heróis.md) e use o botão **NOVO: Herói** (depende de **Buttons** + **QuickAdd**).\n7. **Fichas:** nas notas de criatura, use os modos na barra do Autosheet (ver [[#🧾 Fichas na prática]]). No pacote **jogador**, partes do conteúdo (ex.: campanhas, bestiário) podem estar omitidas — links para notas que só existem no pacote mestre podem falhar; é esperado.\n\n---\n\n## 🪶 Contribuidores\n\n| Nome | Função |\n|---|---|\n| **@sfynz** | Design do sistema, regras, mecânicas, balanceamento |\n| **@pereiraoc** | Produto, autosheets, arte/cartas, integração Obsidian |\n\n---\n\n## 📅 Linha do tempo\n\n- **Jun 2025** — Estrutura inicial do vault e base das fichas  \n- **Jul 2025** — Itens, armas e sistema de tesouros/imbuições  \n- **Ago 2025** — Revisões de classes e expansão de criaturas  \n- **Set 2025** — Reclassificação de magias e progressão  \n- **Out 2025** — Polimento visual, padronizações e melhorias de automação  \n- **Nov 2025** — Mapas e ajustes de playtest  \n- **Dez 2025** — Consolidação de resumos, correções e autosheet Interativo  \n- **Jan–Fev 2026** — Modo Editável com *rule elements* (templates `Automática/`), Companheiro Animal e Monstro, Grupos de Criaturas, plugin `pleitost-autosheet`  \n- **Mar 2026** — *Combat tracker*, aventuras, UI estreita, ficha resumo de monstro, releases GM/Jogador  \n- **Abr 2026** — Reescrita do plugin **pleitost-autosheet** em TypeScript, modos Resumo + Leitura, save em bloco atômico, mobile/narrow, biografia expandida, rule elements canônicos (paths nested)  \n- **Mai 2026** — Cutover v0.9.0 do plugin (`pleitost-autosheet-v3` → `pleitost-autosheet`, sem sufixo), rename `Jogadores → Heróis`, Tier sticky em rule elements, cobertura de Bestiário (rules em todas as classes existentes + Assassino/Encantador/Supressor)\n- **Jun 2026** — Vault `v0.5.0`/`v0.5.1`: Imbuições + 4 Tesouros de Perícia reescritos no paradigma activatable 1/10min, Magia Negra `Escuridão → Névoa Sombria`, condição Cego ampliada, 30 imagens novas de Armas Especiais/Naturais. **Pleitost Sync 0.3.0** (plugin novo): mesa virtual em tempo real via Supabase, claim de personagem, bidi sync FM↔DB, lock transitivo de companheiro/invocação, integração com combat-tracker\n\n---\n\n## 🧠 Roadmap\n\nPlanejamento alinhado aos **[milestones no GitHub](https://github.com/sfynz/pleitost/milestones)** (se o repositório for privado, abra com sessão autenticada).\n\n| Milestone | Previsão | Foco principal |\n|---|---|---|\n| **Traços Elementais Rework** | Jun 2026 | Traços elementais e interações |\n| **GM Tools V2** | Jun 2026 | *Tracker*, *party sheet*, monstros, UI estreita |\n| **Attributes Rework** | Jun 2026 | Presença, Força, vitalidade, equipamento |\n| **Summons & Classe Secundária** | Jul 2026 | Mecânicas de invocações e classes secundárias |\n| **Cards and Sheets to Print** | Jul 2026 | Cartas, plugin de cartas, impressão |\n| **Tier Mestre Release** | Jul 2026 | Conteúdo *tier* Mestre |\n| **Lore V1** | Set 2026 | Lore base na vault |\n| **Book Release** | Out 2026 | Livro impresso |\n\n---\n\n## 🪩 Licença\n\n**Todos os direitos reservados.** Este repositório e o seu conteúdo **não** concedem permissão de uso, cópia, redistribuição, adaptação ou exploração por terceiros sem autorização prévia e expressa dos autores.\n\n"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Negociação/Pedido Puro",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Diplomacia/Negociação/Pedido Puro.md",
+  "basename": "Pedido Puro",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Diplomacia]]",
+    "resumo": "\"Pedir Favor não tem consequência negativa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedir Favor",
+      "kind": "wikilink",
+      "alias": "Pede Favor"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Diplomacia]]\nresumo:: \"Pedir Favor não tem consequência negativa.\"\n%%\n### `= this.file.name`\n* Quando [[Pedir Favor|Pede Favor]], 1a falha (decisiva ou não) não irrita alvo.\n\n*Requer Negociação*\n\n```autosheet-rules\n```\n"
+}

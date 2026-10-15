@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Compreender Idiomas",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Compreender Idiomas.md",
+  "basename": "Compreender Idiomas",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em 2q, um alvo passa a entender e falar um idioma que esteja ouvindo ou lendo por 1 hora.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em 2q, um alvo passa a entender e falar um idioma que esteja ouvindo ou lendo por 1 hora.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura passa a entender um idioma que esta está ouvindo ou lendo e também consegue falar este idioma por 1 hora.\n\n```autosheet-rules\n```\n"
+}

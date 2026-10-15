@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Salto das Sombras",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Salto das Sombras.md",
+  "basename": "Salto das Sombras",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Reação para usar [[Passo das Sombras]] ao receber dano.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo das Sombras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Reação para usar [[Passo das Sombras]] ao receber dano.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Salto das Sombras.\n*Requer Estilo Artista Sombrio*\n\n**Salto das Sombras - R**\nPode ser usado quando você recebe dano. Você usa a dor como catalisador para sua mobilidade sombria. Você realiza [[Passo das Sombras]]. Você ainda consome [[Energia Mágica|EM]] para ativa-lo, como normalmente.\n\n```autosheet-rules\n```\n"
+}

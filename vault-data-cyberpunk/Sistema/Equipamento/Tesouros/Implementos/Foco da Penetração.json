@@ -1,0 +1,75 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Implementos/Foco da Penetração",
+  "path": "Sistema/Equipamento/Tesouros/Implementos/Foco da Penetração.md",
+  "basename": "Foco da Penetração",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]",
+      "[[Magia Anima|Anima]]"
+    ],
+    "resumo": "Permite ampliar a margem de sucesso para magias.",
+    "preço": "60 PO",
+    "descrição": {
+      "adepto": "Acumula cargas para aumentar a precisão de magias Adeptas.",
+      "experiente": "Acumula cargas para aumentar a precisão de magias Adeptas e Experientes.",
+      "mestre": "Acumula cargas para aumentar a precisão de magias Adeptas e Experientes, transformando falhas decisivas em falhas."
+    },
+    "cargas": {
+      "adepto": 2,
+      "experiente": 3,
+      "mestre": 5
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink",
+      "alias": "Anima"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano/Anima - implemento*\nUm implemento construído para potencializar a penetração nas resistências de magias. Esse implemento amplia a precisão dos efeitos mágicos e absorve o fluxo mágico de inimigos resistentes.\n\n**Carga Forçada - L:** Uma vez por turno, você pode gastar um número de [[Energia Mágica|EM]] para adicionar um número de Cargas nesse foco igual ao [[Energia Mágica|EM]] gasto.\n**Carga Retaliatória - L:** Uma vez por turno, quando você conjura uma magia não-básica que faz um Ataque Mágico para causar uma [[Condições|Condição]] gastando [[Energia Mágica|EM]] e obtêm uma falha (não decisiva), você pode adicionar Cargas igual ao [[Energia Mágica|EM]] gasto pela magia nesse foco.\n\n**Drenar - L:** Quando você conjura uma magia não-básica que faz um Ataque Mágico para causar uma [[Condições|Condição]], gaste um número de cargas do Foco igual ao custo de [[Energia Mágica|EM]] da magia, ela recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no ataque mágico. As categorias de magia que podem ser afetadas dependem da categoria do Foco.\n\n* Adepto: O Foco armazena até 2 Cargas e afeta magias Adeptas.\n* Experiente: O Foco armazena até 3 Cargas e afeta magias Adeptas e Experientes.\n* Mestre: O Foco armazena até 5 Cargas e afeta magias Adeptas e Experientes. Falhas decisivas de magias afetadas por Drenar se tornam falhas.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: implementos\n```\n\n```autosheet-rules\n```\n"
+}

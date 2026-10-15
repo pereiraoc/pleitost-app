@@ -1,0 +1,1333 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Jeitinho de Bardo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Jeitinho de Bardo.md",
+  "basename": "Jeitinho de Bardo",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Pericias.Slots.A 1",
+      "Nivel 1 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+      "Nivel 1 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 2",
+      "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,A Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,A Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,A Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,A Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,A Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,A Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,A Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,A Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,A Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,A Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,A Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,A Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+      "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,A Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+      "Nivel 1 Definir Oficios.Lista.Conhecimento.Complemento Bardo",
+      "Nivel 1 Definir Oficios.Lista.Conhecimento.Atributo INT",
+      "Nivel 1 Definir Oficios.Lista.Conhecimento.Proficiencia A",
+      "Nivel 7 Definir Oficios.Lista.Conhecimento.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Recebe +1 para testes de perícia que você não é Adepto ou melhor. No 7º nível, sobe para +2 e recebe +1 para testes de perícia que você não é Experiente ou melhor. Você se torna Adepto em Ofício: [[Conhecimento]] (Bardo). Você pode fazer um teste de Conhecimento para qualquer assunto usando Conhecimento (Bardo). No 7º nível, você se torna Experiente em Ofício: [[Conhecimento]] (Bardo).\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Pericias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Pericias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Atletismo.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Acrobacia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Furtividade.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Ladinagem.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Arcana.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sociedades.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Guerra.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Anima.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Medicina.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Diplomacia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Enganacao.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Intimidacao.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Atletismo.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,N Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Acrobacia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,N Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Furtividade.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,N Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Ladinagem.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,N Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Arcana.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,N Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sociedades.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,N Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Guerra.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,N Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Anima.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,N Sobrescrever Pericias.Lista.Anima.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Medicina.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,N Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,N Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 24,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Diplomacia.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,N Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 25,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Enganacao.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,N Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 26,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Intimidacao.Proficiencia",
+            "min": "N"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,N Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,A Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 27,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Atletismo.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Atletismo.Proficiencia,A Sobrescrever Pericias.Lista.Atletismo.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,A Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 28,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Acrobacia.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Acrobacia.Proficiencia,A Sobrescrever Pericias.Lista.Acrobacia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,A Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 29,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Furtividade.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Furtividade.Proficiencia,A Sobrescrever Pericias.Lista.Furtividade.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,A Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 30,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Ladinagem.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Ladinagem.Proficiencia,A Sobrescrever Pericias.Lista.Ladinagem.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,A Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 31,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Arcana.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Arcana.Proficiencia,A Sobrescrever Pericias.Lista.Arcana.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,A Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 32,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sociedades.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Sociedades.Proficiencia,A Sobrescrever Pericias.Lista.Sociedades.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,A Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 33,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Guerra.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Guerra.Proficiencia,A Sobrescrever Pericias.Lista.Guerra.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,A Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 34,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Anima.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Anima.Proficiencia,A Sobrescrever Pericias.Lista.Anima.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,A Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 35,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Medicina.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Medicina.Proficiencia,A Sobrescrever Pericias.Lista.Medicina.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,A Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 36,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Sobrevivencia.Proficiencia,A Sobrescrever Pericias.Lista.Sobrevivencia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,A Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 37,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Diplomacia.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Diplomacia.Proficiencia,A Sobrescrever Pericias.Lista.Diplomacia.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,A Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 38,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Enganacao.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Enganacao.Proficiencia,A Sobrescrever Pericias.Lista.Enganacao.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,A Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 39,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Pericias.Lista.Intimidacao.Proficiencia",
+            "min": "A"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Condicional Pericias.Lista.Intimidacao.Proficiencia,A Sobrescrever Pericias.Lista.Intimidacao.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Complemento Bardo",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 40,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Conhecimento.Complemento",
+            "valueRaw": "Bardo"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Complemento Bardo",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 41,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Conhecimento.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 42,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Conhecimento.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Conhecimento.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Oficios.Lista.Conhecimento.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Jeitinho de Bardo",
+          "occurrenceIndex": 43,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Conhecimento.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Oficios.Lista.Conhecimento.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Conhecimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Recebe +1 para testes de perícia que você não é Adepto ou melhor. No 7º nível, sobe para +2 e recebe +1 para testes de perícia que você não é Experiente ou melhor. Você se torna Adepto em Ofício: [[Conhecimento]] (Bardo). Você pode fazer um teste de Conhecimento para qualquer assunto usando Conhecimento (Bardo). No 7º nível, você se torna Experiente em Ofício: [[Conhecimento]] (Bardo).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê estranhamente sabe fazer um pouco de tudo. Você se torna [[Adepto]] em uma [[Perícias|Perícia]] de sua escolha. Você recebe +1 de [[Bônus de Especialização|bônus de especialização]] para testes de perícia que você não é [[Adepto]] ou melhor. No 7º nível, esse bônus sobe para +2 e você recebe +1 de [[Bônus de Especialização|bônus de especialização]] para testes de perícia que você não é [[Experiente]] ou melhor.\n\nAdicionalmente, você se torna [[Adepto]] em Ofício: [[Conhecimento]] (Bardo). Você pode fazer um teste de Conhecimento para qualquer assunto usando Conhecimento (Bardo). No 7º nível, você se torna [[Experiente]] em Ofício: [[Conhecimento]] (Bardo).\n\n```autosheet-rules\n```\n"
+}

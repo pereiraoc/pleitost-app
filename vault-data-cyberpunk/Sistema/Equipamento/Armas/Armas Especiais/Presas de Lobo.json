@@ -1,0 +1,77 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Presas de Lobo",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Presas de Lobo.md",
+  "basename": "Presas de Lobo",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "especial",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "especial",
+    "dg-publish": true,
+    "dano": "d6+3",
+    "tipo": "contusão",
+    "mãos": 0,
+    "propriedades": [
+      "[[Precisa]]",
+      "[[Apunhalante]]"
+    ],
+    "ordem": 2,
+    "preço": "",
+    "Elementos_de_Regra": [
+      "Requisito Atributos.FOR 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Armas Especiais]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Atributos.FOR 2",
+      "parsed": [
+        {
+          "sourceNote": "Presas de Lobo",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "2"
+          },
+          "raw": "Requisito Atributos.FOR 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Armas Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Especiais]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| FOR | Mãos          | Dano          | Tipo          | Propriedades          |\n| --- | ------------- | ------------- | ------------- | --------------------- |\n| 2   | `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` |\n\n```autosheet-rules\n```\n"
+}

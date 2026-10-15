@@ -1,0 +1,77 @@
+{
+  "id": "Sistema/Regras/Condições/Abalado",
+  "path": "Sistema/Regras/Condições/Abalado.md",
+  "basename": "Abalado",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Abalada, Abaladas, Abalados",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Ataque -2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"-2 de condição para [[Ataques]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Ataque -2",
+      "parsed": [
+        {
+          "sourceNote": "Abalado",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Ataque",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.Ataque -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "ataque",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"-2 de condição para [[Ataques]].\"\n%%\n## `= this.file.name`\n`= this.resumo`\n\n```autosheet-rules\n```\n"
+}

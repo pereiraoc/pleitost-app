@@ -1,0 +1,44 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia",
+  "path": "Contexto/Histórias/Contexto Atual/Economia.md",
+  "basename": "Economia",
+  "type": "Contexto",
+  "subtype": "Dados",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Dados"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Economia"
+    },
+    {
+      "level": 2,
+      "text": "Salário Mensal Médio (PO)"
+    },
+    {
+      "level": 2,
+      "text": "Patrimônio Líquido Médio (PO)"
+    },
+    {
+      "level": 2,
+      "text": "População"
+    },
+    {
+      "level": 2,
+      "text": "Acesso a Serviços/Itens Mágicos"
+    },
+    {
+      "level": 2,
+      "text": "Riqueza por Nível para Personagens"
+    }
+  ],
+  "body": "# Economia\n\n## Salário Mensal Médio (PO)\n\n| Cargo    | Vilarejo | Pequena Cidade | Grande Cidade | Capital |\n| -------- |:--------:|:--------------:|:-------------:|:-------:|\n| Servente |    3     |       4        |       5       |    6    |\n| Escrivão |    5     |       7        |       8       |   10    |\n| Guarda   |    6     |       8        |      10       |   12    |\n| Artesão  |    7     |       9        |      12       |   14    |\n| Mercador |    10    |       13       |      16       |   20    |\n\n## Patrimônio Líquido Médio (PO)\n\n| Cargo    | Vilarejo | Pequena Cidade | Grande Cidade | Capital |\n| -------- |:--------:|:--------------:|:-------------:|:-------:|\n| Servente |    9     |       12       |      15       |   18    |\n| Escrivão |    15    |       21       |      24       |   30    |\n| Guarda   |    18    |       24       |      30       |   36    |\n| Artesão  |    70    |       90       |      120      |   140   |\n| Mercador |   150    |      195       |      240      |   300   | \n\n## População\n\n| Tamanho        | População | Classe Baixa | Classe Média | Classe Alta |\n| -------------- | ---------:|:------------:|:------------:|:-----------:|\n| Vilarejo       |    ~5.000 |     60%      |     40%      |     <1%     |\n| Pequena Cidade |   ~20.000 |     40%      |     55%      |     5%      | \n| Grande Cidade  |   ~50.000 |     30%      |     60%      |     10%     |\n| Capital        |  ~150.000 |     20%      |     60%      |     20%     |\n| Iluminada      |  ~300.000 |     10%      |     65%      |     25%     |\n\n## Acesso a Serviços/Itens Mágicos\n\n| Classe | Adepto  | Experiente | Mestre |\n| ------ |:-------:|:----------:|:------:|\n| Baixa  |  Raro   |    Não     |  Não   |\n| Média  | Incomum | Muito Raro |  Não   |\n| Alta   |  Comum  |    Raro    |  Não   |\n\n## Riqueza por Nível para Personagens\n\n| Nível  | Riqueza (PO) | Adepto | Experiente | Mestre | \n|:------:|:------------:|:------:|:----------:|:------:|\n|   1    |      10      |   0    |     0      |   0    |\n|   2    |      50      |   1    |     0      |   0    |\n|   3    |      90      |   2    |     0      |   0    |\n|   4    |     175      |   4    |     0      |   0    |\n|   5    |     400      |   4    |     1      |   0    |\n|   6    |     600      |   4    |     2      |   0    |\n|   7    |     1000      |   2    |     4      |   0    |\n|   8    |     2000     |   1    |     4      |   1    |\n|   9    |     3000     |   0    |     4      |   2    |\n|   10   |     4800     |   0    |     2      |   4    |\n| Pós-10 |     5700     |   0    |     1      |   5    |\n"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Organizações/Facções/Clã da Ferrugem",
+  "path": "Contexto/Organizações/Facções/Clã da Ferrugem.md",
+  "basename": "Clã da Ferrugem",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Maria “Ferrugem” Souza]]",
+    "Descrição": null,
+    "Resumo": "Clã de ex-operários do PIRA dedicado à coleta, refino e revenda de sucata em mercados clandestinos.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clã da Ferrugem.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maria “Ferrugem” Souza",
+      "kind": "wikilink",
+      "alias": "Ferrugem"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maria “Ferrugem” Souza",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clã da Ferrugem.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Clã da Ferrugem.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Originado entre trabalhadores que sobreviveram às jornadas exaustivas do PIRA, o Clã [[Maria “Ferrugem” Souza|Ferrugem]] recusou o estado físico imposto pelos selênicos e se voltou ao velho-ofício de reciclagem. Instalaram-se em galpões abandonados de [[Nova Sarandi]], onde criaram fornos artesanais para refinar ferro, alumínio e cobre. Paralelamente, mantêm bancos de peças e sucata na [[Zona Deserta]] inundável, acessíveis apenas por rotas improvisadas em canoas e carrinhos de reboque. Aversos aos selênicos, desenvolvem workshops secretos de jailbreak: desmontam rádios da [[Embratel]], relógios eletrônicos e mesmo implantes rudimentares para torná-los “open source”. Esse vício em experimentação clandestina cobra seu preço—muitos membros de 35 anos ostentam rostos de 50, com tremores e degeneração neural. Para contornar os efeitos, mantêm contatos com curandeiros do [[Jardim Itu]] e químicos de [[Costa e Silva]] que fornecem remédios caseiros e técnicas de detoxificação. Apesar dos riscos, o Clã [[Maria “Ferrugem” Souza|Ferrugem]] cresce discretamente, atraindo idealistas que veem na sucata e na liberdade tecnológica o antídoto para o despotismo do regime."
+}

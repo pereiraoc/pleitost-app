@@ -1,0 +1,234 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Bracelete Elemental",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Bracelete Elemental.md",
+  "basename": "Bracelete Elemental",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Anima|Anima]]"
+    ],
+    "resumo": "Amplifica poder elemental.",
+    "preço": "30 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques Mágicos e CDs de Magia Anima.",
+      "experiente": "+2 de bônus de item em Ataques Mágicos e CDs de Magia Anima.",
+      "mestre": "+3 de bônus de item em Ataques Mágicos e CDs de Magia Anima."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Magias.Lista.Anima.Bonus_Item 1",
+      "Categoria Adepto Definir Magias.Secundaria.Lista.Anima.Bonus_Item 1",
+      "Categoria Experiente Definir Magias.Lista.Anima.Bonus_Item 2",
+      "Categoria Experiente Definir Magias.Secundaria.Lista.Anima.Bonus_Item 2",
+      "Categoria Mestre Definir Magias.Lista.Anima.Bonus_Item 3",
+      "Categoria Mestre Definir Magias.Secundaria.Lista.Anima.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Magias.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Lista.Anima.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Lista.Anima.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.Anima.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Bracelete Elemental",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.Anima.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink",
+      "alias": "Anima"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima - implemento*\nEsse bracelete parece expandir-se quando energia Anima passa por ele, ampliando o fluxo de poder elemental do usuário. Magias Anima conjuradas enquanto a mão do braço que veste esse bracelete está livre ou empunhando um implemento mágico são empoderadas.\n* Adepto: +1 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n* Experiente: +2 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n* Mestre: +3 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-ataque\n```\n\n```autosheet-rules\n```\n"
+}

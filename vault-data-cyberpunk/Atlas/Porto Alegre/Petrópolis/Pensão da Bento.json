@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Pensão da Bento",
+  "path": "Atlas/Porto Alegre/Petrópolis/Pensão da Bento.md",
+  "basename": "Pensão da Bento",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Dona Ivone Marchesan",
+    "Descrição": null,
+    "Serviços": [
+      "[[Noite na Pensão da Bento]]"
+    ],
+    "Completo": true,
+    "markerTag": "Hotel"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pensão da Bento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Noite na Pensão da Bento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pensão da Bento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pensão da Bento.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Quarto por noite com chave e toalha, café de mesa posta e a fofoca de toda a Tramontina; silêncio depois das dez.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Casa de 1960 com jardim na frente, sala com toalha de crochê, quadro do Papa e uma mesa de café posta pra oito.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Quarto por noite com chave e toalha, café de mesa posta e a fofoca de toda a Tramontina; silêncio depois das dez.",
+    "aparencia": "Casa de 1960 com jardim na frente, sala com toalha de crochê, quadro do Papa e uma mesa de café posta pra oito.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

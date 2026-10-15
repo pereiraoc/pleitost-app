@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Parede de Escudo",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Parede de Escudo.md",
+  "basename": "Parede de Escudo",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Quando você usa [[Erguer Escudo]], um aliado adjacente também recebe a cobertura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nresumo:: \"Quando você usa [[Erguer Escudo]], um aliado adjacente também recebe a cobertura.\"\n%%\n##### `= this.file.name`\nQuando você usa [[Erguer Escudo]], um aliado adjacente também recebe a cobertura.\n\n```autosheet-rules\n```\n"
+}

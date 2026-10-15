@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Emboscada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Emboscada.md",
+  "basename": "Emboscada",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"No primeiro turno do combate, você ganha uma ação adicional que pode ser utilizada para [[Atacar]] ou [[Mover]]. Adicionalmente, você tem [[Vantagem de Combate]] contra inimigos que ainda não agiram.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"No primeiro turno do combate, você ganha uma ação adicional que pode ser utilizada para [[Atacar]] ou [[Mover]]. Adicionalmente, você tem [[Vantagem de Combate]] contra inimigos que ainda não agiram.\"\n%%\n#### `= this.file.name` - `= this.rank`\nNo primeiro turno do combate, você ganha uma ação adicional que pode ser utilizada para [[Atacar]] ou [[Mover]]. Adicionalmente, você tem [[Vantagem de Combate]] contra inimigos que ainda não agiram.\n\n```autosheet-rules\n```\n"
+}

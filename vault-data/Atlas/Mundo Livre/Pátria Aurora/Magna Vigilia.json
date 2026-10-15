@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Magna Vigilia",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Magna Vigilia.md",
+  "basename": "Magna Vigilia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magna Vigília.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Magna Vigília.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Magna Vigília.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 5.000\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Fortaleza naval da [[Pátria Aurora]] e porto de guerra da capital: praça-forte encravada num desfiladeiro costeiro logo abaixo de [[Lucerna]], de onde a esquadra de velas vermelhas guarda a fachada oeste da ilha. Sede do Mestre da Vigília, concentra quartéis de infantaria, escola de navegantes, baterias de balistas e os depósitos da frota — uma base viva, em obras e manobras permanentes. O acesso é exclusivamente marítimo, e todo o tráfego entre o cais e a fortaleza alta passa pelo portão fortificado do grande molhe.\n> \n> 👁️**Aparência do Local:** Fortaleza em terraços escalonados de pedra cinzenta descendo o desfiladeiro até o mar, com muralhas grossas de ameias, bastiões redondos e, nos níveis altos, salões palacianos de colunas vermelhas e telhados em camadas com cumeeiras douradas. A cor-assinatura é o vermelho: estandartes verticais de emblemas dourados por toda a fortaleza e velas vermelhas nas galés de guerra. O ancoradouro é protegido por torreões maciços que emergem da água, ligados por molhes de pedra e correntes de barreira, e fervilha de galés, transportes e botes. No alto, a Turris Lentis Arcanae ergue sua lente arcana gigante como farol-observatório, enquanto o grande molhe central liga o porto baixo à fortaleza por rampas, escadas e pontes fortificadas.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "5.000",
+    "descricao": "Fortaleza naval da [[Pátria Aurora]] e porto de guerra da capital: praça-forte encravada num desfiladeiro costeiro logo abaixo de [[Lucerna]], de onde a esquadra de velas vermelhas guarda a fachada oeste da ilha. Sede do Mestre da Vigília, concentra quartéis de infantaria, escola de navegantes, baterias de balistas e os depósitos da frota — uma base viva, em obras e manobras permanentes. O acesso é exclusivamente marítimo, e todo o tráfego entre o cais e a fortaleza alta passa pelo portão fortificado do grande molhe.",
+    "aparencia": "Fortaleza em terraços escalonados de pedra cinzenta descendo o desfiladeiro até o mar, com muralhas grossas de ameias, bastiões redondos e, nos níveis altos, salões palacianos de colunas vermelhas e telhados em camadas com cumeeiras douradas. A cor-assinatura é o vermelho: estandartes verticais de emblemas dourados por toda a fortaleza e velas vermelhas nas galés de guerra. O ancoradouro é protegido por torreões maciços que emergem da água, ligados por molhes de pedra e correntes de barreira, e fervilha de galés, transportes e botes. No alto, a Turris Lentis Arcanae ergue sua lente arcana gigante como farol-observatório, enquanto o grande molhe central liga o porto baixo à fortaleza por rampas, escadas e pontes fortificadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

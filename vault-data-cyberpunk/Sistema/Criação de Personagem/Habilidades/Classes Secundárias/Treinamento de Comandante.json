@@ -1,0 +1,111 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Comandante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Comandante.md",
+  "basename": "Treinamento de Comandante",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Militar\"",
+      "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Militar\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Comandante",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Militar"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Militar\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Comandante",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Comandos de Batalha]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer INT 2, conta como Técnica Adepta para outras classes*\n\nVocê amplia sua perspectiva de batalha, adicionando a capacidade tática de um Comandante.\n\nVocê recebe a habilidade [[Comandos de Batalha]]. Quando você recebe um dado de comando (via [[Análise de Combate]] ou outra técnica), ele é reduzido para um d4 (d6 se decisivo). Aliados que você consegue ver em até 6q de você contam como em sua área de influência.\n\nVocê pode escolher Técnicas Adeptas de Comandante no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Comandante no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

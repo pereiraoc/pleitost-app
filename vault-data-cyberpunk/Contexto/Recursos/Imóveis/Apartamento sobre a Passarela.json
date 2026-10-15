@@ -1,0 +1,55 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Apartamento sobre a Passarela",
+  "path": "Contexto/Recursos/Imóveis/Apartamento sobre a Passarela.md",
+  "basename": "Apartamento sobre a Passarela",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Prédios do Centro alagado",
+    "Preço": 5000,
+    "Cobrança": "mês",
+    "Compra": 450000,
+    "Manutenção": 1200,
+    "Nível": 4,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Um dormitório num prédio de 1950 com o térreo debaixo d'água: entra pela passarela, mofo garantido, Mercado a dois minutos.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Apartamento sobre a Passarela.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Apartamento sobre a Passarela.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Apartamento sobre a Passarela.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNo [[Centro Histórico]] alagado os prédios antigos seguem habitados do segundo andar pra cima. Entra-se pela\npassarela flutuante — com pedágio da [[Aliança dos Fundadores]] — e mora-se com o mofo, o gerador do prédio e\no [[Mercado Público]] a dois minutos. Mais barato que a kitnet e mais úmido que a palafita.\n\n> [!info] Especificação\n> **Imóvel:** 1 dormitório, 45 m², prédio de 1950 com térreo submerso\n> **Acesso:** passarela flutuante com pedágio da [[Aliança dos Fundadores]] (Cz$ 10 por passagem)\n> **Inclui:** gerador do prédio no rateio (Cz$ 500), portaria 24h, telefone que funciona às vezes\n> **Umidade:** mofo garantido; roupa não seca de junho a setembro\n> **Compra:** Cz$ 450.000 — ninguém financia prédio alagado\n> **Nível:** 4 — Classe Média\n"
+}

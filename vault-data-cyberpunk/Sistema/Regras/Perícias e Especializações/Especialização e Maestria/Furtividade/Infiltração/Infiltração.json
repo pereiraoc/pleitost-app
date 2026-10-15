@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Furtividade/Infiltração/Infiltração",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Furtividade/Infiltração/Infiltração.md",
+  "basename": "Infiltração",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Furtividade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink",
+      "alias": "Espreita"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink",
+      "alias": "Esconde"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentir a Terra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Furtividade]]\n%%\n### `= this.file.name`\n* Quando você [[Espreitar|Espreita]], pode mover seu movimento inteiro, no lugar de metade.\n* Quando você se [[Esconder-se|Esconde]] ou [[Espreitar|Espreita]], seus sucessos também impedem a detecção por sentidos especiais como [[Faro]], [[Sentir a Terra]] ou similares.\n\n```autosheet-rules\n```\n"
+}

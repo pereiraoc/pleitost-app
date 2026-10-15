@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Confirmar Abate",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Confirmar Abate.md",
+  "basename": "Confirmar Abate",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando um aliado acertar um ataque como parte de [[Abater]], você pode rolar um dado de comando adicional, consumi-lo, e aumentar o dano adicional do ataque pelo valor rolado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando um aliado acertar um ataque como parte de [[Abater]], você pode rolar um dado de comando adicional, consumi-lo, e aumentar o dano adicional do ataque pelo valor rolado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a se usar de todas as aberturas para buscar a confirmação de um abate. Quando um aliado tem sucesso um ataque como parte de [[Abater]], você pode rolar um dado de comando adicional, consumindo-o e aumentar o dano adicional do ataque pelo valor rolado.\n\n%%candidato a ser culled\n\n```autosheet-rules\n```\n"
+}

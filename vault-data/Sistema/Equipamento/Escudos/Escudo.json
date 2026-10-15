@@ -1,0 +1,93 @@
+{
+  "id": "Sistema/Equipamento/Escudos/Escudo",
+  "path": "Sistema/Equipamento/Escudos/Escudo.md",
+  "basename": "Escudo",
+  "type": "Item",
+  "subtype": "Escudo",
+  "grupo": "escudo",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Escudo",
+    "grupo": "escudo",
+    "dg-publish": true,
+    "especial": "Pode usar para Escudada.",
+    "resumo": null,
+    "propriedades": [],
+    "bonus-defesa": 2,
+    "dureza": 4,
+    "danos": 4,
+    "preço": "",
+    "Elementos_de_Regra": [
+      "Definir Inventario.Escudo.Dureza 4",
+      "Complementar Ataques.Lista [[Escudada]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Escudos]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Inventario.Escudo.Dureza 4",
+      "parsed": [
+        {
+          "sourceNote": "Escudo",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Inventario.Escudo.Dureza 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Escudada]]",
+      "parsed": [
+        {
+          "sourceNote": "Escudo",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Escudada]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Escudada]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Escudos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Escudos]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nPode usar para [[Escudada]].\n\n| Danos          | Bônus Defesa          | Dureza          | Propriedades          | Preço          |\n| -------------- | --------------------- | --------------- | --------------------- | -------------- |\n| `= this.danos` | `= this[\"bonus-defesa\"]` | `= this.dureza` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: escudos\n```\n\n```autosheet-rules\n```\n"
+}

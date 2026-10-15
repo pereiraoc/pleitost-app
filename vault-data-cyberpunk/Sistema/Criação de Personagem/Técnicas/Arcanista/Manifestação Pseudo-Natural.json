@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Manifestação Pseudo-Natural",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Manifestação Pseudo-Natural.md",
+  "basename": "Manifestação Pseudo-Natural",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Luz",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Você aprende ela e pode conjurar essa magia como se fosse uma Magia Arcana Adepta, gastando recursos mágicos como normalmente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Luz\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Você aprende ela e pode conjurar essa magia como se fosse uma Magia Arcana Adepta, gastando recursos mágicos como normalmente.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manifestar sua sintonia como uma magia entrópica. Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Você aprende ela e pode conjurar essa magia como se fosse uma Magia Arcana Adepta, gastando recursos mágicos como normalmente.\n*Requer Escola Arcana (Aplicações da Luz) e Anima Experiente*\n\n```autosheet-rules\n```\n"
+}

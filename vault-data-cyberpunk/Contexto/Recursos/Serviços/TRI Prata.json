@@ -1,0 +1,72 @@
+{
+  "id": "Contexto/Recursos/Serviços/TRI Prata",
+  "path": "Contexto/Recursos/Serviços/TRI Prata.md",
+  "basename": "TRI Prata",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "Trensurb",
+    "Preço": 2500,
+    "Cobrança": "mês",
+    "Nível": 3,
+    "Onde": null,
+    "Resumo": "Ônibus e anfíbio ilimitados, Aeromóvel popular incluso. O transporte de quem trabalha.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "TRI Prata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink",
+      "alias": "ônibus"
+    },
+    {
+      "target": "Passagem de Ônibus Anfíbio",
+      "kind": "wikilink",
+      "alias": "anfíbio"
+    },
+    {
+      "target": "Aeromóvel Linha Popular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ônibus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "L1 POPULAR NORTE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "L2 POPULAR SUL",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "TRI Prata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[TRI Prata.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO cartão de prata é o do operário que se virou: [[Passagem de Ônibus|ônibus]] e [[Passagem de Ônibus Anfíbio|anfíbio]] ilimitados, [[Aeromóvel Linha Popular]] incluso (quem tem carteira PIRA já tinha de graça). Superlotado, vigiado, mas leva em qualquer lugar da cidade que tenha trilho ou asfalto.\n\nTodas as linhas de [[Ônibus]] (inclusive anfíbios) e o [[Aeromóvel]] popular ([[L1 POPULAR NORTE]], [[L2 POPULAR SUL]]): [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** TRI Prata (Trensurb)\n> **Dá acesso a:** ônibus, anfíbio e Aeromóvel popular, ilimitados\n> **Não cobre:** lotação VIP, linha executiva, táxi\n> **Quem usa:** operário PIRA, brigadiano, balconista\n> **Classe:** Classe Média Baixa\n"
+}

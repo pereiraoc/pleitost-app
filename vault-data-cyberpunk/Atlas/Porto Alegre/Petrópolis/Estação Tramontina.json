@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Estação Tramontina",
+  "path": "Atlas/Porto Alegre/Petrópolis/Estação Tramontina.md",
+  "basename": "Estação Tramontina",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Dono": "Trensurb + [[Tramontina]]",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Estação"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Tramontina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Tramontina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Tramontina.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Plataforma coberta colada no prédio da diretoria, catraca de crachá e uma segunda catraca — a de baixo, pro turno da fábrica, que só abre às 5h e às 17h.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Concreto aparente e vidro, o logo da Tramontina em aço escovado, dois seguranças de terno em cima e um de macacão embaixo, cheiro de metal quente subindo do galpão.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Plataforma coberta colada no prédio da diretoria, catraca de crachá e uma segunda catraca — a de baixo, pro turno da fábrica, que só abre às 5h e às 17h.",
+    "aparencia": "Concreto aparente e vidro, o logo da Tramontina em aço escovado, dois seguranças de terno em cima e um de macacão embaixo, cheiro de metal quente subindo do galpão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

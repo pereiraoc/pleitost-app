@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Afiação de Faca",
+  "path": "Contexto/Recursos/Ofícios/Afiação de Faca.md",
+  "basename": "Afiação de Faca",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Conserto",
+    "Marca": "Amolador do Mercado",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Faca, tesoura e facão afiados no esmeril do amolador — o apito da bicicleta dele se ouve do Mercado inteiro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO amolador chega de bicicleta, apita a gaita de amolador e monta o esmeril na calçada da porta lateral. Afia faca de açougue, tesoura de costureira e facão de quem vai pra [[Zona Deserta]]. Não pergunta pra que serve o fio.\n\n> [!info] Especificação\n> **Faca ou tesoura:** Cz$ 40\n> **Facão:** Cz$ 80\n> **Quando:** terças e sextas, pela manhã\n"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.6.0-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.6.0-alpha.md",
+  "basename": "Release Notes v0.6.0-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.6.0-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🌟 Especialização & Maestria — o rascunho do sistema (destaque)"
+    },
+    {
+      "level": 3,
+      "text": "As perícias marciais e sociais"
+    },
+    {
+      "level": 3,
+      "text": "As perícias mágicas (já plugadas)"
+    },
+    {
+      "level": 2,
+      "text": "⚡ Proficiências zeradas e dano errado na Ficha Interativa (corrigido)"
+    },
+    {
+      "level": 2,
+      "text": "🧹 Faxina de frontmatter das fichas"
+    },
+    {
+      "level": 2,
+      "text": "⚠️ Known issue"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.6-alpha...v0.6.0-alpha\n\n# 📦 Release Notes — Pleitost v0.6.0-alpha\n\n**Período coberto:** 2026-07-06 → 2026-07-07\n\n**Foco:** primeiro rascunho do **sistema de Especialização & Maestria** — a árvore de aprimoramento de perícias ganhou corpo, com 22 especializações e 44 maestrias descritas por toda a lista de perícias. É a razão do salto de versão (0.5.x → 0.6.0). Acompanham a release uma **correção importante de proficiências/dano na Ficha Interativa** e uma faxina de frontmatter das fichas.\n\n---\n\n## 🌟 Especialização & Maestria — o rascunho do sistema (destaque)\n\nAs fichas já tinham os campos **Especialização** e **Maestria** nas perícias, mas a árvore por trás deles estava vazia. Esta release preenche essa árvore: cada perícia agora tem **duas Especializações**, e cada Especialização abre **duas Maestrias** (aprimoramentos mais profundos que exigem a Especialização como pré-requisito).\n\n> ⚠️ **É um rascunho de conteúdo.** As descrições estão escritas, mas quase todas ainda **não são aplicadas automaticamente na ficha** (o bloco de regras está vazio de propósito). Por ora, funcionam como referência de mesa. As exceções já plugadas de verdade são as duas maestrias mágicas (Anima e Arcana) e a Especialização de **Guerra › Estratégia**, que já carregam efeitos ativos.\n\n### As perícias marciais e sociais\n\n- **Acrobacia** — *Estabilidade* (reduz dano de queda em 3q, Levantar não provoca, melhora Equilibrar-se) e *Mobilidade* (Cambalhota contra dois alvos, Passo após Escapar).\n  - Maestrias: Base Firme, Queda Perfeita · Flexibilidade, Movimento Fluido\n- **Atletismo** — *Impulso* (Salto Longo + Alto numa ação; move 1q antes de Empurrar) e *Travessia* (+1q para Escalar/Nadar; Empurrar não provoca AdO).\n  - Maestrias: Inércia, Salto Aéreo · Corredor, Triatlo\n- **Diplomacia** — *Encorajamento* (alvo recupera 3 EH na falha; Ajudar fora de combate) e *Negociação* (Melhorar Atitude ao se apresentar; Barganhar mitiga falha).\n  - Maestrias: Apoio, Esperança · Negócio Prévio, Pedido Puro\n- **Enganação** — *Distração* (Disfarce genérico em 3A; Finta em mais ataques) e *Influência* (Mentir também Melhora Atitude; Assustar/Encorajar com Enganação).\n  - Maestrias: Fascinante, Lá e Cá · Confabulador, Língua Doce\n- **Furtividade** — *Escolta* e *Infiltração* (descrições ainda em aberto neste rascunho).\n  - Maestrias: Retaguarda Oculta, Sombra Coletiva · Desaparecimento, Em Plena Vista\n- **Guerra** — *Estratégia* (**já ativa**: Avaliar Campo / Identificar Estratégia na iniciativa, Plano de Combate) e *Tática* (Coordenar em 6q, +2 para aliados escolhidos, Fintar/Distrair com Guerra).\n  - Maestrias: Plano sem Furos, Presciência Militar · Coordenação Ensaiada, Tática Encorajadora\n- **Intimidação** — *Deboche* (provocar reduz Defesa em 1; mitiga falha em Coagir) e *Medo* (bônus contra mais fracos; 1d4+2 mental ao Assustar).\n  - Maestrias: Irritação, Provocação · Pavor, Terror\n- **Ladinagem** — *Malandragem* (Furtar com -2 na Percepção alheia; Furtar em combate) e *Mecanismos* (+2 contra armadilhas; Desativar em 2A, Destrancar em 1A).\n  - Maestrias: Furto Sagaz, Sabotagem · Recompor Tranca, Reverter Ativação\n- **Medicina** — *Cuidados* (Tratar Ferimentos em duas criaturas, +1d8 EV) e *Emergência* (Tratar como 2A, reduz CD de Primeiros Socorros).\n  - Maestrias: Hospital Portátil, Transfusão · Resposta Duradoura, Resposta Rápida\n- **Sobrevivência** — *Animais* (ganha um animal treinado; Assustar/Distrair/Fintar animais) e *Navegação* (Rastreia sem penalidade de movimento; viaja mais rápido).\n  - Maestrias: Conhecimento da Selva, Parceria Animal · Rastreio Instintivo, Viajante Irrefreável\n- **Sociedades** — *Contemporaneidades* (Pedir Favor/Melhorar Atitude de autoridades; +2 Conhecimento atual) e *História* (idioma histórico; +2 Conhecimento histórico).\n  - Maestrias: Alta-Sociedade, Voz Civíl · Fluência, Poliglota\n\n### As perícias mágicas (já plugadas)\n\n- **Anima › Elementalismo Avançado** — aprende uma Magia Anima Adepta da essência (Potência 2, 1/descanso) e **soma +1 slot Adepto** de magia. Efeito já ativo na ficha.\n- **Arcana › Utensílio Mágico** — maestria mágica de Arcana, também com efeito ativo.\n\n---\n\n## ⚡ Proficiências zeradas e dano errado na Ficha Interativa (corrigido)\n\nFichas como Thoren e Mera apareciam na **Interativa** com proficiências de defesa em \"nenhum\" e o **dano das armas colapsado** (ex.: `1d8` no lugar de `3d8`, já que a escala do dado depende do rank de proficiência). O frontmatter em disco estava correto o tempo todo — o problema era só na projeção que alimenta os modos Interativa/Resumo/Leitura.\n\nCausa: desde a v2.0.31 (#259) esses modos projetam o \"modelo salvo\" com o cálculo de regras vazio, mas a rotina de merge zerava os campos controlados por regra (proficiências, bônus, dados) **sem** ter os deltas para repopular. O fix restringe essa limpeza ao fluxo que de fato tem regras para reaplicar; com o modelo salvo, o frontmatter materializado é preservado como está. Verificado ao vivo (dano de volta a `3d8+4`, ranks Adepto/Experiente/Mestre corretos).\n\n---\n\n## 🧹 Faxina de frontmatter das fichas\n\n- Removidas **chaves top-level legadas** que duplicavam dado já guardado no bloco `Inventario` (`Ouro`, `Tesouros_Especiais`, `Consumíveis`) ou que não são lidas por ninguém (`nome`) — em Dante, Thoren, Mera, Pind Bund e Metis. O plugin sempre leu a versão aninhada; as top-level eram peso morto (e, no caso de `Consumíveis`, com dado desatualizado divergente do real).\n\n---\n\n## ⚠️ Known issue\n\n- **Corrupção de frontmatter por corrida de sync** ([#262](https://github.com/sfynz/pleitost/issues/262)) — abrir a mesma ficha em dois aparelhos durante combate ativo pode gerar chaves YAML duplicadas (o autosave do autosheet e o writeback do sync escrevem o frontmatter ao mesmo tempo, sem trava compartilhada), fazendo o Obsidian mostrar \"propriedades inválidas\" no mobile. Apareceu no Carlos; contornado restaurando a versão limpa. Fix de arquitetura pendente.\n\n---\n\n## ✅ Issues\n\n**Aberta (a resolver):**\n\n- **[#262](https://github.com/sfynz/pleitost/issues/262)** — race de `processFrontMatter` entre autosheet e sync corrompe o FM com chaves duplicadas.\n"
+}

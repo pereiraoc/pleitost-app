@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Véu Pacificador",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Véu Pacificador.md",
+  "basename": "Véu Pacificador",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 2q é protegida por 10t. Faça Ataque Mágico contra inimigos que tentem alvejar o alvo, interrompendo-os no sucesso. Dissipa se protegido fizer ação hostil.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 2q é protegida por 10t. Faça Ataque Mágico contra inimigos que tentem alvejar o alvo, interrompendo-os no sucesso. Dissipa se protegido fizer ação hostil.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura é protegida por 10 turnos. Véu Pacificador é dissipado quando a criatura protegida faz uma ação hostil. Quando uma criatura tenta atacar a criatura protegida, faça um ataque mágico contra o [[Ímpeto]] da criatura agressora.\n\n**Sucesso:** A criatura perde a ação, o ataque não acontece e a criatura não pode mais atacar a criatura protegida até o fim do turno.\n**Sucesso Decisivo:** A criatura não pode mais atacar a criatura protegida até Véu Pacificador acabar.\n**Falha:** A criatura faz o ataque normalmente e pode atacar normalmente o alvo durante esse turno.\n**Falha Decisiva:** Véu Pacificador é Dissipado.\n\n```autosheet-rules\n```\n"
+}

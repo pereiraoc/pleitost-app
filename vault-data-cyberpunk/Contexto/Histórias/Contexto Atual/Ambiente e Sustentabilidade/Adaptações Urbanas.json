@@ -1,0 +1,67 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Adaptações Urbanas",
+  "path": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Adaptações Urbanas.md",
+  "basename": "Adaptações Urbanas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Soluções improvisadas para lidar com colapsos ambientais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Adaptações Urbanas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Adaptações Urbanas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 4,
+      "text": "Captação de Água"
+    },
+    {
+      "level": 4,
+      "text": "Agricultura Vertical"
+    },
+    {
+      "level": 4,
+      "text": "Energia Alternativa e Precária"
+    },
+    {
+      "level": 4,
+      "text": "Estruturas Elevadas e Flutuantes"
+    }
+  ],
+  "body": "![[Adaptações Urbanas.png]]\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\nEm resposta aos contínuos e frequentes colapsos ambientais em Porto Alegre de 1987, a população e as autoridades locais recorreram a soluções improvisadas e criativas para garantir a sobrevivência cotidiana e a manutenção das estruturas urbanas mínimas.\n#### Captação de Água\n- **Calhas e bombonas improvisadas:** Em meio à escassez crônica de água potável, moradores instalam sistemas precários de calhas conectadas a barris e bombonas para captar água da chuva. Esses métodos, embora rudimentares, tornaram-se essenciais em bairros como [[Cidade Baixa]] e [[Restinga]], enfrentando constantes interrupções no fornecimento público.\n\n#### Agricultura Vertical\n- **Hortas verticais:** Para combater a escassez de alimentos frescos, as fachadas dos edifícios, especialmente nas regiões mais afetadas pela poluição e inundações frequentes, são transformadas em hortas verticais. Esses jardins improvisados fornecem verduras e legumes essenciais e representam também uma forma de resistência à dependência alimentar controlada pelas megacorporações.\n\n#### Energia Alternativa e Precária\n- **Gambiarras elétricas:** Frequentemente enfrentando blecautes ou cortes seletivos de energia pela [[Companhia Estadual de Energia Elétrica|CEEE]], moradores e pequenos negócios recorrem a sistemas improvisados para reaproveitamento de energia, usando geradores adaptados de caminhões e baterias recicladas. Essas instalações precárias permitem a manutenção mínima de iluminação e funcionamento de equipamentos básicos.\n\n#### Estruturas Elevadas e Flutuantes\n- **Construções elevadas:** Em áreas frequentemente alagadas, como o [[Centro Histórico]], foram erguidas estruturas sobre palafitas ou pontões flutuantes, mantendo o comércio e os serviços essenciais acima do nível da água. Pontes e passarelas improvisadas conectam estas plataformas para garantir a continuidade do fluxo urbano."
+}

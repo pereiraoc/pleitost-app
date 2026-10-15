@@ -1,0 +1,121 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Debug",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Debug.md",
+  "basename": "Debug",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "<note>",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Debug, Logs e Settings"
+    },
+    {
+      "level": 2,
+      "text": "Plugin Settings"
+    },
+    {
+      "level": 2,
+      "text": "Ligando o debug"
+    },
+    {
+      "level": 2,
+      "text": "Comando de paleta"
+    },
+    {
+      "level": 2,
+      "text": "O que cada `evt` significa"
+    },
+    {
+      "level": 3,
+      "text": "Plugin lifecycle"
+    },
+    {
+      "level": 3,
+      "text": "Capture (golden)"
+    },
+    {
+      "level": 3,
+      "text": "Load (process-yaml-block + extract-phase)"
+    },
+    {
+      "level": 3,
+      "text": "View-model (computado por render)"
+    },
+    {
+      "level": 3,
+      "text": "UI (interações)"
+    },
+    {
+      "level": 3,
+      "text": "Save (handle-save)"
+    },
+    {
+      "level": 3,
+      "text": "Merge (rule-applier + merge-calculated-into-model)"
+    },
+    {
+      "level": 2,
+      "text": "Anatomia de uma linha"
+    },
+    {
+      "level": 2,
+      "text": "Scope dos eventos"
+    },
+    {
+      "level": 2,
+      "text": "Filtrar logs por scope (CLI)"
+    },
+    {
+      "level": 2,
+      "text": "Cenários comuns"
+    },
+    {
+      "level": 3,
+      "text": "\"Cliquei em salvar e nada aconteceu\""
+    },
+    {
+      "level": 3,
+      "text": "\"A property mudou sozinha\""
+    },
+    {
+      "level": 3,
+      "text": "\"Trocou de Classe e habilidade não sumiu\""
+    },
+    {
+      "level": 3,
+      "text": "\"Choice mostrou opção errada\""
+    },
+    {
+      "level": 3,
+      "text": "\"Painel mostrou entry estranha\""
+    },
+    {
+      "level": 3,
+      "text": "\"Source canônico sumiu (Regra plain em vez de Regra.[[X]])\""
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Debug, Logs e Settings\n\nDoc para quem precisa debugar uma ficha que está se comportando estranho,\nou ajustar settings do plugin.\n\n## Plugin Settings\n\nSettings → Pleitost Autosheet (UI em\n[`src/settings/settings-tab.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/settings/settings-tab.ts), defaults em\n[`src/settings/plugin-settings.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/settings/plugin-settings.ts)):\n\n| Setting | Default | Efeito |\n|---|---|---|\n| `debugMode` | `false` | Ativa instrumentação pesada. Quando `true`, logs JSONL são escritos no vault. |\n| `forceMobileMode` | `false` | Adiciona classe `pas-force-mobile` no `<body>` + constrange `.pleitost-autosheet.as-sheet` a `max-width: 420px`. Simula viewport real de celular em portrait. |\n| `logRetentionDays` | `7` | Logs de debug mais antigos que N dias são apagados na inicialização do plugin. |\n\nBotão **\"Limpar logs armazenados\"** apaga TODOS os JSONLs (independente\nde idade) — útil pra resetar antes de reproduzir um bug com debug ligado.\n\n## Ligando o debug\n\nSettings → Pleitost Autosheet → ative **Modo de debug**.\n\nQuando ativo, cada ponto interessante do plugin escreve um JSONL em:\n\n```\nRecursos e Mídia/Logs/pleitost-autosheet/<sub-pasta>/YYYY-MM-DD_v<VERSION>.jsonl\n```\n\nSub-pasta é determinada pelo `scope` do evento — uma pasta por modo:\n\n| Sub-pasta       | Scope        | Eventos típicos                                    |\n|-----------------|--------------|----------------------------------------------------|\n| `0-global`      | `global`     | `plugin.*`, `capture.*`, `image.resolved`, `modificador.*` |\n| `1-editavel`    | `editavel`   | `load.*`, `vm.*`, `ui.*`, `save.*`, `details.*`, `choices.*`, `merge.*` |\n| `2-interativa`  | `interativa` | `interativa.*`                                     |\n| `3-resumo`      | `resumo`     | `resumo.*`                                         |\n| `4-leitura`     | `leitura`    | `leitura.*`                                        |\n\nUm arquivo por **dia + versão** dentro de cada sub-pasta. Logs com mais\nde N dias (Setting `Retenção de logs`, default 7) são apagados na\ninicialização.\n\nQuando `debugMode: false`, nada é escrito. Nunca há log em disco sem\nconsentimento.\n\n## Comando de paleta\n\n`Pleitost Autosheet: Abrir log de hoje` — abre o JSONL do dia em uma aba\ndo Obsidian. Útil para `Ctrl+F` no log.\n\nFora do Obsidian, use `npm run logs:tail` — imprime as últimas 50 linhas\nno terminal.\n\n## O que cada `evt` significa\n\nLista do que o código emite hoje, categorizada por origem.\n\n### Plugin lifecycle\n\n| Evento | Quando |\n|---|---|\n| `plugin.loaded` | Onload (`{ version }`) |\n| `plugin.unloaded` | Onunload |\n\n### Capture (golden)\n\n| Evento | Quando |\n|---|---|\n| `capture.start` | Início da captura de uma fixture |\n| `capture.ok` | Capturou com sucesso |\n| `capture.skip` | Pulou (já existe e modo default) |\n| `capture.fail` | Erro ao capturar |\n| `capture.report` | Resumo final (totais) |\n\n### Load (process-yaml-block + extract-phase)\n\n| Evento | Quando |\n|---|---|\n| `load.start` | Começou processar code block |\n| `load.frontmatter-extracted` | FM lido + normalizado |\n| `load.fm-changed-skip` | FM event ignorado (content unchanged) |\n| `load.pruned-orphans` | `prune-orphaned-choices` removeu items |\n| `load.picks-invalidated` | `validate-picks` detectou pick inconsistente |\n| `load.validation-not-converged` | Loop convergente atingiu max iters sem estabilizar |\n| `load.rules-extracted` | Rule engine convergiu (final do loop) |\n| `load.shared-rules` | Rules de aliados (Compartilhar Grupo) agregadas |\n| `load.efeitos-interativos` | Bloco `Efeitos_Interativos:` parseado |\n| `load.efeitos-interativos-falha` | Erro parseando o bloco |\n| `load.delta-sources` | Pós-extract — dump completo de `deltaSources` |\n| `load.ally-extract-failed` | Extract de aliado falhou |\n| `load.ally-bloco-falha` | Parse de bloco do aliado falhou |\n| `load.render-done` | Render do shell completou |\n| `load.extractor-failed` | Extractor lançou erro — ficha não renderiza |\n| `load.failed-fallback-demo` | Extractor falhou; caiu pra demo model |\n| `choices.resolved` | `discoverChoices` + `inferPick` produziu o set de choices |\n| `modificador.sync` | Sync de habilidades por modificador (Monstro Competente/Elite/Solo) |\n\n### View-model (computado por render)\n\n| Evento | Quando |\n|---|---|\n| `vm.derived` | View-model construído (totals dos derived) |\n| `vm.details` | `computeDetails` rodou (totalEntries + breakdown por categoria) |\n| `image.resolved` | Hierarquia de imagem resolvida |\n\n### UI (interações)\n\n| Evento | Quando | Payload |\n|---|---|---|\n| `ui.choice-changed` | User escolheu nova opção em choice | `{ choiceKey, newPick }` |\n| `ui.meta-changed` | User editou um path | `{ path, value }` |\n| `ui.meta-changed-batch` | Múltiplos paths editados atomicamente | `{ updates }` |\n| `ui.atributos-changed` | Atributos editados (rank 3/2/1 + principal) | `{ atributos, principal }` |\n\n### Save (handle-save)\n\n| Evento | Quando |\n|---|---|\n| `save.noop` | FM atual === target serializado (R-IDEM-1) |\n| `save.written` | YAML escrito no disco |\n| `save.blocked` | `validateSave` retornou inválido |\n| `save.error` | Erro lendo ou escrevendo FM |\n| `save.no-writer` | Tentou salvar sem `writer` injetado (modo demo) |\n| `save.pre-snapshot` | Antes de gravar — dump dos campos com source canônico |\n\n### Merge (rule-applier + merge-calculated-into-model)\n\nEventos pra rastrear o fluxo de source canônico (`Regra.[[<note>]]` /\n`Tesouro.[[<note>]]`) gravado em incrementos e FontedLinks. Foco em\nSUMÁRIOS + casos especiais — escritas individuais NÃO são logadas pra\nevitar spam.\n\n| Evento | Quando |\n|---|---|\n| `merge.start` | Início do merge |\n| `merge.source-fallback` | Target sem source granular (cai pra \"Regra\" plain) |\n| `merge.infer-oficio-A` | Decide se cria A herdado, promove Slot.* legado, ou skip |\n| `merge.fonted-list-start` | Início de `appendMergeFontedList` |\n| `merge.fonted-list-fallback` | Item fresh sem source granular |\n| `merge.fonted-list-end` | Fim de `appendMergeFontedList` |\n\n## Anatomia de uma linha\n\n```jsonl\n{\"t\":\"2026-04-24T22:50:30.123Z\",\"lvl\":\"info\",\"scope\":\"editavel\",\"evt\":\"load.start\",\"file\":\"Sistema/Criaturas/Heróis/GOLDEN Bardo.md\",\"family\":\"Heroi\"}\n```\n\n- `t` — ISO 8601 com milissegundos\n- `lvl` — `info` | `debug` | `warn` | `error`\n- `scope` — `global` | `editavel` | `interativa` | etc (derivado do prefixo do `evt`)\n- `evt` — namespace pontilhado (`save.blocked`, `load.rules-extracted`, etc.)\n- demais chaves — payload específico do evento\n\n## Scope dos eventos\n\nO scope é **derivado automaticamente** do prefixo do `evt`:\n\n| Scope | Prefixos cobertos |\n|---|---|\n| `global` | `plugin.*`, `capture.*`, `image.resolved`, `modificador.*`, fallback |\n| `editavel` | `load.*`, `vm.*`, `ui.*`, `save.*`, `details.*`, `choices.*`, `merge.*` |\n| `interativa` | `interativa.*` |\n\nLógica em [`src/debug/logger.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/debug/logger.ts) `inferScope()`.\nCaller pode passar `scope` explícito no `LogEvent` que vence a inferência.\n\n## Filtrar logs por scope (CLI)\n\n```bash\nnpm run logs:tail -- --scope=interativa     # só Interativa\nnpm run logs:tail -- --scope=editavel       # só Editavel\nnpm run logs:tail -- --scope=global         # plugin lifecycle, capture, etc\nnpm run logs:tail -- --lines=200            # mais linhas (default 50)\nnpm run logs:tail -- --scope=editavel --lines=100\n```\n\n## Cenários comuns\n\n### \"Cliquei em salvar e nada aconteceu\"\n\nProcure por `save.noop` (provável — ficha já estava igual ao FM) ou\n`save.blocked` (validação falhou; veja `blockers[]`).\n\n### \"A property mudou sozinha\"\n\nProcure por `load.rules-extracted` próximo no tempo — provavelmente uma\nregra disparou após edição. O `vm.details` seguinte mostra o que o painel\napresenta.\n\n### \"Trocou de Classe e habilidade não sumiu\"\n\nProcure por `load.pruned-orphans` — se aparecer com items removidos, o\nprune funcionou. Se não aparecer, item ainda tem fonte (Manual/Escolha/\nSlot) que sustenta. Logo abaixo, `load.rules-extracted` mostra o que rodou.\n\n### \"Choice mostrou opção errada\"\n\n`choices.resolved` traz o snapshot do que `discoverChoices` produziu\n(kind, options, pick atual, occurrenceWithinParent).\n\n### \"Painel mostrou entry estranha\"\n\n`vm.details` traz `totalEntries` + breakdown. Cruze com `ui.meta-changed`\npróximo no tempo pra ver o que o user fez antes.\n\n### \"Source canônico sumiu (Regra plain em vez de Regra.[[X]])\"\n\nProcure por `merge.source-fallback` ou `merge.fonted-list-fallback`.\nCruze `load.delta-sources` com `save.pre-snapshot` pra ver onde o\nsource granular foi perdido entre extract e save.\n\n## Ver também\n\n- [[Como Funciona]] — visão simples dos fluxos\n- [architecture/flows.md](../../../.obsidian/plugins/pleitost-autosheet/docs/architecture/flows.md) — fluxogramas com nomes de função real\n- [architecture/painel-detalhes.md](../../../.obsidian/plugins/pleitost-autosheet/docs/architecture/painel-detalhes.md) — categorias do painel ℹ️\n- [`src/debug/logger.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/debug/logger.ts) — implementação do sink\n"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Enganação",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Enganação.md",
+  "basename": "Enganação",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Diplomacia]]",
+    "next": "[[Intimidação]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Disfarçar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mentir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Enganação ([[Presença|PRE]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Diplomacia]]\nnext:: [[Intimidação]]\n%%\n## Enganação ([[Presença|PRE]])\n[[Disfarçar-se]], [[Mentir]]. Enganação rege a capacidade de manipular pessoas com falsidades. Adicionalmente, Enganação determina manobras de combate como: [[Finta]] e [[Distrair]]."
+}

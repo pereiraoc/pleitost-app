@@ -1,0 +1,36 @@
+{
+  "id": "Contexto/Organizações/Facções/Os Replicantes",
+  "path": "Contexto/Organizações/Facções/Os Replicantes.md",
+  "basename": "Os Replicantes",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Replicantes"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "A banda punk do Bom Fim que a Ordem registra a contragosto e a Brigada não consegue calar: show no Ocidente, fita no camelô e a faixa que a censura cortou do disco tocada inteira, ao vivo, pra quem souber a letra.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Os Replicantes.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Os Replicantes.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Os Replicantes.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Quatro do Bom Fim, formados em 1983 — Wander Wildner no vocal, os irmãos Heinz e Carlos Gerbase —, que fizeram do porão do Ocidente o endereço do punk da cidade. Gravaram em 1984 na coletânea *Rock Garagem*, saíram no *Rock Grande do Sul* da RCA e assinaram contrato: a gravadora paga a anuidade da carteira de músico, o que lhes dá o direito de tocar em casa com alvará e a obrigação de entregar a letra antes. *O Futuro É Vórtex* (1986) passou; *Histórias de Sexo e Violência* (1987) saiu com um buraco onde estava \"Adúltera\", e a banda responde tocando a faixa em todo show, anunciada de boca. \"Surfista Calhorda\" é o hino das caravanas; \"Nicotina\" toca nos botecos; \"Chernobil\", escrita antes da chuva de 86, virou outra coisa numa cidade cheia de irradiado — a Brigada acha que é apologia, a plateia acha que é notícia. Não são partido nem panfleto: são a banda que a rua reconhece pelo primeiro acorde, e por isso a censura corta e a fita passa.\n\n"
+}

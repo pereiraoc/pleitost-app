@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Drones da Base",
+  "path": "Campanhas/Combates/Drones da Base.md",
+  "basename": "Drones da Base",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Base Fantasma]] · [[Zona Deserta]]",
+    "Situação": "Os hackers gritam no rádio e os drones obedecem a quem gritar mais alto.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Drone Sequestrado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Drone de Guarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Base Fantasma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 6 [[Drone Sequestrado]] rápido\n- 3 [[Drone de Guarda]] lento\n```\n"
+}

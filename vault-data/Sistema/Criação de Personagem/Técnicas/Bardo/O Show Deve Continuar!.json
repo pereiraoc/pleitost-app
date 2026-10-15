@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/O Show Deve Continuar!",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/O Show Deve Continuar!.md",
+  "basename": "O Show Deve Continuar!",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Reação quando aliado na Performance começa o turno [[Enfraquecido]], [[Desajeitado]], [[Pasmo]] ou [[Abalado]] para ignorar o efeito de uma das condições.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desajeitado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Reação quando aliado na Performance começa o turno [[Enfraquecido]], [[Desajeitado]], [[Pasmo]] ou [[Abalado]] para ignorar o efeito de uma das condições.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade O Show Deve Continuar!.\n\n**O Show Deve Continuar! - R**\nPode ser usado quando um aliado afetado por uma [[Performance Bárdica]] começa o turno [[Enfraquecido]], [[Desajeitado]], [[Pasmo]] ou [[Abalado]]. Escolha uma dessas condições afetando o aliado, ele ignora o efeito dela até o final do turno dele.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,115 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Estabilizar Posição",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Estabilizar Posição.md",
+  "basename": "Estabilizar Posição",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação ele pode usar uma opção de ajuste/defesa (ex.: [[Levantar]], [[Escapar]], [[Pegar Cobertura]], [[Erguer Escudo]], [[Recarregar]], [[Escudo Arcano]], [[Escudo Rochoso]], [[Aparar]] ou [[Passo de Ajuste]]) e recebe [[Energia Heroica|EH]] temporária igual ao resultado +3.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pegar Cobertura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recarregar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Rochoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação ele pode usar uma opção de ajuste/defesa (ex.: [[Levantar]], [[Escapar]], [[Pegar Cobertura]], [[Erguer Escudo]], [[Recarregar]], [[Escudo Arcano]], [[Escudo Rochoso]], [[Aparar]] ou [[Passo de Ajuste]]) e recebe [[Energia Heroica|EH]] temporária igual ao resultado +3.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Estabilizar Posição.\n\n**Estabilizar Posição - 1A**\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, realizar uma das ações:\n* [[Levantar]] caso esteja [[Caído]];\n* [[Escapar]] caso esteja [[Preso]] ou [[Imobilizado]];\n* [[Pegar Cobertura]] caso possa;\n* [[Erguer Escudo]] caso saiba [[Usar Escudo]];\n* [[Recarregar]] caso empunhe uma arma de [[Recarga]];\n* Ativar [[Escudo Arcano]] caso tenha a técnica;\n* Conjurar [[Escudo Rochoso]] caso saiba a magia;\n* Aparar com [[Adaga de Duelo]] caso empunhe uma;\n* Ativar [[Aparar]] caso tenha a técnica;\n* [[Passo de Ajuste]] caso possa.\n\nAdicionalmente, um aliado que usar a reação recebe [[Energia Heroica|EH]] temporária igual ao resultado do dado mais 3. Estabilizar Posição conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

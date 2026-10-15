@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Manobrar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Manobrar.md",
+  "basename": "Manobrar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Acrobacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta manobrar por ambiente tempestuoso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Acrobacia]]\"\npropriedades:: \nresumo:: \"Tenta manobrar por ambiente tempestuoso.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Acrobacia]] vs [[CD]] da tarefa.\n\n```autosheet-rules\n```\n"
+}

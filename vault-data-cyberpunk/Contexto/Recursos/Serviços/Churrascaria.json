@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Serviços/Churrascaria",
+  "path": "Contexto/Recursos/Serviços/Churrascaria.md",
+  "basename": "Churrascaria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Alimentação Classe Média Alta"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 9000,
+    "Cobrança": "mês",
+    "Nível": 5,
+    "Onde": null,
+    "Resumo": "Galeto, churrasco e restaurante da Padre Chagas — conta mensal na casa, paga adiantado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Churrascaria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Galeto ao Primo Canto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Churrasco de Costela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Janta na Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte Especial Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Uísque de Contrabando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Churrascaria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Churrascaria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\n[[Galeto ao Primo Canto]] ou [[Churrasco de Costela]] no almoço, [[Janta na Padre Chagas]] com manobrista, [[Corte Especial Zaffari]] na churrasqueira do condomínio e [[Uísque de Contrabando]] à noite. Conta mensal paga adiantado nas casas — o garçom conhece o nome.\n\n> [!info] Especificação\n> **Garante no mês:** galeto ou churrasco no almoço, janta na Padre Chagas duas vezes por semana, corte especial em casa\n> **Café:** padaria dos Moinhos (×1,5)\n> **Almoço:** galeto ou churrasco de costela\n> **Janta:** [[Janta na Padre Chagas]] 2× por semana; corte especial em casa\n> **Bebida:** [[Uísque de Contrabando]], [[Vinho Aurora]] reserva\n> **Classe:** Classe Média Alta\n"
+}

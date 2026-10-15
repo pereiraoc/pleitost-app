@@ -1,0 +1,162 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Artista Sombrio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Artista Sombrio).md",
+  "basename": "Estilo Aprimorado (Artista Sombrio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+      "Complementar Magias.Lista [[Ofuscação]]",
+      "Complementar Magias.Lista [[Manto Translúcido]]",
+      "Definir Magias.EM 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprende [[Ofuscação]] e pode conjurar ela somente em si. Sua [[Energia Mágica|EM]] máxima aumenta para 2. Você também aprende a Magia [[Manto Translúcido]] e ela conta como uma [[Magia Arcana Negra]] para você. Você pode conjurar [[Manto Translúcido]] usando somente 2 [[Energia Mágica|EM]] em somente em si.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Artista Sombrio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Ladino (Artista Sombrio)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Artista Sombrio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Ofuscação]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Artista Sombrio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Ofuscação]]"
+          },
+          "raw": "Complementar Magias.Lista [[Ofuscação]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Manto Translúcido]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Artista Sombrio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Manto Translúcido]]"
+          },
+          "raw": "Complementar Magias.Lista [[Manto Translúcido]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Artista Sombrio)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Magias.EM 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Manto Translúcido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "wikilink",
+      "alias": "estilo"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprende [[Ofuscação]] e pode conjurar ela somente em si. Sua [[Energia Mágica|EM]] máxima aumenta para 2. Você também aprende a Magia [[Manto Translúcido]] e ela conta como uma [[Magia Arcana Negra]] para você. Você pode conjurar [[Manto Translúcido]] usando somente 2 [[Energia Mágica|EM]] em somente em si.\"\n%%\n##### `= this.file.name`\nVocê aprofunda seu conhecimento de ferramentas sombrias:\n* Você aprende a Magia [[Ofuscação]];\n* Quando você conjura [[Ofuscação]] como parte deste [[Estilo de Ladino|estilo]], você deve ter como alvo você mesmo;\n* Você aprende a Magia [[Manto Translúcido]] e ela conta como uma [[Magia Arcana Negra]] para você;\n* Quando você conjura [[Manto Translúcido]] como parte deste [[Estilo de Ladino|estilo]], você usa somente 2 [[Energia Mágica|EM]] e deve ter como alvo você mesmo;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 2.\n\n```autosheet-rules\n```\n"
+}

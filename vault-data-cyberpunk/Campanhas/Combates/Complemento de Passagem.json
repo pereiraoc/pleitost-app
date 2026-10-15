@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Complemento de Passagem",
+  "path": "Campanhas/Combates/Complemento de Passagem.md",
+  "basename": "Complemento de Passagem",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 1,
+    "Onde": "[[Estação Sarandi]] · [[Nova Sarandi]]",
+    "Situação": "A parada lotou, o anfíbio encostou e o fiscal de colete fechou a porta: Cz$ 50 por cabeça ou ninguém sobe — e a Camisa 12 chegou pra cobrar o mesmo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Fiscal da Carris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobrador de Ponto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Representante da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 1 — rank B (níveis 4–6)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 4 [[Fiscal da Carris]] lento\n- 1 [[Cobrador de Ponto]] rápido\n- 3 [[Representante da Camisa 12]] rápido\n```\n"
+}

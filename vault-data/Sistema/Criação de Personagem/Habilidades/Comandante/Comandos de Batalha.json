@@ -1,0 +1,109 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Comandos de Batalha",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Comandos de Batalha.md",
+  "basename": "Comandos de Batalha",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Reposicionar]]",
+      "Complementar Acoes.Lista [[Abater]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você pode, enquanto em combate, usar a habilidade [[Análise de Combate]] para obter dados de comando. Você aprende as habilidades [[Reposicionar]] e [[Abater]], que consomem seus dados de comando.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Reposicionar]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandos de Batalha",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Reposicionar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Reposicionar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Abater]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandos de Batalha",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Abater]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Abater]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto]]\n\nresumo:: \"Você pode, enquanto em combate, usar a habilidade [[Análise de Combate]] para obter dados de comando. Você aprende as habilidades [[Reposicionar]] e [[Abater]], que consomem seus dados de comando.\"\n%%\n#### `= this.file.name`\nVocê encontra aberturas dos inimigos durante o combate e instiga seus aliados a aproveitá-las. Você pode, enquanto em combate, usar a habilidade [[Análise de Combate]] para obter dados de comando. O número máximo de dados de comando que você pode ter é igual a 1 + [[Inteligência|INT]] (mínimo 1). Você aprende as habilidades [[Reposicionar]] e [[Abater]], que consomem seus dados de comando para empoderar taticamente seus aliados. Você perde todos seus dados de comando no fim de um combate.\n\n```autosheet-rules\n```\n"
+}

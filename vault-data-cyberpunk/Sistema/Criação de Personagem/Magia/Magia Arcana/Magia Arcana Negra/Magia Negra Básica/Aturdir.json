@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Aturdir",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Aturdir.md",
+  "basename": "Aturdir",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criatura em 6q para causar dano de força não-letal 1d6+3 (2d6+3 se [[Experiente]] em [[Magia Arcana]], 3d6+3 se [[Mestre]]). No sucesso decisivo, +1d6 e aplica [[Atordoado|Atordoado 1]]; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criatura em 6q para causar dano de força não-letal 1d6+3 (2d6+3 se [[Experiente]] em [[Magia Arcana]], 3d6+3 se [[Mestre]]). No sucesso decisivo, +1d6 e aplica [[Atordoado|Atordoado 1]]; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nDiminui a vontade de lutar de uma criatura. Faça um Ataque Mágico contra [[Vigor]] de uma criatura em 6q. Aturdir causa dano não-letal.\n\n**Sucesso:** A criatura recebe 1d6+3 de dano de força.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d6 e a criatura fica [[Atordoado|Atordoada 1]].\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d6+3 ao se tornar [[Experiente]] com [[Magia Arcana]] e 3d6+3 ao se tornar [[Mestre]].\n\n```autosheet-rules\n```\n"
+}

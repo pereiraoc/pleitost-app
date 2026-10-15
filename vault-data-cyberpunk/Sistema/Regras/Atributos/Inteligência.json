@@ -1,0 +1,98 @@
+{
+  "id": "Sistema/Regras/Atributos/Inteligência",
+  "path": "Sistema/Regras/Atributos/Inteligência.md",
+  "basename": "Inteligência",
+  "type": "Regra",
+  "subtype": "Atributo",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "INT, Inteligência (INT)",
+    "categoria": "Regra",
+    "subcategoria": "Atributo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Atributos|Atributo]]",
+    "prev": "[[Agilidade]]",
+    "next": "[[Presença]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adeptas"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentido"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Inteligência (INT)"
+    }
+  ],
+  "body": "%%\nup:: [[Atributos|Atributo]]\nprev:: [[Agilidade]]\nnext:: [[Presença]]\n%%\n## Inteligência (INT)\nInteligência representa a capacidade de analisar a situação, raciocinar rapidamente e acumular conhecimento. Contribui com:\n* Número de [[Perícias|Perícias]] [[Adepto|Adeptas]]\n* [[Resistências]] [[Evasão]] e [[Ímpeto]]\n* [[Sentidos|Sentido]] [[Percepção]]\n* [[Perícias|Perícias]] [[Arcana]], [[Guerra]], [[Sociedades]], [[Medicina]] e [[Sobrevivência]]\n* [[Perícias de Ofício]]"
+}

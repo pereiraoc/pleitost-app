@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Propriedades/Inteligência X",
+  "path": "Sistema/Regras/Propriedades/Inteligência X.md",
+  "basename": "Inteligência X",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Inteligência 0, Inteligência 1, Inteligência 2, Inteligência 3, Inteligência 4",
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Valor de [[Inteligência|INT]] necessário para conseguir usar a arma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Valor de [[Inteligência|INT]] necessário para conseguir usar a arma.\"\n%%\n## `= this.file.name`\nArmas com a propriedade Inteligência exigem um valor mínimo de [[Inteligência|INT]] para serem utilizadas. Diferente da [[Força X|Força]], que só penaliza quem tem menos do que o pedido, aqui o mecanismo é intrincado demais para quem não o entende: com [[Inteligência|INT]] **abaixo** do valor da propriedade você **não consegue atacar** com essa arma.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\"\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Escritório dos Moinhos",
+  "path": "Campanhas/Combates/Escritório dos Moinhos.md",
+  "basename": "Escritório dos Moinhos",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Moinhos de Vento]] · [[Centro Histórico]]",
+    "Situação": "O andar corporativo reage: rotina nos capangas e um terno indo atrás de um só.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Operador Trônico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Segurança de Crachá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta de Diretoria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Operador Trônico]] lento\n- 4 [[Segurança de Crachá]] lento\n- 2 [[Escolta de Diretoria]] super rápido\n```\n"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Contra-ataque Ágil",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Contra-ataque Ágil.md",
+  "basename": "Contra-ataque Ágil",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Se você estiver com mão livre ou com duas armas (uma [[Ágil]]) e uma criatura errar feio contra você (falha decisiva ou 2 falhas no mesmo turno), você pode reagir para fazer um [[Atacar|Ataque]] ou [[Desarmar]] contra ela (com [[Adaga de Duelo]], pode [[Desarmar]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Se você estiver com mão livre ou com duas armas (uma [[Ágil]]) e uma criatura errar feio contra você (falha decisiva ou 2 falhas no mesmo turno), você pode reagir para fazer um [[Atacar|Ataque]] ou [[Desarmar]] contra ela (com [[Adaga de Duelo]], pode [[Desarmar]]).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Contra-ataque Ágil.\n\n**Contra-ataque Ágil - R**\nSe você está com uma mão livre ou empunhando duas armas e ao menos uma delas é [[Ágil]] e uma criatura tem uma falha decisiva em um [[Atacar|Ataque]] contra você ou tem uma falha em dois [[Atacar|Ataques]] contra você no mesmo turno, pode usar uma reação para:\n* Mão livre - Faça um [[Atacar|Ataque]] ou [[Desarmar]] contra a criatura.\n* Duas armas - Faça um [[Atacar|Ataque]] contra a criatura com uma arma [[Ágil]] Caso uma das armas seja uma [[Adaga de Duelo]], você pode, em substituição ao ataque, tentar [[Desarmar]] a criatura usando a adaga.\n\n```autosheet-rules\n```\n"
+}

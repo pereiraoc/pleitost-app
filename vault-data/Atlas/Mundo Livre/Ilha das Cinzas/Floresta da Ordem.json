@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Ilha das Cinzas/Floresta da Ordem",
+  "path": "Atlas/Mundo Livre/Ilha das Cinzas/Floresta da Ordem.md",
+  "basename": "Floresta da Ordem",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ilha das Cinzas]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Floresta da Ordem.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Floresta da Ordem.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Floresta da Ordem.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Mata de árvores colossais que cobre o sul da [[Ilha das Cinzas]] — nos mapas, a região aparece rotulada simplesmente com o nome de quem a domina: a [[Ordem Bestial]]. É território selvagem, sem estradas nem povoados; os únicos sinais de mão construtora são as plataformas de madeira erguidas nos galhos das árvores-gigantes e as ruínas antigas de pedra clara de uma clareira no coração da mata. Todo acesso por terra atravessa a savana a oeste; por mar, só uma enseada de recifes no litoral sul serve de ancoradouro. \n> \n> 👁️**Aparência do Local:** A oeste estende-se uma savana dourada de capim seco e árvores de copa achatada, cortada por trilhas claras que convergem todas para a borda da mata; um riacho desce do norte e some sob as copas. A floresta em si é um dossel contínuo de árvores colossais, com névoa presa entre as copas e plataformas de madeira encaixadas nos galhos da borda oeste — moradias ou vigias da [[Ordem Bestial]]. No coração da mata abre-se uma clareira de prado verde-claro com ruínas de pedra cor de areia — torres e paredões quebrados de aspecto antigo — junto a uma cachoeira que despenca numa lagoa azul-esverdeada. Ao norte e nordeste, uma muralha de picos rochosos pontiagudos corre até despencar no mar em penhascos; o litoral leste e sul é de falésias e dezenas de farallões escuros, com uma única enseada protegida por um arco de recifes. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Mata de árvores colossais que cobre o sul da [[Ilha das Cinzas]] — nos mapas, a região aparece rotulada simplesmente com o nome de quem a domina: a [[Ordem Bestial]]. É território selvagem, sem estradas nem povoados; os únicos sinais de mão construtora são as plataformas de madeira erguidas nos galhos das árvores-gigantes e as ruínas antigas de pedra clara de uma clareira no coração da mata. Todo acesso por terra atravessa a savana a oeste; por mar, só uma enseada de recifes no litoral sul serve de ancoradouro.",
+    "aparencia": "A oeste estende-se uma savana dourada de capim seco e árvores de copa achatada, cortada por trilhas claras que convergem todas para a borda da mata; um riacho desce do norte e some sob as copas. A floresta em si é um dossel contínuo de árvores colossais, com névoa presa entre as copas e plataformas de madeira encaixadas nos galhos da borda oeste — moradias ou vigias da [[Ordem Bestial]]. No coração da mata abre-se uma clareira de prado verde-claro com ruínas de pedra cor de areia — torres e paredões quebrados de aspecto antigo — junto a uma cachoeira que despenca numa lagoa azul-esverdeada. Ao norte e nordeste, uma muralha de picos rochosos pontiagudos corre até despencar no mar em penhascos; o litoral leste e sul é de falésias e dezenas de farallões escuros, com uma única enseada protegida por um arco de recifes.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

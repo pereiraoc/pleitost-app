@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Brigada Militar Metropolitana",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Brigada Militar Metropolitana.md",
+  "basename": "Brigada Militar Metropolitana",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Brigada Militar"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Coronel Luciana Prado]]",
+    "Descrição": null,
+    "Resumo": "Polícia estadual de choque responsável pela ordem urbana.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brigada Militar Metropolitana.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Coronel Luciana Prado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Brigada Militar Metropolitana.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Brigada Militar Metropolitana.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Unidades de intervenção rápida treinadas para confrontos urbanos e guerra química."
+}

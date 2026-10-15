@@ -1,0 +1,792 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Mera",
+  "path": "Sistema/Criaturas/Heróis/Mera.md",
+  "basename": "Mera",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Carlos, Dante, Mera, Pind, Thoren]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Carlos, Dante, Mera, Pind, Thoren]]"
+    ],
+    "Imagem": "",
+    "Nível": 7,
+    "Classe": "[[Caçador|Sentinela Domador]]",
+    "Sintonia": "[[Traço Elemental da Terra]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 30,
+      "Moral": 60
+    },
+    "Atributos": {
+      "Principal": "AGI",
+      "FOR": 2,
+      "AGI": 3,
+      "INT": 1,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 3,
+        "E": 3,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Estratégia de Caça (Domador)]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Estabilidade]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Cuidados]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Luvas Purificadas]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Animais]]",
+          "Maestria": "[[Parceria Animal]]",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Caçador]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Leis",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Explorador Nato]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Estratégia de Caça]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Desbravador]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Estratégia Aprimorada]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Estratégia de Caça (Domador)|Domador]]": "Escolha.[[Estratégia de Caça]]"
+        },
+        {
+          "[[Estratégia Aprimorada (Domador)|Domador]]": "Regra.[[Estratégia Aprimorada]]"
+        },
+        {
+          "[[Sentinela]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Estratégia Perfeita]]": "Regra.[[Caçador]]"
+        },
+        {
+          "[[Estratégia Perfeita (Domador)]]": "Regra.[[Estratégia Perfeita]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Ambidestria]]": "Regra.[[Explorador Nato]]"
+        },
+        {
+          "[[Herbalismo Prático]]": "Slot.A"
+        },
+        {
+          "[[Saque Rápido]]": "Slot.A"
+        },
+        {
+          "[[Um Olho para cada Presa]]": "Slot.E"
+        },
+        {
+          "[[Lado a Lado]]": "Slot.E"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Aturdir]]": "Regra.[[Garras do Rei-Mago]]"
+            },
+            {
+              "[[Enfraquecer]]": "Regra.[[Garras do Rei-Mago]]"
+            },
+            {
+              "[[Entorpecer]]": "Regra.[[Garras do Rei-Mago]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Avivar]]": "Regra.[[Garras do Rei-Mago]]"
+            },
+            {
+              "[[Celeridade]]": "Regra.[[Garras do Rei-Mago]]"
+            },
+            {
+              "[[Empoderar]]": "Regra.[[Garras do Rei-Mago]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Comandar Animal]]": "Regra.[[Estratégia de Caça (Domador)]]"
+        },
+        {
+          "[[Marca do Caçador]]": "Regra.[[Estratégia de Caça]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "M",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "[[Armadura Leve]]",
+        "Categoria": "[[Experiente]]",
+        "Propriedade": "[[Armadura Obra-prima|Obra-prima]]",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "P"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Anel da Resistência|Anel da Resistência (Adepto)]]",
+        "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+        "[[Luvas Purificadas|Luvas Purificadas (Experiente)]]",
+        "[[Garras do Rei-Mago|Garras do Rei-Mago (Mestre)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção de Cura|Poção de Cura (Adepto) (x1)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Alfange]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Ciclonal|Ciclonal]]",
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Espada Curva]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Adepto]]",
+            "Propriedade": "[[Imbuição de Aço Solar|de Aço Solar]]",
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Arco Longo]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Explosiva]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [
+        {
+          "qtd": 4,
+          "texto": "Proteção de Carregamento de Esmeraldas (Lilá > Safira)"
+        },
+        {
+          "qtd": 3,
+          "texto": "Ordem Solar: Zumbis perto de Vinhedos"
+        },
+        {
+          "qtd": 14,
+          "texto": "Ordem Solar: Expedição à Tumba Selada"
+        },
+        {
+          "qtd": 24,
+          "texto": "Neutralização da Fenda de Energia Negativa"
+        }
+      ],
+      "Reconhecimentos": [
+        {
+          "entidade": "Ordem Solar",
+          "texto": "Luz do Ápice"
+        }
+      ]
+    },
+    "Biografia": {
+      "Passado": "Mercenaria",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 0,
+      "Abatedor": 2,
+      "Vanguarda": 1
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 30,
+        "Moral": 60,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      },
+      "Condicoes_Ativas": {
+        "Vantagem de Combate": {
+          "value": 1
+        },
+        "Inspiração::Carlos Facão de Andradas": {
+          "value": 1
+        }
+      },
+      "Efeitos_Ativos": {
+        "Vantagem de Combate": {
+          "on": true
+        },
+        "Performance Bárdica Ativa": {
+          "on": true,
+          "auto": true,
+          "autoFrom": "Inspiração::Carlos Facão de Andradas"
+        }
+      },
+      "Usos_Recursos": {
+        "arma:Espada Curva|prop:Ciclonal": 3,
+        "arma:Alfange|prop:Ciclonal": 1,
+        "tes:Luvas Purificadas|tier:A": 1,
+        "tes:Amplificador Audiovisual|tier:A": 1,
+        "arma:Arco Longo|prop:Imbuição Explosiva": 111,
+        "tec:Herbalismo Prático": 3,
+        "tes:Luvas Purificadas|tier:E": 1
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Metis, a Graxaim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink",
+      "alias": "Sentinela Domador"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estabilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cuidados",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luvas Purificadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parceria Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Aprimorada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Perfeita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Explorador Nato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras do Rei-Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink",
+      "alias": "Anel da Resistência (Adepto)"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink",
+      "alias": "Amplificador Audiovisual (Adepto)"
+    },
+    {
+      "target": "Luvas Purificadas",
+      "kind": "wikilink",
+      "alias": "Luvas Purificadas (Experiente)"
+    },
+    {
+      "target": "Garras do Rei-Mago",
+      "kind": "wikilink",
+      "alias": "Garras do Rei-Mago (Mestre)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Adepto) (x1)"
+    },
+    {
+      "target": "Alfange",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink",
+      "alias": "Ciclonal"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Aço Solar",
+      "kind": "wikilink",
+      "alias": "de Aço Solar"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "\n```autosheet-yaml\nModo: Interativa\n```\n---\n```autosheet-ref\n[[Metis, a Graxaim]]\nModo: Interativa\n```"
+}

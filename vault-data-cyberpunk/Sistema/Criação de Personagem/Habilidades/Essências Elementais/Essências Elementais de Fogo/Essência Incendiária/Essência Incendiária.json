@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Incendiária/Essência Incendiária",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Fogo/Essência Incendiária/Essência Incendiária.md",
+  "basename": "Essência Incendiária",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Tocha Flutuante]], adepta [[Combustão]], experiente [[Manto Incendiário]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tocha Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combustão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manto Incendiário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Incendiária Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Tocha Flutuante]], adepta [[Combustão]], experiente [[Manto Incendiário]]\"\n%%\n### `= this.file.name`\n![[Essência Incendiária Adepta#`= this.file.name`]]\n![[Essência Incendiária Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

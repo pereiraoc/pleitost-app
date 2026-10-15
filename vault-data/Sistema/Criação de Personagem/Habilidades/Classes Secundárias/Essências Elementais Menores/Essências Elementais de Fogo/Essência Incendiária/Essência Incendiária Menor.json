@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Fogo/Essência Incendiária/Essência Incendiária Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Fogo/Essência Incendiária/Essência Incendiária Menor.md",
+  "basename": "Essência Incendiária Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Fogo",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Tocha Flutuante]]",
+      "Complementar Magias.Secundaria.Lista [[Combustão]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Tocha Flutuante]], adepta [[Combustão]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Tocha Flutuante]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Incendiária Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Tocha Flutuante]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Tocha Flutuante]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Combustão]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Incendiária Menor",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Combustão]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Combustão]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tocha Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combustão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Tocha Flutuante]], adepta [[Combustão]]\"\n%%\n#### `= this.file.name`\n* basica [[Tocha Flutuante]]\n* adepta [[Combustão]]\n\n```autosheet-rules\n```\n"
+}

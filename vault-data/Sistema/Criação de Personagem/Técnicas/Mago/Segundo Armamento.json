@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Segundo Armamento",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Segundo Armamento.md",
+  "basename": "Segundo Armamento",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você pode ter duas armas afetadas por [[Arma Arcana]] simultaneamente. Se fizer o ritual de [[Arma Arcana]] em uma terceira arma, uma das duas outras (a sua escolha) perde os efeitos de Arma Arcana.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Arma Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você pode ter duas armas afetadas por [[Arma Arcana]] simultaneamente. Se fizer o ritual de [[Arma Arcana]] em uma terceira arma, uma das duas outras (a sua escolha) perde os efeitos de Arma Arcana.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode ter duas armas afetadas por [[Arma Arcana]] simultaneamente. Se fizer o ritual de [[Arma Arcana]] em uma terceira arma, uma das duas outras (a sua escolha) perde os efeitos de Arma Arcana.\n\n```autosheet-rules\n```\n"
+}

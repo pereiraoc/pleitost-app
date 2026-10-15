@@ -1,0 +1,50 @@
+{
+  "id": "Contexto/Recursos/Crédito/Penhor do Camelódromo",
+  "path": "Contexto/Recursos/Crédito/Penhor do Camelódromo.md",
+  "basename": "Penhor do Camelódromo",
+  "type": "Recurso",
+  "subtype": "Crédito",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Crédito",
+    "Tipo": "Empréstimo",
+    "Marca": "Casas de penhor",
+    "Preço": 0,
+    "Cobrança": "mês",
+    "Juros": 10,
+    "Nível": 1,
+    "Onde": [
+      "[[Camelódromo]]",
+      "[[Clube dos Sete Portos]]"
+    ],
+    "Resumo": "Deixa o item no balcão, sai com metade do valor dele no bolso: 10% ao mês e três meses pra resgatar antes de perder.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Penhor do Camelódromo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Sete Portos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Penhor do Camelódromo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Penhor do Camelódromo.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Teto:** Cz$ `= this.Preço`\n> 📈**Juros:** `= this.Juros`% ao mês\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO balcão avalia na hora, sem perguntar de onde veio: relógio, prótese, arma branca, o rádio da cozinha. Sai da loja com metade do que a coisa vale e um bilhete numerado — o item fica na prateleira dos fundos, etiquetado, esperando tu voltar.\n\nDez por cento ao mês sobre o que pegou. Três meses sem aparecer e a peça vai pra vitrine: quem paga o preço cheio leva, e o bilhete não vale mais nada. Metade da vitrine do [[Camelódromo]] é gente que não voltou a tempo.\n\n> [!info] Especificação\n> **Quem consegue:** qualquer um que tenha uma posse pra deixar\n> **Teto:** metade do valor do item deixado\n> **Juros:** 10% ao mês\n> **Garantia:** o item, que fica lá\n> **Se atrasa:** três meses sem pagar: perdeu o item, e ele vai pra vitrine\n"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Interferência Reativa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Interferência Reativa.md",
+  "basename": "Interferência Reativa",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando um inimigo adjacente usar uma reação no seu turno ou no de um aliado, você pode fazer um [[Atacar|Ataque]] contra ele para interromper a reação; em sucesso, interrompe sem causar dano/efeitos, e em sucesso decisivo interrompe e causa dano/efeitos normalmente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando um inimigo adjacente usar uma reação no seu turno ou no de um aliado, você pode fazer um [[Atacar|Ataque]] contra ele para interromper a reação; em sucesso, interrompe sem causar dano/efeitos, e em sucesso decisivo interrompe e causa dano/efeitos normalmente.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Interferência Reativa.\n\n**Interferência Reativa - R**\nPode ser usado quando um inimigo adjacente realiza uma reação durante o seu turno ou turno de um de seus aliados. Faça um [[Atacar|Ataque]] contra a criatura reagindo, em caso de sucesso, seu ataque não causa dano ou ativa outros efeitos, mas a reação do inimigo é interrompida. Em um sucesso decisivo, a reação é interrompida e seu ataque causa dano e efeitos como um sucesso normal.\n\n```autosheet-rules\n```\n"
+}

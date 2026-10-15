@@ -1,0 +1,500 @@
+{
+  "id": "Sistema/Criaturas/Bestiário/Exoesqueleto do BOPE",
+  "path": "Sistema/Criaturas/Bestiário/Exoesqueleto do BOPE.md",
+  "basename": "Exoesqueleto do BOPE",
+  "type": "Criatura",
+  "subtype": "Monstro",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Monstro",
+    "grupo": [],
+    "Imagem": "",
+    "Tier": 2,
+    "Classe": "[[Bruto|Bruto Elite]]",
+    "Modificador": "Elite",
+    "Sintonia": "[[Fator A Negativo]]",
+    "Raça": "[[Humano|Humano (Médio)]]",
+    "Tamanho": "Médio",
+    "Descrição": "O \"bope corporativo\": casco Tramontina e rádio Gradiente. O muro que entra na frente.",
+    "Afiliação": "[[Brigada Militar Metropolitana]]",
+    "Bairros": [
+      "[[Petrópolis]]",
+      "[[Passo D'Areia]]",
+      "[[Nova Sarandi]]"
+    ],
+    "Vida": {
+      "Vitalidade": 134
+    },
+    "Atributos": {
+      "Principal": "FOR",
+      "FOR": 3,
+      "AGI": 1,
+      "INT": 0,
+      "PRE": 2
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica de Monstro]]": "Regra.[[Bruto]]"
+        },
+        {
+          "[[Bruto Aterrorizador]]": "Manual.Habilidade"
+        },
+        {
+          "[[Vigor Bruto]]": "Manual.Habilidade"
+        },
+        {
+          "[[Casco]]": "Manual.Habilidade"
+        },
+        {
+          "[[Elite]]": "Manual.Modificador"
+        }
+      ],
+      "Especiais": []
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 1,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Ataques": {
+      "Proficiencia": "E",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 10,
+      "Armadura": {
+        "Nome": "[[Armadura Pesada]]",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "P"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Pulseira da Potência]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção da Coragem]]",
+        "[[Poção da Coragem]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Machadão]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Mineral]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Biografia": {
+      "Passado": "",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bruto",
+      "kind": "wikilink",
+      "alias": "Bruto Elite"
+    },
+    {
+      "target": "Fator A Negativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Humano",
+      "kind": "wikilink",
+      "alias": "Humano (Médio)"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bruto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Coragem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Mineral",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Criatura\n\n```autosheet-yaml\nModo: Resumo\n```\n"
+}

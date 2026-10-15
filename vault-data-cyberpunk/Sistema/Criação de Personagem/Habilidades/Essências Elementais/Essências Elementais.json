@@ -1,0 +1,122 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais.md",
+  "basename": "Essências Elementais",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Recebe acesso a uma Essência Elemental.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Explosiva",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Incendiária",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Torrencial",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Hidratante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Congelante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Relampejante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Ciclonal",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Ventania",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Sísmica",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Mineral",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Enraizante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência de Criação",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Fogo"
+    },
+    {
+      "level": 2,
+      "text": "Água"
+    },
+    {
+      "level": 2,
+      "text": "Vento"
+    },
+    {
+      "level": 2,
+      "text": "Terra"
+    },
+    {
+      "level": 2,
+      "text": "Universal"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Recebe acesso a uma Essência Elemental.\"\n%%\n# `= this.file.name`\n## Fogo\n![[Essência Flamejante#`= this.file.name`]]\n![[Essência Explosiva#`= this.file.name`]]\n![[Essência Incendiária#`= this.file.name`]]\n\n## Água\n![[Essência Torrencial#`= this.file.name`]]\n![[Essência Hidratante#`= this.file.name`]]\n![[Essência Congelante#`= this.file.name`]]\n\n## Vento\n![[Essência Relampejante#`= this.file.name`]]\n![[Essência Ciclonal#`= this.file.name`]]\n![[Essência Ventania#`= this.file.name`]]\n\n## Terra\n![[Essência Sísmica#`= this.file.name`]]\n![[Essência Mineral#`= this.file.name`]]\n![[Essência Enraizante#`= this.file.name`]]\n\n## Universal\n![[Essência de Criação#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

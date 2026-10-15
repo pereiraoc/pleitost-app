@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Classe Secundária/Forma Fortificada Menor",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Classe Secundária/Forma Fortificada Menor.md",
+  "basename": "Forma Fortificada Menor",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Fortificada Menor",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "iconeLigado": "🐢",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "pai": "Forma Feral Menor"
+        },
+        "forma": {
+          "movimento": 4,
+          "ataques": [
+            "Mordida",
+            "Pancada"
+          ],
+          "manobras": [
+            "Desarmar"
+          ],
+          "pericias": [
+            "Nadar",
+            "Equilibrar-se",
+            "Empurrar",
+            "Assustar"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Pancada); [[Desarmar]]; ações: [[Nadar]], [[Equilibrar-se]], [[Empurrar]], [[Assustar]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Pancada); [[Desarmar]]; ações: [[Nadar]], [[Equilibrar-se]], [[Empurrar]], [[Assustar]]\"\n%%\n### `= this.file.name` - `= this.custo`\n* [[Movimentação]] 4+[[Agilidade|AGI]]\n* Ataques naturais \n\t* Mordida\n\t* Pancada\n* Manobras de ataque\n\t* [[Desarmar]]\n* Ações de Perícia\n\t* [[Nadar]]\n\t* [[Equilibrar-se]]\n\t* [[Empurrar]]\n\t* [[Assustar]]\n\n```autosheet-rules\n```\n"
+}

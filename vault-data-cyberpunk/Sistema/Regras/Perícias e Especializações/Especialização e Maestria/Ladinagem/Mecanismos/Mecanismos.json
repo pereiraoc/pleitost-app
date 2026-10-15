@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Mecanismos/Mecanismos",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Ladinagem/Mecanismos/Mecanismos.md",
+  "basename": "Mecanismos",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Ladinagem]]",
+    "resumo": "\"Recebe +2 contra armadilhas. Pode [[Desativar Mecanismo|Desativar]] com 2A e [[Destrancar]] com 1A.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desativar Mecanismo",
+      "kind": "wikilink",
+      "alias": "Desativar"
+    },
+    {
+      "target": "Destrancar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desativar Mecanismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Ladinagem]]\nresumo:: \"Recebe +2 contra armadilhas. Pode [[Desativar Mecanismo|Desativar]] com 2A e [[Destrancar]] com 1A.\"\n%%\n### `= this.file.name`\n* Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] e [[Resistências]] contra armadilhas e dispositivos.\n* Você pode realizar [[Desativar Mecanismo]] como 2A e [[Destrancar]] como 1A.\n\n```autosheet-rules\n```\n"
+}

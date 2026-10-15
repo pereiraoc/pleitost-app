@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Bainha Mágica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Bainha Mágica.md",
+  "basename": "Bainha Mágica",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você cria uma bainha extradimensional para guardar uma arma (tamanho X ou menor), reduzindo o perfil dela e dando +2 de [[bônus de circunstância]] para [[Ocultar Objeto|Ocultar]] a arma. Se sua próxima ação for conjurar uma magia ou usar uma habilidade de Combate Arcano, você pode teletransportar sua [[Arma Arcana]] da bainha para sua mão como ação livre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ocultar Objeto",
+      "kind": "wikilink",
+      "alias": "Ocultar"
+    },
+    {
+      "target": "Arma Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você cria uma bainha extradimensional para guardar uma arma (tamanho X ou menor), reduzindo o perfil dela e dando +2 de [[bônus de circunstância]] para [[Ocultar Objeto|Ocultar]] a arma. Se sua próxima ação for conjurar uma magia ou usar uma habilidade de Combate Arcano, você pode teletransportar sua [[Arma Arcana]] da bainha para sua mão como ação livre.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê cria uma bainha extradimensional em uma parte da sua vestimenta ou armadura, essa bainha pode ser usada para guardar uma arma de tamanho X ou menor. A bainha reduz o perfil da arma, você recebe +2 de [[bônus de circunstância]] para [[Ocultar Objeto|Ocultar]] a arma na bainha mágica. Adicionalmente, se sua próxima ação for conjurar uma magia ou usar uma habilidade de Combate Arcano, pode teletransportar sua [[Arma Arcana]] para sua mão como uma ação livre caso ela esteja na Bainha Mágica.\n\n```autosheet-rules\n```\n"
+}

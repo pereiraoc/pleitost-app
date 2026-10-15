@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Recursos/Imóveis/Apartamento em Petrópolis",
+  "path": "Contexto/Recursos/Imóveis/Apartamento em Petrópolis.md",
+  "basename": "Apartamento em Petrópolis",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Aluguel",
+    "Marca": "Imobiliárias de Petrópolis",
+    "Preço": 12000,
+    "Cobrança": "mês",
+    "Compra": 1200000,
+    "Manutenção": 3000,
+    "Nível": 5,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "Dois dormitórios e 70 m² num prédio dos anos 70 com garagem e zelador; vizinhos de Tramontina e Panvel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Apartamento em Petrópolis.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Apartamento em Petrópolis.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Apartamento em Petrópolis.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🏠**Compra:** Cz$ `= this.Compra`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\n[[Petrópolis]] é onde mora quem tem crachá e ainda não tem cobertura: engenheiro da [[Tramontina]], médico da\n[[Panvel]], sargento com vinte anos de PIRA. Prédio dos anos 70, garagem, zelador, água e luz oficiais e o rateio\ndo porteiro armado da [[Gradiente]]. O churrasco de domingo é na churrasqueira do salão.\n\n> [!info] Especificação\n> **Imóvel:** 2 dormitórios, 70 m², prédio dos anos 70 com garagem e salão de festas\n> **Inclui:** condomínio com zelador, água e luz oficiais, telefone instalado\n> **Segurança:** rateio do porteiro armado da [[Gradiente]]: Cz$ 1.000 no condomínio\n> **Exigência:** fiador ou crachá de megacorp; três meses adiantados\n> **Compra:** Cz$ 1.200.000 — financiamento por megacorp com desconto em folha\n> **Nível:** 5 — Classe Média Alta\n"
+}

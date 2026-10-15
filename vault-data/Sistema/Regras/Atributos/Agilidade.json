@@ -1,0 +1,87 @@
+{
+  "id": "Sistema/Regras/Atributos/Agilidade",
+  "path": "Sistema/Regras/Atributos/Agilidade.md",
+  "basename": "Agilidade",
+  "type": "Regra",
+  "subtype": "Atributo",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "AGI, Agilidade (AGI)",
+    "categoria": "Regra",
+    "subcategoria": "Atributo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Atributos|Atributo]]",
+    "prev": "[[Força]]",
+    "next": "[[Inteligência]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataques à distância"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink",
+      "alias": "precisão"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Agilidade (AGI)"
+    }
+  ],
+  "body": "%%\nup:: [[Atributos|Atributo]]\nprev:: [[Força]]\nnext:: [[Inteligência]]\n%%\n## Agilidade (AGI)\nAgilidade representa rapidez e coordenação motora. Contribui com:\n* [[Ataques|Ataques à distância]]\n* Ataques de [[Precisa|precisão]]\n* [[Movimentação]]\n* [[Defesa]], pela capacidade de esquiva com armaduras leves\n* [[Resistências|Resistência]] [[Evasão]]\n* [[Perícias|Perícias]] [[Acrobacia]], [[Furtividade]] e [[Ladinagem]]"
+}

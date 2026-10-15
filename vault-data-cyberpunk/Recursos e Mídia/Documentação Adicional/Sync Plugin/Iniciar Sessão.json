@@ -1,0 +1,72 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Iniciar Sessão",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Iniciar Sessão.md",
+  "basename": "Iniciar Sessão",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Configuração",
+      "kind": "wikilink",
+      "subpath": "Conta"
+    },
+    {
+      "target": "Configuração",
+      "kind": "wikilink",
+      "subpath": "Identidade na mesa"
+    },
+    {
+      "target": "Configuração",
+      "kind": "wikilink",
+      "subpath": "Sincronizar fichas com a sessão"
+    },
+    {
+      "target": "Configuração",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Iniciar Sessão"
+    },
+    {
+      "level": 2,
+      "text": "Pré-requisitos"
+    },
+    {
+      "level": 2,
+      "text": "Painel sync"
+    },
+    {
+      "level": 2,
+      "text": "Iniciar (Mestre)"
+    },
+    {
+      "level": 2,
+      "text": "Entrar (Player)"
+    },
+    {
+      "level": 2,
+      "text": "Initial sync"
+    },
+    {
+      "level": 2,
+      "text": "Trocar sessão"
+    },
+    {
+      "level": 2,
+      "text": "Encerrar / Sair"
+    },
+    {
+      "level": 2,
+      "text": "Reload do plugin"
+    }
+  ],
+  "body": "# Iniciar Sessão\n\n## Pré-requisitos\n\n| Requisito | Onde configurar |\n|---|---|\n| Login (OAuth GitHub ou email+senha) | [[Configuração#Conta]] |\n| Nickname preenchido | [[Configuração#Identidade na mesa]] |\n| Plugin pleitost-autosheet ativo | Settings → Community plugins |\n\n## Painel sync\n\nLateral direito. 2 modos visuais:\n\n| Modo | Conteúdo |\n|---|---|\n| **Sessões** (home) | Lista de recents (cap 10) + botões iniciar/entrar |\n| **Ativa** | Sessão atual + controles |\n\nCada card de sessão recent mostra:\n\n- Badge Mestre/Jogador + nome + código\n- Roster compacto (async): `Mestre: <nick>` · `Jogadores: <nick> (heroi), ...`\n- Botões ▶️ Entrar / 📥 Arquivar / 🚪 Abandonar / ❌ Encerrar (Mestre)\n\n## Iniciar (Mestre)\n\n| Passo | Ação |\n|---|---|\n| 1 | Home → **+ Iniciar nova sessão** |\n| 2 | Digite nome (ex: \"Caverna do Goblin\") |\n| 3 | Plugin gera código alfanumérico de 6 chars (sem 0/O, 1/I/L pra facilitar ditar) |\n| 4 | Compartilhe o código com os jogadores |\n\n## Entrar (Player)\n\n| Passo | Ação |\n|---|---|\n| 1 | Home → **+ Entrar em sessão** |\n| 2 | Cole o código + confirme/edite o nickname |\n| 3 | Initial sync alinha suas fichas com a sessão (Notice descritivo se diverge) |\n\n## Initial sync\n\nAo entrar/reabrir, sync compara FM local vs servidor pra todos os chars que você tem registrado. Se divergem:\n\n| Cenário | Ação |\n|---|---|\n| Servidor vita=15, seu FM vita=30 | Writer escreve FM=15 + Notice \"Sincronizando Mera (30→15)\" |\n| Idênticos | No-op |\n| Char é NPC | Skip (DB-only, multi-instance) |\n\nPra desligar esse comportamento, toggle em [[Configuração#Sincronizar fichas com a sessão]].\n\n## Trocar sessão\n\nVocê pode estar em N sessões no servidor (ex: Mestre da Mesa A + player da Mesa B). Painel mostra 1 de cada vez.\n\n| Click | Resultado |\n|---|---|\n| ↩ no topo da Ativa | Volta pra home |\n| ▶️ Entrar em outra | Sai da atual (sem encerrar — Mestre continua viva pros outros) + abre alvo |\n\n## Encerrar / Sair\n\n| Quem | Como | Efeito |\n|---|---|---|\n| Mestre | Painel ativo → \"encerrar sessão\" / Home → ❌ Encerrar | Fecha pra TODOS |\n| Mestre | Settings → Sessão → Encerrar | Idem |\n| Player | Painel ativo → \"sair da sessão\" / Home → 🚪 Abandonar | Sai dos members; seus chars ficam (Mestre remove se quiser) |\n| Player | Home → 📥 Arquivar | Some da home (vai pra \"Arquivadas\") sem sair do server. Re-abrir limpa |\n\n**Salvar log de sessão** ([[Configuração]] toggle): gera `Aventuras/Logs de Sessão/Sessao-YYYY-MM-DD-HHMM.md` ao encerrar (Mestre).\n\n## Reload do plugin\n\nSessão ativa persiste em `data.json` (settings.lastSession). Reabrir o Obsidian tenta retomar.\n\n| Cenário | Resultado |\n|---|---|\n| Sessão ainda rolando | Plugin reconecta + faz initial sync |\n| Sessão encerrada enquanto offline | Plugin limpa silenciosamente (volta pra home) |\n"
+}

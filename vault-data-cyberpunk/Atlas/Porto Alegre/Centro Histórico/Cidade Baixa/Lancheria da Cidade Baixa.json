@@ -1,0 +1,90 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Lancheria da Cidade Baixa",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Lancheria da Cidade Baixa.md",
+  "basename": "Lancheria da Cidade Baixa",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Cidade Baixa]]",
+    "Dono": "Seu Valdomiro Assis",
+    "Descrição": null,
+    "Serviços": [
+      "[[Xis]]",
+      "[[Polar Tradicional]]",
+      "[[Brahma Chopp]]",
+      "[[Guaraná Fruki]]",
+      "[[Cachaça de Boteco]]",
+      "[[Café Passado]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lancheria da Cidade Baixa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Xis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brahma Chopp",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cachaça de Boteco",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lancheria da Cidade Baixa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lancheria da Cidade Baixa.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Xis prensado na chapa, Polar gelada, cachaça no copo americano — e a Brahma pra quem quer pagar mais.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Chapa fumegante atrás de um balcão de fórmica, banquetas altas, TV com o jogo de domingo e uma geladeira com a porta amarrada.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Xis prensado na chapa, Polar gelada, cachaça no copo americano — e a Brahma pra quem quer pagar mais.",
+    "aparencia": "Chapa fumegante atrás de um balcão de fórmica, banquetas altas, TV com o jogo de domingo e uma geladeira com a porta amarrada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

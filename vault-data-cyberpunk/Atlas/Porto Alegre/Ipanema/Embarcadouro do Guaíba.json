@@ -1,0 +1,85 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Embarcadouro do Guaíba",
+  "path": "Atlas/Porto Alegre/Ipanema/Embarcadouro do Guaíba.md",
+  "basename": "Embarcadouro do Guaíba",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Dono": "[[Gradiente]] (capitão do píer Seu Nelson)",
+    "Descrição": null,
+    "Serviços": [
+      "[[Lancha de Aluguel]]",
+      "[[Lancha do Barqueiro]]",
+      "[[Táxi Gurgel]]",
+      "[[Lancha de Fibra]]",
+      "[[Bote de Alumínio com Motor]]"
+    ],
+    "Completo": true,
+    "markerTag": "Porto"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embarcadouro do Guaíba.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Aluguel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha do Barqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lancha de Fibra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bote de Alumínio com Motor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Embarcadouro do Guaíba.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Embarcadouro do Guaíba.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pequeno píer fechado para transporte executivo.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Tábuas envernizadas, barcos reforçados, cheiro de óleo diesel.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pequeno píer fechado para transporte executivo.",
+    "aparencia": "Tábuas envernizadas, barcos reforçados, cheiro de óleo diesel.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

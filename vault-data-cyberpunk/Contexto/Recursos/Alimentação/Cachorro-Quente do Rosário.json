@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Cachorro-Quente do Rosário",
+  "path": "Contexto/Recursos/Alimentação/Cachorro-Quente do Rosário.md",
+  "basename": "Cachorro-Quente do Rosário",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Carrinho da Galeria do Rosário",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Centro Histórico]]",
+      "[[Galeria do Rosário]]"
+    ],
+    "Resumo": "Pão com duas salsichas, purê, milho, ervilha e batata palha no carrinho da saída da galeria; mostarda Hemmer.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cachorro-Quente do Rosário.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cachorro-Quente do Rosário.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Cachorro-Quente do Rosário.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO cachorro-quente gaúcho é completo: duas salsichas, molho, purê de batata, milho, ervilha, batata palha e\nmostarda Hemmer de Blumenau. O carrinho da saída da [[Galeria do Rosário]] atende a fila do escritório ao\nmeio-dia e a dos artistas clandestinos das galerias à noite — e o vendedor sabe quem é quem.\n\n> [!info] Especificação\n> **Lanche:** pão, 2 salsichas, molho, purê, milho, ervilha, batata palha, mostarda Hemmer\n> **Preço:** Cz$ 60; simples (uma salsicha) Cz$ 40\n> **Hora:** 11h às 14h e 19h até o toque\n> **O vendedor:** sabe quem entra na [[Galeria Malcom]] e por quanto conta\n"
+}

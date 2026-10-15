@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Última Parada",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Última Parada.md",
+  "basename": "Última Parada",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Última Parada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Última Parada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Última Parada.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Caravançará murado na rota do deserto de [[Pedra Fina]]: a estrada que vem de [[Baar'Shava]] termina aqui, e adiante só há dunas — daí o nome. Tudo no complexo serve às caravanas: contrata-se guia, tira-se água, compra-se equipamento, estabulam-se os animais, conserta-se o ferro e dorme-se sob a cúpula azul da Grande Estalagem antes da travessia. O rio e os poços fazem dele o último abastecimento confiável antes do deserto profundo.\n> \n> 👁️**Aparência do Local:** Complexo de arenito dourado em estilo mourisco: muralha ameada com torres de cupulins fecha o caravançará, com os edifícios grandes — estalagem, estábulos, armazéns — formando o perímetro norte. O Portão da Última Parada abre-se ao sul entre dois grandes estandartes verde-azulados de emblema dourado — a bandeira que se repete por todo o complexo — sob um friso de azulejaria azul e ouro em arabescos. Dentro, destaca-se a Grande Estalagem com sua cúpula gomada de azulejos azuis e toldos vermelhos; junto à face interna da muralha sudeste, grandes tonéis de madeira em cavaletes guardam a reserva de água. Um rio de águas azul-esverdeadas corre por toda a borda leste entre palmeiras, juncos e pedras, com a ferraria e o pavilhão dos mercadores debruçados na margem. Ao redor, deserto pedregoso e colinas rochosas avermelhadas ao norte, num movimento constante de camelos, carroções cobertos, guardas de lança e viajantes encapuzados.\n> \n\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Caravançará murado na rota do deserto de [[Pedra Fina]]: a estrada que vem de [[Baar'Shava]] termina aqui, e adiante só há dunas — daí o nome. Tudo no complexo serve às caravanas: contrata-se guia, tira-se água, compra-se equipamento, estabulam-se os animais, conserta-se o ferro e dorme-se sob a cúpula azul da Grande Estalagem antes da travessia. O rio e os poços fazem dele o último abastecimento confiável antes do deserto profundo.",
+    "aparencia": "Complexo de arenito dourado em estilo mourisco: muralha ameada com torres de cupulins fecha o caravançará, com os edifícios grandes — estalagem, estábulos, armazéns — formando o perímetro norte. O Portão da Última Parada abre-se ao sul entre dois grandes estandartes verde-azulados de emblema dourado — a bandeira que se repete por todo o complexo — sob um friso de azulejaria azul e ouro em arabescos. Dentro, destaca-se a Grande Estalagem com sua cúpula gomada de azulejos azuis e toldos vermelhos; junto à face interna da muralha sudeste, grandes tonéis de madeira em cavaletes guardam a reserva de água. Um rio de águas azul-esverdeadas corre por toda a borda leste entre palmeiras, juncos e pedras, com a ferraria e o pavilhão dos mercadores debruçados na margem. Ao redor, deserto pedregoso e colinas rochosas avermelhadas ao norte, num movimento constante de camelos, carroções cobertos, guardas de lança e viajantes encapuzados.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

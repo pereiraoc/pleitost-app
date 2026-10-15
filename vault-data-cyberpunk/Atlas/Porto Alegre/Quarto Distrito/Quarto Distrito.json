@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Quarto Distrito",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Quarto Distrito.md",
+  "basename": "Quarto Distrito",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Imbuição Explosiva]]",
+      "[[Imbuição Relampejante]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quarto Distrito.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Quarto Distrito.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Quarto Distrito.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Misto de empresas antigas, bares de rock gaúcho e prostíbulos clandestinos.\n> \n> 👁️**Aparência do Local:** Fachadas escuras, letreiros de néon, som de guitarra e risadas.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Misto de empresas antigas, bares de rock gaúcho e prostíbulos clandestinos.",
+    "aparencia": "Fachadas escuras, letreiros de néon, som de guitarra e risadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

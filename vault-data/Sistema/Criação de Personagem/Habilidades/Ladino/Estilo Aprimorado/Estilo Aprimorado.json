@@ -1,0 +1,159 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado.md",
+  "basename": "Estilo Aprimorado",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Batedor)]]",
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Artista Sombrio)]]",
+      "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Perito)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprimora suas habilidades específicas, recebendo os seguintes benefícios de acordo com seu estilo.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Batedor)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Batedor)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Aprimorado (Batedor)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Batedor)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Batedor)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Artista Sombrio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Artista Sombrio)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Aprimorado (Artista Sombrio)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Artista Sombrio)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Artista Sombrio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Perito)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Ladino (Perito)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Aprimorado (Perito)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Ladino (Perito)]]) Complementar Habilidades.Lista [[Estilo Aprimorado (Perito)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Batedor)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Aprimorado (Artista Sombrio)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Aprimorado (Perito)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Batedor)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Perito)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprimora suas habilidades específicas, recebendo os seguintes benefícios de acordo com seu estilo.\"\n%%\n#### `= this.file.name`\nVocê aprimora suas habilidades específicas, recebendo os seguintes benefícios, dependendo do seu estilo:\n![[Estilo Aprimorado (Batedor)#`= this.file.name`]]\n![[Estilo Aprimorado (Artista Sombrio)#`= this.file.name`]]\n![[Estilo Aprimorado (Perito)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}
