@@ -177,8 +177,9 @@ describe('bestiário do mundo', () => {
   // Cabeça da Geral (criada 2026-10-09) entrou na rodada de correção de
   // 2026-10-10 e foi REPROVADA duas vezes (barba no lugar do rosto barbeado,
   // cápsulas dos ombros não representadas) — ficou na fila dos adiados, sem
-  // arte no lugar. Sai daqui quando a imagem dela for aprovada e ingerida.
-  const AGUARDANDO_ARTE: string[] = ['Cabeça da Geral']
+  // arte no lugar. 2026-10-15: a rodada 2 do Codex trouxe a arte dela e ela
+  // foi ingerida com as outras 88 — lista de volta a zero.
+  const AGUARDANDO_ARTE: string[] = []
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {
     setActiveContexto(defPoa)
