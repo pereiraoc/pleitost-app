@@ -6,7 +6,8 @@
 //   2. SUBIR de volta re-materializa tudo do registro
 //   3. magia planejada materializa ao subir e desfaz ao descer
 //   4. escolha real com gate acima do novo nível vira snapshot no plano
-//   5. órfão do passado re-materializa (contrato: o plano é a fonte)
+//   5. gasto do passado removido/trocado POR FORA não volta — a ficha é a
+//      verdade no passado sincronizado (contrato invertido no report 95b2e420)
 //   6. abrir a aba é IDEMPOTENTE (segunda abertura não muda gastosSlots)
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -235,14 +236,55 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
     )
   }, 120000)
 
-  it('registro do passado sem o item real re-materializa ao abrir (o plano é a fonte)', async () => {
+  // CONTRATO INVERTIDO (report 95b2e420, 2026-10-15, @thallesagm): "toda vez
+  // que o Samuel abre o planejamento, as perícias ficam incorretas e o aviso
+  // de quantidades incorretas aparece". O jogador trocou perícias na FICHA e
+  // o plano reaplicava as antigas a cada abertura. No passado já sincronizado
+  // a FICHA é a verdade: o que saiu por fora fica fora e o registro velho cai.
+  it('gasto do passado removido por fora (Competências) NÃO volta ao abrir — o registro cai', async () => {
     const id = guerreiroN4()
-    // simula remoção por FORA do planejamento (ex.: aba Competências)
-    setLocalEntityFm(id, 'Tecnicas.Lista', [{ '[[Ataque Brutal]]': 'Slot.E' }])
-    expect(tecnicasDe(id)).not.toContain('[[Ataque Poderoso]]')
     renderBiografia(id)
     await abrirPlanejamento()
-    await waitFor(() => expect(tecnicasDe(id)).toContain('[[Ataque Poderoso]]'), { timeout: 20000 })
+    await waitFor(() => expect(fmDe(id)['Planejamento']).toMatchObject({ nivelSincronizado: 4 }), { timeout: 20000 })
+    cleanup()
+    // simula remoção por FORA do planejamento (aba Competências)
+    setLocalEntityFm(id, 'Tecnicas.Lista', [{ '[[Ataque Brutal]]': 'Slot.E' }])
+    renderBiografia(id)
+    await abrirPlanejamento()
+    await waitFor(
+      () => expect(regsDe(id).some((r) => String(r['alvo']).includes('Ataque Poderoso'))).toBe(false),
+      { timeout: 20000 },
+    )
+    expect(tecnicasDe(id)).not.toContain('[[Ataque Poderoso]]')
+    expect(tecnicasDe(id)).toContain('[[Ataque Brutal]]')
+  }, 120000)
+
+  it('perícia TROCADA na ficha (Atletismo → Acrobacia) não volta, e o plano passa a registrar a nova', async () => {
+    const id = guerreiroN4()
+    renderBiografia(id)
+    await abrirPlanejamento()
+    await waitFor(() => expect(fmDe(id)['Planejamento']).toMatchObject({ nivelSincronizado: 4 }), { timeout: 20000 })
+    cleanup()
+    // na ficha: o A/E saem do Atletismo e vão pra Acrobacia (especialização junto)
+    setLocalEntityFm(id, 'Pericias.Lista', [
+      { Nome: 'Atletismo', Atributo: 'FOR', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Especializacao: '', Incrementos: [] },
+      { Nome: 'Acrobacia', Atributo: 'AGI', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0, Especializacao: '', Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }] },
+    ])
+    renderBiografia(id)
+    await abrirPlanejamento()
+    await waitFor(
+      () => {
+        const regs = regsDe(id)
+        expect(regs.some((r) => r['alvo'] === 'Atletismo')).toBe(false)
+        expect(regs.some((r) => r['alvo'] === 'Acrobacia' && r['rank'] === 'A')).toBe(true)
+        expect(regs.some((r) => r['alvo'] === 'Acrobacia' && r['rank'] === 'E')).toBe(true)
+      },
+      { timeout: 20000 },
+    )
+    // a ficha ficou como o jogador deixou
+    const atl = atletismoDe(id)!
+    expect(atl['Incrementos']).toEqual([])
+    expect(String(atl['Especializacao'] ?? '')).toBe('')
   }, 120000)
 
   it('abrir a aba é idempotente: a segunda abertura não muda gastosSlots', async () => {

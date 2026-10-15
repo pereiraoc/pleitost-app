@@ -224,6 +224,70 @@ class SlotPools {
   }
 }
 
+/** Nível até onde o plano já foi MATERIALIZADO na ficha
+ *  (`Planejamento.nivelSincronizado`). O sync plano→ficha só aplica registros
+ *  ACIMA dele (o herói subiu de nível); abaixo, a ficha é a verdade. Ausente
+ *  (herói de antes do campo) = já sincronizado no nível atual — nunca
+ *  reaplica o passado (report 95b2e420: trocar Enganação por Diplomacia na
+ *  ficha e abrir o planejamento devolvia a Enganação, toda vez). */
+export function nivelSincronizado(fm: Fm, nivelAtual: number): number {
+  const p = fm['Planejamento']
+  const v = p && typeof p === 'object' ? (p as Record<string, unknown>)['nivelSincronizado'] : undefined
+  return typeof v === 'number' && Number.isFinite(v) ? v : nivelAtual
+}
+
+/** A ficha (FM CRU — o que o sync escreve) tem o gasto do registro? `null`
+ *  quando o registro não é do tipo que o sync materializa (sem veredito). */
+export function fichaTemGasto(fm: Fm, r: GastoRegistrado): boolean | null {
+  const base = wlBase(r.alvo)
+  if (r.tipo === 'pericia') {
+    if (!r.rank || r.rank === 'B') return null
+    const row = rowsOf(fm, 'Pericias', 'Lista').find((x) => String(x.Nome) === r.alvo)
+    const incs = Array.isArray(row?.Incrementos) ? (row!.Incrementos as Row[]) : []
+    return incs.some((i) => typeof i[r.rank!] === 'string' && String(i[r.rank!]).startsWith('Slot'))
+  }
+  if (r.tipo === 'tecnica') {
+    if (!r.rank || r.rank === 'B') return null
+    return rowsOf(fm, 'Tecnicas', 'Lista').some((x) => Object.keys(x).some((k) => wlBase(k) === base))
+  }
+  if (r.tipo === 'magia') {
+    if (!r.rank || !r.contexto) return null
+    const escolas = r.sec ? rowsOf(fm, 'Magias', 'Secundaria', 'Lista') : rowsOf(fm, 'Magias', 'Lista')
+    return escolas.some((esc) =>
+      (Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []).some((x) => Object.keys(x).some((k) => wlBase(k) === base)),
+    )
+  }
+  if (!r.contexto) return null
+  const campo = r.tipo === 'especialidade' ? 'Especializacao' : 'Maestria'
+  const row = rowsOf(fm, 'Pericias', 'Lista').find((x) => String(x.Nome) === r.contexto)
+  return wlBase(String(row?.[campo] ?? '')) === base
+}
+
+/** Tira os registros que a ficha CONTRADIZ — no PASSADO já sincronizado: o jogador desfez/trocou o gasto na própria ficha depois, e o
+ *  registro velho é que está errado. Sem isso o sync o reaplicava e o
+ *  pinsFaltantes ainda registrava o gasto novo por cima — plano com os dois e
+ *  "quantidades incorretas". */
+export function semRegistrosContraditos(
+  fm: Fm,
+  registros: GastoRegistrado[],
+  nivelAtual: number,
+  sinc: number,
+): { mudou: boolean; registros: GastoRegistrado[] } {
+  const passado = Math.min(nivelAtual, sinc)
+  const futuro = Math.max(nivelAtual, sinc)
+  const out = registros.filter((r) => {
+    const tem = fichaTemGasto(fm, r)
+    // passado sincronizado sem o gasto na ficha: desfeito/trocado na ficha
+    if (r.nivel <= passado && tem === false) return false
+    // registro de nível NUNCA sincronizado cujo gasto a ficha já tem: o gasto
+    // é real, o nível do registro é que está errado (o pinsFaltantes regrava
+    // no nível certo) — senão o sync o "desfazia" da ficha
+    if (r.nivel > futuro && tem === true) return false
+    return true
+  })
+  return { mudou: out.length !== registros.length, registros: out }
+}
+
 /** Pins FALTANTES: gastos reais atribuídos nos cards que ainda não têm
  *  registro explícito. Materializa o planejamento do que já está feito —
  *  a atribuição atual congela (earliest-fit não re-embaralha o passado em

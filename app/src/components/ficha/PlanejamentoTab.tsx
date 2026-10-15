@@ -21,11 +21,14 @@ import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { applyFmEdits } from '../../data/hero-store'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { useAssetIndex } from '../../data/assets'
 import {
   buildLevelTimeline,
   gastosRegistrados,
+  nivelSincronizado,
+  semRegistrosContraditos,
   pinsFaltantes,
   sanitizarRegistros,
   NIVEL_MAX_PLANEJAMENTO,
@@ -377,6 +380,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const [popup, setPopup] = useState<{ nivel: number; tipo: TipoPopup; grupo?: string } | null>(null)
   const [confirmaLimpar, setConfirmaLimpar] = useState(false)
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
+  /** FM com as escritas desta passada JÁ aplicadas: as ações de aplicar/
+   *  desfazer leem DAQUI, não da closure — senão duas escritas na mesma lista
+   *  numa passada se pisam (desfazer o E da perícia e limpar a especialização
+   *  regravam Pericias.Lista; a segunda devolvia o E — report 95b2e420). */
+  const fmVivo = useRef(fm)
+  fmVivo.current = fm
   const buildSeq = useRef(0)
   const cardsRef = useRef<LevelCard[] | null>(null)
   /** Toda escrita de FM desta aba passa aqui: o bump SÍNCRONO do seq invalida
@@ -386,6 +395,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
    *  (#494: o clique "não pegava" e o valor sumia). */
   const escreve = (path: string, value: unknown) => {
     buildSeq.current += 1
+    fmVivo.current = applyFmEdits(fmVivo.current, { [path]: value })
     model.set(path, value)
   }
   const commitCards = (c: LevelCard[]) => {
@@ -404,6 +414,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       // preservados, nada se perde (pedido: sem "limpar plano" na mão).
       // Registros lidos do MESMO fm que gerou o build (o guard de seq garante
       // que nenhuma escrita aconteceu no meio — par consistente).
+      // FICHA É A VERDADE no passado (report 95b2e420): registro que a ficha
+      // contradiz sai ANTES de tudo, e o resto do heal espera o rebuild — os
+      // cards deste build ainda atribuíram slots aos registros velhos, então
+      // pins calculados agora iriam pro nível errado.
+      const contra = semRegistrosContraditos(fm, gastosRegistrados(fm), nivelAtual, nivelSincronizado(fm, nivelAtual))
+      if (contra.mudou) {
+        escreve('Planejamento.gastosSlots', contra.registros)
+        return
+      }
       const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm))
       // picks do PLANO órfãos (#518): a escolha sumiu da timeline (cadeia
       // removida) → a entrada sai do Planejamento.picks
@@ -600,7 +619,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   ) => setRegistros(pinBase().filter((x) => !casaRegistro(x, tipo, alvo, rank)))
 
   // ── aplicadores (caminhos existentes) ─────────────────────────────────────
-  const savedPericias = () => (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Row[]
+  const savedPericias = () => (fmPath(fmVivo.current, 'Pericias', 'Lista') ?? []) as Row[]
   const derivedIncsDe = (nome: string): Row[] => {
     const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((r) => String(r.Nome) === nome)
     return (row?.Incrementos ?? []) as Row[]
@@ -612,24 +631,24 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     escreve('Pericias.Lista', applyPericiaRankEdit(savedPericias(), derivedIncsDe(nome), nome, abaixo[rank]))
   }
   const aplicaTecnica = (alvo: string, rank: RankAEM) =>
-    escreve('Tecnicas.Lista', addTecnicaToLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo, rank))
+    escreve('Tecnicas.Lista', addTecnicaToLista((fmPath(fmVivo.current, 'Tecnicas', 'Lista') ?? []) as Row[], alvo, rank))
   const desfazTecnica = (alvo: string) =>
-    escreve('Tecnicas.Lista', removeTecnicaFromLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo))
+    escreve('Tecnicas.Lista', removeTecnicaFromLista((fmPath(fmVivo.current, 'Tecnicas', 'Lista') ?? []) as Row[], alvo))
   const aplicaMagia = (escola: string, alvo: string, rank: RankBAEM) =>
-    escreve('Magias.Lista', addMagiaToEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo, rank))
+    escreve('Magias.Lista', addMagiaToEscola((fmPath(fmVivo.current, 'Magias', 'Lista') ?? []) as Row[], escola, alvo, rank))
   const desfazMagia = (escola: string, alvo: string) =>
-    escreve('Magias.Lista', removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo))
+    escreve('Magias.Lista', removeMagiaFromEscola((fmPath(fmVivo.current, 'Magias', 'Lista') ?? []) as Row[], escola, alvo))
   // SECUNDÁRIAS (#516): a Lista da escola secundária pode nem existir no FM
   // (o derivado só materializa Slots/Potencia/EM) — garante a row antes.
   const aplicaMagiaSec = (escola: string, alvo: string, rank: RankBAEM) => {
-    let lista = (fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]
+    let lista = (fmPath(fmVivo.current, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]
     if (!lista.some((e) => String(e.Nome) === escola)) lista = [...lista, { Nome: escola, Proficiencia: 'N', Lista: [] }]
     escreve('Magias.Secundaria.Lista', addMagiaToEscola(lista as never, escola, alvo, rank))
   }
   const desfazMagiaSec = (escola: string, alvo: string) =>
     escreve(
       'Magias.Secundaria.Lista',
-      removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as never, escola, alvo),
+      removeMagiaFromEscola((fmPath(fmVivo.current, 'Magias', 'Secundaria', 'Lista') ?? []) as never, escola, alvo),
     )
   const aplicaEspecialidade = (pericia: string, campo: 'Especializacao' | 'Maestria', alvo: string) => {
     const rows = savedPericias().map((r) => ({ ...r }))
@@ -679,6 +698,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   // ── sync plano ⇄ real quando o nível muda (roadmap do Pathbuilder) ────────
   useEffect(() => {
     if (!cards) return
+    const sinc = nivelSincronizado(fm, nivelAtual)
+    // registros que a ficha contradiz: o build grava o heal; sincronizar
+    // agora reaplicaria/desfaria por cima da ficha (report 95b2e420)
+    if (semRegistrosContraditos(fm, registros, nivelAtual, sinc).mudou) return
     const plano = planPicks(fm)
     let planoNovo: Record<string, string> | null = null
     for (const card of cards) {
@@ -707,8 +730,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       const alvoBase = wikiTarget(r.alvo)
       if (r.tipo === 'tecnica') {
         const tem = tecnicasAprendidas.has(alvoBase)
-        if (r.nivel <= nivelAtual && !tem && r.rank && r.rank !== 'B') aplicaTecnica(r.alvo, r.rank)
-        if (r.nivel > nivelAtual && tem) desfazTecnica(r.alvo)
+        if (r.nivel > sinc && r.nivel <= nivelAtual && !tem && r.rank && r.rank !== 'B') aplicaTecnica(r.alvo, r.rank)
+        if (r.nivel > nivelAtual && r.nivel <= sinc && tem) desfazTecnica(r.alvo)
       } else if (r.tipo === 'magia' && r.contexto) {
         const tem = (r.sec ? magiasAprendidasSec : magiasAprendidas).has(alvoBase)
         // escola secundária ÓRFÃ (cadeia de multiclasse removida, #518):
@@ -719,24 +742,27 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         if (!escolaViva) {
           if (tem) desfazMagiaSec(r.contexto, r.alvo)
         } else {
-          if (r.nivel <= nivelAtual && !tem && r.rank)
-            (r.sec ? aplicaMagiaSec : aplicaMagia)(r.contexto, r.alvo, r.rank)
-          if (r.nivel > nivelAtual && tem) (r.sec ? desfazMagiaSec : desfazMagia)(r.contexto, r.alvo)
+          if (r.nivel > sinc && r.nivel <= nivelAtual && !tem && r.rank) (r.sec ? aplicaMagiaSec : aplicaMagia)(r.contexto, r.alvo, r.rank)
+          if (r.nivel > nivelAtual && r.nivel <= sinc && tem) (r.sec ? desfazMagiaSec : desfazMagia)(r.contexto, r.alvo)
         }
       } else if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
         const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((x) => String(x.Nome) === r.alvo)
         const incs = (row?.Incrementos ?? []) as Row[]
         const tem = incs.some((i) => typeof i[r.rank!] === 'string' && String(i[r.rank!]).startsWith('Slot'))
-        if (r.nivel <= nivelAtual && !tem) aplicaPericia(r.alvo, r.rank)
-        if (r.nivel > nivelAtual && tem) desfazPericia(r.alvo, r.rank)
+        if (r.nivel > sinc && r.nivel <= nivelAtual && !tem) aplicaPericia(r.alvo, r.rank)
+        if (r.nivel > nivelAtual && r.nivel <= sinc && tem) desfazPericia(r.alvo, r.rank)
       } else if ((r.tipo === 'especialidade' || r.tipo === 'maestria') && r.contexto) {
         const campo = r.tipo === 'especialidade' ? 'Especializacao' : 'Maestria'
         const row = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as Row[]).find((x) => String(x.Nome) === r.contexto)
         const tem = String(row?.[campo] ?? '').trim() !== ''
-        if (r.nivel <= nivelAtual && !tem) aplicaEspecialidade(r.contexto, campo, r.alvo)
-        if (r.nivel > nivelAtual && tem) aplicaEspecialidade(r.contexto, campo, '')
+        if (r.nivel > sinc && r.nivel <= nivelAtual && !tem) aplicaEspecialidade(r.contexto, campo, r.alvo)
+        if (r.nivel > nivelAtual && r.nivel <= sinc && tem) aplicaEspecialidade(r.contexto, campo, '')
       }
     }
+    // o plano está materializado até AQUI: o próximo sync só mexe no que
+    // ficar entre este nível e o novo (subiu → aplica; desceu → desfaz)
+    if (fmPath(fm, 'Planejamento', 'nivelSincronizado') !== nivelAtual)
+      escreve('Planejamento.nivelSincronizado', nivelAtual)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards, nivelAtual])
 
