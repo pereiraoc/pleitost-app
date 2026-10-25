@@ -365,16 +365,17 @@ describe('COMPETÊNCIAS/PERFIL — classe, subclasses, atributos (#11)', () => {
     const rank2 = (await screen.findByLabelText('Atributo rank 2')) as HTMLSelectElement
     expect(screen.queryByLabelText('Atributo rank 3')).toBeNull()
     expect(screen.queryByLabelText('Atributo rank 0')).toBeNull()
-    expect(optionValues(rank2)).toEqual(['FOR', 'AGI', 'INT'])
+    // Luta Artística (Carlos): slot 2 só FOR/AGI (Restringir Atributos.Secundario)
+    expect(optionValues(rank2)).toEqual(['FOR', 'AGI'])
     expect(rank2.value).toBe('AGI')
 
-    // swap determinístico: INT (rank 1) sobe pra 2, AGI desce pra 1
-    fireEvent.change(rank2, { target: { value: 'INT' } })
+    // swap determinístico: FOR sobe pra 2, AGI desce pro rank que era do FOR
+    fireEvent.change(rank2, { target: { value: 'FOR' } })
     expect(overlaySalvo().fm['Atributos']).toEqual({
       Principal: 'PRE',
-      FOR: Number(fm.Atributos.FOR),
-      AGI: 1,
-      INT: 2,
+      FOR: 2,
+      AGI: Number(fm.Atributos.FOR),
+      INT: Number(fm.Atributos.INT),
       PRE: Number(fm.Atributos.PRE),
     })
   })

@@ -121,7 +121,11 @@ describe('projeção de regras vs golden Editável (Carlos)', () => {
       if (select) {
         // Editável no golden ⇒ 2+ opções elegíveis na projeção.
         expect(cell.options.length).toBeGreaterThanOrEqual(2)
-        const golden = optionsOf(select)
+        // DIVERGÊNCIA CONSCIENTE (vault 2026-10-18): Luta Artística do Carlos
+        // restringe o slot 2 a FOR/AGI (`Restringir Atributos.Secundario`) — o
+        // plugin ainda não lê essa chave, o golden mostra o slot livre.
+        const sec = cell.rank === 2 ? projection.secundarioAllowed : null
+        const golden = optionsOf(select).filter((o) => !sec || sec.includes(o.value as never))
         expect(cell.options).toEqual(golden.map((o) => o.value))
         expect(cell.options.map((a) => `${ATTR_EMOJI[a]} ${a}`)).toEqual(golden.map((o) => o.label))
       } else {

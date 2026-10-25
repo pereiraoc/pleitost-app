@@ -44,7 +44,11 @@ export function atributosCompletos(ctx: WizardCtx): boolean {
   const principal = str(fmPath(fm, 'Atributos', 'Principal')) as AtributoId | ''
   if (!principal || v[principal as AtributoId] !== 3) return false
   const allowed = ctx.rules?.principalAllowed ?? null
-  return allowed === null || allowed.includes(principal as AtributoId)
+  if (allowed !== null && !allowed.includes(principal as AtributoId)) return false
+  // Slot de rank 2 restrito (Luta Artística: FOR ou AGI 2).
+  const sec = ctx.rules?.secundarioAllowed ?? null
+  const atr2 = ATRIBUTOS.find((a) => v[a] === 2)
+  return sec === null || (!!atr2 && sec.includes(atr2))
 }
 
 /** Legenda do corpo do doc: bullets após "Contribui com:" com wikilinks

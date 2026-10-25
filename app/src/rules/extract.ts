@@ -36,6 +36,7 @@ import {
 } from './resolve-choices'
 // #288 (profundo): mesmo avaliador AplicavelA da loja, agora no motor do herói.
 import { tesouroAplicavelAoItem } from './aplicavel-a'
+import { applySecundarioConstraint } from './merge-calculated'
 
 /** Resolve um wikilink/nome pro doc do vault-data (null quando não existe). */
 export type DocResolver = (wikilinkOrName: string) => Promise<VaultDoc | null>
@@ -397,6 +398,8 @@ export function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesMode
     ? (principalRaw as unknown[]).filter((a): a is AtributoId => (ATRIBUTOS as readonly string[]).includes(a as string))
     : null
   applyPrincipalToModel(model, allowed)
+  const sec = deltas['__constraint__Atributos.Secundario']
+  if (Array.isArray(sec)) applySecundarioConstraint(model.atributos as unknown as Record<string, unknown>, sec.map(String))
   return model
 }
 

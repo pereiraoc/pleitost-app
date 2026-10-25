@@ -359,6 +359,10 @@ export function atributoCells(
   atributos: Record<AtributoId, number>,
   principal: AtributoId | null,
   principalAllowed: AtributoId[] | null,
+  /** Restrição do slot de rank 2 (`Restringir Atributos.Secundario`, ex.: Luta
+   *  Artística do Bardo exige FOR ou AGI 2). Divergência consciente do plugin,
+   *  que ainda não lê essa chave. */
+  secundarioAllowed: AtributoId[] | null = null,
 ): AtributoCell[] {
   const attrByRank = (rank: number): AtributoId | null =>
     ATRIBUTOS.find((a) => atributos[a] === rank) ?? null
@@ -372,7 +376,11 @@ export function atributoCells(
       if (a) excluded.add(a)
     }
     const allowed =
-      rank === 3 && principalAllowed && principalAllowed.length > 0 ? new Set(principalAllowed) : null
+      rank === 3 && principalAllowed && principalAllowed.length > 0
+        ? new Set(principalAllowed)
+        : rank === 2 && secundarioAllowed && secundarioAllowed.length > 0
+          ? new Set(secundarioAllowed)
+          : null
     const options = ATRIBUTOS.filter((a) => !excluded.has(a) && (!allowed || allowed.has(a)))
     out.push({
       rank,
@@ -408,7 +416,12 @@ export function swapAtributo(
 
 /** Espelho de deriveprincipalAllowed (plugin view-model.ts:768-775). */
 function derivePrincipalAllowed(calculated: Deltas): AtributoId[] | null {
-  const raw = calculated['__constraint__Atributos.Principal']
+  return deriveAttrAllowed(calculated, 'Principal')
+}
+
+/** Atributos permitidos num slot restrito (`__constraint__Atributos.<slot>`). */
+function deriveAttrAllowed(calculated: Deltas, slot: 'Principal' | 'Secundario'): AtributoId[] | null {
+  const raw = calculated[`__constraint__Atributos.${slot}`]
   if (!Array.isArray(raw)) return null
   const allowed = raw.filter((a): a is AtributoId => a === 'FOR' || a === 'AGI' || a === 'INT' || a === 'PRE')
   return allowed.length > 0 ? allowed : null
@@ -475,6 +488,8 @@ export interface HeroProjection {
   habilidadeChoices: ChoiceDescriptor[]
   /** Restrição do Atributo Principal (`Escolher Atributos.Principal ...`). */
   principalAllowed: AtributoId[] | null
+  /** Restrição do atributo de rank 2 (`Restringir Atributos.Secundario ...`). */
+  secundarioAllowed: AtributoId[] | null
   /** Células da linha de Atributos (cascata + principal). */
   atributos: AtributoCell[]
   /** Opções de Perícia pelo Passado (passado-options.ts). */
@@ -785,6 +800,7 @@ export function buildHeroProjection(
   const periciasCov = coveredPericias(calculated)
   const oficiosCov = coveredOficios(calculated)
   const principalAllowed = derivePrincipalAllowed(calculated)
+  const secundarioAllowed = deriveAttrAllowed(calculated, 'Secundario')
   const annotated = annotateSubclassChoices(choicesFiltered, result.visitedDocs)
 
   const linked = (wl: string): LinkedOption => ({ value: wl, label: linkLabel(wl) })
@@ -861,7 +877,8 @@ export function buildHeroProjection(
       })),
     habilidadeChoices: annotated.filter((c) => !c.isSubclass),
     principalAllowed,
-    atributos: atributoCells(derivedAtributos, derivedPrincipal, principalAllowed),
+    secundarioAllowed,
+    atributos: atributoCells(derivedAtributos, derivedPrincipal, principalAllowed, secundarioAllowed),
     periciasPassado: periciasPassadoOptions(model.meta.passadoPericia, periciasCov),
     passadoPericiaPick: model.meta.passadoPericia,
     oficiosPassado: oficiosPassadoOptions(passadoOficioPick, oficiosCov),

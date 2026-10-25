@@ -412,6 +412,22 @@ function applyPrincipalConstraint(fm: Fm, allowed: string[] | null): void {
   at.Principal = newAttr3
 }
 
+/** Restrição do slot de RANK 2 (`Restringir Atributos.Secundario`, ex.: Luta
+ *  Artística → FOR ou AGI 2): se o atributo 2 não é permitido, troca de rank
+ *  com o primeiro permitido que não é o de rank 3 (o Principal fica). */
+export function applySecundarioConstraint(at: Record<string, unknown>, allowed: string[] | null): void {
+  if (!allowed || allowed.length === 0) return
+  const ATTRS = ['FOR', 'AGI', 'INT', 'PRE'] as const
+  const attrByRank = (rank: number): string | null => ATTRS.find((a) => num(at[a]) === rank) ?? null
+  const attr2 = attrByRank(2)
+  if (attr2 && allowed.includes(attr2)) return
+  const novo = allowed.find((a) => num(at[a]) !== 3)
+  if (!novo) return
+  const rankDoNovo = num(at[novo])
+  at[novo] = 2
+  if (attr2) at[attr2] = rankDoNovo
+}
+
 /**
  * FM salvo + calculated → FM DERIVADO (mesmo shape), pronto pras abas.
  * `savedFm` é a base autoritativa; `calculated` são as adições de regra;
@@ -665,6 +681,9 @@ export function mergeCalculatedIntoFm(
       ensureObj(out, 'Atributos')[key.split('.')[1]!] = num(value)
       continue
     }
+    // Restrição do slot 2 com UMA opção: o applyConstraints força a chave, mas
+    // quem aplica é o applySecundarioConstraint (swap) abaixo.
+    if (key === 'Atributos.Secundario') continue
     if (key === 'Atributos.Principal') {
       ensureObj(out, 'Atributos').Principal = String(value)
       continue
@@ -707,6 +726,8 @@ export function mergeCalculatedIntoFm(
     ? (constraint as unknown[]).filter((a): a is string => a === 'FOR' || a === 'AGI' || a === 'INT' || a === 'PRE')
     : null
   applyPrincipalConstraint(out, allowed)
+  const sec = calculated['__constraint__Atributos.Secundario']
+  if (Array.isArray(sec)) applySecundarioConstraint(ensureObj(out, 'Atributos'), sec.map(String))
 
   // Ladders implícitos + refresh das proficiências escalares derivadas.
   const perRows = Array.isArray((out.Pericias as Fm | undefined)?.Lista)
