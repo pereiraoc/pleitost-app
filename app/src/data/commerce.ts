@@ -147,6 +147,7 @@ export const TESOUROS_BASICOS: string[] = [
   'Anel do Equilíbrio',
   'Luva do Arcanista',
   'Bracelete Elemental',
+  'Broche Artístico',
   'Arma Obra-prima',
   'Armadura Obra-prima',
   'Ferramenta Obra-prima',

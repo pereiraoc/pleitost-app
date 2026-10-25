@@ -53,7 +53,9 @@ describe('itemCategoria — categoria pelo PATH do doc', () => {
     expect(itemCategoria(byName('Poção de Cura'))).toBe('consumivel')
     expect(itemCategoria(byName('Imbuição Flamejante'))).toBe('imbuicao')
     expect(itemCategoria(byName('Arma Obra-prima'))).toBe('qualidade')
-    expect(itemCategoria(byName('Bracelete Elemental'))).toBe('equipamento')
+    // vault 2026-10-21: Bracelete/Luva/Broche viraram Implementos Fundamentais
+    expect(itemCategoria(byName('Bracelete Elemental'))).toBe('implemento')
+    expect(itemCategoria(byName('Pulseira da Potência'))).toBe('equipamento')
     expect(itemCategoria(byName('Foco da Penetração'))).toBe('implemento')
     // Artefatos = novo tipo de tesouro (só a pasta os distingue)
     expect(itemCategoria(byName('Garras do Rei-Mago'))).toBe('artefato')
@@ -96,7 +98,7 @@ describe('itemFacet — tesouros por tipo (6.2/6.3/6.4)', () => {
   })
   it('imbuição/equipamento: grupo pelo bonus_tipo (Ataque/Defesa/Perícia)', () => {
     expect(itemFacet(byName('Imbuição Flamejante')).grupoLabel).toBe('Ataque')
-    expect(itemFacet(byName('Bracelete Elemental')).grupoLabel).toBe('Ataque')
+    expect(itemFacet(byName('Pulseira da Potência')).grupoLabel).toBe('Ataque')
     expect(itemFacet(byName('Colar da Eloquência')).grupoLabel).toBe('Perícia')
     // Equipamento de Defesa grava "resistência" no FM → rótulo "Defesa" (sinônimo)
     expect(itemFacet(byName('Anel da Resistência')).grupoLabel).toBe('Defesa')
