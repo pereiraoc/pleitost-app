@@ -131,4 +131,23 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
     expect(lista).toMatch(/Essência Relampejante Adepta[^}]*Escolha\.0\d\.\[\[Magias Anima\]\]/)
     expect(lista).toContain('Essência Incendiária Adepta')
   })
+
+  it('Círculo: botão Alterar próprio, centro Destruição × Criação e a Ciclonal do Zuko marcada inválida', async () => {
+    renderZuko()
+    const circulo = await waitFor(() => {
+      const el = document.querySelector('[data-roda-essencias]') as HTMLElement
+      expect(el).toBeTruthy()
+      return el
+    }, { timeout: 15000 })
+    expect(within(circulo).getByText('✎ Alterar')).toBeTruthy()
+    expect(circulo.querySelector('[data-roda-metade="destruicao"]')).toBeTruthy()
+    expect(circulo.querySelector('[data-roda-metade="criacao"]')).toBeTruthy()
+    await waitFor(() => expect(circulo.querySelector('[data-roda-invalidas]')?.textContent).toMatch(/Ciclonal/))
+    expect(circulo.querySelector('[data-roda-no="E:Essência de Criação"]')).toBeNull() // sem Criação Experiente
+    // o botão próprio liga a edição: a Ciclonal inválida pode ser desfeita
+    fireEvent.click(within(circulo).getByText('✎ Alterar'))
+    fireEvent.click(circulo.querySelector('[data-roda-no="A:Essência Ciclonal"]')!)
+    await waitFor(() => expect(circulo.querySelector('[data-roda-no="A:Essência Ciclonal"]')?.getAttribute('data-roda-estado')).not.toBe('tem'))
+  })
 })
+

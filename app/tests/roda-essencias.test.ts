@@ -142,3 +142,22 @@ describe('Druida: círculo de dois elementos', () => {
     expect(elementosDoCirculo(roda, ['Flamejante', 'Sísmica', 'Ciclonal'].map((n) => `[[Essência ${n} Adepta]]`))).toBeNull()
   })
 })
+
+describe('inválidas (ficha antiga/editada por fora)', () => {
+  it('Adepta solta, oposta e Experiente sem Adepta viram inválidas com motivo', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'Mineral', 'Hidratante'], ['Ventania']),
+      aplicaCiclo: true,
+    })
+    expect(s.invalidas.get(`A:${E('Mineral')}`)).toMatch(/caminho/)
+    expect(s.invalidas.get(`A:${E('Hidratante')}`)).toMatch(/oposto/)
+    expect(s.invalidas.get(`E:${E('Ventania')}`)).toMatch(/Adepta/)
+    expect(s.invalidas.has(`A:${E('Flamejante')}`)).toBe(false)
+  })
+  it('ficha válida não tem inválidas', () => {
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante']), aplicaCiclo: true })
+    expect(s.invalidas.size).toBe(0)
+  })
+})

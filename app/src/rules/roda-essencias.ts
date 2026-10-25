@@ -101,6 +101,10 @@ export interface EstadoRoda {
   no: Record<Tier, Record<string, EstadoNo>>
   /** Adeptas que o jogador tem mas que não se ligam à pura pelo ciclo. */
   soltas: Set<string>
+  /** Essências que o herói TEM mas que quebram a regra (ficha antiga ou
+   *  editada por fora) — `${tier}:${base}` → motivo. Mostradas como inválidas
+   *  pra serem desfeitas e escolhidas de novo. */
+  invalidas: Map<string, string>
 }
 
 /** Estado de cada nó da roda dado o que o herói já tem. `aplicaCiclo` = regras
@@ -174,7 +178,24 @@ export function estadoRoda(input: {
     }
     for (const b of ciclo) if (!ligadas.has(b)) soltas.add(b)
   }
-  return { no, soltas }
+  const invalidas = new Map<string, string>()
+  for (const b of soltas) invalidas.set(`A:${b}`, 'fora do caminho do ciclo (não liga na pura da sintonia)')
+  for (const b of ciclo) {
+    if (druida && !elementos!.includes(roda.elemento[b]!)) invalidas.set(`A:${b}`, 'fora dos dois elementos do círculo')
+    else if (!druida && oposto && roda.elemento[b] === oposto) invalidas.set(`A:${b}`, 'elemento oposto à sintonia')
+  }
+  for (const [t, ant] of [['E', 'A'], ['M', 'E']] as const) {
+    for (const b of tem[t]) {
+      if (!tem[ant].has(b)) invalidas.set(`${t}:${b}`, `sem a ${ant === 'A' ? 'Adepta' : 'Experiente'}`)
+    }
+  }
+  // Animista: as Experientes do ciclo precisam de ao menos uma da sintonia.
+  if (aplicaCiclo && sintonia) {
+    const e = temCiclo('E')
+    if (e.length > 0 && !e.some(ehDaSintonia))
+      for (const b of e) if (!invalidas.has(`E:${b}`)) invalidas.set(`E:${b}`, 'nenhuma Experiente é da sintonia')
+  }
+  return { no, soltas, invalidas }
 }
 
 /** Essência MESTRE composta: duas vizinhas do ciclo (Meteoro = Flamejante +
@@ -213,6 +234,26 @@ export function estadoCompostas(input: {
     else if (sintonia && !jaTemDaSintonia && !tocaSintonia(c)) out[c.nome] = 'fechado'
     else out[c.nome] = 'livre'
   }
+  return out
+}
+
+/** Mestre compostas que o herói tem e que quebram a regra → motivo. */
+export function invalidasCompostas(input: {
+  roda: RodaDef
+  compostas: Composta[]
+  sintonia: string | null
+  temE: Set<string>
+  temM: Set<string>
+}): Map<string, string> {
+  const { roda, compostas, sintonia, temE, temM } = input
+  const out = new Map<string, string>()
+  const minhas = compostas.filter((c) => temM.has(c.nome))
+  for (const c of minhas) {
+    if (!temE.has(c.a) || !temE.has(c.b)) out.set(c.nome, 'falta uma das duas Experientes')
+  }
+  const toca = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
+  if (sintonia && minhas.length > 0 && !minhas.some(toca))
+    for (const c of minhas) if (!out.has(c.nome)) out.set(c.nome, 'nenhuma Mestre toca o elemento da sintonia')
   return out
 }
 

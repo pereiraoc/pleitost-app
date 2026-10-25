@@ -11,7 +11,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { fmPath, listaEntries, wikiTarget } from './hero-model'
 import { ELEMENTO_COR, ELEMENTO_SIMBOLO } from './registry'
-import { clip } from './bits'
+import { clip, EditToggle } from './bits'
 import { useNamedDocs } from './useNamedDocs'
 import {
   compostaDoDoc,
@@ -22,6 +22,7 @@ import {
   nomesCompostasDoCatalogo,
   estadoCompostas,
   estadoRoda,
+  invalidasCompostas,
   HUB_RODA,
   parseEssencia,
   rodaDoCatalogo,
@@ -75,6 +76,7 @@ export function RodaEssencias({
   onPick,
   onRemover,
   onOpen,
+  onToggleEdit,
 }: {
   /** FM DERIVADO (o que o herói tem, de qualquer fonte). */
   fm: Record<string, unknown>
@@ -87,6 +89,8 @@ export function RodaEssencias({
   /** Apaga do FM salvo a linha `Escolha` da essência (alvo sem escolha ativa). */
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
+  /** Botão Alterar/Concluir próprio do círculo (ausente = edição forçada). */
+  onToggleEdit?: () => void
 }) {
   const catalog = useCatalog()
   const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
@@ -107,6 +111,7 @@ export function RodaEssencias({
       onPick={onPick}
       onRemover={onRemover}
       onOpen={onOpen}
+      onToggleEdit={onToggleEdit}
       foco={foco}
       setFoco={setFoco}
     />
@@ -124,6 +129,7 @@ function Roda({
   onPick,
   onRemover,
   onOpen,
+  onToggleEdit,
   foco,
   setFoco,
 }: {
@@ -137,6 +143,7 @@ function Roda({
   onPick: (parent: string, choice: HabChoice, wl: string) => void
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
+  onToggleEdit?: () => void
   foco: { base: string; tier: Tier } | null
   setFoco: (f: { base: string; tier: Tier } | null) => void
 }) {
@@ -173,6 +180,7 @@ function Roda({
     .filter((c): c is Composta => !!c && roda.ordem.includes(c.a) && roda.ordem.includes(c.b))
   const composta = new Map(compostas.map((c) => [c.nome, c]))
   const estadoM = estadoCompostas({ roda, compostas, sintonia, temE: tem.E, temM: temComposta })
+  const invalidasM = invalidasCompostas({ roda, compostas, sintonia, temE: tem.E, temM: temComposta })
   /** Alvo (nota) do nó: composta Mestre é a própria nota; os demais
    *  "<Essência> <Tier>". */
   const alvoDe = (base: string, t: Tier) => (t === 'M' && composta.has(base) ? base : `${base} ${SUFIXO_TIER[t]}`)
@@ -187,6 +195,9 @@ function Roda({
     elementosDoCirculo(roda, porTier('A').flatMap((c) => c.options)) ??
     (porTier('A').length === 0 ? elementosDoCirculo(roda, regraA) : null)
   const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true, elementos })
+  // INVÁLIDAS (ficha antiga ou editada por fora): marcadas pra desfazer.
+  const invalidas = new Map(estado.invalidas)
+  // (as Mestre compostas entram logo abaixo, quando as notas carregam)
 
   const wlDe = (base: string, t: Tier) => `[[${alvoDe(base, t)}]]`
   /** Escolha VAZIA deste tier que oferece a essência (1ª do pai, na ordem). */
@@ -205,6 +216,9 @@ function Roda({
   }
   const vagas = (t: Tier) => porTier(t).filter((c) => !escolhido(c)).length
 
+  for (const [nome, motivoM] of invalidasM) invalidas.set(`M:${nome}`, motivoM)
+  const invalida = (base: string, t: Tier) => invalidas.get(`${t}:${base}`)
+
   /** Estado FINAL do nó: "livre" sem vaga no tier vira "fechado". */
   const st = (base: string, t: Tier): EstadoNo | 'semVaga' => {
     const s = (t === 'M' && composta.has(base) ? estadoM[base] : estado.no[t][base]) ?? 'fechado'
@@ -214,7 +228,7 @@ function Roda({
   const motivo = (base: string, t: Tier): string => {
     const s = st(base, t)
     const nome = reskinName(alvoDe(base, t))
-    if (s === 'tem') return estado.soltas.has(base) && t === 'A' ? `${nome} — fora do caminho do ciclo` : `${nome} — escolhida`
+    if (s === 'tem') return invalida(base, t) ? `${nome} — INVÁLIDA: ${invalida(base, t)}` : `${nome} — escolhida`
     if (s === 'oposto') return `${nome} — elemento oposto à ${reskinText('sintonia')}`
     if (s === 'livre') return `${nome} — disponível`
     if (s === 'semVaga') return `${nome} — sem escolha livre neste anel`
@@ -275,7 +289,7 @@ function Roda({
     const cor = composta.has(base) ? corDe(composta.get(base)!.a) : corDe(base)
     const r = NO_R[t]
     const pura = roda.puras.has(base)
-    const solta = t === 'A' && estado.soltas.has(base)
+    const solta = s === 'tem' && !!invalida(base, t)
     const ativo = edit && (s === 'livre' || s === 'tem')
     const emFoco = foco?.base === base && foco.tier === t
     const fill = s === 'tem' ? (preenchimento ?? cor) : 'var(--panel2)'
@@ -318,10 +332,24 @@ function Roda({
         />
         {s === 'oposto' && t === 'A' ? (
           <path
-            d={`M${x - 7},${y - 7} L${x + 7},${y + 7} M${x + 7},${y - 7} L${x - 7},${y + 7}`}
+            d={`M${x - 5},${y - 5} L${x + 5},${y + 5} M${x + 5},${y - 5} L${x - 5},${y + 5}`}
             stroke="var(--muted)"
-            strokeWidth={1.4}
+            strokeWidth={1.2}
           />
+        ) : null}
+        {solta ? (
+          <g data-roda-invalida="">
+            <circle cx={x + r * 0.72} cy={y - r * 0.72} r={6} fill="var(--red)" />
+            <text
+              x={x + r * 0.72}
+              y={y - r * 0.72}
+              textAnchor="middle"
+              dominantBaseline="central"
+              style={{ fontSize: 8.5, fontWeight: 900, fill: '#fff', pointerEvents: 'none' }}
+            >
+              !
+            </text>
+          </g>
         ) : null}
         {rotulo ? (
           <text
@@ -360,7 +388,6 @@ function Roda({
     )
   }
 
-  const universal = roda.universais[0] ?? null
   const contador = (t: Tier) => {
     const total = porTier(t).length
     const usados = total - vagas(t)
@@ -369,6 +396,110 @@ function Roda({
   const focoTxt = foco
     ? motivo(foco.base, foco.tier)
     : reskinText(edit ? 'Toque numa Essência acesa pra escolher; numa escolhida pra desfazer.' : 'Toque numa Essência escolhida pra abrir a regra.')
+
+  /** Metade do disco de raio r cortada pela diagonal (−45° ↔ 135°). */
+  function meioDisco(r: number, lado: 'destruicao' | 'criacao'): string {
+    const p1 = pt(r, -45)
+    const p2 = pt(r, 135)
+    // destruição: arco por cima/esquerda (anti-horário); criação: por baixo/direita
+    return lado === 'destruicao'
+      ? `M${p1.x},${p1.y} A${r},${r} 0 0 0 ${p2.x},${p2.y} Z`
+      : `M${p1.x},${p1.y} A${r},${r} 0 0 1 ${p2.x},${p2.y} Z`
+  }
+  /** Diagonal em zigue-zague (os "dentes" que encaixam as duas metades). */
+  function dentes(r: number, n: number, amp: number): string {
+    const p1 = pt(r, -45)
+    const p2 = pt(r, 135)
+    const nx = -Math.SQRT1_2
+    const ny = -Math.SQRT1_2 // normal pro lado da destruição
+    const pts: string[] = []
+    for (let k = 0; k <= n * 2; k++) {
+      const f = k / (n * 2)
+      const off = k === 0 || k === n * 2 ? 0 : (k % 2 ? amp : -amp)
+      pts.push(`${(p1.x + (p2.x - p1.x) * f + nx * off).toFixed(1)},${(p1.y + (p2.y - p1.y) * f + ny * off).toFixed(1)}`)
+    }
+    return pts.join(' L')
+  }
+  /** As duas metades do centro (Destruição × Criação), clicáveis como nós
+   *  Adeptos da essência universal correspondente; sem nota na vault, a
+   *  metade fica só desenhada. */
+  function centroUniversal() {
+    const RC = 38
+    const destr = roda.universais.find((u) => /Destrui/i.test(u)) ?? null
+    const criac = roda.universais.find((u) => /Cria/i.test(u)) ?? null
+    const zig = dentes(RC, 3, 6)
+    const metade = (lado: 'destruicao' | 'criacao', base: string | null) => {
+      const p1 = pt(RC, -45)
+      const p2 = pt(RC, 135)
+      const arc =
+        lado === 'destruicao'
+          ? `M${p1.x},${p1.y} A${RC},${RC} 0 0 0 ${p2.x},${p2.y}`
+          : `M${p1.x},${p1.y} A${RC},${RC} 0 0 1 ${p2.x},${p2.y}`
+      // volta pela linha dentada (de p2 até p1)
+      const volta = zig.split(' L').reverse().join(' L')
+      const d = `${arc} L${volta} Z`
+      const escuro = lado === 'destruicao'
+      const s = base ? st(base, 'A') : 'fechado'
+      const centroide = pt(14, escuro ? -135 : 45)
+      const rotulo = escuro ? 'DESTRUIÇÃO' : 'CRIAÇÃO'
+      const titulo = base ? motivo(base, 'A') : `${rotulo} — ainda sem nota na vault`
+      const ativo = !!base && edit && (s === 'livre' || s === 'tem')
+      return (
+        <g
+          key={lado}
+          data-roda-no={base ? `A:${base}` : undefined}
+          data-roda-estado={base ? s : undefined}
+          data-roda-metade={lado}
+          role={base ? 'button' : undefined}
+          tabIndex={base ? 0 : undefined}
+          aria-label={titulo}
+          onClick={base ? () => clicar(base, 'A') : undefined}
+          onKeyDown={base ? tecla(base, 'A') : undefined}
+          onMouseEnter={base ? () => setFoco({ base, tier: 'A' }) : undefined}
+          style={{ cursor: ativo || s === 'tem' ? 'pointer' : 'default', outline: 'none' }}
+        >
+          <title>{titulo}</title>
+          <path
+            d={d}
+            fill={escuro ? '#0d0d0d' : '#f1efe9'}
+            opacity={s === 'tem' ? 1 : 0.85}
+            stroke={base && (s === 'tem' || (s === 'livre' && edit)) ? 'var(--accent)' : escuro ? '#8a8578' : 'var(--line2)'}
+            strokeWidth={s === 'tem' ? 2 : 1.2}
+            strokeDasharray={base && s === 'livre' && edit ? '4 3' : undefined}
+            strokeLinejoin="round"
+          />
+          {base && invalida(base, 'A') ? <circle cx={centroide.x} cy={centroide.y - 13} r={4} fill="var(--red)" /> : null}
+          <text
+            x={centroide.x}
+            y={centroide.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            transform={`rotate(-45 ${centroide.x} ${centroide.y})`}
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 6.4,
+              fontWeight: 800,
+              letterSpacing: '.08em',
+              fill: escuro ? '#f1efe9' : '#151515',
+              opacity: base ? 1 : 0.6,
+              pointerEvents: 'none',
+            }}
+          >
+            {rotulo}
+          </text>
+        </g>
+      )
+    }
+    return (
+      <g data-roda-centro="">
+        <circle r={RC + 7} fill="none" stroke="var(--line2)" strokeDasharray="3 3" />
+        {metade('destruicao', destr)}
+        {metade('criacao', criac)}
+        {/* Mestre universal (Avatar): nó pequeno do lado da Criação */}
+        {visivel.M && criac ? no(criac, 'M', pt(RC + 18, 45).x, pt(RC + 18, 45).y, false) : null}
+      </g>
+    )
+  }
 
   return (
     <div
@@ -406,7 +537,35 @@ function Roda({
             {`${SUFIXO_TIER[t].toUpperCase()} ${contador(t)}`}
           </span>
         ))}
+        {onToggleEdit ? <EditToggle edit={edit} onToggle={onToggleEdit} /> : null}
       </div>
+      {invalidas.size > 0 ? (
+        <div
+          data-roda-invalidas={invalidas.size}
+          style={{
+            fontSize: 12,
+            lineHeight: 1.45,
+            color: 'var(--red)',
+            padding: '7px 10px',
+            border: '1px solid color-mix(in srgb,var(--red) 45%,var(--line2))',
+            background: 'color-mix(in srgb,var(--red) 8%,transparent)',
+            clipPath: clip(6),
+          }}
+        >
+          <strong style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>
+            {`! ${invalidas.size} ${reskinUpper(invalidas.size === 1 ? 'Essência inválida' : 'Essências inválidas')}`}
+          </strong>
+          {' — '}
+          {[...invalidas.entries()]
+            .map(([k, m]) => {
+              const [t, ...resto] = k.split(':')
+              return `${reskinName(alvoDe(resto.join(':'), t as Tier))} (${m})`
+            })
+            .join(' · ')}
+          {'. '}
+          {reskinText(edit ? 'Toque na Essência marcada pra desfazer e escolha de novo.' : 'Use Alterar pra desfazer e escolher de novo.')}
+        </div>
+      ) : null}
       <svg
         viewBox={`${-vb} ${-vb} ${vb * 2} ${vb * 2}`}
         width="100%"
@@ -443,19 +602,19 @@ function Roda({
           const opB = st(b, 'A') === 'oposto'
           const opC = st(c, 'A') === 'oposto'
           if (opB || opC) {
+            // fronteira com o oposto: só um X discreto, SEM a linha
+            if (opB === opC) return <path key={`arco-${b}`} d={arco(i, 'A')} fill="none" stroke="var(--line)" strokeWidth={0.8} strokeDasharray="2 6" />
             const x = pt(R.A, ang(i + 0.5))
             return (
-              <g key={`arco-${b}`} data-roda-corte={opB !== opC ? `${b}|${c}` : undefined}>
-                <path d={arco(i, 'A')} fill="none" stroke="var(--line)" strokeWidth={1} strokeDasharray="2 5" />
-                {opB !== opC ? (
-                  <path
-                    d={`M${x.x - 6},${x.y - 6} L${x.x + 6},${x.y + 6} M${x.x + 6},${x.y - 6} L${x.x - 6},${x.y + 6}`}
-                    stroke="var(--red)"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                  />
-                ) : null}
-              </g>
+              <path
+                key={`arco-${b}`}
+                data-roda-corte={`${b}|${c}`}
+                d={`M${x.x - 4},${x.y - 4} L${x.x + 4},${x.y + 4} M${x.x + 4},${x.y - 4} L${x.x - 4},${x.y + 4}`}
+                stroke="var(--muted)"
+                strokeWidth={1.3}
+                strokeLinecap="round"
+                opacity={0.6}
+              />
             )
           }
           return (
@@ -470,6 +629,19 @@ function Roda({
             />
           )
         })}
+        {/* disco das puras dividido na diagonal: Destruição mais escura,
+            Criação mais clara */}
+        <path d={meioDisco(R.A - NO_R.A - 8, 'destruicao')} fill="#000" opacity={0.14} />
+        <path d={meioDisco(R.A - NO_R.A - 8, 'criacao')} fill="#fff" opacity={0.07} />
+        <line
+          x1={pt(R.A - NO_R.A - 8, -45).x}
+          y1={pt(R.A - NO_R.A - 8, -45).y}
+          x2={pt(R.A - NO_R.A - 8, 135).x}
+          y2={pt(R.A - NO_R.A - 8, 135).y}
+          stroke="var(--line2)"
+          strokeWidth={1}
+          strokeDasharray="3 4"
+        />
         {/* DRUIDA: corda entre as pontas de cada elemento do círculo — de uma
             ponta se chega à outra sem passar pela pura */}
         {(elementos ?? []).map((el) => {
@@ -598,21 +770,10 @@ function Roda({
               )
             })
           : null}
-        {/* centro: essência universal (Criação), um nó por tier visível */}
-        {universal ? (
-          <g>
-            <circle r={R_CENTRO + 6} fill="none" stroke="var(--line2)" strokeDasharray="3 3" />
-            {visivel.E ? (
-              <line x1={-30} y1={44} x2={0} y2={NO_R.A} stroke={tem.E.has(universal) ? corDe(universal) : 'var(--line)'} />
-            ) : null}
-            {visivel.M ? (
-              <line x1={30} y1={44} x2={0} y2={NO_R.A} stroke={tem.M.has(universal) ? corDe(universal) : 'var(--line)'} />
-            ) : null}
-            {no(universal, 'A', 0, 0, true)}
-            {visivel.E ? no(universal, 'E', -30, 46, false) : null}
-            {visivel.M ? no(universal, 'M', 30, 46, false) : null}
-          </g>
-        ) : null}
+        {/* CENTRO = Essência Universal: duas metades que se encaixam por
+            dentes ao longo da diagonal — DESTRUIÇÃO (lado de Fogo e Vento) e
+            CRIAÇÃO (lado de Água e Terra), como no diagrama de referência. */}
+        {centroUniversal()}
       </svg>
       <div
         data-roda-foco=""
@@ -620,7 +781,7 @@ function Roda({
           minHeight: 18,
           textAlign: 'center',
           fontSize: 12.5,
-          color: foco && st(foco.base, foco.tier) === 'tem' && estado.soltas.has(foco.base) && foco.tier === 'A' ? 'var(--red)' : 'var(--muted)',
+          color: foco && st(foco.base, foco.tier) === 'tem' && invalida(foco.base, foco.tier) ? 'var(--red)' : 'var(--muted)',
         }}
       >
         {focoTxt}

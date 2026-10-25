@@ -3368,7 +3368,21 @@ function noCirculo(c: HabChoice, ehComposta: (nome: string) => boolean): boolean
 
 /** CÍRCULO DAS ESSÊNCIAS na aba MAGIAS (2026-10-25): pra quem é ao menos
  *  Adepto em Magia Anima E tem ao menos uma essência aprendida ou pendente. */
-function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: HeroRefs; edit: boolean }) {
+function CirculoEssenciasDoHeroi({
+  doc,
+  refs,
+  edit: editPainel,
+  forcado,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  edit: boolean
+  /** Wizard: edição sempre ligada, sem botão. */
+  forcado?: boolean
+}) {
+  // Botão Alterar/Concluir PRÓPRIO do círculo (o do painel Magias também liga).
+  const [editProprio, setEditProprio] = useState(false)
+  const edit = editPainel || editProprio
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
@@ -3424,6 +3438,7 @@ function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: Her
       onPick={onPick}
       onRemover={onRemover}
       onOpen={abrir}
+      onToggleEdit={forcado ? undefined : () => setEditProprio((v) => !v)}
     />
   )
 }
@@ -3643,7 +3658,7 @@ export function MagiasHabPanel({
       </div>
       )}
 
-      {sec ? null : <CirculoEssenciasDoHeroi doc={doc} refs={refs} edit={edit} />}
+      {sec ? null : <CirculoEssenciasDoHeroi doc={doc} refs={refs} edit={edit} forcado={forceEdit} />}
 
       <div style={panel}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
