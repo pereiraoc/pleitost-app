@@ -156,12 +156,13 @@ describe('Roda das Essências', () => {
         Lista: [
           { '[[Essência Explosiva Adepta]]': 'Slot.A' },
           { '[[Essência Flamejante Experiente]]': 'Slot.E' },
+          { '[[Essência Explosiva Experiente]]': 'Slot.E' },
         ],
       },
     })
     await waitFor(() => expect(no('M:Essência do Meteoro')).toBeTruthy(), { timeout: 15000 })
     await waitFor(() => expect(estado('M:Essência do Meteoro')).toBe('livre'), { timeout: 15000 })
-    expect(estado('M:Essência do Sol')).toBe('fechado') // falta a Incendiária Adepta
+    expect(estado('M:Essência do Sol')).toBe('fechado') // falta a Incendiária Experiente
     expect(no('M:Essência Flamejante')).toBeNull() // nada de Mestre "de uma essência só"
     fireEvent.click(no('M:Essência do Meteoro')!)
     await waitFor(() => expect(fonteDe(id, 'Essência do Meteoro')).toBe('Slot.M'))

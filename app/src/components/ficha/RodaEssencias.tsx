@@ -252,8 +252,13 @@ function Roda({
     }
     if (t === 'M' && composta.has(base)) {
       const c = composta.get(base)!
-      return `${nome} — precisa de ${reskinName(c.a)} e ${reskinName(c.b)} Adeptas e uma delas Experiente; a primeira Mestre toca a ${reskinText('sintonia')}`
+      return `${nome} — precisa de ${reskinName(c.a)} e ${reskinName(c.b)} Experientes; a primeira Mestre toca a ${reskinText('sintonia')}`
     }
+    if (t === 'E' && tem.A.has(base)) {
+      if (tem.E.size === 0) return `${nome} — a primeira Experiente é do elemento da ${reskinText('sintonia')}`
+      return `${nome} — precisa de uma vizinha Experiente no ciclo`
+    }
+    if (t === 'M') return `${nome} — precisa da Experiente`
     return `${nome} — precisa da Adepta`
   }
 

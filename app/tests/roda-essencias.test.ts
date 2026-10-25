@@ -75,11 +75,31 @@ describe('regras de escolha (Animista)', () => {
     const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Mineral']) })
     expect([...s.soltas]).toEqual([E('Mineral')])
   })
-  it('Experiente: qualquer essência de que tem a Adepta', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva', 'Sísmica']) })
+  it('Experiente: a primeira é do elemento da sintonia (com a Adepta)', () => {
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva', 'Sísmica', 'Incendiária']) })
     expect(s.no.E[E('Flamejante')]).toBe('livre')
-    expect(s.no.E[E('Sísmica')]).toBe('livre')
+    expect(s.no.E[E('Explosiva')]).toBe('livre') // fogo
+    expect(s.no.E[E('Incendiária')]).toBe('livre') // fogo
+    expect(s.no.E[E('Sísmica')]).toBe('fechado') // terra: ainda não é caminho
     expect(s.no.E[E('Mineral')]).toBe('fechado') // não tem a Adepta
+    expect(s.no.E[E('de Criação')]).toBe('fechado') // universal espera a primeira
+  })
+  it('Experiente: depois da primeira, anda de vizinha em vizinha (sempre com a Adepta)', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'Explosiva', 'Sísmica', 'Mineral', 'Incendiária', 'de Criação'], ['Explosiva']),
+    })
+    expect(s.no.E[E('Sísmica')]).toBe('livre') // vizinha da Explosiva Experiente
+    expect(s.no.E[E('Flamejante')]).toBe('livre')
+    expect(s.no.E[E('Incendiária')]).toBe('fechado') // não é vizinha de uma Experiente
+    expect(s.no.E[E('Mineral')]).toBe('fechado') // só passando pela Sísmica
+    expect(s.no.E[E('de Criação')]).toBe('livre')
+  })
+  it('Experiente fora do caminho (não liga numa da sintonia) é inválida', () => {
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva', 'Sísmica', 'Mineral'], ['Explosiva', 'Mineral']) })
+    expect(s.invalidas.get(`E:${E('Mineral')}`)).toMatch(/fora do caminho das Experientes/)
+    expect(s.invalidas.has(`E:${E('Explosiva')}`)).toBe(false)
   })
   it('Mestre: só de quem tem a Experiente', () => {
     const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante', 'Explosiva']) })
@@ -131,7 +151,7 @@ describe('Mestre compostas (entre vizinhas)', () => {
       expect(vizinhas(roda, c.a)).toContain(c.b)
     }
   })
-  it('precisa das duas Adeptas e ao menos uma Experiente; a primeira toca a sintonia', async () => {
+  it('precisa das DUAS Experientes; a primeira toca a sintonia', async () => {
     const { compostaDoDoc, estadoCompostas } = await import('../src/rules/roda-essencias')
     const compostas = ['Essência do Meteoro', 'Essência do Magma', 'Essência do Terremoto'].map(
       (n) => compostaDoDoc(n, docMestre(n).frontmatter)!,
@@ -139,12 +159,12 @@ describe('Mestre compostas (entre vizinhas)', () => {
     const st = (a: string[], e: string[], m: string[] = []) =>
       estadoCompostas({ roda, compostas, sintonia: 'Fogo', temA: new Set(a.map(E)), temE: new Set(e.map(E)), temM: new Set(m) })
     const A3 = ['Flamejante', 'Explosiva', 'Sísmica', 'Mineral']
-    expect(st(['Flamejante'], ['Flamejante'])['Essência do Meteoro']).toBe('fechado') // falta a Explosiva Adepta
     expect(st(A3, [])['Essência do Meteoro']).toBe('fechado') // nenhuma Experiente
-    expect(st(A3, ['Explosiva'])['Essência do Meteoro']).toBe('livre') // uma Experiente basta
-    expect(st(A3, ['Sísmica'])['Essência do Magma']).toBe('livre') // a Experiente pode ser qualquer uma das duas
-    expect(st(A3, ['Mineral'])['Essência do Terremoto']).toBe('fechado') // 1ª Mestre sem fogo
-    expect(st(A3, ['Mineral'], ['Essência do Magma'])['Essência do Terremoto']).toBe('livre')
+    expect(st(A3, ['Explosiva'])['Essência do Meteoro']).toBe('fechado') // uma só não basta
+    expect(st(A3, ['Flamejante', 'Explosiva'])['Essência do Meteoro']).toBe('livre')
+    expect(st(A3, ['Explosiva', 'Sísmica'])['Essência do Magma']).toBe('livre')
+    expect(st(A3, ['Sísmica', 'Mineral'])['Essência do Terremoto']).toBe('fechado') // 1ª Mestre sem fogo
+    expect(st(A3, ['Sísmica', 'Mineral'], ['Essência do Magma'])['Essência do Terremoto']).toBe('livre')
   })
 })
 

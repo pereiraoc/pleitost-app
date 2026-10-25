@@ -10,9 +10,12 @@
 //  - Adepta: a pura da sintonia vem de graça (Magias Anima); cada slot abre
 //    uma vizinha de uma que já tem; nunca do elemento oposto. Universais
 //    (Criação, Destruição) sempre acessíveis.
-//  - Experiente: qualquer essência de que tem a Adepta.
-//  - Mestre composta: as duas Adeptas + ao menos uma Experiente; a primeira
-//    toca o elemento da sintonia.
+//  - Experiente: também é CAMINHO — a primeira é do elemento da sintonia
+//    (Animista e Druida), e cada slot abre uma vizinha de uma Experiente que
+//    já tem; sempre exige a Adepta da mesma essência. Universais esperam pela
+//    primeira Experiente do ciclo.
+//  - Mestre composta: as DUAS Experientes; a primeira toca o elemento da
+//    sintonia. Mestre universal: a Experiente dela.
 import type { Catalog } from '../data/catalog'
 import { wikiTarget } from '../components/ficha/hero-model'
 
@@ -164,16 +167,27 @@ export function estadoRoda(input: {
     else no.A[b] = alcance.has(b) ? 'livre' : 'fechado'
   }
 
-  // Experiente / Mestre universal: qualquer essência de que tem a Adepta.
-  const degrau = (t: 'E' | 'M', anterior: Tier) => {
-    for (const b of todas) {
-      if (tem[t].has(b)) no[t][b] = 'tem'
-      else if (!tem[anterior].has(b)) no[t][b] = 'fechado'
-      else no[t][b] = 'livre'
-    }
+  // Experiente: caminho próprio. A primeira é do elemento da sintonia; as
+  // seguintes, vizinhas de uma Experiente que já tem — sempre com a Adepta.
+  // A Invertida segue isolada (Experiente dela só exige a Adepta).
+  const cicloE = [...tem.E].filter((b) => roda.ordem.includes(b) && !invertidas.has(b))
+  const daSintonia = (b: string) => !sintonia || roda.elemento[b] === sintonia
+  const alcanceE = new Set<string>()
+  if (cicloE.length === 0) {
+    for (const b of roda.ordem) if (daSintonia(b)) alcanceE.add(b)
+  } else for (const b of cicloE) for (const v of vizinhas(roda, b)) alcanceE.add(v)
+  for (const b of todas) {
+    if (tem.E.has(b)) no.E[b] = 'tem'
+    else if (!tem.A.has(b)) no.E[b] = 'fechado'
+    else if (invertidas.has(b)) no.E[b] = 'livre'
+    else if (roda.universais.includes(b)) no.E[b] = cicloE.length > 0 ? 'livre' : 'fechado'
+    else no.E[b] = alcanceE.has(b) ? 'livre' : 'fechado'
   }
-  degrau('E', 'A')
-  degrau('M', 'A')
+  // Mestre universal: a Experiente dela.
+  for (const b of todas) {
+    if (tem.M.has(b)) no.M[b] = 'tem'
+    else no.M[b] = tem.E.has(b) ? 'livre' : 'fechado'
+  }
 
   // Conexão: Adeptas do ciclo ligadas a uma âncora por posse contígua.
   const raizes = ancoras.length
@@ -200,11 +214,22 @@ export function estadoRoda(input: {
     if (fora(b)) invalidas.set(`A:${b}`, druida ? 'fora dos dois elementos do círculo' : 'elemento oposto à sintonia')
     else if (soltas.has(b)) invalidas.set(`A:${b}`, 'fora do caminho do ciclo (não liga numa essência concedida)')
   }
-  for (const t of ['E', 'M'] as const) {
-    for (const b of tem[t]) {
-      if (!tem.A.has(b)) invalidas.set(`${t}:${b}`, 'sem a Adepta')
-    }
+  // Experientes fora do caminho: não ligam, de vizinha em vizinha, numa
+  // Experiente do elemento da sintonia.
+  const ligadasE = new Set<string>()
+  const filaE = cicloE.filter(daSintonia)
+  while (filaE.length) {
+    const b = filaE.pop()!
+    if (ligadasE.has(b)) continue
+    ligadasE.add(b)
+    for (const v of vizinhas(roda, b)) if (cicloE.includes(v) && !ligadasE.has(v)) filaE.push(v)
   }
+  for (const b of tem.E) {
+    if (!tem.A.has(b)) invalidas.set(`E:${b}`, 'sem a Adepta')
+    else if (cicloE.includes(b) && !ligadasE.has(b))
+      invalidas.set(`E:${b}`, 'fora do caminho das Experientes (a primeira é do elemento da sintonia)')
+  }
+  for (const b of tem.M) if (!tem.E.has(b)) invalidas.set(`M:${b}`, 'sem a Experiente')
   return { no, soltas, invalidas }
 }
 
@@ -225,8 +250,8 @@ export function compostaDoDoc(nome: string, fm: Record<string, unknown> | undefi
   return bases.length === 2 ? { nome, a: bases[0]!, b: bases[1]! } : null
 }
 
-/** Estado de cada composta: tem / livre (as DUAS Adeptas e ao menos UMA
- *  Experiente delas; a primeira Mestre toca o elemento da sintonia) / fechado. */
+/** Estado de cada composta: tem / livre (as DUAS Experientes; a primeira
+ *  Mestre toca o elemento da sintonia) / fechado. */
 export function estadoCompostas(input: {
   roda: RodaDef
   compostas: Composta[]
@@ -235,13 +260,13 @@ export function estadoCompostas(input: {
   temE: Set<string>
   temM: Set<string>
 }): Record<string, EstadoNo> {
-  const { roda, compostas, sintonia, temA, temE, temM } = input
+  const { roda, compostas, sintonia, temE, temM } = input
   const tocaSintonia = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
   const jaTemDaSintonia = compostas.some((c) => temM.has(c.nome) && tocaSintonia(c))
   const out: Record<string, EstadoNo> = {}
   for (const c of compostas) {
     if (temM.has(c.nome)) out[c.nome] = 'tem'
-    else if (!temA.has(c.a) || !temA.has(c.b) || (!temE.has(c.a) && !temE.has(c.b))) out[c.nome] = 'fechado'
+    else if (!temE.has(c.a) || !temE.has(c.b)) out[c.nome] = 'fechado'
     else if (sintonia && !jaTemDaSintonia && !tocaSintonia(c)) out[c.nome] = 'fechado'
     else out[c.nome] = 'livre'
   }
@@ -257,12 +282,11 @@ export function invalidasCompostas(input: {
   temE: Set<string>
   temM: Set<string>
 }): Map<string, string> {
-  const { roda, compostas, sintonia, temA, temE, temM } = input
+  const { roda, compostas, sintonia, temE, temM } = input
   const out = new Map<string, string>()
   const minhas = compostas.filter((c) => temM.has(c.nome))
   for (const c of minhas) {
-    if (!temA.has(c.a) || !temA.has(c.b)) out.set(c.nome, 'falta uma das duas Adeptas')
-    else if (!temE.has(c.a) && !temE.has(c.b)) out.set(c.nome, 'nenhuma das duas é Experiente')
+    if (!temE.has(c.a) || !temE.has(c.b)) out.set(c.nome, 'falta uma das duas Experientes')
   }
   const toca = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
   if (sintonia && minhas.length > 0 && !minhas.some(toca))
