@@ -96,6 +96,24 @@ export interface GastoRegistrado {
   sec?: boolean
 }
 
+/** Registro de ESSÊNCIA: tipo `magia` (contexto = escola das essências) cujo
+ *  alvo é uma nota de essência — o gasto real é a linha `Slot.<rank>` em
+ *  `Habilidades.Lista`, não a escola. */
+export function ehRegistroEssencia(r: Pick<GastoRegistrado, 'tipo' | 'alvo'>): boolean {
+  return r.tipo === 'magia' && ehEssencia(wlBase(r.alvo))
+}
+
+/** Círculo das Essências de UM nível do Planejamento: só nos níveis que
+ *  ganham slot A/E/M na escola das essências. `fm` = derivado do nível sem as
+ *  essências compradas DEPOIS dele; `fmSalvo` = só as compradas NESTE nível
+ *  (as que o Círculo do card pode desfazer); `slots` = os ganhos no nível. */
+export interface CirculoNivel {
+  sec: boolean
+  fm: Fm
+  fmSalvo: Fm
+  slots: Record<'A' | 'E' | 'M', { total: number; usados: number }>
+}
+
 export function gastosRegistrados(fm: Record<string, unknown>): GastoRegistrado[] {
   const p = fm['Planejamento']
   const g = p && typeof p === 'object' ? (p as Record<string, unknown>)['gastosSlots'] : null
@@ -157,6 +175,8 @@ export interface LevelCard {
   escolhas: TimelineChoice[]
   /** Escalares que mudam neste nível (Vida/Potência/EM). */
   escalares: EscalarDelta[]
+  /** Círculo das Essências do nível (primário e/ou Menor). */
+  circulos: CirculoNivel[]
 }
 
 const ZERO_SLOTS = (): SlotDelta => ({ B: 0, A: 0, E: 0, M: 0 })
@@ -262,6 +282,10 @@ export function fichaTemGasto(fm: Fm, r: GastoRegistrado): boolean | null {
   }
   if (r.tipo === 'magia') {
     if (!r.rank || !r.contexto) return null
+    if (ehRegistroEssencia(r))
+      return fontedEntries(rowsOf(fm, 'Habilidades', 'Lista')).some(
+        (e) => wlBase(e.link) === base && e.fonte.startsWith('Slot'),
+      )
     const escolas = r.sec ? rowsOf(fm, 'Magias', 'Secundaria', 'Lista') : rowsOf(fm, 'Magias', 'Lista')
     return escolas.some((esc) =>
       (Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []).some((x) => Object.keys(x).some((k) => wlBase(k) === base)),
@@ -321,8 +345,7 @@ export function pinsFaltantes(cards: LevelCard[], registros: GastoRegistrado[]):
         out.push({ nivel: c.nivel, tipo: 'pericia', rank: g.rank, alvo: g.nome })
     }
     for (const g of c.gastos.magias) {
-      // essência: o nível vem do earliest-fit (o Círculo não grava registro)
-      if (!g.planejado && !g.essencia && !tem('magia', g.link))
+      if (!g.planejado && !tem('magia', g.link))
         out.push({
           nivel: c.nivel,
           tipo: 'magia',
@@ -410,11 +433,14 @@ export function sanitizarRegistros(
     pericia: new SlotPools(cards.map((c) => c.slots.pericias)),
     tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),
     magia: new SlotPools(cards.map((c) => c.slots.magias)),
+    magiaSec: new SlotPools(cards.map((c) => c.slots.magiasSec ?? ZERO_SLOTS())),
   }
+  // magia SECUNDÁRIA (e essência Menor) tem o pool próprio
+  const poolDe = (r: GastoRegistrado) => (r.tipo === 'magia' && r.sec ? 'magiaSec' : r.tipo)
   // passada 1: quem tem slot no próprio nível reivindica primeiro
   const claims = registros.map((r) => {
     if (!r.rank || !(r.tipo in pools)) return { r, ok: true }
-    const pool = pools[r.tipo]!
+    const pool = pools[poolDe(r)]!
     const antes = JSON.stringify(pool)
     pool.takeAt(r.rank, r.nivel)
     return { r, ok: JSON.stringify(pool) !== antes }
@@ -423,7 +449,7 @@ export function sanitizarRegistros(
   let mudou = dedupou || dropouOrfa
   const out = claims.map(({ r, ok }) => {
     if (ok || !r.rank || !(r.tipo in pools)) return r
-    const novo = pools[r.tipo]!.takeSameRank(r.rank)
+    const novo = pools[poolDe(r)]!.takeSameRank(r.rank)
     if (novo === null || novo === r.nivel) return r
     mudou = true
     return { ...r, nivel: novo }
@@ -465,7 +491,18 @@ export async function buildLevelTimeline(
       )
     for (const r of regsPlanejados) {
       if (r.nivel > nivel) continue
-      if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
+      if (ehRegistroEssencia(r) && r.rank && r.rank !== 'B') {
+        // essência planejada: o gasto é a linha Slot.<rank> em Habilidades
+        const lista = rowsOf(out, 'Habilidades', 'Lista')
+        if (!emLista(lista, r.alvo))
+          out = {
+            ...out,
+            Habilidades: {
+              ...((out['Habilidades'] as Record<string, unknown>) ?? {}),
+              Lista: [...lista, { [`[[${wlBase(r.alvo)}]]`]: `Slot.${r.rank}` }],
+            },
+          }
+      } else if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
         const lista = rowsOf(out, 'Tecnicas', 'Lista')
         if (!emLista(lista, r.alvo))
           out = {
@@ -784,6 +821,7 @@ export async function buildLevelTimeline(
       gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
       escolhas,
       escalares,
+      circulos: [],
     })
   }
 
@@ -976,6 +1014,7 @@ export async function buildLevelTimeline(
         rank: r.rank,
         secundaria: !!r.sec,
         planejado: true,
+        ...(ehRegistroEssencia(r) ? { essencia: true } : {}),
       })
     } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
       card.gastos.especialidades.push({
@@ -1089,6 +1128,46 @@ export async function buildLevelTimeline(
       }
     }
     if (!mudou) break
+  }
+
+  // ── Círculo das Essências por nível ───────────────────────────────────────
+  const nivelEssencia = new Map<string, number>()
+  for (const c of cards) for (const g of c.gastos.magias) if (g.essencia) nivelEssencia.set(wlBase(g.link), c.nivel)
+  for (const card of cards) {
+    const snap = snaps[card.nivel - 1]!
+    for (const sec of [false, true]) {
+      const delta = sec ? (card.slots.magiasSec ?? ZERO_SLOTS()) : card.slots.magias
+      if (delta.A + delta.E + delta.M <= 0) continue
+      const escolas = sec ? card.escolasSecNivel : card.escolasProfNivel
+      // proficiência: a row derivada OU o calc (ficha sem as rows de Magias)
+      const profCalc = Object.entries(snap.calculated).some(([k, v]) => {
+        const m = (sec ? /^Magias\.Secundaria\.Lista\.(.+)\.Proficiencia$/ : /^Magias\.Lista\.(.+)\.Proficiencia$/).exec(k)
+        return !!m && String(v) !== 'N' && String(v) !== '' && ESCOLAS_POR_ESSENCIA.has(MAGIA_ESCOLA_NOME[m[1]!] ?? m[1]!)
+      })
+      if (!profCalc && !escolas.some((e) => ESCOLAS_POR_ESSENCIA.has(e.nome))) continue
+      // o derivado traz as essências REAIS em todo nível: as compradas
+      // depois deste ficam de fora
+      const lista = rowsOf(snap.derived, 'Habilidades', 'Lista').filter((row) => {
+        const e = fontedEntries([row])[0]
+        if (!e || !e.fonte.startsWith('Slot') || !ehEssencia(wlBase(e.link))) return true
+        return (nivelEssencia.get(wlBase(e.link)) ?? 1) <= card.nivel
+      })
+      const habDerivada = (snap.derived['Habilidades'] as Record<string, unknown>) ?? {}
+      const gastosAqui = card.gastos.magias.filter((g) => g.secundaria === sec)
+      const slots = Object.fromEntries(
+        (['A', 'E', 'M'] as const).map((t) => [t, { total: delta[t], usados: gastosAqui.filter((g) => g.rank === t).length }]),
+      ) as CirculoNivel['slots']
+      card.circulos.push({
+        sec,
+        fm: { ...snap.derived, Habilidades: { ...habDerivada, Lista: lista } },
+        fmSalvo: {
+          Habilidades: {
+            Lista: gastosAqui.filter((g) => g.essencia).map((g) => ({ [`[[${wlBase(g.link)}]]`]: `Slot.${g.rank}` })),
+          },
+        },
+        slots,
+      })
+    }
   }
 
   return cards
