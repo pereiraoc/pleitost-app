@@ -350,7 +350,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
    *  transição pra marcação da barra pintar antes (2026-09-24). */
   const escolher = (item: Item, novos: Pick[], abrir?: string) => {
     if (wikiTarget(item.value) !== classeAtual) {
-      const pares: Array<[string, unknown]> = [...pairsOnClasseChange(), ['Classe', item.value]]
+      const pares: Array<[string, unknown]> = [...pairsOnClasseChange(model.fm), ['Classe', item.value]]
       if (novos.length) pares.push(['Habilidades.Lista', linhasComPicks([], novos)])
       model.setMany(pares)
     } else if (novos.length) {

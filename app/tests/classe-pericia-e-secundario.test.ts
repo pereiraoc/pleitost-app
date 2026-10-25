@@ -94,3 +94,21 @@ describe('Bardo de Luta Artística: atributo 2 = FOR ou AGI', () => {
     expect((projection.derivedFm['Atributos'] as Record<string, number>)['INT']).toBe(2)
   })
 })
+
+describe('trocar de classe limpa a Perícia de Classe da anterior', () => {
+  it('o incremento Escolha.[[Ladino]] sai; o resto das perícias fica', async () => {
+    const { classChangeResets } = await import('../src/data/local-entities')
+    const fm = heroi({ Classe: '[[Ladino]]' })
+    const lista = (fm['Pericias'] as { Lista: Record<string, unknown>[] }).Lista
+    lista.find((p) => p['Nome'] === 'Ladinagem')!['Incrementos'] = [{ A: 'Escolha.[[Ladino]]' }]
+    lista.find((p) => p['Nome'] === 'Atletismo')!['Incrementos'] = [{ A: 'Slot.A' }]
+    const par = classChangeResets(fm).find(([p]) => p === 'Pericias.Lista')
+    const nova = par?.[1] as Record<string, unknown>[]
+    expect(nova.find((p) => p['Nome'] === 'Ladinagem')!['Incrementos']).toEqual([])
+    expect(nova.find((p) => p['Nome'] === 'Atletismo')!['Incrementos']).toEqual([{ A: 'Slot.A' }])
+  })
+  it('sem pick da classe, as perícias nem entram no reset', async () => {
+    const { classChangeResets } = await import('../src/data/local-entities')
+    expect(classChangeResets(heroi({ Classe: '[[Ladino]]' })).some(([p]) => p === 'Pericias.Lista')).toBe(false)
+  })
+})

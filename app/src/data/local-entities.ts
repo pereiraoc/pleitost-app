@@ -501,17 +501,40 @@ export function emptyHeroFrontmatter(): Record<string, unknown> {
  * estes campos aqui deixa a nova classe reconstruir do zero.
  *
  * Perícias/Ofícios NÃO entram: são compartilhados com o Passado (background), não
- * exclusivos da classe. Atributos/Nível/Bio/Inventário também ficam.
+ * exclusivos da classe — EXCETO o pick da Perícia de Classe (incremento
+ * `Escolha[.NN].[[<classe>]]`, 2026-10-25), que sai quando `fm` (o salvo, com a
+ * classe ANTERIOR) é passado. Atributos/Nível/Bio/Inventário também ficam.
  */
-export function classChangeResets(): Array<[string, unknown]> {
+export function classChangeResets(fm?: Record<string, unknown>): Array<[string, unknown]> {
   const empty = baseCreatureFm()
-  return [
+  const out: Array<[string, unknown]> = [
     ['Magias', empty.Magias],
     ['Sintonia', ''],
     ['Habilidades.Lista', []],
     ['Tecnicas.Lista', []],
     ['Interativa.Seletores', {}],
   ]
+  const pericias = fm ? semPericiaDaClasse(fm) : null
+  if (pericias) out.push(['Pericias.Lista', pericias])
+  return out
+}
+
+/** Pericias.Lista sem os incrementos tagueados pela CLASSE atual do FM; null
+ *  quando não há nenhum (nada a regravar). */
+function semPericiaDaClasse(fm: Record<string, unknown>): Record<string, unknown>[] | null {
+  const classe = /\[\[([^\]|]+)/.exec(String(fm['Classe'] ?? ''))?.[1]?.split('/').pop()
+  const lista = (fm['Pericias'] as Record<string, unknown> | undefined)?.['Lista']
+  if (!classe || !Array.isArray(lista)) return null
+  const tag = new RegExp(`^Escolha(\\.\\d\\d)?\\.\\[\\[${classe.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\]\\]$`)
+  let mudou = false
+  const nova = (lista as Record<string, unknown>[]).map((row) => {
+    const incs = Array.isArray(row['Incrementos']) ? (row['Incrementos'] as Record<string, unknown>[]) : []
+    const ficam = incs.filter((inc) => !Object.values(inc).some((v) => typeof v === 'string' && tag.test(v)))
+    if (ficam.length === incs.length) return row
+    mudou = true
+    return { ...row, Incrementos: ficam }
+  })
+  return mudou ? nova : null
 }
 
 /** Companheiro Animal em branco — família CompanheiroAnimal do plugin (Tutor). */

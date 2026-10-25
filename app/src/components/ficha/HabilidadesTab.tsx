@@ -399,7 +399,7 @@ export function ClasseNivelPanel({
   // precisam ser zerados. Fonte única em classChangeResets (local-entities.ts).
   const setClasse = (v: string) => {
     if (wikiTarget(v) !== wikiTarget(str(fm['Classe']))) {
-      for (const [path, value] of classChangeResets()) model.set(path, value)
+      for (const [path, value] of classChangeResets(model.fm)) model.set(path, value)
     }
     model.set('Classe', v)
   }
