@@ -295,6 +295,16 @@ export const ELEMENTO_COR: Record<string, string> = {
   Universal: '#9e9e9e',
 }
 
+/** Símbolo alquímico de cada elemento no Círculo das Essências — o do
+ *  diagrama de referência da vault: △ fogo, ▽ água, ▽ com barra terra,
+ *  △ com barra vento; `tinta` = cor do traço sobre o disco do elemento. */
+export const ELEMENTO_SIMBOLO: Record<string, { ponta: 'cima' | 'baixo'; barra: boolean; tinta: string }> = {
+  Fogo: { ponta: 'cima', barra: false, tinta: '#fff' },
+  Água: { ponta: 'baixo', barra: false, tinta: '#fff' },
+  Terra: { ponta: 'baixo', barra: true, tinta: '#111' },
+  Vento: { ponta: 'cima', barra: true, tinta: '#fff' },
+}
+
 /** Emoji do elemento (registro central tokens.emojis.elemento). */
 export function elementoEmoji(elemento: string): string {
   const k = elemento === 'Água' ? 'Agua' : elemento

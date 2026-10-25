@@ -13,6 +13,7 @@ import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { RodaEssencias, tierDaEscolha, type RodaChoice } from './RodaEssencias'
+import { parseEssencia } from '../../rules/roda-essencias'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -92,6 +93,7 @@ import {
   grupoArmaEmoji,
   MAESTRIA_EMOJI,
   magiaEmoji,
+  periciaEmoji,
   rankGroupLabel,
   slugify,
   tokens,
@@ -1470,6 +1472,7 @@ export function PericiasProfPanel({
       (c) =>
         classeBase !== '' &&
         c.kind === 'escolha-prop-map' &&
+        c.options.length > 1 &&
         c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') === classeBase,
     )
     .map((c) => ({
@@ -1500,25 +1503,20 @@ export function PericiasProfPanel({
           <span style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}>
             {reskinName(c.label).toUpperCase()}
           </span>
+          {/* O pick padrão da classe JÁ vale (o motor aplica) — o select
+              mostra ele, sem opção vazia; ícone da perícia em cada opção. */}
           {edit ? (
             <div style={{ flex: 1, minWidth: 180, maxWidth: 320 }}>
               <SelectBox
                 ariaLabel={reskinName(c.label)}
-                value={choicePickValue(c)}
-                options={[{ value: '', label: '—' }, ...choiceOptions(c)]}
+                value={c.pick ? `[[${c.pick}]]` : ''}
+                options={c.options.map((o) => ({ value: `[[${o}]]`, label: `${periciaEmoji(o)} ${reskinName(o)}`.trim() }))}
                 onChange={(v) => writePericiaChoicePick(model, classeBase, c, v)}
               />
             </div>
           ) : (
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: 13,
-                color: choicePickValue(c) ? 'var(--blue)' : 'var(--muted)',
-                fontStyle: choicePickValue(c) ? 'normal' : 'italic',
-              }}
-            >
-              {linkLabelDisplay(choicePickValue(c)) || '(não definido)'}
+            <span style={{ fontWeight: 600, fontSize: 13, color: c.pick ? 'var(--blue)' : 'var(--muted)' }}>
+              {c.pick ? `${periciaEmoji(c.pick)} ${reskinName(c.pick)}`.trim() : '(não definido)'}
             </span>
           )}
         </div>
@@ -2242,18 +2240,11 @@ export function HabilidadesArvorePanel({
   const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) =>
     writeChoicePick(model, catalog, refs, parentTarget, choice, newWl)
 
-  // RODA DAS ESSÊNCIAS (2026-10-25): as escolhas de Essência Elemental
-  // (Adepta/Experiente/Mestre) saem dos dropdowns e vão pra roda do ciclo.
-  const rodaChoices: RodaChoice[] = []
-  for (const [parent, list] of choicesByTarget) {
-    for (const c of list) if (tierDaEscolha(c)) rodaChoices.push({ ...c, parent })
-  }
-  const naRoda = new Set(rodaChoices.map((c) => c.choiceKey))
-  const detailRoda = useDetail()
-  const abrirEssencia = (nome: string) => {
-    const r = catalog.resolve(nome)
-    if (r.kind === 'doc') detailRoda?.open({ kind: 'doc', id: r.id })
-  }
+  // CÍRCULO DAS ESSÊNCIAS (2026-10-25): as escolhas de Essência Elemental
+  // Adepta/Experiente saem dos dropdowns e vão pro círculo (aba MAGIAS).
+  const naRoda = new Set(
+    [...choicesByTarget.values()].flat().filter((c) => noCirculo(c)).map((c) => c.choiceKey),
+  )
 
   return (
     <div style={panel}>
@@ -2262,9 +2253,7 @@ export function HabilidadesArvorePanel({
         <span style={{ flex: 1 }} />
         {readOnly || forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
-      {rodaChoices.length > 0 ? (
-        <RodaEssencias fm={fm} choices={rodaChoices} edit={edit} onPick={onChoiceChange} onOpen={abrirEssencia} />
-      ) : null}
+
       <div style={{ display: 'flex', gap: 26, alignItems: 'flex-start' }}>
         {[leftGroups, rightGroups].map((col, ci) => (
           <div key={ci} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -2331,7 +2320,7 @@ export function HabilidadesArvorePanel({
                         color: 'var(--muted)',
                       }}
                     >
-                      {`◎ ${reskinUpper('Essências')} NA RODA · ${
+                      {`◎ ${reskinUpper('Essências')} NO CÍRCULO (${reskinUpper('Magias')}) · ${
                         it.choices.filter((c) => naRoda.has(c.choiceKey) && c.pick && c.source !== 'default' && c.source !== 'none').length
                       }/${it.choices.filter((c) => naRoda.has(c.choiceKey)).length}`}
                     </span>
@@ -3365,6 +3354,75 @@ export function escolaCobreRank(prof: string, rankGroup: string): boolean {
 /** Painel de MAGIAS da aba COMPETÊNCIAS (primária; `sec` = Secundária).
  *  Exportado pro WIZARD de criação (#452 passo 8) — mesma mecânica de
  *  aprender/remover por slots. */
+/** Escolha que vai pro Círculo das Essências: Adepta/Experiente do ciclo (a
+ *  Mestre segue no dropdown até existirem as notas das compostas). */
+function noCirculo(c: HabChoice): boolean {
+  const t = tierDaEscolha(c)
+  return t === 'A' || t === 'E'
+}
+
+/** CÍRCULO DAS ESSÊNCIAS na aba MAGIAS (2026-10-25): pra quem é ao menos
+ *  Adepto em Magia Anima E tem ao menos uma essência aprendida ou pendente. */
+function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: HeroRefs; edit: boolean }) {
+  const catalog = useCatalog()
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const detail = useDetail()
+  const fm = rules?.derivedFm ?? model.fm
+  const choices: RodaChoice[] = (rules?.habilidadeChoices ?? [])
+    .map((c) => ({
+      choiceKey: c.choiceKey,
+      label: c.label,
+      options: c.options,
+      pick: c.pick,
+      kind: c.kind,
+      targetRaw: c.targetRaw,
+      occ: c.occurrenceWithinParent,
+      source: c.source,
+      valorRaw: c.valorRaw,
+      parent: c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? '',
+    }))
+    .filter((c) => c.parent !== '' && noCirculo(c))
+  const anima = ((fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]).find(
+    (e) => str(e['Nome']) === 'Anima',
+  )
+  const proficiente = !!anima && str(anima['Proficiencia']) !== '' && str(anima['Proficiencia']) !== 'N'
+  const temEssencia = [
+    ...listaEntries(fmPath(fm, 'Habilidades', 'Lista')),
+    ...listaEntries(fmPath(model.fm, 'Habilidades', 'Lista')),
+  ].some((e) => {
+    const p = parseEssencia(e.target)
+    return !!p && p.tier !== 'M'
+  })
+  if (!proficiente || (choices.length === 0 && !temEssencia)) return null
+  const onPick = (parent: string, choice: HabChoice, wl: string) =>
+    writeChoicePick(model, catalog, refs, parent, choice, wl)
+  // Pick de escolha que ainda não está liberada no nível: apaga a linha salva.
+  const onRemover = (alvo: string) =>
+    model.set(
+      'Habilidades.Lista',
+      ((fmPath(model.fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]).filter((row) => {
+        const [k, v] = Object.entries(row)[0] ?? []
+        return !(k && wikiTarget(k) === alvo && /^Escolha[.]/.test(String(v ?? '')))
+      }),
+    )
+  const abrir = (nome: string) => {
+    const r = catalog.resolve(nome)
+    if (r.kind === 'doc') detail?.open({ kind: 'doc', id: r.id })
+  }
+  return (
+    <RodaEssencias
+      fm={fm}
+      fmSalvo={model.fm}
+      choices={choices}
+      edit={edit}
+      onPick={onPick}
+      onRemover={onRemover}
+      onOpen={abrir}
+    />
+  )
+}
+
 export function MagiasHabPanel({
   doc,
   refs,
@@ -3579,6 +3637,8 @@ export function MagiasHabPanel({
         </div>
       </div>
       )}
+
+      {sec ? null : <CirculoEssenciasDoHeroi doc={doc} refs={refs} edit={edit} />}
 
       <div style={panel}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>

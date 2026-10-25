@@ -21,7 +21,7 @@ interface RulesLike {
   /** #13b: escolhas de habilidade/técnica NÃO-subclasse (ex.: Instrumentos de
    *  Guerra). `source: 'default'|'none'` = o app preencheu sozinho / sem pick =
    *  seleção não feita pelo usuário. */
-  habilidadeChoices?: Array<{ options?: string[]; source?: string }>
+  habilidadeChoices?: Array<{ options?: string[]; source?: string; kind?: string; sourceNote?: string }>
 }
 
 const RANK_IDX: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
@@ -141,8 +141,14 @@ export function heroPendencias(
   if (caps.tecnicas && tecnicaOverbooked(fm)) add('habilidades', 'Técnicas excedem os slots disponíveis')
   // #13b: seleção de habilidade/técnica não feita (ex.: Instrumentos de Guerra
   // permite escolher, mas o app defaultou / não há pick).
+  // Perícia de Classe (escolha declarada na nota da CLASSE): o padrão da
+  // classe já é uma escolha válida — não fica pendente.
+  const classeBase = (/\[\[([^\]|]+)/.exec(str(fm['Classe']))?.[1] ?? '').split('/').pop()
   const escolhasPend = (rules?.habilidadeChoices ?? []).filter(
-    (c) => (c.options?.length ?? 0) > 1 && (c.source === 'default' || c.source === 'none'),
+    (c) =>
+      (c.options?.length ?? 0) > 1 &&
+      (c.source === 'default' || c.source === 'none') &&
+      !(c.kind === 'escolha-prop-map' && c.source === 'default' && (c.sourceNote ?? '').split('/').pop() === classeBase),
   ).length
   if (escolhasPend)
     add(

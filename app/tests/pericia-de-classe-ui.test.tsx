@@ -74,7 +74,11 @@ describe('Perícia de Classe no painel de Perícias', () => {
       </CatalogProvider>,
     )
     const sel = (await screen.findByLabelText('Perícia de Classe', undefined, { timeout: 15000 })) as HTMLSelectElement
-    expect([...sel.options].map((o) => o.value)).toEqual(['', '[[Furtividade]]', '[[Ladinagem]]'])
+    // sem opção vazia: o padrão da classe (Furtividade) já aparece escolhido,
+    // com o ícone da perícia no rótulo
+    expect([...sel.options].map((o) => o.value)).toEqual(['[[Furtividade]]', '[[Ladinagem]]'])
+    expect(sel.value).toBe('[[Furtividade]]')
+    expect([...sel.options].every((o) => /^\S+ \S/.test(o.textContent ?? ''))).toBe(true)
     fireEvent.change(sel, { target: { value: '[[Ladinagem]]' } })
     await waitFor(() => {
       const lista = ((getLocalDoc(id)!.frontmatter['Pericias'] as Record<string, unknown>)['Lista'] ?? []) as Record<

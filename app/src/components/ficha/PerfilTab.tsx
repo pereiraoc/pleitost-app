@@ -4,7 +4,7 @@
 // Biografia/Experiencia/Oficios). Os labels do cluster Passado
 // (PASSADO/PERÍCIA/OFÍCIO/TEXTO DO OFÍCIO, emojis 📝🎓⚒️📋) batem com o
 // passadoFields do renderVals recuperado no pull.
-import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRefs } from './useHeroRefs'
@@ -294,16 +294,21 @@ export function PassadoBox({
   // tivesse vindo do passado") indefinidamente. Strip nos dois containers
   // (ranks de Slot ficam; perícia só-do-passado volta a N) e o jogador escolhe
   // o benefício do passado novo. Digitar o MESMO texto não mexe em nada.
-  const setPassado = (v: string) => {
-    if (v.trim() !== passado.trim()) {
-      if (savedPericias.some(ehDoPassado)) {
-        model.set('Pericias.Lista', applyPassadoPickToRows(savedPericias, () => false))
-      }
-      if (savedOficios.some(ehDoPassado)) {
-        model.set('Oficios.Lista', applyPassadoPickToRows(savedOficios, () => false))
-      }
+  // O reset acontece ao SAIR do campo (não a cada tecla) e só quando já havia
+  // um passado DIFERENTE ao entrar nele — escrever o nome do passado depois de
+  // escolher perícia/ofício não pode apagar as escolhas (report 2026-10-25).
+  const passadoAoFocar = useRef<string | null>(null)
+  const setPassado = (v: string) => model.set('Biografia.Passado', v)
+  const commitPassado = () => {
+    const antes = (passadoAoFocar.current ?? '').trim()
+    passadoAoFocar.current = null
+    if (antes === '' || antes === passado.trim()) return
+    if (savedPericias.some(ehDoPassado)) {
+      model.set('Pericias.Lista', applyPassadoPickToRows(savedPericias, () => false))
     }
-    model.set('Biografia.Passado', v)
+    if (savedOficios.some(ehDoPassado)) {
+      model.set('Oficios.Lista', applyPassadoPickToRows(savedOficios, () => false))
+    }
   }
   const setOficioTexto = (v: string) => {
     if (!oficio) return
@@ -369,6 +374,8 @@ export function PassadoBox({
     select?: boolean
     options?: SelectOption[]
     onChange?: (v: string) => void
+    onFocus?: () => void
+    onBlur?: () => void
     ruleName?: string
     /** Exemplos no campo vazio (pedido do usuário, wizard r14). */
     placeholder?: string
@@ -381,6 +388,10 @@ export function PassadoBox({
       label: 'PASSADO',
       value: passado,
       onChange: setPassado,
+      onFocus: () => {
+        passadoAoFocar.current = passado
+      },
+      onBlur: commitPassado,
       dica: 'Resuma sua história de vida até aqui (até 3 palavras).',
       placeholder: 'Poeta Garçom, Cuidador de Ovelhas, etc',
     },
@@ -529,6 +540,8 @@ export function PassadoBox({
                 aria-label={f.label}
                 value={f.value}
                 onChange={f.onChange ? (e) => f.onChange!(e.target.value) : undefined}
+                onFocus={f.onFocus}
+                onBlur={f.onBlur}
                 readOnly={!f.onChange}
                 placeholder={f.placeholder}
                 style={{ ...inputStyle, marginTop: 'auto' }}

@@ -1,14 +1,16 @@
-// RODA DAS ESSÊNCIAS (2026-10-25) — o seletor de Essências Elementais do
-// conjurador Anima, no lugar dos dropdowns: as 12 essências do Ciclo Elemental
-// num anel (Adepta), o anel das Experientes por fora e o das Mestre por último.
-// Cada anel só aparece quando o herói pode escolher nele (ou já tem algo ali).
+// CÍRCULO DAS ESSÊNCIAS (2026-10-25) — o seletor de Essências Elementais do
+// conjurador Anima (na aba MAGIAS), no lugar dos dropdowns: as 12 essências do
+// Ciclo Elemental num anel (Adepta) e o anel das Experientes por fora. Cada
+// anel só aparece quando o herói pode escolher nele (ou já tem algo ali). O
+// anel Mestre (compostas entre duas vizinhas) fica pra quando as notas
+// existirem — até lá a escolha Mestre segue no dropdown da habilidade.
 // Regras de quem abre: rules/roda-essencias.ts. O pick grava pelo MESMO
 // writeChoicePick dos dropdowns (o FM não muda de forma).
 import { useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../../data/CatalogContext'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { fmPath, listaEntries, wikiTarget } from './hero-model'
-import { ELEMENTO_COR, elementoEmoji } from './registry'
+import { ELEMENTO_COR, ELEMENTO_SIMBOLO } from './registry'
 import { clip } from './bits'
 import { useNamedDocs } from './useNamedDocs'
 import {
@@ -40,7 +42,7 @@ export function tierDaEscolha(c: HabChoice): Tier | null {
 
 const escolhido = (c: HabChoice) => !!c.pick && c.source !== 'default' && c.source !== 'none'
 
-const TIERS: Tier[] = ['A', 'E', 'M']
+const TIERS: Tier[] = ['A', 'E']
 const R: Record<Tier, number> = { A: 150, E: 207, M: 254 }
 const NO_R: Record<Tier, number> = { A: 25, E: 11, M: 15 }
 const R_MARCA = 86
@@ -58,16 +60,23 @@ function nomeCurto(base: string): string {
 
 export function RodaEssencias({
   fm,
+  fmSalvo,
   choices,
   edit,
   onPick,
+  onRemover,
   onOpen,
 }: {
   /** FM DERIVADO (o que o herói tem, de qualquer fonte). */
   fm: Record<string, unknown>
+  /** FM SALVO: picks gravados de escolhas ainda NÃO liberadas no nível (ficha
+   *  adiantada) aparecem e podem ser desfeitos. */
+  fmSalvo: Record<string, unknown>
   choices: RodaChoice[]
   edit: boolean
   onPick: (parent: string, choice: HabChoice, wl: string) => void
+  /** Apaga do FM salvo a linha `Escolha` da essência (alvo sem escolha ativa). */
+  onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
 }) {
   const catalog = useCatalog()
@@ -75,44 +84,64 @@ export function RodaEssencias({
   const roda = useMemo(() => rodaDoCatalogo(catalog, hubDoc?.frontmatter), [catalog, hubDoc])
   const [foco, setFoco] = useState<{ base: string; tier: Tier } | null>(null)
   if (!roda) return null
-  return <Roda roda={roda} fm={fm} choices={choices} edit={edit} onPick={onPick} onOpen={onOpen} foco={foco} setFoco={setFoco} />
+  return (
+    <Roda
+      roda={roda}
+      fm={fm}
+      fmSalvo={fmSalvo}
+      choices={choices}
+      edit={edit}
+      onPick={onPick}
+      onRemover={onRemover}
+      onOpen={onOpen}
+      foco={foco}
+      setFoco={setFoco}
+    />
+  )
 }
 
 function Roda({
   roda,
   fm,
+  fmSalvo,
   choices,
   edit,
   onPick,
+  onRemover,
   onOpen,
   foco,
   setFoco,
 }: {
   roda: RodaDef
   fm: Record<string, unknown>
+  fmSalvo: Record<string, unknown>
   choices: RodaChoice[]
   edit: boolean
   onPick: (parent: string, choice: HabChoice, wl: string) => void
+  onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
   foco: { base: string; tier: Tier } | null
   setFoco: (f: { base: string; tier: Tier } | null) => void
 }) {
   const sintonia = elementoDaSintonia(fm['Sintonia'])
-  const pais = new Set(choices.map((c) => c.parent))
   const porTier = (t: Tier) => choices.filter((c) => tierDaEscolha(c) === t)
 
-  // O que o herói TEM: picks gravados das escolhas da roda + essências que
-  // vieram de outra fonte (regra fixa, técnica Essência Adicional, …).
+  // O que o herói TEM: picks gravados das escolhas + toda essência da lista de
+  // Habilidades (derivada e salva — inclui picks de escolhas de nível acima do
+  // atual e as que vieram de outra fonte: regra fixa, Essência Adicional, …).
   const tem: Record<Tier, Set<string>> = { A: new Set(), E: new Set(), M: new Set() }
   for (const c of choices) {
     const e = escolhido(c) ? parseEssencia(String(c.pick)) : null
     if (e) tem[e.tier].add(e.base)
   }
-  for (const e of listaEntries(fmPath(fm, 'Habilidades', 'Lista'))) {
-    if (e.fonte.kind === 'Escolha' && pais.has(e.fonte.target)) continue
+  const salvas = listaEntries(fmPath(fmSalvo, 'Habilidades', 'Lista'))
+  for (const e of [...listaEntries(fmPath(fm, 'Habilidades', 'Lista')), ...salvas]) {
     const p = parseEssencia(e.target)
     if (p) tem[p.tier].add(p.base)
   }
+  /** Linha salva por ESCOLHA (removível) da essência sem escolha ativa. */
+  const linhaSalva = (base: string, t: Tier) =>
+    salvas.some((e) => e.fonte.kind === 'Escolha' && e.target === `${base} ${SUFIXO_TIER[t]}`)
   const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true })
 
   const wlDe = (base: string, t: Tier) => `[[${base} ${SUFIXO_TIER[t]}]]`
@@ -128,7 +157,7 @@ function Roda({
   const visivel: Record<Tier, boolean> = {
     A: porTier('A').length > 0 || tem.A.size > 0,
     E: porTier('E').length > 0 || tem.E.size > 0,
-    M: porTier('M').length > 0 || tem.M.size > 0,
+    M: false,
   }
   const vagas = (t: Tier) => porTier(t).filter((c) => !escolhido(c)).length
 
@@ -162,6 +191,7 @@ function Roda({
     } else if (s === 'tem') {
       const c = escolhaDe(base, t)
       if (c) onPick(c.parent, c, '')
+      else if (linhaSalva(base, t)) onRemover(`${base} ${SUFIXO_TIER[t]}`)
     }
   }
   const tecla = (base: string, t: Tier) => (e: KeyboardEvent) => {
@@ -308,7 +338,7 @@ function Roda({
     >
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '.14em', color: 'var(--accent)' }}>
-          {`// ${reskinUpper('Roda das Essências')}`}
+          {`// ${reskinUpper('Círculo das Essências')}`}
         </span>
         <span style={{ flex: 1 }} />
         {TIERS.filter((t) => visivel[t]).map((t) => (
@@ -334,7 +364,7 @@ function Roda({
         width="100%"
         style={{ maxWidth: 520, alignSelf: 'center', display: 'block', overflow: 'visible' }}
         role="group"
-        aria-label={reskinText('Roda das Essências')}
+        aria-label={reskinText('Círculo das Essências')}
       >
         <defs>
           <radialGradient id="roda-brilho">
@@ -361,6 +391,25 @@ function Roda({
           const c = roda.ordem[(i + 1) % n]!
           const ambos = tem.A.has(b) && tem.A.has(c)
           const meio = (tem.A.has(b) && st(c, 'A') === 'livre') || (tem.A.has(c) && st(b, 'A') === 'livre')
+          // Caminho que ENTRA no elemento oposto: não existe — X no lugar da linha.
+          const opB = st(b, 'A') === 'oposto'
+          const opC = st(c, 'A') === 'oposto'
+          if (opB || opC) {
+            const x = pt(R.A, ang(i + 0.5))
+            return (
+              <g key={`arco-${b}`} data-roda-corte={opB !== opC ? `${b}|${c}` : undefined}>
+                <path d={arco(i, 'A')} fill="none" stroke="var(--line)" strokeWidth={1} strokeDasharray="2 5" />
+                {opB !== opC ? (
+                  <path
+                    d={`M${x.x - 6},${x.y - 6} L${x.x + 6},${x.y + 6} M${x.x + 6},${x.y - 6} L${x.x - 6},${x.y + 6}`}
+                    stroke="var(--red)"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                  />
+                ) : null}
+              </g>
+            )
+          }
           return (
             <path
               key={`arco-${b}`}
@@ -385,10 +434,8 @@ function Roda({
             <g key={`marca-${p}`}>
               <line x1={c0.x} y1={c0.y} x2={m.x} y2={m.y} stroke="var(--line2)" strokeWidth={1} />
               <line x1={m.x} y1={m.y} x2={a.x} y2={a.y} stroke={tem.A.has(p) ? corDe(p) : 'var(--line2)'} strokeWidth={tem.A.has(p) ? 2.4 : 1.2} />
-              <circle cx={m.x} cy={m.y} r={13} fill="var(--panel)" stroke={corDe(p)} strokeWidth={daSintonia ? 2.6 : 1.2} />
-              <text x={m.x} y={m.y + 0.5} textAnchor="middle" dominantBaseline="central" style={{ fontSize: 12, pointerEvents: 'none' }}>
-                {elementoEmoji(el)}
-              </text>
+              {daSintonia ? <circle cx={m.x} cy={m.y} r={18} fill="none" stroke={corDe(p)} strokeWidth={1.4} opacity={0.6} /> : null}
+              <SimboloElemento elemento={el} x={m.x} y={m.y} r={14} />
             </g>
           )
         })}
@@ -455,7 +502,12 @@ function Roda({
         <Legenda cor="var(--muted)" apagado x>OPOSTA</Legenda>
         {sintonia ? (
           <span>
-            {`${elementoEmoji(sintonia)} PURA DA ${reskinUpper('Sintonia')}: ${nomeCurto([...roda.puras].find((p) => roda.elemento[p] === sintonia) ?? '').toUpperCase()}`}
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <svg width={14} height={14} viewBox="-8 -8 16 16" aria-hidden>
+                <SimboloElemento elemento={sintonia} x={0} y={0} r={7.5} />
+              </svg>
+              {`PURA DA ${reskinUpper('Sintonia')}: ${nomeCurto([...roda.puras].find((p) => roda.elemento[p] === sintonia) ?? '').toUpperCase()}`}
+            </span>
           </span>
         ) : (
           <span style={{ color: 'var(--red)' }}>{`ESCOLHA A ${reskinUpper('Sintonia')} PRIMEIRO`}</span>
@@ -474,5 +526,27 @@ function Legenda({ cor, cheio, apagado, x, children }: { cor: string; cheio?: bo
       </svg>
       {children}
     </span>
+  )
+}
+
+/** Disco do elemento com o símbolo alquímico (△ fogo, ▽ água, ▽ com barra
+ *  terra, △ com barra vento) — registro ELEMENTO_SIMBOLO. */
+function SimboloElemento({ elemento, x, y, r }: { elemento: string; x: number; y: number; r: number }) {
+  const s = ELEMENTO_SIMBOLO[elemento]
+  const cor = ELEMENTO_COR[elemento] ?? ELEMENTO_COR.Universal!
+  const t = r * 0.56
+  const cima = s?.ponta !== 'baixo'
+  const pts = cima
+    ? [`${x},${y - t}`, `${x - t},${y + t * 0.75}`, `${x + t},${y + t * 0.75}`]
+    : [`${x},${y + t}`, `${x - t},${y - t * 0.75}`, `${x + t},${y - t * 0.75}`]
+  // barra horizontal a 1/3 da base (terra: perto do topo; vento: perto da base)
+  const by = cima ? y + t * 0.2 : y - t * 0.2
+  const bw = t * 0.62
+  return (
+    <g data-simbolo-elemento={elemento} style={{ pointerEvents: 'none' }}>
+      <circle cx={x} cy={y} r={r} fill={cor} stroke="rgba(0,0,0,.35)" strokeWidth={1} />
+      <polygon points={pts.join(' ')} fill="none" stroke={s?.tinta ?? '#fff'} strokeWidth={r / 6.5} strokeLinejoin="round" />
+      {s?.barra ? <line x1={x - bw} y1={by} x2={x + bw} y2={by} stroke={s.tinta} strokeWidth={r / 6.5} /> : null}
+    </g>
   )
 }

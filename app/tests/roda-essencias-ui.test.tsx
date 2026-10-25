@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { DetailProvider } from '../src/data/detail-context'
-import { HabilidadesArvorePanel } from '../src/components/ficha/HabilidadesTab'
+import { MagiasHabPanel } from '../src/components/ficha/HabilidadesTab'
 import { useHeroRefs } from '../src/components/ficha/useHeroRefs'
 import type { VaultDoc } from '../src/data/types'
 import { TipProvider } from '../src/components/ficha/tooltips'
@@ -61,7 +61,7 @@ afterEach(cleanup)
 
 function Painel({ doc }: { doc: VaultDoc }) {
   const refs = useHeroRefs(doc)
-  return <HabilidadesArvorePanel doc={doc} refs={refs} forceEdit />
+  return <MagiasHabPanel doc={doc} refs={refs} forceEdit />
 }
 
 function renderHeroi(extra: Record<string, unknown>) {
@@ -104,8 +104,11 @@ describe('Roda das Essências', () => {
     expect(estado('A:Essência Explosiva')).toBe('livre')
     expect(estado('A:Essência Incendiária')).toBe('livre')
     expect(estado('A:Essência Mineral')).toBe('fechado')
-    // os dropdowns de essência saíram da árvore
-    expect(screen.queryByLabelText('Essência Elemental Adepta')).toBeNull()
+    // ligações que ENTRAM no elemento oposto (Água pro Fogo) viram X
+    const cortes = [...document.querySelectorAll('[data-roda-corte]')].map((n) => n.getAttribute('data-roda-corte')).sort()
+    expect(cortes).toEqual(['Essência Congelante|Essência Ciclonal', 'Essência Enraizante|Essência Torrencial'])
+    // símbolos alquímicos (não emoji) nas marcas de elemento
+    expect(document.querySelectorAll('[data-simbolo-elemento]').length).toBeGreaterThanOrEqual(4)
   }, 40000)
 
   it('nível 4: o anel das Experientes aparece', async () => {
@@ -117,5 +120,15 @@ describe('Roda das Essências', () => {
     await waitFor(() => expect(estado('E:Essência Flamejante')).toBe('livre'), { timeout: 15000 })
     expect(estado('E:Essência Explosiva')).toBe('fechado')
     expect(no('M:Essência Flamejante')).toBeNull()
+  }, 40000)
+
+  it('desfazer uma essência escolhida (ficha real)', async () => {
+    const fx = JSON.parse(fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/heroi-adiantado-animista.json'), 'utf8'))
+    const id = renderHeroi(fx.frontmatter)
+    await waitFor(() => expect(estado('A:Essência Sísmica')).toBe('tem'), { timeout: 15000 })
+    fireEvent.click(no('A:Essência Sísmica')!)
+    await waitFor(() => expect(estado('A:Essência Sísmica')).not.toBe('tem'), { timeout: 15000 })
+    const lista = JSON.stringify((getLocalDoc(id)!.frontmatter['Habilidades'] as any).Lista)
+    expect(lista).not.toContain('Essência Sísmica Adepta')
   }, 40000)
 })

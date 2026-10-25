@@ -74,6 +74,15 @@ function renderHero(id: string) {
   )
 }
 
+/** Entra no Alterar do painel "Magias" (onde mora o Círculo das Essências). */
+async function abrirMagias() {
+  await waitFor(() => {
+    const h = screen.getAllByText('Magias').find((el) => el.parentElement && within(el.parentElement).queryByText('✎ Alterar'))
+    expect(h).toBeTruthy()
+    fireEvent.click(within(h!.parentElement!).getByText('✎ Alterar'))
+  }, { timeout: 15000 })
+}
+
 describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)', () => {
   // 2026-10-25: as essências saíram dos dropdowns pra RODA DAS ESSÊNCIAS — o
   // pick é um clique no nó do ciclo (data-roda-no="A:Essência X").
@@ -84,11 +93,10 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
     setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
 
-    // 1. Alterar no painel Habilidades
-    const heading = await screen.findByText('Habilidades')
-    fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
+    // 1. Alterar no painel Magias (Círculo das Essências)
+    await abrirMagias()
 
-    // 2. a roda aparece com a pura da sintonia acesa (rules resolvidas)
+    // 2. o círculo aparece com a pura da sintonia acesa (rules resolvidas)
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
     await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('livre'), {
       timeout: 8000,
@@ -122,8 +130,7 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
     setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
-    const heading = await screen.findByText('Habilidades')
-    fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
+    await abrirMagias()
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
     const contador = () => document.querySelector('[data-roda-contador="A"]')?.textContent
     await waitFor(() => expect(contador()).toMatch(/0\/\d/), { timeout: 8000 })

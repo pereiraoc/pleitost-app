@@ -79,6 +79,15 @@ async function abrirHabilidades() {
   fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
 }
 
+/** Entra no Alterar do painel "Magias" (onde mora o Círculo das Essências). */
+async function abrirMagias() {
+  await waitFor(() => {
+    const h = screen.getAllByText('Magias').find((el) => el.parentElement && within(el.parentElement).queryByText('✎ Alterar'))
+    expect(h).toBeTruthy()
+    fireEvent.click(within(h!.parentElement!).getByText('✎ Alterar'))
+  }, { timeout: 15000 })
+}
+
 describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
   it('sanidade: Zuko tem Escolha.01..04 com essências distintas no FM', () => {
     const hab = JSON.stringify(zuko.frontmatter.Habilidades ?? {})
@@ -99,7 +108,7 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
   // 2026-10-25: essências na RODA (data-roda-no) em vez de dropdowns.
   it('a roda mostra as essências DISTINTAS do Zuko (resolução por Escolha.NN)', async () => {
     renderZuko()
-    await abrirHabilidades()
+    await abrirMagias()
     await waitFor(() => expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBeGreaterThanOrEqual(4))
     const tem = [...document.querySelectorAll('[data-roda-estado="tem"]')].map((n) => n.getAttribute('data-roda-no'))
     expect(new Set(tem).size).toBe(tem.length)
@@ -108,7 +117,7 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
 
   it('desfazer UMA essência preserva as irmãs (grava Escolha.NN indexado)', async () => {
     renderZuko()
-    await abrirHabilidades()
+    await abrirMagias()
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
     await waitFor(() => expect(no('A:Essência Ciclonal')?.getAttribute('data-roda-estado')).toBe('tem'))
     fireEvent.click(no('A:Essência Ciclonal')!) // desfaz

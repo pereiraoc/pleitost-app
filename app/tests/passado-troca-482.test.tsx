@@ -92,13 +92,18 @@ const rowsDe = (id: string) =>
     Lista: Record<string, unknown>[]
   }).Lista
 
+/** Troca de passado como o jogador faz: entra no campo, digita, sai. */
+function trocarPassado(el: HTMLElement, v: string) {
+  fireEvent.focus(el)
+  fireEvent.change(el, { target: { value: v } })
+  fireEvent.blur(el)
+}
+
 describe('#482 — trocar o passado reseta o benefício', () => {
   it('editar o texto do PASSADO tira o incremento Passado; ranks de Slot ficam', async () => {
     const id = heroiComPassado()
     renderBox(id)
-    fireEvent.change(await screen.findByLabelText('PASSADO'), {
-      target: { value: 'Cuidador de Ovelhas' },
-    })
+    trocarPassado(await screen.findByLabelText('PASSADO'), 'Cuidador de Ovelhas')
     const rows = rowsDe(id)
     const diplomacia = rows.find((r) => String(r['Nome']).includes('Diplomacia'))!
     expect(JSON.stringify(diplomacia['Incrementos'])).not.toContain('Passado')
@@ -112,18 +117,29 @@ describe('#482 — trocar o passado reseta o benefício', () => {
       { Nome: '[[Furtividade]]', Proficiencia: 'A', Incrementos: [{ A: 'Passado' }] },
     ])
     renderBox(id)
-    fireEvent.change(await screen.findByLabelText('PASSADO'), { target: { value: 'Eremita' } })
+    trocarPassado(await screen.findByLabelText('PASSADO'), 'Eremita')
     const furtividade = rowsDe(id)[0]!
     expect(JSON.stringify(furtividade['Incrementos'])).not.toContain('Passado')
     expect(furtividade['Proficiencia']).toBe('N')
   })
 
+  it('escrever o passado DEPOIS de escolher perícia/ofício não apaga nada (report 2026-10-25)', async () => {
+    const id = createLocalEntity('Heroi', 'Zé Novo', emptyHeroFrontmatter())
+    setLocalEntityFm(id, 'Pericias.Lista', [
+      { Nome: '[[Furtividade]]', Proficiencia: 'A', Incrementos: [{ A: 'Passado' }] },
+    ])
+    renderBox(id)
+    const campo = await screen.findByLabelText('PASSADO')
+    fireEvent.focus(campo)
+    for (const v of ['V', 'Vi', 'Vig', 'Vigia']) fireEvent.change(campo, { target: { value: v } })
+    fireEvent.blur(campo)
+    expect(JSON.stringify(rowsDe(id)[0]!['Incrementos'])).toContain('Passado')
+  })
+
   it('digitar o MESMO passado (sem troca real) não mexe em nada', async () => {
     const id = heroiComPassado()
     renderBox(id)
-    fireEvent.change(await screen.findByLabelText('PASSADO'), {
-      target: { value: 'Falso Profeta' },
-    })
+    trocarPassado(await screen.findByLabelText('PASSADO'), 'Falso Profeta')
     const diplomacia = rowsDe(id).find((r) => String(r['Nome']).includes('Diplomacia'))!
     expect(JSON.stringify(diplomacia['Incrementos'])).toContain('Passado')
   })
