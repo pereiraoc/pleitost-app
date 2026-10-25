@@ -62,7 +62,10 @@ import {
   ondeAnda,
   terrenoDoHex,
   type ViagemCfg,
+  passagemPorPessoa,
+  passagemDaViagem,
 } from './viagem'
+import { formatMoeda } from '../data/moeda'
 import { useTerrenoMundo } from './terreno-mundo'
 import {
   BotaoModificadores,
@@ -472,7 +475,7 @@ function MeioMenu({
     ...cfg.meios.map((m) => ({
       nome: m.nome,
       rotulo: `${m.icone} ${m.nome}`,
-      dica: `${m.instantaneo ? 'instantâneo (0 dias)' : `${m.hexPorDia} hex/dia`} · ${ondeAnda(cfg, m.nome)}`,
+      dica: `${m.instantaneo ? 'instantâneo (0 dias)' : `${m.hexPorDia} hex/dia`} · ${ondeAnda(cfg, m.nome)}${m.poPorDia ? ` · ${formatMoeda(m.poPorDia)}/dia por pessoa` : ''}`,
     })),
   ]
   const aqui = alvo === 'trecho' ? 'deste trecho' : 'deste passo'
@@ -635,6 +638,8 @@ function LeftBar({
         : null,
     [viagemCfg, state.hexes, terrenoDe, rotaDe],
   )
+  // PASSAGEM (2026-10-25): PO por pessoa dos meios pagos (`poPorDia`).
+  const passagemTotal = viagem && viagemCfg ? passagemDaViagem(viagemCfg, viagem) : 0
   // Menu do meio do trecho aberto (id da parada de chegada); fecha com
   // Escape, clique fora ou ao sair do EDITAR.
   // `onde`: aberto pela linha da PARADA de chegada ou pela ROTA (N HEX) que
@@ -704,10 +709,12 @@ function LeftBar({
     const t = viagem?.trechos.get(idx)
     if (!t || !viagemCfg) return null
     const bloq = t.bloqueios.length > 0
+    const passagem = bloq ? 0 : passagemPorPessoa(viagemCfg, t.partes)
     const title = bloq
       ? `Sem meio possível em: ${t.bloqueios.map((b) => `hex ${b.col},${b.row} (${nomeTerreno(b.terreno)})`).join(' · ')}`
       : [
           `Desde a parada anterior: ${formatarDias(t.dias)}`,
+          ...(passagem > 0 ? [`Passagem: ${formatMoeda(passagem)} por pessoa`] : []),
           ...t.partes.map(
             (p) =>
               `${iconeDoMeio(viagemCfg, p.meio)} ${p.meio}${
@@ -732,6 +739,7 @@ function LeftBar({
       >
         {bloq ? '⚠ ' : ''}
         {`${icones(t.meios)} ${formatarDias(t.dias)}`}
+        {passagem > 0 ? <span data-viagem-passagem="" style={{ color: 'var(--gold)' }}>{` · ${formatMoeda(passagem)}/pessoa`}</span> : null}
       </span>
     )
   }
@@ -1271,7 +1279,13 @@ function LeftBar({
           <span
             data-viagem-total=""
             {...(viagem.bloqueado ? { 'data-viagem-bloqueado': '' } : {})}
-              title={viagem.bloqueado ? 'Algum trecho não tem meio possível (⚠ na parada)' : 'Tempo total da trilha'}
+              title={
+                viagem.bloqueado
+                  ? 'Algum trecho não tem meio possível (⚠ na parada)'
+                  : passagemTotal > 0
+                    ? `Tempo total da trilha · passagem ${formatMoeda(passagemTotal)} por pessoa (Caravana/Barco; a pé e a cavalo não custam)`
+                    : 'Tempo total da trilha'
+              }
             style={{
               flex: 'none',
               fontFamily: 'var(--mono)',
@@ -1282,6 +1296,9 @@ function LeftBar({
           >
             {viagem.bloqueado ? '⚠ ' : ''}
             {formatarDias(viagem.total)}
+            {!viagem.bloqueado && passagemTotal > 0 ? (
+              <span data-viagem-passagem-total="" style={{ color: 'var(--gold)' }}>{` · ${formatMoeda(passagemTotal)}/pessoa`}</span>
+            ) : null}
           </span>
         ) : null}
       </div>

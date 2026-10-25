@@ -207,6 +207,7 @@ export function renderContextoDoc(contexto, typeByBasename) {
         m.instantaneo === true ? "instantâneo (0 dias)" : `${m.hex_por_dia} hex/dia`,
         m.so_em_rota ? `só com ${rot[m.so_em_rota]?.nome ?? m.so_em_rota}` : (m.em ?? []).map(nomeDe).join(", "),
         m.costa === true ? "costa" : "",
+        Number(m.po_por_dia) > 0 ? `${m.po_por_dia} PO/dia por pessoa` : "",
         m.padrao === true ? "padrão do grupo" : "",
         Array.isArray(m.antigos) && m.antigos.length ? `antes: ${m.antigos.join(", ")}` : "",
       ].filter(Boolean).join(" · "),

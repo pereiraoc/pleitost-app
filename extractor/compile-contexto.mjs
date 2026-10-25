@@ -421,6 +421,13 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
           if (!chavesRotas.has(soEmRota)) problems.push(`viagem.meios: "${nome}" so_em_rota "${soEmRota}" não é rota declarada`);
         }
         if (m.costa !== undefined && typeof m.costa !== "boolean") problems.push(`viagem.meios: "${nome}" costa esperado true/false`);
+        // po_por_dia (2026-10-25): passagem paga por PESSOA por dia de viagem
+        // (Caravana 1, Barco 2); ausente = 0 (a pé/cavalo são do próprio herói)
+        let poPorDia = 0;
+        if (m.po_por_dia !== undefined && m.po_por_dia !== null) {
+          poPorDia = Number(m.po_por_dia);
+          if (!(Number.isFinite(poPorDia) && poPorDia >= 0)) { problems.push(`viagem.meios: "${nome}" po_por_dia esperado número >= 0`); poPorDia = 0; }
+        }
         let antigos = null;
         if (m.antigos !== undefined && m.antigos !== null) {
           if (!Array.isArray(m.antigos) || m.antigos.some((x) => typeof x !== "string" || !x.trim())) problems.push(`viagem.meios: "${nome}" antigos esperado lista de nomes`);
@@ -443,6 +450,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
           ...(m.costa === true ? { costa: true } : {}),
           ...(antigos ? { antigos } : {}),
           ...(instantaneo ? { instantaneo: true } : {}),
+          ...(poPorDia > 0 ? { poPorDia } : {}),
         });
       }
     }

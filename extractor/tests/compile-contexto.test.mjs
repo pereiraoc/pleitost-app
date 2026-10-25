@@ -400,8 +400,8 @@ const VIAGEM_OK = {
   meios: [
     { nome: "A pé", icone: "🚶", padrao: true, hex_por_dia: 2, em: ["normal", "dificil", "muito_dificil"], costa: true },
     { nome: "Cavalo", icone: "🐎", hex_por_dia: 3, em: ["normal", "dificil"] },
-    { nome: "Caravana", icone: "🐪", padrao: true, hex_por_dia: 4, em: ["normal", "dificil", "muito_dificil"], so_em_rota: "estrada", antigos: ["Carruagem"] },
-    { nome: "Barco", icone: "⛵", padrao: true, hex_por_dia: 5, em: ["mar"], costa: true, antigos: ["Navio"] },
+    { nome: "Caravana", icone: "🐪", padrao: true, hex_por_dia: 4, em: ["normal", "dificil", "muito_dificil"], so_em_rota: "estrada", po_por_dia: 1, antigos: ["Carruagem"] },
+    { nome: "Barco", icone: "⛵", padrao: true, hex_por_dia: 5, em: ["mar"], costa: true, po_por_dia: 2, antigos: ["Navio"] },
   ],
 };
 
@@ -422,8 +422,8 @@ test("viagem: compila terrenos (ordem do FM), rotas e meios", () => {
     meios: [
       { nome: "A pé", icone: "🚶", padrao: true, hexPorDia: 2, em: ["normal", "dificil", "muito_dificil"], costa: true },
       { nome: "Cavalo", icone: "🐎", padrao: false, hexPorDia: 3, em: ["normal", "dificil"] },
-      { nome: "Caravana", icone: "🐪", padrao: true, hexPorDia: 4, em: ["normal", "dificil", "muito_dificil"], soEmRota: "estrada", antigos: ["Carruagem"] },
-      { nome: "Barco", icone: "⛵", padrao: true, hexPorDia: 5, em: ["mar"], costa: true, antigos: ["Navio"] },
+      { nome: "Caravana", icone: "🐪", padrao: true, hexPorDia: 4, em: ["normal", "dificil", "muito_dificil"], soEmRota: "estrada", antigos: ["Carruagem"], poPorDia: 1 },
+      { nome: "Barco", icone: "⛵", padrao: true, hexPorDia: 5, em: ["mar"], costa: true, antigos: ["Navio"], poPorDia: 2 },
     ],
   });
   assert.equal("viagem" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES, typeByBasename: new Map() }), false);
@@ -438,6 +438,7 @@ test("viagem: def inválida quebra o extract", () => {
   const run = (viagem) => () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ viagem }), defBase()], basenames: BASENAMES, typeByBasename: new Map() });
   const T = VIAGEM_OK.terrenos;
   assert.throws(run({ ...VIAGEM_OK, padrao: "pantano" }), /viagem\.padrao: "pantano"/);
+  assert.throws(run({ ...VIAGEM_OK, meios: VIAGEM_OK.meios.map((m) => (m.nome === "Barco" ? { ...m, po_por_dia: -1 } : m)) }), /"Barco" po_por_dia/);
   assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Balão", hex_por_dia: 3, em: ["ceu"] }] }), /viagem\.meios: "Balão" em terreno "ceu"/);
   assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Lesma", hex_por_dia: 0, em: ["normal"] }] }), /viagem\.meios: "Lesma" hex_por_dia/);
   assert.throws(run({ ...VIAGEM_OK, meios: [{ nome: "Velho", fator: 2, em: ["normal"] }] }), /viagem\.meios: "Velho" hex_por_dia/);
@@ -487,8 +488,8 @@ test("viagem: o bloco auto renderiza a tabela de terrenos, de rotas e de meios",
   assert.match(bloco, /\| Rota marítima \(`rota_maritima`\) \| \+1 hex\/dia pra Barco \|/);
   assert.match(bloco, /#### Viagem: meios de transporte \(hex por dia\)/);
   assert.match(bloco, /\| 🐎 Cavalo \| 3 hex\/dia · Gramado, Difícil \|/);
-  assert.match(bloco, /\| 🐪 Caravana \| 4 hex\/dia · só com Estrada · padrão do grupo · antes: Carruagem \|/);
-  assert.match(bloco, /\| ⛵ Barco \| 5 hex\/dia · Mar · costa · padrão do grupo · antes: Navio \|/);
+  assert.match(bloco, /\| 🐪 Caravana \| 4 hex\/dia · só com Estrada · 1 PO\/dia por pessoa · padrão do grupo · antes: Carruagem \|/);
+  assert.match(bloco, /\| ⛵ Barco \| 5 hex\/dia · Mar · costa · 2 PO\/dia por pessoa · padrão do grupo · antes: Navio \|/);
   assert.match(bloco, /\| 🚶 A pé \| 2 hex\/dia · Gramado, Difícil, Montanha · costa · padrão do grupo \|/);
 });
 

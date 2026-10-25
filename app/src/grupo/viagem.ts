@@ -581,3 +581,22 @@ export function formatarDias(d: number): string {
   const r = Math.round(d * 10) / 10
   return `${String(r).replace('.', ',')} ${unidade(r)}`
 }
+
+/** PASSAGEM (2026-10-25): PO por PESSOA de um trecho — Σ dias × `poPorDia`
+ *  do meio (Caravana, Barco; a pé/cavalo = 0, são do herói). Dia começado é
+ *  dia pago: arredonda o trecho pra cima. */
+export function passagemPorPessoa(cfg: ViagemCfg, partes: { meio: string; dias: number }[]): number {
+  let po = 0
+  for (const p of partes) {
+    const n = resolverMeio(cfg, p.meio)
+    po += p.dias * (cfg.meios.find((m) => m.nome === n)?.poPorDia ?? 0)
+  }
+  return po > 1e-6 ? Math.ceil(po - 1e-6) : 0
+}
+
+/** Passagem por pessoa da trilha inteira: soma dos trechos entre paradas. */
+export function passagemDaViagem(cfg: ViagemCfg, v: Viagem): number {
+  let po = 0
+  for (const t of v.trechos.values()) po += passagemPorPessoa(cfg, t.partes)
+  return po
+}

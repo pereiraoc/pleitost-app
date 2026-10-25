@@ -52,6 +52,9 @@ export interface ViagemCfg {
     /** Meio INSTANTÂNEO (Portal): 0 dias em qualquer passo de `em`, sem
      *  costa nem rota; `hexPorDia` não se aplica (0). */
     instantaneo?: boolean
+    /** Passagem paga por PESSOA por dia de viagem nesse meio, na moeda base
+     *  (PO). Ausente = 0 (montaria/pernas do próprio herói). */
+    poPorDia?: number
   }[]
   /** Basename da nota com o FM `Terreno` (base) e `Rotas` (chave → lista de
    *  "col,row" na grade da trilha) — dado do MUNDO, pintado no Modo Dev.
