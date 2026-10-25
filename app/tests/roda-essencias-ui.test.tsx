@@ -183,5 +183,13 @@ describe('Roda das Essências', () => {
     expect(estado('A:Essência Flamejante')).toBe('oposto')
     expect(contador('A')).toContain('0/1')
     expect(document.querySelectorAll('[data-roda-corda]').length).toBe(0)
+    // destaque FORTE só no elemento da sintonia; o outro do círculo, discreto
+    const destaque = (el: string) => document.querySelector(`[data-roda-marca="${el}"]`)?.getAttribute('data-roda-destaque')
+    expect(destaque('Água')).toBe('forte')
+    expect(destaque('Terra')).toBe('fraco')
+    expect(destaque('Fogo')).toBeNull()
+    // a ligação acesa entre dois elementos vira de uma cor na outra
+    const arco = document.querySelector('[data-roda-arco="Essência Enraizante|Essência Torrencial"]')
+    expect(arco?.getAttribute('stroke')).toMatch(/^url\(#roda.*-arco-\d+\)$/)
   }, 40000)
 })

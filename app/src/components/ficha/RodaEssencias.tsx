@@ -6,7 +6,7 @@
 // na linha MENOR do Treinamento de Animista) e grava em `Habilidades.Lista`
 // com a fonte `Slot.<rank>` (rules/essencia-slots.ts). Regras de quem abre:
 // rules/roda-essencias.ts.
-import { useMemo, useState, type KeyboardEvent } from 'react'
+import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../../data/CatalogContext'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { fmPath, listaEntries, type ListaEntry } from './hero-model'
@@ -142,6 +142,8 @@ function Roda({
   foco: { base: string; tier: Tier } | null
   setFoco: (f: { base: string; tier: Tier } | null) => void
 }) {
+  // id dos gradientes por instância (Círculo principal e Menor na mesma tela)
+  const uid = `roda${useId().replace(/[^a-zA-Z0-9]/g, '')}`
   const sintonia = elementoDaSintonia(fm['Sintonia'])
   const parse = (nome: string) => (menor ? parseEssenciaMenor(nome) : parseEssencia(nome))
 
@@ -209,6 +211,9 @@ function Roda({
   const foraDoCirculo = (el: string | undefined) =>
     !!el && (elementos ? !elementos.includes(el) : el === opostoSint)
   const emEvidencia = (el: string | undefined) => !!el && (elementos ? elementos.includes(el) : el === sintonia)
+  // Destaque FORTE só no elemento da sintonia (no Druida, o outro elemento do
+  // círculo fica em evidência discreta — não as duas iguais).
+  const daSintoniaEl = (el: string | undefined) => !!el && el === sintonia
   // INVÁLIDAS (ficha antiga ou editada por fora): marcadas pra desfazer.
   const invalidas = new Map(estado.invalidas)
   for (const [nome, motivoM] of invalidasM) invalidas.set(`M:${nome}`, motivoM)
@@ -592,7 +597,11 @@ function Roda({
             key={`f-${b}`}
             d={fatia(i, R_MARCA + 18, rMax - 4)}
             fill={foraDoCirculo(roda.elemento[b]) ? '#8f8f8f' : corDe(b)}
-            opacity={foraDoCirculo(roda.elemento[b]) ? 0.08 : tem.A.has(b) ? 0.16 : emEvidencia(roda.elemento[b]) ? 0.1 : 0.05}
+            opacity={
+              foraDoCirculo(roda.elemento[b])
+                ? 0.08
+                : (tem.A.has(b) ? 0.13 : 0.04) + (daSintoniaEl(roda.elemento[b]) ? 0.06 : emEvidencia(roda.elemento[b]) ? 0.02 : 0)
+            }
           />
         ))}
         {/* trilhos dos anéis */}
@@ -623,16 +632,31 @@ function Roda({
               />
             )
           }
+          // Aceso entre dois elementos: a cor vira de um no outro na fronteira
+          // das fatias (meio do arco) — cada quadrante com a sua cor.
+          const gradiente = ambos && corDe(b) !== corDe(c)
+          const g0 = pt(R.A, ang(i))
+          const g1 = pt(R.A, ang(i + 1))
           return (
+            <g key={`arco-${b}`}>
+              {gradiente ? (
+                <defs>
+                  <linearGradient id={`${uid}-arco-${i}`} gradientUnits="userSpaceOnUse" x1={g0.x} y1={g0.y} x2={g1.x} y2={g1.y}>
+                    <stop offset="0.3" stopColor={corDe(b)} />
+                    <stop offset="0.7" stopColor={corDe(c)} />
+                  </linearGradient>
+                </defs>
+              ) : null}
             <path
-              key={`arco-${b}`}
+              data-roda-arco={`${b}|${c}`}
               d={arco(i, 'A')}
               fill="none"
-              stroke={ambos ? corDe(b) : meio && edit ? 'var(--accent)' : 'var(--line2)'}
+              stroke={gradiente ? `url(#${uid}-arco-${i})` : ambos ? corDe(b) : meio && edit ? 'var(--accent)' : 'var(--line2)'}
               strokeWidth={ambos ? 3.4 : meio ? 1.8 : 1.1}
               strokeDasharray={meio && !ambos ? '5 4' : undefined}
               strokeLinecap="round"
             />
+            </g>
           )
         })}
         {/* disco das puras dividido na diagonal: Destruição mais escura,
@@ -657,16 +681,18 @@ function Roda({
           const el = roda.elemento[p]!
           const daSintonia = el === sintonia
           return (
-            <g key={`marca-${p}`}>
+            <g key={`marca-${p}`} data-roda-marca={el} data-roda-destaque={daSintonia ? 'forte' : emEvidencia(el) ? 'fraco' : undefined}>
               <line x1={c0.x} y1={c0.y} x2={m.x} y2={m.y} stroke="var(--line2)" strokeWidth={1} />
               <line x1={m.x} y1={m.y} x2={a.x} y2={a.y} stroke={tem.A.has(p) ? corDe(p) : 'var(--line2)'} strokeWidth={tem.A.has(p) ? 2.4 : 1.2} />
-              {emEvidencia(el) ? (
+              {daSintonia ? (
                 <>
                   <circle cx={m.x} cy={m.y} r={24} fill={corDe(p)} opacity={0.18} />
-                  <circle cx={m.x} cy={m.y} r={20} fill="none" stroke={corDe(p)} strokeWidth={1.6} opacity={daSintonia ? 0.9 : 0.6} />
+                  <circle cx={m.x} cy={m.y} r={20} fill="none" stroke={corDe(p)} strokeWidth={1.6} opacity={0.9} />
                 </>
+              ) : emEvidencia(el) ? (
+                <circle cx={m.x} cy={m.y} r={17} fill="none" stroke={corDe(p)} strokeWidth={1} opacity={0.4} />
               ) : null}
-              <SimboloElemento elemento={el} x={m.x} y={m.y} r={emEvidencia(el) ? 16 : 12} cinza={foraDoCirculo(el)} />
+              <SimboloElemento elemento={el} x={m.x} y={m.y} r={daSintonia ? 16 : emEvidencia(el) ? 13 : 12} cinza={foraDoCirculo(el)} />
             </g>
           )
         })}
