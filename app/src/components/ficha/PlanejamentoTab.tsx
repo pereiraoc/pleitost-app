@@ -26,6 +26,7 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import { useAssetIndex } from '../../data/assets'
 import {
   buildLevelTimeline,
+  ehRegistroEssencia,
   gastosRegistrados,
   nivelSincronizado,
   semRegistrosContraditos,
@@ -52,7 +53,9 @@ import { ATTR_EMOJI, magiaEmoji, rankGroupLabel, tokens, type RankLetter, type R
 import { AttrBadge, RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
-import { listEspecializacoesByPericia } from '../../rules/projection'
+import { ESCOLAS_POR_ESSENCIA, listEspecializacoesByPericia } from '../../rules/projection'
+import { ehEssencia } from '../../rules/essencia-slots'
+import { RodaEssencias } from './RodaEssencias'
 import { applyPericiaRankEdit } from '../../rules/apply-pericia-rank-edit'
 import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
@@ -650,6 +653,21 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       'Magias.Secundaria.Lista',
       removeMagiaFromEscola((fmPath(fmVivo.current, 'Magias', 'Secundaria', 'Lista') ?? []) as never, escola, alvo),
     )
+  // ESSÊNCIA (Círculo no nível): o gasto real é a linha Slot.<rank> em
+  // Habilidades.Lista — o registro é `magia` com a escola das essências.
+  const ESCOLA_ESSENCIA = [...ESCOLAS_POR_ESSENCIA][0]!
+  const savedHab = () => (fmPath(fmVivo.current, 'Habilidades', 'Lista') ?? []) as Row[]
+  const ehSlotDe = (row: Row, alvo: string) => {
+    const [k, v] = Object.entries(row)[0] ?? []
+    return !!k && wikiTarget(k) === wikiTarget(alvo) && String(v ?? '').startsWith('Slot.')
+  }
+  const temEssenciaReal = (alvo: string) => savedHab().some((row) => ehSlotDe(row, alvo))
+  const aplicaEssencia = (alvo: string, rank: RankBAEM) => {
+    if (temEssenciaReal(alvo)) return
+    escreve('Habilidades.Lista', [...savedHab(), { [`[[${wikiTarget(alvo)}]]`]: `Slot.${rank}` }])
+  }
+  const desfazEssencia = (alvo: string) =>
+    escreve('Habilidades.Lista', savedHab().filter((row) => !ehSlotDe(row, alvo)))
   const aplicaEspecialidade = (pericia: string, campo: 'Especializacao' | 'Maestria', alvo: string) => {
     const rows = savedPericias().map((r) => ({ ...r }))
     let row = rows.find((r) => String(r.Nome) === pericia)
@@ -732,6 +750,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         const tem = tecnicasAprendidas.has(alvoBase)
         if (r.nivel > sinc && r.nivel <= nivelAtual && !tem && r.rank && r.rank !== 'B') aplicaTecnica(r.alvo, r.rank)
         if (r.nivel > nivelAtual && r.nivel <= sinc && tem) desfazTecnica(r.alvo)
+      } else if (ehRegistroEssencia(r)) {
+        const tem = temEssenciaReal(r.alvo)
+        if (r.nivel > sinc && r.nivel <= nivelAtual && !tem && r.rank) aplicaEssencia(r.alvo, r.rank)
+        if (r.nivel > nivelAtual && r.nivel <= sinc && tem) desfazEssencia(r.alvo)
       } else if (r.tipo === 'magia' && r.contexto) {
         const tem = (r.sec ? magiasAprendidasSec : magiasAprendidas).has(alvoBase)
         // escola secundária ÓRFÃ (cadeia de multiclasse removida, #518):
@@ -818,13 +840,27 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           c.gastos.magias = c.gastos.magias.filter(
             (g) => !(wikiTarget(g.link) === base && g.secundaria === !!r.sec),
           )
+        const essencia = ehEssencia(base)
         card.gastos.magias.push({
           escola: r.contexto ?? '',
           link: r.alvo,
           rank: r.rank,
           secundaria: !!r.sec,
           ...(planejado ? { planejado } : {}),
+          ...(essencia ? { essencia } : {}),
         })
+        if (essencia && r.rank !== 'B')
+          for (const circ of card.circulos) {
+            if (circ.sec !== !!r.sec) continue
+            const linha = { [`[[${base}]]`]: `Slot.${r.rank}` }
+            const addLinha = (f: Record<string, unknown>) => {
+              const hab = (f['Habilidades'] as Record<string, unknown>) ?? {}
+              f['Habilidades'] = { ...hab, Lista: [...((hab['Lista'] as Row[]) ?? []), linha] }
+            }
+            addLinha(circ.fm)
+            addLinha(circ.fmSalvo)
+            circ.slots[r.rank].usados++
+          }
       } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
         // dedup como o registrar: uma instância por (tipo, alvo) — clique
         // repetido não empilha a linha (#495)
@@ -1248,6 +1284,58 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   /** Editor de MAGIAS escopado no nível — mesmo estilo das listas de magia
    *  das competências (linhas com hover; aprender por linha), por escola,
    *  limitado aos slots DESTE nível. */
+  /** Desfaz a essência do nível (ficha real, se já materializada) e o
+   *  registro — o slot do nível fica livre. */
+  const removeEssencia = (alvo: string, sec: boolean) => {
+    if (temEssenciaReal(alvo)) desfazEssencia(alvo)
+    setRegistros(pinBase().filter((x) => !casaRegistro(x, 'magia', alvo, undefined, sec)))
+    otimista((cs) => {
+      const base = wikiTarget(alvo)
+      for (const c of cs) {
+        const antes = c.gastos.magias.find((m) => wikiTarget(m.link) === base && m.secundaria === sec)
+        c.gastos.magias = c.gastos.magias.filter((m) => !(wikiTarget(m.link) === base && m.secundaria === sec))
+        for (const circ of c.circulos) {
+          if (circ.sec !== sec) continue
+          const tira = (f: Record<string, unknown>) => {
+            const hab = (f['Habilidades'] as Record<string, unknown>) ?? {}
+            f['Habilidades'] = { ...hab, Lista: ((hab['Lista'] as Row[]) ?? []).filter((row) => !ehSlotDe(row, base)) }
+          }
+          tira(circ.fm)
+          tira(circ.fmSalvo)
+          if (antes && antes.rank !== 'B') circ.slots[antes.rank].usados = Math.max(0, circ.slots[antes.rank].usados - 1)
+        }
+      }
+    })
+  }
+
+  /** CÍRCULO DAS ESSÊNCIAS do nível: só nos níveis que ganham slot A/E/M da
+   *  escola das essências; o clique registra a essência NESTE nível. */
+  const circulosDoNivel = (card: LevelCard) =>
+    card.circulos.map((circ) => (
+      <RodaEssencias
+        key={circ.sec ? 'menor' : 'principal'}
+        fm={circ.fm}
+        fmSalvo={circ.fmSalvo}
+        slots={circ.slots}
+        menor={circ.sec}
+        edit
+        onAdd={(alvo, tier) =>
+          registraEAplica(
+            {
+              nivel: card.nivel,
+              tipo: 'magia',
+              rank: tier,
+              alvo: `[[${alvo}]]`,
+              contexto: ESCOLA_ESSENCIA,
+              ...(circ.sec ? { sec: true } : {}),
+            },
+            () => aplicaEssencia(alvo, tier),
+          )
+        }
+        onRemover={(alvo) => removeEssencia(alvo, circ.sec)}
+      />
+    ))
+
   const editorMagiasNivel = (card: LevelCard) => {
     const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
       card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
@@ -1258,6 +1346,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
           {ranksComSlot.map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.magias[r]} livres`).join(' · ')}
         </div>
+        {circulosDoNivel(card)}
         {card.gastos.magias.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             <span style={kicker}>APRENDIDAS NESTE NÍVEL</span>
@@ -1268,10 +1357,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   doc={docDe(g.link)}
                   sufixo={`${g.rank} · ${reskinText(g.escola)}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                 />
-                {/* essência se desfaz no Círculo das Essências (aba Magias) */}
-                {g.essencia ? null : <button
+                <button
                   aria-label={`Remover ${linkLabelDisplay(g.link)}`}
                   onClick={() => {
+                    if (g.essencia) return removeEssencia(g.link, g.secundaria)
                     if (!g.planejado) (g.secundaria ? desfazMagiaSec : desfazMagia)(g.escola, g.link)
                     // desregistrar por instância: magia casa também o flag sec
                     setRegistros(
@@ -1287,7 +1376,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
                 >
                   ✕
-                </button>}
+                </button>
               </div>
             ))}
           </div>
