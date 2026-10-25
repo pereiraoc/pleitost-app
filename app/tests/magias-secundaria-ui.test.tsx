@@ -98,22 +98,22 @@ describe('card Magias Secundárias', () => {
     await waitFor(() => expect(screen.getAllByText('Raio Flamejante').length).toBeGreaterThanOrEqual(2))
   })
 
-  it('as escolhas de essência do Treinamento (pick da técnica) rendem na árvore de Habilidades', async () => {
-    // O dedup #170 pulava TODO entry com fonte Escolha cujo pai tem escolha —
-    // mas o Treinamento de Animista (pick da escolha da TÉCNICA) tem escolhas
-    // PRÓPRIAS (essências Menores); sem o entry na árvore, os dropdowns dele
-    // ficavam órfãos e o usuário não conseguia escolher/trocar a essência.
+  it('as essências Menores do Treinamento ganham o PRÓPRIO Círculo, nos slots secundários', async () => {
+    // ESSÊNCIAS POR SLOT (2026-10-25): o pick antigo (Escolha.01 do
+    // Treinamento) migra pra Slot.A e gasta o slot de Magias.Secundaria.
     window.localStorage.setItem(STORE_KEY, JSON.stringify(OVERLAY_MULTICLASS))
     renderZuko()
-    const heading = await screen.findByText('Habilidades')
-    const { fireEvent, within } = await import('@testing-library/react')
-    fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
-    // dropdown da escolha do Treinamento de Animista ("Essência Elemental
-    // Adepta" é o label da rule) com o pick atual
-    await waitFor(() => {
-      const dds = screen.getAllByLabelText(/Essência Elemental/i) as HTMLSelectElement[]
-      expect(dds.some((d) => d.value.includes('Essência Flamejante Menor'))).toBe(true)
-    })
+    await screen.findByText('Magias Secundárias')
+    await waitFor(() => expect(document.querySelectorAll('[data-roda-essencias]').length).toBe(2), { timeout: 15000 })
+    const sec = document.querySelectorAll('[data-roda-essencias]')[1]!
+    expect(sec.textContent).toContain('Círculo das Essências Menores')
+    await waitFor(() =>
+      expect(sec.querySelector('[data-roda-no="A:Essência Flamejante"]')?.getAttribute('data-roda-estado')).toBe('tem'),
+    )
+    expect(sec.querySelector('[data-roda-contador="A"]')?.textContent).toContain('1/1')
+    // a Menor não conta no Círculo principal
+    const pri = document.querySelectorAll('[data-roda-essencias]')[0]!
+    expect(pri.textContent).not.toContain('Menores')
   })
 
   // COMBATE/magias: "não ta mostrando separado o EM nem a lista de magias" —

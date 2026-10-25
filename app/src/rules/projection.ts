@@ -541,6 +541,12 @@ export const MAGIA_ESCOLA_NOME: Record<string, string> = {
   ArcanaBranca: 'Arcana Branca',
 }
 
+/** Escolas cujas magias vêm das ESSÊNCIAS (habilidades compradas com o slot
+ *  de magia — rules/essencia-slots.ts): pra quem conjura por essência, o slot
+ *  A/E/M dela é gasto no Círculo das Essências, não em magia avulsa
+ *  (conjuraPorEssencia / RANKS_AVULSOS_COM_ESSENCIA). */
+export const ESCOLAS_POR_ESSENCIA: ReadonlySet<string> = new Set([MAGIA_ESCOLA_NOME.Anima!])
+
 const WIKI_BASE_RX = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 function wikiBase(s: string): string {
   const m = s.match(WIKI_BASE_RX)

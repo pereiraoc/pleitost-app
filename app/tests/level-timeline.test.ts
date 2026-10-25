@@ -354,35 +354,27 @@ describe('#495 — registros duplicados de espec/maestria não multiplicam gasto
   })
 })
 
-describe('#503 — pick de escolha irmã com gate FUTURO materializa no gate (ERRO CONGELANTE)', () => {
-  it('Congelante via Escolha.03 (gate N3) leva habilidade E magias pro card 3', async () => {
+describe('#503 — essência comprada com slot leva as magias pro nível do slot (ERRO CONGELANTE)', () => {
+  it('Congelante (slot A do N3, escolha antiga migrada) e as magias dela no card 3, nada no N1', async () => {
     const base = JSON.parse(
       fs.readFileSync(path.join('tests/fixtures/heroes', 'Leonel Bravolla.json'), 'utf8'),
     ).frontmatter as Record<string, unknown>
-    const habs = (base['Habilidades'] as { Lista: Array<Record<string, unknown>> }).Lista
-    const fm = {
-      ...base,
-      Habilidades: {
-        ...(base['Habilidades'] as Record<string, unknown>),
-        Lista: [
-          ...habs.filter((r) => !JSON.stringify(r).includes('Congelante')),
-          // user limpou a essência do N1 e escolheu na do N3 (occ 03)
-          { '[[Essência Congelante Adepta]]': 'Escolha.03.[[Círculo do Oceano (Água e Terra)]]' },
-        ],
-      },
-    }
-    const cards = await buildLevelTimeline(fm, catalog, load)
+    const cards = await buildLevelTimeline(base, catalog, load)
     const magias = (n: number) => cards[n - 1]!.magiasRegra.map((m) => m.link).join(' ')
-    const habilidades = (n: number) => cards[n - 1]!.habilidades.join(' ')
+    const essencias = (n: number) =>
+      cards[n - 1]!.gastos.magias.filter((g) => g.essencia).map((g) => `${g.link}·${g.rank}`)
     // NADA da Congelante no N1 (report 2026-08-26: "não selecionei uma
     // essencia que da essas magias nesse nivel")
-    expect(habilidades(1)).not.toContain('Congelante')
+    expect(cards[0]!.habilidades.join(' ')).not.toContain('Congelante')
+    expect(essencias(1)).toEqual([])
     expect(magias(1)).not.toContain('Caminho de Gelo')
     expect(magias(1)).not.toContain('Frio Instantâneo')
-    // tudo no gate da escolha (N3)
-    expect(habilidades(3)).toContain('Congelante')
+    // o gasto e as magias no nível do slot (N3, o primeiro A do Círculo)
+    expect(essencias(3)).toEqual(['[[Essência Congelante Adepta]]·A'])
     expect(magias(3)).toContain('Caminho de Gelo')
     expect(magias(3)).toContain('Frio Instantâneo')
+    // as da interface (concessão do Círculo) seguem no N1
+    expect(cards[0]!.habilidades.join(' ')).toContain('Essência Torrencial Adepta')
   })
 })
 

@@ -1,15 +1,15 @@
 // CÍRCULO DAS ESSÊNCIAS (2026-10-25) — o seletor de Essências Elementais do
-// conjurador Anima (na aba MAGIAS), no lugar dos dropdowns: as 12 essências do
-// Ciclo Elemental num anel (Adepta) e o anel das Experientes por fora. Cada
-// anel só aparece quando o herói pode escolher nele (ou já tem algo ali). O
-// anel Mestre (compostas entre duas vizinhas) fica pra quando as notas
-// existirem — até lá a escolha Mestre segue no dropdown da habilidade.
-// Regras de quem abre: rules/roda-essencias.ts. O pick grava pelo MESMO
-// writeChoicePick dos dropdowns (o FM não muda de forma).
+// conjurador Anima (na aba MAGIAS): as 12 essências do Ciclo Elemental num
+// anel (Adepta), o anel das Experientes por fora e o das Mestre compostas
+// (entre duas vizinhas). ESSÊNCIAS POR SLOT: cada nó aceso compra a essência
+// com um slot de magia do rank (`Magias.Slots` — ou `Magias.Secundaria.Slots`
+// na linha MENOR do Treinamento de Animista) e grava em `Habilidades.Lista`
+// com a fonte `Slot.<rank>` (rules/essencia-slots.ts). Regras de quem abre:
+// rules/roda-essencias.ts.
 import { useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../../data/CatalogContext'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
-import { fmPath, listaEntries, wikiTarget } from './hero-model'
+import { fmPath, listaEntries, type ListaEntry } from './hero-model'
 import { ELEMENTO_COR, ELEMENTO_SIMBOLO } from './registry'
 import { clip, EditToggle } from './bits'
 import { useNamedDocs } from './useNamedDocs'
@@ -19,13 +19,13 @@ import {
   elementoDaSintonia,
   elementosDoCirculo,
   opostoDe,
-  pontasDoElemento,
   nomesCompostasDoCatalogo,
   estadoCompostas,
   estadoRoda,
   invalidasCompostas,
   HUB_RODA,
   parseEssencia,
+  parseEssenciaMenor,
   rodaDoCatalogo,
   SUFIXO_TIER,
   type Composta,
@@ -33,25 +33,9 @@ import {
   type RodaDef,
   type Tier,
 } from '../../rules/roda-essencias'
-import type { HabChoice } from './HabilidadesTab'
 
-/** Escolha de essência + a habilidade-pai (sourceNote) que a concede. */
-export interface RodaChoice extends HabChoice {
-  parent: string
-}
-
-/** Tier de uma escolha: o das suas opções (todas "Essência X <Tier>"); null
- *  quando a escolha não é de essência do ciclo (ex.: Essência Menor). */
-export function tierDaEscolha(c: HabChoice, ehComposta?: (nome: string) => boolean): Tier | null {
-  if (c.kind !== 'complementar-sel' || c.options.length === 0) return null
-  const tiers = new Set(
-    c.options.map((o) => parseEssencia(o)?.tier ?? (ehComposta?.(wikiTarget(o)) ? 'M' : null)),
-  )
-  if (tiers.size !== 1 || tiers.has(null)) return null
-  return [...tiers][0] as Tier
-}
-
-const escolhido = (c: HabChoice) => !!c.pick && c.source !== 'default' && c.source !== 'none'
+/** Orçamento de slots de um rank no escopo do círculo. */
+export type SlotsCirculo = Record<Tier, { total: number; usados: number }>
 
 const TIERS: Tier[] = ['A', 'E', 'M']
 const R: Record<Tier, number> = { A: 150, E: 207, M: 254 }
@@ -72,22 +56,25 @@ function nomeCurto(base: string): string {
 export function RodaEssencias({
   fm,
   fmSalvo,
-  choices,
+  slots,
+  menor,
   edit,
-  onPick,
+  onAdd,
   onRemover,
   onOpen,
   onToggleEdit,
 }: {
   /** FM DERIVADO (o que o herói tem, de qualquer fonte). */
   fm: Record<string, unknown>
-  /** FM SALVO: picks gravados de escolhas ainda NÃO liberadas no nível (ficha
-   *  adiantada) aparecem e podem ser desfeitos. */
+  /** FM SALVO: só o que está gravado ali (slot) pode ser desfeito. */
   fmSalvo: Record<string, unknown>
-  choices: RodaChoice[]
+  slots: SlotsCirculo
+  /** Linha MENOR (Treinamento de Animista, Magias Secundárias). */
+  menor?: boolean
   edit: boolean
-  onPick: (parent: string, choice: HabChoice, wl: string) => void
-  /** Apaga do FM salvo a linha `Escolha` da essência (alvo sem escolha ativa). */
+  /** Compra a essência `alvo` com um slot do rank. */
+  onAdd: (alvo: string, tier: Tier) => void
+  /** Apaga do FM salvo a linha da essência `alvo`. */
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
   /** Botão Alterar/Concluir próprio do círculo (ausente = edição forçada). */
@@ -95,7 +82,8 @@ export function RodaEssencias({
 }) {
   const catalog = useCatalog()
   const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
-  const todasCompostas = useMemo(() => nomesCompostasDoCatalogo(catalog), [catalog])
+  const todasCompostas = useMemo(() => (menor ? [] : nomesCompostasDoCatalogo(catalog)), [catalog, menor])
+  const existe = useMemo(() => (nome: string) => catalog.resolve(nome).kind === 'doc', [catalog])
   const hubDoc = useNamedDocs([HUB_RODA])(HUB_RODA)
   const roda = useMemo(() => rodaDoCatalogo(catalog, hubDoc?.frontmatter), [catalog, hubDoc])
   const [foco, setFoco] = useState<{ base: string; tier: Tier } | null>(null)
@@ -105,11 +93,13 @@ export function RodaEssencias({
       roda={roda}
       ehComposta={ehComposta}
       todasCompostas={todasCompostas}
+      existe={existe}
       fm={fm}
       fmSalvo={fmSalvo}
-      choices={choices}
+      slots={slots}
+      menor={!!menor}
       edit={edit}
-      onPick={onPick}
+      onAdd={onAdd}
       onRemover={onRemover}
       onOpen={onOpen}
       onToggleEdit={onToggleEdit}
@@ -123,11 +113,13 @@ function Roda({
   roda,
   ehComposta,
   todasCompostas,
+  existe,
   fm,
   fmSalvo,
-  choices,
+  slots,
+  menor,
   edit,
-  onPick,
+  onAdd,
   onRemover,
   onOpen,
   onToggleEdit,
@@ -137,11 +129,13 @@ function Roda({
   roda: RodaDef
   ehComposta: (nome: string) => boolean
   todasCompostas: string[]
+  existe: (nome: string) => boolean
   fm: Record<string, unknown>
   fmSalvo: Record<string, unknown>
-  choices: RodaChoice[]
+  slots: SlotsCirculo
+  menor: boolean
   edit: boolean
-  onPick: (parent: string, choice: HabChoice, wl: string) => void
+  onAdd: (alvo: string, tier: Tier) => void
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
   onToggleEdit?: () => void
@@ -149,28 +143,21 @@ function Roda({
   setFoco: (f: { base: string; tier: Tier } | null) => void
 }) {
   const sintonia = elementoDaSintonia(fm['Sintonia'])
-  const porTier = (t: Tier) => choices.filter((c) => tierDaEscolha(c, ehComposta) === t)
+  const parse = (nome: string) => (menor ? parseEssenciaMenor(nome) : parseEssencia(nome))
 
-  // O que o herói TEM: picks gravados das escolhas + toda essência da lista de
-  // Habilidades (derivada e salva — inclui picks de escolhas de nível acima do
-  // atual e as que vieram de outra fonte: regra fixa, Essência Adicional, …).
+  // O que o herói TEM: toda essência da lista de Habilidades derivada (slot,
+  // concessão de regra, Essência Invertida…), com a fonte de cada uma.
+  const derivadas = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
+  const salvas = listaEntries(fmPath(fmSalvo, 'Habilidades', 'Lista'))
   const tem: Record<Tier, Set<string>> = { A: new Set(), E: new Set(), M: new Set() }
   const temComposta = new Set<string>()
-  for (const c of choices) {
-    if (!escolhido(c)) continue
-    const alvo = wikiTarget(String(c.pick))
-    const e = parseEssencia(alvo)
-    if (e) tem[e.tier].add(e.base)
-    else if (ehComposta(alvo)) temComposta.add(alvo)
-  }
-  const salvas = listaEntries(fmPath(fmSalvo, 'Habilidades', 'Lista'))
-  // Do DERIVADO só o que não é Escolha (regra fixa): escolha única sem pick
-  // gravado sai lá com o PADRÃO aplicado — não é escolha do jogador.
-  const derivadas = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).filter((e) => e.fonte.kind !== 'Escolha')
-  for (const e of [...derivadas, ...salvas]) {
-    const p = parseEssencia(e.target)
+  const fonteDe = new Map<string, ListaEntry['fonte']>()
+  for (const e of derivadas) {
+    const p = parse(e.target)
     if (p) tem[p.tier].add(p.base)
-    else if (ehComposta(e.target)) temComposta.add(e.target)
+    else if (!menor && ehComposta(e.target)) temComposta.add(e.target)
+    else continue
+    fonteDe.set(e.target, e.fonte)
   }
   // MESTRE compostas (entre duas vizinhas): o anel inteiro do mundo; bases
   // lidas dos Requisitos de cada nota.
@@ -182,27 +169,40 @@ function Roda({
   const composta = new Map(compostas.map((c) => [c.nome, c]))
   const estadoM = estadoCompostas({ roda, compostas, sintonia, temA: tem.A, temE: tem.E, temM: temComposta })
   const invalidasM = invalidasCompostas({ roda, compostas, sintonia, temA: tem.A, temE: tem.E, temM: temComposta })
-  /** Alvo (nota) do nó: composta Mestre é a própria nota; os demais
-   *  "<Essência> <Tier>". */
-  const alvoDe = (base: string, t: Tier) => (t === 'M' && composta.has(base) ? base : `${base} ${SUFIXO_TIER[t]}`)
-  /** Linha salva por ESCOLHA (removível) da essência sem escolha ativa. */
-  const linhaSalva = (base: string, t: Tier) =>
-    salvas.some((e) => e.fonte.kind === 'Escolha' && e.target === alvoDe(base, t))
-  // DRUIDA: dois elementos do Círculo Druídico — das opções das escolhas
-  // Adeptas, ou (nível 1, sem escolha ainda) das duas essências de interface
-  // que o círculo concede por regra.
-  const regraA = derivadas.map((e) => parseEssencia(e.target)).filter((p) => p?.tier === 'A').map((p) => `[[${p!.base} Adepta]]`)
-  const elementos =
-    elementosDoCirculo(roda, porTier('A').flatMap((c) => c.options)) ??
-    (porTier('A').length === 0 ? elementosDoCirculo(roda, regraA) : null)
+  /** Alvo (nota) do nó: composta Mestre é a própria nota; Menor "<Essência>
+   *  [Experiente ]Menor"; os demais "<Essência> <Tier>". */
+  const alvoDe = (base: string, t: Tier) =>
+    t === 'M' && composta.has(base)
+      ? base
+      : menor
+        ? `${base} ${t === 'E' ? 'Experiente Menor' : 'Menor'}`
+        : `${base} ${SUFIXO_TIER[t]}`
+  /** Concessão de REGRA fixa (pura da sintonia, interface do círculo,
+   *  Essência Invertida): não gasta slot nem se desfaz aqui. */
+  const concedida = (base: string, t: Tier) => fonteDe.get(alvoDe(base, t))?.kind === 'Regra'
+  /** Gravada no FM salvo (slot ou escolha antiga) — removível. */
+  const removivel = (base: string, t: Tier) =>
+    !concedida(base, t) &&
+    salvas.some((e) => e.target === alvoDe(base, t) && (e.fonte.kind === 'Slot' || e.fonte.kind === 'Escolha'))
+  const regra = derivadas.filter((e) => e.fonte.kind === 'Regra')
   // ESSÊNCIA INVERTIDA (técnica): a pura oposta que ela dá é exceção à regra.
   const invertidas = new Set(
-    [...derivadas, ...salvas]
+    regra
       .filter((e) => e.fonte.target === 'Essência Invertida')
-      .map((e) => parseEssencia(e.target)?.base)
+      .map((e) => parse(e.target)?.base)
       .filter((b): b is string => !!b),
   )
-  const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true, elementos, invertidas })
+  // ÂNCORAS: Adeptas do ciclo concedidas por regra (pura / interface).
+  const ancoras = new Set(
+    regra
+      .map((e) => parse(e.target))
+      .filter((p) => p?.tier === 'A' && !invertidas.has(p.base))
+      .map((p) => p!.base),
+  )
+  // DRUIDA: os dois elementos do Círculo Druídico (a nota que concede a
+  // interface — duas Adeptas de dois elementos).
+  const elementos = menor ? null : elementosDoCirculo(roda, regra.map((e) => ({ essencia: e.target, pai: e.fonte.target })))
+  const estado = estadoRoda({ roda, sintonia, tem, ancoras, elementos, invertidas, primeiraDaSintonia: menor })
   // Elementos FORA (cinza): o oposto da sintonia; no Druida, os dois que não
   // são do círculo. O da sintonia (ou os do círculo) fica em evidência.
   const opostoSint = sintonia ? opostoDe(roda, sintonia) : null
@@ -211,47 +211,45 @@ function Roda({
   const emEvidencia = (el: string | undefined) => !!el && (elementos ? elementos.includes(el) : el === sintonia)
   // INVÁLIDAS (ficha antiga ou editada por fora): marcadas pra desfazer.
   const invalidas = new Map(estado.invalidas)
-  // (as Mestre compostas entram logo abaixo, quando as notas carregam)
-
-  const wlDe = (base: string, t: Tier) => `[[${alvoDe(base, t)}]]`
-  /** Escolha VAZIA deste tier que oferece a essência (1ª do pai, na ordem). */
-  const vagaPara = (base: string, t: Tier) =>
-    porTier(t).find(
-      (c) => !escolhido(c) && c.options.some((o) => wikiTarget(o) === alvoDe(base, t)),
-    )
-  /** Escolha que GRAVOU esta essência (pra desfazer). */
-  const escolhaDe = (base: string, t: Tier) =>
-    porTier(t).find((c) => escolhido(c) && wikiTarget(String(c.pick)) === alvoDe(base, t))
-
-  const visivel: Record<Tier, boolean> = {
-    A: porTier('A').length > 0 || tem.A.size > 0,
-    E: porTier('E').length > 0 || tem.E.size > 0,
-    M: porTier('M').length > 0 || tem.M.size > 0 || temComposta.size > 0,
-  }
-  const vagas = (t: Tier) => porTier(t).filter((c) => !escolhido(c)).length
-
   for (const [nome, motivoM] of invalidasM) invalidas.set(`M:${nome}`, motivoM)
   const invalida = (base: string, t: Tier) => invalidas.get(`${t}:${base}`)
 
-  /** Estado FINAL do nó: "livre" sem vaga no tier vira "fechado". */
+  const livres = (t: Tier) => slots[t].total - slots[t].usados
+  const visivel: Record<Tier, boolean> = {
+    A: slots.A.total > 0 || tem.A.size > 0,
+    E: slots.E.total > 0 || tem.E.size > 0,
+    M: !menor && (slots.M.total > 0 || tem.M.size > 0 || temComposta.size > 0),
+  }
+
+  /** Estado FINAL do nó: "livre" sem slot livre do rank vira "semVaga"; nota
+   *  inexistente (Destruição Menor) fica fechada. */
   const st = (base: string, t: Tier): EstadoNo | 'semVaga' => {
     const s = (t === 'M' && composta.has(base) ? estadoM[base] : estado.no[t][base]) ?? 'fechado'
-    if (s === 'livre' && !vagaPara(base, t)) return 'semVaga'
+    if (s === 'livre' && !existe(alvoDe(base, t))) return 'fechado'
+    if (s === 'livre' && livres(t) <= 0) return 'semVaga'
     return s
   }
   const motivo = (base: string, t: Tier): string => {
     const s = st(base, t)
     const nome = reskinName(alvoDe(base, t))
-    if (s === 'tem') return invalida(base, t) ? `${nome} — INVÁLIDA: ${invalida(base, t)}` : `${nome} — escolhida`
-    if (s === 'oposto') return `${nome} — elemento oposto à ${reskinText('sintonia')}`
+    if (s === 'tem') {
+      if (invalida(base, t)) return `${nome} — INVÁLIDA: ${invalida(base, t)}`
+      const f = fonteDe.get(alvoDe(base, t))
+      return concedida(base, t) && f ? `${nome} — concedida por ${reskinName(f.target)}` : `${nome} — escolhida`
+    }
+    if (s === 'oposto') return elementos ? `${nome} — fora dos elementos do círculo` : `${nome} — elemento oposto à ${reskinText('sintonia')}`
     if (s === 'livre') return `${nome} — disponível`
-    if (s === 'semVaga') return `${nome} — sem escolha livre neste anel`
-    if (t === 'A') return `${nome} — precisa de uma vizinha no ciclo`
+    if (s === 'semVaga') return `${nome} — sem slot ${SUFIXO_TIER[t]} livre`
+    if (!existe(alvoDe(base, t))) return `${nome} — ainda sem nota na vault`
+    if (t === 'A') {
+      if (menor && tem.A.size === 0) return `${nome} — a primeira é do elemento da ${reskinText('sintonia')}`
+      return `${nome} — precisa de uma vizinha no ciclo`
+    }
     if (t === 'M' && composta.has(base)) {
       const c = composta.get(base)!
-      return `${nome} — precisa de ${reskinName(c.a)} e ${reskinName(c.b)} Experientes; a primeira Mestre toca a ${reskinText('sintonia')}`
+      return `${nome} — precisa de ${reskinName(c.a)} e ${reskinName(c.b)} Adeptas e uma delas Experiente; a primeira Mestre toca a ${reskinText('sintonia')}`
     }
-    return `${nome} — precisa da ${t === 'E' ? 'Adepta' : 'Experiente'} e a primeira é da ${reskinText('sintonia')}`
+    return `${nome} — precisa da Adepta`
   }
 
   const clicar = (base: string, t: Tier) => {
@@ -261,14 +259,8 @@ function Roda({
       if (s === 'tem') onOpen?.(alvoDe(base, t))
       return
     }
-    if (s === 'livre') {
-      const c = vagaPara(base, t)
-      if (c) onPick(c.parent, c, wlDe(base, t))
-    } else if (s === 'tem') {
-      const c = escolhaDe(base, t)
-      if (c) onPick(c.parent, c, '')
-      else if (linhaSalva(base, t)) onRemover(alvoDe(base, t))
-    }
+    if (s === 'livre') onAdd(alvoDe(base, t), t)
+    else if (s === 'tem' && removivel(base, t)) onRemover(alvoDe(base, t))
   }
   const tecla = (base: string, t: Tier) => (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -402,14 +394,11 @@ function Roda({
     )
   }
 
-  const contador = (t: Tier) => {
-    const total = porTier(t).length
-    const usados = total - vagas(t)
-    return total > 0 ? `${usados}/${total}` : String(tem[t].size)
-  }
+  const contador = (t: Tier) =>
+    slots[t].total > 0 ? `${slots[t].usados}/${slots[t].total}` : String(t === 'M' ? tem.M.size + temComposta.size : tem[t].size)
   const focoTxt = foco
     ? motivo(foco.base, foco.tier)
-    : reskinText(edit ? 'Toque numa Essência acesa pra escolher; numa escolhida pra desfazer.' : 'Toque numa Essência escolhida pra abrir a regra.')
+    : reskinText(edit ? 'Toque numa Essência acesa pra gastar um slot nela; numa escolhida pra desfazer.' : 'Toque numa Essência escolhida pra abrir a regra.')
 
   /** Metade do disco de raio r cortada pela diagonal (−45° ↔ 135°). */
   function meioDisco(r: number, lado: 'destruicao' | 'criacao'): string {
@@ -531,7 +520,7 @@ function Roda({
     >
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '.14em', color: 'var(--accent)' }}>
-          {`// ${reskinUpper('Círculo das Essências')}`}
+          {`// ${reskinUpper(menor ? 'Círculo das Essências Menores' : 'Círculo das Essências')}`}
         </span>
         <span style={{ flex: 1 }} />
         {TIERS.filter((t) => visivel[t]).map((t) => (
@@ -542,7 +531,7 @@ function Roda({
               fontFamily: 'var(--mono)',
               fontSize: 9.5,
               letterSpacing: '.08em',
-              color: vagas(t) > 0 && edit ? 'var(--gold)' : 'var(--muted)',
+              color: livres(t) < 0 ? 'var(--red)' : livres(t) > 0 && edit ? 'var(--gold)' : 'var(--muted)',
               padding: '3px 8px',
               border: '1px solid var(--line2)',
               clipPath: clip(5),
@@ -656,34 +645,6 @@ function Roda({
           strokeWidth={1}
           strokeDasharray="3 4"
         />
-        {/* DRUIDA: corda entre as pontas de cada elemento do círculo — de uma
-            ponta se chega à outra sem passar pela pura */}
-        {(elementos ?? []).map((el) => {
-          const pontas = pontasDoElemento(roda, el)
-          if (!pontas) return null
-          const [b1, b2] = pontas
-          const i1 = roda.ordem.indexOf(b1)
-          const i2 = roda.ordem.indexOf(b2)
-          // curva por DENTRO do anel (não atravessa o nó da pura no meio)
-          const meioAng = Math.abs(i2 - i1) > n / 2 ? ang((i1 + i2 + n) / 2) : ang((i1 + i2) / 2)
-          const ctrl = pt(R.A * 0.8, meioAng)
-          const a1 = pt(R.A - NO_R.A - 3, ang(i1))
-          const a2 = pt(R.A - NO_R.A - 3, ang(i2))
-          const ambos = tem.A.has(b1) && tem.A.has(b2)
-          const meio = (tem.A.has(b1) && st(b2, 'A') === 'livre') || (tem.A.has(b2) && st(b1, 'A') === 'livre')
-          return (
-            <path
-              key={`corda-${el}`}
-              data-roda-corda={`${b1}|${b2}`}
-              d={`M${a1.x},${a1.y} Q${ctrl.x},${ctrl.y} ${a2.x},${a2.y}`}
-              fill="none"
-              stroke={ambos ? ELEMENTO_COR[el] : meio && edit ? 'var(--accent)' : 'var(--line2)'}
-              strokeWidth={ambos ? 3 : meio ? 1.8 : 1.2}
-              strokeDasharray={meio && !ambos ? '5 4' : undefined}
-              strokeLinecap="round"
-            />
-          )
-        })}
         {/* marcas de elemento (cruz interna) ligadas à pura e ao centro */}
         {[...roda.puras].map((p) => {
           const i = roda.ordem.indexOf(p)

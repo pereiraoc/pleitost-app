@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-// RODA DAS ESSÊNCIAS na ficha (2026-10-25): o Animista escolhe as Essências
-// Elementais pela roda do ciclo — começa pela pura da sintonia, caminha de
-// vizinha em vizinha; o anel das Experientes só aparece quando há escolha nele.
+// RODA DAS ESSÊNCIAS na ficha (2026-10-25): o Animista compra as Essências
+// Elementais com os slots de magia pela roda do ciclo — a pura da sintonia vem
+// de graça, cada slot abre uma vizinha; o anel das Experientes só aparece
+// quando há slot Experiente.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import fs from 'node:fs'
@@ -86,76 +87,86 @@ function renderHeroi(extra: Record<string, unknown>) {
 const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`) as SVGGElement | null
 const estado = (k: string) => no(k)?.getAttribute('data-roda-estado')
 
+const habLista = (id: string) =>
+  (((getLocalDoc(id)!.frontmatter['Habilidades'] as Record<string, unknown>)?.['Lista'] ?? []) as Record<string, unknown>[])
+const fonteDe = (id: string, alvo: string) => {
+  const row = habLista(id).find((r) => Object.keys(r)[0] === `[[${alvo}]]`)
+  return row ? String(Object.values(row)[0]) : null
+}
+const contador = (t: string) => document.querySelector(`[data-roda-contador="${t}"]`)?.textContent ?? ''
+
 describe('Roda das Essências', () => {
-  it('nível 1: só a pura abre; escolher a pura acende as vizinhas', async () => {
+  it('nível 1: a pura vem de graça; cada slot A abre uma vizinha', async () => {
     const id = renderHeroi({ Nível: 1 })
-    await waitFor(() => expect(no('A:Essência Flamejante')).toBeTruthy(), { timeout: 15000 })
-    expect(estado('A:Essência Flamejante')).toBe('livre')
-    expect(estado('A:Essência Explosiva')).toBe('fechado')
-    expect(estado('A:Essência Hidratante')).toBe('oposto')
-    expect(no('E:Essência Flamejante')).toBeNull() // sem Elementalista, sem anel E
-    fireEvent.click(no('A:Essência Flamejante')!)
-    await waitFor(() => {
-      const lista = ((getLocalDoc(id)!.frontmatter['Habilidades'] as Record<string, unknown>)['Lista'] ?? []) as Record<string, unknown>[]
-      const row = lista.find((r) => Object.keys(r)[0] === '[[Essência Flamejante Adepta]]')
-      expect(String(row && Object.values(row)[0])).toMatch(/^Escolha\.\d\d\.\[\[Magias Anima\]\]$/)
-    })
     await waitFor(() => expect(estado('A:Essência Flamejante')).toBe('tem'), { timeout: 15000 })
     expect(estado('A:Essência Explosiva')).toBe('livre')
     expect(estado('A:Essência Incendiária')).toBe('livre')
-    expect(estado('A:Essência Mineral')).toBe('fechado')
+    expect(estado('A:Essência Sísmica')).toBe('fechado')
+    expect(estado('A:Essência Hidratante')).toBe('oposto')
+    expect(no('E:Essência Flamejante')).toBeNull() // sem Elementalista, sem anel E
+    expect(contador('A')).toContain('0/2')
+    fireEvent.click(no('A:Essência Explosiva')!)
+    await waitFor(() => expect(fonteDe(id, 'Essência Explosiva Adepta')).toBe('Slot.A'))
+    await waitFor(() => expect(estado('A:Essência Sísmica')).toBe('livre'), { timeout: 15000 })
+    expect(contador('A')).toContain('1/2')
+    fireEvent.click(no('A:Essência Sísmica')!)
+    await waitFor(() => expect(contador('A')).toContain('2/2'), { timeout: 15000 })
+    // sem slot: o resto do caminho fecha
+    expect(estado('A:Essência Incendiária')).toBe('semVaga')
+    // a pura concedida não se desfaz
+    fireEvent.click(no('A:Essência Flamejante')!)
+    expect(fonteDe(id, 'Essência Flamejante Adepta')).toBeNull()
+    expect(estado('A:Essência Flamejante')).toBe('tem')
     // ligações que ENTRAM no elemento oposto (Água pro Fogo) viram X
     const cortes = [...document.querySelectorAll('[data-roda-corte]')].map((n) => n.getAttribute('data-roda-corte')).sort()
     expect(cortes).toEqual(['Essência Congelante|Essência Ciclonal', 'Essência Enraizante|Essência Torrencial'])
     // símbolos alquímicos (não emoji) nas marcas de elemento
     expect(document.querySelectorAll('[data-simbolo-elemento]').length).toBeGreaterThanOrEqual(4)
+    // o slot A é do Círculo: nada de magia Anima avulsa pra aprender
+    expect(document.querySelectorAll('button[aria-label^="Aprender "]').length).toBe(0)
   }, 40000)
-
-  it('nível 4: o anel das Experientes aparece', async () => {
+  it('nível 4: o anel das Experientes aparece com os slots do Elementalista', async () => {
     renderHeroi({
       Nível: 4,
-      Habilidades: { Lista: [{ '[[Essência Flamejante Adepta]]': 'Escolha.01.[[Magias Anima]]' }] },
+      Habilidades: { Lista: [{ '[[Essência Explosiva Adepta]]': 'Slot.A' }] },
     })
     await waitFor(() => expect(no('E:Essência Flamejante')).toBeTruthy(), { timeout: 15000 })
     await waitFor(() => expect(estado('E:Essência Flamejante')).toBe('livre'), { timeout: 15000 })
-    expect(estado('E:Essência Explosiva')).toBe('fechado')
+    expect(estado('E:Essência Explosiva')).toBe('livre')
+    expect(estado('E:Essência Mineral')).toBe('fechado')
+    expect(contador('E')).toContain('0/2')
     expect(no('M:Essência Flamejante')).toBeNull()
   }, 40000)
-
-  it('desfazer uma essência escolhida (ficha real)', async () => {
+  it('ficha antiga (escolhas) migra pra slot e desfaz', async () => {
     const fx = JSON.parse(fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/heroi-adiantado-animista.json'), 'utf8'))
     const id = renderHeroi(fx.frontmatter)
     await waitFor(() => expect(estado('A:Essência Sísmica')).toBe('tem'), { timeout: 15000 })
     fireEvent.click(no('A:Essência Sísmica')!)
     await waitFor(() => expect(estado('A:Essência Sísmica')).not.toBe('tem'), { timeout: 15000 })
-    const lista = JSON.stringify((getLocalDoc(id)!.frontmatter['Habilidades'] as any).Lista)
+    const lista = JSON.stringify(habLista(id))
     expect(lista).not.toContain('Essência Sísmica Adepta')
+    // a regravação já sai na forma nova
+    expect(fonteDe(id, 'Essência Mineral Adepta')).toBe('Slot.A')
+    expect(lista).not.toContain('Escolha.03.[[Magias Anima]]')
   }, 40000)
-
-  it('nível 7: anel Mestre com as compostas ENTRE as vizinhas, exigindo as duas Experientes', async () => {
+  it('nível 7: anel Mestre com as compostas ENTRE as vizinhas, gastando o slot M', async () => {
     const id = renderHeroi({
       Nível: 7,
       Habilidades: {
         Lista: [
-          { '[[Essência Flamejante Adepta]]': 'Escolha.01.[[Magias Anima]]' },
-          { '[[Essência Explosiva Adepta]]': 'Escolha.02.[[Magias Anima]]' },
-          { '[[Essência Flamejante Experiente]]': 'Escolha.01.[[Elementalista]]' },
-          { '[[Essência Explosiva Experiente]]': 'Escolha.02.[[Elementalista]]' },
+          { '[[Essência Explosiva Adepta]]': 'Slot.A' },
+          { '[[Essência Flamejante Experiente]]': 'Slot.E' },
         ],
       },
     })
     await waitFor(() => expect(no('M:Essência do Meteoro')).toBeTruthy(), { timeout: 15000 })
     await waitFor(() => expect(estado('M:Essência do Meteoro')).toBe('livre'), { timeout: 15000 })
-    expect(estado('M:Essência do Sol')).toBe('fechado') // falta a Incendiária Experiente
+    expect(estado('M:Essência do Sol')).toBe('fechado') // falta a Incendiária Adepta
     expect(no('M:Essência Flamejante')).toBeNull() // nada de Mestre "de uma essência só"
     fireEvent.click(no('M:Essência do Meteoro')!)
-    await waitFor(() => {
-      const lista = JSON.stringify((getLocalDoc(id)!.frontmatter['Habilidades'] as any).Lista)
-      expect(lista).toMatch(/Essência do Meteoro[^}]*Escolha(\.\d\d)?\.\[\[Avatar\]\]/)
-    })
+    await waitFor(() => expect(fonteDe(id, 'Essência do Meteoro')).toBe('Slot.M'))
   }, 40000)
-
-  it('Druida do Oceano: interface de graça, corda entre as pontas, qualquer essência de Água/Terra', async () => {
+  it('Druida do Oceano: a interface é a âncora, slots de vizinha em vizinha, sem corda', async () => {
     renderHeroi({
       Classe: '[[Druida]]',
       Sintonia: '[[Traço Elemental da Água]]',
@@ -165,11 +176,12 @@ describe('Roda das Essências', () => {
     })
     await waitFor(() => expect(estado('A:Essência Torrencial')).toBe('tem'), { timeout: 15000 })
     expect(estado('A:Essência Enraizante')).toBe('tem')
-    expect(estado('A:Essência Sísmica')).toBe('livre')
-    expect(estado('A:Essência Congelante')).toBe('livre')
+    await waitFor(() => expect(estado('A:Essência Hidratante')).toBe('livre'), { timeout: 15000 })
+    expect(estado('A:Essência Mineral')).toBe('livre')
+    expect(estado('A:Essência Sísmica')).toBe('fechado')
+    expect(estado('A:Essência Congelante')).toBe('fechado')
     expect(estado('A:Essência Flamejante')).toBe('oposto')
-    const cordas = [...document.querySelectorAll('[data-roda-corda]')].map((n) => n.getAttribute('data-roda-corda')).sort()
-    expect(cordas).toEqual(['Essência Sísmica|Essência Enraizante', 'Essência Torrencial|Essência Congelante'].sort())
+    expect(contador('A')).toContain('0/1')
+    expect(document.querySelectorAll('[data-roda-corda]').length).toBe(0)
   }, 40000)
 })
-

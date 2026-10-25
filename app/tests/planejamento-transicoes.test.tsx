@@ -173,14 +173,16 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
 
   // Enraizar virou concessão do Círculo do Oceano (Enraizante de graça,
   // 2026-10-25) — a magia planejada passa a ser Hidrovitalizar (Hidratante).
-  it('magia planejada (Hidrovitalizar@4 do Leonel N3) materializa ao subir e desfaz ao descer', async () => {
+  it('magia planejada (Hidrovitalizar@5 do Leonel N3) materializa ao subir e desfaz ao descer', async () => {
     const base = JSON.parse(
       fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
     ).frontmatter as Record<string, unknown>
     const id = createLocalEntity('Heroi', 'Leonel Magia', {
       ...base,
       Planejamento: {
-        gastosSlots: [{ nivel: 4, tipo: 'magia', rank: 'A', alvo: '[[Hidrovitalizar]]', contexto: 'Anima' }],
+        // (o slot A do Círculo no N5 — desde as essências por slot,
+        // 2026-10-25, o Druida tem slot de magia; o do N3 é da Congelante)
+        gastosSlots: [{ nivel: 5, tipo: 'magia', rank: 'A', alvo: '[[Hidrovitalizar]]', contexto: 'Anima' }],
       },
     })
     renderBiografia(id)
@@ -189,7 +191,7 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
     expect(magiasAnimaDe(id)).not.toContain('[[Hidrovitalizar]]')
 
     cleanup()
-    setLocalEntityFm(id, 'Nível', 4)
+    setLocalEntityFm(id, 'Nível', 5)
     renderBiografia(id)
     await abrirPlanejamento()
     await waitFor(() => expect(magiasAnimaDe(id)).toContain('[[Hidrovitalizar]]'), { timeout: 20000 })
@@ -201,43 +203,6 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
     await waitFor(() => expect(magiasAnimaDe(id)).not.toContain('[[Hidrovitalizar]]'), { timeout: 20000 })
     // o registro sobrevive ao ciclo inteiro
     expect(regsDe(id).some((r) => String(r['alvo']).includes('Hidrovitalizar'))).toBe(true)
-  }, 120000)
-
-  it('escolha REAL com gate acima do novo nível vira snapshot no plano ao descer', async () => {
-    const base = JSON.parse(
-      fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
-    ).frontmatter as Record<string, unknown>
-    const habs = (base['Habilidades'] as { Lista: Array<Record<string, unknown>> }).Lista
-    const id = createLocalEntity('Heroi', 'Leonel Snapshot', {
-      ...base,
-      'Nível': 5,
-      Habilidades: {
-        ...(base['Habilidades'] as Record<string, unknown>),
-        Lista: [
-          ...habs,
-          // essência do N5 escolhida DE VERDADE (com o círculo novo: N3 = 01,
-          // N5 = 02 — as duas do N1 são concessão do círculo)
-          { '[[Essência Hidratante Adepta]]': 'Escolha.02.[[Círculo do Oceano (Água e Terra)]]' },
-        ],
-      },
-    })
-    renderBiografia(id)
-    await abrirPlanejamento()
-    cleanup()
-    setLocalEntityFm(id, 'Nível', 3)
-    renderBiografia(id)
-    await abrirPlanejamento()
-    // o pick não pode EVAPORAR: vai pro plano enquanto o gate está acima
-    await waitFor(
-      () => {
-        const picks = ((fmDe(id)['Planejamento'] as Record<string, unknown>)?.['picks'] ?? {}) as Record<
-          string,
-          string
-        >
-        expect(Object.values(picks).some((v) => v.includes('Hidratante'))).toBe(true)
-      },
-      { timeout: 20000 },
-    )
   }, 120000)
 
   // CONTRATO INVERTIDO (report 95b2e420, 2026-10-15, @thallesagm): "toda vez

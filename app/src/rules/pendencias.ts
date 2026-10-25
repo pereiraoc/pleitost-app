@@ -2,6 +2,7 @@
 // preencher. REUSA exatamente as contas dos painéis (slot-accounting +
 // eligibilidade de especialidade/maestria), pra o indicador nunca discordar do
 // que a aba mostra. Puro: recebe o FM DERIVADO + rules + caps de família.
+import { slotsDeEssencia } from './essencia-slots'
 import {
   canAddOne,
   computeMagiaSlotsView,
@@ -85,17 +86,21 @@ function tecnicaOverbooked(fm: Fm): boolean {
  *  (prof ≠ N, fora Tesouros) pra recebê-lo; sem ela o painel não oferece onde
  *  aprender, então o slot é INPREENCHÍVEL e não é pendência (ex.: o slot B solto
  *  que o Quasi-Mago concede sem proficiência de escola no primário). */
-function freeMagiaSlotIn(magias: Record<string, unknown> | undefined): boolean {
+function freeMagiaSlotIn(
+  magias: Record<string, unknown> | undefined,
+  /** Slots já gastos em ESSÊNCIA (Habilidades.Lista, Slot.X) neste escopo. */
+  essencias: Record<MagiaRank, number>,
+): boolean {
   if (!magias) return false
   const escolas = (magias['Lista'] ?? []) as Record<string, unknown>[]
   const temProficiente = escolas.some(
     (e) => str(e['Nome']) !== 'Tesouros' && str(e['Proficiencia']) !== 'N',
   )
   if (!temProficiente) return false
-  const usedBy = (l: string) =>
+  const usedBy = (l: MagiaRank) =>
     escolas
       .flatMap((e) => listaEntries(e['Lista']))
-      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
+      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length + essencias[l]
   const s = (magias['Slots'] ?? {}) as Record<string, unknown>
   const view = computeMagiaSlotsView({
     total: { B: num(s['B']), A: num(s['A']), E: num(s['E']), M: num(s['M']) },
@@ -110,8 +115,8 @@ function freeMagiaSlotIn(magias: Record<string, unknown> | undefined): boolean {
  *  sem nunca conseguir limpá-la). */
 function freeMagiaSlot(fm: Fm): boolean {
   return (
-    freeMagiaSlotIn(fmPath(fm, 'Magias') as Record<string, unknown> | undefined) ||
-    freeMagiaSlotIn(fmPath(fm, 'Magias', 'Secundaria') as Record<string, unknown> | undefined)
+    freeMagiaSlotIn(fmPath(fm, 'Magias') as Record<string, unknown> | undefined, slotsDeEssencia(fm, false)) ||
+    freeMagiaSlotIn(fmPath(fm, 'Magias', 'Secundaria') as Record<string, unknown> | undefined, slotsDeEssencia(fm, true))
   )
 }
 

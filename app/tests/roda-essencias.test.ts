@@ -60,36 +60,59 @@ describe('a roda vem da vault', () => {
 
 describe('regras de escolha (Animista)', () => {
   it('sem nada: só a pura da sintonia (e as universais, Criação e Destruição) abre', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem([]), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem([]) })
     const livres = Object.entries(s.no.A).filter(([, v]) => v === 'livre').map(([k]) => k).sort()
     expect(livres).toEqual([E('Flamejante'), E('de Criação'), E('de Destruição')].sort())
     expect(s.no.A[E('Hidratante')]).toBe('oposto')
   })
   it('caminha de vizinha em vizinha', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva']), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva']) })
     expect(s.no.A[E('Sísmica')]).toBe('livre')
     expect(s.no.A[E('Incendiária')]).toBe('livre')
     expect(s.no.A[E('Mineral')]).toBe('fechado')
   })
   it('Adepta solta (fora do caminho da pura) é sinalizada', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Mineral']), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Mineral']) })
     expect([...s.soltas]).toEqual([E('Mineral')])
   })
   it('Experiente: qualquer essência de que tem a Adepta', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva', 'Sísmica']), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva', 'Sísmica']) })
     expect(s.no.E[E('Flamejante')]).toBe('livre')
     expect(s.no.E[E('Sísmica')]).toBe('livre')
     expect(s.no.E[E('Mineral')]).toBe('fechado') // não tem a Adepta
   })
   it('Mestre: só de quem tem a Experiente', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante', 'Explosiva']), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante', 'Explosiva']) })
     expect(s.no.M[E('Flamejante')]).toBe('livre')
     expect(s.no.M[E('Sísmica')]).toBe('fechado')
   })
-  it('Druida (sem ciclo): só posse e opostos', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem([]), aplicaCiclo: false })
-    expect(s.no.A[E('Mineral')]).toBe('livre')
-    expect(s.no.A[E('Hidratante')]).toBe('oposto')
+  it('a pura concedida é a âncora: o caminho sai dela pros dois lados', () => {
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante']), ancoras: new Set([E('Flamejante')]) })
+    expect(s.no.A[E('Explosiva')]).toBe('livre')
+    expect(s.no.A[E('Incendiária')]).toBe('livre')
+    expect(s.no.A[E('Sísmica')]).toBe('fechado')
+  })
+})
+
+describe('linha MENOR (Treinamento de Animista)', () => {
+  it('sem nada: qualquer essência do elemento da sintonia; universais esperam a primeira', () => {
+    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem([]), primeiraDaSintonia: true })
+    const livres = Object.entries(s.no.A).filter(([, v]) => v === 'livre').map(([k]) => k).sort()
+    expect(livres).toEqual([E('Congelante'), E('Hidratante'), E('Torrencial')].sort())
+    expect(s.no.A[E('de Criação')]).toBe('fechado')
+    expect(s.no.A[E('Flamejante')]).toBe('oposto')
+  })
+  it('depois da primeira: vizinhas e universais', () => {
+    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial']), primeiraDaSintonia: true })
+    expect(s.no.A[E('de Criação')]).toBe('livre')
+    expect(s.no.A[E('Hidratante')]).toBe('livre')
+    expect(s.invalidas.size).toBe(0)
+  })
+  it('nomes Menor', async () => {
+    const { parseEssenciaMenor } = await import('../src/rules/roda-essencias')
+    expect(parseEssenciaMenor('[[Essência Flamejante Menor]]')).toEqual({ base: E('Flamejante'), tier: 'A' })
+    expect(parseEssenciaMenor('Essência de Criação Experiente Menor')).toEqual({ base: E('de Criação'), tier: 'E' })
+    expect(parseEssenciaMenor('Essência Flamejante Adepta')).toBeNull()
   })
 })
 
@@ -126,21 +149,25 @@ describe('Mestre compostas (entre vizinhas)', () => {
 })
 
 describe('Druida: círculo de dois elementos', () => {
-  it('Oceano (Água e Terra): interface de graça, qualquer essência dos dois elementos, resto fora', async () => {
-    const { elementosDoCirculo, pontasDoElemento } = await import('../src/rules/roda-essencias')
-    const opcoes = ['Congelante', 'Hidratante', 'Torrencial', 'Enraizante', 'Mineral', 'Sísmica'].map((n) => `[[Essência ${n} Adepta]]`)
-    const els = elementosDoCirculo(roda, opcoes)!
+  const concessoes = (pai: string, ns: string[]) => ns.map((n) => ({ essencia: `Essência ${n} Adepta`, pai }))
+  it('Oceano (Água e Terra): a interface é âncora; slots vão de vizinha em vizinha, sem corda; resto fora', async () => {
+    const { elementosDoCirculo } = await import('../src/rules/roda-essencias')
+    const els = elementosDoCirculo(roda, concessoes('Círculo do Oceano (Água e Terra)', ['Torrencial', 'Enraizante']))!
     expect(els.sort()).toEqual(['Terra', 'Água'].sort())
-    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial', 'Enraizante']), aplicaCiclo: true, elementos: els })
-    expect(s.no.A[E('Sísmica')]).toBe('livre') // ponta da Terra, via corda Sísmica–Enraizante
-    expect(s.no.A[E('Congelante')]).toBe('livre') // ponta da Água, via corda Congelante–Torrencial
+    const ancoras = new Set([E('Torrencial'), E('Enraizante')])
+    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial', 'Enraizante']), ancoras, elementos: els })
+    expect(s.no.A[E('Hidratante')]).toBe('livre') // vizinha da Torrencial
+    expect(s.no.A[E('Mineral')]).toBe('livre') // vizinha da Enraizante
+    expect(s.no.A[E('Sísmica')]).toBe('fechado') // ponta da Terra: só passando pela Mineral (sem corda)
+    expect(s.no.A[E('Congelante')]).toBe('fechado')
     expect(s.no.A[E('Flamejante')]).toBe('oposto')
     expect(s.no.A[E('Ventania')]).toBe('oposto')
-    expect(pontasDoElemento(roda, 'Terra')!.sort()).toEqual([E('Enraizante'), E('Sísmica')].sort())
   })
-  it('Animista (três elementos nas opções) não é tratado como druida', async () => {
+  it('pura do Animista e Essência Invertida (uma por nota) não fazem druida', async () => {
     const { elementosDoCirculo } = await import('../src/rules/roda-essencias')
-    expect(elementosDoCirculo(roda, ['Flamejante', 'Sísmica', 'Ciclonal'].map((n) => `[[Essência ${n} Adepta]]`))).toBeNull()
+    expect(
+      elementosDoCirculo(roda, [...concessoes('Magias Anima', ['Flamejante']), ...concessoes('Essência Invertida', ['Hidratante'])]),
+    ).toBeNull()
   })
 })
 
@@ -150,7 +177,6 @@ describe('inválidas (ficha antiga/editada por fora)', () => {
       roda,
       sintonia: 'Fogo',
       tem: tem(['Flamejante', 'Mineral', 'Hidratante'], ['Ventania']),
-      aplicaCiclo: true,
     })
     expect(s.invalidas.get(`A:${E('Mineral')}`)).toMatch(/caminho/)
     expect(s.invalidas.get(`A:${E('Hidratante')}`)).toMatch(/oposto/)
@@ -158,7 +184,7 @@ describe('inválidas (ficha antiga/editada por fora)', () => {
     expect(s.invalidas.has(`A:${E('Flamejante')}`)).toBe(false)
   })
   it('ficha válida não tem inválidas', () => {
-    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante']), aplicaCiclo: true })
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante']) })
     expect(s.invalidas.size).toBe(0)
   })
 })
@@ -169,11 +195,12 @@ describe('Essência Invertida', () => {
       roda,
       sintonia: 'Fogo',
       tem: tem(['Flamejante', 'Hidratante']),
-      aplicaCiclo: true,
       invertidas: new Set([E('Hidratante')]),
     })
     expect(s.invalidas.size).toBe(0)
     expect(s.no.A[E('Hidratante')]).toBe('tem')
+    // isolada: não abre caminho no elemento oposto
+    expect(s.no.A[E('Congelante')]).toBe('oposto')
   })
 })
 

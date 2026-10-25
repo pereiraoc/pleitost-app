@@ -106,7 +106,7 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
   })
 
   // 2026-10-25: essências na RODA (data-roda-no) em vez de dropdowns.
-  it('a roda mostra as essências DISTINTAS do Zuko (resolução por Escolha.NN)', async () => {
+  it('a roda mostra as essências DISTINTAS do Zuko (escolhas antigas migradas pra slot)', async () => {
     renderZuko()
     await abrirMagias()
     await waitFor(() => expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBeGreaterThanOrEqual(4))
@@ -115,7 +115,7 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
     expect(tem).toContain('A:Essência Incendiária')
   })
 
-  it('desfazer UMA essência preserva as irmãs (grava Escolha.NN indexado)', async () => {
+  it('desfazer UMA essência preserva as irmãs (o slot liberado compra outra)', async () => {
     renderZuko()
     await abrirMagias()
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
@@ -128,7 +128,10 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
     fireEvent.click(no('A:Essência Relampejante')!)
     await waitFor(() => expect(no('A:Essência Relampejante')?.getAttribute('data-roda-estado')).toBe('tem'))
     const lista = JSON.stringify(overlaySalvo().fm['Habilidades.Lista'] ?? [])
-    expect(lista).toMatch(/Essência Relampejante Adepta[^}]*Escolha\.0\d\.\[\[Magias Anima\]\]/)
+    // ESSÊNCIAS POR SLOT (2026-10-25): as escolhas antigas do Zuko regravam
+    // migradas, e a nova sai como gasto de slot
+    expect(lista).toContain('{"[[Essência Relampejante Adepta]]":"Slot.A"}')
+    expect(lista).not.toContain('[[Magias Anima]]"}')
     expect(lista).toContain('Essência Incendiária Adepta')
   })
 

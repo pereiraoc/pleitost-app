@@ -11,9 +11,15 @@
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
 import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
-import { RodaEssencias, tierDaEscolha, type RodaChoice } from './RodaEssencias'
-import { ehCompostaDoCatalogo, parseEssencia } from '../../rules/roda-essencias'
+import { reskinName, reskinText } from '../../data/reskin'
+import { RodaEssencias, type SlotsCirculo } from './RodaEssencias'
+import {
+  conjuraPorEssencia,
+  ehEssencia,
+  ehMenor,
+  RANKS_AVULSOS_COM_ESSENCIA,
+  slotsDeEssencia,
+} from '../../rules/essencia-slots'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -29,6 +35,7 @@ import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, DescricaoBox, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
 import {
+  ESCOLAS_POR_ESSENCIA,
   escolaDestinoDaMagia,
   pickArcanaEspecial,
   placeMagiaChoicePick,
@@ -2240,13 +2247,6 @@ export function HabilidadesArvorePanel({
   const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) =>
     writeChoicePick(model, catalog, refs, parentTarget, choice, newWl)
 
-  // CÍRCULO DAS ESSÊNCIAS (2026-10-25): as escolhas de Essência Elemental
-  // Adepta/Experiente saem dos dropdowns e vão pro círculo (aba MAGIAS).
-  const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
-  const naRoda = new Set(
-    [...choicesByTarget.values()].flat().filter((c) => noCirculo(c, ehComposta)).map((c) => c.choiceKey),
-  )
-
   return (
     <div style={panel}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
@@ -2310,23 +2310,7 @@ export function HabilidadesArvorePanel({
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
                       children — mesmo SelectBox da subclasse (plugin
                       habilidades-card.ts renderChoiceLi:389-447). */}
-                  {it.choices.some((c) => naRoda.has(c.choiceKey)) ? (
-                    <span
-                      data-escolhas-na-roda={it.target}
-                      style={{
-                        paddingLeft: (it.child ? 26 : 0) + 26,
-                        fontFamily: 'var(--mono)',
-                        fontSize: 9.5,
-                        letterSpacing: '.1em',
-                        color: 'var(--muted)',
-                      }}
-                    >
-                      {`◎ ${reskinUpper('Essências')} NO CÍRCULO (${reskinUpper('Magias')}) · ${
-                        it.choices.filter((c) => naRoda.has(c.choiceKey) && c.pick && c.source !== 'default' && c.source !== 'none').length
-                      }/${it.choices.filter((c) => naRoda.has(c.choiceKey)).length}`}
-                    </span>
-                  ) : null}
-                  {it.choices.filter((c) => !naRoda.has(c.choiceKey)).map((c) => (
+                  {it.choices.map((c) => (
                     <div
                       key={c.choiceKey}
                       style={{
@@ -3360,25 +3344,22 @@ export function escolaCobreRank(prof: string, rankGroup: string): boolean {
 /** Painel de MAGIAS da aba COMPETÊNCIAS (primária; `sec` = Secundária).
  *  Exportado pro WIZARD de criação (#452 passo 8) — mesma mecânica de
  *  aprender/remover por slots. */
-/** Escolha que vai pro Círculo das Essências: Adepta/Experiente do ciclo e
- *  Mestre composta (entre duas vizinhas). */
-function noCirculo(c: HabChoice, ehComposta: (nome: string) => boolean): boolean {
-  return tierDaEscolha(c, ehComposta) !== null
-}
-
 /** CÍRCULO DAS ESSÊNCIAS na aba MAGIAS (2026-10-25): pra quem é ao menos
- *  Adepto em Magia Anima E tem ao menos uma essência aprendida ou pendente. */
+ *  Adepto em Magia Anima E tem slot de magia ou essência. ESSÊNCIAS POR SLOT:
+ *  o círculo gasta o MESMO pool de magia do painel (`Magias.Slots`; na linha
+ *  MENOR, `Magias.Secundaria.Slots`). */
 function CirculoEssenciasDoHeroi({
   doc,
-  refs,
   edit: editPainel,
   forcado,
+  sec,
 }: {
   doc: VaultDoc
-  refs: HeroRefs
   edit: boolean
   /** Wizard: edição sempre ligada, sem botão. */
   forcado?: boolean
+  /** Linha secundária (Treinamento de Animista → Essências Menores). */
+  sec?: boolean
 }) {
   // Botão Alterar/Concluir PRÓPRIO do círculo (o do painel Magias também liga).
   const [editProprio, setEditProprio] = useState(false)
@@ -3387,42 +3368,35 @@ function CirculoEssenciasDoHeroi({
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const detail = useDetail()
-  const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
   const fm = rules?.derivedFm ?? model.fm
-  const choices: RodaChoice[] = (rules?.habilidadeChoices ?? [])
-    .map((c) => ({
-      choiceKey: c.choiceKey,
-      label: c.label,
-      options: c.options,
-      pick: c.pick,
-      kind: c.kind,
-      targetRaw: c.targetRaw,
-      occ: c.occurrenceWithinParent,
-      source: c.source,
-      valorRaw: c.valorRaw,
-      parent: c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? '',
-    }))
-    .filter((c) => c.parent !== '' && noCirculo(c, ehComposta))
-  const anima = ((fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]).find(
-    (e) => str(e['Nome']) === 'Anima',
+  const escopo = (sec ? fmPath(fm, 'Magias', 'Secundaria') : fmPath(fm, 'Magias')) as Record<string, unknown> | undefined
+  const escolas = (escopo?.['Lista'] ?? []) as Record<string, unknown>[]
+  const animaRow = escolas.find((e) => ESCOLAS_POR_ESSENCIA.has(str(e['Nome'])))
+  const profCalc = [...ESCOLAS_POR_ESSENCIA].map((n) =>
+    str(rules?.calculated?.[`Magias.${sec ? 'Secundaria.' : ''}Lista.${n}.Proficiencia`]),
   )
-  const proficiente = !!anima && str(anima['Proficiencia']) !== '' && str(anima['Proficiencia']) !== 'N'
-  const temEssencia = [
-    ...listaEntries(fmPath(fm, 'Habilidades', 'Lista')),
-    ...listaEntries(fmPath(model.fm, 'Habilidades', 'Lista')),
-  ].some((e) => {
-    return !!parseEssencia(e.target) || ehComposta(e.target)
-  })
-  if (!proficiente || (choices.length === 0 && !temEssencia)) return null
-  const onPick = (parent: string, choice: HabChoice, wl: string) =>
-    writeChoicePick(model, catalog, refs, parent, choice, wl)
-  // Pick de escolha que ainda não está liberada no nível: apaga a linha salva.
+  const proficiente = [str(animaRow?.['Proficiencia']), ...profCalc].some((p) => p !== '' && p !== 'N')
+  const slotsFm = (escopo?.['Slots'] ?? {}) as Record<string, unknown>
+  const essencias = slotsDeEssencia(fm, !!sec)
+  const magiasSlot = (l: string) =>
+    escolas.flatMap((e) => listaEntries(e['Lista'])).filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
+  const slots = Object.fromEntries(
+    (['A', 'E', 'M'] as const).map((t) => [t, { total: num(slotsFm[t]), usados: magiasSlot(t) + essencias[t] }]),
+  ) as SlotsCirculo
+  const temEssencia = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).some(
+    (e) => ehEssencia(e.target) && ehMenor(e.target) === !!sec,
+  )
+  const temSlot = slots.A.total + slots.E.total + slots.M.total > 0
+  if (!proficiente || (!temSlot && !temEssencia)) return null
+  const lista = () => ((fmPath(model.fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[])
+  const onAdd = (alvo: string, tier: 'A' | 'E' | 'M') =>
+    model.set('Habilidades.Lista', [...lista(), { [`[[${alvo}]]`]: `Slot.${tier}` }])
   const onRemover = (alvo: string) =>
     model.set(
       'Habilidades.Lista',
-      ((fmPath(model.fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]).filter((row) => {
+      lista().filter((row) => {
         const [k, v] = Object.entries(row)[0] ?? []
-        return !(k && wikiTarget(k) === alvo && /^Escolha[.]/.test(String(v ?? '')))
+        return !(k && wikiTarget(k) === alvo && /^(Slot|Escolha)[.]/.test(String(v ?? '')))
       }),
     )
   const abrir = (nome: string) => {
@@ -3433,9 +3407,10 @@ function CirculoEssenciasDoHeroi({
     <RodaEssencias
       fm={fm}
       fmSalvo={model.fm}
-      choices={choices}
+      slots={slots}
+      menor={sec}
       edit={edit}
-      onPick={onPick}
+      onAdd={onAdd}
       onRemover={onRemover}
       onOpen={abrir}
       onToggleEdit={forcado ? undefined : () => setEditProprio((v) => !v)}
@@ -3501,6 +3476,14 @@ export function MagiasHabPanel({
   const escolasProficiente = escolasAll.filter(
     (e) => str(e.Nome) !== 'Tesouros' && str(e.Proficiencia) !== 'N',
   )
+  // Escola das ESSÊNCIAS pra quem conjura por essência: o slot A/E/M dela é
+  // gasto no Círculo — de avulsa, só a Básica. O Monstro (sem orçamento de
+  // slot, #382) segue aprendendo tudo.
+  const soEssencia = !semLimiteDeSlots && conjuraPorEssencia(fm, !!sec)
+  const rankAvulso = (escola: string, rankGroup: string) =>
+    !soEssencia ||
+    !ESCOLAS_POR_ESSENCIA.has(escola) ||
+    RANKS_AVULSOS_COM_ESSENCIA.includes(RANK_GROUP_SLOT[rankGroup] ?? 'A')
   const slotsFm = fmPath(mfm, 'Magias', 'Slots') as Record<string, unknown> | undefined
 
   // O design agrupa magias por SUBCATEGORIA ("Magias Arcana" — Negra+Branca
@@ -3558,10 +3541,13 @@ export function MagiasHabPanel({
 
   // Consumo GLOBAL por rank: o orçamento Magias.Slots é único pra TODAS as
   // escolas/categorias (view-model.ts:641-648 conta todas as aprendidas).
+  // + os slots gastos em ESSÊNCIA no Círculo (mesmo pool — essencia-slots.ts)
+  const slotsEssencia = slotsDeEssencia(fm, !!sec)
   const usedBy = (letter: string) =>
     escolasAll
       .flatMap((e) => listaEntries(e.Lista))
-      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length
+      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length +
+    (slotsEssencia[letter as 'A' | 'E' | 'M'] ?? 0)
   const slots = slotsInfo(slotsFm, usedBy, ['B', 'A', 'E', 'M'])
   // Economia SEM fungibilidade (#75/#62): cada rank com seu orçamento — espelho
   // de computeMagiaSlotsView/magiaCanAddOne (magia-slot-accounting.ts).
@@ -3658,7 +3644,7 @@ export function MagiasHabPanel({
       </div>
       )}
 
-      {sec ? null : <CirculoEssenciasDoHeroi doc={doc} refs={refs} edit={edit} forcado={forceEdit} />}
+      <CirculoEssenciasDoHeroi doc={doc} edit={edit} forcado={forceEdit} sec={sec} />
 
       <div style={panel}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
@@ -3895,6 +3881,7 @@ export function MagiasHabPanel({
                     const gateProf = essencialIds.has(id) ? profEssencial : escolaProf
                     if (!escolaCobreRank(gateProf, rank)) continue
                     if (!semLimiteDeSlots && !ranksComSlot.includes(rank)) continue
+                    if (!rankAvulso(nome, rank)) continue
                     const list = byRank.get(rank) ?? []
                     list.push(d)
                     byRank.set(rank, list)

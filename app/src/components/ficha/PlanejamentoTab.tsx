@@ -1268,7 +1268,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   doc={docDe(g.link)}
                   sufixo={`${g.rank} · ${reskinText(g.escola)}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                 />
-                <button
+                {/* essência se desfaz no Círculo das Essências (aba Magias) */}
+                {g.essencia ? null : <button
                   aria-label={`Remover ${linkLabelDisplay(g.link)}`}
                   onClick={() => {
                     if (!g.planejado) (g.secundaria ? desfazMagiaSec : desfazMagia)(g.escola, g.link)
@@ -1286,7 +1287,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
                 >
                   ✕
-                </button>
+                </button>}
               </div>
             ))}
           </div>
@@ -1298,6 +1299,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const podeAdd = livresDe(rank) > 0
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
+              if (esc.soRanks && !esc.soRanks.includes(rank)) continue
               // agrupado por RANK com cabeçalho (como nas Competências) —
               // lista plana misturava os ranks e ficava difícil de achar
               const doRank: ReactNode[] = []
@@ -1373,6 +1375,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const podeAdd = livresSecDe(rank) > 0
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
+              if (esc.soRanks && !esc.soRanks.includes(rank)) continue
               const doRank: ReactNode[] = []
               for (const d of [...spellDocsSec.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
                 if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
@@ -1698,13 +1701,50 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
    *  rendem IDENTADAS sob a essência na strip, não como row de "magia
    *  concedida" no topo (report 2026-08-25). */
   const magiasAninhadasDe = (card: LevelCard): Set<string> => {
-    const picks = new Set(escolhasPreenchidasDe(card).map((s) => baseDe(s.valor)))
+    // (+ essências compradas com slot neste card: magias sob o chip delas)
+    const picks = new Set([
+      ...escolhasPreenchidasDe(card).map((s) => baseDe(s.valor)),
+      ...card.gastos.magias.filter((g) => g.essencia).map((g) => baseDe(g.link)),
+    ])
     const out = new Set<string>()
     for (const m of card.magiasRegra) {
       const f = fonteBaseDe(m.fonte)
       if (f && picks.has(f)) out.add(`${m.escola}|${m.link}`)
     }
     return out
+  }
+
+  /** Magias concedidas por cada item (pick de seleção ou essência comprada),
+   *  identadas sob ele na strip: "↳ Essência X  [magia] [magia]". */
+  const magiasSob = (card: LevelCard, itens: Array<{ chave: string; valor: string }>): ReactNode => {
+    const comMagias = itens
+      .map((it) => ({ it, magias: card.magiasRegra.filter((m) => fonteBaseDe(m.fonte) === baseDe(it.valor)) }))
+      .filter((x) => x.magias.length)
+    if (!comMagias.length) return undefined
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {comMagias.map(({ it, magias }) => (
+          <div
+            key={`sub|${it.chave}`}
+            style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', paddingLeft: 18 }}
+          >
+            <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>↳ {linkLabelDisplay(it.valor)}</span>
+            {magias.map((m) => (
+              <PlanChip
+                key={`sm|${m.escola}|${m.link}`}
+                wl={m.link}
+                doc={docDe(m.link)}
+                fallbackIcon={(() => {
+                  const d = docDe(m.link)
+                  return d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia
+                })()}
+                sufixo={m.escola}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    )
   }
 
   // ESCOLHAS preenchidas viram CHIPS na strip do card (mesma apresentação dos
@@ -1970,6 +2010,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     sufixo={`${g.rank}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
                 )),
+                magiasSob(
+                  card,
+                  card.gastos.magias.filter((g) => g.essencia).map((g) => ({ chave: `ess|${g.link}`, valor: g.link })),
+                ),
               )
               linha(
                 'esp',
@@ -1986,12 +2030,6 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               )
               for (const [grupo] of gruposEscolhasDe(card)) {
                 const picks = selecoes.filter((s) => s.label === grupo)
-                const comMagias = picks
-                  .map((s) => ({
-                    s,
-                    magias: card.magiasRegra.filter((m) => fonteBaseDe(m.fonte) === baseDe(s.valor)),
-                  }))
-                  .filter((x) => x.magias.length)
                 linha(
                   `sel|${grupo}`,
                   reskinText(grupo).toUpperCase(),
@@ -2004,30 +2042,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       sufixo={s.plano ? 'plano' : undefined}
                     />
                   )),
-                  comMagias.length ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {comMagias.map(({ s, magias }) => (
-                        <div
-                          key={`sub|${s.choiceKey}`}
-                          style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', paddingLeft: 18 }}
-                        >
-                          <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>↳ {linkLabelDisplay(s.valor)}</span>
-                          {magias.map((m) => (
-                            <PlanChip
-                              key={`sm|${m.escola}|${m.link}`}
-                              wl={m.link}
-                              doc={docDe(m.link)}
-                              fallbackIcon={(() => {
-                                const d = docDe(m.link)
-                                return d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia
-                              })()}
-                              sufixo={m.escola}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ) : undefined,
+                  magiasSob(card, picks.map((s) => ({ chave: s.choiceKey, valor: s.valor }))),
                 )
               }
               return linhas.length ? (

@@ -116,35 +116,36 @@ describe('aba Planejamento — timeline 1..10', () => {
   }, 40000)
 
   it('escolha FUTURA grava no bloco Planejamento; subir o nível materializa o pick', async () => {
-    // Bardo N1: Magias Anima não é do Bardo — usa a escolha de magia do
-    // próprio Bardo? Mantém genérico: Guerreiro e a escolha da Especialização
-    // é SUBCLASSE (read-only aqui). Usa Animista: escolhas de essência N2/N3.
-    const id = createLocalEntity('Heroi', 'Planejador Animista', {
+    // Guerreiro N1 com a técnica Treinamento de Classe Secundária PLANEJADA
+    // pro N2: a escolha interna dela ("Classe Secundária") é FUTURA no N1.
+    // (Desde as essências por slot, 2026-10-25, nenhuma classe da vault tem
+    // escolha de nível futuro na própria nota.)
+    const id = createLocalEntity('Heroi', 'Planejador Guerreiro', {
       ...(emptyHeroFrontmatter() as Record<string, unknown>),
-      Classe: '[[Animista]]',
+      Classe: '[[Guerreiro]]',
       'Nível': 1,
-      Sintonia: '[[Traço Elemental do Fogo|Fogo]]',
-      Atributos: { FOR: 1, AGI: 2, INT: 3, PRE: 4 },
+      Atributos: { FOR: 4, AGI: 3, INT: 2, PRE: 1 },
+      Planejamento: {
+        gastosSlots: [{ nivel: 2, tipo: 'tecnica', rank: 'A', alvo: '[[Treinamento de Classe Secundária]]' }],
+      },
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    // N2 abre uma escolha de essência (Magias Anima, gate 2) — FUTURA no N1:
-    // aparece como BOTÃO-SLOT pendente; clicar abre o picker
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
-    const botao = [...card2.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('ESSÊNCIA'),
-    )
-    expect(botao, 'botão do grupo de essências no N2').toBeTruthy()
-    fireEvent.click(botao!)
-    // o editor agora abre em POPUP (portal no body)
+    const botao = await waitFor(() => {
+      const b = [...card2.querySelectorAll('button')].find((x) => (x.textContent ?? '').includes('CLASSE SECUNDÁRIA'))
+      expect(b, 'botão do grupo Classe Secundária no N2').toBeTruthy()
+      return b!
+    })
+    fireEvent.click(botao)
     const sel = await waitFor(() => {
       const s2 = [...document.querySelectorAll('select')].find((x) =>
-        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Essência')),
+        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Treinamento de')),
       ) as HTMLSelectElement
       expect(s2).toBeTruthy()
       return s2
     })
-    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Essência'))
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Treinamento de'))
     expect(opcao).toBeTruthy()
     fireEvent.change(sel, { target: { value: opcao } })
     // gravou no PLANO (não nas listas ativas)
@@ -154,7 +155,7 @@ describe('aba Planejamento — timeline 1..10', () => {
       expect(Object.values(picks)).toContain(opcao)
       expect(JSON.stringify(fm['Habilidades'] ?? {})).not.toContain(opcao)
     })
-    // sobe o nível pra 2 → o sync aplica o pick do plano nas listas reais
+    // sobe o nível pra 2 → o sync aplica a técnica e o pick do plano
     cleanup()
     setLocalEntityFm(id, 'Nível', 2)
     renderBiografia(id)
@@ -579,43 +580,42 @@ describe('escolhas preenchidas como CHIPS + auto-seed do planejamento', () => {
   it('escolha preenchida aparece como CHIP na strip ESCOLHAS, não como row', async () => {
     const id = createLocalEntity('Heroi', 'Chipado', {
       ...(emptyHeroFrontmatter() as Record<string, unknown>),
-      Classe: '[[Animista]]',
+      Classe: '[[Guerreiro]]',
       'Nível': 1,
-      Sintonia: '[[Traço Elemental do Fogo|Fogo]]',
-      Atributos: { FOR: 1, AGI: 2, INT: 3, PRE: 4 },
-      Planejamento: { picks: {} },
+      Atributos: { FOR: 4, AGI: 3, INT: 2, PRE: 1 },
+      Planejamento: {
+        picks: {},
+        gastosSlots: [{ nivel: 2, tipo: 'tecnica', rank: 'A', alvo: '[[Treinamento de Classe Secundária]]' }],
+      },
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    // escolhe a essência FUTURA (N2) pelo popup do grupo (label da regra)
+    // escolhe a classe secundária FUTURA (N2) pelo popup do grupo
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
-    const botao = [...card2.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('ESSÊNCIA'),
-    )
-    expect(botao, 'botão do grupo de essências no N2').toBeTruthy()
-    fireEvent.click(botao!)
+    const botao = await waitFor(() => {
+      const b = [...card2.querySelectorAll('button')].find((x) => (x.textContent ?? '').includes('CLASSE SECUNDÁRIA'))
+      expect(b, 'botão do grupo Classe Secundária no N2').toBeTruthy()
+      return b!
+    })
+    fireEvent.click(botao)
     const sel = await waitFor(() => {
       const s2 = [...document.querySelectorAll('select')].find((x) =>
-        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Essência')),
+        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Treinamento de')),
       ) as HTMLSelectElement
       expect(s2).toBeTruthy()
       return s2
     })
-    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Essência'))!
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Treinamento de'))!
     fireEvent.change(sel, { target: { value: opcao } })
     fireEvent.click(screen.getByLabelText('Fechar editor'))
-    // o pick vira CHIP na strip ESCOLHAS do card 2 (com marcador de plano)…
+    // o pick vira CHIP na strip do card 2 (com marcador de plano)…
     await waitFor(() => {
       const c2 = document.querySelector('[data-nivel="2"]') as HTMLElement
-      const strip = [...c2.querySelectorAll('span')].find((s) =>
-        (s.textContent ?? '').includes('ESSÊNCIA ELEMENTAL'),
-      )
-      expect(strip, 'linha do grupo de essências no card 2').toBeTruthy()
+      const strip = [...c2.querySelectorAll('span')].find((s) => (s.textContent ?? '') === 'CLASSE SECUNDÁRIA')
+      expect(strip, 'linha do grupo Classe Secundária no card 2').toBeTruthy()
       expect(strip!.parentElement!.textContent).toContain('plano')
     })
-    // …e NÃO existe mais row expansível de seleção no corpo do card (o
-    // kicker antigo era `label · sourceNote · plano`; o chip novo não traz o
-    // separador com a fonte)
+    // …e NÃO existe row expansível de seleção no corpo do card
     const c2 = document.querySelector('[data-nivel="2"]') as HTMLElement
     const kickers = [...c2.querySelectorAll('span')].map((el) => el.textContent ?? '')
     expect(kickers.some((t) => / · .+ · plano$/.test(t))).toBe(false)
@@ -630,7 +630,7 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
 
   // Círculo Druídico (2026-10-25): as duas essências da interface são
   // CONCESSÃO do círculo no N1; a escolha de essência começa no N3.
-  it('card 1: botões por grupo; essências do círculo concedidas; escolha de essência no N3 com magias identadas', async () => {
+  it('card 1: botões por grupo; essências do círculo concedidas; essência comprada no N3 com magias identadas', async () => {
     const id = createLocalEntity('Heroi', 'Leonel Teste', leonelFm())
     renderBiografia(id)
     await abrirPlanejamento()
@@ -647,16 +647,22 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
     expect(card1.textContent).toContain('Essência Enraizante Adepta')
     // sem valor cru com colchetes em lugar nenhum do card
     expect(card1.textContent).not.toContain('[[')
-    // N3: o grupo de essências com o pick e as magias IDENTADAS (↳), sem row
-    // "Magia concedida" duplicada pra elas
+    // N3: a essência comprada com o slot A do N3 (Congelante, escolha antiga
+    // migrada) na linha MAGIAS, com as magias IDENTADAS (↳) sob ela, sem row
+    // "Magia concedida" duplicada — e nada da Congelante no N1
     const card3 = document.querySelector('[data-nivel="3"]') as HTMLElement
-    const linhaEss = [...card3.querySelectorAll('span')].find((s) => s.textContent === 'ESSÊNCIA ELEMENTAL ADEPTA')
-    expect(linhaEss, 'kicker do grupo de essências no N3').toBeTruthy()
-    const grupoEl = linhaEss!.closest('div')!.parentElement!
+    const linhaMag = await waitFor(() => {
+      const k = [...card3.querySelectorAll('span')].find((x) => x.textContent === 'MAGIAS')
+      expect(k, 'linha MAGIAS no N3').toBeTruthy()
+      return k!
+    })
+    const grupoEl = linhaMag.closest('div')!.parentElement!
     expect(grupoEl.textContent).toContain('Essência Congelante Adepta')
+    expect(grupoEl.textContent).toContain('↳ Essência Congelante Adepta')
     expect(grupoEl.textContent).toContain('Caminho de Gelo')
-    const rowsMagia3 = [...card3.querySelectorAll('span')].filter((s) => (s.textContent ?? '').startsWith('Magia concedida'))
+    const rowsMagia3 = [...card3.querySelectorAll('span')].filter((x) => (x.textContent ?? '').startsWith('Magia concedida'))
     expect(rowsMagia3).toHaveLength(0)
+    expect(card1.textContent).not.toContain('Caminho de Gelo')
     // bloco-base mostra as DUAS subclasses do Druida (#498: o find() escondia
     // a Tradição Druídica)
     expect(document.body.textContent).toContain('SUBCLASSE · CÍRCULO DRUÍDICO')
@@ -819,90 +825,6 @@ describe('#501 — linha com tag de pai MORTO fica selecionável (Forma Espreita
       expect(espreitas).toHaveLength(1)
       expect(espreitas[0]).toContain('Tradição Druídica')
     })
-  }, 90000)
-})
-
-describe('#502 — essência já escolhida por IRMÃ de nível anterior não re-oferece', () => {
-  // Círculo novo (2026-10-25): Torrencial/Enraizante são concessão; a do N5
-  // não pode oferecer nem elas nem a Congelante já escolhida no N3 (irmã).
-  it('a essência do N5 não lista Torrencial/Enraizante (concessão) nem Congelante (irmã do N3)', async () => {
-    const id = createLocalEntity(
-      'Heroi',
-      'Leonel Essencias',
-      {
-        ...(JSON.parse(
-          fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
-        ).frontmatter as Record<string, unknown>),
-        'Nível': 5,
-      },
-    )
-    renderBiografia(id)
-    await abrirPlanejamento()
-    const card5 = document.querySelector('[data-nivel="5"]') as HTMLElement
-    const botao = [...card5.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('ESSÊNCIA ELEMENTAL ADEPTA'),
-    )
-    expect(botao, 'botão de essências no N5').toBeTruthy()
-    fireEvent.click(botao!)
-    const sel = await waitFor(() => {
-      const s2 = [...document.querySelectorAll('select')].find((x) =>
-        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Essência')),
-      ) as HTMLSelectElement
-      expect(s2, 'select de essência no popup do N5').toBeTruthy()
-      return s2
-    })
-    const labels = [...sel.options].map((o) => o.textContent ?? '')
-    // livres seguem ofertadas…
-    expect(labels.some((l) => l.includes('Hidratante'))).toBe(true)
-    // …mas nem as concedidas pelo círculo nem a da IRMÃ do N3 (report 2026-08-26)
-    expect(labels.some((l) => l.includes('Torrencial'))).toBe(false)
-    expect(labels.some((l) => l.includes('Enraizante'))).toBe(false)
-    expect(labels.some((l) => l.includes('Congelante'))).toBe(false)
-  }, 90000)
-})
-
-describe('#504 — pick PLANEJADO de irmã (gate futuro) também exclui a oferta nas outras', () => {
-  it('Congelante Experiente escolhida no N7 (plano) some do N9; plano não duplica', async () => {
-    const id = createLocalEntity(
-      'Heroi',
-      'Leonel Experiente',
-      JSON.parse(
-        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
-      ).frontmatter as Record<string, unknown>,
-    )
-    renderBiografia(id)
-    await abrirPlanejamento()
-    const abreEss = async (nivel: number) => {
-      const card = document.querySelector(`[data-nivel="${nivel}"]`) as HTMLElement
-      const botao = [...card.querySelectorAll('button')].find((b) =>
-        (b.textContent ?? '').includes('ESSÊNCIA ELEMENTAL EXPERIENTE'),
-      )
-      expect(botao, `botão de essências experiente no N${nivel}`).toBeTruthy()
-      fireEvent.click(botao!)
-      return waitFor(() => {
-        const s2 = [...document.querySelectorAll('select')].find((x) =>
-          [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Experiente')),
-        ) as HTMLSelectElement
-        expect(s2, `select de essência experiente no N${nivel}`).toBeTruthy()
-        return s2
-      })
-    }
-    // N7 (futuro — Leonel é N3): escolhe Congelante Experiente → vai pro PLANO
-    const sel7 = await abreEss(7)
-    const opcao = [...sel7.options].map((o) => o.value).find((v) => v.includes('Congelante Experiente'))!
-    expect(opcao).toBeTruthy()
-    fireEvent.change(sel7, { target: { value: opcao } })
-    await waitFor(() => {
-      const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
-      const picks = ((fmCur['Planejamento'] as Record<string, unknown>)?.['picks'] ?? {}) as Record<string, string>
-      expect(Object.values(picks).filter((v) => v.includes('Congelante Experiente'))).toHaveLength(1)
-    })
-    fireEvent.click(screen.getByLabelText('Fechar editor'))
-    // N9: a MESMA essência não pode ser re-ofertada (report 2026-08-26)
-    const sel9 = await abreEss(9)
-    const labels9 = [...sel9.options].map((o) => o.textContent ?? '')
-    expect(labels9.some((l) => l.includes('Torrencial Experiente'))).toBe(true) // livres seguem
-    expect(labels9.some((l) => l.includes('Congelante Experiente'))).toBe(false)
   }, 90000)
 })
 

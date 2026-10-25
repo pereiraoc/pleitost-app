@@ -24,6 +24,7 @@ import {
   setLocalEntitySession,
   useLocalStoreVersion,
 } from './local-entities'
+import { migrarEssenciasParaSlots } from '../rules/essencia-slots'
 
 export interface HeroModel {
   /** FM salvo local = FM extraído + overlay (projeção pura, sem regra). */
@@ -59,7 +60,7 @@ function extrasList(edits: HeroEdits, key: 'armas' | 'tesouros'): string[] {
  *  registro da entidade. */
 function useLocalHeroModel(heroId: string, localVersion: number): HeroModel {
   return useMemo<HeroModel>(() => {
-    const fm = (getLocalDoc(heroId)?.frontmatter ?? {}) as Record<string, unknown>
+    const fm = migrarEssenciasParaSlots((getLocalDoc(heroId)?.frontmatter ?? {}) as Record<string, unknown>)
     const session = getLocalEntitySession(heroId)
     const extras = getLocalEntityExtras(heroId)
     return {
@@ -107,8 +108,10 @@ export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
   )
   const localModel = useLocalHeroModel(heroId, localVersion)
 
+  // Ficha de antes das essências por slot (escolha → Slot.X): a projeção
+  // migrada é o que a aba lê e regrava — a primeira edição persiste a forma nova.
   const fm = useMemo(
-    () => applyFmEdits((doc.frontmatter ?? {}) as Record<string, unknown>, edits.fm),
+    () => migrarEssenciasParaSlots(applyFmEdits((doc.frontmatter ?? {}) as Record<string, unknown>, edits.fm)),
     [doc, edits],
   )
 

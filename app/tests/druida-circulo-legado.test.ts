@@ -1,10 +1,9 @@
-// DRUIDA (vault 2026-10-25): o Círculo Druídico passou a CONCEDER as duas
-// essências da interface (Oceano: Torrencial + Enraizante) no lugar das duas
-// escolhas do nível 1. Fichas antigas guardam esses picks como
-// `Escolha.01/02.[[Círculo …]]`; a escolha que restou (nível 3) não pode
-// herdar um pick que agora é concessão fixa, e não pode cair num padrão que
-// o jogador nunca escolheu. Leonel (Oceano, nível 3): tinha Torrencial (01)
-// e Congelante (02) → Torrencial vira concessão; Congelante é o pick do N3.
+// DRUIDA (vault 2026-10-25): o Círculo Druídico CONCEDE as duas essências da
+// interface (Oceano: Torrencial + Enraizante) e dá slots de magia A no N3 e
+// no N5. Fichas antigas guardam os picks como `Escolha.01/02.[[Círculo …]]`:
+// o que virou concessão fixa não gasta slot (reembolso) e o resto migra pra
+// Slot.A. Leonel (Oceano, nível 3): tinha Torrencial (01) e Congelante (02)
+// → Torrencial é concessão; Congelante gasta o slot do N3.
 import { expect, it } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -19,7 +18,7 @@ const catalog = buildCatalog(JSON.parse(fs.readFileSync(path.join(dir, 'index.js
 const load = async (id: string): Promise<VaultDoc> =>
   JSON.parse(fs.readFileSync(path.join(dir, `${id}.json`), 'utf8')) as VaultDoc
 
-it('Leonel: Congelante vira o pick do nível 3; Torrencial e Enraizante vêm do círculo', async () => {
+it('Leonel: Congelante gasta o slot do nível 3; Torrencial e Enraizante vêm do círculo', async () => {
   const fm = {
     ...((await load('Sistema/Criaturas/Heróis/Leonel Bravolla')).frontmatter as Record<string, unknown>),
     Habilidades: {
@@ -33,11 +32,12 @@ it('Leonel: Congelante vira o pick do nível 3; Torrencial e Enraizante vêm do 
     },
   }
   const { projection } = await projectHeroRules(fm, catalog, load)
-  const c = projection.habilidadeChoices.find((x) => x.sourceNote.startsWith('Círculo do Oceano'))!
-  expect(c.pick).toBe('[[Essência Congelante Adepta]]')
-  expect(c.source).toBe('inferred')
-  const alvos = JSON.stringify((projection.derivedFm['Habilidades'] as { Lista: unknown[] }).Lista)
-  expect(alvos).toContain('Essência Enraizante Adepta')
-  expect(alvos).toContain('Essência Torrencial Adepta')
-  expect(alvos).not.toContain('Essência Hidratante Adepta') // nada de padrão inventado
+  expect(projection.habilidadeChoices.filter((x) => x.sourceNote.startsWith('Círculo do Oceano'))).toEqual([])
+  const lista = (projection.derivedFm['Habilidades'] as { Lista: Record<string, string>[] }).Lista
+  const fonte = (alvo: string) => lista.find((r) => Object.keys(r)[0] === `[[${alvo}]]`)?.[`[[${alvo}]]`]
+  expect(fonte('Essência Congelante Adepta')).toBe('Slot.A')
+  expect(fonte('Essência Torrencial Adepta')).toMatch(/^Regra\.\[\[Círculo do Oceano/)
+  expect(fonte('Essência Enraizante Adepta')).toMatch(/^Regra\.\[\[Círculo do Oceano/)
+  expect(fonte('Essência Hidratante Adepta')).toBeUndefined() // nada de padrão inventado
+  expect((projection.derivedFm['Magias'] as { Slots: Record<string, number> }).Slots.A).toBe(1)
 }, 60000)

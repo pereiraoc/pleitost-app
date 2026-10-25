@@ -9,6 +9,7 @@ import { localDocByBasename, useLocalStoreVersion } from '../data/local-entities
 import type { Catalog } from '../data/catalog'
 import type { VaultDoc } from '../data/types'
 import { rulesModelFromFm, type RulesModel } from './rules-model'
+import { migrarEssenciasParaSlots } from './essencia-slots'
 import { extractHeroRules, ruleModelKey, type DocResolver, type HeroRulesResult } from './extract'
 import { wikilinkBasename } from './rule-applier'
 import { buildHeroProjection, type HeroProjection } from './projection'
@@ -41,6 +42,7 @@ export async function projectHeroRules(
   load: (id: string) => Promise<VaultDoc>,
   transientPicks?: Record<string, string>,
 ): Promise<{ model: RulesModel; projection: HeroProjection }> {
+  fm = migrarEssenciasParaSlots(fm)
   const model = rulesModelFromFm(fm)
   const result = await extractHeroRules(model, catalogDocResolver(catalog, load), transientPicks)
   return { model, projection: buildHeroProjection(model, result, catalog, fm) }
@@ -54,8 +56,10 @@ export async function projectHeroRules(
  *  re-extrai: reaproveita a extração cacheada e apenas REFUNDE o `calculated` no
  *  fm atual (buildHeroProjection é síncrono e barato), então a bio nova reflete
  *  na hora no `derivedFm` sem o custo (nem o flicker de "loading") da extração. */
-export function useHeroRules(fm: Record<string, unknown>): HeroProjection | undefined {
+export function useHeroRules(fmBruto: Record<string, unknown>): HeroProjection | undefined {
   const catalog = useCatalog()
+  // Ficha de antes das essências por slot (escolha → Slot.X): idempotente.
+  const fm = useMemo(() => migrarEssenciasParaSlots(fmBruto), [fmBruto])
 
   // RulesModel do fm atual — barato, mas referência nova a cada edit (o fm é
   // recriado a cada tecla). Só lê campos que a avaliação de regra usa.

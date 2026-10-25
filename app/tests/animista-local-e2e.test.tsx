@@ -84,48 +84,42 @@ async function abrirMagias() {
 }
 
 describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)', () => {
-  // 2026-10-25: as essências saíram dos dropdowns pra RODA DAS ESSÊNCIAS — o
-  // pick é um clique no nó do ciclo (data-roda-no="A:Essência X").
-  it('escolher Essência Flamejante Adepta pela roda adiciona as magias no card', { timeout: 30000 }, async () => {
+  // 2026-10-25: ESSÊNCIAS POR SLOT — a pura da sintonia vem de graça (Magias
+  // Anima) e cada slot de magia compra uma vizinha pelo Círculo das Essências
+  // (data-roda-no="A:Essência X").
+  it('a pura vem de graça e a essência comprada pela roda adiciona as magias no card', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
-    // #480: escolhas de essência são condicionais à Sintonia
+    // #480: a pura é condicional à Sintonia
     setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
 
     // 1. Alterar no painel Magias (Círculo das Essências)
     await abrirMagias()
 
-    // 2. o círculo aparece com a pura da sintonia acesa (rules resolvidas)
+    // 2. a pura já está lá, com as magias dela
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
-    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('livre'), {
+    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('tem'), {
       timeout: 8000,
     })
+    await waitFor(() => expect(screen.getAllByText('Raio Flamejante').length).toBeGreaterThan(0), { timeout: 5000 })
 
-    // 3. pick da Essência Flamejante Adepta
-    fireEvent.click(no('A:Essência Flamejante')!)
+    // 3. compra a Explosiva (vizinha) com um slot A
+    await waitFor(() => expect(no('A:Essência Explosiva')?.getAttribute('data-roda-estado')).toBe('livre'))
+    fireEvent.click(no('A:Essência Explosiva')!)
 
-    // 4. o pick persiste no FM local
+    // 4. o gasto persiste no FM local como Slot.A
     await waitFor(() => {
       const fm = getLocalDoc(id)!.frontmatter as any
-      expect(JSON.stringify(fm.Habilidades?.Lista ?? [])).toContain('Essência Flamejante Adepta')
+      expect(JSON.stringify(fm.Habilidades?.Lista ?? [])).toContain('{"[[Essência Explosiva Adepta]]":"Slot.A"}')
     })
 
-    // 5. as magias da essência aparecem no card de Magias (Raio Flamejante +
-    //    Cone de Fogo, concedidas por Complementar Magias.Lista)
-    await waitFor(
-      () => {
-        expect(screen.getAllByText('Raio Flamejante').length).toBeGreaterThan(0)
-        expect(screen.getAllByText('Cone de Fogo').length).toBeGreaterThan(0)
-      },
-      { timeout: 5000 },
-    )
+    // 5. as magias da essência aparecem no card de Magias
+    await waitFor(() => expect(screen.getAllByText('Estouro').length).toBeGreaterThan(0), { timeout: 5000 })
   })
 
-  // Bug #4d: "não pode deixar o cara repetir escolha nos dropdowns de essencia,
-  // se pegou uma em um, no outro não pode." Na roda: nada nasce escolhido, e a
-  // essência escolhida ocupa UMA vaga só.
-  it('a roda nasce sem escolha e a essência escolhida ocupa uma vaga só', { timeout: 30000 }, async () => {
+  // Bug #4d: a essência escolhida ocupa UMA vaga só.
+  it('a roda nasce só com a pura e a essência escolhida ocupa um slot só', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 2', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
     setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
@@ -133,14 +127,14 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
     await abrirMagias()
     const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
     const contador = () => document.querySelector('[data-roda-contador="A"]')?.textContent
-    await waitFor(() => expect(contador()).toMatch(/0\/\d/), { timeout: 8000 })
-    expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBe(0)
+    await waitFor(() => expect(contador()).toMatch(/0\/2/), { timeout: 8000 })
+    expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBe(1)
 
-    fireEvent.click(no('A:Essência Flamejante')!)
-    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('tem'))
-    expect(contador()).toMatch(/^ADEPTA 1\//)
+    fireEvent.click(no('A:Essência Incendiária')!)
+    await waitFor(() => expect(no('A:Essência Incendiária')?.getAttribute('data-roda-estado')).toBe('tem'))
+    expect(contador()).toMatch(/^ADEPTA 1\/2/)
     const lista = JSON.stringify((getLocalDoc(id)!.frontmatter as any).Habilidades?.Lista ?? [])
-    expect(lista.split('Essência Flamejante Adepta').length - 1).toBe(1)
+    expect(lista.split('Essência Incendiária Adepta').length - 1).toBe(1)
   })
 
   it('classe SEM subclasse: o select de classe ocupa a linha inteira', { timeout: 30000 }, async () => {

@@ -251,6 +251,26 @@ function pruneOrphanedRuleEntries(rows: Row[], calculatedItems: unknown[]): void
   }
 }
 
+/** Habilidade comprada com SLOT que uma regra fixa passou a CONCEDER (a pura
+ *  da sintonia do Animista, gravada como escolha antes de 2026-10-25): a
+ *  concessão vence e o slot volta pro pool — a linha assume a fonte da regra. */
+function refundSlotsConcedidos(rows: Row[], calculatedItems: unknown[]): void {
+  const porRegra = new Map<string, string>()
+  for (const it of calculatedItems) {
+    if (!it || typeof it !== 'object') continue
+    const { link, source } = it as { link?: unknown; source?: unknown }
+    if (typeof link === 'string' && typeof source === 'string' && source.startsWith('Regra'))
+      porRegra.set(wikiTarget(link), source)
+  }
+  for (let i = 0; i < rows.length; i++) {
+    const entry = Object.entries(rows[i]!)[0]
+    if (!entry) continue
+    const [link, source] = entry
+    const regra = porRegra.get(wikiTarget(link))
+    if (regra && typeof source === 'string' && source.startsWith('Slot.')) rows[i] = { [link]: regra }
+  }
+}
+
 // ─── proficiência das listas (perícias/ofícios) ──────────────────────────
 
 const PROF_FIELD_SCALAR: Record<string, string> = {
@@ -490,6 +510,7 @@ export function mergeCalculatedIntoFm(
       // #51: poda entradas rule-derived (Regra./Escolha.) que a regra NÃO produz
       // mais (unpick / condição deixou de valer) — antes ficavam até re-salvar.
       pruneOrphanedRuleEntries(rows, value)
+      if (LIST_TARGETS[key]![0] === 'Habilidades') refundSlotsConcedidos(rows, value)
       appendMergeFmList(rows, value)
       continue
     }
