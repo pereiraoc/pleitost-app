@@ -24,6 +24,7 @@ import {
   provenanceMatches,
   scopePasses,
   wikilinkBasename,
+  wikilinkTarget,
   type ApplyContext,
   type ApplyResult,
   type Deltas,
@@ -617,8 +618,29 @@ async function extractHeroRulesOnce(
       return true
     })
     // Inferência sobre o MODEL ORIGINAL (FM salvo), nunca o workingModel —
-    // plugin rule-elements-extractor.ts:575-580.
-    resolvedChoices = resolveAllChoices(discovered, model, transientPicks ?? {})
+    // plugin rule-elements-extractor.ts:575-580. Menos os picks gravados que a
+    // cascata agora CONCEDE por regra fixa (Círculo Druídico passou a dar as
+    // essências da interface no lugar das escolhas do nível 1, 2026-10-25):
+    // sem isso o pick antigo ocupava a escolha que restou ou bloqueava a
+    // inferência do outro, e a escolha caía num padrão nunca escolhido.
+    const concedidos = habilidadesConcedidasPorRegra(editable, (r) => {
+      if (!scopePasses(r.scope, ctx, r.sourceNote)) return false
+      if (!conditionPasses(r.condition, workingModel)) return false
+      return provenanceMatches(r.provenance, ctx, workingModel)
+    })
+    const modelInferencia =
+      concedidos.size === 0
+        ? model
+        : {
+            ...model,
+            habilidades: {
+              ...model.habilidades,
+              lista: model.habilidades.lista.filter(
+                (it) => !(/^Escolha[.]/.test(it.source) && concedidos.has(wikilinkTarget(it.link))),
+              ),
+            },
+          }
+    resolvedChoices = resolveAllChoices(discovered, modelInferencia, transientPicks ?? {})
     injectPicks(editable, resolvedChoices)
     ctx.choicesObj = buildPicksRecord(resolvedChoices)
 
@@ -675,7 +697,18 @@ async function extractHeroRulesOnce(
         if (!doc) return { option: opt, folder: '', rank: '' }
         const folder = doc.id.includes('/') ? doc.id.slice(0, doc.id.lastIndexOf('/')) : ''
         const inline = linkLabel(str((doc.inlineFields ?? {})['rank']))
-        return { option: opt, folder, rank: rankGroupLabel(inline || str(doc.subtype ?? '')) }
+        const regras = Array.isArray(doc.frontmatter['Elementos_de_Regra'])
+          ? (doc.frontmatter['Elementos_de_Regra'] as unknown[])
+          : []
+        const requer = regras
+          .map((r) => /Requisito\s+Contem\(Habilidades\)\s+\[\[([^\]|]+)/.exec(String(r))?.[1])
+          .filter((x): x is string => !!x)
+        return {
+          option: opt,
+          folder,
+          rank: rankGroupLabel(inline || str(doc.subtype ?? '')),
+          ...(requer.length ? { requer } : {}),
+        }
       }),
     )
   }
@@ -718,3 +751,19 @@ export function tecnicaRequisitosCumpridos(model: RulesModel, doc: VaultDoc): bo
 }
 
 export { wikilinkBasename }
+
+/** Alvos de `Complementar Habilidades.Lista [[X]]` FIXOS (fora de escolha) que
+ *  passam no gate — o que a cascata concede sem o jogador escolher. */
+function habilidadesConcedidasPorRegra(rules: ParsedRule[], passa: (r: ParsedRule) => boolean): Set<string> {
+  const out = new Set<string>()
+  for (const r of rules) {
+    if (r.scope.some((s) => s.kind === 'escolha')) continue
+    const a = r.action
+    if (a.kind !== 'complementar' || !/^Habilidades\.Lista$/i.test(a.targetRaw)) continue
+    if (!passa(r)) continue
+    const alvo = wikilinkTarget(a.valueRaw)
+    if (alvo) out.add(alvo)
+  }
+  return out
+}
+

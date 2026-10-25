@@ -754,6 +754,8 @@ function filterChoiceOptionsByLineage(
     const eligible = (opt: string): boolean => {
       if (opt === c.pick) return true
       const meta = c.optionsMeta!.find((m) => m.option === opt)
+      // Requisito explícito na nota (Mestre composta): vale ELE, não a pasta.
+      if (meta?.requer?.length) return meta.requer.every((t) => ownedTargets.has(t))
       const prev = meta ? LINEAGE_PREV_RANK[meta.rank] : undefined
       if (!meta || !prev) return true
       if (!isLineageFolder(meta.folder)) return true

@@ -32,7 +32,14 @@ export interface ChoiceDescriptor {
   /** App-side (bug #5): metadados de cada option (pasta da linha + rank da
    *  nota, lidos do doc via resolver no extract) pro filtro de elegibilidade
    *  por linhagem na projeção. Ausente = sem filtro. */
-  optionsMeta?: Array<{ option: string; folder: string; rank: string }>
+  optionsMeta?: Array<{
+    option: string
+    folder: string
+    rank: string
+    /** Alvos dos `Requisito Contem(Habilidades) [[X]]` da nota da opção — quando
+     *  há, ELES são o pré-requisito (Essência Mestre composta), não a pasta. */
+    requer?: string[]
+  }>
 }
 
 /** Espelho de discoverChoices (plugin resolve-choices.ts:70-144). */

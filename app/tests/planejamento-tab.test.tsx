@@ -628,35 +628,35 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
       fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
     ).frontmatter as Record<string, unknown>
 
-  it('card 1: botões por grupo; essências com magias identadas; sem row de magia concedida duplicada', async () => {
+  // Círculo Druídico (2026-10-25): as duas essências da interface são
+  // CONCESSÃO do círculo no N1; a escolha de essência começa no N3.
+  it('card 1: botões por grupo; essências do círculo concedidas; escolha de essência no N3 com magias identadas', async () => {
     const id = createLocalEntity('Heroi', 'Leonel Teste', leonelFm())
     renderBiografia(id)
     await abrirPlanejamento()
     const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
     const botoes = [...card1.querySelectorAll('button')].map((b) => b.textContent ?? '')
     // um botão POR TIPO de seleção (label da regra), não um "SELEÇÕES" único
-    expect(botoes.some((t) => t.includes('ESSÊNCIA ELEMENTAL ADEPTA'))).toBe(true)
     expect(botoes.some((t) => t.includes('TÉCNICA ('))).toBe(true)
     expect(botoes.some((t) => t.includes('FORMA ('))).toBe(true)
     expect(botoes.some((t) => t.includes('SELEÇÕES'))).toBe(false)
-    // linha do grupo de essências com os DOIS picks
-    const linhaEss = [...card1.querySelectorAll('span')].find((s) =>
-      s.textContent === 'ESSÊNCIA ELEMENTAL ADEPTA',
-    )
-    expect(linhaEss, 'kicker do grupo de essências').toBeTruthy()
-    const grupoEl = linhaEss!.closest('div')!.parentElement!
-    expect(grupoEl.textContent).toContain('Essência Torrencial Adepta')
-    expect(grupoEl.textContent).toContain('Essência Congelante Adepta')
-    // magias concedidas IDENTADAS sob cada essência (↳)
-    expect(grupoEl.textContent).toContain("Esfera d'Água")
-    expect(grupoEl.textContent).toContain('Caminho de Gelo')
-    // …e NÃO aparecem mais como row "Magia concedida" no topo do card
-    const rowsMagia = [...card1.querySelectorAll('span')].filter((s) =>
-      (s.textContent ?? '').startsWith('Magia concedida'),
-    )
-    expect(rowsMagia).toHaveLength(0)
+    // N1 não escolhe essência: Torrencial e Enraizante vêm do Círculo do Oceano
+    expect(botoes.some((t) => t.includes('ESSÊNCIA ELEMENTAL ADEPTA'))).toBe(false)
+    expect(card1.textContent).toContain('VIA CÍRCULO DO OCEANO')
+    expect(card1.textContent).toContain('Essência Torrencial Adepta')
+    expect(card1.textContent).toContain('Essência Enraizante Adepta')
     // sem valor cru com colchetes em lugar nenhum do card
     expect(card1.textContent).not.toContain('[[')
+    // N3: o grupo de essências com o pick e as magias IDENTADAS (↳), sem row
+    // "Magia concedida" duplicada pra elas
+    const card3 = document.querySelector('[data-nivel="3"]') as HTMLElement
+    const linhaEss = [...card3.querySelectorAll('span')].find((s) => s.textContent === 'ESSÊNCIA ELEMENTAL ADEPTA')
+    expect(linhaEss, 'kicker do grupo de essências no N3').toBeTruthy()
+    const grupoEl = linhaEss!.closest('div')!.parentElement!
+    expect(grupoEl.textContent).toContain('Essência Congelante Adepta')
+    expect(grupoEl.textContent).toContain('Caminho de Gelo')
+    const rowsMagia3 = [...card3.querySelectorAll('span')].filter((s) => (s.textContent ?? '').startsWith('Magia concedida'))
+    expect(rowsMagia3).toHaveLength(0)
     // bloco-base mostra as DUAS subclasses do Druida (#498: o find() escondia
     // a Tradição Druídica)
     expect(document.body.textContent).toContain('SUBCLASSE · CÍRCULO DRUÍDICO')
@@ -823,34 +823,40 @@ describe('#501 — linha com tag de pai MORTO fica selecionável (Forma Espreita
 })
 
 describe('#502 — essência já escolhida por IRMÃ de nível anterior não re-oferece', () => {
-  it('a essência do N3 não lista Torrencial/Congelante (picks das irmãs do N1)', async () => {
+  // Círculo novo (2026-10-25): Torrencial/Enraizante são concessão; a do N5
+  // não pode oferecer nem elas nem a Congelante já escolhida no N3 (irmã).
+  it('a essência do N5 não lista Torrencial/Enraizante (concessão) nem Congelante (irmã do N3)', async () => {
     const id = createLocalEntity(
       'Heroi',
       'Leonel Essencias',
-      JSON.parse(
-        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
-      ).frontmatter as Record<string, unknown>,
+      {
+        ...(JSON.parse(
+          fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+        ).frontmatter as Record<string, unknown>),
+        'Nível': 5,
+      },
     )
     renderBiografia(id)
     await abrirPlanejamento()
-    const card3 = document.querySelector('[data-nivel="3"]') as HTMLElement
-    const botao = [...card3.querySelectorAll('button')].find((b) =>
+    const card5 = document.querySelector('[data-nivel="5"]') as HTMLElement
+    const botao = [...card5.querySelectorAll('button')].find((b) =>
       (b.textContent ?? '').includes('ESSÊNCIA ELEMENTAL ADEPTA'),
     )
-    expect(botao, 'botão de essências no N3').toBeTruthy()
+    expect(botao, 'botão de essências no N5').toBeTruthy()
     fireEvent.click(botao!)
     const sel = await waitFor(() => {
       const s2 = [...document.querySelectorAll('select')].find((x) =>
         [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Essência')),
       ) as HTMLSelectElement
-      expect(s2, 'select de essência no popup do N3').toBeTruthy()
+      expect(s2, 'select de essência no popup do N5').toBeTruthy()
       return s2
     })
     const labels = [...sel.options].map((o) => o.textContent ?? '')
     // livres seguem ofertadas…
     expect(labels.some((l) => l.includes('Hidratante'))).toBe(true)
-    // …mas as escolhidas pelas IRMÃS do N1 não repetem (report 2026-08-26)
+    // …mas nem as concedidas pelo círculo nem a da IRMÃ do N3 (report 2026-08-26)
     expect(labels.some((l) => l.includes('Torrencial'))).toBe(false)
+    expect(labels.some((l) => l.includes('Enraizante'))).toBe(false)
     expect(labels.some((l) => l.includes('Congelante'))).toBe(false)
   }, 90000)
 })

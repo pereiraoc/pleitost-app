@@ -171,34 +171,36 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
     expect(regsDe(id)).toHaveLength(5)
   }, 120000)
 
-  it('magia planejada (Enraizar@4 do Leonel N3) materializa ao subir e desfaz ao descer', async () => {
+  // Enraizar virou concessão do Círculo do Oceano (Enraizante de graça,
+  // 2026-10-25) — a magia planejada passa a ser Hidrovitalizar (Hidratante).
+  it('magia planejada (Hidrovitalizar@4 do Leonel N3) materializa ao subir e desfaz ao descer', async () => {
     const base = JSON.parse(
       fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
     ).frontmatter as Record<string, unknown>
     const id = createLocalEntity('Heroi', 'Leonel Magia', {
       ...base,
       Planejamento: {
-        gastosSlots: [{ nivel: 4, tipo: 'magia', rank: 'A', alvo: '[[Enraizar]]', contexto: 'Anima' }],
+        gastosSlots: [{ nivel: 4, tipo: 'magia', rank: 'A', alvo: '[[Hidrovitalizar]]', contexto: 'Anima' }],
       },
     })
     renderBiografia(id)
     await abrirPlanejamento()
     // N3: planejada — NÃO entra na escola real
-    expect(magiasAnimaDe(id)).not.toContain('[[Enraizar]]')
+    expect(magiasAnimaDe(id)).not.toContain('[[Hidrovitalizar]]')
 
     cleanup()
     setLocalEntityFm(id, 'Nível', 4)
     renderBiografia(id)
     await abrirPlanejamento()
-    await waitFor(() => expect(magiasAnimaDe(id)).toContain('[[Enraizar]]'), { timeout: 20000 })
+    await waitFor(() => expect(magiasAnimaDe(id)).toContain('[[Hidrovitalizar]]'), { timeout: 20000 })
 
     cleanup()
     setLocalEntityFm(id, 'Nível', 3)
     renderBiografia(id)
     await abrirPlanejamento()
-    await waitFor(() => expect(magiasAnimaDe(id)).not.toContain('[[Enraizar]]'), { timeout: 20000 })
+    await waitFor(() => expect(magiasAnimaDe(id)).not.toContain('[[Hidrovitalizar]]'), { timeout: 20000 })
     // o registro sobrevive ao ciclo inteiro
-    expect(regsDe(id).some((r) => String(r['alvo']).includes('Enraizar'))).toBe(true)
+    expect(regsDe(id).some((r) => String(r['alvo']).includes('Hidrovitalizar'))).toBe(true)
   }, 120000)
 
   it('escolha REAL com gate acima do novo nível vira snapshot no plano ao descer', async () => {
@@ -208,19 +210,21 @@ describe('transições de nível — DESCER desfaz sem perder, SUBIR re-material
     const habs = (base['Habilidades'] as { Lista: Array<Record<string, unknown>> }).Lista
     const id = createLocalEntity('Heroi', 'Leonel Snapshot', {
       ...base,
+      'Nível': 5,
       Habilidades: {
         ...(base['Habilidades'] as Record<string, unknown>),
         Lista: [
           ...habs,
-          // terceira essência escolhida DE VERDADE (gate N3 = nível atual)
-          { '[[Essência Hidratante Adepta]]': 'Escolha.03.[[Círculo do Oceano (Água e Terra)]]' },
+          // essência do N5 escolhida DE VERDADE (com o círculo novo: N3 = 01,
+          // N5 = 02 — as duas do N1 são concessão do círculo)
+          { '[[Essência Hidratante Adepta]]': 'Escolha.02.[[Círculo do Oceano (Água e Terra)]]' },
         ],
       },
     })
     renderBiografia(id)
     await abrirPlanejamento()
     cleanup()
-    setLocalEntityFm(id, 'Nível', 2)
+    setLocalEntityFm(id, 'Nível', 3)
     renderBiografia(id)
     await abrirPlanejamento()
     // o pick não pode EVAPORAR: vai pro plano enquanto o gate está acima

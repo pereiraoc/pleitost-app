@@ -131,4 +131,45 @@ describe('Roda das Essências', () => {
     const lista = JSON.stringify((getLocalDoc(id)!.frontmatter['Habilidades'] as any).Lista)
     expect(lista).not.toContain('Essência Sísmica Adepta')
   }, 40000)
+
+  it('nível 7: anel Mestre com as compostas ENTRE as vizinhas, exigindo as duas Experientes', async () => {
+    const id = renderHeroi({
+      Nível: 7,
+      Habilidades: {
+        Lista: [
+          { '[[Essência Flamejante Adepta]]': 'Escolha.01.[[Magias Anima]]' },
+          { '[[Essência Explosiva Adepta]]': 'Escolha.02.[[Magias Anima]]' },
+          { '[[Essência Flamejante Experiente]]': 'Escolha.01.[[Elementalista]]' },
+          { '[[Essência Explosiva Experiente]]': 'Escolha.02.[[Elementalista]]' },
+        ],
+      },
+    })
+    await waitFor(() => expect(no('M:Essência do Meteoro')).toBeTruthy(), { timeout: 15000 })
+    await waitFor(() => expect(estado('M:Essência do Meteoro')).toBe('livre'), { timeout: 15000 })
+    expect(estado('M:Essência do Sol')).toBe('fechado') // falta a Incendiária Experiente
+    expect(no('M:Essência Flamejante')).toBeNull() // nada de Mestre "de uma essência só"
+    fireEvent.click(no('M:Essência do Meteoro')!)
+    await waitFor(() => {
+      const lista = JSON.stringify((getLocalDoc(id)!.frontmatter['Habilidades'] as any).Lista)
+      expect(lista).toMatch(/Essência do Meteoro[^}]*Escolha(\.\d\d)?\.\[\[Avatar\]\]/)
+    })
+  }, 40000)
+
+  it('Druida do Oceano: interface de graça, corda entre as pontas, qualquer essência de Água/Terra', async () => {
+    renderHeroi({
+      Classe: '[[Druida]]',
+      Sintonia: '[[Traço Elemental da Água]]',
+      Nível: 3,
+      Atributos: { Principal: 'INT', FOR: 0, AGI: 1, INT: 3, PRE: 2 },
+      Habilidades: { Lista: [{ '[[Círculo do Oceano (Água e Terra)]]': 'Escolha.[[Círculo Druídico]]' }] },
+    })
+    await waitFor(() => expect(estado('A:Essência Torrencial')).toBe('tem'), { timeout: 15000 })
+    expect(estado('A:Essência Enraizante')).toBe('tem')
+    expect(estado('A:Essência Sísmica')).toBe('livre')
+    expect(estado('A:Essência Congelante')).toBe('livre')
+    expect(estado('A:Essência Flamejante')).toBe('oposto')
+    const cordas = [...document.querySelectorAll('[data-roda-corda]')].map((n) => n.getAttribute('data-roda-corda')).sort()
+    expect(cordas).toEqual(['Essência Sísmica|Essência Enraizante', 'Essência Torrencial|Essência Congelante'].sort())
+  }, 40000)
 })
+

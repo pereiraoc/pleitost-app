@@ -13,7 +13,7 @@ import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { RodaEssencias, tierDaEscolha, type RodaChoice } from './RodaEssencias'
-import { parseEssencia } from '../../rules/roda-essencias'
+import { ehCompostaDoCatalogo, parseEssencia } from '../../rules/roda-essencias'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -2242,8 +2242,9 @@ export function HabilidadesArvorePanel({
 
   // CÍRCULO DAS ESSÊNCIAS (2026-10-25): as escolhas de Essência Elemental
   // Adepta/Experiente saem dos dropdowns e vão pro círculo (aba MAGIAS).
+  const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
   const naRoda = new Set(
-    [...choicesByTarget.values()].flat().filter((c) => noCirculo(c)).map((c) => c.choiceKey),
+    [...choicesByTarget.values()].flat().filter((c) => noCirculo(c, ehComposta)).map((c) => c.choiceKey),
   )
 
   return (
@@ -2721,8 +2722,13 @@ export function choiceOptionsSiblingAware(
       // "Própria" = o tag aponta pro PAI desta escolha — cobre o formato atual
       // (Escolha.[[pai]] / Escolha.NN.[[pai]]) e o legado (picks antigos foram
       // gravados como Regra.[[pai]], ex.: Especialista em Caçada do Drauzio).
+      // `Regra.[[pai]]` só é "própria" quando é o pick legado DESTA escolha; o
+      // resto do que o pai concede por regra fixa (essências da interface do
+      // Círculo Druídico, 2026-10-25) já está na lista e não se re-oferece.
       const propria =
-        (e.fonte.kind === 'Escolha' || e.fonte.kind === 'Regra') && e.fonte.target === parentTarget
+        e.fonte.target === parentTarget &&
+        (e.fonte.kind === 'Escolha' ||
+          (e.fonte.kind === 'Regra' && !!c.pick && wikiTarget(String(c.pick)) === e.target))
       if (!propria) taken.add(e.target)
     }
   }
@@ -3354,11 +3360,10 @@ export function escolaCobreRank(prof: string, rankGroup: string): boolean {
 /** Painel de MAGIAS da aba COMPETÊNCIAS (primária; `sec` = Secundária).
  *  Exportado pro WIZARD de criação (#452 passo 8) — mesma mecânica de
  *  aprender/remover por slots. */
-/** Escolha que vai pro Círculo das Essências: Adepta/Experiente do ciclo (a
- *  Mestre segue no dropdown até existirem as notas das compostas). */
-function noCirculo(c: HabChoice): boolean {
-  const t = tierDaEscolha(c)
-  return t === 'A' || t === 'E'
+/** Escolha que vai pro Círculo das Essências: Adepta/Experiente do ciclo e
+ *  Mestre composta (entre duas vizinhas). */
+function noCirculo(c: HabChoice, ehComposta: (nome: string) => boolean): boolean {
+  return tierDaEscolha(c, ehComposta) !== null
 }
 
 /** CÍRCULO DAS ESSÊNCIAS na aba MAGIAS (2026-10-25): pra quem é ao menos
@@ -3368,6 +3373,7 @@ function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: Her
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const detail = useDetail()
+  const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
   const fm = rules?.derivedFm ?? model.fm
   const choices: RodaChoice[] = (rules?.habilidadeChoices ?? [])
     .map((c) => ({
@@ -3382,7 +3388,7 @@ function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: Her
       valorRaw: c.valorRaw,
       parent: c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? '',
     }))
-    .filter((c) => c.parent !== '' && noCirculo(c))
+    .filter((c) => c.parent !== '' && noCirculo(c, ehComposta))
   const anima = ((fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]).find(
     (e) => str(e['Nome']) === 'Anima',
   )
@@ -3391,8 +3397,7 @@ function CirculoEssenciasDoHeroi({ doc, refs, edit }: { doc: VaultDoc; refs: Her
     ...listaEntries(fmPath(fm, 'Habilidades', 'Lista')),
     ...listaEntries(fmPath(model.fm, 'Habilidades', 'Lista')),
   ].some((e) => {
-    const p = parseEssencia(e.target)
-    return !!p && p.tier !== 'M'
+    return !!parseEssencia(e.target) || ehComposta(e.target)
   })
   if (!proficiente || (choices.length === 0 && !temEssencia)) return null
   const onPick = (parent: string, choice: HabChoice, wl: string) =>

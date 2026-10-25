@@ -14,12 +14,19 @@ import { ELEMENTO_COR, ELEMENTO_SIMBOLO } from './registry'
 import { clip } from './bits'
 import { useNamedDocs } from './useNamedDocs'
 import {
+  compostaDoDoc,
+  ehCompostaDoCatalogo,
   elementoDaSintonia,
+  elementosDoCirculo,
+  pontasDoElemento,
+  nomesCompostasDoCatalogo,
+  estadoCompostas,
   estadoRoda,
   HUB_RODA,
   parseEssencia,
   rodaDoCatalogo,
   SUFIXO_TIER,
+  type Composta,
   type EstadoNo,
   type RodaDef,
   type Tier,
@@ -33,16 +40,18 @@ export interface RodaChoice extends HabChoice {
 
 /** Tier de uma escolha: o das suas opções (todas "Essência X <Tier>"); null
  *  quando a escolha não é de essência do ciclo (ex.: Essência Menor). */
-export function tierDaEscolha(c: HabChoice): Tier | null {
+export function tierDaEscolha(c: HabChoice, ehComposta?: (nome: string) => boolean): Tier | null {
   if (c.kind !== 'complementar-sel' || c.options.length === 0) return null
-  const tiers = new Set(c.options.map((o) => parseEssencia(o)?.tier ?? null))
+  const tiers = new Set(
+    c.options.map((o) => parseEssencia(o)?.tier ?? (ehComposta?.(wikiTarget(o)) ? 'M' : null)),
+  )
   if (tiers.size !== 1 || tiers.has(null)) return null
   return [...tiers][0] as Tier
 }
 
 const escolhido = (c: HabChoice) => !!c.pick && c.source !== 'default' && c.source !== 'none'
 
-const TIERS: Tier[] = ['A', 'E']
+const TIERS: Tier[] = ['A', 'E', 'M']
 const R: Record<Tier, number> = { A: 150, E: 207, M: 254 }
 const NO_R: Record<Tier, number> = { A: 25, E: 11, M: 15 }
 const R_MARCA = 86
@@ -55,7 +64,7 @@ const pt = (r: number, graus: number) => {
 
 /** "Essência Flamejante" → "Flamejante" (e "Linha Flamejante" na POA). */
 function nomeCurto(base: string): string {
-  return reskinName(base).replace(/^\S+\s+/, '').replace(/^d[ea]\s+/, '')
+  return reskinName(base).replace(/^\S+\s+/, '').replace(/^d[aeo]s?\s+/, '')
 }
 
 export function RodaEssencias({
@@ -80,6 +89,8 @@ export function RodaEssencias({
   onOpen?: (nome: string) => void
 }) {
   const catalog = useCatalog()
+  const ehComposta = useMemo(() => ehCompostaDoCatalogo(catalog), [catalog])
+  const todasCompostas = useMemo(() => nomesCompostasDoCatalogo(catalog), [catalog])
   const hubDoc = useNamedDocs([HUB_RODA])(HUB_RODA)
   const roda = useMemo(() => rodaDoCatalogo(catalog, hubDoc?.frontmatter), [catalog, hubDoc])
   const [foco, setFoco] = useState<{ base: string; tier: Tier } | null>(null)
@@ -87,6 +98,8 @@ export function RodaEssencias({
   return (
     <Roda
       roda={roda}
+      ehComposta={ehComposta}
+      todasCompostas={todasCompostas}
       fm={fm}
       fmSalvo={fmSalvo}
       choices={choices}
@@ -102,6 +115,8 @@ export function RodaEssencias({
 
 function Roda({
   roda,
+  ehComposta,
+  todasCompostas,
   fm,
   fmSalvo,
   choices,
@@ -113,6 +128,8 @@ function Roda({
   setFoco,
 }: {
   roda: RodaDef
+  ehComposta: (nome: string) => boolean
+  todasCompostas: string[]
   fm: Record<string, unknown>
   fmSalvo: Record<string, unknown>
   choices: RodaChoice[]
@@ -124,57 +141,88 @@ function Roda({
   setFoco: (f: { base: string; tier: Tier } | null) => void
 }) {
   const sintonia = elementoDaSintonia(fm['Sintonia'])
-  const porTier = (t: Tier) => choices.filter((c) => tierDaEscolha(c) === t)
+  const porTier = (t: Tier) => choices.filter((c) => tierDaEscolha(c, ehComposta) === t)
 
   // O que o herói TEM: picks gravados das escolhas + toda essência da lista de
   // Habilidades (derivada e salva — inclui picks de escolhas de nível acima do
   // atual e as que vieram de outra fonte: regra fixa, Essência Adicional, …).
   const tem: Record<Tier, Set<string>> = { A: new Set(), E: new Set(), M: new Set() }
+  const temComposta = new Set<string>()
   for (const c of choices) {
-    const e = escolhido(c) ? parseEssencia(String(c.pick)) : null
+    if (!escolhido(c)) continue
+    const alvo = wikiTarget(String(c.pick))
+    const e = parseEssencia(alvo)
     if (e) tem[e.tier].add(e.base)
+    else if (ehComposta(alvo)) temComposta.add(alvo)
   }
   const salvas = listaEntries(fmPath(fmSalvo, 'Habilidades', 'Lista'))
-  for (const e of [...listaEntries(fmPath(fm, 'Habilidades', 'Lista')), ...salvas]) {
+  // Do DERIVADO só o que não é Escolha (regra fixa): escolha única sem pick
+  // gravado sai lá com o PADRÃO aplicado — não é escolha do jogador.
+  const derivadas = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).filter((e) => e.fonte.kind !== 'Escolha')
+  for (const e of [...derivadas, ...salvas]) {
     const p = parseEssencia(e.target)
     if (p) tem[p.tier].add(p.base)
+    else if (ehComposta(e.target)) temComposta.add(e.target)
   }
+  // MESTRE compostas (entre duas vizinhas): o anel inteiro do mundo; bases
+  // lidas dos Requisitos de cada nota.
+  const nomesCompostas = [...new Set([...todasCompostas, ...temComposta])].sort()
+  const docsCompostas = useNamedDocs(nomesCompostas)
+  const compostas = nomesCompostas
+    .map((nm) => compostaDoDoc(nm, docsCompostas(nm)?.frontmatter))
+    .filter((c): c is Composta => !!c && roda.ordem.includes(c.a) && roda.ordem.includes(c.b))
+  const composta = new Map(compostas.map((c) => [c.nome, c]))
+  const estadoM = estadoCompostas({ roda, compostas, sintonia, temE: tem.E, temM: temComposta })
+  /** Alvo (nota) do nó: composta Mestre é a própria nota; os demais
+   *  "<Essência> <Tier>". */
+  const alvoDe = (base: string, t: Tier) => (t === 'M' && composta.has(base) ? base : `${base} ${SUFIXO_TIER[t]}`)
   /** Linha salva por ESCOLHA (removível) da essência sem escolha ativa. */
   const linhaSalva = (base: string, t: Tier) =>
-    salvas.some((e) => e.fonte.kind === 'Escolha' && e.target === `${base} ${SUFIXO_TIER[t]}`)
-  const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true })
+    salvas.some((e) => e.fonte.kind === 'Escolha' && e.target === alvoDe(base, t))
+  // DRUIDA: dois elementos do Círculo Druídico — das opções das escolhas
+  // Adeptas, ou (nível 1, sem escolha ainda) das duas essências de interface
+  // que o círculo concede por regra.
+  const regraA = derivadas.map((e) => parseEssencia(e.target)).filter((p) => p?.tier === 'A').map((p) => `[[${p!.base} Adepta]]`)
+  const elementos =
+    elementosDoCirculo(roda, porTier('A').flatMap((c) => c.options)) ??
+    (porTier('A').length === 0 ? elementosDoCirculo(roda, regraA) : null)
+  const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true, elementos })
 
-  const wlDe = (base: string, t: Tier) => `[[${base} ${SUFIXO_TIER[t]}]]`
+  const wlDe = (base: string, t: Tier) => `[[${alvoDe(base, t)}]]`
   /** Escolha VAZIA deste tier que oferece a essência (1ª do pai, na ordem). */
   const vagaPara = (base: string, t: Tier) =>
     porTier(t).find(
-      (c) => !escolhido(c) && c.options.some((o) => wikiTarget(o) === `${base} ${SUFIXO_TIER[t]}`),
+      (c) => !escolhido(c) && c.options.some((o) => wikiTarget(o) === alvoDe(base, t)),
     )
   /** Escolha que GRAVOU esta essência (pra desfazer). */
   const escolhaDe = (base: string, t: Tier) =>
-    porTier(t).find((c) => escolhido(c) && wikiTarget(String(c.pick)) === `${base} ${SUFIXO_TIER[t]}`)
+    porTier(t).find((c) => escolhido(c) && wikiTarget(String(c.pick)) === alvoDe(base, t))
 
   const visivel: Record<Tier, boolean> = {
     A: porTier('A').length > 0 || tem.A.size > 0,
     E: porTier('E').length > 0 || tem.E.size > 0,
-    M: false,
+    M: porTier('M').length > 0 || tem.M.size > 0 || temComposta.size > 0,
   }
   const vagas = (t: Tier) => porTier(t).filter((c) => !escolhido(c)).length
 
   /** Estado FINAL do nó: "livre" sem vaga no tier vira "fechado". */
   const st = (base: string, t: Tier): EstadoNo | 'semVaga' => {
-    const s = estado.no[t][base] ?? 'fechado'
+    const s = (t === 'M' && composta.has(base) ? estadoM[base] : estado.no[t][base]) ?? 'fechado'
     if (s === 'livre' && !vagaPara(base, t)) return 'semVaga'
     return s
   }
   const motivo = (base: string, t: Tier): string => {
     const s = st(base, t)
-    const nome = reskinName(`${base} ${SUFIXO_TIER[t]}`)
+    const nome = reskinName(alvoDe(base, t))
     if (s === 'tem') return estado.soltas.has(base) && t === 'A' ? `${nome} — fora do caminho do ciclo` : `${nome} — escolhida`
     if (s === 'oposto') return `${nome} — elemento oposto à ${reskinText('sintonia')}`
     if (s === 'livre') return `${nome} — disponível`
     if (s === 'semVaga') return `${nome} — sem escolha livre neste anel`
     if (t === 'A') return `${nome} — precisa de uma vizinha no ciclo`
+    if (t === 'M' && composta.has(base)) {
+      const c = composta.get(base)!
+      return `${nome} — precisa de ${reskinName(c.a)} e ${reskinName(c.b)} Experientes; a primeira Mestre toca a ${reskinText('sintonia')}`
+    }
     return `${nome} — precisa da ${t === 'E' ? 'Adepta' : 'Experiente'} e a primeira é da ${reskinText('sintonia')}`
   }
 
@@ -182,7 +230,7 @@ function Roda({
     setFoco({ base, tier: t })
     const s = st(base, t)
     if (!edit) {
-      if (s === 'tem') onOpen?.(`${base} ${SUFIXO_TIER[t]}`)
+      if (s === 'tem') onOpen?.(alvoDe(base, t))
       return
     }
     if (s === 'livre') {
@@ -191,7 +239,7 @@ function Roda({
     } else if (s === 'tem') {
       const c = escolhaDe(base, t)
       if (c) onPick(c.parent, c, '')
-      else if (linhaSalva(base, t)) onRemover(`${base} ${SUFIXO_TIER[t]}`)
+      else if (linhaSalva(base, t)) onRemover(alvoDe(base, t))
     }
   }
   const tecla = (base: string, t: Tier) => (e: KeyboardEvent) => {
@@ -204,7 +252,7 @@ function Roda({
   const n = roda.ordem.length
   const ang = (i: number) => -90 + (360 / n) * i
   const corDe = (base: string) => ELEMENTO_COR[roda.elemento[base] ?? 'Universal'] ?? ELEMENTO_COR.Universal!
-  const rMax = visivel.M ? R.M + NO_R.M + 14 : visivel.E ? R.E + NO_R.E + 14 : R.A + NO_R.A + 14
+  const rMax = visivel.M ? R.M + NO_R.M + 24 : visivel.E ? R.E + NO_R.E + 14 : R.A + NO_R.A + 14
   const vb = rMax + 6
 
   /** Arco do anel entre dois nós vizinhos, aparado pelo raio dos nós. */
@@ -222,15 +270,15 @@ function Roda({
     return `M${p[0]!.x},${p[0]!.y} L${p[1]!.x},${p[1]!.y} A${r1},${r1} 0 0 1 ${p[2]!.x},${p[2]!.y} L${p[3]!.x},${p[3]!.y} A${r0},${r0} 0 0 0 ${p[0]!.x},${p[0]!.y} Z`
   }
 
-  const no = (base: string, t: Tier, x: number, y: number, rotulo: boolean) => {
+  const no = (base: string, t: Tier, x: number, y: number, rotulo: boolean, preenchimento?: string) => {
     const s = st(base, t)
-    const cor = corDe(base)
+    const cor = composta.has(base) ? corDe(composta.get(base)!.a) : corDe(base)
     const r = NO_R[t]
     const pura = roda.puras.has(base)
     const solta = t === 'A' && estado.soltas.has(base)
     const ativo = edit && (s === 'livre' || s === 'tem')
     const emFoco = foco?.base === base && foco.tier === t
-    const fill = s === 'tem' ? cor : 'var(--panel2)'
+    const fill = s === 'tem' ? (preenchimento ?? cor) : 'var(--panel2)'
     const stroke = s === 'tem' ? (solta ? 'var(--red)' : cor) : s === 'livre' ? cor : 'var(--line2)'
     const opac = s === 'fechado' || s === 'semVaga' ? 0.42 : s === 'oposto' ? 0.28 : 1
     return (
@@ -422,6 +470,34 @@ function Roda({
             />
           )
         })}
+        {/* DRUIDA: corda entre as pontas de cada elemento do círculo — de uma
+            ponta se chega à outra sem passar pela pura */}
+        {(elementos ?? []).map((el) => {
+          const pontas = pontasDoElemento(roda, el)
+          if (!pontas) return null
+          const [b1, b2] = pontas
+          const i1 = roda.ordem.indexOf(b1)
+          const i2 = roda.ordem.indexOf(b2)
+          // curva por DENTRO do anel (não atravessa o nó da pura no meio)
+          const meioAng = Math.abs(i2 - i1) > n / 2 ? ang((i1 + i2 + n) / 2) : ang((i1 + i2) / 2)
+          const ctrl = pt(R.A * 0.8, meioAng)
+          const a1 = pt(R.A - NO_R.A - 3, ang(i1))
+          const a2 = pt(R.A - NO_R.A - 3, ang(i2))
+          const ambos = tem.A.has(b1) && tem.A.has(b2)
+          const meio = (tem.A.has(b1) && st(b2, 'A') === 'livre') || (tem.A.has(b2) && st(b1, 'A') === 'livre')
+          return (
+            <path
+              key={`corda-${el}`}
+              data-roda-corda={`${b1}|${b2}`}
+              d={`M${a1.x},${a1.y} Q${ctrl.x},${ctrl.y} ${a2.x},${a2.y}`}
+              fill="none"
+              stroke={ambos ? ELEMENTO_COR[el] : meio && edit ? 'var(--accent)' : 'var(--line2)'}
+              strokeWidth={ambos ? 3 : meio ? 1.8 : 1.2}
+              strokeDasharray={meio && !ambos ? '5 4' : undefined}
+              strokeLinecap="round"
+            />
+          )
+        })}
         {/* marcas de elemento (cruz interna) ligadas à pura e ao centro */}
         {[...roda.puras].map((p) => {
           const i = roda.ordem.indexOf(p)
@@ -441,7 +517,7 @@ function Roda({
         })}
         {/* conectores radiais pros anéis de fora */}
         {roda.ordem.map((b, i) =>
-          (['E', 'M'] as const)
+          (['E'] as const)
             .filter((t) => visivel[t])
             .map((t) => {
               const de = t === 'E' ? 'A' : 'E'
@@ -462,12 +538,66 @@ function Roda({
             }),
         )}
         {/* nós */}
-        {TIERS.filter((t) => visivel[t]).flatMap((t) =>
+        {(['A', 'E'] as const).filter((t) => visivel[t]).flatMap((t) =>
           roda.ordem.map((b, i) => {
             const p = pt(R[t], ang(i))
             return no(b, t, p.x, p.y, t === 'A')
           }),
         )}
+        {/* anel MESTRE: cada composta na fatia entre as duas vizinhas, ligada
+            às duas Experientes (o "colchete" do diagrama) */}
+        {visivel.M
+          ? compostas.map((c) => {
+              const ia = roda.ordem.indexOf(c.a)
+              const ib = roda.ordem.indexOf(c.b)
+              const meio = (ib === (ia + 1) % n ? ia : ib) + 0.5
+              const p = pt(R.M, ang(meio))
+              const ea = pt(R.E + NO_R.E + 1, ang(ia))
+              const eb = pt(R.E + NO_R.E + 1, ang(ib))
+              const s = st(c.nome, 'M')
+              const lb = pt(R.M + NO_R.M + 11, ang(meio))
+              return (
+                <g key={`m-${c.nome}`}>
+                  <defs>
+                    <linearGradient id={`mg-${ia}-${ib}`} gradientUnits="userSpaceOnUse" x1={ea.x} y1={ea.y} x2={eb.x} y2={eb.y}>
+                      <stop offset="0" stopColor={corDe(c.a)} />
+                      <stop offset="1" stopColor={corDe(c.b)} />
+                    </linearGradient>
+                  </defs>
+                  {[ea, eb].map((e, k) => (
+                    <line
+                      key={k}
+                      x1={e.x}
+                      y1={e.y}
+                      x2={p.x}
+                      y2={p.y}
+                      stroke={tem.E.has(k === 0 ? c.a : c.b) ? corDe(k === 0 ? c.a : c.b) : 'var(--line)'}
+                      strokeWidth={tem.E.has(k === 0 ? c.a : c.b) ? 1.8 : 0.9}
+                    />
+                  ))}
+                  {no(c.nome, 'M', p.x, p.y, false, `url(#mg-${ia}-${ib})`)}
+                  <text
+                    x={lb.x}
+                    y={lb.y}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: 7.2,
+                      fontWeight: 700,
+                      letterSpacing: '.05em',
+                      textTransform: 'uppercase',
+                      fill: s === 'tem' ? 'var(--text)' : 'var(--muted)',
+                      opacity: s === 'fechado' || s === 'semVaga' ? 0.55 : 1,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {nomeCurto(c.nome)}
+                  </text>
+                </g>
+              )
+            })
+          : null}
         {/* centro: essência universal (Criação), um nó por tier visível */}
         {universal ? (
           <g>

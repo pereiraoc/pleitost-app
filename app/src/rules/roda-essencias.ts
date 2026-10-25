@@ -110,8 +110,15 @@ export function estadoRoda(input: {
   sintonia: string | null
   tem: Record<Tier, Set<string>>
   aplicaCiclo: boolean
+  /** DRUIDA (2026-10-25): os dois elementos ADJACENTES do Círculo Druídico.
+   *  Ganha de graça as duas essências da interface entre eles e escolhe
+   *  QUALQUER essência desses dois elementos (as pontas de cada trio se
+   *  ligam); os outros dois elementos ficam fora (são os opostos de um deles). */
+  elementos?: string[] | null
 }): EstadoRoda {
-  const { roda, sintonia, tem, aplicaCiclo } = input
+  const { roda, sintonia, tem, elementos } = input
+  const druida = !!elementos && elementos.length > 0
+  const aplicaCiclo = input.aplicaCiclo && !druida
   const oposto = sintonia ? opostoDe(roda, sintonia) : null
   const pura = sintonia ? puraDe(roda, sintonia) : null
   const todas = [...roda.ordem, ...roda.universais]
@@ -133,6 +140,7 @@ export function estadoRoda(input: {
   for (const b of todas) {
     const universal = roda.universais.includes(b)
     if (tem.A.has(b)) no.A[b] = 'tem'
+    else if (druida && !universal) no.A[b] = elementos!.includes(roda.elemento[b]!) ? 'livre' : 'oposto'
     else if (!universal && oposto && roda.elemento[b] === oposto) no.A[b] = 'oposto'
     else if (universal || !aplicaCiclo || alcance.has(b)) no.A[b] = 'livre'
     else no.A[b] = 'fechado'
@@ -168,3 +176,78 @@ export function estadoRoda(input: {
   }
   return { no, soltas }
 }
+
+/** Essência MESTRE composta: duas vizinhas do ciclo (Meteoro = Flamejante +
+ *  Explosiva). As bases vêm dos `Requisito Contem(Habilidades) [[Essência X
+ *  Experiente]]` da própria nota — o requisito É a definição da composta. */
+export interface Composta {
+  nome: string
+  a: string
+  b: string
+}
+
+const REQ_EXPERIENTE = /Requisito\s+Contem\(Habilidades\)\s+\[\[(Essência .+?) Experiente\]\]/
+
+export function compostaDoDoc(nome: string, fm: Record<string, unknown> | undefined): Composta | null {
+  const regras = Array.isArray(fm?.['Elementos_de_Regra']) ? (fm!['Elementos_de_Regra'] as unknown[]) : []
+  const bases = regras.map((r) => REQ_EXPERIENTE.exec(String(r))?.[1]).filter((x): x is string => !!x)
+  return bases.length === 2 ? { nome, a: bases[0]!, b: bases[1]! } : null
+}
+
+/** Estado de cada composta: tem / livre (as DUAS Experientes; a primeira
+ *  Mestre toca o elemento da sintonia) / fechado. */
+export function estadoCompostas(input: {
+  roda: RodaDef
+  compostas: Composta[]
+  sintonia: string | null
+  temE: Set<string>
+  temM: Set<string>
+}): Record<string, EstadoNo> {
+  const { roda, compostas, sintonia, temE, temM } = input
+  const tocaSintonia = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
+  const jaTemDaSintonia = compostas.some((c) => temM.has(c.nome) && tocaSintonia(c))
+  const out: Record<string, EstadoNo> = {}
+  for (const c of compostas) {
+    if (temM.has(c.nome)) out[c.nome] = 'tem'
+    else if (!temE.has(c.a) || !temE.has(c.b)) out[c.nome] = 'fechado'
+    else if (sintonia && !jaTemDaSintonia && !tocaSintonia(c)) out[c.nome] = 'fechado'
+    else out[c.nome] = 'livre'
+  }
+  return out
+}
+
+/** "É nota de Essência Mestre composta?" — pasta `Essências Mestre` do hub. */
+export function ehCompostaDoCatalogo(catalog: Catalog): (nome: string) => boolean {
+  const nomes = new Set(nomesCompostasDoCatalogo(catalog))
+  return (nome: string) => nomes.has(nome)
+}
+
+/** Todas as Essências Mestre compostas do mundo (anel Mestre inteiro). */
+export function nomesCompostasDoCatalogo(catalog: Catalog): string[] {
+  return catalog.content
+    .filter((e) => /\/Essências Mestre\//.test(e.path))
+    .map((e) => e.basename ?? e.id.split('/').pop() ?? '')
+    .filter(Boolean)
+    .sort()
+}
+
+/** Elementos do Círculo Druídico de um herói: os elementos das opções das
+ *  escolhas Adeptas, quando elas cobrem EXATAMENTE dois (o Animista cobre três:
+ *  o seu e os dois aliados). null = não é druida. */
+export function elementosDoCirculo(roda: RodaDef, opcoesAdeptas: string[]): string[] | null {
+  const els = new Set<string>()
+  for (const o of opcoesAdeptas) {
+    const p = parseEssencia(o)
+    const el = p ? roda.elemento[p.base] : undefined
+    if (el) els.add(el)
+  }
+  return els.size === 2 ? [...els] : null
+}
+
+/** Pontas de cada trio de elemento (as duas não-puras) — a corda que o
+ *  Druida usa pra ir de uma ponta à outra do elemento. */
+export function pontasDoElemento(roda: RodaDef, elemento: string): [string, string] | null {
+  const trio = roda.ordem.filter((b) => roda.elemento[b] === elemento && !roda.puras.has(b))
+  return trio.length === 2 ? [trio[0]!, trio[1]!] : null
+}
+

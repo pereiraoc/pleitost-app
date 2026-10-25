@@ -1547,7 +1547,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     .flatMap((cc) => cc.escolhas)
                     .filter((e) => !e.isSubclass && e.sourceNote === c.sourceNote && e.choiceKey !== c.choiceKey)
                     .map((e) => ({ ...toHabChoice(e), pick: efetivoDe(e) })),
-                  fm,
+                  // DERIVADO: o que o pai concede por regra (essências da
+                  // interface do Círculo Druídico) também conta como "já tem"
+                  dfm,
                   c.sourceNote,
                   liberadas,
                 )}

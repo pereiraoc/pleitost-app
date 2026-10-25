@@ -93,3 +93,52 @@ describe('regras de escolha (Animista)', () => {
     expect(s.no.A[E('Hidratante')]).toBe('oposto')
   })
 })
+
+describe('Mestre compostas (entre vizinhas)', () => {
+  const docMestre = (n: string) => {
+    const nota = catalog.content.find((c) => (c.basename ?? '') === n)!
+    return JSON.parse(fs.readFileSync(path.join(dir, `${nota.id}.json`), 'utf8')) as VaultDoc
+  }
+  it('as 12 compostas da vault ligam duas VIZINHAS do ciclo', async () => {
+    const { compostaDoDoc } = await import('../src/rules/roda-essencias')
+    const nomes = catalog.content.filter((c) => c.path.includes('/Essências Mestre/')).map((c) => c.basename!)
+    expect(nomes).toHaveLength(12)
+    for (const n of nomes) {
+      const c = compostaDoDoc(n, docMestre(n).frontmatter)!
+      expect(c, n).toBeTruthy()
+      expect(vizinhas(roda, c.a)).toContain(c.b)
+    }
+  })
+  it('precisa das duas Experientes; a primeira toca a sintonia', async () => {
+    const { compostaDoDoc, estadoCompostas } = await import('../src/rules/roda-essencias')
+    const compostas = ['Essência do Meteoro', 'Essência do Magma', 'Essência do Terremoto'].map(
+      (n) => compostaDoDoc(n, docMestre(n).frontmatter)!,
+    )
+    const st = (e: string[], m: string[] = []) =>
+      estadoCompostas({ roda, compostas, sintonia: 'Fogo', temE: new Set(e.map(E)), temM: new Set(m) })
+    expect(st(['Flamejante'])['Essência do Meteoro']).toBe('fechado')
+    expect(st(['Flamejante', 'Explosiva'])['Essência do Meteoro']).toBe('livre')
+    expect(st(['Explosiva', 'Sísmica', 'Mineral'])['Essência do Magma']).toBe('livre') // Explosiva é fogo
+    expect(st(['Explosiva', 'Sísmica', 'Mineral'])['Essência do Terremoto']).toBe('fechado') // 1ª sem fogo
+    expect(st(['Explosiva', 'Sísmica', 'Mineral'], ['Essência do Magma'])['Essência do Terremoto']).toBe('livre')
+  })
+})
+
+describe('Druida: círculo de dois elementos', () => {
+  it('Oceano (Água e Terra): interface de graça, qualquer essência dos dois elementos, resto fora', async () => {
+    const { elementosDoCirculo, pontasDoElemento } = await import('../src/rules/roda-essencias')
+    const opcoes = ['Congelante', 'Hidratante', 'Torrencial', 'Enraizante', 'Mineral', 'Sísmica'].map((n) => `[[Essência ${n} Adepta]]`)
+    const els = elementosDoCirculo(roda, opcoes)!
+    expect(els.sort()).toEqual(['Terra', 'Água'].sort())
+    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial', 'Enraizante']), aplicaCiclo: true, elementos: els })
+    expect(s.no.A[E('Sísmica')]).toBe('livre') // ponta da Terra, via corda Sísmica–Enraizante
+    expect(s.no.A[E('Congelante')]).toBe('livre') // ponta da Água, via corda Congelante–Torrencial
+    expect(s.no.A[E('Flamejante')]).toBe('oposto')
+    expect(s.no.A[E('Ventania')]).toBe('oposto')
+    expect(pontasDoElemento(roda, 'Terra')!.sort()).toEqual([E('Enraizante'), E('Sísmica')].sort())
+  })
+  it('Animista (três elementos nas opções) não é tratado como druida', async () => {
+    const { elementosDoCirculo } = await import('../src/rules/roda-essencias')
+    expect(elementosDoCirculo(roda, ['Flamejante', 'Sísmica', 'Ciclonal'].map((n) => `[[Essência ${n} Adepta]]`))).toBeNull()
+  })
+})
