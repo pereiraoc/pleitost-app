@@ -29,7 +29,7 @@ import {
   gastosRegistrados,
   nivelSincronizado,
   semRegistrosContraditos,
-  pinsFaltantes,
+  pinsValidos,
   sanitizarRegistros,
   NIVEL_MAX_PLANEJAMENTO,
   type GastoRegistrado,
@@ -436,7 +436,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       // AUTO-SEED: materializa o registro do que JÁ está gasto (atribuição
       // atual dos cards) — abrir a aba já grava o planejamento do herói até
       // o nível dele, sem exigir uma primeira edição (pedido 2026-08-25).
-      const pins = pinsFaltantes(c, sane)
+      const pins = pinsValidos(fm, c, sane, nivelAtual)
       if (mudou || pins.length) escreve('Planejamento.gastosSlots', [...sane, ...pins])
     })
     return () => {
@@ -608,7 +608,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
    *  liberado fica VAZIO e o resto não se move. */
   const pinBase = (): GastoRegistrado[] => [
     ...regsRef.current,
-    ...pinsFaltantes(cardsRef.current ?? [], regsRef.current),
+    ...pinsValidos(fmVivo.current, cardsRef.current ?? [], regsRef.current, nivelAtual),
   ]
   const registrar = (r: GastoRegistrado) =>
     setRegistros([...pinBase().filter((x) => !casaRegistro(x, r.tipo, r.alvo, r.rank, r.sec)), r])

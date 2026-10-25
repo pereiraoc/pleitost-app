@@ -329,6 +329,22 @@ export function pinsFaltantes(cards: LevelCard[], registros: GastoRegistrado[]):
   return out
 }
 
+/** Pins que SOBREVIVEM ao filtro de contradição: um gasto real que os cards
+ *  atribuem a um nível acima do herói (ficha "adiantada": Nível 1 com
+ *  Elementalista e magias de classe secundária já gravadas) nunca vira
+ *  registro — senão o pin entrava, o semRegistrosContraditos o tirava no
+ *  rebuild seguinte e a aba gravava/regravava pra sempre (Inri Prismo,
+ *  2026-10-25: Planejamento travado). */
+export function pinsValidos(
+  fm: Fm,
+  cards: LevelCard[],
+  registros: GastoRegistrado[],
+  nivelAtual: number,
+): GastoRegistrado[] {
+  const pins = pinsFaltantes(cards, registros)
+  return semRegistrosContraditos(fm, pins, nivelAtual, nivelSincronizado(fm, nivelAtual)).registros
+}
+
 /** Sanitiza registros DESLOCADOS (versões antigas gravaram níveis errados —
  *  ex.: "tudo no N1"): registro cujo nível não tem slot do rank é MOVIDO pro
  *  primeiro nível com slot livre daquele rank. Alvo/rank/tipo preservados —

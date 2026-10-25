@@ -1,0 +1,668 @@
+{
+ "basename": "Herói Adiantado",
+ "frontmatter": {
+  "aliases": [],
+  "categoria": "Criatura",
+  "subcategoria": "Heroi",
+  "grupo": [],
+  "Classe": "[[Animista]]",
+  "Sintonia": "[[Traço Elemental do Fogo|Fogo]]",
+  "Tamanho": "Médio",
+  "Vida": {
+   "Vitalidade": 0,
+   "Moral": 0
+  },
+  "Atributos": {
+   "Principal": "PRE",
+   "FOR": 0,
+   "AGI": 1,
+   "INT": 2,
+   "PRE": 3
+  },
+  "Defesas_Resistencias": {
+   "Lista": [
+    {
+     "Nome": "Defesa",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Vigor",
+     "Atributo": "FOR",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Reflexo",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Ímpeto",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Sentidos": {
+   "Lista": [
+    {
+     "Nome": "Percepção",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Intuição",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Movimento": {
+   "Lista": [
+    {
+     "Nome": "Terrestre",
+     "Atributo": "AGI",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Pericias": {
+   "Slots": {
+    "A": 0,
+    "E": 0,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "Nome": "Atletismo",
+     "Atributo": "FOR",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Acrobacia",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Furtividade",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Ladinagem",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Arcana",
+     "Atributo": "INT",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    },
+    {
+     "Nome": "Sociedades",
+     "Atributo": "INT",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    },
+    {
+     "Nome": "Guerra",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Medicina",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Sobrevivência",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Anima",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Diplomacia",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      },
+      {
+       "A": "Passado"
+      }
+     ]
+    },
+    {
+     "Nome": "Enganação",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Intimidação",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    }
+   ]
+  },
+  "Oficios": {
+   "Lista": [
+    {
+     "Nome": "Oficio",
+     "Complemento": "Relações Públicas",
+     "Atributo": "INT",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": [
+      {
+       "A": "Passado"
+      }
+     ]
+    },
+    {
+     "Nome": "Atuacao",
+     "Complemento": "",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": []
+    },
+    {
+     "Nome": "Conhecimento",
+     "Complemento": "",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": []
+    }
+   ]
+  },
+  "Habilidades": {
+   "Lista": [
+    {
+     "[[Essência Mineral Adepta]]": "Escolha.03.[[Magias Anima]]"
+    },
+    {
+     "[[Treinamento de Arcanista]]": "Escolha.[[Treinamento de Classe Secundária]]"
+    },
+    {
+     "[[Essência Mineral Experiente]]": "Escolha.03.[[Elementalista]]"
+    },
+    {
+     "[[Escola Arcana Menor (Aplicações da Luz)]]": "Escolha.[[Escola Arcana Menor]]"
+    },
+    {
+     "[[Essência Flamejante Adepta]]": "Escolha.01.[[Magias Anima]]"
+    },
+    {
+     "[[Essência Flamejante Experiente]]": "Escolha.01.[[Elementalista]]"
+    },
+    {
+     "[[Essência Ciclonal Experiente]]": "Escolha.04.[[Elementalista]]"
+    },
+    {
+     "[[Essência Ciclonal Adepta]]": "Escolha.04.[[Magias Anima]]"
+    },
+    {
+     "[[Essência Incendiária Adepta]]": "Escolha.02.[[Magias Anima]]"
+    },
+    {
+     "[[Essência Incendiária Experiente]]": "Escolha.02.[[Elementalista]]"
+    },
+    {
+     "[[Essência Sísmica Adepta]]": "Escolha.05.[[Magias Anima]]"
+    },
+    {
+     "[[Essência Hidratante Adepta]]": "Escolha.[[Essência Invertida]]"
+    }
+   ],
+   "Especiais": []
+  },
+  "Tecnicas": {
+   "Slots": {
+    "A": 0,
+    "E": 0,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "[[Repertório Expandido]]": "Escolha.[[Especialização em Classe Secundária]]"
+    },
+    {
+     "[[Magia Acelerada]]": "Escolha.[[Maestria em Classe Secundária]]"
+    }
+   ]
+  },
+  "Magias": {
+   "Potencia": 0,
+   "EM": 0,
+   "Slots": {
+    "B": 0,
+    "A": 0,
+    "E": 0,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "Nome": "Arcana Negra",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    },
+    {
+     "Nome": "Arcana Branca",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    },
+    {
+     "Nome": "Anima",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    },
+    {
+     "Nome": "Tesouros",
+     "Atributo": "",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    }
+   ],
+   "Secundaria": {
+    "Potencia": 0,
+    "EM": 0,
+    "Slots": {
+     "B": 0,
+     "A": 0,
+     "E": 0,
+     "M": 0
+    },
+    "Lista": [
+     {
+      "Nome": "Arcana Negra",
+      "Atributo": "INT",
+      "Proficiencia": "N",
+      "Bonus_Item": 0,
+      "Bonus_Especial": 0,
+      "Lista": []
+     },
+     {
+      "Nome": "Arcana Branca",
+      "Atributo": "INT",
+      "Proficiencia": "N",
+      "Bonus_Item": 0,
+      "Bonus_Especial": 0,
+      "Lista": [
+       {
+        "[[Heroísmo]]": "Slot.E"
+       },
+       {
+        "[[Guiar]]": "Slot.B"
+       },
+       {
+        "[[Proteger]]": "Slot.B"
+       },
+       {
+        "[[Véu Pacificador]]": "Slot.A"
+       },
+       {
+        "[[Fluxo de Vida]]": "Slot.A"
+       }
+      ]
+     },
+     {
+      "Nome": "Anima",
+      "Atributo": "PRE",
+      "Proficiencia": "N",
+      "Bonus_Item": 0,
+      "Bonus_Especial": 0,
+      "Lista": []
+     }
+    ]
+   }
+  },
+  "Acoes": {
+   "Lista": []
+  },
+  "Ataques": {
+   "Proficiencia": "N",
+   "Lista": [
+    {
+     "Nome": "Manobras",
+     "Atributo": "FOR",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Categoria": null,
+     "Propriedade": null,
+     "Fonte": "Padrao"
+    }
+   ]
+  },
+  "Inventario": {
+   "Ouro": 0,
+   "Armadura": {
+    "Nome": "[[Sem Armadura]]",
+    "Categoria": "",
+    "Propriedade": "",
+    "Proficiencia": {
+     "Sem": "P",
+     "Leve": "N",
+     "Pesada": "N"
+    }
+   },
+   "Escudo": {
+    "Nome": "",
+    "Dano": 0,
+    "Dureza": 0,
+    "Categoria": "",
+    "Propriedade": "",
+    "Proficiencia": "N"
+   },
+   "Tesouros": [],
+   "Tesouros_Especiais": "",
+   "Consumiveis": [],
+   "Armas": {
+    "Proficiencia": {
+     "Simples": "P",
+     "Marciais": "N",
+     "Especificas": []
+    },
+    "Lista": []
+   }
+  },
+  "Papel": {
+   "Lider": 0,
+   "Controlador": 0,
+   "Abatedor": 0,
+   "Vanguarda": 0
+  },
+  "Interativa": {
+   "Imunidades": {},
+   "Recursos_Restantes": {
+    "Moral_Temporaria": 0,
+    "Escudo_Dano": 0
+   },
+   "Condicoes_Ativas": {},
+   "Efeitos_Ativos": {},
+   "Usos_Recursos": {},
+   "Seletores": {}
+  },
+  "Nível": 1,
+  "nome": "Herói Adiantado",
+  "Planejamento": {
+   "gastosSlots": [
+    {
+     "nivel": 1,
+     "tipo": "pericia",
+     "rank": "A",
+     "alvo": "Arcana"
+    },
+    {
+     "nivel": 1,
+     "tipo": "pericia",
+     "rank": "A",
+     "alvo": "Sociedades"
+    },
+    {
+     "nivel": 1,
+     "tipo": "pericia",
+     "rank": "A",
+     "alvo": "Diplomacia"
+    },
+    {
+     "nivel": 1,
+     "tipo": "pericia",
+     "rank": "A",
+     "alvo": "Intimidação"
+    },
+    {
+     "nivel": 4,
+     "tipo": "magia",
+     "rank": "B",
+     "alvo": "[[Estouro]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 7,
+     "tipo": "magia",
+     "rank": "A",
+     "alvo": "[[Coluna de Fogo]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 8,
+     "tipo": "magia",
+     "rank": "A",
+     "alvo": "[[Hidrovitalizar]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 5,
+     "tipo": "magia",
+     "rank": "B",
+     "alvo": "[[Atadura d'Água]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 2,
+     "tipo": "tecnica",
+     "rank": "A",
+     "alvo": "[[Treinamento de Classe Secundária]]"
+    },
+    {
+     "nivel": 3,
+     "tipo": "tecnica",
+     "rank": "A",
+     "alvo": "[[Criar Runa]]"
+    },
+    {
+     "nivel": 4,
+     "tipo": "pericia",
+     "rank": "E",
+     "alvo": "Arcana"
+    },
+    {
+     "nivel": 4,
+     "tipo": "especialidade",
+     "alvo": "[[Truque Mágico]]",
+     "contexto": "Arcana"
+    },
+    {
+     "nivel": 5,
+     "tipo": "tecnica",
+     "rank": "E",
+     "alvo": "[[Especialização em Classe Secundária]]"
+    },
+    {
+     "nivel": 5,
+     "tipo": "pericia",
+     "rank": "E",
+     "alvo": "Anima"
+    },
+    {
+     "nivel": 5,
+     "tipo": "especialidade",
+     "alvo": "[[Elementalismo Básico]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 6,
+     "tipo": "tecnica",
+     "rank": "E",
+     "alvo": "[[Essência Invertida]]"
+    },
+    {
+     "nivel": 6,
+     "tipo": "pericia",
+     "rank": "E",
+     "alvo": "Diplomacia"
+    },
+    {
+     "nivel": 6,
+     "tipo": "especialidade",
+     "alvo": "[[Encorajamento]]",
+     "contexto": "Diplomacia"
+    },
+    {
+     "nivel": 7,
+     "tipo": "pericia",
+     "rank": "M",
+     "alvo": "Arcana"
+    },
+    {
+     "nivel": 7,
+     "tipo": "maestria",
+     "alvo": "[[Utensílio Mágico]]",
+     "contexto": "Arcana"
+    },
+    {
+     "nivel": 8,
+     "tipo": "tecnica",
+     "rank": "M",
+     "alvo": "[[Maestria em Classe Secundária]]"
+    },
+    {
+     "nivel": 8,
+     "tipo": "pericia",
+     "rank": "M",
+     "alvo": "Anima"
+    },
+    {
+     "nivel": 8,
+     "tipo": "maestria",
+     "alvo": "[[Elementalismo Avançado]]",
+     "contexto": "Anima"
+    },
+    {
+     "nivel": 9,
+     "tipo": "pericia",
+     "rank": "M",
+     "alvo": "Diplomacia"
+    },
+    {
+     "nivel": 9,
+     "tipo": "maestria",
+     "alvo": "[[Apoio]]",
+     "contexto": "Diplomacia"
+    }
+   ],
+   "picks": {
+    "__esc_h_86e91460": "[[Magia Acelerada]]",
+    "__esc_h_0bd81014": "[[Essência Ciclonal Experiente]]",
+    "__esc_h_c710f8a1": "[[Essência Hidratante Adepta]]",
+    "__esc_h_2e7096f2": "[[Essência Mineral Experiente]]",
+    "__esc_h_863f9c3d": "[[Repertório Expandido]]",
+    "__esc_h_d52e26ab": "[[Essência Flamejante Experiente]]",
+    "__esc_h_d42e2518": "[[Essência Incendiária Experiente]]",
+    "__esc_h_e3c5083d": "[[Essência Sísmica Adepta]]",
+    "__esc_h_37b06939": "[[Essência Ciclonal Adepta]]",
+    "__esc_h_ab7d307d": "[[Treinamento de Arcanista]]",
+    "__esc_h_c1fb62ce": "[[Escola Arcana Menor (Aplicações da Luz)]]"
+   },
+   "nivelSincronizado": 1
+  }
+ }
+}
