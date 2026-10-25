@@ -18,7 +18,7 @@ import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
 import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
-import { reskinText, reskinUpper } from '../../data/reskin'
+import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { retratoCover } from '../retrato'
 import {
   deleteEntityImage,
@@ -30,7 +30,7 @@ import { isLocalId, localEntriesOfKind, useLocalStoreVersion } from '../../data/
 import { useViewportWidth } from '../../viewport'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
-import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
+import { NATURALIDADE_OUTRO, regioesDoAtlas } from '../../rules/naturalidade'
 import { clip, TabStrip, PanelTrack, TrackPanel } from './bits'
 import { ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { localTipHtml, LOC_TIP_CSS } from './local-tip'
@@ -730,6 +730,14 @@ interface Marca {
   qtd: number
   texto: string
 }
+/** Registros de Legados só se marcam a partir deste nível. */
+const NIVEL_LEGADOS = 7
+
+interface Legado {
+  regiao: string
+  texto: string
+}
+
 interface Reconhecimento {
   entidade: string
   texto: string
@@ -777,16 +785,28 @@ function SectionHead({
   title,
   editing,
   onToggle,
+  ariaNome,
+  travado,
 }: {
   title: string
   editing: boolean
   onToggle: () => void
+  /** Sufixo do aria-label do botão ("Alterar legados"). */
+  ariaNome?: string
+  /** Seção ainda não liberada: mostra o aviso no lugar do botão. */
+  travado?: string
 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '4px 0 11px' }}>
       <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)' }}>{title}</span>
       <span style={{ flex: 1 }} />
+      {travado ? (
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}>
+          {travado}
+        </span>
+      ) : (
       <button
+        aria-label={ariaNome ? `${editing ? 'Concluir' : 'Alterar'} ${ariaNome}` : undefined}
         onClick={onToggle}
         style={{
           fontFamily: 'var(--mono)',
@@ -803,6 +823,7 @@ function SectionHead({
       >
         {editing ? 'Concluir' : 'Alterar'}
       </button>
+      )}
     </div>
   )
 }
@@ -811,7 +832,9 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
   const [editRec, setEditRec] = useState(false)
+  const [editLeg, setEditLeg] = useState(false)
   const [editMarcas, setEditMarcas] = useState(false)
+  const catalog = useCatalog()
   const nivel = num(fm['Nível'])
   const ci = classeAventureiro(nivel)
   const exp = (fm['Experiencia'] ?? {}) as Record<string, unknown>
@@ -825,6 +848,14 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
       ? (exp['Reconhecimentos'] as Record<string, unknown>[])
       : []
   ).map((r) => ({ entidade: str(r['entidade']), texto: str(r['texto']) }))
+  // LEGADOS (2026-10-25): [{regiao: "[[Região do Atlas]]", texto}] — marcados
+  // a partir do nível 7; a Região sai das notas `Região` do Atlas.
+  const legados: Legado[] = (
+    Array.isArray(exp['Legados']) ? (exp['Legados'] as Record<string, unknown>[]) : []
+  ).map((r) => ({ regiao: str(r['regiao']), texto: str(r['texto']) }))
+  const setLegados = (fn: (list: Legado[]) => Legado[]) => model.set('Experiencia.Legados', fn(legados))
+  const legadosLiberados = nivel >= NIVEL_LEGADOS
+  const regioes = useMemo(() => regioesDoAtlas(catalog), [catalog])
   const setMarcas = (fn: (list: Marca[]) => Marca[]) => model.set('Experiencia.Marcas', fn(marcas))
   const setRecs = (fn: (list: Reconhecimento[]) => Reconhecimento[]) =>
     model.set('Experiencia.Reconhecimentos', fn(recs))
@@ -924,6 +955,93 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
             </span>
           </>,
         )}
+      </div>
+
+      <div>
+        <SectionHead
+          title="Registros de Legados"
+          editing={editLeg && legadosLiberados}
+          onToggle={() => setEditLeg((v) => !v)}
+          ariaNome="legados"
+          travado={legadosLiberados ? undefined : `a partir do nível ${NIVEL_LEGADOS}`}
+        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          {legados.map((r, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+              <span
+                style={{ fontSize: 19, lineHeight: 1, width: 24, textAlign: 'center', flex: 'none' }}
+              >
+                {tokens.emojis.aventureiro.Legado}
+              </span>
+              {editLeg && legadosLiberados ? (
+                <>
+                  <select
+                    aria-label={`Legado ${i + 1} região`}
+                    value={r.regiao}
+                    onChange={(e) =>
+                      setLegados((list) =>
+                        list.map((x, j) => (j === i ? { ...x, regiao: e.target.value } : x)),
+                      )
+                    }
+                    style={{ ...regInput, color: 'var(--gold)', fontWeight: 600, cursor: 'pointer' }}
+                  >
+                    <option value="">— Região —</option>
+                    {r.regiao && !regioes.some((g) => `[[${g}]]` === r.regiao) ? (
+                      <option value={r.regiao}>{linkLabel(r.regiao)}</option>
+                    ) : null}
+                    {regioes.map((g) => (
+                      <option key={g} value={`[[${g}]]`}>
+                        {reskinName(g)}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    aria-label={`Legado ${i + 1} texto`}
+                    value={r.texto}
+                    onChange={(e) =>
+                      setLegados((list) =>
+                        list.map((x, j) => (j === i ? { ...x, texto: e.target.value } : x)),
+                      )
+                    }
+                    style={{ ...regInput, flex: 1.35 }}
+                  />
+                  <DeleteBtn onClick={() => setLegados((list) => list.filter((_, j) => j !== i))} />
+                </>
+              ) : (
+                <>
+                  <span style={{ flex: 1, color: 'var(--gold)', fontWeight: 600, fontSize: 13.5 }}>
+                    {r.regiao ? reskinName(linkLabel(r.regiao)) : '—'}
+                  </span>
+                  <span style={{ flex: 1.35, color: 'var(--text)', fontSize: 13.5 }}>{r.texto}</span>
+                </>
+              )}
+            </div>
+          ))}
+          {editLeg && legadosLiberados ? (
+            <button
+              aria-label="Adicionar legado"
+              onClick={() => setLegados((list) => [...list, { regiao: '', texto: '' }])}
+              style={{
+                width: '100%',
+                padding: 11,
+                background: 'transparent',
+                border: '1px dashed var(--line2)',
+                color: 'var(--gold)',
+                cursor: 'pointer',
+                fontSize: 13,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 9,
+              }}
+            >
+              <span style={{ fontSize: 15, lineHeight: 1 }}>+</span>
+              <span style={{ fontSize: 16, lineHeight: 1 }}>{tokens.emojis.aventureiro.Legado}</span>
+            </button>
+          ) : legados.length === 0 ? (
+            <span style={{ color: 'var(--muted)', fontSize: 13 }}>Nenhum legado.</span>
+          ) : null}
+        </div>
       </div>
 
       <div>

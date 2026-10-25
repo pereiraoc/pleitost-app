@@ -68,6 +68,16 @@ export function listLocalizacoes(catalog: Catalog): NaturalidadeOption[] {
   return out
 }
 
+/** Regiões do Atlas (subcategoria `Região`) — campo Região dos Registros de
+ *  Legados. O Atlas urbano da POA 1987 não tem Região: lá a unidade é o
+ *  `Bairro`. Ordem alfabética pt-BR, basenames. */
+export function regioesDoAtlas(catalog: Catalog): string[] {
+  const locs = listLocalizacoes(catalog)
+  const de = (sub: string) => locs.filter((o) => o.subcategoria === sub).map((o) => o.nome)
+  const regioes = de('Região')
+  return (regioes.length > 0 ? regioes : de('Bairro')).sort((a, b) => a.localeCompare(b, 'pt-BR'))
+}
+
 interface TreeNode {
   segment: string
   path: string
