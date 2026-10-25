@@ -15,7 +15,7 @@ import { AppShell } from '../src/components/layout/AppShell'
 import { __resetThemeForTests } from '../src/theme'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ContextoPage } from '../src/components/compendium/ContextoPage'
-import { semFiguras } from '../src/components/compendium/contexto-template'
+import { ordemData, semFiguras } from '../src/components/compendium/contexto-template'
 import { APP_NAV, NAV_MUNDOS, NAV_ROUTES, navSection } from '../src/components/layout/design-nav'
 import type { IndexManifest } from '../src/data/types'
 import '../src/components/compendium/register-doc-views'
@@ -64,6 +64,16 @@ describe('seta do card de contexto', () => {
     expect(regra![1]).toMatch(/flex\s*:\s*none/)
     // e a versão antiga (na coluna de texto, absoluta) não voltou
     expect(css).not.toMatch(/\.ctx-card-texto::before/)
+  })
+})
+
+describe('ordemData (linha do tempo)', () => {
+  it('ordena ISO da POA e anos da fantasia (a.G. antes do Ano 0, numérico)', () => {
+    const datas = ['Ano 100', 'c. 10 a.G.', 'Ano 8', 'Ano 0', 'c. 1000 a.G.', 'Ano 55', 'c. 250 a.G.']
+    const ord = [...datas].sort((a, b) => ordemData(a) - ordemData(b))
+    expect(ord).toEqual(['c. 1000 a.G.', 'c. 250 a.G.', 'c. 10 a.G.', 'Ano 0', 'Ano 8', 'Ano 55', 'Ano 100'])
+    expect(ordemData('1968-12-13')).toBeLessThan(ordemData('1969-07-20'))
+    expect(ordemData('1969-07-20')).toBeLessThan(ordemData('1972-01-01'))
   })
 })
 

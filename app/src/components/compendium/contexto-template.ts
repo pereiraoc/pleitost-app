@@ -15,6 +15,18 @@ export function fmData(doc: VaultDoc | undefined): string | null {
   return typeof raw === 'string' && raw.trim() !== '' ? raw.trim() : null
 }
 
+/** Chave numérica do FM `Data` pra ordenar a linha do tempo: ISO da POA
+ *  ('1968-12-13') e anos da fantasia ('Ano 55', 'c. 250 a.G.' = antes da
+ *  Guerra, negativo). Fora desses padrões → NaN (quem ordena cai no texto). */
+export function ordemData(data: string): number {
+  const iso = /^(-?\d{1,4})-(\d{2})-(\d{2})/.exec(data)
+  if (iso) return Number(iso[1]) + (Number(iso[2]) - 1) / 12 + (Number(iso[3]) - 1) / 372
+  const ag = /(\d+)\s*a\.\s*G\./i.exec(data)
+  if (ag) return -Number(ag[1])
+  const ano = /^(?:c\.\s*)?(?:Ano\s+)?(-?\d+)/i.exec(data.trim())
+  return ano ? Number(ano[1]) : NaN
+}
+
 /** '1968-12-13' → '13/12/1968' (só FORMATA o FM `Data`; datas fora do padrão
  *  ISO aparecem como estão — nada é inventado). */
 export function dataDisplay(iso: string): string {

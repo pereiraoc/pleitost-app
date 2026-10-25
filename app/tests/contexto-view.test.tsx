@@ -3,7 +3,7 @@
 // docs REAIS da vault:
 //   - Organizações (Ordem Bestial): type "Organização" → OrgView (leitura
 //     bonita das infos; sem o template Dataview cru vazando).
-//   - Contexto Histórico (Guerra dos 100 Anos): type "Contexto" → HistoriaView
+//   - Contexto Histórico (Deserção da Frota): type "Contexto" → HistoriaView
 //     (corpo em coluna de leitura; prosa + wikilinks navegáveis).
 //   - Contexto Atual (Economia): type "Contexto" → HistoriaView (corpo com
 //     headings e tabelas de dados).
@@ -32,7 +32,7 @@ const readDoc = (id: string): VaultDoc =>
 
 const ordemBestial = readDoc('Contexto/Organizações/Ordem Bestial')
 const guerra = readDoc(
-  'Contexto/Histórias/Contexto Histórico/História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria',
+  'Contexto/Histórias/Contexto Histórico/A Deserção da Frota e a Fundação da Pátria Aurora',
 )
 const economia = readDoc('Contexto/Histórias/Contexto Atual/Economia')
 // controle: um doc não-Contexto/Organização segue no markdown genérico
@@ -139,12 +139,14 @@ describe('HistoriaView (Contexto Histórico real)', () => {
     expect(readingBody).toBeTruthy()
     // trecho REAL da prosa da história aparece no corpo
     expect(
-      within(readingBody).getByText(/A união em face da adversidade pode levar/i),
+      within(readingBody).getByText(/uma nação de monges e de marinheiros/i),
     ).toBeTruthy()
-    // wikilink [[Federação Áurea]] vira link navegável pro doc resolvido
-    const res = catalog.resolve('Federação Áurea')
+    // o segredo do mestre ([!gm]) nunca chega ao corpo público
+    expect(readingBody.textContent).not.toMatch(/Observador/)
+    // wikilink [[Lucerna]] vira link navegável pro doc resolvido
+    const res = catalog.resolve('Lucerna')
     if (res.kind === 'doc') {
-      const links = screen.getAllByRole('link', { name: 'Federação Áurea' })
+      const links = screen.getAllByRole('link', { name: 'Lucerna' })
       expect(links.length).toBeGreaterThan(0)
       expect(links[0].getAttribute('href')).toBe(docPath(res.id))
     }

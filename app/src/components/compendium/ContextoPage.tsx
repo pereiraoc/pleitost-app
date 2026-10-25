@@ -23,7 +23,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
 import { CONTEXTO_ATUAL_PATH, CONTEXTO_HISTORICO_PATH } from './compendio-registry'
-import { corpoContexto, dataDisplay, fmAssunto, fmData, semFiguras } from './contexto-template'
+import { corpoContexto, dataDisplay, fmAssunto, fmData, ordemData, semFiguras } from './contexto-template'
 import { VaultImage } from './VaultImage'
 
 /** Figura da nota: o primeiro embed de imagem do corpo (o template do mundo
@@ -82,7 +82,11 @@ function LinhaDoTempo({ entries }: { entries: IndexDocEntry[] }) {
     return [...entries].sort((a, b) => {
       const da = fmData(docs.get(a.id))
       const db = fmData(docs.get(b.id))
-      if (da && db) return da.localeCompare(db)
+      if (da && db) {
+        const na = ordemData(da)
+        const nb = ordemData(db)
+        return Number.isNaN(na) || Number.isNaN(nb) ? da.localeCompare(db) : na - nb
+      }
       return da ? -1 : db ? 1 : 0
     })
   }, [entries, docs])
