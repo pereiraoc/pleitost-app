@@ -155,6 +155,7 @@ import {
   useInterativaCtx,
   type InterativaCtxState,
 } from '../../interativa/useInterativaCtx'
+import { tesourosComImplementos } from '../../data/implementos'
 
 const COMB_TABS = [
   { id: 'ataques', label: 'ATAQUES' },
@@ -2672,7 +2673,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // F3 (#347, report 0c29814d): TODOS os tesouros aparecem — os SEM usos/cargas
   // (passivos) renderizam como link + resumo, sem a linha de bolinhas (plugin
   // tesouros.ts:18-131 lista todos; só quem tem usos ganha os toggles).
-  const tesouros = ((fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[])
+  const tesouros = tesourosComImplementos(fm)
     .map((raw) => {
       const { nome, tier } = parseItemAlias(raw)
       const tDoc = refs.refDoc(raw)

@@ -6,6 +6,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import type { VaultDoc } from '../../data/types'
 import { fmOf, fmPath, listaEntries, str, wikiTarget } from './hero-model'
+import { implementosDe } from '../../data/implementos'
 
 function pushTarget(out: Set<string>, value: unknown) {
   const target = wikiTarget(value)
@@ -49,6 +50,11 @@ function collectTargets(hero: VaultDoc | undefined, fmEffective?: Record<string,
   pushTarget(out, fmPath(fm, 'Inventario', 'Armadura', 'Nome'))
   pushTarget(out, fmPath(fm, 'Inventario', 'Escudo', 'Nome'))
   for (const t of (fmPath(fm, 'Inventario', 'Tesouros') as unknown[]) ?? []) pushTarget(out, t)
+  // Implementos: o fundamental E o foco trabalhado nele.
+  for (const l of implementosDe(fm)) {
+    pushTarget(out, `[[${l.nome}]]`)
+    if (l.foco) pushTarget(out, `[[${l.foco}]]`)
+  }
   for (const c of (fmPath(fm, 'Inventario', 'Consumiveis') as unknown[]) ?? []) pushTarget(out, c)
   for (const e of (fmPath(fm, 'Inventario', 'Armas', 'Proficiencia', 'Especificas') as unknown[]) ?? [])
     pushTarget(out, e)

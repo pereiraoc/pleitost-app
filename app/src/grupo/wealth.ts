@@ -17,6 +17,7 @@ import type { IndexDocEntry, VaultDoc } from '../data/types'
 import { wikilinkBasename } from '../rules/rule-applier'
 import type { Fm } from './stats'
 import { toArray } from './stats'
+import { tesourosComImplementos } from '../data/implementos'
 
 /** Espelha ECONOMY_WEALTH_DATA (economy-table-data.ts). */
 export const ECONOMY_WEALTH_DATA: Record<string, number> = {
@@ -164,7 +165,7 @@ export function itemizeTesouros(
   isArtefato?: IsArtefato,
 ): WealthLine[] {
   const out: WealthLine[] = []
-  for (const entry of toArray(fm?.Inventario?.Tesouros)) {
+  for (const entry of tesourosComImplementos((fm ?? {}) as Record<string, unknown>)) {
     const p = wikilinkTargetFlexible(entry)
     if (!p) continue
     const display = String(entry).includes('|') ? wikilinkDisplay(entry) : ''

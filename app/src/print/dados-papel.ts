@@ -14,6 +14,7 @@ import { shortSintonia, str, wikiTarget } from '../components/ficha/hero-model'
 import { MOVIMENTO_BASE, RESISTENCIA_BASE, resolveResistenciaAttr } from '../grupo/stats'
 import type { VaultDoc } from '../data/types'
 import { resumoDoDoc } from './resumo-doc'
+import { tesourosComImplementos } from '../data/implementos'
 
 type Fm = Record<string, unknown>
 type Row = Record<string, unknown>
@@ -279,7 +280,8 @@ export function montarDadosPapel(
     usosPorTier(docDe(t), CAT_RX.exec(linkLabel(str(t)))?.[1] ?? 'Adepto')
   const IMPLEMENTOS_PREFIX = 'Sistema/Equipamento/Tesouros/Implementos/'
   const tesourosRaw = [
-    ...(Array.isArray(inv['Tesouros']) ? (inv['Tesouros'] as unknown[]).map(str) : []),
+    // Tesouros + implementos (linha própria → alias do foco, ver data/implementos)
+    ...tesourosComImplementos({ Inventario: inv }).map(str),
     ...(typeof inv['Tesouros_Especiais'] === 'string' && str(inv['Tesouros_Especiais']).trim()
       ? [str(inv['Tesouros_Especiais'])]
       : Array.isArray(inv['Tesouros_Especiais'])
@@ -451,7 +453,7 @@ export function nomesReferenciados(d: Fm): string[] {
     add(r['Maestria'])
   }
   const inv = (d['Inventario'] ?? {}) as Fm
-  for (const t of Array.isArray(inv['Tesouros']) ? (inv['Tesouros'] as unknown[]) : []) add(t)
+  for (const t of tesourosComImplementos({ Inventario: inv })) add(t)
   if (typeof inv['Tesouros_Especiais'] === 'string') add(inv['Tesouros_Especiais'])
   else if (Array.isArray(inv['Tesouros_Especiais']))
     for (const t of inv['Tesouros_Especiais'] as unknown[]) add(t)

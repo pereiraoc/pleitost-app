@@ -22,6 +22,7 @@ import {
 import type { EffectDescriptor } from './descriptor'
 import { useSharedAllyDescriptors } from './aliados'
 import { composeStateKey } from './state'
+import { tesourosComImplementos } from '../data/implementos'
 
 /** Docs universais da engine além das condições (toggle ERGUER do design). */
 const EXTRA_EFFECT_IDS = [ERGUER_ESCUDO_ID]
@@ -86,7 +87,7 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
       }
     }
     // Report 362a7f82: propriedades das armas CUSTOM (tipo: Arma) dos tesouros.
-    for (const t of (fmPath(fm, 'Inventario', 'Tesouros') as unknown[]) ?? []) {
+    for (const t of tesourosComImplementos(fm)) {
       for (const raw of propsDeArmasCustom(fmOf(refs.refDoc(t))['Efeitos_Interativos'])) {
         const res = catalog.resolve(wikiTarget(raw))
         if (res.kind === 'doc') out.add(res.id)

@@ -98,6 +98,8 @@ export interface RulesModel {
     }
     escudo: { nome: string | null; propriedade: string | null; categoria: string | null; proficiencia: 'N' | 'P' }
     armas: { lista: Array<{ nome: string; propriedade: string | null; categoria: string | null }> }
+    /** Implementos (fundamental + foco opcional) — `Inventario.Implementos`. */
+    implementos: Array<{ nome: string; propriedade: string | null; categoria: string | null }>
     tesouros: Array<{ nome: string; tier: 'A' | 'E' | 'M' | null }>
     consumiveis: string[]
   }
@@ -294,6 +296,11 @@ export function rulesModelFromFm(fm: Record<string, unknown>): RulesModel {
           categoria: str(a['Categoria']) || null,
         })),
       },
+      implementos: arrObj(fmPath(fm, 'Inventario', 'Implementos')).map((a) => ({
+        nome: str(a['Nome']),
+        propriedade: str(a['Propriedade']) || null,
+        categoria: str(a['Categoria']) || null,
+      })),
       // Tier do tesouro vem do alias "(Adepto)" — espelho de
       // parseTierFromAlias (plugin frontmatter-helpers.ts) via parseItemAlias.
       tesouros: ((fmPath(fm, 'Inventario', 'Tesouros') as unknown[]) ?? []).map((t) => ({

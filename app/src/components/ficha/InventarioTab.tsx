@@ -63,6 +63,7 @@ import {
   tierLetter,
   wikiTarget,
 } from './hero-model'
+import { implementosDe, rotuloImplemento } from '../../data/implementos'
 
 const INV_TABS = [
   { id: 'armas', label: 'ARMAS' },
@@ -932,6 +933,10 @@ interface TesouroRow {
   index: number
   img: string | null
   doc?: VaultDoc
+  /** Linha de `Inventario.Implementos` (implemento + foco); `index` é dessa lista. */
+  impl?: boolean
+  /** Foco do implemento (doc pro preço de revenda: o foco inclui a base). */
+  focoDoc?: VaultDoc
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1060,24 +1065,39 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       }),
     [tesourosRaw, refs, assets],
   )
-  const removeTesouro = (index: number) =>
-    model.set(
-      'Inventario.Tesouros',
-      tesourosRaw.filter((_, j) => j !== index),
-    )
+  // IMPLEMENTOS com foco (linha própria, data/implementos): mesma lista de
+  // tesouros na tela, com o rótulo do combo e a figura do implemento.
+  const implRaw = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as Record<string, unknown>[]
+  const implRows: TesouroRow[] = implementosDe(fm).map((l, index) => {
+    const fDoc = refs.refDoc(`[[${l.nome}]]`) ?? undefined
+    return {
+      nome: rotuloImplemento(l.nome, l.foco),
+      tier: l.tier ?? '',
+      bonus: l.tier ? bonusPorTier(fDoc, l.tier) : 0,
+      grupo: 'IMPLEMENTOS',
+      index,
+      img: tesouroImageUrl(l.nome, l.tier ?? '', assets),
+      doc: fDoc,
+      impl: true,
+      focoDoc: l.foco ? (refs.refDoc(`[[${l.foco}]]`) ?? undefined) : undefined,
+    }
+  })
+  const allRows = [...rows, ...implRows]
+  const tirarLinha = (r: TesouroRow) =>
+    r.impl
+      ? model.set('Inventario.Implementos', implRaw.filter((_, j) => j !== r.index))
+      : model.set('Inventario.Tesouros', tesourosRaw.filter((_, j) => j !== r.index))
+  const removeTesouro = (r: TesouroRow) => tirarLinha(r)
   // #300: valor de revenda de um tesouro = preço × mult do tier × taxa (mesma
   // base do `custo` usado na ordenação).
   const tesouroRefund = (r: TesouroRow) =>
-    resaleRefund(precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A'], sistemaConfig.getRevenda())
-  const sellTesouro = (index: number, refund: number) => {
+    resaleRefund(precoPO(r.focoDoc ?? r.doc) * TIER_PRICE_MULT[r.tier || 'A'], sistemaConfig.getRevenda())
+  const sellTesouro = (r: TesouroRow, refund: number) => {
     if (refund > 0) {
       const ouro = num(fmPath(model.fm, 'Inventario', 'Ouro'))
       model.set('Inventario.Ouro', ouro + refund)
     }
-    model.set(
-      'Inventario.Tesouros',
-      tesourosRaw.filter((_, j) => j !== index),
-    )
+    tirarLinha(r)
   }
   // Toggle Alterar/Concluir do painel de TESOUROS (feedback): fora do Alterar a
   // tela fica enxuta (só qualidade, sem Item Bônus/tiers/ações — melhor no celular).
@@ -1108,8 +1128,16 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // (apply-tesouros-edit.ts:60-78): reescreve o alias com o novo tier;
   // "null não desseleciona — tesouro sem tier não faz sentido. UI trata
   // click no rank ATIVO como NO-OP".
-  const setTierTesouro = (index: number, tier: '' | 'A' | 'E' | 'M') => {
+  const setTierTesouro = (r: TesouroRow, tier: '' | 'A' | 'E' | 'M') => {
     if (!tier) return
+    const index = r.index
+    if (r.impl) {
+      model.set(
+        'Inventario.Implementos',
+        implRaw.map((row, j) => (j === index ? { ...row, Categoria: tierCategoriaFm(tier) } : row)),
+      )
+      return
+    }
     const { nome } = parseItemAlias(tesourosRaw[index])
     model.set(
       'Inventario.Tesouros',
@@ -1119,20 +1147,21 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
   const groups = useMemo(() => {
     const byGroup = new Map<string, TesouroRow[]>()
-    for (const row of rows) {
+    for (const row of allRows) {
       const list = byGroup.get(row.grupo) ?? []
       list.push(row)
       byGroup.set(row.grupo, list)
     }
     // Ordena cada grupo por CUSTO efetivo (base × mult do tier), mais caros no
     // topo (#121).
-    const custo = (r: TesouroRow) => precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A']
+    const custo = (r: TesouroRow) => precoPO(r.focoDoc ?? r.doc) * TIER_PRICE_MULT[r.tier || 'A']
     return [...byGroup.entries()].map(([title, groupRows]) => ({
       title,
       dois: groupRows.some((r) => r.bonus > 0) ? 1 : 0,
       rows: [...groupRows].sort((a, b) => custo(b) - custo(a)),
     }))
-  }, [rows])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, refs, JSON.stringify(implRows.map((r) => [r.nome, r.tier, r.index]))])
 
   return (
     <>
@@ -1281,15 +1310,15 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     {tesEdit ? (
                       <>
                         <span style={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
-                          <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r.index, next)} />
+                          <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r, next)} />
                         </span>
                         <span style={{ display: 'flex', gap: 5, justifyContent: 'center', opacity: g.dois }}>
                           <GoldDots on={r.bonus} />
                         </span>
                         <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
-                          <SellBtn compact refund={tesouroRefund(r)} onClick={() => sellTesouro(r.index, tesouroRefund(r))} />
+                          <SellBtn compact refund={tesouroRefund(r)} onClick={() => sellTesouro(r, tesouroRefund(r))} />
                           <span
-                            onClick={() => removeTesouro(r.index)}
+                            onClick={() => removeTesouro(r)}
                             title="Descartar (sem devolver ouro)"
                             style={{ color: 'var(--muted)', fontSize: 14, cursor: 'pointer' }}
                           >

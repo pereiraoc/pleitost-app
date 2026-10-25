@@ -5,6 +5,7 @@
 // imbuições (armas incomuns ficam como encomenda especial). Tesouros simples:
 // TODOS do sistema (típico se está nos Recursos, senão incomum).
 import type { VaultDoc } from './types'
+import { rotuloImplemento } from './implementos'
 import { precoPO } from '../grupo/wealth'
 import { escudoObraPrima, wikiTarget } from '../components/ficha/hero-model'
 import { aplicavelPredicates, hostStatsFromDoc, isAplicavelAoHost } from '../rules/aplicavel-a'
@@ -65,8 +66,12 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
   const candidates: ShopCandidate[] = []
 
   // 1) Tesouros simples — TODOS; típico se está nos Recursos, senão incomum
-  //    (básicos ganham ×2/×½). Preço base do doc.
+  //    (básicos ganham ×2/×½). Preço base do doc. FOCO não se vende sozinho
+  //    (vault 2026-10-21): só trabalhado num implemento fundamental (passo 1b).
+  const ehFoco = (d: VaultDoc) => /\/Implementos\/Focos\//.test(d.id)
+  const ehFundamental = (d: VaultDoc) => /\/Implementos\/Fundamentais\//.test(d.id)
   for (const doc of input.tesourosSimples) {
+    if (ehFoco(doc)) continue
     const nome = doc.basename
     candidates.push({
       key: doc.id,
@@ -76,6 +81,30 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
       mult: RARIDADE_MULT[raridadeTesouro(nome, tipico.has(nome))],
       tiers: T3,
     })
+  }
+
+  // 1b) Combos IMPLEMENTO×FOCO — "Broche Artístico da Repetição" (preço = o do
+  //     foco, que já inclui o implemento-base; Tesouros.md). Mesma régua de
+  //     raridade do combo arma×imbuição (implemento típico/incomum × foco
+  //     típico/incomum) — a nota de Disponibilidade ainda não tem linha própria.
+  const focos = input.tesourosSimples.filter(ehFoco)
+  for (const imp of input.tesourosSimples.filter(ehFundamental)) {
+    const host = hostStatsFromDoc(imp)
+    for (const foco of focos) {
+      if (!isAplicavelAoHost(aplicavelPredicates(foco), host)) continue
+      const nome = rotuloImplemento(imp.basename, foco.basename)
+      candidates.push({
+        key: `${imp.id}|${foco.id}`,
+        nome,
+        label: nome,
+        precoBase: precoPO(foco),
+        mult: comboMult(tipico.has(imp.basename), tipico.has(foco.basename)),
+        tiers: T3,
+        implTarget: imp.id,
+        imbTarget: foco.id, // 2ª carta no hover = o foco
+        thumbBasename: imp.basename, // figura = o implemento
+      })
+    }
   }
 
   // 2) Combos ARMA×IMBUIÇÃO — "Adaga Relampejante" (preço = imbuição). Vale pra

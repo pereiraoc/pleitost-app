@@ -24,6 +24,7 @@ import {
   wikiTarget,
 } from '../components/ficha/hero-model'
 import type { Tier } from './commerce'
+import { linhaImplemento } from './implementos'
 
 const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 
@@ -108,6 +109,34 @@ export function buyTreasure(
   writeHero(heroId, vaultDoc, 'Inventario.Tesouros', tesouros)
 
   return { ok: true, ouroRestante: novoOuro }
+}
+
+/** Compra de IMPLEMENTO com FOCO (Broche Artístico da Repetição, tier M):
+ *  linha própria em `Inventario.Implementos` (data/implementos). Falha (sem
+ *  escrever) se o ouro for menor que o preço. */
+export function buyImplemento(
+  heroId: string,
+  vaultDoc: VaultDoc | undefined,
+  implemento: { nome: string; foco: string | null; tier: Tier },
+  preco: number,
+): PurchaseResult {
+  const fm = currentFm(heroId, vaultDoc)
+  const ouro = ouroDe(fm)
+  if (ouro < preco) return { ok: false, reason: 'ouro-insuficiente', ouroRestante: ouro }
+  const novoOuro = ouro - preco
+  writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
+  const atuais = fmPathArr(fm, ['Inventario', 'Implementos'])
+  writeHero(heroId, vaultDoc, 'Inventario.Implementos', [
+    ...atuais,
+    linhaImplemento(implemento.nome, implemento.foco, implemento.tier),
+  ])
+  return { ok: true, ouroRestante: novoOuro }
+}
+
+function fmPathArr(fm: Record<string, unknown>, path: string[]): Record<string, unknown>[] {
+  let cur: unknown = fm
+  for (const k of path) cur = cur && typeof cur === 'object' ? (cur as Record<string, unknown>)[k] : undefined
+  return Array.isArray(cur) ? (cur as Record<string, unknown>[]) : []
 }
 
 /** Ouro corrente de um herói (para o seletor mostrar o saldo). */

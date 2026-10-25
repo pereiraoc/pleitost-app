@@ -48,7 +48,7 @@ import {
   setShopRoll,
   useShopState,
 } from '../../data/commerce-store'
-import { buyConsumivel, buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
+import { buyConsumivel, buyImplemento, buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
 import { docField } from '../ficha/hero-model'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
@@ -696,6 +696,21 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       finish(buyConsumivel(hid, hdoc, entry.nome, entry.tier, entry.preco))
       return
     }
+    // Implemento com foco (Broche Artístico da Repetição) → linha própria em
+    // Inventario.Implementos (como arma com imbuição).
+    if (entry.implTarget) {
+      const nomeDe = (id: string | undefined) =>
+        id ? (catalog.entryById.get(id)?.basename ?? id.split('/').pop() ?? id) : null
+      finish(
+        buyImplemento(
+          hid,
+          hdoc,
+          { nome: nomeDe(entry.implTarget)!, foco: nomeDe(entry.imbTarget), tier: entry.tier },
+          entry.preco,
+        ),
+      )
+      return
+    }
     // #299: combo arma×imbuição/obra-prima é ARMA → Armas.Lista.
     if (entry.armaTarget) {
       const armaId = entry.armaTarget
@@ -735,7 +750,11 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   // Report 2026-09-08: lojas ROLADAS antes do filtro de armas sem mão
   // ("Ataque Desarmado", mãos 0) ficaram salvas por local — o filtro também
   // vale na LEITURA, senão o combo velho segue na vitrine até re-rolar.
-  const vendavel = (e: { armaTarget?: string }) => !e.armaTarget || catalog.entryById.get(e.armaTarget)?.maos !== 0
+  // Rolagens ANTIGAS ainda podem ter o Foco avulso (antes de virar
+  // implemento+foco, vault 2026-10-21) — some na leitura até re-rolar.
+  const vendavel = (e: { key: string; armaTarget?: string; implTarget?: string }) =>
+    (!e.armaTarget || catalog.entryById.get(e.armaTarget)?.maos !== 0) &&
+    (!!e.implTarget || !/\/Tesouros\/Implementos\/Focos\//.test(e.key))
   const pronta = (shop?.pronta ?? []).filter(vendavel)
   const encomenda = (shop?.encomenda ?? []).filter(vendavel)
   // Jogador fica travado em pronta entrega; só o GM alterna p/ encomenda. Poção

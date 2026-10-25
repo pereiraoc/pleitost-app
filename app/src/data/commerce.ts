@@ -440,6 +440,9 @@ export interface ShopCandidate {
   propriedadeBase?: string
   /** Basename alternativo p/ miniatura (escudo/armadura obra-prima: "Broquel"). */
   thumbBasename?: string
+  /** Combo IMPLEMENTO×FOCO: doc do implemento fundamental (o foco vai em
+   *  `imbTarget`). Compra → `Inventario.Implementos`. */
+  implTarget?: string
 }
 
 /** Candidato de POÇÃO — rolado por DADOS (POCAO_DICE), não pela matriz. */
@@ -457,6 +460,7 @@ export interface EntryMeta {
   imbTarget?: string
   propriedadeBase?: string
   thumbBasename?: string
+  implTarget?: string
   /** É uma poção (aba Poções à parte de Equipamentos). */
   isPocao?: boolean
 }
@@ -520,6 +524,7 @@ export function rollShop2(
       imbTarget: c.imbTarget,
       propriedadeBase: c.propriedadeBase,
       thumbBasename: c.thumbBasename,
+      ...(c.implTarget ? { implTarget: c.implTarget } : {}),
     }
     for (const tier of c.tiers) {
       const preco = precoFinal(c.precoBase, tier, precoMult)

@@ -70,6 +70,7 @@ import { ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { ATTR_EMOJI, classeAventureiro, defesaEmoji, displayName, slugify, tokens } from '../ficha/registry'
 import { clip } from '../ficha/bits'
 import { computeMagiaAtaque } from '../../interativa/invocacao'
+import { tesourosComImplementos } from '../../data/implementos'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
@@ -791,7 +792,7 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
   const tier = fm['Tier']
 
   const tesouros = useMemo(
-    () => inventarioItens(fmPath(fm, 'Inventario', 'Tesouros'), { dedup: true, comQtd: false }),
+    () => inventarioItens(tesourosComImplementos(fm), { dedup: true, comQtd: false }),
     [fm],
   )
   const consumiveis = useMemo(

@@ -121,6 +121,11 @@ function figuraUrl(
   assets: ReturnType<typeof useAssetIndex>,
 ): string | null {
   const nome = e.nome ?? e.label
+  // Implemento com foco: figura do IMPLEMENTO (o foco vira o selo).
+  if (e.implTarget && e.thumbBasename) {
+    const imp = tesouroImageUrl(e.thumbBasename, e.tier, assets)
+    if (imp) return imp
+  }
   if (e.armaTarget) {
     // #280: miniatura de item (44px) → thumb.
     const w = weaponImageUrl(docsById.get(e.armaTarget), assets, true)
@@ -571,6 +576,9 @@ export function composedCardHtml(
   assets: ReturnType<typeof useAssetIndex>,
 ): string {
   const cards: string[] = []
+  // Implemento com foco: carta do implemento (no tier) + carta do foco.
+  const impl = e.implTarget ? docsById.get(e.implTarget) : undefined
+  if (impl) cards.push(itemCardHtml(impl, e.tier, docImageUrl(impl, e.tier, assets), true))
   const w = e.armaTarget ? docsById.get(e.armaTarget) : undefined
   // Arma base: SEM "(Qualidade)" no nome (a qualidade vem da propriedade).
   if (w) cards.push(itemCardHtml(w, e.tier, docImageUrl(w, e.tier, assets), false))
@@ -590,7 +598,14 @@ export function useItemFigura(e: FiguraTarget, docsById: Map<string, VaultDoc>) 
   const assets = useAssetIndex()
   return {
     img: figuraUrl(e, docsById, assets),
-    seloImg: e.propriedadeBase ? propriedadeImageUrl(e.propriedadeBase, e.tier, assets) : null,
+    seloImg: e.implTarget
+      ? (() => {
+          const foco = e.imbTarget ? docsById.get(e.imbTarget)?.basename : undefined
+          return foco ? tesouroImageUrl(foco, e.tier, assets) : null
+        })()
+      : e.propriedadeBase
+        ? propriedadeImageUrl(e.propriedadeBase, e.tier, assets)
+        : null,
     cardHtml: composedCardHtml(e, docsById, assets),
   }
 }

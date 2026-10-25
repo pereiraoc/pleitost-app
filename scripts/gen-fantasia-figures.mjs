@@ -140,6 +140,27 @@ for (const p of walk(join(VAULT, 'Atlas')).filter((p) => p.endsWith('.md')).sort
   add('Locais', 'Mapas', embedDe(body, basename(p, '.md')), promptLocal(basename(p, '.md'), fm['subcategoria'], cap(limpar(body), 1300)), 'Recursos e Mídia/Imagens/Mapas/Riqueza.png')
 }
 
+// FOCOS como ORBE (2026-10-25): o foco virou peça trabalhada NUM implemento
+// (Broche/Luva/Bracelete + foco), não varinha. A arte nova é só a orbe — vira o
+// selo no canto da figura do implemento. Entra mesmo com arte existente
+// (substitui a de varinha); referência = a arte atual (cor/brilho da orbe).
+for (const p of walk(join(VAULT, 'Sistema/Equipamento/Tesouros/Implementos/Focos')).filter((p) => p.endsWith('.md')).sort()) {
+  const nome = basename(p, '.md')
+  const { fm } = lerNota(p)
+  trabalho.push({
+    cat: 'Focos (orbe)',
+    pasta: 'Focos',
+    nome,
+    ref: `Recursos e Mídia/Imagens/Cartas/Figura/Implementos/${nome}.png`,
+    prompt:
+      `Ícone de item mágico para ${MUNDO}: SOMENTE a orbe do "${nome}" — ${fm['resumo'] ?? 'foco mágico'}` +
+      ` Mantenha a MESMA cor, o mesmo brilho interno e o mesmo acabamento da orbe da imagem de referência anexada,` +
+      ` mas SEM bastão, cabo, varinha, haste ou encaixe de metal: só a esfera, flutuando, com um leve halo de energia.` +
+      ` Fundo transparente (PNG), sem sombra no chão, enquadrada no centro com margem.` +
+      ESTILO + ` Sem texto. Proporção quadrada 1:1 (1024×1024).`,
+  })
+}
+
 const CATS = [...new Set(trabalho.map((t) => t.cat))]
 if (PLAN) {
   for (const t of trabalho) console.log(`${t.cat}/${t.nome}`)
@@ -159,6 +180,7 @@ const linhas = [
   '3. Baixa o resultado e **salva com o nome exato** indicado em `→ salvar como`, dentro de',
   '   `Recursos e Mídia/Rascunhos/Inbox de Imagens/<pasta indicada na seção>/`.',
   '4. Com um lote pronto, me pede o **ingest**: confiro os nomes e movo pra `Recursos e Mídia/Imagens/<pasta>/`',
+  '   (os **Focos (orbe)** vão pra `Recursos e Mídia/Imagens/Cartas/Figura/Implementos/`, SUBSTITUINDO a arte de varinha)',
   '   — as notas já embedam `![[Nome.png]]`, então a imagem aparece sozinha.',
   '',
 ]

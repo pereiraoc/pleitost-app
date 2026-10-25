@@ -107,6 +107,10 @@ export function collectSeeds(model: RulesModel): string[] {
   push(model.inventario.escudo.nome)
   push(model.inventario.escudo.propriedade)
   for (const tes of model.inventario.tesouros) push(tes.nome)
+  for (const imp of model.inventario.implementos ?? []) {
+    push(imp.nome)
+    push(imp.propriedade)
+  }
   for (const con of model.inventario.consumiveis) push(con)
 
   return seeds
@@ -313,6 +317,13 @@ function buildCategoriaPorNota(model: RulesModel): Map<string, 'Adepto' | 'Exper
     const cat = rankFromCat(a.categoria)
     const note = noteOf(a.propriedade)
     if (cat && note) out.set(note, RANK_LABEL[cat])
+  }
+  // Implemento: o tier vale pro fundamental (Bonus_Item por Categoria) E pro
+  // foco trabalhado nele (cargas por tier).
+  for (const a of model.inventario.implementos ?? []) {
+    const cat = rankFromCat(a.categoria)
+    if (!cat) continue
+    for (const n of [noteOf(a.nome), noteOf(a.propriedade)]) if (n) out.set(n, RANK_LABEL[cat])
   }
   return out
 }

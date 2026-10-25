@@ -51,6 +51,7 @@ import {
   type Fm,
 } from '../../detail/ResumoDetail'
 import type { CombatenteVM } from './useCombatentes'
+import { tesourosComImplementos } from '../../../data/implementos'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
@@ -274,7 +275,7 @@ export function SubPertences({ vm }: { vm: CombatenteVM }) {
   // armas, escudo e armadura NÃO entram (pedido 2026-10-02): armas estão em
   // ATAQUES, o escudo no bloco da linha, a armadura já conta nas defesas —
   // aqui só tesouros e consumíveis
-  const tesouros = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Tesouros'), { dedup: true, comQtd: false }), [fm])
+  const tesouros = useMemo(() => inventarioItens(tesourosComImplementos(fm), { dedup: true, comQtd: false }), [fm])
   const consumiveis = useMemo(() => inventarioItens(fmPath(fm, 'Inventario', 'Consumiveis'), { dedup: false, comQtd: true }), [fm])
   if (vm.semFicha) return <Vazio texto="sem ficha — pertences indisponíveis" />
   if (!tesouros.length && !consumiveis.length) return <Vazio texto="nada no inventário" />

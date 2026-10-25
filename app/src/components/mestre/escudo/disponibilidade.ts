@@ -8,6 +8,7 @@ import { computeMagiaAtaque } from '../../../interativa/invocacao'
 import { parseItemAlias } from '../../ficha/hero-model'
 import { isCondicaoOn, isEfeitoOn, parseStateKey } from '../../../interativa/state'
 import { ESSENCIAS_PATH_PREFIXES, MODIFICADORES_PATH_PREFIX } from '../../../rules/projection'
+import { tesourosComImplementos } from '../../../data/implementos'
 
 type Fm = Record<string, unknown>
 
@@ -64,7 +65,7 @@ export function temHabilidades(fm: Fm, catalog: Catalog): boolean {
 /** Tesouros ou consumíveis (armas, escudo e armadura NÃO: já aparecem em
  *  ATAQUES, no bloco do escudo e nas defesas). */
 export function temPertences(fm: Fm): boolean {
-  const tes = lista(fmPath(fm, 'Inventario', 'Tesouros')).some((t) => !!parseItemAlias(t).nome)
+  const tes = tesourosComImplementos(fm).some((t) => !!parseItemAlias(t).nome)
   if (tes) return true
   return lista(fmPath(fm, 'Inventario', 'Consumiveis')).some((c) => {
     const { nome, qtd } = parseItemAlias(c)

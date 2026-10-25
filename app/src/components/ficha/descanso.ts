@@ -26,6 +26,7 @@ import {
   usosPorTier,
 } from './hero-model'
 import { linkLabel } from '../../markdown/dataview-value'
+import { tesourosComImplementos } from '../../data/implementos'
 
 export interface DescansoUsoItem {
   /** Key em Interativa.Usos_Recursos — MESMO formato dos consumers
@@ -82,7 +83,7 @@ export function buildDescansoUsoItems(
   }
   // 2. Tesouros com uso controlado (keys do TesourosPanel). Cargas têm
   //    precedência sobre usos, como no plugin (usos.ts:112-118).
-  const tesouros = (fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
+  const tesouros = tesourosComImplementos(fm)
   for (const raw of tesouros) {
     const { nome, tier } = parseItemAlias(raw)
     if (!tier) continue
