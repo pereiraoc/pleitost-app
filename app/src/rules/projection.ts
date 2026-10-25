@@ -755,7 +755,16 @@ function filterChoiceOptionsByLineage(
       if (opt === c.pick) return true
       const meta = c.optionsMeta!.find((m) => m.option === opt)
       // Requisito explícito na nota (Mestre composta): vale ELE, não a pasta.
-      if (meta?.requer?.length) return meta.requer.every((t) => ownedTargets.has(t))
+      if (meta?.requer?.length) {
+        if (!meta.requer.every((t) => ownedTargets.has(t))) return false
+        // Mestre composta: as duas Adeptas (requisitos) E ao menos uma delas
+        // na forma Experiente (o "ou" que a gramática não expressa).
+        if (meta.rank === 'Mestre') {
+          const bases = meta.requer.filter((t) => / Adepta$/.test(t)).map((t) => t.replace(/ Adepta$/, ''))
+          if (bases.length && !bases.some((b) => ownedTargets.has(`${b} Experiente`))) return false
+        }
+        return true
+      }
       const prev = meta ? LINEAGE_PREV_RANK[meta.rank] : undefined
       if (!meta || !prev) return true
       if (!isLineageFolder(meta.folder)) return true

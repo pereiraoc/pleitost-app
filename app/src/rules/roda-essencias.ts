@@ -119,15 +119,18 @@ export function estadoRoda(input: {
    *  QUALQUER essência desses dois elementos (as pontas de cada trio se
    *  ligam); os outros dois elementos ficam fora (são os opostos de um deles). */
   elementos?: string[] | null
+  /** Essências vindas da técnica ESSÊNCIA INVERTIDA (a pura do elemento
+   *  oposto): exceção explícita — nem oposta nem fora do caminho. */
+  invertidas?: Set<string>
 }): EstadoRoda {
   const { roda, sintonia, tem, elementos } = input
+  const invertidas = input.invertidas ?? new Set<string>()
   const druida = !!elementos && elementos.length > 0
   const aplicaCiclo = input.aplicaCiclo && !druida
   const oposto = sintonia ? opostoDe(roda, sintonia) : null
   const pura = sintonia ? puraDe(roda, sintonia) : null
   const todas = [...roda.ordem, ...roda.universais]
   const no: Record<Tier, Record<string, EstadoNo>> = { A: {}, E: {}, M: {} }
-  const ehDaSintonia = (b: string) => !!sintonia && roda.elemento[b] === sintonia
   const temCiclo = (t: Tier) => [...tem[t]].filter((b) => roda.ordem.includes(b))
 
   // Adepta
@@ -151,19 +154,18 @@ export function estadoRoda(input: {
   }
 
   // Experiente / Mestre: precisa do tier anterior; a 1ª é da sintonia.
+  // Experiente: qualquer essência de que tem a Adepta. Mestre de uma essência
+  // só (a universal; as do ciclo são compostas — estadoCompostas): precisa da
+  // Adepta universal.
   const degrau = (t: 'E' | 'M', anterior: Tier) => {
-    const jaTemDaSintonia = temCiclo(t).some(ehDaSintonia)
     for (const b of todas) {
-      const universal = roda.universais.includes(b)
       if (tem[t].has(b)) no[t][b] = 'tem'
       else if (!tem[anterior].has(b)) no[t][b] = 'fechado'
-      else if (aplicaCiclo && sintonia && !jaTemDaSintonia && !universal && !ehDaSintonia(b)) no[t][b] = 'fechado'
-      else if (aplicaCiclo && sintonia && !jaTemDaSintonia && universal) no[t][b] = 'fechado'
       else no[t][b] = 'livre'
     }
   }
   degrau('E', 'A')
-  degrau('M', 'E')
+  degrau('M', 'A')
 
   // Conexão: Adeptas do ciclo ligadas à pura por posse contígua.
   const soltas = new Set<string>()
@@ -179,21 +181,16 @@ export function estadoRoda(input: {
     for (const b of ciclo) if (!ligadas.has(b)) soltas.add(b)
   }
   const invalidas = new Map<string, string>()
-  for (const b of soltas) invalidas.set(`A:${b}`, 'fora do caminho do ciclo (não liga na pura da sintonia)')
+  for (const b of soltas) if (!invertidas.has(b)) invalidas.set(`A:${b}`, 'fora do caminho do ciclo (não liga na pura da sintonia)')
   for (const b of ciclo) {
+    if (invertidas.has(b)) continue
     if (druida && !elementos!.includes(roda.elemento[b]!)) invalidas.set(`A:${b}`, 'fora dos dois elementos do círculo')
     else if (!druida && oposto && roda.elemento[b] === oposto) invalidas.set(`A:${b}`, 'elemento oposto à sintonia')
   }
-  for (const [t, ant] of [['E', 'A'], ['M', 'E']] as const) {
+  for (const t of ['E', 'M'] as const) {
     for (const b of tem[t]) {
-      if (!tem[ant].has(b)) invalidas.set(`${t}:${b}`, `sem a ${ant === 'A' ? 'Adepta' : 'Experiente'}`)
+      if (!tem.A.has(b)) invalidas.set(`${t}:${b}`, 'sem a Adepta')
     }
-  }
-  // Animista: as Experientes do ciclo precisam de ao menos uma da sintonia.
-  if (aplicaCiclo && sintonia) {
-    const e = temCiclo('E')
-    if (e.length > 0 && !e.some(ehDaSintonia))
-      for (const b of e) if (!invalidas.has(`E:${b}`)) invalidas.set(`E:${b}`, 'nenhuma Experiente é da sintonia')
   }
   return { no, soltas, invalidas }
 }
@@ -207,30 +204,31 @@ export interface Composta {
   b: string
 }
 
-const REQ_EXPERIENTE = /Requisito\s+Contem\(Habilidades\)\s+\[\[(Essência .+?) Experiente\]\]/
+const REQ_BASE = /Requisito\s+Contem\(Habilidades\)\s+\[\[(Essência .+?) (?:Adepta|Experiente)\]\]/
 
 export function compostaDoDoc(nome: string, fm: Record<string, unknown> | undefined): Composta | null {
   const regras = Array.isArray(fm?.['Elementos_de_Regra']) ? (fm!['Elementos_de_Regra'] as unknown[]) : []
-  const bases = regras.map((r) => REQ_EXPERIENTE.exec(String(r))?.[1]).filter((x): x is string => !!x)
+  const bases = regras.map((r) => REQ_BASE.exec(String(r))?.[1]).filter((x): x is string => !!x)
   return bases.length === 2 ? { nome, a: bases[0]!, b: bases[1]! } : null
 }
 
-/** Estado de cada composta: tem / livre (as DUAS Experientes; a primeira
- *  Mestre toca o elemento da sintonia) / fechado. */
+/** Estado de cada composta: tem / livre (as DUAS Adeptas e ao menos UMA
+ *  Experiente delas; a primeira Mestre toca o elemento da sintonia) / fechado. */
 export function estadoCompostas(input: {
   roda: RodaDef
   compostas: Composta[]
   sintonia: string | null
+  temA: Set<string>
   temE: Set<string>
   temM: Set<string>
 }): Record<string, EstadoNo> {
-  const { roda, compostas, sintonia, temE, temM } = input
+  const { roda, compostas, sintonia, temA, temE, temM } = input
   const tocaSintonia = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
   const jaTemDaSintonia = compostas.some((c) => temM.has(c.nome) && tocaSintonia(c))
   const out: Record<string, EstadoNo> = {}
   for (const c of compostas) {
     if (temM.has(c.nome)) out[c.nome] = 'tem'
-    else if (!temE.has(c.a) || !temE.has(c.b)) out[c.nome] = 'fechado'
+    else if (!temA.has(c.a) || !temA.has(c.b) || (!temE.has(c.a) && !temE.has(c.b))) out[c.nome] = 'fechado'
     else if (sintonia && !jaTemDaSintonia && !tocaSintonia(c)) out[c.nome] = 'fechado'
     else out[c.nome] = 'livre'
   }
@@ -242,14 +240,16 @@ export function invalidasCompostas(input: {
   roda: RodaDef
   compostas: Composta[]
   sintonia: string | null
+  temA: Set<string>
   temE: Set<string>
   temM: Set<string>
 }): Map<string, string> {
-  const { roda, compostas, sintonia, temE, temM } = input
+  const { roda, compostas, sintonia, temA, temE, temM } = input
   const out = new Map<string, string>()
   const minhas = compostas.filter((c) => temM.has(c.nome))
   for (const c of minhas) {
-    if (!temE.has(c.a) || !temE.has(c.b)) out.set(c.nome, 'falta uma das duas Experientes')
+    if (!temA.has(c.a) || !temA.has(c.b)) out.set(c.nome, 'falta uma das duas Adeptas')
+    else if (!temE.has(c.a) && !temE.has(c.b)) out.set(c.nome, 'nenhuma das duas é Experiente')
   }
   const toca = (c: Composta) => !!sintonia && (roda.elemento[c.a] === sintonia || roda.elemento[c.b] === sintonia)
   if (sintonia && minhas.length > 0 && !minhas.some(toca))

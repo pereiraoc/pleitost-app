@@ -18,6 +18,7 @@ import {
   ehCompostaDoCatalogo,
   elementoDaSintonia,
   elementosDoCirculo,
+  opostoDe,
   pontasDoElemento,
   nomesCompostasDoCatalogo,
   estadoCompostas,
@@ -179,8 +180,8 @@ function Roda({
     .map((nm) => compostaDoDoc(nm, docsCompostas(nm)?.frontmatter))
     .filter((c): c is Composta => !!c && roda.ordem.includes(c.a) && roda.ordem.includes(c.b))
   const composta = new Map(compostas.map((c) => [c.nome, c]))
-  const estadoM = estadoCompostas({ roda, compostas, sintonia, temE: tem.E, temM: temComposta })
-  const invalidasM = invalidasCompostas({ roda, compostas, sintonia, temE: tem.E, temM: temComposta })
+  const estadoM = estadoCompostas({ roda, compostas, sintonia, temA: tem.A, temE: tem.E, temM: temComposta })
+  const invalidasM = invalidasCompostas({ roda, compostas, sintonia, temA: tem.A, temE: tem.E, temM: temComposta })
   /** Alvo (nota) do nó: composta Mestre é a própria nota; os demais
    *  "<Essência> <Tier>". */
   const alvoDe = (base: string, t: Tier) => (t === 'M' && composta.has(base) ? base : `${base} ${SUFIXO_TIER[t]}`)
@@ -194,7 +195,20 @@ function Roda({
   const elementos =
     elementosDoCirculo(roda, porTier('A').flatMap((c) => c.options)) ??
     (porTier('A').length === 0 ? elementosDoCirculo(roda, regraA) : null)
-  const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true, elementos })
+  // ESSÊNCIA INVERTIDA (técnica): a pura oposta que ela dá é exceção à regra.
+  const invertidas = new Set(
+    [...derivadas, ...salvas]
+      .filter((e) => e.fonte.target === 'Essência Invertida')
+      .map((e) => parseEssencia(e.target)?.base)
+      .filter((b): b is string => !!b),
+  )
+  const estado = estadoRoda({ roda, sintonia, tem, aplicaCiclo: true, elementos, invertidas })
+  // Elementos FORA (cinza): o oposto da sintonia; no Druida, os dois que não
+  // são do círculo. O da sintonia (ou os do círculo) fica em evidência.
+  const opostoSint = sintonia ? opostoDe(roda, sintonia) : null
+  const foraDoCirculo = (el: string | undefined) =>
+    !!el && (elementos ? !elementos.includes(el) : el === opostoSint)
+  const emEvidencia = (el: string | undefined) => !!el && (elementos ? elementos.includes(el) : el === sintonia)
   // INVÁLIDAS (ficha antiga ou editada por fora): marcadas pra desfazer.
   const invalidas = new Map(estado.invalidas)
   // (as Mestre compostas entram logo abaixo, quando as notas carregam)
@@ -585,8 +599,8 @@ function Roda({
           <path
             key={`f-${b}`}
             d={fatia(i, R_MARCA + 18, rMax - 4)}
-            fill={corDe(b)}
-            opacity={tem.A.has(b) ? 0.13 : 0.05}
+            fill={foraDoCirculo(roda.elemento[b]) ? '#8f8f8f' : corDe(b)}
+            opacity={foraDoCirculo(roda.elemento[b]) ? 0.08 : tem.A.has(b) ? 0.16 : emEvidencia(roda.elemento[b]) ? 0.1 : 0.05}
           />
         ))}
         {/* trilhos dos anéis */}
@@ -682,8 +696,13 @@ function Roda({
             <g key={`marca-${p}`}>
               <line x1={c0.x} y1={c0.y} x2={m.x} y2={m.y} stroke="var(--line2)" strokeWidth={1} />
               <line x1={m.x} y1={m.y} x2={a.x} y2={a.y} stroke={tem.A.has(p) ? corDe(p) : 'var(--line2)'} strokeWidth={tem.A.has(p) ? 2.4 : 1.2} />
-              {daSintonia ? <circle cx={m.x} cy={m.y} r={18} fill="none" stroke={corDe(p)} strokeWidth={1.4} opacity={0.6} /> : null}
-              <SimboloElemento elemento={el} x={m.x} y={m.y} r={14} />
+              {emEvidencia(el) ? (
+                <>
+                  <circle cx={m.x} cy={m.y} r={24} fill={corDe(p)} opacity={0.18} />
+                  <circle cx={m.x} cy={m.y} r={20} fill="none" stroke={corDe(p)} strokeWidth={1.6} opacity={daSintonia ? 0.9 : 0.6} />
+                </>
+              ) : null}
+              <SimboloElemento elemento={el} x={m.x} y={m.y} r={emEvidencia(el) ? 16 : 12} cinza={foraDoCirculo(el)} />
             </g>
           )
         })}
@@ -822,9 +841,22 @@ function Legenda({ cor, cheio, apagado, x, children }: { cor: string; cheio?: bo
 
 /** Disco do elemento com o símbolo alquímico (△ fogo, ▽ água, ▽ com barra
  *  terra, △ com barra vento) — registro ELEMENTO_SIMBOLO. */
-function SimboloElemento({ elemento, x, y, r }: { elemento: string; x: number; y: number; r: number }) {
+function SimboloElemento({
+  elemento,
+  x,
+  y,
+  r,
+  cinza,
+}: {
+  elemento: string
+  x: number
+  y: number
+  r: number
+  /** Elemento fora (oposto / fora do círculo do druida): disco cinza apagado. */
+  cinza?: boolean
+}) {
   const s = ELEMENTO_SIMBOLO[elemento]
-  const cor = ELEMENTO_COR[elemento] ?? ELEMENTO_COR.Universal!
+  const cor = cinza ? '#8f8f8f' : (ELEMENTO_COR[elemento] ?? ELEMENTO_COR.Universal!)
   const t = r * 0.56
   const cima = s?.ponta !== 'baixo'
   const pts = cima
@@ -834,7 +866,7 @@ function SimboloElemento({ elemento, x, y, r }: { elemento: string; x: number; y
   const by = cima ? y + t * 0.2 : y - t * 0.2
   const bw = t * 0.62
   return (
-    <g data-simbolo-elemento={elemento} style={{ pointerEvents: 'none' }}>
+    <g data-simbolo-elemento={elemento} style={{ pointerEvents: 'none', opacity: cinza ? 0.55 : 1 }}>
       <circle cx={x} cy={y} r={r} fill={cor} stroke="rgba(0,0,0,.35)" strokeWidth={1} />
       <polygon points={pts.join(' ')} fill="none" stroke={s?.tinta ?? '#fff'} strokeWidth={r / 6.5} strokeLinejoin="round" />
       {s?.barra ? <line x1={x - bw} y1={by} x2={x + bw} y2={by} stroke={s.tinta} strokeWidth={r / 6.5} /> : null}
