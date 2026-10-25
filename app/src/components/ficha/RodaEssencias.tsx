@@ -257,7 +257,10 @@ function Roda({
     const s = st(base, t)
     if (!edit) {
       if (s === 'tem') onOpen?.(alvoDe(base, t))
-      return
+      // Nó livre fora do Alterar: entra na edição e já gasta o slot (antes o
+      // clique sumia calado — e o Alterar do painel nem liga o Círculo Menor).
+      if (s !== 'livre' || !onToggleEdit) return
+      onToggleEdit()
     }
     if (s === 'livre') onAdd(alvoDe(base, t), t)
     else if (s === 'tem' && removivel(base, t)) onRemover(alvoDe(base, t))
@@ -314,7 +317,7 @@ function Roda({
         onKeyDown={tecla(base, t)}
         onMouseEnter={() => setFoco({ base, tier: t })}
         onFocus={() => setFoco({ base, tier: t })}
-        style={{ cursor: ativo || s === 'tem' ? 'pointer' : 'default', opacity: opac, outline: 'none' }}
+        style={{ cursor: ativo || s === 'tem' || s === 'livre' ? 'pointer' : 'default', opacity: opac, outline: 'none' }}
       >
         <title>{motivo(base, t)}</title>
         {s === 'tem' ? <circle cx={x} cy={y} r={r + 7} fill={cor} opacity={0.18} /> : null}

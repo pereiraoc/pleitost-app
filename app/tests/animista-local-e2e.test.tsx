@@ -137,6 +137,35 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
     expect(lista.split('Essência Incendiária Adepta').length - 1).toBe(1)
   })
 
+  // "não to conseguindo adicionar uma essencia mesmo tendo slots": fora do
+  // Alterar o nó livre aparecia "disponível" e o clique não fazia nada — no
+  // Círculo MENOR (Treinamento) o Alterar do painel Magias nem liga ele. O
+  // clique num nó livre entra na edição e já gasta o slot.
+  it('clique em nó livre FORA do Alterar gasta o slot (Círculo Menor do Treinamento)', { timeout: 30000 }, async () => {
+    const id = createLocalEntity('Heroi', 'Guerreiro Teste', emptyHeroFrontmatter())
+    setLocalEntityFm(id, 'Classe', '[[Guerreiro]]')
+    setLocalEntityFm(id, 'Nível', 4)
+    setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
+    setLocalEntityFm(id, 'Tecnicas', { Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }] })
+    setLocalEntityFm(id, 'Habilidades', {
+      Lista: [{ '[[Treinamento de Animista]]': 'Escolha.01.[[Treinamento de Classe Secundária]]' }],
+      Especiais: [],
+    })
+    renderHero(id)
+    const no = (k: string) => document.querySelector(`[data-roda-essencias] [data-roda-no="${k}"]`)
+    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('livre'), {
+      timeout: 15000,
+    })
+    fireEvent.click(no('A:Essência Flamejante')!)
+    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('tem'))
+    expect(JSON.stringify((getLocalDoc(id)!.frontmatter as any).Habilidades.Lista)).toContain(
+      '{"[[Essência Flamejante Menor]]":"Slot.A"}',
+    )
+    // e entrou na edição: a próxima vizinha sai no mesmo gesto
+    fireEvent.click(no('A:Essência Explosiva')!)
+    await waitFor(() => expect(no('A:Essência Explosiva')?.getAttribute('data-roda-estado')).toBe('tem'))
+  })
+
   it('classe SEM subclasse: o select de classe ocupa a linha inteira', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 3', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
