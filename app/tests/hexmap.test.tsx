@@ -242,7 +242,7 @@ describe('pixel → hex → localização (determinístico)', () => {
 
 // ── Lista filtrável = Localizações REAIS do catálogo ───────────────────────
 describe('editor: lista filtrável das Localizações reais', () => {
-  it('lista as 47 Localizações reais; filtro por nome retorna as certas', () => {
+  it('lista as 50 Localizações reais; filtro por nome retorna as certas', () => {
     renderDoc(mundoLivre)
     fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
     fireEvent.click(screen.getByText('ADICIONAR HEXPLORAÇÃO'))
@@ -252,7 +252,7 @@ describe('editor: lista filtrável das Localizações reais', () => {
     // todas as Localizações reais aparecem como itens (mesmo universo do scan)
     const itens = lista.querySelectorAll('[data-local-item]')
     expect(itens.length).toBe(universo.length)
-    expect(universo.length).toBe(47)
+    expect(universo.length).toBe(50)
     // filtro por nome real ("Kras…") retorna só o Krasnogor
     fireEvent.change(within(lista).getByLabelText('Filtrar Localização'), {
       target: { value: 'kras' },
@@ -566,12 +566,12 @@ describe('editor: modo Lugares × Regiões', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
     fireEvent.click(screen.getByText('ADICIONAR HEXPLORAÇÃO'))
     const lista = document.querySelector('[data-hex-lista]') as HTMLElement
-    // default = Lugares: as 47 Localizações; filtro "Localização"
-    expect(lista.querySelectorAll('[data-local-item]').length).toBe(47)
+    // default = Lugares: as 50 Localizações; filtro "Localização"
+    expect(lista.querySelectorAll('[data-local-item]').length).toBe(50)
     expect(within(lista).getByLabelText('Filtrar Localização')).toBeTruthy()
-    // troca pra Regiões → só Região/Nação/POI (5+4+19 = 28); filtro "Área"
+    // troca pra Regiões → só Região/Nação/POI (6+4+20 = 30); filtro "Área"
     fireEvent.click(document.querySelector('[data-modo-regioes]') as HTMLElement)
-    expect(lista.querySelectorAll('[data-area-item]').length).toBe(28)
+    expect(lista.querySelectorAll('[data-area-item]').length).toBe(30)
     expect(within(lista).getByLabelText('Filtrar Área')).toBeTruthy()
     expect(lista.querySelector(`[data-area-item="${NACAO_ID}"]`)).toBeTruthy()
   })

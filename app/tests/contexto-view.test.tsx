@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // Visualizadores de CONTEXTO no compêndio (issue #247, F3 do épico #243) sobre
 // docs REAIS da vault:
-//   - Organizações (Ordem Bestial): type "Organização" → OrgView (leitura
+//   - Organizações (Plebeus, placeholder vazio): type "Organização" → OrgView (leitura
 //     bonita das infos; sem o template Dataview cru vazando).
 //   - Contexto Histórico (Deserção da Frota): type "Contexto" → HistoriaView
 //     (corpo em coluna de leitura; prosa + wikilinks navegáveis).
@@ -30,11 +30,11 @@ const catalog = buildCatalog(manifest)
 const readDoc = (id: string): VaultDoc =>
   JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
 
-const ordemBestial = readDoc('Contexto/Organizações/Ordem Bestial')
+const orgVazia = readDoc('Contexto/Organizações/Plebeus')
 const guerra = readDoc(
   'Contexto/Histórias/Contexto Histórico/A Deserção da Frota e a Fundação da Pátria Aurora',
 )
-const economia = readDoc('Contexto/Histórias/Contexto Atual/Economia')
+const economia = readDoc('Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia')
 // controle: um doc não-Contexto/Organização segue no markdown genérico
 const adaga = readDoc(
   'Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Adaga',
@@ -68,24 +68,24 @@ function renderDoc(doc: VaultDoc) {
 
 describe('sanidade das fixtures (como o extractor marca)', () => {
   it('Organização: type/categoria "Organização"', () => {
-    expect(ordemBestial.type).toBe('Organização')
-    expect(ordemBestial.frontmatter['categoria']).toBe('Organização')
+    expect(orgVazia.type).toBe('Organização')
+    expect(orgVazia.frontmatter['categoria']).toBe('Organização')
   })
   it('Contexto Histórico: type "Contexto", subcategoria "Passado"', () => {
     expect(guerra.type).toBe('Contexto')
     expect(guerra.frontmatter['categoria']).toBe('Contexto')
     expect(guerra.subtype).toBe('Passado')
   })
-  it('Contexto Atual: type "Contexto", subcategoria "Dados"', () => {
+  it('Contexto Atual: type "Contexto", subcategoria "Atualidade" (molde POA)', () => {
     expect(economia.type).toBe('Contexto')
-    expect(economia.subtype).toBe('Dados')
+    expect(economia.subtype).toBe('Atualidade')
   })
 })
 
 describe('OrgView (Organização real)', () => {
   it('mostra título e tipo da organização, sem o template Dataview cru', () => {
-    renderDoc(ordemBestial)
-    expect(screen.getByRole('heading', { level: 1, name: 'Ordem Bestial' })).toBeTruthy()
+    renderDoc(orgVazia)
+    expect(screen.getByRole('heading', { level: 1, name: 'Plebeus' })).toBeTruthy()
     // rótulo do tipo (declarado no schema da view, não inventado)
     expect(screen.getByText('Organização')).toBeTruthy()
     // o corpo é um template Dataview (`= this.Resumo` etc.) — a view BONITA o
@@ -95,8 +95,8 @@ describe('OrgView (Organização real)', () => {
   })
 
   it('sem campos preenchidos, mostra o empty state honesto (não inventa dados)', () => {
-    renderDoc(ordemBestial)
-    // as infos do FM da Ordem Bestial são todas nulas na vault → empty state
+    renderDoc(orgVazia)
+    // as infos do FM de Plebeus (placeholder) são todas nulas na vault → empty state
     expect(screen.getByText('// ORGANIZAÇÃO SEM INFORMAÇÕES REGISTRADAS')).toBeTruthy()
   })
 })
@@ -106,9 +106,9 @@ describe('OrgView (campos preenchidos → cards, sintéticos sobre a categoria r
     // mesma categoria/type real da vault; só populo o FM p/ exercitar os cards
     // (a vault é read-only; a estrutura da view é a mesma).
     const org: VaultDoc = {
-      ...ordemBestial,
+      ...orgVazia,
       frontmatter: {
-        ...ordemBestial.frontmatter,
+        ...orgVazia.frontmatter,
         Resumo: 'Culto que venera as feras primais.',
         Líder: 'Matriarca Vharn',
         Objetivo_de_Longo_Prazo: 'Despertar o Grande Predador.',
@@ -161,8 +161,8 @@ describe('HistoriaView (Contexto Atual real)', () => {
     expect(within(header).getByRole('heading', { level: 1, name: 'Economia' })).toBeTruthy()
     // corpo em coluna de leitura
     const readingBody = document.querySelector<HTMLElement>('.doc-reading-body')!
-    // headings de seção do corpo
-    expect(within(readingBody).getByRole('heading', { level: 2, name: 'População' })).toBeTruthy()
+    // headings de seção da prosa (molde POA: prosa em cima, tabelas em dobrável)
+    expect(within(readingBody).getByRole('heading', { name: 'Salário: a escada das cidades' })).toBeTruthy()
     // conteúdo real da tabela (cargo e valor)
     expect(within(readingBody).getAllByText('Mercador').length).toBeGreaterThan(0)
     // tabela renderizada

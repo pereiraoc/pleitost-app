@@ -91,7 +91,23 @@ export function semFiguras(body: string): string {
  *  título/data/assunto já são o frame. */
 export function corpoContexto(doc: VaultDoc): string {
   const corpo = semTemplate(doc.body).trim()
-  if (corpo !== '') return corpo
-  const desc = doc.frontmatter['Descrição']
-  return typeof desc === 'string' ? desc.trim() : ''
+  const desc = typeof doc.frontmatter['Descrição'] === 'string' ? doc.frontmatter['Descrição'].trim() : ''
+  // No Modo Mestre o doc vem do gm.json com os `> [!gm]` — segredo não é
+  // prosa: sem prosa pública, a Descrição abre e o segredo vem abaixo.
+  const { publico, gm } = separaGm(corpo)
+  if (publico !== '') return corpo
+  return [desc, gm].filter((s) => s !== '').join('\n\n')
+}
+
+/** Separa os callouts `> [!gm]` (e suas linhas `>`) do resto do corpo. */
+function separaGm(body: string): { publico: string; gm: string } {
+  const publico: string[] = []
+  const gm: string[] = []
+  let emGm = false
+  for (const line of body.split('\n')) {
+    if (/^>\s*\[!gm\]/i.test(line)) emGm = true
+    else if (!/^>/.test(line)) emGm = false
+    ;(emGm ? gm : publico).push(line)
+  }
+  return { publico: publico.join('\n').trim(), gm: gm.join('\n').trim() }
 }

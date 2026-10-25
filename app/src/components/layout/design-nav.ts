@@ -13,11 +13,11 @@ export interface NavItem {
 }
 
 /** Mundos em que um item da nav aparece; ausente = todos. ATLAS e CONTEXTO
- *  (pedido 2026-09-09) são atalhos pro conteúdo de MUNDO da POA — na fantasia
- *  o Atlas já abre com o mapa embutido e não há dossiê de contexto por grupo. */
+ *  (pedido 2026-09-09) são atalhos pro conteúdo de MUNDO — na fantasia o Atlas
+ *  já abre com o mapa embutido; o CONTEXTO entrou com a linha do tempo dela. */
 export const NAV_MUNDOS: Record<string, readonly WorldId[]> = {
   atlas: ['cyberpunk'],
-  contexto: ['cyberpunk'],
+  contexto: ['cyberpunk', 'fantasia'],
 }
 
 /**

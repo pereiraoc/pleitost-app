@@ -15,7 +15,7 @@ import { AppShell } from '../src/components/layout/AppShell'
 import { __resetThemeForTests } from '../src/theme'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ContextoPage } from '../src/components/compendium/ContextoPage'
-import { ordemData, semFiguras } from '../src/components/compendium/contexto-template'
+import { corpoContexto, ordemData, semFiguras } from '../src/components/compendium/contexto-template'
 import { APP_NAV, NAV_MUNDOS, NAV_ROUTES, navSection } from '../src/components/layout/design-nav'
 import type { IndexManifest } from '../src/data/types'
 import '../src/components/compendium/register-doc-views'
@@ -74,6 +74,24 @@ describe('ordemData (linha do tempo)', () => {
     expect(ord).toEqual(['c. 1000 a.G.', 'c. 250 a.G.', 'c. 10 a.G.', 'Ano 0', 'Ano 8', 'Ano 55', 'Ano 100'])
     expect(ordemData('1968-12-13')).toBeLessThan(ordemData('1969-07-20'))
     expect(ordemData('1969-07-20')).toBeLessThan(ordemData('1972-01-01'))
+  })
+})
+
+describe('corpoContexto com segredo do mestre', () => {
+  const template = '#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n\n'
+  const gm = '> [!gm] Domínio\n> - segredo do mestre\n'
+  const doc = (body: string) =>
+    ({ body, frontmatter: { Descrição: 'Texto público do marco.' } }) as unknown as Parameters<typeof corpoContexto>[0]
+  it('nota só com [!gm] (Modo Mestre) mostra a Descrição e mantém o segredo abaixo', () => {
+    const c = corpoContexto(doc(template + gm))
+    expect(c).toContain('Texto público do marco.')
+    expect(c).toContain('[!gm] Domínio')
+    expect(c.indexOf('Texto público')).toBeLessThan(c.indexOf('[!gm]'))
+  })
+  it('com prosa própria, a prosa segue sendo o corpo', () => {
+    const c = corpoContexto(doc(template + 'Prosa real.\n\n' + gm))
+    expect(c).toContain('Prosa real.')
+    expect(c).not.toContain('Texto público do marco.')
   })
 })
 
@@ -163,7 +181,7 @@ describe('atalhos ATLAS e CONTEXTO na sidebar', () => {
     expect(ids.indexOf('contexto')).toBe(ids.indexOf('compendio') - 1)
     expect(ids.indexOf('atlas')).toBe(ids.indexOf('contexto') - 1)
     expect(NAV_MUNDOS.atlas).toEqual(['cyberpunk'])
-    expect(NAV_MUNDOS.contexto).toEqual(['cyberpunk'])
+    expect(NAV_MUNDOS.contexto).toEqual(['cyberpunk', 'fantasia'])
     expect(NAV_MUNDOS.compendio).toBeUndefined() // sem gate = todos os mundos
     expect(NAV_ROUTES.contexto).toBe('/contexto')
     expect(NAV_ROUTES.atlas).toBe('/compendio/Atlas')
@@ -242,14 +260,14 @@ describe('sidebar montada', () => {
     expect(acesos(c.container)).toEqual(['CONTEXTO'])
   })
 
-  it('na fantasia os dois atalhos de mundo não existem', async () => {
+  it('na fantasia o CONTEXTO aparece (linha do tempo da fantasia) e o ATLAS não', async () => {
     mundo('fantasia')
     const { container } = montarShell('/compendio')
     await waitFor(() => expect(container.querySelector('.sidebar')).not.toBeNull())
     const nomes = [...container.querySelectorAll('.sidebar .nav-item')].map((e) => e.textContent?.trim())
     expect(nomes).toContain('COMPÊNDIO')
     expect(nomes).not.toContain('ATLAS')
-    expect(nomes).not.toContain('CONTEXTO')
+    expect(nomes).toContain('CONTEXTO')
     mundo('cyberpunk')
   })
 })

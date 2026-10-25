@@ -22,7 +22,7 @@ const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
 const readDoc = (id: string): VaultDoc =>
   JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
 
-const notaDisponibilidade = readDoc('Contexto/Histórias/Contexto Atual/Disponibilidade de Tesouros')
+const notaDisponibilidade = readDoc('Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Disponibilidade de Tesouros')
 
 /** RNG determinístico: percorre uma lista de valores em [0,1). */
 function seqRng(values: number[]): () => number {

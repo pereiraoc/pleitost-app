@@ -26,7 +26,7 @@ const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
 const readDoc = (id: string): VaultDoc =>
   JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
-const nota = readDoc('Contexto/Histórias/Contexto Atual/Disponibilidade de Tesouros')
+const nota = readDoc('Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Disponibilidade de Tesouros')
 
 /** RNG determinístico: percorre valores em [0,1) e trava no último. */
 function seq(...values: number[]): () => number {
