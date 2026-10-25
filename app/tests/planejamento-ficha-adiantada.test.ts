@@ -42,7 +42,7 @@ it('o heal do Planejamento estabiliza numa ficha adiantada', async () => {
       escritas++
       continue
     }
-    const { mudou, registros: sane } = sanitizarRegistros(cards, regs)
+    const { mudou, registros: sane } = sanitizarRegistros(cards, regs, nivel)
     const pins = pinsValidos(fm, cards, sane, nivel)
     if (!mudou && pins.length === 0) break
     fm = applyFmEdits(fm, { 'Planejamento.gastosSlots': [...sane, ...pins] })

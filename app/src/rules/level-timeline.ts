@@ -10,17 +10,12 @@
 import type { Catalog } from '../data/catalog'
 import type { VaultDoc } from '../data/types'
 import { projectHeroRules } from './useHeroRules'
-import {
-  conjuraPorEssencia,
-  ehEssencia,
-  ehMenor,
-  migrarEssenciasParaSlots,
-  RANKS_AVULSOS_COM_ESSENCIA,
-} from './essencia-slots'
+import { ehEssencia, ehMenor, migrarEssenciasParaSlots } from './essencia-slots'
 import type { ChoiceDescriptor } from './resolve-choices'
 import { addTecnicaToLista } from './apply-tecnica-edit'
 import { addMagiaToEscola } from './apply-magia-edit'
-import { ESCOLAS_POR_ESSENCIA, MAGIA_ESCOLA_NOME } from './projection'
+import { ESCOLAS_POR_ESSENCIA, MAGIA_ESCOLA_NOME, targetToModelPath } from './projection'
+import { caminhoSlots, ehEssencialDoCatalogo, ESCOLA_ESSENCIAL, poolsDoGasto, type PoolMagia } from './slots-magia'
 
 export const NIVEL_MAX_PLANEJAMENTO = 10
 
@@ -55,6 +50,8 @@ export interface GastoMagia {
   /** Essência comprada com o slot de magia (Habilidades.Lista, Slot.X) —
    *  escola = a das essências; desfaz-se no Círculo, não aqui. */
   essencia?: boolean
+  /** Pool que pagou o gasto (rules/slots-magia.ts). */
+  pool?: PoolMagia
 }
 
 export interface TimelineChoice {
@@ -139,11 +136,11 @@ export interface LevelCard {
   periciasPisoRegra: Record<string, 'N' | 'A' | 'E' | 'M'>
   /** Escolas proficientes NESTE nível (snapshot derivado, sem Tesouros) —
    *  gate do picker de magias do nível. */
-  escolasProfNivel: Array<{ nome: string; prof: string; soRanks?: Array<'B' | 'A' | 'E' | 'M'> }>
+  escolasProfNivel: Array<{ nome: string; prof: string }>
   /** Escolas SECUNDÁRIAS proficientes no nível (Escola Arcana Menor etc.) —
    *  o derivado não materializa as rows; vem do CALC com o nome canônico do
    *  registro MAGIA_ESCOLA_NOME (#516). */
-  escolasSecNivel: Array<{ nome: string; prof: string; soRanks?: Array<'B' | 'A' | 'E' | 'M'> }>
+  escolasSecNivel: Array<{ nome: string; prof: string }>
   tecnicasRegra: string[]
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
@@ -151,7 +148,18 @@ export interface LevelCard {
   /** Slots GANHOS neste nível (delta vs nível anterior). `magiasSec` é o
    *  escopo SECUNDÁRIO (Magias.Secundaria.Slots — Escola Arcana Menor etc.);
    *  a UI de slots primários ignora, mas a atribuição de gastos usa (#508). */
-  slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta; magiasSec?: SlotDelta }
+  slots: {
+    pericias: SlotDelta
+    tecnicas: SlotDelta
+    /** Pool ARCANA (`Magias.Slots`). */
+    magias: SlotDelta
+    magiasSec?: SlotDelta
+    /** Pools por escola (rules/slots-magia.ts): Anima (essência) e Essencial. */
+    anima?: SlotDelta
+    animaSec?: SlotDelta
+    essencial?: SlotDelta
+    essencialSec?: SlotDelta
+  }
   /** Notas que CONCEDERAM os slots deste nível (rastreabilidade): wikilinks
    *  novos no ruleSources de `<ns>.Slots.<rank>` vs o nível anterior. */
   slotFontes: { pericias: string[]; tecnicas: string[]; magias: string[] }
@@ -180,6 +188,13 @@ export interface LevelCard {
 }
 
 const ZERO_SLOTS = (): SlotDelta => ({ B: 0, A: 0, E: 0, M: 0 })
+/** Namespaces (sem `.Slots`) dos pools por escola. */
+const NS_POOL = {
+  anima: caminhoSlots('anima', false).replace(/\.Slots$/, ''),
+  animaSec: caminhoSlots('anima', true).replace(/\.Slots$/, ''),
+  essencial: caminhoSlots('essencial', false).replace(/\.Slots$/, ''),
+  essencialSec: caminhoSlots('essencial', true).replace(/\.Slots$/, ''),
+}
 const RANKS_BAEM = ['B', 'A', 'E', 'M'] as const
 const RANKS_AEM = ['A', 'E', 'M'] as const
 
@@ -230,11 +245,11 @@ class SlotPools {
   /** Consome o primeiro nível disponível do rank ≥ minNivel; fungibilidade
    *  descendente: sem slot do próprio rank, tenta os ranks ACIMA (E cobre A,
    *  M cobre E/A — espelho de slotsFeasible). Sem nada → nível atual = null. */
-  take(rank: 'B' | 'A' | 'E' | 'M', minNivel = 1): number | null {
+  take(rank: 'B' | 'A' | 'E' | 'M', minNivel = 1, maxNivel = Infinity): number | null {
     const ordem = RANKS_BAEM.slice(RANKS_BAEM.indexOf(rank))
     for (const r of ordem) {
       const pool = this.pools[r]!
-      const idx = pool.findIndex((n) => n >= minNivel)
+      const idx = pool.findIndex((n) => n >= minNivel && n <= maxNivel)
       if (idx !== -1) return pool.splice(idx, 1)[0]!
     }
     return null
@@ -247,10 +262,11 @@ class SlotPools {
   /** Consome o slot do NÍVEL EXATO do registro. Sem slot naquele nível
    *  (registro deslocado de versões antigas), NÃO consome nada — roubar o
    *  slot de outro nível travava os botões de N8/N9 sem explicação. */
-  takeAt(rank: 'B' | 'A' | 'E' | 'M', nivel: number): void {
+  takeAt(rank: 'B' | 'A' | 'E' | 'M', nivel: number): boolean {
     const pool = this.pools[rank]!
     const exato = pool.indexOf(nivel)
     if (exato !== -1) pool.splice(exato, 1)
+    return exato !== -1
   }
 }
 
@@ -387,6 +403,10 @@ export function pinsValidos(
 export function sanitizarRegistros(
   cards: LevelCard[],
   registros: GastoRegistrado[],
+  /** Nível do herói: registro do PASSADO (≤ ele) só é corrigido dentro do
+   *  passado — empurrar um gasto real pro futuro o fazia ser "contradito" no
+   *  rebuild seguinte e voltar (escrita em loop numa ficha estourada). */
+  nivelAtual = Infinity,
 ): { mudou: boolean; registros: GastoRegistrado[] } {
   // passada 0: DUPLICATAS exatas (clique repetido gravou o mesmo alvo N
   // vezes, #495) — fica a primeira; a chave espelha a semântica do registrar
@@ -434,22 +454,39 @@ export function sanitizarRegistros(
     tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),
     magia: new SlotPools(cards.map((c) => c.slots.magias)),
     magiaSec: new SlotPools(cards.map((c) => c.slots.magiasSec ?? ZERO_SLOTS())),
+    anima: new SlotPools(cards.map((c) => c.slots.anima ?? ZERO_SLOTS())),
+    animaSec: new SlotPools(cards.map((c) => c.slots.animaSec ?? ZERO_SLOTS())),
+    essencial: new SlotPools(cards.map((c) => c.slots.essencial ?? ZERO_SLOTS())),
+    essencialSec: new SlotPools(cards.map((c) => c.slots.essencialSec ?? ZERO_SLOTS())),
   }
-  // magia SECUNDÁRIA (e essência Menor) tem o pool próprio
-  const poolDe = (r: GastoRegistrado) => (r.tipo === 'magia' && r.sec ? 'magiaSec' : r.tipo)
+  // pools que podem pagar o registro (slots por escola — rules/slots-magia.ts):
+  // o que a timeline já atribuiu ao gasto (ela conhece o catálogo); sem gasto
+  // nos cards, essência → Anima e magia → Arcana ou Essencial. Secundária tem
+  // os próprios. Sem isso, a Branca estourada era "corrigida" pra um slot
+  // Essencial livre e voltava no rebuild — escrita em loop (Flohx/Saladin).
+  const poolDoCard = new Map<string, PoolMagia>()
+  for (const c of cards)
+    for (const g of c.gastos.magias) if (g.pool) poolDoCard.set(`${wlBase(g.link)}|${g.secundaria ? 1 : 0}`, g.pool)
+  const poolsDe = (r: GastoRegistrado): string[] => {
+    if (r.tipo !== 'magia') return [r.tipo]
+    const sfx = r.sec ? 'Sec' : ''
+    const doCard = poolDoCard.get(`${wlBase(r.alvo)}|${r.sec ? 1 : 0}`)
+    if (ehRegistroEssencia(r) || doCard === 'anima') return [`anima${sfx}`]
+    if (doCard === 'arcana') return [`magia${sfx}`]
+    return [`essencial${sfx}`, `magia${sfx}`]
+  }
   // passada 1: quem tem slot no próprio nível reivindica primeiro
   const claims = registros.map((r) => {
     if (!r.rank || !(r.tipo in pools)) return { r, ok: true }
-    const pool = pools[poolDe(r)]!
-    const antes = JSON.stringify(pool)
-    pool.takeAt(r.rank, r.nivel)
-    return { r, ok: JSON.stringify(pool) !== antes }
+    return { r, ok: poolsDe(r).some((k) => pools[k]!.takeAt(r.rank!, r.nivel)) }
   })
   // passada 2: deslocados vão pro primeiro nível livre do MESMO rank
   let mudou = dedupou || dropouOrfa
   const out = claims.map(({ r, ok }) => {
     if (ok || !r.rank || !(r.tipo in pools)) return r
-    const novo = pools[poolDe(r)]!.takeSameRank(r.rank)
+    let novo: number | null = null
+    for (const k of poolsDe(r)) if (novo === null) novo = pools[k]!.takeSameRank(r.rank)
+    if (novo !== null && r.nivel <= nivelAtual && novo > nivelAtual) return r
     if (novo === null || novo === r.nivel) return r
     mudou = true
     return { ...r, nivel: novo }
@@ -658,7 +695,7 @@ export async function buildLevelTimeline(
     const linksDe = (snap: Snap | null, ns: string, rank: string): Set<string> => {
       const out = new Set<string>()
       if (!snap) return out
-      for (const f of snap.ruleSources[`${ns}.Slots.${rank}`] ?? []) {
+      for (const f of snap.ruleSources[targetToModelPath(`${ns}.Slots.${rank}`) ?? ''] ?? []) {
         const m = /^Regra\.(\[\[.+?\]\])$/.exec(f)
         if (m) out.add(m[1]!)
       }
@@ -675,18 +712,17 @@ export async function buildLevelTimeline(
     /** Fontes dos ranks com DELTA > 0 neste nível: a Evolução Básica aparece
      *  no N4 E no N5 E no N6 (cada nível em que ela adiciona slot), não só
      *  onde a regra dispara pela primeira vez. */
-    const slotGrantsDe = (deltas: {
-      pericias: SlotDelta
-      tecnicas: SlotDelta
-      magias: SlotDelta
-      magiasSec?: SlotDelta
-    }): LevelCard['slotGrants'] => {
+    const slotGrantsDe = (deltas: LevelCard['slots']): LevelCard['slotGrants'] => {
       const out: LevelCard['slotGrants'] = []
       const NS: Array<[string, 'Perícia' | 'Técnica' | 'Magia', SlotDelta]> = [
         ['Pericias', 'Perícia', deltas.pericias],
         ['Tecnicas', 'Técnica', deltas.tecnicas],
         ['Magias', 'Magia', deltas.magias],
         ['Magias.Secundaria', 'Magia', deltas.magiasSec ?? ZERO_SLOTS()],
+        [NS_POOL.anima, 'Magia', deltas.anima ?? ZERO_SLOTS()],
+        [NS_POOL.animaSec, 'Magia', deltas.animaSec ?? ZERO_SLOTS()],
+        [NS_POOL.essencial, 'Magia', deltas.essencial ?? ZERO_SLOTS()],
+        [NS_POOL.essencialSec, 'Magia', deltas.essencialSec ?? ZERO_SLOTS()],
       ]
       for (const [nsKey, nsLabel, delta] of NS) {
         for (const rank of RANKS_BAEM) {
@@ -758,13 +794,14 @@ export async function buildLevelTimeline(
     // periciasElegiveis/periciasEntrando são recalculados APÓS a atribuição
     // (precisam do rank entrando no nível, não do derivado global).
     const periciasElegiveis: Record<'A' | 'E' | 'M', string[]> = { A: [], E: [], M: [] }
-    // escola das essências pra quem conjura por essência: só magia avulsa
-    // Básica (o slot A/E/M dela é gasto no Círculo)
-    const soRanksDe = (nome: string, sec: boolean) =>
-      ESCOLAS_POR_ESSENCIA.has(nome) && conjuraPorEssencia(cur.derived, sec) ? [...RANKS_AVULSOS_COM_ESSENCIA] : undefined
     const escolasProfNivel: LevelCard['escolasProfNivel'] = rowsOf(cur.derived, 'Magias', 'Lista')
       .filter((e) => String(e.Proficiencia ?? 'N') !== 'N' && String(e.Nome) !== 'Tesouros')
-      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N'), soRanks: soRanksDe(String(e.Nome ?? ''), false) }))
+      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N') }))
+    // Arcana ESSENCIAL (escola oculta, só no calc — #417): entra quando tem
+    // proficiência, pra ser oferecida no nível (slot Essencial ou Arcana)
+    const profEss = String(cur.calculated['Magias.Lista.ArcanaEssencial.Proficiencia'] ?? 'N')
+    if (profEss === 'A' || profEss === 'E' || profEss === 'M')
+      escolasProfNivel.push({ nome: ESCOLA_ESSENCIAL, prof: profEss })
     // Secundárias: rows salvas ∪ proficiências do CALC (o merge não
     // materializa a Lista secundária — só Slots/Potencia/EM)
     const escolasSecNivel: LevelCard['escolasSecNivel'] = rowsOf(
@@ -774,20 +811,23 @@ export async function buildLevelTimeline(
       'Lista',
     )
       .filter((e) => String(e.Proficiencia ?? 'N') !== 'N')
-      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N'), soRanks: soRanksDe(String(e.Nome ?? ''), true) }))
+      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N') }))
     for (const [k, v] of Object.entries(cur.calculated)) {
       const m = /^Magias\.Secundaria\.Lista\.(.+)\.Proficiencia$/.exec(k)
       if (!m || String(v) === 'N') continue
-      const nome = MAGIA_ESCOLA_NOME[m[1]!] ?? m[1]!
-      if (!escolasSecNivel.some((e) => e.nome === nome))
-        escolasSecNivel.push({ nome, prof: String(v), soRanks: soRanksDe(nome, true) })
+      const nome = m[1] === 'ArcanaEssencial' ? ESCOLA_ESSENCIAL : (MAGIA_ESCOLA_NOME[m[1]!] ?? m[1]!)
+      if (!escolasSecNivel.some((e) => e.nome === nome)) escolasSecNivel.push({ nome, prof: String(v) })
     }
 
-    const slotsCard = {
+    const slotsCard: LevelCard['slots'] = {
       pericias: slotsDelta('Pericias'),
       tecnicas: slotsDelta('Tecnicas'),
       magias: slotsDelta('Magias'),
       magiasSec: slotsDelta('Magias.Secundaria'),
+      anima: slotsDelta(NS_POOL.anima),
+      animaSec: slotsDelta(NS_POOL.animaSec),
+      essencial: slotsDelta(NS_POOL.essencial),
+      essencialSec: slotsDelta(NS_POOL.essencialSec),
     }
     cards.push({
       nivel,
@@ -815,7 +855,9 @@ export async function buildLevelTimeline(
       slotFontes: {
         pericias: slotFontesDe('Pericias'),
         tecnicas: slotFontesDe('Tecnicas'),
-        magias: [...new Set([...slotFontesDe('Magias'), ...slotFontesDe('Magias.Secundaria')])],
+        magias: [
+          ...new Set(['Magias', 'Magias.Secundaria', ...Object.values(NS_POOL)].flatMap((ns) => slotFontesDe(ns))),
+        ],
       },
       slotGrants: slotGrantsDe(slotsCard),
       gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
@@ -829,11 +871,36 @@ export async function buildLevelTimeline(
   // resto (legados sem nível gravado) ────────────────────────────────────────
   const poolTec = new SlotPools(cards.map((c) => c.slots.tecnicas))
   const poolPer = new SlotPools(cards.map((c) => c.slots.pericias))
-  const poolMag = new SlotPools(cards.map((c) => c.slots.magias))
-  // Slots SECUNDÁRIOS (Escola Arcana Menor etc.): pool separado — sem ele os
-  // gastos secundários consumiam o pool primário vazio e transbordavam pro
-  // N10 (#508, report Simões)
-  const poolMagSec = new SlotPools(cards.map((c) => c.slots.magiasSec ?? ZERO_SLOTS()))
+  // Pools de MAGIA por escola (rules/slots-magia.ts) × escopo. Os SECUNDÁRIOS
+  // são separados — sem isso os gastos secundários consumiam o pool primário
+  // vazio e transbordavam pro N10 (#508, report Simões).
+  const pools = (k: keyof LevelCard['slots']) => new SlotPools(cards.map((c) => c.slots[k] ?? ZERO_SLOTS()))
+  const poolsMagia: Record<PoolMagia, [SlotPools, SlotPools]> = {
+    arcana: [pools('magias'), pools('magiasSec')],
+    anima: [pools('anima'), pools('animaSec')],
+    essencial: [pools('essencial'), pools('essencialSec')],
+  }
+  const ehEssencial = ehEssencialDoCatalogo(catalog)
+  /** Atribui um gasto de magia/essência ao primeiro pool da preferência com
+   *  vaga — no nível do registro, ou earliest-fit. */
+  const atribuiMagia = (
+    prefs: PoolMagia[],
+    sec: boolean,
+    rank: 'B' | 'A' | 'E' | 'M',
+    nivelReg?: number,
+  ): { nivel: number | null; pool: PoolMagia } => {
+    if (nivelReg !== undefined) {
+      const p = prefs.find((x) => poolsMagia[x][sec ? 1 : 0].takeAt(rank, nivelReg))
+      return { nivel: nivelReg, pool: p ?? prefs[prefs.length - 1]! }
+    }
+    // gasto REAL (sem registro) já aconteceu: nunca num nível acima do herói
+    // — o que não cabe fica no presente (#509), estourando o contador
+    for (const p of prefs) {
+      const n = poolsMagia[p][sec ? 1 : 0].take(rank, 1, nivelHeroi)
+      if (n !== null) return { nivel: n, pool: p }
+    }
+    return { nivel: null, pool: prefs[prefs.length - 1]! }
+  }
   // Gasto sem slot explicável no ladder (pool esgotado/escopo desconhecido)
   // pertence ao PRESENTE do herói — cair no N10 espalhava tudo no fim do
   // roadmap (#509, report Munro).
@@ -914,32 +981,33 @@ export async function buildLevelTimeline(
     }
   }
 
-  // Magias com fonte Slot.<R> (B incluso), primária + secundária.
+  // Magias com fonte Slot.<R> (B incluso), primária + secundária — cada uma
+  // no pool da escola dela; as de pool ÚNICO primeiro (a Essencial só
+  // transborda pro Arcana depois que as Arcanas pegaram as vagas delas).
+  const gastosMagia: Array<{ escola: string; link: string; rank: 'B' | 'A' | 'E' | 'M'; secundaria: boolean; prefs: PoolMagia[] }> = []
   for (const secundaria of [false, true]) {
     const escolas = secundaria
       ? rowsOf(fm, 'Magias', 'Secundaria', 'Lista')
       : rowsOf(fm, 'Magias', 'Lista')
     for (const esc of escolas) {
-      if (String(esc.Nome ?? '') === 'Tesouros') continue
+      const escola = String(esc.Nome ?? '')
+      if (escola === 'Tesouros') continue
       for (const e of fontedEntries(Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : [])) {
         const m = /^Slot\.([BAEM])$/.exec(e.fonte)
         if (!m) continue
-        const rank = m[1] as 'B' | 'A' | 'E' | 'M'
-        const reg = registroDe('magia', wlBase(e.link), String(esc.Nome ?? ''), undefined, secundaria)
-        const pool = secundaria ? poolMagSec : poolMag
-        const nivel = reg ? (pool.takeAt(rank, reg.nivel), reg.nivel) : pool.take(rank)
-        cardDe(nivel).gastos.magias.push({
-          escola: String(esc.Nome ?? ''),
-          link: e.link,
-          rank,
-          secundaria,
-        })
+        gastosMagia.push({ escola, link: e.link, rank: m[1] as 'B' | 'A' | 'E' | 'M', secundaria, prefs: poolsDoGasto(e.link, escola, ehEssencial) })
       }
     }
   }
+  gastosMagia.sort((a, b) => a.prefs.length - b.prefs.length)
+  for (const g of gastosMagia) {
+    const reg = registroDe('magia', wlBase(g.link), g.escola, undefined, g.secundaria)
+    const { nivel, pool } = atribuiMagia(g.prefs, g.secundaria, g.rank, reg?.nivel)
+    cardDe(nivel).gastos.magias.push({ escola: g.escola, link: g.link, rank: g.rank, secundaria: g.secundaria, pool })
+  }
 
   // ESSÊNCIAS compradas com slot de magia (Habilidades.Lista, Slot.<R>):
-  // gastam o MESMO pool (Menor = secundário). A que a regra passou a conceder
+  // gastam o pool da ANIMA (Menor = secundário). A que a regra passou a conceder
   // (pura da sintonia de ficha antiga) não gasta — o derivado do nível do
   // herói já traz a fonte da regra (refundSlotsConcedidos).
   const derivadoAtual = snaps[nivelHeroi - 1]?.derived ?? {}
@@ -955,9 +1023,8 @@ export async function buildLevelTimeline(
     const secundaria = ehMenor(alvo)
     const escola = [...ESCOLAS_POR_ESSENCIA][0]!
     const reg = registroDe('magia', alvo, escola, undefined, secundaria)
-    const pool = secundaria ? poolMagSec : poolMag
-    const nivel = reg ? (pool.takeAt(rank, reg.nivel), reg.nivel) : pool.take(rank)
-    cardDe(nivel).gastos.magias.push({ escola, link: e.link, rank, secundaria, essencia: true })
+    const { nivel } = atribuiMagia(['anima'], secundaria, rank, reg?.nivel)
+    cardDe(nivel).gastos.magias.push({ escola, link: e.link, rank, secundaria, essencia: true, pool: 'anima' })
   }
   // A linha salva da essência existe em TODOS os snapshots (gasto de slot
   // não tem nível no FM), então as magias que ela concede apareciam no N1:
@@ -1007,8 +1074,10 @@ export async function buildLevelTimeline(
       poolPer.takeAt(r.rank, r.nivel)
       card.gastos.pericias.push({ nome: r.alvo, rank: r.rank, fonte: 'Slot', planejado: true })
     } else if (r.tipo === 'magia' && r.rank) {
-      ;(r.sec ? poolMagSec : poolMag).takeAt(r.rank, r.nivel)
+      const prefs = poolsDoGasto(r.alvo, ehRegistroEssencia(r) ? null : (r.contexto ?? ''), ehEssencial)
+      const { pool } = atribuiMagia(prefs, !!r.sec, r.rank, r.nivel)
       card.gastos.magias.push({
+        pool,
         escola: r.contexto ?? '',
         link: r.alvo,
         rank: r.rank,
@@ -1136,7 +1205,8 @@ export async function buildLevelTimeline(
   for (const card of cards) {
     const snap = snaps[card.nivel - 1]!
     for (const sec of [false, true]) {
-      const delta = sec ? (card.slots.magiasSec ?? ZERO_SLOTS()) : card.slots.magias
+      // só nos níveis que GANHAM slot da Anima (o pool das essências)
+      const delta = (sec ? card.slots.animaSec : card.slots.anima) ?? ZERO_SLOTS()
       if (delta.A + delta.E + delta.M <= 0) continue
       const escolas = sec ? card.escolasSecNivel : card.escolasProfNivel
       // proficiência: a row derivada OU o calc (ficha sem as rows de Magias)
@@ -1153,7 +1223,7 @@ export async function buildLevelTimeline(
         return (nivelEssencia.get(wlBase(e.link)) ?? 1) <= card.nivel
       })
       const habDerivada = (snap.derived['Habilidades'] as Record<string, unknown>) ?? {}
-      const gastosAqui = card.gastos.magias.filter((g) => g.secundaria === sec)
+      const gastosAqui = card.gastos.magias.filter((g) => g.secundaria === sec && g.pool === 'anima')
       const slots = Object.fromEntries(
         (['A', 'E', 'M'] as const).map((t) => [t, { total: delta[t], usados: gastosAqui.filter((g) => g.rank === t).length }]),
       ) as CirculoNivel['slots']

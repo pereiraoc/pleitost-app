@@ -53,7 +53,8 @@ import { ATTR_EMOJI, magiaEmoji, rankGroupLabel, tokens, type RankLetter, type R
 import { AttrBadge, RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
-import { ESCOLAS_POR_ESSENCIA, listEspecializacoesByPericia } from '../../rules/projection'
+import { ESCOLAS_POR_ESSENCIA, listEspecializacoesByPericia, pickArcanaEspecial } from '../../rules/projection'
+import { ESCOLA_ESSENCIAL, poolsDaEscola, type PoolMagia } from '../../rules/slots-magia'
 import { ehEssencia } from '../../rules/essencia-slots'
 import { RodaEssencias } from './RodaEssencias'
 import { applyPericiaRankEdit } from '../../rules/apply-pericia-rank-edit'
@@ -92,6 +93,36 @@ const GROUP_OF: Record<string, string> = { B: 'Básica', A: 'Adepta', E: 'Experi
 type TipoPopup = 'pericia' | 'magia' | 'tecnica' | 'espec' | 'selecoes'
 type RankAEM = 'A' | 'E' | 'M'
 type RankBAEM = 'B' | 'A' | 'E' | 'M'
+const RANKS_BAEM: RankBAEM[] = ['B', 'A', 'E', 'M']
+
+// ── slots de magia POR ESCOLA no card (rules/slots-magia.ts) ────────────────
+const SLOTS_DO_POOL: Record<PoolMagia, [keyof LevelCard['slots'], keyof LevelCard['slots']]> = {
+  arcana: ['magias', 'magiasSec'],
+  anima: ['anima', 'animaSec'],
+  essencial: ['essencial', 'essencialSec'],
+}
+function totalPool(card: LevelCard, p: PoolMagia, sec: boolean, r: RankBAEM): number {
+  return card.slots[SLOTS_DO_POOL[p][sec ? 1 : 0]]?.[r] ?? 0
+}
+function livrePool(card: LevelCard, p: PoolMagia, sec: boolean, r: RankBAEM): number {
+  const usados = card.gastos.magias.filter((g) => g.rank === r && g.secundaria === sec && (g.pool ?? 'arcana') === p).length
+  return totalPool(card, p, sec, r) - usados
+}
+const ROTULO_POOL: Record<PoolMagia, string> = { arcana: '', essencial: 'Essencial', anima: 'Anima' }
+/** "A×1 Essencial B×1 Anima A×2" (ganhos) / "A: 0/1 livres · …" (livres). */
+function resumoPools(card: LevelCard, pools: PoolMagia[], modo: 'total' | 'livres'): string {
+  const out: string[] = []
+  for (const p of pools)
+    for (const sec of [false, true])
+      for (const r of RANKS_BAEM) {
+        const t = totalPool(card, p, sec, r)
+        if (t <= 0) continue
+        const rot = ROTULO_POOL[p] ? `${reskinText(ROTULO_POOL[p])} ` : ''
+        const sufixo = sec ? ' 2ª' : ''
+        out.push(modo === 'total' ? `${rot}${r}×${t}${sufixo}` : `${rot}${r}: ${Math.max(0, livrePool(card, p, sec, r))}/${t} livres${sufixo}`)
+      }
+  return out.join(modo === 'total' ? ' ' : ' · ')
+}
 type Row = Record<string, unknown>
 
 function num(v: unknown): number {
@@ -426,7 +457,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         escreve('Planejamento.gastosSlots', contra.registros)
         return
       }
-      const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm))
+      const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm), nivelAtual)
       // picks do PLANO órfãos (#518): a escolha sumiu da timeline (cadeia
       // removida) → a entrada sai do Planejamento.picks
       const keysVivas = new Set(c.flatMap((card) => card.escolhas.map((e) => e.choiceKey)))
@@ -493,7 +524,6 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   }, [tecnicaDocs, classeTarget, reqModel])
 
   // Magias: escolas proficientes (primária) + spells da pasta da escola.
-  // (Essenciais seguem aprendíveis na aba Habilidades — fora deste picker.)
   const escolasProf = useMemo(
     () =>
       ((fmPath(dfm, 'Magias', 'Lista') ?? []) as Row[]).filter(
@@ -501,13 +531,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       ),
     [dfm],
   )
-  const spellIds = useMemo(
-    () =>
-      catalog.content
-        .filter((e) => e.type === 'Magia' && escolasProf.some((esc) => e.id.includes(`/Magia ${String(esc.Nome)}/`)))
-        .map((e) => e.id),
-    [catalog, escolasProf],
-  )
+  // + as escolas que abrem em QUALQUER nível (inclusive a Arcana Essencial,
+  // escola oculta que só existe no calc)
+  const spellIds = useMemo(() => {
+    const nomes = new Set(escolasProf.map((esc) => String(esc.Nome)))
+    for (const c of cards ?? []) for (const e of c.escolasProfNivel) nomes.add(e.nome)
+    return catalog.content
+      .filter((e) => e.type === 'Magia' && [...nomes].some((n) => e.id.includes(`/Magia ${n}/`)))
+      .map((e) => e.id)
+  }, [catalog, escolasProf, cards])
   const spellDocs = useDocs(spellIds)
   const spellSecIds = useMemo(() => {
     const nomes = new Set<string>()
@@ -820,7 +852,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         else c.gastos.especialidades = c.gastos.especialidades.filter((g) => wikiTarget(g.alvo) !== base)
       }
     })
-  const registraEAplica = (r: GastoRegistrado, aplica: () => void) => {
+  const registraEAplica = (r: GastoRegistrado, aplica: () => void, pool?: PoolMagia) => {
     registrar(r)
     if (r.nivel <= nivelAtual) aplica()
     otimista((cs) => {
@@ -848,6 +880,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           secundaria: !!r.sec,
           ...(planejado ? { planejado } : {}),
           ...(essencia ? { essencia } : {}),
+          pool: essencia ? 'anima' : (pool ?? 'arcana'),
         })
         if (essencia && r.rank !== 'B')
           for (const circ of card.circulos) {
@@ -1337,15 +1370,23 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     ))
 
   const editorMagiasNivel = (card: LevelCard) => {
-    const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
-      card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
-    const ranksComSlot = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
     const conhecidas = magiasConhecidasAntes(card.nivel + 1)
+    /** Pools que pagam uma magia AVULSA da escola (a Anima não tem: o slot dela
+     *  compra essência, no Círculo). */
+    const prefsDe = (escola: string): PoolMagia[] => (ESCOLAS_POR_ESSENCIA.has(escola) ? [] : poolsDaEscola(escola))
+    const ranksDe = (prefs: PoolMagia[], sec: boolean) =>
+      RANKS_BAEM.filter((r) => prefs.some((p) => totalPool(card, p, sec, r) > 0))
+    const podeAddDe = (prefs: PoolMagia[], sec: boolean, r: RankBAEM) => prefs.some((p) => livrePool(card, p, sec, r) > 0)
+    /** Escola onde a Essencial aprendida mora (#417: Negra se proficiente, senão Branca). */
+    const destinoDe = (escola: string, sec: boolean) =>
+      escola === ESCOLA_ESSENCIAL
+        ? pickArcanaEspecial(((sec ? fmPath(dfm, 'Magias', 'Secundaria', 'Lista') : fmPath(dfm, 'Magias', 'Lista')) ?? []) as Row[])
+        : escola
+    const poolDaCompra = (prefs: PoolMagia[], sec: boolean, r: RankBAEM) =>
+      prefs.find((p) => livrePool(card, p, sec, r) > 0) ?? prefs[prefs.length - 1]
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-        <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
-          {ranksComSlot.map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.magias[r]} livres`).join(' · ')}
-        </div>
+        <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>{resumoPools(card, ['arcana', 'essencial'], 'livres')}</div>
         {circulosDoNivel(card)}
         {card.gastos.magias.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -1383,12 +1424,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         ) : null}
         {card.escolasProfNivel.map((esc) => {
           const linhas: ReactNode[] = []
+          const prefs = prefsDe(esc.nome)
           if (spellDocs) {
-            for (const rank of ranksComSlot) {
-              const podeAdd = livresDe(rank) > 0
+            for (const rank of ranksDe(prefs, false)) {
+              const podeAdd = podeAddDe(prefs, false, rank)
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
-              if (esc.soRanks && !esc.soRanks.includes(rank)) continue
               // agrupado por RANK com cabeçalho (como nas Competências) —
               // lista plana misturava os ranks e ficava difícil de achar
               const doRank: ReactNode[] = []
@@ -1403,8 +1444,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       podeAdd,
                       () =>
                         registraEAplica(
-                          { nivel: card.nivel, tipo: 'magia', rank, alvo: `[[${d.basename}]]`, contexto: esc.nome },
-                          () => aplicaMagia(esc.nome, `[[${d.basename}]]`, rank),
+                          { nivel: card.nivel, tipo: 'magia', rank, alvo: `[[${d.basename}]]`, contexto: destinoDe(esc.nome, false) },
+                          () => aplicaMagia(destinoDe(esc.nome, false), `[[${d.basename}]]`, rank),
+                          poolDaCompra(prefs, false, rank),
                         ),
                       23,
                     )}
@@ -1454,17 +1496,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         {(card.escolasSecNivel ?? []).map((esc) => {
           // Escola SECUNDÁRIA (Escola Arcana Menor etc., #516): slots do
           // escopo Magias.Secundaria — mesmo markup da primária, com (2ª)
-          const livresSecDe = (r: 'B' | 'A' | 'E' | 'M') =>
-            (card.slots.magiasSec?.[r] ?? 0) -
-            card.gastos.magias.filter((g) => g.rank === r && g.secundaria).length
-          const ranksSec = (['B', 'A', 'E', 'M'] as const).filter((r) => (card.slots.magiasSec?.[r] ?? 0) > 0)
+          const prefs = prefsDe(esc.nome)
           const linhas: ReactNode[] = []
           if (spellDocsSec) {
-            for (const rank of ranksSec) {
-              const podeAdd = livresSecDe(rank) > 0
+            for (const rank of ranksDe(prefs, true)) {
+              const podeAdd = podeAddDe(prefs, true, rank)
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
-              if (esc.soRanks && !esc.soRanks.includes(rank)) continue
               const doRank: ReactNode[] = []
               for (const d of [...spellDocsSec.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
                 if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
@@ -1482,10 +1520,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                             tipo: 'magia',
                             rank,
                             alvo: `[[${d.basename}]]`,
-                            contexto: esc.nome,
+                            contexto: destinoDe(esc.nome, true),
                             sec: true,
                           },
-                          () => aplicaMagiaSec(esc.nome, `[[${d.basename}]]`, rank),
+                          () => aplicaMagiaSec(destinoDe(esc.nome, true), `[[${d.basename}]]`, rank),
+                          poolDaCompra(prefs, true, rank),
                         ),
                       23,
                     )}
@@ -1714,25 +1753,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         onOpen: () => abrePopup(card.nivel, 'tecnica'),
       })
     }
-    const magTot = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
-    const magSecTot = (['B', 'A', 'E', 'M'] as const).filter((r) => (card.slots.magiasSec?.[r] ?? 0) > 0)
-    if (magTot.length || magSecTot.length || card.gastos.magias.length) {
-      const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
-        card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
-      const livresSecDe = (r: 'B' | 'A' | 'E' | 'M') =>
-        (card.slots.magiasSec?.[r] ?? 0) - card.gastos.magias.filter((g) => g.rank === r && g.secundaria).length
-      const pendentes =
-        magTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0) +
-        magSecTot.reduce((n, r) => n + Math.max(0, livresSecDe(r)), 0)
+    const ganhos = resumoPools(card, ['arcana', 'essencial', 'anima'], 'total')
+    if (ganhos || card.gastos.magias.length) {
+      let pendentes = 0
+      for (const p of ['arcana', 'essencial', 'anima'] as const)
+        for (const sec of [false, true]) for (const r of RANKS_BAEM) pendentes += Math.max(0, livrePool(card, p, sec, r))
       out.push({
         pid: `${card.nivel}|mag`,
-        label:
-          magTot.length || magSecTot.length
-            ? `${reskinText('Magias').toUpperCase()} (${[
-                ...magTot.map((r) => `${r}×${card.slots.magias[r]}`),
-                ...magSecTot.map((r) => `${r}×${card.slots.magiasSec![r]} 2ª`),
-              ].join(' ')})`
-            : reskinText('Magias').toUpperCase(),
+        label: ganhos ? `${reskinText('Magias').toUpperCase()} (${ganhos})` : reskinText('Magias').toUpperCase(),
         icon: TIPO_EMOJI.magia,
         done: pendentes === 0,
         onOpen: () => abrePopup(card.nivel, 'magia'),

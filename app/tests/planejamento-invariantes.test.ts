@@ -61,7 +61,7 @@ describe('invariantes da timeline — todos os heróis da vault', () => {
     // 3. seed idempotente: semeia (heal + pins) e reconstrói — segunda
     //    passada não pode gerar pins novos nem heal novo (senão abrir a aba
     //    entraria em loop de escritas)
-    const { registros: sane } = sanitizarRegistros(cards, gastosRegistrados(fm))
+    const { registros: sane } = sanitizarRegistros(cards, gastosRegistrados(fm), nivel)
     const semeados = [...sane, ...pinsFaltantes(cards, sane)]
     const fmSemeado = {
       ...fm,
@@ -73,7 +73,7 @@ describe('invariantes da timeline — todos os heróis da vault', () => {
     const cards2 = await buildLevelTimeline(fmSemeado, catalog, load)
     const pins2 = pinsFaltantes(cards2, semeados)
     expect(pins2, `${arquivo}: pins novos na 2ª abertura`).toHaveLength(0)
-    const heal2 = sanitizarRegistros(cards2, semeados)
+    const heal2 = sanitizarRegistros(cards2, semeados, nivel)
     expect(heal2.mudou, `${arquivo}: heal re-escreve na 2ª abertura`).toBe(false)
 
     // 4. nenhum ALVO se perde no ciclo seed→rebuild→heal

@@ -148,4 +148,49 @@ describe('Planejamento: Círculo das Essências no nível', () => {
     fireEvent.click(no('A:Essência Incendiária')!)
     await waitFor(() => expect(regsDe(id).some((r) => String(r['alvo']).includes('Incendiária'))).toBe(false))
   })
+
+  // SLOTS POR ESCOLA (report do Simões): Druida Xamã com Truque Mágico
+  // planejado no N4 — o card oferece as Essenciais Básicas, nenhuma Anima.
+  it('Druida + Truque Mágico no N4: só Essenciais Básicas, e a compra mora na Arcana Branca', { timeout: 60000 }, async () => {
+    const id = createLocalEntity('Heroi', 'Druida Truqueiro', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Druida|Druida Xamã]]',
+      Sintonia: '[[Traço Elemental do Fogo]]',
+      'Nível': 3,
+      Atributos: { Principal: 'INT', FOR: 0, AGI: 1, INT: 3, PRE: 2 },
+      Habilidades: {
+        Lista: [
+          { '[[Círculo do Sol (Fogo e Terra)]]': 'Escolha.[[Círculo Druídico]]' },
+          { '[[Tradição Druídica (Xamã)]]': 'Escolha.[[Tradição Druídica]]' },
+        ],
+        Especiais: [],
+      },
+      Pericias: {
+        Lista: [
+          { Nome: 'Arcana', Atributo: 'INT', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }] },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [{ nivel: 4, tipo: 'especialidade', alvo: '[[Truque Mágico]]', contexto: 'Arcana' }],
+        nivelSincronizado: 3,
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+    const botao = [...card4.querySelectorAll('button')].find((b) => (b.textContent ?? '').includes('MAGIAS'))
+    expect(botao, 'botão de magias no N4').toBeTruthy()
+    fireEvent.click(botao!)
+    const aprender = (n: string) => document.querySelector(`button[aria-label="Aprender ${n}"]`) as HTMLElement | null
+    await waitFor(() => expect(aprender('Mão Mágica')).toBeTruthy(), { timeout: 15000 })
+    // nenhuma magia Anima avulsa, nem Círculo neste nível
+    expect(aprender('Raio Flamejante')).toBeNull()
+    expect(document.querySelector('[data-roda-essencias]')).toBeNull()
+    fireEvent.click(aprender('Mão Mágica')!)
+    await waitFor(() =>
+      expect(regsDe(id)).toContainEqual(
+        expect.objectContaining({ nivel: 4, tipo: 'magia', rank: 'B', alvo: '[[Mão Mágica]]', contexto: 'Arcana Branca' }),
+      ),
+    )
+  })
 })

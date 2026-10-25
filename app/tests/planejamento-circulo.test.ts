@@ -91,4 +91,39 @@ describe('Círculo das Essências por nível no Planejamento', () => {
     expect(fichaTemGasto({ Habilidades: { Lista: [{ '[[Essência Explosiva Adepta]]': 'Slot.A' }] } }, r)).toBe(true)
     expect(fichaTemGasto({ Habilidades: { Lista: [] } }, r)).toBe(false)
   })
+
+  // SLOTS POR ESCOLA (2026-10-25, report do Simões — Druida Xamã): o slot B do
+  // Truque Mágico é da Arcana ESSENCIAL; o card do N4 oferece Essenciais, não
+  // Anima, e não abre Círculo (não é slot da Anima).
+  it('Druida Xamã com Truque Mágico no N4: slot Essencial, sem Círculo nem Anima', async () => {
+    const fm = {
+      Classe: '[[Druida|Druida Xamã]]',
+      Sintonia: '[[Traço Elemental do Fogo]]',
+      Atributos: { Principal: 'INT', FOR: 0, AGI: 1, INT: 3, PRE: 2 },
+      'Nível': 3,
+      Habilidades: {
+        Lista: [
+          { '[[Círculo do Sol (Fogo e Terra)]]': 'Escolha.[[Círculo Druídico]]' },
+          { '[[Tradição Druídica (Xamã)]]': 'Escolha.[[Tradição Druídica]]' },
+        ],
+      },
+      Pericias: {
+        Lista: [
+          { Nome: 'Arcana', Atributo: 'INT', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }] },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [{ nivel: 4, tipo: 'especialidade', alvo: '[[Truque Mágico]]', contexto: 'Arcana' }],
+        nivelSincronizado: 3,
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const c4 = cards[3]!
+    expect(c4.slots.essencial?.B).toBe(1)
+    expect(c4.slots.magias.B).toBe(0) // nada no pool Arcana
+    expect(c4.escolasProfNivel.map((e) => e.nome)).toContain('Arcana Essencial')
+    expect(c4.circulos).toHaveLength(0)
+    // os Círculos do Druida (N3, N5) seguem com os slots da Anima
+    expect(cards[2]!.circulos[0]!.slots.A.total).toBe(1)
+  }, 60000)
 })
