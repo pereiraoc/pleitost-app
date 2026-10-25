@@ -322,6 +322,10 @@ const MAGIA_ESCOLA_FIELD_RX = /^Magias\.Lista\.([^.]+)\.([^.]+)$/
 // resolveMagiasSecundaria, plugin rule-target-registry.ts:125+).
 const MAGIA_SEC_ESCOLA_FIELD_RX = /^Magias\.Secundaria\.Lista\.([^.]+)\.([^.]+)$/
 const MAGIA_SEC_SLOT_RX = /^Magias\.Secundaria\.Slots\.([BAEM])$/
+// Slot POR ESCOLA (rules/slots-magia.ts): `Magias[.Secundaria].Lista.<Escola>.
+// Slots.<R>` vai pro objeto `Slots` da linha da escola. A ArcanaEssencial é
+// oculta (sem linha) — o leitor usa o calc direto.
+const MAGIA_ESC_SLOT_RX = /^Magias\.(Secundaria\.)?Lista\.([^.]+)\.Slots\.([BAEM])$/
 const SLOT_RX = /^(Pericias|Tecnicas|Magias)\.Slots\.([BAEM])$/
 const EQUIP_ARMAS_RX = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais)$/
 const EQUIP_ARMADURA_RX = /^Inventario\.Armadura\.Proficiencia\.(Sem|Leve|Pesada)$/
@@ -531,6 +535,20 @@ export function mergeCalculatedIntoFm(
     // MAGIA_ESCOLA_FIELD_RX (que exige `Magias.Lista.`), mas a ordem explícita
     // documenta o despacho (espelho do plugin, resolveMagiasSecundaria antes
     // de resolveMagias).
+    const escSlot = MAGIA_ESC_SLOT_RX.exec(key)
+    if (escSlot) {
+      const [, sec, escola, rank] = escSlot as unknown as [string, string | undefined, string, string]
+      if (escola === 'ArcanaEssencial') continue
+      const escolas = sec ? ensureListaRows(out, 'Magias', 'Secundaria', 'Lista') : ensureListaRows(out, 'Magias', 'Lista')
+      let esc = escolas.find((e) => String(e.Nome) === escola || slugify(String(e.Nome)) === escola)
+      if (!esc) {
+        esc = { Nome: escola.replace(/^Arcana(?=[A-Z])/, 'Arcana '), Proficiencia: 'N', Lista: [] }
+        escolas.push(esc)
+      }
+      const slots = (esc.Slots && typeof esc.Slots === 'object' ? esc.Slots : {}) as Record<string, number>
+      esc.Slots = { ...slots, [rank]: num(value) }
+      continue
+    }
     const magSecEsc = MAGIA_SEC_ESCOLA_FIELD_RX.exec(key)
     const magEsc = magSecEsc ?? MAGIA_ESCOLA_FIELD_RX.exec(key)
     if (magEsc) {
