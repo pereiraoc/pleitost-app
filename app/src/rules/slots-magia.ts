@@ -9,7 +9,8 @@
 // `Slot.<R>` na lista; o POOL sai do que foi comprado (`poolDoGasto`), e a
 // Essencial que não cabe no pool dela transborda pro Arcana ("as Essenciais
 // contam como magias da sua escola" do Arcanista).
-import { fmPath, listaEntries } from '../components/ficha/hero-model'
+import type { Catalog } from '../data/catalog'
+import { fmPath, listaEntries, wikiTarget } from '../components/ficha/hero-model'
 import { ehEssencia, ehMenor } from './essencia-slots'
 import { MAGIA_ESCOLA_NOME } from './projection'
 
@@ -55,16 +56,21 @@ export function slotsPorPool(
 
 /** Pools que podem pagar uma magia/essência, em ordem de preferência. */
 export function poolsDoGasto(alvo: string, escola: string | null, ehEssencial: (nome: string) => boolean): PoolMagia[] {
+  alvo = wikiTarget(alvo) || alvo
   if (escola === null) return ehEssencia(alvo) ? ['anima'] : ['arcana']
   if (escola === MAGIA_ESCOLA_NOME.Anima) return ['anima']
   if (ehEssencial(alvo)) return ['essencial', 'arcana']
   return ['arcana']
 }
 
+/** Nome de exibição da escola oculta das Essenciais (Planejamento/catálogo;
+ *  bate com a pasta `/Magia Arcana Essencial/`). */
+export const ESCOLA_ESSENCIAL = 'Arcana Essencial'
+
 /** Pools que uma ESCOLA do catálogo pode usar pra aprender magia avulsa. */
 export function poolsDaEscola(escola: string): PoolMagia[] {
   if (escola === MAGIA_ESCOLA_NOME.Anima) return ['anima']
-  if (escola === 'ArcanaEssencial') return ['essencial', 'arcana']
+  if (escola === 'ArcanaEssencial' || escola === ESCOLA_ESSENCIAL) return ['essencial', 'arcana']
   return ['arcana']
 }
 
@@ -117,4 +123,12 @@ export function usadosPorPool(
 /** Predicado "é Magia Arcana Essencial" a partir do id do doc no catálogo. */
 export function essencialPorId(resolveId: (nome: string) => string | null): (nome: string) => boolean {
   return (nome: string) => /\/Magia Arcana Essencial\//.test(resolveId(nome) ?? '')
+}
+
+/** O mesmo, resolvendo pelo catálogo do mundo. */
+export function ehEssencialDoCatalogo(catalog: Catalog): (nome: string) => boolean {
+  return essencialPorId((nome) => {
+    const r = catalog.resolve(wikiTarget(nome) || nome)
+    return r.kind === 'doc' ? r.id : null
+  })
 }

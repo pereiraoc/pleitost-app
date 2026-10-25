@@ -31,6 +31,9 @@ async function derivado(fm: Record<string, unknown>) {
   }
 }
 const habs = (d: Record<string, any>) => JSON.stringify(d['Habilidades']?.['Lista'] ?? [])
+// slots da ANIMA moram na linha da escola (rules/slots-magia.ts)
+const slotsAnima = (lista: Array<Record<string, any>> | undefined) =>
+  (lista ?? []).find((e) => e['Nome'] === 'Anima')?.['Slots'] ?? {}
 const semEscolhaDeEssencia = (p: { habilidadeChoices?: Array<{ sourceNote?: string }> }) =>
   (p.habilidadeChoices ?? []).filter((c) =>
     ['Magias Anima', 'Treinamento de Animista', 'Essência Invertida', 'Elementalista', 'Avatar'].includes(c.sourceNote ?? ''),
@@ -40,7 +43,8 @@ describe('#480 — Magias Anima: pura fixa + slots A', () => {
   it('sintonia Fogo: Flamejante concedida; 4 slots A no N3; nenhuma escolha', async () => {
     const p = await derivado({ Classe: '[[Animista]]', Sintonia: '[[Traço Elemental do Fogo|Fogo]]', 'Nível': 3 })
     expect(habs(p.derivedFm)).toContain('{"[[Essência Flamejante Adepta]]":"Regra.[[Magias Anima]]"}')
-    expect(p.derivedFm['Magias']['Slots']['A']).toBe(4)
+    expect(slotsAnima(p.derivedFm['Magias']['Lista'])['A']).toBe(4)
+    expect(p.derivedFm['Magias']['Slots']?.['A'] ?? 0).toBe(0) // nada no pool Arcana
     expect(semEscolhaDeEssencia(p)).toEqual([])
   })
 
@@ -48,7 +52,7 @@ describe('#480 — Magias Anima: pura fixa + slots A', () => {
     const p = await derivado({ Classe: '[[Animista]]', Sintonia: '[[Traço Elemental da Terra|Terra]]', 'Nível': 1 })
     expect(habs(p.derivedFm)).toContain('Essência Mineral Adepta')
     expect(habs(p.derivedFm)).not.toContain('Essência Flamejante Adepta')
-    expect(p.derivedFm['Magias']['Slots']['A']).toBe(2)
+    expect(slotsAnima(p.derivedFm['Magias']['Lista'])['A']).toBe(2)
   })
 
   it('SEM sintonia definida, a pura não vem (estado transitório)', async () => {
@@ -67,7 +71,7 @@ describe('#480 — Treinamento de Animista (classe secundária)', () => {
     Tecnicas: { Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }] },
   }
   it('slots SECUNDÁRIOS: A 1 no N1, A 2 no N4, E 1 no N7 — sem tocar o primário', async () => {
-    const sec = async (n: number) => (await derivado({ ...base, 'Nível': n })).derivedFm['Magias']['Secundaria']['Slots']
+    const sec = async (n: number) => slotsAnima((await derivado({ ...base, 'Nível': n })).derivedFm['Magias']['Secundaria']['Lista'])
     expect((await sec(1))['A']).toBe(1)
     expect((await sec(4))['A']).toBe(2)
     const n7 = await sec(7)

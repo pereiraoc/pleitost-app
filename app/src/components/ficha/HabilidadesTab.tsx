@@ -13,13 +13,15 @@ import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { reskinName, reskinText } from '../../data/reskin'
 import { RodaEssencias, type SlotsCirculo } from './RodaEssencias'
+import { ehEssencia, ehMenor } from '../../rules/essencia-slots'
 import {
-  conjuraPorEssencia,
-  ehEssencia,
-  ehMenor,
-  RANKS_AVULSOS_COM_ESSENCIA,
-  slotsDeEssencia,
-} from '../../rules/essencia-slots'
+  ehEssencialDoCatalogo,
+  poolsDaEscola,
+  POOLS_MAGIA,
+  slotsPorPool,
+  usadosPorPool,
+  type PoolMagia,
+} from '../../rules/slots-magia'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -60,9 +62,7 @@ import { rulesModelFromFm } from '../../rules/rules-model'
 import { parseModificador } from '../../mestre/encounter-compute'
 import {
   canAddOne,
-  computeMagiaSlotsView,
   computeSlotsView,
-  magiaCanAddOne,
   type MagiaRank,
   type SlotClass,
 } from '../../rules/slot-accounting'
@@ -3376,12 +3376,11 @@ function CirculoEssenciasDoHeroi({
     str(rules?.calculated?.[`Magias.${sec ? 'Secundaria.' : ''}Lista.${n}.Proficiencia`]),
   )
   const proficiente = [str(animaRow?.['Proficiencia']), ...profCalc].some((p) => p !== '' && p !== 'N')
-  const slotsFm = (escopo?.['Slots'] ?? {}) as Record<string, unknown>
-  const essencias = slotsDeEssencia(fm, !!sec)
-  const magiasSlot = (l: string) =>
-    escolas.flatMap((e) => listaEntries(e['Lista'])).filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
+  // slots da ANIMA (rules/slots-magia.ts): o Círculo só gasta o pool dela
+  const totais = slotsPorPool(fm, rules?.calculated, !!sec)
+  const usados = usadosPorPool(fm, !!sec, totais, ehEssencialDoCatalogo(catalog))
   const slots = Object.fromEntries(
-    (['A', 'E', 'M'] as const).map((t) => [t, { total: num(slotsFm[t]), usados: magiasSlot(t) + essencias[t] }]),
+    (['A', 'E', 'M'] as const).map((t) => [t, { total: totais.anima[t], usados: usados.anima[t] }]),
   ) as SlotsCirculo
   const temEssencia = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).some(
     (e) => ehEssencia(e.target) && ehMenor(e.target) === !!sec,
@@ -3456,6 +3455,12 @@ export function MagiasHabPanel({
   const [editState, setEdit] = useState(false)
   const edit = forceEdit || editState
   const escolasAll = (fmPath(mfm, 'Magias', 'Lista') ?? []) as EscolaFm[]
+  // #417: a escola-DESTINO das Essenciais entra mesmo sem proficiência
+  // própria (Druida com Truque Mágico: só a Essencial é proficiente).
+  const profEssencialCedo = (sec ? rules?.profEssencialSec : rules?.profEssencial) ?? 'N'
+  const destinoEssencial = shouldOfferEssenciais(profEssencialCedo)
+    ? pickArcanaEspecial(escolasAll as Array<Record<string, unknown>>)
+    : null
   // Painel ESQUERDO (Aprendidas): escolas com magia aprendida SEMPRE; também
   // as PROFICIENTES sem magia — pra exibir seus slots VAZIOS por rank (#75,
   // espelho do gate `hasProf` do plugin, magias-card.ts:249-252) TAMBÉM no
@@ -3465,7 +3470,7 @@ export function MagiasHabPanel({
   const escolas = escolasAll.filter((e) => {
     const learned = listaEntries(e.Lista).length > 0
     if (str(e.Nome) === 'Tesouros') return learned
-    return learned || str(e.Proficiencia) !== 'N'
+    return learned || str(e.Proficiencia) !== 'N' || str(e.Nome) === destinoEssencial
   })
   // Painel DIREITO (Não Aprendidas): escolas em que o herói PODE lançar
   // (proficiência ≠ N), mesmo sem magia aprendida ainda. Sem isto, uma ficha
@@ -3474,17 +3479,19 @@ export function MagiasHabPanel({
   // plugin (magias-card.ts: renderiza a escola quando prof ≠ N). Tesouros é
   // exclusivo (não se aprende por slot), fica de fora.
   const escolasProficiente = escolasAll.filter(
-    (e) => str(e.Nome) !== 'Tesouros' && str(e.Proficiencia) !== 'N',
+    (e) => str(e.Nome) !== 'Tesouros' && (str(e.Proficiencia) !== 'N' || str(e.Nome) === destinoEssencial),
   )
-  // Escola das ESSÊNCIAS pra quem conjura por essência: o slot A/E/M dela é
-  // gasto no Círculo — de avulsa, só a Básica. O Monstro (sem orçamento de
-  // slot, #382) segue aprendendo tudo.
-  const soEssencia = !semLimiteDeSlots && conjuraPorEssencia(fm, !!sec)
-  const rankAvulso = (escola: string, rankGroup: string) =>
-    !soEssencia ||
-    !ESCOLAS_POR_ESSENCIA.has(escola) ||
-    RANKS_AVULSOS_COM_ESSENCIA.includes(RANK_GROUP_SLOT[rankGroup] ?? 'A')
-  const slotsFm = fmPath(mfm, 'Magias', 'Slots') as Record<string, unknown> | undefined
+  // SLOTS POR ESCOLA (rules/slots-magia.ts): Arcana (Magias.Slots), Anima (só
+  // essência — gasto no Círculo) e Arcana Essencial. O Monstro (sem orçamento
+  // de slot, #382) segue aprendendo tudo, inclusive Anima avulsa.
+  const ehEssencial = ehEssencialDoCatalogo(catalog)
+  const totaisPool = slotsPorPool(fm, rules?.calculated, !!sec)
+  const usadosPool = usadosPorPool(fm, !!sec, totaisPool, ehEssencial)
+  const livrePool = (p: PoolMagia, r: MagiaRank) => totaisPool[p][r] - usadosPool[p][r]
+  /** Pools que pagam uma magia AVULSA do catálogo (Anima não tem: o slot
+   *  dela compra essência). */
+  const poolsDaMagia = (escola: string, essencial: boolean): PoolMagia[] =>
+    ESCOLAS_POR_ESSENCIA.has(escola) ? [] : essencial ? poolsDaEscola('ArcanaEssencial') : poolsDaEscola(escola)
 
   // O design agrupa magias por SUBCATEGORIA ("Magias Arcana" — Negra+Branca
   // juntas — "Magias Anima"), não por escola (#165). Escola "Arcana Negra"/
@@ -3534,31 +3541,21 @@ export function MagiasHabPanel({
   const allSpellIds = useMemo(() => [...spellIdsByEscola.values()].flat(), [spellIdsByEscola])
   const spellDocs = useDocs(edit ? allSpellIds : [])
 
-  const ranksComSlot = RANK_GROUP_ORDER.filter((g) => {
-    const letter = Object.entries(SLOT_GROUP).find(([, v]) => v === g)?.[0]
-    return letter ? num(slotsFm?.[letter]) > 0 : false
-  })
-
-  // Consumo GLOBAL por rank: o orçamento Magias.Slots é único pra TODAS as
-  // escolas/categorias (view-model.ts:641-648 conta todas as aprendidas).
-  // + os slots gastos em ESSÊNCIA no Círculo (mesmo pool — essencia-slots.ts)
-  const slotsEssencia = slotsDeEssencia(fm, !!sec)
-  const usedBy = (letter: string) =>
-    escolasAll
-      .flatMap((e) => listaEntries(e.Lista))
-      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length +
-    (slotsEssencia[letter as 'A' | 'E' | 'M'] ?? 0)
-  const slots = slotsInfo(slotsFm, usedBy, ['B', 'A', 'E', 'M'])
-  // Economia SEM fungibilidade (#75/#62): cada rank com seu orçamento — espelho
-  // de computeMagiaSlotsView/magiaCanAddOne (magia-slot-accounting.ts).
-  const magiaSlotsView = computeMagiaSlotsView({
-    total: { B: num(slotsFm?.['B']), A: num(slotsFm?.['A']), E: num(slotsFm?.['E']), M: num(slotsFm?.['M']) },
-    used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
-  })
-  /** Slots VAZIOS de um rank = livres do orçamento global (leitura + edição). */
+  // Economia SEM fungibilidade (#75/#62), POR POOL: cada rank com seu
+  // orçamento em cada pool (rules/slots-magia.ts).
+  const RANK_LETRAS = ['B', 'A', 'E', 'M'] as const
+  /** Rodapé "magias adicionais": Arcana e Essencial (a Anima conta no Círculo). */
+  const slots = (['arcana', 'essencial'] as const).flatMap((p) =>
+    RANK_LETRAS.filter((r) => totaisPool[p][r] > 0).map((r) => ({
+      letter: `${p}-${r}`,
+      label: `${p === 'essencial' ? `${reskinText('Essencial')} ` : ''}${r} ${Math.max(0, livrePool(p, r))}/${totaisPool[p][r]}`,
+    })),
+  )
+  /** Slots VAZIOS de um rank = livres dos pools de magia avulsa (Arcana +
+   *  Essencial), mostrados numa escola só. */
   const emptyOfRank = (g: string): number => {
-    const slot = RANK_GROUP_SLOT[g]!
-    return Math.max(0, num(slotsFm?.[slot]) - usedBy(slot))
+    const r = RANK_GROUP_SLOT[g] as MagiaRank
+    return Math.max(0, livrePool('arcana', r)) + Math.max(0, livrePool('essencial', r))
   }
 
   // Aprender/remover magia por slot (#62): grava na lista SALVA (o merge
@@ -3584,7 +3581,7 @@ export function MagiasHabPanel({
     const hasContent =
       escolasAll.some((e) => str(e.Proficiencia) !== 'N' || listaEntries(e.Lista).length > 0) ||
       num(fmPath(mfm, 'Magias', 'EM')) >= 1 ||
-      ['B', 'A', 'E', 'M'].some((l) => num(slotsFm?.[l]) > 0)
+      POOLS_MAGIA.some((p) => RANK_LETRAS.some((r) => totaisPool[p][r] > 0))
     if (!hasContent) return null
   }
 
@@ -3675,7 +3672,8 @@ export function MagiasHabPanel({
               // todas as escolas) — renderiza numa escola SÓ, senão Arcana
               // Negra + Branca mostram o mesmo slot livre duplicado (#452 r8).
               const mostraVazios =
-                escolaIdx === escolas.findIndex((e) => str(e.Nome) !== 'Tesouros')
+                escolaIdx ===
+                escolas.findIndex((e) => str(e.Nome) !== 'Tesouros' && !ESCOLAS_POR_ESSENCIA.has(str(e.Nome)))
               // Cabeçalho da subcategoria só quando muda (Arcana Negra + Branca
               // ficam sob um único "Magias Arcana", como no design — #165).
               const showH2 =
@@ -3880,8 +3878,9 @@ export function MagiasHabPanel({
                     // `!unlimitedSlots && slots[rk] <= 0 → continue`).
                     const gateProf = essencialIds.has(id) ? profEssencial : escolaProf
                     if (!escolaCobreRank(gateProf, rank)) continue
-                    if (!semLimiteDeSlots && !ranksComSlot.includes(rank)) continue
-                    if (!rankAvulso(nome, rank)) continue
+                    // slot do rank num pool que paga ESTA magia (#62; por escola)
+                    const rk = RANK_GROUP_SLOT[rank] as MagiaRank
+                    if (!semLimiteDeSlots && !poolsDaMagia(nome, essencialIds.has(id)).some((p) => totaisPool[p][rk] > 0)) continue
                     const list = byRank.get(rank) ?? []
                     list.push(d)
                     byRank.set(rank, list)
@@ -3912,7 +3911,7 @@ export function MagiasHabPanel({
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                             {byRank.get(g)!.map((d) => {
                               // Gate por slot livre (#75/#62): sem fungibilidade —
-                              // magiaCanAddOne(rank). Sem slot, o + desabilita.
+                              // slot livre do rank num pool que paga a magia. Sem slot, o + desabilita.
                               // #382: Monstro tem slots ILIMITADOS — o canAdd é só
                               // por proficiência (view-model.ts:662-668 do plugin:
                               // `magiasCanAdd = isMonstro ? profPermits(rank) : …`);
@@ -3920,7 +3919,9 @@ export function MagiasHabPanel({
                               // então aqui o + fica sempre habilitado.
                               const canAdd =
                                 semLimiteDeSlots ||
-                                magiaCanAddOne(magiaSlotsView, RANK_GROUP_SLOT[g] as MagiaRank)
+                                poolsDaMagia(nome, essencialIds.has(d.id)).some(
+                                  (p) => livrePool(p, RANK_GROUP_SLOT[g] as MagiaRank) > 0,
+                                )
                               return (
                               <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <button

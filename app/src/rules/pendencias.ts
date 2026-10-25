@@ -2,13 +2,10 @@
 // preencher. REUSA exatamente as contas dos painéis (slot-accounting +
 // eligibilidade de especialidade/maestria), pra o indicador nunca discordar do
 // que a aba mostra. Puro: recebe o FM DERIVADO + rules + caps de família.
-import { slotsDeEssencia } from './essencia-slots'
+import { slotsPorPool, usadosPorPool, type PoolMagia } from './slots-magia'
 import {
   canAddOne,
-  computeMagiaSlotsView,
   computeSlotsView,
-  magiaCanAddOne,
-  type MagiaRank,
   type SlotRank,
 } from './slot-accounting'
 import { fmPath, listaEntries, num, profLetter, str, type ProfRow } from '../components/ficha/hero-model'
@@ -23,6 +20,10 @@ interface RulesLike {
    *  Guerra). `source: 'default'|'none'` = o app preencheu sozinho / sem pick =
    *  seleção não feita pelo usuário. */
   habilidadeChoices?: Array<{ options?: string[]; source?: string; kind?: string; sourceNote?: string }>
+  /** Deltas — slots por escola (Anima/Essencial) moram só no calc. */
+  calculated?: Record<string, unknown>
+  profEssencial?: 'N' | 'A' | 'E' | 'M'
+  profEssencialSec?: 'N' | 'A' | 'E' | 'M'
 }
 
 const RANK_IDX: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
@@ -81,43 +82,40 @@ function tecnicaOverbooked(fm: Fm): boolean {
   return !tecnicaSlotsView(fm).globalOk
 }
 
-/** ≥1 slot de magia PREENCHÍVEL num namespace (Magias ou Magias.Secundaria) —
- *  mesma conta da MagiasHabPanel. #328: um slot só conta se HÁ escola PROFICIENTE
- *  (prof ≠ N, fora Tesouros) pra recebê-lo; sem ela o painel não oferece onde
- *  aprender, então o slot é INPREENCHÍVEL e não é pendência (ex.: o slot B solto
- *  que o Quasi-Mago concede sem proficiência de escola no primário). */
+/** ≥1 slot de magia PREENCHÍVEL num escopo (primário ou secundário) — mesma
+ *  conta da MagiasHabPanel, POR POOL (rules/slots-magia.ts). #328: um slot só
+ *  conta se HÁ onde gastá-lo: Arcana pede escola Arcana proficiente (ex.: o slot
+ *  B solto que o Quasi-Mago concede sem proficiência de escola não é
+ *  pendência); Essencial pede a proficiência oculta; Anima (essência) não pede
+ *  nada além do slot — o Círculo é o lugar. */
 function freeMagiaSlotIn(
-  magias: Record<string, unknown> | undefined,
-  /** Slots já gastos em ESSÊNCIA (Habilidades.Lista, Slot.X) neste escopo. */
-  essencias: Record<MagiaRank, number>,
+  fm: Fm,
+  sec: boolean,
+  rules: RulesLike | null | undefined,
+  ehEssencial: (nome: string) => boolean,
 ): boolean {
-  if (!magias) return false
-  const escolas = (magias['Lista'] ?? []) as Record<string, unknown>[]
-  const temProficiente = escolas.some(
-    (e) => str(e['Nome']) !== 'Tesouros' && str(e['Proficiencia']) !== 'N',
+  const magias = (sec ? fmPath(fm, 'Magias', 'Secundaria') : fmPath(fm, 'Magias')) as Record<string, unknown> | undefined
+  const escolas = ((magias?.['Lista'] ?? []) as Record<string, unknown>[]) ?? []
+  const arcanaProficiente = escolas.some(
+    (e) => str(e['Nome']) !== 'Tesouros' && str(e['Nome']) !== 'Anima' && str(e['Proficiencia']) !== 'N',
   )
-  if (!temProficiente) return false
-  const usedBy = (l: MagiaRank) =>
-    escolas
-      .flatMap((e) => listaEntries(e['Lista']))
-      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length + essencias[l]
-  const s = (magias['Slots'] ?? {}) as Record<string, unknown>
-  const view = computeMagiaSlotsView({
-    total: { B: num(s['B']), A: num(s['A']), E: num(s['E']), M: num(s['M']) },
-    used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
-  })
-  return (['B', 'A', 'E', 'M'] as MagiaRank[]).some((r) => magiaCanAddOne(view, r))
+  const profEss = (sec ? rules?.profEssencialSec : rules?.profEssencial) ?? 'N'
+  const totais = slotsPorPool(fm, rules?.calculated, sec)
+  const usados = usadosPorPool(fm, sec, totais, ehEssencial)
+  const livre = (p: PoolMagia) => (['B', 'A', 'E', 'M'] as const).some((r) => usados[p][r] < totais[p][r])
+  return (
+    (arcanaProficiente && livre('arcana')) ||
+    (profEss !== 'N' && livre('essencial')) ||
+    livre('anima')
+  )
 }
 
 /** ≥1 slot de magia livre — no PRIMÁRIO ou no SECUNDÁRIO (#328: o Mago secundário
  *  guarda slots/lista em Magias.Secundaria; antes só o primário era checado, então
  *  quem preenchia o secundário e tinha um slot solto no primário via a pendência
  *  sem nunca conseguir limpá-la). */
-function freeMagiaSlot(fm: Fm): boolean {
-  return (
-    freeMagiaSlotIn(fmPath(fm, 'Magias') as Record<string, unknown> | undefined, slotsDeEssencia(fm, false)) ||
-    freeMagiaSlotIn(fmPath(fm, 'Magias', 'Secundaria') as Record<string, unknown> | undefined, slotsDeEssencia(fm, true))
-  )
+function freeMagiaSlot(fm: Fm, rules: RulesLike | null | undefined, ehEssencial: (nome: string) => boolean): boolean {
+  return freeMagiaSlotIn(fm, false, rules, ehEssencial) || freeMagiaSlotIn(fm, true, rules, ehEssencial)
 }
 
 /** Pendências por aba (CHAR_TABS), cada uma com a LISTA de motivos legíveis
@@ -129,6 +127,8 @@ export function heroPendencias(
   fm: Fm,
   rules: RulesLike | null | undefined,
   caps: FichaFamilia,
+  /** "É Magia Arcana Essencial?" (catálogo) — pra Essencial transbordar pro Arcana. */
+  ehEssencial: (nome: string) => boolean = () => false,
 ): Map<string, string[]> {
   const out = new Map<string, string[]>()
   const add = (tab: string, motivo: string) => {
@@ -160,7 +160,7 @@ export function heroPendencias(
       'habilidades',
       escolhasPend === 1 ? 'Seleção de habilidade não escolhida' : `${escolhasPend} seleções não escolhidas`,
     )
-  if (caps.magias && freeMagiaSlot(fm)) add('habilidades', 'Magia a aprender (slot livre)')
+  if (caps.magias && freeMagiaSlot(fm, rules, ehEssencial)) add('habilidades', 'Magia a aprender (slot livre)')
   if (caps.especializacoes) {
     if (freePericiaSlot(fm)) add('habilidades', 'Perícia adicional disponível')
     if (periciaOverbooked(fm)) add('habilidades', 'Perícias excedem os slots disponíveis')

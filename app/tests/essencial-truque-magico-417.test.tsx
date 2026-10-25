@@ -82,11 +82,14 @@ function magoTruqueFm(): Record<string, unknown> {
 }
 
 describe('#417 — projeção expõe a proficiência oculta ArcanaEssencial', () => {
-  it('Mago + Truque Mágico → profEssencial A (e slot B concedido)', async () => {
+  it('Mago + Truque Mágico → profEssencial A (e slot B da ESSENCIAL concedido)', async () => {
     const out = await projectHeroRules(magoTruqueFm(), catalog, loadFromDisk)
     expect(out.projection.profEssencial).toBe('A')
+    // slot por escola (rules/slots-magia.ts): o B do Truque é da Essencial,
+    // não do pool Arcana
+    expect(out.projection.calculated['Magias.Lista.ArcanaEssencial.Slots.B']).toBe(1)
     const slots = (out.projection.derivedFm['Magias'] as { Slots: Record<string, number> }).Slots
-    expect(slots['B']).toBe(1)
+    expect(slots['B'] ?? 0).toBe(0)
   })
 
   it('trap reverso: herói SEM concessão → profEssencial N', async () => {
@@ -115,10 +118,45 @@ describe('#417 — painel de Magias oferece as Essenciais pelo gate ArcanaEssenc
     // Essenciais Básicas oferecidas (o report: só Negra/Branca apareciam)
     await waitFor(() => expect(screen.getByText('Mão Mágica')).toBeTruthy(), { timeout: 8000 })
     expect(screen.getByText('Bússola Mágica')).toBeTruthy()
-    // Negra/Branca continuam (o que já funcionava)
-    expect(screen.getByText('Aturdir')).toBeTruthy()
+    // o slot B do Truque é SÓ da Essencial: Negra Básica não entra (o Mago
+    // N3 não tem slot B Arcana)
+    expect(screen.queryByText('Aturdir')).toBeNull()
     // trap por RANK: essencial EXPERIENTE fica fora com prof A
     expect(screen.queryByText('Visor Arcano')).toBeNull()
     expect(screen.queryByText('Compreender Idiomas')).toBeNull()
   })
+})
+
+// SLOTS POR ESCOLA (2026-10-25, report do Simões): Druida com Truque Mágico —
+// o slot B é da Essencial: as Essenciais Básicas aparecem (na Arcana Branca,
+// destino #417, mesmo sem proficiência própria) e nenhuma Anima avulsa.
+describe('slots por escola — Druida + Truque Mágico', () => {
+  it('oferece Essenciais Básicas, nenhuma magia Anima avulsa', async () => {
+    const fm = magoTruqueFm()
+    fm['Classe'] = '[[Druida|Druida Xamã]]'
+    fm['Sintonia'] = '[[Traço Elemental do Fogo]]'
+    fm['Atributos'] = { Principal: 'INT', FOR: 0, AGI: 1, INT: 3, PRE: 2 }
+    fm['Habilidades'] = {
+      Lista: [
+        { '[[Círculo do Sol (Fogo e Terra)]]': 'Escolha.[[Círculo Druídico]]' },
+        { '[[Tradição Druídica (Xamã)]]': 'Escolha.[[Tradição Druídica]]' },
+      ],
+      Especiais: [],
+    }
+    const id = createLocalEntity('Heroi', 'Druida Truqueiro', fm)
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(id, 'habilidades')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    const heading = await screen.findByText('Magias')
+    fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
+    await waitFor(() => expect(screen.getByLabelText('Aprender Mão Mágica')).toBeTruthy(), { timeout: 8000 })
+    expect(screen.queryByLabelText('Aprender Raio Flamejante')).toBeNull()
+    expect(screen.queryByLabelText('Aprender Aturdir')).toBeNull()
+  }, 30000)
 })

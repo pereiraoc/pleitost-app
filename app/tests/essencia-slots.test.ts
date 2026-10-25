@@ -1,7 +1,15 @@
 // ESSÊNCIAS POR SLOT (2026-10-25): o slot de magia compra a essência
 // (Habilidades.Lista, fonte Slot.X); fichas antigas migram da Escolha.
 import { describe, expect, it } from 'vitest'
-import { conjuraPorEssencia, migrarEssenciasParaSlots, rankDaEssencia, slotsDeEssencia } from '../src/rules/essencia-slots'
+import { migrarEssenciasParaSlots, rankDaEssencia } from '../src/rules/essencia-slots'
+import { gastosDeSlot } from '../src/rules/slots-magia'
+
+/** Slots gastos em essência por rank num escopo (Menor = secundário). */
+const slotsDeEssencia = (fm: Record<string, unknown>, sec: boolean) => {
+  const out = { B: 0, A: 0, E: 0, M: 0 }
+  for (const g of gastosDeSlot(fm, sec)) if (g.escola === null) out[g.rank]++
+  return out
+}
 import { mergeCalculatedIntoFm } from '../src/rules/merge-calculated'
 
 describe('rank pela nota', () => {
@@ -60,14 +68,5 @@ describe('concessão de regra reembolsa o slot', () => {
       { '[[Essência Explosiva Adepta]]': 'Slot.A' },
     ])
     expect(slotsDeEssencia(out, false).A).toBe(1)
-  })
-})
-
-describe('quem conjura por essência', () => {
-  it('por escopo: Adepta no primário, Menor no secundário; sem essência, catálogo inteiro', () => {
-    const fm = { Habilidades: { Lista: [{ '[[Essência Mineral Menor]]': 'Slot.A' }, { '[[Elementalismo]]': 'Regra' }] } }
-    expect(conjuraPorEssencia(fm, true)).toBe(true)
-    expect(conjuraPorEssencia(fm, false)).toBe(false)
-    expect(conjuraPorEssencia({}, false)).toBe(false)
   })
 })

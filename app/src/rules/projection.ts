@@ -546,9 +546,8 @@ export const MAGIA_ESCOLA_NOME: Record<string, string> = {
 }
 
 /** Escolas cujas magias vêm das ESSÊNCIAS (habilidades compradas com o slot
- *  de magia — rules/essencia-slots.ts): pra quem conjura por essência, o slot
- *  A/E/M dela é gasto no Círculo das Essências, não em magia avulsa
- *  (conjuraPorEssencia / RANKS_AVULSOS_COM_ESSENCIA). */
+ *  da escola — rules/essencia-slots.ts, rules/slots-magia.ts): o slot dela é
+ *  gasto no Círculo das Essências; não há magia avulsa dessas escolas. */
 export const ESCOLAS_POR_ESSENCIA: ReadonlySet<string> = new Set([MAGIA_ESCOLA_NOME.Anima!])
 
 const WIKI_BASE_RX = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/

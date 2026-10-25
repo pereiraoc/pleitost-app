@@ -54,6 +54,11 @@ describe('pools', () => {
     expect(u.essencial.B).toBe(1) // a 1ª Essencial no pool dela
     expect(u.arcana.B).toBe(2) // Aturdir + a 2ª Essencial transbordada
   })
+  it('alvo com colchetes (registro do Planejamento) também é reconhecido', async () => {
+    const { poolsDoGasto } = await import('../src/rules/slots-magia')
+    expect(poolsDoGasto('[[Essência Explosiva Adepta]]', null, ehEssencial)).toEqual(['anima'])
+    expect(poolsDoGasto('[[Luz]]', 'Arcana Branca', ehEssencial)).toEqual(['essencial', 'arcana'])
+  })
   it('a escola do catálogo consulta o próprio pool', () => {
     expect(poolsDaEscola('Anima')).toEqual(['anima'])
     expect(poolsDaEscola('ArcanaEssencial')).toEqual(['essencial', 'arcana'])

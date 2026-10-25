@@ -39,5 +39,7 @@ it('Leonel: Congelante gasta o slot do nível 3; Torrencial e Enraizante vêm do
   expect(fonte('Essência Torrencial Adepta')).toMatch(/^Regra\.\[\[Círculo do Oceano/)
   expect(fonte('Essência Enraizante Adepta')).toMatch(/^Regra\.\[\[Círculo do Oceano/)
   expect(fonte('Essência Hidratante Adepta')).toBeUndefined() // nada de padrão inventado
-  expect((projection.derivedFm['Magias'] as { Slots: Record<string, number> }).Slots.A).toBe(1)
+  // o slot do N3 do Círculo é da ANIMA (rules/slots-magia.ts)
+  const anima = (projection.derivedFm['Magias'] as { Lista: Array<Record<string, any>> }).Lista.find((e) => e['Nome'] === 'Anima')
+  expect(anima?.['Slots']?.['A']).toBe(1)
 }, 60000)

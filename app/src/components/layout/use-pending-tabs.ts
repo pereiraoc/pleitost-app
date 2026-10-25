@@ -8,6 +8,8 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { fichaFamiliaOf } from '../../data/familia'
 import { heroPendencias } from '../../rules/pendencias'
+import { useCatalog } from '../../data/CatalogContext'
+import { ehEssencialDoCatalogo } from '../../rules/slots-magia'
 
 const EMPTY: ReadonlyMap<string, string[]> = new Map()
 const STUB_DOC = {
@@ -28,10 +30,11 @@ export function usePendingTabs(heroDoc: VaultDoc | undefined): ReadonlyMap<strin
   // Hooks SEMPRE chamados (stub quando não há herói) — projeção memoizada por FM.
   const model = useHeroModel(heroDoc ?? STUB_DOC, 'nav-pend')
   const rules = useHeroRules(model.fm)
+  const catalog = useCatalog()
   return useMemo(() => {
     if (!heroDoc) return EMPTY
     const fm = rules?.derivedFm ?? model.fm
-    return heroPendencias(fm, rules, fichaFamiliaOf(heroDoc))
+    return heroPendencias(fm, rules, fichaFamiliaOf(heroDoc), ehEssencialDoCatalogo(catalog))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [heroDoc, model.fm, rules])
+  }, [heroDoc, model.fm, rules, catalog])
 }

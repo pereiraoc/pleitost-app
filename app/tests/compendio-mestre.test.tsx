@@ -114,12 +114,13 @@ describe('#193: Elementos de Regra no DocPage (Magias Anima real)', () => {
     // "Definir Magias.Potencia 4" → verbo Definir + alvo Magias.Potencia
     expect(screen.getAllByText('Definir').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Magias.Potencia').length).toBeGreaterThan(0)
-    // escopo do parsed: "Nivel 2 Somar Magias.Slots.A 1" → badge Nível 2 +
+    // escopo do parsed: "Nivel 2 Somar Magias.Lista.Anima.Slots.A 1" → badge Nível 2 +
     // verbo/alvo (valores vindos da AST, não re-parseados; essências por
     // slot desde 2026-10-25)
     expect(screen.getAllByText('Nível 2').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Somar').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('Magias.Slots.A').length).toBeGreaterThan(0)
+    // (slot da escola Anima desde 2026-10-25 — rules/slots-magia.ts)
+    expect(screen.getAllByText('Magias.Lista.Anima.Slots.A').length).toBeGreaterThan(0)
   })
 
   it('mestre OFF: nem a seção nem os raws aparecem', () => {

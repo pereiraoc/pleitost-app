@@ -1,12 +1,12 @@
 // ESSÊNCIAS POR SLOT (2026-10-25): a Anima aprende essência como a Arcana
-// aprende magia — o slot é o MESMO pool `Magias.Slots.{A,E,M}` (classe
-// principal) / `Magias.Secundaria.Slots.*` (Treinamento de Animista), e o que
-// ele compra é uma ESSÊNCIA, gravada em `Habilidades.Lista` com a fonte
-// `Slot.<rank>` ({"[[Essência Mineral Adepta]]": "Slot.A"}). As magias seguem
-// vindo da essência. A pura da sintonia (Magias Anima), a interface do Círculo
+// aprende magia — com o slot da ESCOLA Anima (`Magias.Lista.Anima.Slots.*`;
+// na secundária, `Magias.Secundaria.Lista.Anima.Slots.*` do Treinamento de
+// Animista — contas em rules/slots-magia.ts), e o que ele compra é uma
+// ESSÊNCIA, gravada em `Habilidades.Lista` com a fonte `Slot.<rank>`
+// ({"[[Essência Mineral Adepta]]": "Slot.A"}). As magias seguem vindo da
+// essência. A pura da sintonia (Magias Anima), a interface do Círculo
 // Druídico e a Essência Invertida são concessões fixas (`Complementar`).
 // Regra de quem abre (vizinhança, opostos): rules/roda-essencias.ts.
-import { listaEntries } from '../components/ficha/hero-model'
 
 export type RankEssencia = 'A' | 'E' | 'M'
 
@@ -29,31 +29,6 @@ export function rankDaEssencia(nome: string): RankEssencia | null {
   if (/\s(Adepta|Menor)$/.test(nome)) return 'A'
   return 'M'
 }
-
-/** Slots gastos em essência por rank — `sec` = linha secundária (Menores). */
-export function slotsDeEssencia(fm: Record<string, unknown>, sec: boolean): Record<'B' | RankEssencia, number> {
-  const out = { B: 0, A: 0, E: 0, M: 0 }
-  const hab = (fm['Habilidades'] as Record<string, unknown> | undefined)?.['Lista']
-  for (const e of listaEntries(hab)) {
-    if (e.fonte.kind !== 'Slot' || !ehEssencia(e.target) || ehMenor(e.target) !== sec) continue
-    const r = e.fonte.target
-    if (r === 'A' || r === 'E' || r === 'M') out[r]++
-  }
-  return out
-}
-
-/** Conjura pela ESSÊNCIA neste escopo (tem alguma na lista de Habilidades)?
- *  Aí o slot A/E/M da escola dela é gasto no Círculo; só a magia BÁSICA
- *  avulsa (Elementalismo Básico — slot B, que essência não usa) segue no
- *  catálogo. Sem essência (Guerreiro com Elementalismo Avançado), o catálogo
- *  inteiro da escola fica como antes. */
-export function conjuraPorEssencia(fm: Record<string, unknown>, sec: boolean): boolean {
-  const hab = (fm['Habilidades'] as Record<string, unknown> | undefined)?.['Lista']
-  return listaEntries(hab).some((e) => ehEssencia(e.target) && ehMenor(e.target) === sec)
-}
-
-/** Ranks de magia AVULSA que a escola oferece pra quem conjura por essência. */
-export const RANKS_AVULSOS_COM_ESSENCIA: ReadonlyArray<'B' | 'A' | 'E' | 'M'> = ['B']
 
 const ESCOLHA_PAI = /^Escolha\.(?:\d+\.)?\[\[([^\]|]+)/
 
