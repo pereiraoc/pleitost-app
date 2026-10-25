@@ -75,7 +75,9 @@ function renderHero(id: string) {
 }
 
 describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)', () => {
-  it('escolher Essência Flamejante Adepta pelo dropdown adiciona as magias no card', { timeout: 30000 }, async () => {
+  // 2026-10-25: as essências saíram dos dropdowns pra RODA DAS ESSÊNCIAS — o
+  // pick é um clique no nó do ciclo (data-roda-no="A:Essência X").
+  it('escolher Essência Flamejante Adepta pela roda adiciona as magias no card', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
     // #480: escolhas de essência são condicionais à Sintonia
@@ -86,18 +88,14 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
     const heading = await screen.findByText('Habilidades')
     fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
 
-    // 2. dropdowns de essência da Magias Anima aparecem (rules resolvidas)
-    const dds = (await screen.findAllByLabelText(/Essência Elemental/i, undefined, {
+    // 2. a roda aparece com a pura da sintonia acesa (rules resolvidas)
+    const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
+    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('livre'), {
       timeout: 8000,
-    })) as HTMLSelectElement[]
-    expect(dds.length).toBeGreaterThanOrEqual(3)
+    })
 
-    // 3. pick da Essência Flamejante Adepta no 1º dropdown
-    const flamejante = [...dds[0].options].find((o) =>
-      o.textContent?.includes('Essência Flamejante Adepta'),
-    )!
-    expect(flamejante).toBeTruthy()
-    fireEvent.change(dds[0], { target: { value: flamejante.value } })
+    // 3. pick da Essência Flamejante Adepta
+    fireEvent.click(no('A:Essência Flamejante')!)
 
     // 4. o pick persiste no FM local
     await waitFor(() => {
@@ -117,47 +115,27 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
   })
 
   // Bug #4d: "não pode deixar o cara repetir escolha nos dropdowns de essencia,
-  // se pegou uma em um, no outro não pode. Agora quando eu vou criar um aparece
-  // todos os dropdowns com a mesma coisa."
-  it('dropdowns irmãos nascem VAZIOS e a opção escolhida some das irmãs', { timeout: 30000 }, async () => {
+  // se pegou uma em um, no outro não pode." Na roda: nada nasce escolhido, e a
+  // essência escolhida ocupa UMA vaga só.
+  it('a roda nasce sem escolha e a essência escolhida ocupa uma vaga só', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 2', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
-    // #480: escolhas de essência são condicionais à Sintonia
     setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
     const heading = await screen.findByText('Habilidades')
     fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
-    const dds = (await screen.findAllByLabelText(/Essência Elemental/i, undefined, {
-      timeout: 8000,
-    })) as HTMLSelectElement[]
-    expect(dds.length).toBeGreaterThanOrEqual(3)
+    const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
+    const contador = () => document.querySelector('[data-roda-contador="A"]')?.textContent
+    await waitFor(() => expect(contador()).toMatch(/0\/\d/), { timeout: 8000 })
+    expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBe(0)
 
-    // sem NENHUM pick salvo: todos vazios (nada de default options[0] nem
-    // de 1 pick "vazando" pros irmãos)
-    for (const dd of dds) expect(dd.value).toBe('')
-
-    // pick no 1º dropdown
-    const flamejante = [...dds[0].options].find((o) =>
-      o.textContent?.includes('Essência Flamejante Adepta'),
-    )!
-    fireEvent.change(dds[0], { target: { value: flamejante.value } })
-
-    await waitFor(() => {
-      const now = screen.getAllByLabelText(/Essência Elemental/i) as HTMLSelectElement[]
-      // o 1º tem o pick; as irmãs continuam vazias
-      expect(now[0].value).toContain('Essência Flamejante Adepta')
-      expect(now[1].value).toBe('')
-      expect(now[2].value).toBe('')
-      // a opção escolhida SOME das irmãs, mas continua no próprio dropdown
-      const opts = (dd: HTMLSelectElement) => [...dd.options].map((o) => o.textContent)
-      expect(opts(now[0])).toContain('Essência Flamejante Adepta')
-      expect(opts(now[1])).not.toContain('Essência Flamejante Adepta')
-      expect(opts(now[2])).not.toContain('Essência Flamejante Adepta')
-    })
+    fireEvent.click(no('A:Essência Flamejante')!)
+    await waitFor(() => expect(no('A:Essência Flamejante')?.getAttribute('data-roda-estado')).toBe('tem'))
+    expect(contador()).toMatch(/^ADEPTA 1\//)
+    const lista = JSON.stringify((getLocalDoc(id)!.frontmatter as any).Habilidades?.Lista ?? [])
+    expect(lista.split('Essência Flamejante Adepta').length - 1).toBe(1)
   })
 
-  // "não tem subclasses, e aí o tamanho do bloco de escolha dele ta pequeno,
-  // mas ele tem que ocupar o espaço todo quando não tem nenhuma subclasse"
   it('classe SEM subclasse: o select de classe ocupa a linha inteira', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 3', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')

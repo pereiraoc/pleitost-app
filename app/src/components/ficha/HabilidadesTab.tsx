@@ -11,7 +11,8 @@
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
 import { formulaCtxDeMagia } from '../../interativa/formula-ctx'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import { reskinName, reskinText } from '../../data/reskin'
+import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
+import { RodaEssencias, tierDaEscolha, type RodaChoice } from './RodaEssencias'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -1459,6 +1460,29 @@ export function PericiasProfPanel({
   }
 
   const cols = edit ? (hideItemBonus ? PROF_COLS_EDIT_SEM_ITEM : PROF_COLS_EDIT) : PROF_COLS_VIEW
+  // PERÍCIA DE CLASSE (2026-10-25): escolhas de perícia declaradas na NOTA DA
+  // CLASSE (`Escolha_Habilidades "Perícia de Classe" Definir (...)` — Ladino:
+  // Furtividade/Ladinagem; Monge/Guerreiro: Atletismo/Acrobacia). A classe não
+  // é nó da árvore de habilidades, então a escolha mora aqui, nas Perícias.
+  const classeBase = (wikiTarget(str(model.fm['Classe'])) ?? '').split('/').pop() ?? ''
+  const escolhasClasse: HabChoice[] = (rules?.habilidadeChoices ?? [])
+    .filter(
+      (c) =>
+        classeBase !== '' &&
+        c.kind === 'escolha-prop-map' &&
+        c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') === classeBase,
+    )
+    .map((c) => ({
+      choiceKey: c.choiceKey,
+      label: c.label,
+      options: c.options,
+      pick: c.pick,
+      kind: c.kind,
+      targetRaw: c.targetRaw,
+      occ: c.occurrenceWithinParent,
+      source: c.source,
+      valorRaw: c.valorRaw,
+    }))
 
   return (
     <div style={panel}>
@@ -1467,6 +1491,38 @@ export function PericiasProfPanel({
         <span style={{ flex: 1 }} />
         {forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
+      {escolhasClasse.map((c) => (
+        <div
+          key={c.choiceKey}
+          data-escolha-classe={c.label}
+          style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}
+        >
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}>
+            {reskinName(c.label).toUpperCase()}
+          </span>
+          {edit ? (
+            <div style={{ flex: 1, minWidth: 180, maxWidth: 320 }}>
+              <SelectBox
+                ariaLabel={reskinName(c.label)}
+                value={choicePickValue(c)}
+                options={[{ value: '', label: '—' }, ...choiceOptions(c)]}
+                onChange={(v) => writePericiaChoicePick(model, classeBase, c, v)}
+              />
+            </div>
+          ) : (
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: 13,
+                color: choicePickValue(c) ? 'var(--blue)' : 'var(--muted)',
+                fontStyle: choicePickValue(c) ? 'normal' : 'italic',
+              }}
+            >
+              {linkLabelDisplay(choicePickValue(c)) || '(não definido)'}
+            </span>
+          )}
+        </div>
+      ))}
       <div
         style={{
           display: 'grid',
@@ -2186,6 +2242,19 @@ export function HabilidadesArvorePanel({
   const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) =>
     writeChoicePick(model, catalog, refs, parentTarget, choice, newWl)
 
+  // RODA DAS ESSÊNCIAS (2026-10-25): as escolhas de Essência Elemental
+  // (Adepta/Experiente/Mestre) saem dos dropdowns e vão pra roda do ciclo.
+  const rodaChoices: RodaChoice[] = []
+  for (const [parent, list] of choicesByTarget) {
+    for (const c of list) if (tierDaEscolha(c)) rodaChoices.push({ ...c, parent })
+  }
+  const naRoda = new Set(rodaChoices.map((c) => c.choiceKey))
+  const detailRoda = useDetail()
+  const abrirEssencia = (nome: string) => {
+    const r = catalog.resolve(nome)
+    if (r.kind === 'doc') detailRoda?.open({ kind: 'doc', id: r.id })
+  }
+
   return (
     <div style={panel}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
@@ -2193,6 +2262,9 @@ export function HabilidadesArvorePanel({
         <span style={{ flex: 1 }} />
         {readOnly || forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
+      {rodaChoices.length > 0 ? (
+        <RodaEssencias fm={fm} choices={rodaChoices} edit={edit} onPick={onChoiceChange} onOpen={abrirEssencia} />
+      ) : null}
       <div style={{ display: 'flex', gap: 26, alignItems: 'flex-start' }}>
         {[leftGroups, rightGroups].map((col, ci) => (
           <div key={ci} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -2248,7 +2320,23 @@ export function HabilidadesArvorePanel({
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
                       children — mesmo SelectBox da subclasse (plugin
                       habilidades-card.ts renderChoiceLi:389-447). */}
-                  {it.choices.map((c) => (
+                  {it.choices.some((c) => naRoda.has(c.choiceKey)) ? (
+                    <span
+                      data-escolhas-na-roda={it.target}
+                      style={{
+                        paddingLeft: (it.child ? 26 : 0) + 26,
+                        fontFamily: 'var(--mono)',
+                        fontSize: 9.5,
+                        letterSpacing: '.1em',
+                        color: 'var(--muted)',
+                      }}
+                    >
+                      {`◎ ${reskinUpper('Essências')} NA RODA · ${
+                        it.choices.filter((c) => naRoda.has(c.choiceKey) && c.pick && c.source !== 'default' && c.source !== 'none').length
+                      }/${it.choices.filter((c) => naRoda.has(c.choiceKey)).length}`}
+                    </span>
+                  ) : null}
+                  {it.choices.filter((c) => !naRoda.has(c.choiceKey)).map((c) => (
                     <div
                       key={c.choiceKey}
                       style={{
@@ -2468,6 +2556,42 @@ function HabilidadesEspeciaisSection({
   )
 }
 
+/** Pick de uma escolha de PERÍCIA (prop-map/pericia-especial): persiste como
+ *  INCREMENTO tagueado `Escolha[.NN].[[pai]]` na linha da perícia — o formato
+ *  que o resolvedor lê (inferPickFromIncrementos). Pai = habilidade ou CLASSE
+ *  (Perícia de Classe do Ladino/Monge/Guerreiro). */
+export function writePericiaChoicePick(
+  model: ReturnType<typeof useHeroModel>,
+  parentTarget: string,
+  choice: HabChoice,
+  newWl: string,
+): void {
+  const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
+  const tag = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
+  const casaTag = (v: unknown) =>
+    typeof v === 'string' && /^(Escolha|Regra)[.]/.test(v) && v.includes(`[[${parentTarget}]]`)
+  const rows: Record<string, unknown>[] = (
+    (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
+  ).map((r) => ({
+    ...r,
+    Incrementos: ((r['Incrementos'] ?? []) as Record<string, unknown>[]).filter((i) => {
+      const ent = Object.entries(i)
+      return !(ent.length === 1 && casaTag(ent[0]![1]))
+    }),
+  }))
+  if (newWl) {
+    const nomePick = linkLabel(newWl) || newWl
+    let row = rows.find((r) => String(r['Nome']) === nomePick)
+    if (!row) {
+      row = { Nome: nomePick, Atributo: '', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] }
+      rows.push(row)
+    }
+    const campo = choice.kind === 'escolha-prop-map' ? (choice.valorRaw ?? 'A') : 'Bonus_Especial'
+    row['Incrementos'] = [...(row['Incrementos'] as Record<string, unknown>[]), { [campo]: tag }]
+  }
+  model.set('Pericias.Lista', rows)
+}
+
 /** #297: escreve o pick de uma `Escolha_Habilidades`. Alvos PLANOS
  *  (Tecnicas/Acoes/Habilidades) gravam a linha tagueada na lista plana; alvo
  *  `Magias(.Secundaria).Lista` grava a magia no GRUPO DE ESCOLA certo (a lista é
@@ -2507,29 +2631,7 @@ export function writeChoicePick(
   // (Drauzio: {A: 'Regra.[[Estratégia de Caça (Rastreador)]]'}). Antes o
   // write caía em Habilidades.Lista e o clique "não selecionava" (#512).
   if (choice.kind === 'escolha-prop-map' || choice.kind === 'escolha-pericia-especial') {
-    const tag = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
-    const casaTag = (v: unknown) =>
-      typeof v === 'string' && /^(Escolha|Regra)[.]/.test(v) && v.includes(`[[${parentTarget}]]`)
-    const rows: Record<string, unknown>[] = (
-      (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
-    ).map((r) => ({
-      ...r,
-      Incrementos: ((r['Incrementos'] ?? []) as Record<string, unknown>[]).filter((i) => {
-        const ent = Object.entries(i)
-        return !(ent.length === 1 && casaTag(ent[0]![1]))
-      }),
-    }))
-    if (newWl) {
-      const nomePick = linkLabel(newWl) || newWl
-      let row = rows.find((r) => String(r['Nome']) === nomePick)
-      if (!row) {
-        row = { Nome: nomePick, Atributo: '', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] }
-        rows.push(row)
-      }
-      const campo = choice.kind === 'escolha-prop-map' ? (choice.valorRaw ?? 'A') : 'Bonus_Especial'
-      row['Incrementos'] = [...(row['Incrementos'] as Record<string, unknown>[]), { [campo]: tag }]
-    }
-    model.set('Pericias.Lista', rows)
+    writePericiaChoicePick(model, parentTarget, choice, newWl)
     return
   }
 

@@ -283,6 +283,24 @@ export const PF_TIER_COLORS: Record<'C' | 'B' | 'A' | 'S', string> = {
   S: '#8fd3ff',
 }
 
+/** Cor de cada ELEMENTO na Roda das Essências — a paleta do diagrama do
+ *  Ciclo Elemental da vault (hub Essências Elementais: fogo vermelho, terra
+ *  amarela, água azul, vento verde; universal cinza). Chave = elemento da pasta
+ *  "Essências Elementais de <Elemento>". */
+export const ELEMENTO_COR: Record<string, string> = {
+  Fogo: '#e53935',
+  Terra: '#d9a400',
+  Água: '#1e88e5',
+  Vento: '#43a047',
+  Universal: '#9e9e9e',
+}
+
+/** Emoji do elemento (registro central tokens.emojis.elemento). */
+export function elementoEmoji(elemento: string): string {
+  const k = elemento === 'Água' ? 'Agua' : elemento
+  return (tokens.emojis.elemento as Record<string, string>)[k] ?? ''
+}
+
 /** Classe de aventureiro por nível — espelha classeInfo do plugin (aventureiro-card.ts). */
 export function classeAventureiro(nivel: number): {
   classe: string

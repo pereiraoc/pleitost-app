@@ -96,31 +96,30 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
     )
   })
 
-  it('os dropdowns de essência mostram valores DISTINTOS (resolução por Escolha.NN)', async () => {
+  // 2026-10-25: essências na RODA (data-roda-no) em vez de dropdowns.
+  it('a roda mostra as essências DISTINTAS do Zuko (resolução por Escolha.NN)', async () => {
     renderZuko()
     await abrirHabilidades()
-    const dds = (await screen.findAllByLabelText(/Essência Elemental/i)) as HTMLSelectElement[]
-    expect(dds.length).toBeGreaterThanOrEqual(2)
-    const vals = dds.map((d) => d.value).filter(Boolean)
-    // o bug fazia todos iguais; agora cada ocorrência resolve o seu
-    expect(new Set(vals).size).toBe(vals.length)
+    await waitFor(() => expect(document.querySelectorAll('[data-roda-estado="tem"]').length).toBeGreaterThanOrEqual(4))
+    const tem = [...document.querySelectorAll('[data-roda-estado="tem"]')].map((n) => n.getAttribute('data-roda-no'))
+    expect(new Set(tem).size).toBe(tem.length)
+    expect(tem).toContain('A:Essência Incendiária')
   })
 
-  it('mudar UMA essência preserva as irmãs (grava Escolha.NN indexado)', async () => {
+  it('desfazer UMA essência preserva as irmãs (grava Escolha.NN indexado)', async () => {
     renderZuko()
     await abrirHabilidades()
-    const dds = (await screen.findAllByLabelText(/Essência Elemental/i)) as HTMLSelectElement[]
-    const before = dds.map((d) => d.value)
-    // opção diferente da atual pro 1º dropdown
-    const nova = [...dds[0].options].map((o) => o.value).find((v) => v && v !== before[0])!
-    fireEvent.change(dds[0], { target: { value: nova } })
-    await waitFor(() => {
-      const now = (screen.getAllByLabelText(/Essência Elemental/i) as HTMLSelectElement[]).map((d) => d.value)
-      expect(now[0]).toBe(nova) // a 1ª mudou
-      expect(now[1]).toBe(before[1]) // a irmã NÃO mudou (antes: virava igual)
-    })
-    // no FM salvo, as tags ficam indexadas e independentes
+    const no = (k: string) => document.querySelector(`[data-roda-no="${k}"]`)
+    await waitFor(() => expect(no('A:Essência Ciclonal')?.getAttribute('data-roda-estado')).toBe('tem'))
+    fireEvent.click(no('A:Essência Ciclonal')!) // desfaz
+    await waitFor(() => expect(no('A:Essência Ciclonal')?.getAttribute('data-roda-estado')).not.toBe('tem'))
+    expect(no('A:Essência Incendiária')?.getAttribute('data-roda-estado')).toBe('tem') // irmã intacta
+    // a vaga liberada aceita a vizinha (Relampejante, ao lado da Incendiária)
+    await waitFor(() => expect(no('A:Essência Relampejante')?.getAttribute('data-roda-estado')).toBe('livre'))
+    fireEvent.click(no('A:Essência Relampejante')!)
+    await waitFor(() => expect(no('A:Essência Relampejante')?.getAttribute('data-roda-estado')).toBe('tem'))
     const lista = JSON.stringify(overlaySalvo().fm['Habilidades.Lista'] ?? [])
-    expect(lista).toContain('Escolha.01.[[Magias Anima]]')
+    expect(lista).toMatch(/Essência Relampejante Adepta[^}]*Escolha\.0\d\.\[\[Magias Anima\]\]/)
+    expect(lista).toContain('Essência Incendiária Adepta')
   })
 })
