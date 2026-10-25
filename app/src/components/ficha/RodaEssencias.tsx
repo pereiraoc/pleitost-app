@@ -642,8 +642,8 @@ function Roda({
               {gradiente ? (
                 <defs>
                   <linearGradient id={`${uid}-arco-${i}`} gradientUnits="userSpaceOnUse" x1={g0.x} y1={g0.y} x2={g1.x} y2={g1.y}>
-                    <stop offset="0.3" stopColor={corDe(b)} />
-                    <stop offset="0.7" stopColor={corDe(c)} />
+                    <stop offset="0.46" stopColor={corDe(b)} />
+                    <stop offset="0.54" stopColor={corDe(c)} />
                   </linearGradient>
                 </defs>
               ) : null}
