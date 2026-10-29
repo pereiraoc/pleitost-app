@@ -275,7 +275,7 @@ export function targetToModelPath(targetRaw: string): string | null {
   if (targetRaw === 'Magias.Secundaria.EM') return 'magias.secundaria.em'
   // slots de magia (pool Arcana e por escola — rules/slots-magia.ts), pra
   // rastrear a FONTE de cada slot
-  const slot = /^Magias\.(Secundaria\.)?(?:Lista\.([^.]+)\.)?Slots\.([BAEM])$/.exec(targetRaw)
+  const slot = /^Magias\.(Secundaria\.)?(?:Lista\.([^.]+)\.)?Slots\.([BAEMU])$/.exec(targetRaw)
   if (slot) return `magias.${slot[1] ? 'secundaria.' : ''}${slot[2] ? `escolas.${slot[2]}.` : ''}slots.${slot[3]}`
   return null
 }

@@ -4,8 +4,9 @@
 // (entre duas vizinhas). ESSÊNCIAS POR SLOT: cada nó aceso compra a essência
 // com um slot de magia do rank (`Magias.Slots` — ou `Magias.Secundaria.Slots`
 // na linha MENOR do Treinamento de Animista) e grava em `Habilidades.Lista`
-// com a fonte `Slot.<rank>` (rules/essencia-slots.ts). Regras de quem abre:
-// rules/roda-essencias.ts.
+// com a fonte `Slot.<rank>` (rules/essencia-slots.ts). O CENTRO (Criação ×
+// Destruição) só se compra com o slot U da técnica Essência Universal
+// (`Slot.U`). Regras de quem abre: rules/roda-essencias.ts.
 import { useId, useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../../data/CatalogContext'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
@@ -26,6 +27,7 @@ import {
   HUB_RODA,
   parseEssencia,
   parseEssenciaMenor,
+  pontesDosRequer,
   rodaDoCatalogo,
   SUFIXO_TIER,
   type Composta,
@@ -34,8 +36,10 @@ import {
   type Tier,
 } from '../../rules/roda-essencias'
 
+/** Rank de slot que o círculo gasta: os tiers + U (universal). */
+export type RankSlot = Tier | 'U'
 /** Orçamento de slots de um rank no escopo do círculo. */
-export type SlotsCirculo = Record<Tier, { total: number; usados: number }>
+export type SlotsCirculo = Record<RankSlot, { total: number; usados: number }>
 
 const TIERS: Tier[] = ['A', 'E', 'M']
 const R: Record<Tier, number> = { A: 150, E: 207, M: 254 }
@@ -73,7 +77,7 @@ export function RodaEssencias({
   menor?: boolean
   edit: boolean
   /** Compra a essência `alvo` com um slot do rank. */
-  onAdd: (alvo: string, tier: Tier) => void
+  onAdd: (alvo: string, slot: RankSlot) => void
   /** Apaga do FM salvo a linha da essência `alvo`. */
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
@@ -135,7 +139,7 @@ function Roda({
   slots: SlotsCirculo
   menor: boolean
   edit: boolean
-  onAdd: (alvo: string, tier: Tier) => void
+  onAdd: (alvo: string, slot: RankSlot) => void
   onRemover: (alvo: string) => void
   onOpen?: (nome: string) => void
   onToggleEdit?: () => void
@@ -204,7 +208,29 @@ function Roda({
   // DRUIDA: os dois elementos do Círculo Druídico (a nota que concede a
   // interface — duas Adeptas de dois elementos).
   const elementos = menor ? null : elementosDoCirculo(roda, regra.map((e) => ({ essencia: e.target, pai: e.fonte.target })))
-  const estado = estadoRoda({ roda, sintonia, tem, ancoras, elementos, invertidas, primeiraDaSintonia: menor })
+  // UNIVERSAIS: as pontes vêm do "Requer" das puras; legítima é a comprada
+  // com o slot U (ou concedida por regra).
+  const docsPuras = useNamedDocs([...roda.puras])
+  const pontes = pontesDosRequer(roda, (b) => docsPuras(b)?.body)
+  const universal = (base: string) => roda.universais.includes(base)
+  const universaisLegitimas = new Set(
+    roda.universais.filter((b) => {
+      const f = fonteDe.get(alvoDe(b, 'A'))
+      return !!f && (f.kind === 'Regra' || (f.kind === 'Slot' && f.target === 'U'))
+    }),
+  )
+  const estado = estadoRoda({
+    roda,
+    sintonia,
+    tem,
+    ancoras,
+    elementos,
+    invertidas,
+    primeiraDaSintonia: menor,
+    slotsU: slots.U.total,
+    pontes,
+    universaisLegitimas,
+  })
   // Elementos FORA (cinza): o oposto da sintonia; no Druida, os dois que não
   // são do círculo. O da sintonia (ou os do círculo) fica em evidência.
   const opostoSint = sintonia ? opostoDe(roda, sintonia) : null
@@ -219,9 +245,11 @@ function Roda({
   for (const [nome, motivoM] of invalidasM) invalidas.set(`M:${nome}`, motivoM)
   const invalida = (base: string, t: Tier) => invalidas.get(`${t}:${base}`)
 
-  const livres = (t: Tier) => slots[t].total - slots[t].usados
+  const livres = (t: RankSlot) => slots[t].total - slots[t].usados
+  /** Slot que o nó gasta: a Adepta universal paga com o U. */
+  const slotDo = (base: string, t: Tier): RankSlot => (t === 'A' && universal(base) ? 'U' : t)
   const visivel: Record<Tier, boolean> = {
-    A: slots.A.total > 0 || tem.A.size > 0,
+    A: slots.A.total > 0 || slots.U.total > 0 || tem.A.size > 0,
     E: slots.E.total > 0 || tem.E.size > 0,
     M: !menor && (slots.M.total > 0 || tem.M.size > 0 || temComposta.size > 0),
   }
@@ -231,7 +259,7 @@ function Roda({
   const st = (base: string, t: Tier): EstadoNo | 'semVaga' => {
     const s = (t === 'M' && composta.has(base) ? estadoM[base] : estado.no[t][base]) ?? 'fechado'
     if (s === 'livre' && !existe(alvoDe(base, t))) return 'fechado'
-    if (s === 'livre' && livres(t) <= 0) return 'semVaga'
+    if (s === 'livre' && livres(slotDo(base, t)) <= 0) return 'semVaga'
     return s
   }
   const motivo = (base: string, t: Tier): string => {
@@ -244,8 +272,10 @@ function Roda({
     }
     if (s === 'oposto') return elementos ? `${nome} — fora dos elementos do círculo` : `${nome} — elemento oposto à ${reskinText('sintonia')}`
     if (s === 'livre') return `${nome} — disponível`
-    if (s === 'semVaga') return `${nome} — sem slot ${SUFIXO_TIER[t]} livre`
+    if (s === 'semVaga')
+      return slotDo(base, t) === 'U' ? `${nome} — sem slot Universal livre` : `${nome} — sem slot ${SUFIXO_TIER[t]} livre`
     if (!existe(alvoDe(base, t))) return `${nome} — ainda sem nota na vault`
+    if (t === 'A' && universal(base)) return `${nome} — precisa da técnica ${reskinName('Essência Universal')}`
     if (t === 'A') {
       if (menor && tem.A.size === 0) return `${nome} — a primeira é do elemento da ${reskinText('sintonia')}`
       return `${nome} — precisa de uma vizinha no ciclo`
@@ -272,7 +302,7 @@ function Roda({
       if (s !== 'livre' || !onToggleEdit) return
       onToggleEdit()
     }
-    if (s === 'livre') onAdd(alvoDe(base, t), t)
+    if (s === 'livre') onAdd(alvoDe(base, t), slotDo(base, t))
     else if (s === 'tem' && removivel(base, t)) onRemover(alvoDe(base, t))
   }
   const tecla = (base: string, t: Tier) => (e: KeyboardEvent) => {
@@ -511,8 +541,9 @@ function Roda({
         <circle r={RC + 7} fill="none" stroke="var(--line2)" strokeDasharray="3 3" />
         {metade('destruicao', destr)}
         {metade('criacao', criac)}
-        {/* Mestre universal (Avatar): nó pequeno do lado da Criação */}
+        {/* Mestre universal (Avatar): nó pequeno do lado de cada metade */}
         {visivel.M && criac ? no(criac, 'M', pt(RC + 18, 45).x, pt(RC + 18, 45).y, false) : null}
+        {visivel.M && destr ? no(destr, 'M', pt(RC + 18, -135).x, pt(RC + 18, -135).y, false) : null}
       </g>
     )
   }
@@ -553,6 +584,22 @@ function Roda({
             {`${SUFIXO_TIER[t].toUpperCase()} ${contador(t)}`}
           </span>
         ))}
+        {slots.U.total > 0 ? (
+          <span
+            data-roda-contador="U"
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 9.5,
+              letterSpacing: '.08em',
+              color: livres('U') < 0 ? 'var(--red)' : livres('U') > 0 && edit ? 'var(--gold)' : 'var(--muted)',
+              padding: '3px 8px',
+              border: '1px solid var(--line2)',
+              clipPath: clip(5),
+            }}
+          >
+            {`${reskinUpper('Universal')} ${slots.U.usados}/${slots.U.total}`}
+          </span>
+        ) : null}
         {onToggleEdit ? <EditToggle edit={edit} onToggle={onToggleEdit} /> : null}
       </div>
       {invalidas.size > 0 ? (

@@ -35,9 +35,9 @@ describe('pools', () => {
   const derived = { Magias: { Slots: { B: 2, A: 1, E: 0, M: 0 } } }
   it('totais: Arcana do FM, Anima e Essencial do calc', () => {
     const t = slotsPorPool(derived, calc, false)
-    expect(t.arcana).toEqual({ B: 2, A: 1, E: 0, M: 0 })
-    expect(t.anima).toEqual({ B: 0, A: 2, E: 0, M: 0 })
-    expect(t.essencial).toEqual({ B: 1, A: 0, E: 0, M: 0 })
+    expect(t.arcana).toEqual({ B: 2, A: 1, E: 0, M: 0, U: 0 })
+    expect(t.anima).toEqual({ B: 0, A: 2, E: 0, M: 0, U: 0 })
+    expect(t.essencial).toEqual({ B: 1, A: 0, E: 0, M: 0, U: 0 })
   })
   it('essência gasta Anima; Essencial gasta o pool dela antes do Arcana; Negra gasta Arcana', () => {
     const t = slotsPorPool(derived, calc, false)

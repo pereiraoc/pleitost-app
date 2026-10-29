@@ -8,8 +8,12 @@
 //    Hidratante, Ventania); OPOSTO = o elemento da pura do lado oposto da roda.
 // Regras (essências por SLOT de magia, 2026-10-25 — rules/essencia-slots.ts):
 //  - Adepta: a pura da sintonia vem de graça (Magias Anima); cada slot abre
-//    uma vizinha de uma que já tem; nunca do elemento oposto. Universais
-//    (Criação, Destruição) sempre acessíveis.
+//    uma vizinha de uma que já tem; nunca do elemento oposto.
+//  - UNIVERSAIS (Criação, Destruição — 2026-10-29): só com o slot U da técnica
+//    [[Essência Universal]] (Druida não tem), a qualquer momento. Cada pura
+//    tem a universal do seu lado no "Requer … ou [[Essência de …]]" — a
+//    PONTE: a universal abre as puras dela (Destruição: Flamejante/Ventania;
+//    Criação: Mineral/Hidratante), sempre respeitando o oposto.
 //  - Experiente: também é CAMINHO — a primeira é do elemento da sintonia
 //    (Animista e Druida), e cada slot abre uma vizinha de uma Experiente que
 //    já tem; sempre exige a Adepta da mesma essência. Universais esperam pela
@@ -60,6 +64,20 @@ export function rodaDoCatalogo(catalog: Catalog, hubFm: Record<string, unknown> 
     if (elemento[antes] === elemento[b] && elemento[depois] === elemento[b]) puras.add(b)
   })
   return { ordem, elemento, puras, universais: [...universais].sort() }
+}
+
+/** PONTES universal → puras, lidas do "Requer [[X]] ou [[Y]] ou [[Essência
+ *  de …]]" de cada pura (fonte de verdade: a nota, não o código). */
+export function pontesDosRequer(roda: RodaDef, corpoDe: (base: string) => string | undefined): Record<string, string[]> {
+  const out: Record<string, string[]> = {}
+  for (const pura of roda.puras) {
+    const linha = /^Requer .+$/m.exec(corpoDe(pura) ?? '')?.[0] ?? ''
+    for (const m of linha.matchAll(/\[\[([^\]|]+)/g)) {
+      const u = m[1]!.trim()
+      if (roda.universais.includes(u)) (out[u] ??= []).push(pura)
+    }
+  }
+  return out
 }
 
 /** Vizinhas no ciclo. */
@@ -131,8 +149,16 @@ export function estadoRoda(input: {
    *  oposto): exceção explícita — nem oposta nem caminho. */
   invertidas?: Set<string>
   /** Linha MENOR (Treinamento de Animista): sem âncora — a primeira é de
-   *  qualquer essência do elemento da sintonia; as universais esperam por ela. */
+   *  qualquer essência do elemento da sintonia. */
   primeiraDaSintonia?: boolean
+  /** Total do slot U (técnica Essência Universal) no escopo: sem ele, as
+   *  universais ficam fechadas. */
+  slotsU?: number
+  /** Pontes universal → puras (`pontesDosRequer`). */
+  pontes?: Record<string, string[]>
+  /** Universais que o herói tem de forma LEGÍTIMA (slot U ou regra). Quando
+   *  informado, as outras viram inválidas. */
+  universaisLegitimas?: Set<string>
 }): EstadoRoda {
   const { roda, sintonia, tem, elementos } = input
   const invertidas = input.invertidas ?? new Set<string>()
@@ -146,19 +172,27 @@ export function estadoRoda(input: {
   }
   const todas = [...roda.ordem, ...roda.universais]
   const no: Record<Tier, Record<string, EstadoNo>> = { A: {}, E: {}, M: {} }
+  const pontes = input.pontes ?? {}
+  /** Vizinhas no grafo: o ciclo + as pontes universal ↔ pura. */
+  const adj = (b: string): string[] => [
+    ...vizinhas(roda, b),
+    ...(pontes[b] ?? []),
+    ...roda.universais.filter((u) => pontes[u]?.includes(b)),
+  ]
   const ciclo = [...tem.A].filter((b) => roda.ordem.includes(b) && !invertidas.has(b))
+  const univA = [...tem.A].filter((b) => roda.universais.includes(b))
   const ancoras = [...(input.ancoras ?? [])].filter((b) => roda.ordem.includes(b) && !invertidas.has(b))
 
   // Adepta: vizinhas do que tem (âncoras inclusas); sem nada ainda, a pura da
   // sintonia (Animista sem a concessão) ou o elemento da sintonia (Menor).
   const alcance = new Set<string>()
-  for (const b of ciclo) for (const v of vizinhas(roda, b)) alcance.add(v)
+  for (const b of [...ciclo, ...univA]) for (const v of adj(b)) alcance.add(v)
   if (ciclo.length === 0) {
     if (input.primeiraDaSintonia) {
       for (const b of roda.ordem) if (sintonia && roda.elemento[b] === sintonia) alcance.add(b)
     } else if (pura && !druida) alcance.add(pura)
   }
-  const universalAberta = !input.primeiraDaSintonia || ciclo.length > 0
+  const universalAberta = (input.slotsU ?? 0) > 0
   for (const b of todas) {
     const universal = roda.universais.includes(b)
     if (tem.A.has(b)) no.A[b] = 'tem'
@@ -171,11 +205,13 @@ export function estadoRoda(input: {
   // seguintes, vizinhas de uma Experiente que já tem — sempre com a Adepta.
   // A Invertida segue isolada (Experiente dela só exige a Adepta).
   const cicloE = [...tem.E].filter((b) => roda.ordem.includes(b) && !invertidas.has(b))
+  const univE = [...tem.E].filter((b) => roda.universais.includes(b))
   const daSintonia = (b: string) => !sintonia || roda.elemento[b] === sintonia
   const alcanceE = new Set<string>()
   if (cicloE.length === 0) {
     for (const b of roda.ordem) if (daSintonia(b)) alcanceE.add(b)
-  } else for (const b of cicloE) for (const v of vizinhas(roda, b)) alcanceE.add(v)
+  } else for (const b of cicloE) for (const v of adj(b)) alcanceE.add(v)
+  for (const b of univE) for (const v of adj(b)) alcanceE.add(v)
   for (const b of todas) {
     if (tem.E.has(b)) no.E[b] = 'tem'
     else if (!tem.A.has(b)) no.E[b] = 'fechado'
@@ -190,22 +226,27 @@ export function estadoRoda(input: {
   }
 
   // Conexão: Adeptas do ciclo ligadas a uma âncora por posse contígua.
-  const raizes = ancoras.length
-    ? ancoras.filter((b) => tem.A.has(b))
-    : input.primeiraDaSintonia
-      ? ciclo.filter((b) => roda.elemento[b] === sintonia)
-      : pura && !druida && tem.A.has(pura)
-        ? [pura]
-        : []
+  const raizes = [
+    ...(ancoras.length
+      ? ancoras.filter((b) => tem.A.has(b))
+      : input.primeiraDaSintonia
+        ? ciclo.filter((b) => roda.elemento[b] === sintonia)
+        : pura && !druida && tem.A.has(pura)
+          ? [pura]
+          : []),
+    // a universal vem da técnica, fora do caminho: também é raiz
+    ...univA,
+  ]
   const soltas = new Set<string>()
   if (raizes.length || ciclo.length) {
     const ligadas = new Set<string>()
     const fila = [...raizes]
+    const grafo = [...ciclo, ...univA]
     while (fila.length) {
       const b = fila.pop()!
       if (ligadas.has(b)) continue
       ligadas.add(b)
-      for (const v of vizinhas(roda, b)) if (ciclo.includes(v) && !ligadas.has(v)) fila.push(v)
+      for (const v of adj(b)) if (grafo.includes(v) && !ligadas.has(v)) fila.push(v)
     }
     for (const b of ciclo) if (!ligadas.has(b)) soltas.add(b)
   }
@@ -214,15 +255,20 @@ export function estadoRoda(input: {
     if (fora(b)) invalidas.set(`A:${b}`, druida ? 'fora dos dois elementos do círculo' : 'elemento oposto à sintonia')
     else if (soltas.has(b)) invalidas.set(`A:${b}`, 'fora do caminho do ciclo (não liga numa essência concedida)')
   }
+  if (input.universaisLegitimas)
+    for (const b of univA)
+      if (!input.universaisLegitimas.has(b))
+        invalidas.set(`A:${b}`, 'sem a técnica Essência Universal (a universal só se compra com o slot dela)')
   // Experientes fora do caminho: não ligam, de vizinha em vizinha, numa
   // Experiente do elemento da sintonia.
   const ligadasE = new Set<string>()
   const filaE = cicloE.filter(daSintonia)
+  const grafoE = [...cicloE, ...univE]
   while (filaE.length) {
     const b = filaE.pop()!
     if (ligadasE.has(b)) continue
     ligadasE.add(b)
-    for (const v of vizinhas(roda, b)) if (cicloE.includes(v) && !ligadasE.has(v)) filaE.push(v)
+    for (const v of adj(b)) if (grafoE.includes(v) && !ligadasE.has(v)) filaE.push(v)
   }
   for (const b of tem.E) {
     if (!tem.A.has(b)) invalidas.set(`E:${b}`, 'sem a Adepta')

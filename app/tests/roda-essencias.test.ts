@@ -11,6 +11,7 @@ import {
   elementoDaSintonia,
   opostoDe,
   parseEssencia,
+  pontesDosRequer,
   puraDe,
   rodaDoCatalogo,
   vizinhas,
@@ -25,6 +26,11 @@ const hub = JSON.parse(
   fs.readFileSync(path.join(dir, 'Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais.json'), 'utf8'),
 ) as VaultDoc
 const roda = rodaDoCatalogo(catalog, hub.frontmatter) as RodaDef
+const corpo = (base: string) => {
+  const nota = catalog.content.find((c) => (c.basename ?? '') === base)
+  return nota ? (JSON.parse(fs.readFileSync(path.join(dir, `${nota.id}.json`), 'utf8')) as VaultDoc).body : undefined
+}
+const pontes = pontesDosRequer(roda, corpo)
 const E = (n: string) => `Essência ${n}`
 const tem = (a: string[], e: string[] = [], m: string[] = []): Record<Tier, Set<string>> => ({
   A: new Set(a.map(E)),
@@ -39,13 +45,15 @@ describe('a roda vem da vault', () => {
     expect(roda.universais).toContain(E('de Criação'))
     expect(roda.universais).toContain(E('de Destruição'))
   })
-  it('vizinhas batem com os "Requer" das notas', () => {
+  it('vizinhas batem com os "Requer" das notas (fora a universal da pura)', () => {
     for (const base of roda.ordem) {
-      const nota = catalog.content.find((c) => (c.basename ?? '') === base)!
-      const doc = JSON.parse(fs.readFileSync(path.join(dir, `${nota.id}.json`), 'utf8')) as VaultDoc
-      const m = /Requer \[\[([^\]]+)\]\] ou \[\[([^\]]+)\]\]/.exec(doc.body)!
+      const m = /Requer \[\[([^\]]+)\]\] ou \[\[([^\]]+)\]\]/.exec(corpo(base)!)!
       expect(vizinhas(roda, base).sort()).toEqual([m[1], m[2]].sort())
     }
+  })
+  it('pontes: cada pura liga na universal do seu lado (o "ou [[Essência de …]]" do Requer)', () => {
+    expect(pontes[E('de Destruição')]!.sort()).toEqual([E('Flamejante'), E('Ventania')])
+    expect(pontes[E('de Criação')]!.sort()).toEqual([E('Hidratante'), E('Mineral')])
   })
   it('opostos: Fogo↔Água, Terra↔Vento', () => {
     expect(opostoDe(roda, 'Fogo')).toBe('Água')
@@ -59,10 +67,12 @@ describe('a roda vem da vault', () => {
 })
 
 describe('regras de escolha (Animista)', () => {
-  it('sem nada: só a pura da sintonia (e as universais, Criação e Destruição) abre', () => {
+  it('sem nada: só a pura da sintonia abre; universais fechadas sem o slot U', () => {
     const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem([]) })
     const livres = Object.entries(s.no.A).filter(([, v]) => v === 'livre').map(([k]) => k).sort()
-    expect(livres).toEqual([E('Flamejante'), E('de Criação'), E('de Destruição')].sort())
+    expect(livres).toEqual([E('Flamejante')])
+    expect(s.no.A[E('de Criação')]).toBe('fechado')
+    expect(s.no.A[E('de Destruição')]).toBe('fechado')
     expect(s.no.A[E('Hidratante')]).toBe('oposto')
   })
   it('caminha de vizinha em vizinha', () => {
@@ -89,6 +99,7 @@ describe('regras de escolha (Animista)', () => {
       roda,
       sintonia: 'Fogo',
       tem: tem(['Flamejante', 'Explosiva', 'Sísmica', 'Mineral', 'Incendiária', 'de Criação'], ['Explosiva']),
+      slotsU: 1,
     })
     expect(s.no.E[E('Sísmica')]).toBe('livre') // vizinha da Explosiva Experiente
     expect(s.no.E[E('Flamejante')]).toBe('livre')
@@ -115,18 +126,21 @@ describe('regras de escolha (Animista)', () => {
 })
 
 describe('linha MENOR (Treinamento de Animista)', () => {
-  it('sem nada: qualquer essência do elemento da sintonia; universais esperam a primeira', () => {
+  it('sem nada: qualquer essência do elemento da sintonia; universal só com o slot U', () => {
     const s = estadoRoda({ roda, sintonia: 'Água', tem: tem([]), primeiraDaSintonia: true })
     const livres = Object.entries(s.no.A).filter(([, v]) => v === 'livre').map(([k]) => k).sort()
     expect(livres).toEqual([E('Congelante'), E('Hidratante'), E('Torrencial')].sort())
     expect(s.no.A[E('de Criação')]).toBe('fechado')
     expect(s.no.A[E('Flamejante')]).toBe('oposto')
   })
-  it('depois da primeira: vizinhas e universais', () => {
-    const s = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial']), primeiraDaSintonia: true })
-    expect(s.no.A[E('de Criação')]).toBe('livre')
-    expect(s.no.A[E('Hidratante')]).toBe('livre')
-    expect(s.invalidas.size).toBe(0)
+  it('depois da primeira: vizinhas; universal com o U secundário (Criação/Destruição Menor)', () => {
+    const sem = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial']), primeiraDaSintonia: true })
+    expect(sem.no.A[E('de Criação')]).toBe('fechado')
+    expect(sem.no.A[E('Hidratante')]).toBe('livre')
+    expect(sem.invalidas.size).toBe(0)
+    const com = estadoRoda({ roda, sintonia: 'Água', tem: tem(['Torrencial']), primeiraDaSintonia: true, slotsU: 1 })
+    expect(com.no.A[E('de Criação')]).toBe('livre')
+    expect(com.no.A[E('de Destruição')]).toBe('livre')
   })
   it('nomes Menor', async () => {
     const { parseEssenciaMenor } = await import('../src/rules/roda-essencias')
@@ -224,3 +238,84 @@ describe('Essência Invertida', () => {
   })
 })
 
+describe('Essência Universal (técnica, slot U) e a parte interna da Roda', () => {
+  it('com o slot U as duas universais abrem, a qualquer momento', () => {
+    const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante']), slotsU: 1, pontes })
+    expect(s.no.A[E('de Criação')]).toBe('livre')
+    expect(s.no.A[E('de Destruição')]).toBe('livre')
+  })
+  it('Destruição abre as puras do lado dela (Ventania, longe no ciclo), e a pura não fica solta', () => {
+    const antes = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante']), pontes })
+    expect(antes.no.A[E('Ventania')]).toBe('fechado')
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Destruição']),
+      pontes,
+      universaisLegitimas: new Set([E('de Destruição')]),
+    })
+    expect(s.no.A[E('Ventania')]).toBe('livre')
+    const depois = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Destruição', 'Ventania']),
+      pontes,
+      universaisLegitimas: new Set([E('de Destruição')]),
+    })
+    expect(depois.soltas.size).toBe(0)
+    expect(depois.invalidas.size).toBe(0)
+    expect(depois.no.A[E('Ciclonal')]).toBe('livre') // e o caminho segue da Ventania
+  })
+  it('a ponte respeita o oposto: Fogo com Criação abre Mineral, não Hidratante', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Criação']),
+      pontes,
+      universaisLegitimas: new Set([E('de Criação')]),
+    })
+    expect(s.no.A[E('Mineral')]).toBe('livre')
+    expect(s.no.A[E('Hidratante')]).toBe('oposto')
+  })
+  it('universal sem a técnica (escolha antiga / slot A) é inválida', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Criação']),
+      pontes,
+      universaisLegitimas: new Set(),
+    })
+    expect(s.invalidas.get(`A:${E('de Criação')}`)).toMatch(/Essência Universal/)
+  })
+  it('Druida (sem a técnica) não pega universal', () => {
+    const ancoras = new Set([E('Torrencial'), E('Enraizante')])
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Água',
+      tem: tem(['Torrencial', 'Enraizante']),
+      ancoras,
+      elementos: ['Água', 'Terra'],
+      pontes,
+    })
+    expect(s.no.A[E('de Criação')]).toBe('fechado')
+    expect(s.no.A[E('de Destruição')]).toBe('fechado')
+  })
+  it('Experiente: a Experiente da universal liga as puras do lado dela', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Destruição', 'Ventania'], ['Flamejante', 'de Destruição']),
+      pontes,
+      universaisLegitimas: new Set([E('de Destruição')]),
+    })
+    expect(s.no.E[E('Ventania')]).toBe('livre')
+    const t = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Destruição', 'Ventania'], ['Flamejante', 'de Destruição', 'Ventania']),
+      pontes,
+      universaisLegitimas: new Set([E('de Destruição')]),
+    })
+    expect(t.invalidas.size).toBe(0)
+  })
+})

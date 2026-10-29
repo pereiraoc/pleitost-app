@@ -102,7 +102,7 @@ function freeMagiaSlotIn(
   const profEss = (sec ? rules?.profEssencialSec : rules?.profEssencial) ?? 'N'
   const totais = slotsPorPool(fm, rules?.calculated, sec)
   const usados = usadosPorPool(fm, sec, totais, ehEssencial)
-  const livre = (p: PoolMagia) => (['B', 'A', 'E', 'M'] as const).some((r) => usados[p][r] < totais[p][r])
+  const livre = (p: PoolMagia) => (['B', 'A', 'E', 'M', 'U'] as const).some((r) => usados[p][r] < totais[p][r])
   return (
     (arcanaProficiente && livre('arcana')) ||
     (profEss !== 'N' && livre('essencial')) ||

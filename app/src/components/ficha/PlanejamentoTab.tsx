@@ -1353,6 +1353,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         menor={circ.sec}
         edit
         onAdd={(alvo, tier) =>
+          tier !== 'U' &&
           registraEAplica(
             {
               nivel: card.nivel,

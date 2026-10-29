@@ -325,7 +325,7 @@ const MAGIA_SEC_SLOT_RX = /^Magias\.Secundaria\.Slots\.([BAEM])$/
 // Slot POR ESCOLA (rules/slots-magia.ts): `Magias[.Secundaria].Lista.<Escola>.
 // Slots.<R>` vai pro objeto `Slots` da linha da escola. A ArcanaEssencial é
 // oculta (sem linha) — o leitor usa o calc direto.
-const MAGIA_ESC_SLOT_RX = /^Magias\.(Secundaria\.)?Lista\.([^.]+)\.Slots\.([BAEM])$/
+const MAGIA_ESC_SLOT_RX = /^Magias\.(Secundaria\.)?Lista\.([^.]+)\.Slots\.([BAEMU])$/
 const SLOT_RX = /^(Pericias|Tecnicas|Magias)\.Slots\.([BAEM])$/
 const EQUIP_ARMAS_RX = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais)$/
 const EQUIP_ARMADURA_RX = /^Inventario\.Armadura\.Proficiencia\.(Sem|Leve|Pesada)$/

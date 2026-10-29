@@ -3380,15 +3380,15 @@ function CirculoEssenciasDoHeroi({
   const totais = slotsPorPool(fm, rules?.calculated, !!sec)
   const usados = usadosPorPool(fm, !!sec, totais, ehEssencialDoCatalogo(catalog))
   const slots = Object.fromEntries(
-    (['A', 'E', 'M'] as const).map((t) => [t, { total: totais.anima[t], usados: usados.anima[t] }]),
+    (['A', 'E', 'M', 'U'] as const).map((t) => [t, { total: totais.anima[t], usados: usados.anima[t] }]),
   ) as SlotsCirculo
   const temEssencia = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).some(
     (e) => ehEssencia(e.target) && ehMenor(e.target) === !!sec,
   )
-  const temSlot = slots.A.total + slots.E.total + slots.M.total > 0
+  const temSlot = slots.A.total + slots.E.total + slots.M.total + slots.U.total > 0
   if (!proficiente || (!temSlot && !temEssencia)) return null
   const lista = () => ((fmPath(model.fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[])
-  const onAdd = (alvo: string, tier: 'A' | 'E' | 'M') =>
+  const onAdd = (alvo: string, tier: 'A' | 'E' | 'M' | 'U') =>
     model.set('Habilidades.Lista', [...lista(), { [`[[${alvo}]]`]: `Slot.${tier}` }])
   const onRemover = (alvo: string) =>
     model.set(

@@ -108,7 +108,9 @@ export interface CirculoNivel {
   sec: boolean
   fm: Fm
   fmSalvo: Fm
-  slots: Record<'A' | 'E' | 'M', { total: number; usados: number }>
+  /** U (Essência Universal) vem de técnica, não de nível: sempre 0 aqui —
+   *  a universal se compra na aba Magias. */
+  slots: Record<'A' | 'E' | 'M' | 'U', { total: number; usados: number }>
 }
 
 export function gastosRegistrados(fm: Record<string, unknown>): GastoRegistrado[] {
@@ -1224,9 +1226,12 @@ export async function buildLevelTimeline(
       })
       const habDerivada = (snap.derived['Habilidades'] as Record<string, unknown>) ?? {}
       const gastosAqui = card.gastos.magias.filter((g) => g.secundaria === sec && g.pool === 'anima')
-      const slots = Object.fromEntries(
-        (['A', 'E', 'M'] as const).map((t) => [t, { total: delta[t], usados: gastosAqui.filter((g) => g.rank === t).length }]),
-      ) as CirculoNivel['slots']
+      const slots = {
+        ...Object.fromEntries(
+          (['A', 'E', 'M'] as const).map((t) => [t, { total: delta[t], usados: gastosAqui.filter((g) => g.rank === t).length }]),
+        ),
+        U: { total: 0, usados: 0 },
+      } as CirculoNivel['slots']
       card.circulos.push({
         sec,
         fm: { ...snap.derived, Habilidades: { ...habDerivada, Lista: lista } },

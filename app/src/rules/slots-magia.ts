@@ -5,6 +5,9 @@
 //    (Truque Mágico, Utensílio Mágico, Princípios Arcanos, Prática Avançada);
 //  - `Magias.Slots.<R>` → pool ARCANA (Branca/Negra/Essencial conforme a
 //    proficiência) — nunca Anima.
+// Rank U (Essência Universal, 2026-10-29): `Magias.Lista.Anima.Slots.U` é o
+// slot que só compra essência UNIVERSAL (Criação/Destruição); só existe na
+// Anima, e o slot A comum não compra universal (rules/roda-essencias.ts).
 // Secundária: os mesmos caminhos sob `Magias.Secundaria.`. O gasto segue
 // `Slot.<R>` na lista; o POOL sai do que foi comprado (`poolDoGasto`), e a
 // Essencial que não cabe no pool dela transborda pro Arcana ("as Essenciais
@@ -15,12 +18,12 @@ import { ehEssencia, ehMenor } from './essencia-slots'
 import { MAGIA_ESCOLA_NOME } from './projection'
 
 export type PoolMagia = 'arcana' | 'anima' | 'essencial'
-export type RankMagia = 'B' | 'A' | 'E' | 'M'
+export type RankMagia = 'B' | 'A' | 'E' | 'M' | 'U'
 export type Ranks = Record<RankMagia, number>
 
 export const POOLS_MAGIA: PoolMagia[] = ['arcana', 'anima', 'essencial']
-const RANKS: RankMagia[] = ['B', 'A', 'E', 'M']
-const zero = (): Ranks => ({ B: 0, A: 0, E: 0, M: 0 })
+const RANKS: RankMagia[] = ['B', 'A', 'E', 'M', 'U']
+const zero = (): Ranks => ({ B: 0, A: 0, E: 0, M: 0, U: 0 })
 const num = (v: unknown) => (typeof v === 'number' ? v : Number(v)) || 0
 
 /** Escola (chave do calc) de cada pool que mora numa escola. */
@@ -47,7 +50,7 @@ export function slotsPorPool(
     unknown
   >
   for (const r of RANKS) {
-    out.arcana[r] = num(arc[r])
+    out.arcana[r] = r === 'U' ? 0 : num(arc[r])
     out.anima[r] = num(calculated?.[`${caminhoSlots('anima', sec)}.${r}`])
     out.essencial[r] = num(calculated?.[`${caminhoSlots('essencial', sec)}.${r}`])
   }
@@ -95,7 +98,7 @@ export function gastosDeSlot(
   for (const e of listaEntries(fmPath(fm, 'Habilidades', 'Lista'))) {
     const r = e.fonte.kind === 'Slot' ? e.fonte.target : ''
     if (!ehEssencia(e.target) || ehMenor(e.target) !== sec) continue
-    if (r === 'A' || r === 'E' || r === 'M') out.push({ alvo: e.target, escola: null, rank: r })
+    if (r === 'A' || r === 'E' || r === 'M' || r === 'U') out.push({ alvo: e.target, escola: null, rank: r })
   }
   return out
 }
