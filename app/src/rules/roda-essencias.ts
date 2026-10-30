@@ -17,7 +17,8 @@
 //  - Experiente: também é CAMINHO — a primeira é do elemento da sintonia
 //    (Animista e Druida), e cada slot abre uma vizinha de uma Experiente que
 //    já tem; sempre exige a Adepta da mesma essência. Universais esperam pela
-//    primeira Experiente do ciclo.
+//    primeira Experiente do ciclo. A ponte vale DIRETO no anel E: a universal
+//    na Adepta já deixa a Experiente das puras dela como vizinha.
 //  - Mestre composta: as DUAS Experientes; a primeira toca o elemento da
 //    sintonia. Mestre universal: a Experiente dela.
 import type { Catalog } from '../data/catalog'
@@ -211,7 +212,10 @@ export function estadoRoda(input: {
   if (cicloE.length === 0) {
     for (const b of roda.ordem) if (daSintonia(b)) alcanceE.add(b)
   } else for (const b of cicloE) for (const v of adj(b)) alcanceE.add(v)
-  for (const b of univE) for (const v of adj(b)) alcanceE.add(v)
+  // PONTE DIRETA (2026-10-29): a universal na Adepta já deixa a Experiente das
+  // puras dela como vizinha — depois da primeira Experiente (a da sintonia).
+  const pontesE = cicloE.length > 0 ? univA : univE
+  for (const b of pontesE) for (const v of adj(b)) alcanceE.add(v)
   for (const b of todas) {
     if (tem.E.has(b)) no.E[b] = 'tem'
     else if (!tem.A.has(b)) no.E[b] = 'fechado'
@@ -263,7 +267,8 @@ export function estadoRoda(input: {
   // Experiente do elemento da sintonia.
   const ligadasE = new Set<string>()
   const filaE = cicloE.filter(daSintonia)
-  const grafoE = [...cicloE, ...univE]
+  if (filaE.length) filaE.push(...univA)
+  const grafoE = [...cicloE, ...univE, ...univA]
   while (filaE.length) {
     const b = filaE.pop()!
     if (ligadasE.has(b)) continue

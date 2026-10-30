@@ -318,4 +318,40 @@ describe('Essência Universal (técnica, slot U) e a parte interna da Roda', () 
     })
     expect(t.invalidas.size).toBe(0)
   })
+  // Report 2026-10-29 (Samuel, sintonia Terra): "a essência que é pega a
+  // partir da essência da Criação não está deixando selecionar a Experiente".
+  // Regra do mestre: a ponte vale DIRETO — a universal na Adepta já deixa a
+  // Experiente das puras dela como vizinha no anel E (sem a Experiente da
+  // universal). A primeira Experiente segue sendo da sintonia.
+  it('Experiente pela ponte direta: Criação Adepta abre a Hidratante Experiente (Samuel)', () => {
+    const base = {
+      roda,
+      sintonia: 'Terra',
+      ancoras: new Set([E('Mineral')]),
+      pontes,
+      slotsU: 1,
+      universaisLegitimas: new Set([E('de Criação')]),
+    }
+    const s = estadoRoda({
+      ...base,
+      tem: tem(['Mineral', 'Sísmica', 'Enraizante', 'de Criação', 'Hidratante'], ['Mineral', 'Sísmica']),
+    })
+    expect(s.no.E[E('Hidratante')]).toBe('livre')
+    const depois = estadoRoda({
+      ...base,
+      tem: tem(['Mineral', 'Sísmica', 'Enraizante', 'de Criação', 'Hidratante'], ['Mineral', 'Sísmica', 'Hidratante']),
+    })
+    expect(depois.invalidas.size).toBe(0)
+  })
+  it('a ponte direta não fura a primeira Experiente (é da sintonia)', () => {
+    const s = estadoRoda({
+      roda,
+      sintonia: 'Fogo',
+      tem: tem(['Flamejante', 'de Destruição', 'Ventania']),
+      pontes,
+      universaisLegitimas: new Set([E('de Destruição')]),
+    })
+    expect(s.no.E[E('Ventania')]).toBe('fechado')
+    expect(s.no.E[E('Flamejante')]).toBe('livre')
+  })
 })
