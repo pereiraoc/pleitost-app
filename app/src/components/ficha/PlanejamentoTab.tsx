@@ -18,6 +18,7 @@ import { reskinName, reskinPericia, reskinText } from '../../data/reskin'
 import { createPortal } from 'react-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
+import { useDetail } from '../../data/detail-context'
 import { classeDisplay } from '../../data/catalog'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
@@ -401,6 +402,7 @@ function SlotButton({ ativo, onClick, children }: { ativo: boolean; onClick: () 
 
 export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
+  const detail = useDetail()
   const model = useHeroModel(doc, 'planejamento')
   const fm = model.fm
   const rules = useHeroRules(fm)
@@ -1341,6 +1343,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     })
   }
 
+  const abrirNotaEssencia = (nome: string) => {
+    const r = catalog.resolve(nome)
+    if (r.kind === 'doc') detail?.open({ kind: 'doc', id: r.id })
+  }
+
   /** CÍRCULO DAS ESSÊNCIAS do nível: só nos níveis que ganham slot A/E/M da
    *  escola das essências; o clique registra a essência NESTE nível. */
   const circulosDoNivel = (card: LevelCard) =>
@@ -1367,6 +1374,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           )
         }
         onRemover={(alvo) => removeEssencia(alvo, circ.sec)}
+        // nó sem ação no nível (fechado/oposto/sem vaga) abre a nota
+        onOpen={abrirNotaEssencia}
       />
     ))
 

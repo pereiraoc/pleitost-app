@@ -292,18 +292,23 @@ function Roda({
     return `${nome} — precisa da Adepta`
   }
 
+  /** Abre a NOTA da essência nos Detalhes (ler o que ela faz). */
+  const abrirNota = (base: string, t: Tier) => {
+    const alvo = alvoDe(base, t)
+    if (existe(alvo)) onOpen?.(alvo)
+  }
+  const podeAbrir = (base: string, t: Tier) => !!onOpen && existe(alvoDe(base, t))
+  // Pedido do mestre (2026-10-29): fora do Alterar o clique SEMPRE abre a
+  // nota (qualquer nó — livre, fechado, oposto, escolhido); gastar slot é só
+  // no Alterar (o Círculo tem o botão próprio). No Alterar, o nó sem ação
+  // (fechado/oposto/sem vaga/concedido) também abre a nota.
   const clicar = (base: string, t: Tier) => {
     setFoco({ base, tier: t })
     const s = st(base, t)
-    if (!edit) {
-      if (s === 'tem') onOpen?.(alvoDe(base, t))
-      // Nó livre fora do Alterar: entra na edição e já gasta o slot (antes o
-      // clique sumia calado — e o Alterar do painel nem liga o Círculo Menor).
-      if (s !== 'livre' || !onToggleEdit) return
-      onToggleEdit()
-    }
+    if (!edit) return abrirNota(base, t)
     if (s === 'livre') onAdd(alvoDe(base, t), slotDo(base, t))
     else if (s === 'tem' && removivel(base, t)) onRemover(alvoDe(base, t))
+    else abrirNota(base, t)
   }
   const tecla = (base: string, t: Tier) => (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -357,7 +362,7 @@ function Roda({
         onKeyDown={tecla(base, t)}
         onMouseEnter={() => setFoco({ base, tier: t })}
         onFocus={() => setFoco({ base, tier: t })}
-        style={{ cursor: ativo || s === 'tem' || s === 'livre' ? 'pointer' : 'default', opacity: opac, outline: 'none' }}
+        style={{ cursor: ativo || podeAbrir(base, t) ? 'pointer' : 'default', opacity: opac, outline: 'none' }}
       >
         <title>{motivo(base, t)}</title>
         {s === 'tem' ? <circle cx={x} cy={y} r={r + 7} fill={cor} opacity={0.18} /> : null}
@@ -441,7 +446,7 @@ function Roda({
     slots[t].total > 0 ? `${slots[t].usados}/${slots[t].total}` : String(t === 'M' ? tem.M.size + temComposta.size : tem[t].size)
   const focoTxt = foco
     ? motivo(foco.base, foco.tier)
-    : reskinText(edit ? 'Toque numa Essência acesa pra gastar um slot nela; numa escolhida pra desfazer.' : 'Toque numa Essência escolhida pra abrir a regra.')
+    : reskinText(edit ? 'Toque numa Essência acesa pra gastar um slot nela; numa escolhida pra desfazer.' : 'Toque numa Essência pra abrir a regra.')
 
   /** Metade do disco de raio r cortada pela diagonal (−45° ↔ 135°). */
   function meioDisco(r: number, lado: 'destruicao' | 'criacao'): string {
@@ -502,7 +507,7 @@ function Roda({
           onClick={base ? () => clicar(base, 'A') : undefined}
           onKeyDown={base ? tecla(base, 'A') : undefined}
           onMouseEnter={base ? () => setFoco({ base, tier: 'A' }) : undefined}
-          style={{ cursor: ativo || s === 'tem' ? 'pointer' : 'default', outline: 'none' }}
+          style={{ cursor: ativo || (!!base && podeAbrir(base, 'A')) ? 'pointer' : 'default', outline: 'none' }}
         >
           <title>{titulo}</title>
           <path
