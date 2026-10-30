@@ -208,6 +208,10 @@ export interface GroupInvTesouro extends GroupInvCommon {
   nome: string
   /** tier do tesouro (A/E/M). */
   tier?: string
+  /** IMPLEMENTO fundamental com FOCO trabalhado nele (basename do foco):
+   *  vale o preço do foco (que inclui o implemento) e vira linha de
+   *  Inventario.Implementos ao puxar. */
+  focoBase?: string
 }
 
 /** OURO: só a quantidade. */

@@ -22,6 +22,7 @@ import {
   str,
   tierLetter,
   wikiTarget,
+  adjetivoDaPropriedade,
 } from '../../ficha/hero-model'
 import { useHeroRefs } from '../../ficha/useHeroRefs'
 import { useHeroRules } from '../../../rules/useHeroRules'
@@ -169,7 +170,7 @@ function AtaquesCompactos({ fm, refs, inter }: { fm: Fm; refs: HeroRefs; inter: 
             <div style={lineStyle}>
               <span style={{ color: 'var(--muted)' }}>{'• '}</span>
               <ItemHover doc={l.armaDoc} propDoc={l.propDoc} tier={l.tier || undefined}>
-                <span style={{ fontWeight: 600 }}>{`${l.nomeExib}${l.prop ? ` ${reskinName(l.prop)}` : ''}${l.tier ? ` (${l.tier})` : ''}`}</span>
+                <span style={{ fontWeight: 600 }}>{`${l.nomeExib}${l.prop ? ` ${reskinName(adjetivoDaPropriedade(l.prop))}` : ''}${l.tier ? ` (${l.tier})` : ''}`}</span>
               </ItemHover>{' '}
               {l.travaInt !== null ? (
                 <span style={mono({ fontSize: 10.5, fontWeight: 700, color: toneColor('penalty') })} title={`Esta arma exige INT ${l.travaInt} para ser usada`}>

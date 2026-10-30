@@ -82,7 +82,7 @@ describe('report e5067c43 — tesouro do combate abre nos detalhes (doc completo
     )
     const tabs = await screen.findAllByText('TESOUROS')
     fireEvent.click(tabs.find((el) => el.closest('button'))!)
-    const nome = await screen.findByText('Anel da Resistência (A)')
+    const nome = await screen.findByText('Anel da Resistência')
     expect(nome.style.cursor).toBe('pointer')
     fireEvent.click(nome)
     expect(alvo.atual?.kind).toBe('doc')

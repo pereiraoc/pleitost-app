@@ -57,8 +57,17 @@ const tesouroEntries = manifest.docs.filter(
     !d.id.startsWith('Sistema/Equipamento/Tesouros/Imbuições e Qualidade/') &&
     // #333: Artefatos saíram do seletor de tesouros do jogador (só o Mestre os
     // coloca, via inventário do grupo) — o mirror do teste acompanha o app.
-    !d.id.startsWith('Sistema/Equipamento/Tesouros/Artefatos/'),
+    !d.id.startsWith('Sistema/Equipamento/Tesouros/Artefatos/') &&
+    // foco só existe trabalhado num implemento (2026-10-29): fora do seletor
+    !d.id.includes('/Implementos/Focos/'),
 )
+// Focos SOLTOS do Carlos migram pra Inventario.Implementos ao carregar (a
+// primeira escrita grava Tesouros já sem eles).
+const ehImplementoId = (raw: string) => {
+  const alvo = /\[\[([^\]|]+)/.exec(raw)?.[1]?.trim()
+  return manifest.docs.some((d) => d.basename === alvo && d.id.includes('/Tesouros/Implementos/'))
+}
+const tesourosMigrados = tesourosFm.filter((t) => !ehImplementoId(t))
 
 /** vitest 4 + jsdom sem webstorage do Node — polyfill fiel só no teste. */
 function makeStorage(): Storage {
@@ -596,7 +605,7 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
 
   it('adicionar tesouro → alias (Adepto) na lista; duplicado é no-op (addTesouro)', async () => {
     const nomesFm = new Set(tesourosFm.map(parseAlias))
-    const alvo = tesouroEntries.find((d) => !nomesFm.has(d.basename!))!
+    const alvo = tesouroEntries.find((d) => !nomesFm.has(d.basename!) && !d.id.includes('/Implementos/'))!
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
     // fab existe só na aba ativa, como o invAdd do design (dc.html:2219-2223)
@@ -606,7 +615,7 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     // alias tier A default — apply-tesouros-edit.ts:44-46
     let tesouros = overlaySalvo().fm['Inventario.Tesouros']
     expect(tesouros[tesouros.length - 1]).toBe(`[[${alvo.basename}|${alvo.basename} (Adepto)]]`)
-    expect(tesouros.length).toBe(tesourosFm.length + 1)
+    expect(tesouros.length).toBe(tesourosMigrados.length + 1)
     // linha aparece com qualidade A selecionada
     await waitFor(() => {
       const nomeEl = [...container.querySelectorAll<HTMLElement>('span')].find(
@@ -619,7 +628,7 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar Tesouro/ }))
     fireEvent.click(await fabItem(alvo.basename!))
     tesouros = overlaySalvo().fm['Inventario.Tesouros']
-    expect(tesouros.length).toBe(tesourosFm.length + 1)
+    expect(tesouros.length).toBe(tesourosMigrados.length + 1)
   })
 
   it('#333: Artefato NÃO aparece no seletor de tesouros do jogador (só GM via grupo)', async () => {
@@ -652,9 +661,12 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     )!
     const row = nomeEl.closest('div[style*="grid"]')! as HTMLElement
     fireEvent.click(within(row).getByText('🗑️'))
-    const tesouros = overlaySalvo().fm['Inventario.Tesouros']
-    expect(tesouros.length).toBe(tesourosFm.length - 1)
+    const salvo = overlaySalvo().fm
+    const tesouros = salvo['Inventario.Tesouros']
+    expect(tesouros.length).toBe(tesourosMigrados.length - 1)
     expect(tesouros.map(parseAlias)).not.toContain(alvo)
+    // a migração dos focos vai junto (nenhum foco se perde)
+    expect(salvo['Inventario.Implementos'].length).toBe(tesourosFm.length - tesourosMigrados.length)
   })
 })
 

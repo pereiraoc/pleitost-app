@@ -84,6 +84,7 @@ import {
   slugify,
   tipoDanoEmoji,
   tokens,
+  ITEM_TIER_BTN,
 } from './registry'
 import {
   cargasPorTier,
@@ -112,6 +113,7 @@ import {
   docField,
   type ProfRow,
   ordemPorModDesc,
+  adjetivoDaPropriedade,
 } from './hero-model'
 import {
   applyTarget,
@@ -156,7 +158,7 @@ import {
   useInterativaCtx,
   type InterativaCtxState,
 } from '../../interativa/useInterativaCtx'
-import { tesourosComImplementos } from '../../data/implementos'
+import { aliasDoImplemento, implementosDe, type ImplementoLinha } from '../../data/implementos'
 
 const COMB_TABS = [
   { id: 'ataques', label: 'ATAQUES' },
@@ -2084,7 +2086,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               />
             </ItemHover>
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 130 }}>
-              {`${nomeExib}${prop ? ` ${reskinName(prop)}` : ''}${tier ? ` (${tier})` : ''}`}
+              {`${nomeExib}${prop ? ` ${reskinName(adjetivoDaPropriedade(prop))}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
             {travaInt !== null ? (
               <span
@@ -2287,7 +2289,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 ) : null}
                 {propResumo ? (
                   <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
-                    {prop ? `${reskinName(prop)}: ` : ''}
+                    {prop ? `${reskinName(adjetivoDaPropriedade(prop))}: ` : ''}
                     {reskinText(propResumo)}
                   </span>
                 ) : null}
@@ -2709,8 +2711,17 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // F3 (#347, report 0c29814d): TODOS os tesouros aparecem — os SEM usos/cargas
   // (passivos) renderizam como link + resumo, sem a linha de bolinhas (plugin
   // tesouros.ts:18-131 lista todos; só quem tem usos ganha os toggles).
-  const tesouros = tesourosComImplementos(fm)
-    .map((raw) => {
+  // Implemento com foco (data/implementos): rótulo do combo ("Broche Artístico
+  // da Intensificação"), figura do IMPLEMENTO e hover com as duas cartas; as
+  // cargas são do FOCO. A chave de usos segue a do alias (rótulo + tier).
+  const implLinhas = implementosDe(fm)
+  const tesourosRaw = (fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
+  const entradas = [
+    ...(Array.isArray(tesourosRaw) ? tesourosRaw : []).map((raw) => ({ raw, impl: null as ImplementoLinha | null })),
+    ...implLinhas.map((l) => ({ raw: aliasDoImplemento(l) as unknown, impl: l })),
+  ]
+  const tesouros = entradas
+    .map(({ raw, impl }) => {
       const { nome, tier } = parseItemAlias(raw)
       const tDoc = refs.refDoc(raw)
       const cargas = tier ? cargasPorTier(tDoc, tier) : null
@@ -2723,15 +2734,18 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       // Figura do tesouro (issue #65) — igual ao inventário.
       // Review C5: sem tier passa '' (vai direto pra `${nome}.png`) — 'A'
       // podia pegar a imagem "Adepto" de um homônimo com tier.
-      const img = tesouroImageUrl(nome, tier ?? '', assets)
+      const img = tesouroImageUrl(impl?.nome || nome, tier ?? '', assets)
       const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
+      const implDoc = impl?.nome ? refs.refDoc(`[[${impl.nome}]]`) : undefined
       return {
-        nome: tier ? `${nome} (${tier})` : nome,
+        nome,
         key,
         cur,
         max,
         img,
-        doc: tDoc,
+        // hover: implemento + foco (como arma + imbuição); clique abre o foco
+        doc: implDoc ?? tDoc,
+        propDoc: implDoc ? tDoc : undefined,
         tier,
         resumo,
         isCarga: Boolean(cargas),
@@ -2757,7 +2771,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             clipPath: clip(12),
           }}
         >
-          <ItemHover doc={t.doc} tier={t.tier ?? undefined}>
+          <ItemHover doc={t.doc} propDoc={t.propDoc} tier={t.tier ?? undefined}>
             {t.img ? (
               <span
                 style={{
@@ -2789,6 +2803,20 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               }}
             >
               {reskinName(t.nome)}
+              {/* qualidade tier-colorida ao lado, como no Inventário */}
+              {t.tier ? (
+                <span
+                  style={{
+                    marginLeft: 6,
+                    fontFamily: 'var(--mono)',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: ITEM_TIER_BTN[t.tier].bd,
+                  }}
+                >
+                  ({t.tier})
+                </span>
+              ) : null}
             </span>
             {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166).
                 Passivo (sem max) mostra só o resumo; CARGAS iniciam em 0. */}

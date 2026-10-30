@@ -10,6 +10,7 @@
 // núcleo puro grupo/inventario-item. A config é state LOCAL — nada é sincronizado
 // até o "Adicionar", então o jogador não vê o que o Mestre está montando (#6).
 // Só existe na MESA (sessão com remoteId): sem sessão não há pool compartilhado.
+import { rotuloImplemento, tipoImplementoPeloId } from '../data/implementos'
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
@@ -138,6 +139,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const [equipTier, setEquipTier] = useState('A')
   const [impSel, setImpSel] = useState('') // id do implemento
   const [impTier, setImpTier] = useState('A')
+  const [focoSel, setFocoSel] = useState('') // id do foco trabalhado no implemento (opcional)
   const [ouroQtd, setOuroQtd] = useState('')
   const [status, setStatus] = useState('')
 
@@ -239,7 +241,16 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const implementos = useMemo(
     () =>
       catalog.content
-        .filter((e) => e.id.startsWith(IMPLEMENTOS_FOLDER) && e.subtype === 'Tesouro')
+        // só o FUNDAMENTAL: o foco vem trabalhado nele (seletor ao lado)
+        .filter((e) => tipoImplementoPeloId(e.id) === 'fundamental' && e.subtype === 'Tesouro')
+        .map((e) => ({ id: e.id, nome: e.basename ?? e.id }))
+        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt')),
+    [catalog],
+  )
+  const focosCat = useMemo(
+    () =>
+      catalog.content
+        .filter((e) => tipoImplementoPeloId(e.id) === 'foco' && e.subtype === 'Tesouro')
         .map((e) => ({ id: e.id, nome: e.basename ?? e.id }))
         .sort((a, b) => a.nome.localeCompare(b.nome, 'pt')),
     [catalog],
@@ -275,9 +286,10 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     }
     if (tipo === 'equipamento' && equipSub === 'tesouro' && tesSel) ids.add(tesSel)
     if (tipo === 'implemento' && impSel) ids.add(impSel)
+    if (tipo === 'implemento' && focoSel) ids.add(focoSel)
     return [...ids]
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itens, tipo, armaSel, propSel, equipSub, gearBase, tesSel, impSel, imbuicaoIds, catalog])
+  }, [itens, tipo, armaSel, propSel, equipSub, gearBase, tesSel, impSel, focoSel, imbuicaoIds, catalog])
   const docs = useDocs(idsToLoad)
 
   const priceOf = (basename: string): number => {
@@ -346,7 +358,15 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     if (tipo === 'implemento') {
       if (!impSel) return null
       const e = implementos.find((x) => x.id === impSel)
-      return { kind: 'tesouro', docId: impSel, nome: e?.nome ?? '', tier: impTier || 'A', ...base }
+      const foco = focosCat.find((x) => x.id === focoSel)?.nome
+      return {
+        kind: 'tesouro',
+        docId: impSel,
+        nome: e?.nome ?? '',
+        tier: impTier || 'A',
+        ...(foco ? { focoBase: foco } : {}),
+        ...base,
+      }
     }
     if (tipo === 'ouro') {
       // digitado na moeda do mundo → PO inteiro (POA: múltiplos de Cz$ 1.000)
@@ -357,7 +377,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     return null
   }, [
     tipo, armaSel, propSel, armaTier, equipSub, gearBase, tesSel, tesArtefato, equipTier, impSel,
-    impTier, ouroQtd, allArmas, implementos, tesouroById, armaDoc, gearDoc, user?.id,
+    impTier, focoSel, focosCat, ouroQtd, allArmas, implementos, tesouroById, armaDoc, gearDoc, user?.id,
   ])
 
   const valorAtual = draft ? itemValorPO(draft, priceOf) : 0
@@ -429,7 +449,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     if (!(await gravarItem(novaChave(), item, 'adicionar o item'))) return
     setStatus(`${itemNome(item)} entrou no inventário do grupo.`)
     setArmaSel(''); setPropSel(''); setArmaTier('A'); setGearBase(''); setTesSel('')
-    setEquipTier('A'); setImpSel(''); setImpTier('A'); setOuroQtd('')
+    setEquipTier('A'); setImpSel(''); setImpTier('A'); setFocoSel(''); setOuroQtd('')
   }
 
   // #9: arma ALEATÓRIA (respeita a qualidade escolhida; sai obra-prima via tier).
@@ -692,6 +712,10 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
               <option value="">🪄 — implemento —</option>
               {implementos.map((e) => (<option key={e.id} value={e.id}>{reskinName(e.nome)}</option>))}
             </select>
+            <select aria-label="Foco" value={focoSel} onChange={(e) => setFocoSel(e.target.value)} style={selStyle}>
+              <option value="">— sem foco —</option>
+              {focosCat.map((e) => (<option key={e.id} value={e.id}>{reskinName(e.nome)}</option>))}
+            </select>
             <QualityRow value={impTier} onChange={setImpTier} />
           </div>
         ) : null}
@@ -783,7 +807,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
               kind === 'ouro'
                 ? null
                 : kind === 'tesouro'
-                  ? tesouroImageUrl(nome, tier, assets)
+                  ? tesouroImageUrl((n as { nome?: string }).nome ?? nome, tier, assets)
                   : doc
                     ? docImageUrl(doc, tier || docTier(doc), assets)
                     : null
@@ -1010,5 +1034,8 @@ function PreviewChip({
  *  formatMoeda, que já usa o símbolo do mundo. */
 export function itemNome(it: GroupInventoryItem): string {
   const n = normalizeGroupItem(it)
-  return n.kind === 'ouro' ? formatMoeda(n.qtd) : reskinName((n as { nome?: string }).nome ?? '—')
+  if (n.kind === 'ouro') return formatMoeda(n.qtd)
+  const { nome, focoBase } = n as { nome?: string; focoBase?: string }
+  // implemento com foco: "Broche Artístico da Intensificação"
+  return reskinName(nome ? rotuloImplemento(nome, focoBase ?? null) : '—')
 }

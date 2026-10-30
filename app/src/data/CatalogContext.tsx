@@ -84,3 +84,9 @@ export function useCatalog(): Catalog {
   if (!catalog) throw new Error('useCatalog fora de <CatalogProvider>')
   return catalog
 }
+
+/** Catálogo quando há provider; null fora dele (hooks de dados que também
+ *  rodam sem catálogo, ex.: useHeroModel em testes). */
+export function useCatalogOpcional(): Catalog | null {
+  return useContext(CatalogContext)
+}

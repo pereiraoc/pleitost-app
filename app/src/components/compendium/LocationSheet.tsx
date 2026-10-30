@@ -49,6 +49,7 @@ import {
   useShopState,
 } from '../../data/commerce-store'
 import { buyConsumivel, buyImplemento, buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
+import { tipoImplementoPeloId } from '../../data/implementos'
 import { docField } from '../ficha/hero-model'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
@@ -743,7 +744,12 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       finish(buyTreasure(hid, hdoc, entry.thumbBasename, entry.tier, entry.preco))
       return
     }
-    // Demais tesouros (implementos/equipamentos/ferramenta obra-prima).
+    // Implemento fundamental SEM foco → também linha de Inventario.Implementos.
+    if (tipoImplementoPeloId(entry.key) === 'fundamental') {
+      finish(buyImplemento(hid, hdoc, { nome: entry.nome, foco: null, tier: entry.tier }, entry.preco))
+      return
+    }
+    // Demais tesouros (equipamentos/ferramenta obra-prima).
     finish(buyTreasure(hid, hdoc, entry.nome, entry.tier, entry.preco))
   }
 

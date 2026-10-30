@@ -65,7 +65,7 @@ import {
   modAtaqueBaseDaArma,
   ordemPorModDesc,
 } from './hero-model'
-import { implementosDe, rotuloImplemento } from '../../data/implementos'
+import { implementosDe, linhaImplemento, rotuloImplemento, tipoImplementoPeloId } from '../../data/implementos'
 
 const INV_TABS = [
   { id: 'armas', label: 'ARMAS' },
@@ -947,6 +947,8 @@ interface TesouroRow {
   impl?: boolean
   /** Foco do implemento (doc pro preço de revenda: o foco inclui a base). */
   focoDoc?: VaultDoc
+  /** Foco de ficha antiga ainda sem implemento (migração): pede o fundamental. */
+  semImplemento?: boolean
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1079,19 +1081,38 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // tesouros na tela, com o rótulo do combo e a figura do implemento.
   const implRaw = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as Record<string, unknown>[]
   const implRows: TesouroRow[] = implementosDe(fm).map((l, index) => {
-    const fDoc = refs.refDoc(`[[${l.nome}]]`) ?? undefined
+    const focoDoc = l.foco ? (refs.refDoc(`[[${l.foco}]]`) ?? undefined) : undefined
+    const fDoc = (l.nome ? refs.refDoc(`[[${l.nome}]]`) : undefined) ?? (l.nome ? undefined : focoDoc)
     return {
       nome: rotuloImplemento(l.nome, l.foco),
       tier: l.tier ?? '',
       bonus: l.tier ? bonusPorTier(fDoc, l.tier) : 0,
       grupo: 'IMPLEMENTOS',
       index,
-      img: tesouroImageUrl(l.nome, l.tier ?? '', assets),
+      img: tesouroImageUrl(l.nome || (l.foco ?? ''), l.tier ?? '', assets),
       doc: fDoc,
       impl: true,
-      focoDoc: l.foco ? (refs.refDoc(`[[${l.foco}]]`) ?? undefined) : undefined,
+      focoDoc,
+      semImplemento: !l.nome,
     }
   })
+  // Fundamentais da vault (pasta Implementos/Fundamentais) pro foco sem
+  // implemento: o preço do foco já incluía o implemento — escolher é de graça.
+  const fundamentais = useMemo(
+    () =>
+      catalog.content
+        .filter((e: IndexDocEntry) => tipoImplementoPeloId(e.id) === 'fundamental')
+        .map((e) => e.basename ?? e.id)
+        .sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    [catalog],
+  )
+  const escolherImplemento = (r: TesouroRow, base: string) => {
+    if (!base) return
+    model.set(
+      'Inventario.Implementos',
+      implRaw.map((row, j) => (j === r.index ? { ...row, Nome: `[[${base}]]` } : row)),
+    )
+  }
   const allRows = [...rows, ...implRows]
   const tirarLinha = (r: TesouroRow) =>
     r.impl
@@ -1287,7 +1308,12 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                         )}
                       </ItemHover>
-                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
+                      <ItemHover
+                        doc={r.doc}
+                        propDoc={r.semImplemento ? undefined : r.focoDoc}
+                        tier={r.tier || undefined}
+                        clickToOpen
+                      >
                         <span
                           style={{
                             fontWeight: 600,
@@ -1301,6 +1327,31 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           {reskinName(r.nome)}
                         </span>
                       </ItemHover>
+                      {/* Foco de ficha antiga sem implemento: o jogador escolhe
+                          o fundamental em que ele foi trabalhado. */}
+                      {r.semImplemento ? (
+                        <select
+                          aria-label={`Implemento do ${reskinName(r.nome)}`}
+                          value=""
+                          onChange={(e) => escolherImplemento(r, e.target.value)}
+                          style={{
+                            flex: 'none',
+                            maxWidth: 170,
+                            fontSize: 12,
+                            background: 'var(--panel2)',
+                            color: 'var(--text)',
+                            border: '1px solid var(--red)',
+                            padding: '3px 6px',
+                          }}
+                        >
+                          <option value="">🪄 — implemento —</option>
+                          {fundamentais.map((b) => (
+                            <option key={b} value={b}>
+                              {reskinName(b)}
+                            </option>
+                          ))}
+                        </select>
+                      ) : null}
                       {/* Fora do Alterar, a qualidade vira sufixo (A)/(E)/(M) no
                           nome (tier-colorido, casa com a borda) — sem coluna. */}
                       {!tesEdit && r.tier ? (
@@ -1760,6 +1811,12 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
     const entry = catalog.entryById.get(id)
     if (!entry) return
     const nome = entry.basename ?? id
+    // Implemento fundamental → linha própria de Inventario.Implementos (sem foco).
+    if (tipoImplementoPeloId(id) === 'fundamental') {
+      const impl = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as unknown[]
+      model.set('Inventario.Implementos', [...impl, linhaImplemento(nome, null, 'A', 'Manual')])
+      return
+    }
     const tesouros = (fmPath(model.fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
     if (tesouros.some((raw) => parseItemAlias(raw).nome === nome)) return
     model.set('Inventario.Tesouros', [...tesouros, buildTesouroAlias(nome, 'A')])
@@ -1794,6 +1851,8 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
             e.id.startsWith(TESOUROS_FOLDER) &&
             e.subtype === 'Tesouro' &&
             !TESOUROS_EXCLUIR.some((prefix) => e.id.startsWith(prefix)) &&
+            // foco só existe trabalhado num implemento (combo da loja)
+            tipoImplementoPeloId(e.id) !== 'foco' &&
             // CA só equipa os 3 tesouros permitidos — filtro VERBATIM de
             // filterCaTesouros do plugin (tabs/ca/tab-completa.ts:39-41).
             (!caps.tesourosPermitidos || caps.tesourosPermitidos.has(e.basename ?? e.id)),

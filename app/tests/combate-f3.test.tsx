@@ -113,16 +113,16 @@ describe('F3 — combate: movimento/ofícios/tesouros passivos/manobras (#347)',
     // "TESOUROS" existe também fora das sub-abas — clica no botão da sub-aba.
     const tabs = await screen.findAllByText('TESOUROS')
     fireEvent.click(tabs.find((el) => el.closest('button'))!)
-    const anel = await screen.findByText('Anel da Resistência (A)')
+    const anel = await screen.findByText('Anel da Resistência')
     // sem bolinhas de uso: o bloco do anel não tem o rótulo USOS/CARGAS
     const bloco = anel.parentElement as HTMLElement
     expect(bloco.textContent).not.toContain('USOS')
     expect(bloco.textContent).not.toContain('CARGAS')
     // e um com usos segue com a linha (Anel Canário 1/10min)
-    const canario = await screen.findByText('Anel Canário (A)')
+    const canario = await screen.findByText('Anel Canário')
     expect((canario.parentElement as HTMLElement).textContent).toContain('USOS')
     // Foco da Intensificação: CARGAS (inicia descarregado)
-    const foco = await screen.findByText('Foco da Intensificação (A)')
+    const foco = await screen.findByText('Foco da Intensificação') // foco migrado, ainda sem implemento
     expect((foco.parentElement as HTMLElement).textContent).toContain('CARGAS')
   })
 

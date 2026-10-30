@@ -32,6 +32,7 @@ import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { reskinExecucao, reskinName, reskinText } from '../../data/reskin'
 import { execucaoDe, type ExecucaoAlvo } from '../../interativa/execucao'
 import { atributoDeAtaqueDaArma,
+  adjetivoDaPropriedade,
   modAtaqueBaseDaArma,
   profArmaEfetiva,
   fmPath,
@@ -582,7 +583,7 @@ export function AtaquesResumo({
     <Section label="// ATAQUES">
       {lista.map((arma, i) => {
         const nome = reskinName(linkLabel(str(arma['Nome'])))
-        const prop = reskinName(linkLabel(str(arma['Propriedade'])))
+        const prop = reskinName(adjetivoDaPropriedade(arma['Propriedade']))
         const tier = tierLetter(arma['Categoria'])
         const armaDoc = refs.refDoc(arma['Nome'])
         const propDoc = refs.refDoc(arma['Propriedade'])

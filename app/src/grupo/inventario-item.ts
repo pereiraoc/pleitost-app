@@ -3,7 +3,7 @@
 // builders/preços da ficha e do comércio (nada reinventado): TIER_PRICE_MULT,
 // deriveArmaAtributo, tierCategoriaFm, buildTesouroAlias e as constantes de
 // obra-prima. Sem estado nem React — testável sozinho.
-import type { GroupInventoryItem } from '../data/session-repo/contract'
+import type { GroupInvTesouro, GroupInventoryItem } from '../data/session-repo/contract'
 import type { Tier } from '../data/commerce'
 import { TIER_PRICE_MULT } from '../data/commerce'
 import {
@@ -16,6 +16,7 @@ import {
   wikiTarget,
 } from '../components/ficha/hero-model'
 import { isArtefatoId } from './wealth'
+import { linhaImplemento, tipoImplementoPeloId } from '../data/implementos'
 
 export const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 
@@ -74,7 +75,9 @@ export function itemValorPO(
       // Artefatos: o `preço` da nota é o valor CRU (já final), NÃO escala por
       // tier — o "(Mestre)" é só a raridade do item, não um multiplicador.
       // #412: mesma regra centralizada em isArtefatoId (riqueza + card usam).
-      return isArtefatoId(it.docId) ? priceOf(it.nome) : priceOf(it.nome) * tierMult(it.tier)
+      if (isArtefatoId(it.docId)) return priceOf(it.nome)
+      // implemento com foco: o preço do FOCO já inclui o implemento-base
+      return priceOf(it.focoBase || it.nome) * tierMult(it.tier)
   }
 }
 
@@ -155,7 +158,15 @@ export function pullItemToFm(
     return [{ path: 'Inventario.Tesouros', value: tes }]
   }
 
-  // tesouro / equipamento / implemento
+  // implemento fundamental (com ou sem foco) → linha própria de Implementos
+  const tesItem = it as GroupInvTesouro
+  if (tipoImplementoPeloId(tesItem.docId) === 'fundamental') {
+    const impl = arr(I['Implementos'])
+    impl.push(linhaImplemento(tesItem.nome, tesItem.focoBase || null, asTier(tesItem.tier), 'Grupo'))
+    return [{ path: 'Inventario.Implementos', value: impl }]
+  }
+
+  // tesouro / equipamento
   const tes = arr(I['Tesouros'])
   tes.push(buildTesouroAlias(it.nome, asTier(it.tier)))
   return [{ path: 'Inventario.Tesouros', value: tes }]

@@ -473,6 +473,14 @@ export function profArmaEfetiva(
   return especifica ? rank : 'N'
 }
 
+/** Nome EXIBIDO da propriedade/imbuição de uma arma ao lado do nome dela:
+ *  "Punhal Relampejante", nunca "Punhal Imbuição Relampejante" — o FM pode
+ *  guardar o link com alias ([[Imbuição Relampejante|Relampejante]]) ou sem
+ *  (gravado pela loja/edição). Só exibição: chaves de estado seguem o rótulo cru. */
+export function adjetivoDaPropriedade(raw: unknown): string {
+  return linkLabel(str(raw)).replace(/^Imbui[çc][ãa]o\s+/i, '').trim()
+}
+
 /** Modificador de ATAQUE base de uma linha de arma (sem a camada interativa):
  *  atributo da arma + proficiência EFETIVA com ela + bônus de item/especial.
  *  Serve de critério de ORDEM das armas na ficha (pedido do mestre,
