@@ -26,9 +26,74 @@
 // decodifica (dados corrompidos). Esses 18 só voltam re-salvando as imagens
 // originais na vault (fora do escopo read-only) — segue rastreado na #283. O
 // gerador loga o erro e NÃO derruba o deploy; o app cai no fallback do slot.
+import crypto from 'node:crypto'
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+// CACHE + PARALELISMO (2026-10-30, "qualquer alteração tá demorando MUITO pro
+// deploy"): o build limpa o dist, então TODA imagem era reconvertida a cada
+// deploy — 6m18s de 1873 imagens, uma por vez, numa máquina de 20 núcleos.
+// Agora cada saída (cheia/thumb/médio) mora num cache POR CONTEÚDO fora do
+// dist (node_modules/.cache, já ignorado pelo git): a chave é o sha256 dos
+// bytes de entrada + o tipo + os parâmetros, então a mesma imagem com os
+// mesmos parâmetros nunca é reencodada de novo; mudou a imagem ou a
+// qualidade, a chave muda sozinha. As que faltam rodam em paralelo.
+// O resultado no dist é o MESMO de antes (mesmo sharp, mesmos parâmetros).
+
+/** Cache por conteúdo: `obter(tipo, params, src, gerar)` devolve o buffer
+ *  guardado ou gera e guarda. `gerar` pode devolver null ("não se aplica",
+ *  ex.: médio de imagem pequena) — guardado como arquivo vazio. Erro de
+ *  `gerar` não é guardado (tenta de novo no próximo deploy). `podar()` apaga
+ *  o que este run não usou, pro cache não crescer pra sempre. Exportado pros
+ *  testes. */
+export function criaCacheDeImagens(dir) {
+  fs.mkdirSync(dir, { recursive: true })
+  const usados = new Set()
+  const stats = { hits: 0, misses: 0 }
+  return {
+    stats,
+    async obter(tipo, params, src, gerar) {
+      const h = crypto.createHash('sha256').update(tipo).update('\0').update(JSON.stringify(params)).update('\0').update(src).digest('hex')
+      usados.add(h)
+      const f = path.join(dir, h)
+      if (fs.existsSync(f)) {
+        stats.hits++
+        const b = fs.readFileSync(f)
+        return b.length ? b : null
+      }
+      stats.misses++
+      const out = await gerar()
+      // escrita atômica: um run interrompido não deixa entrada pela metade
+      const tmp = `${f}.${process.pid}.tmp`
+      fs.writeFileSync(tmp, out ?? Buffer.alloc(0))
+      fs.renameSync(tmp, f)
+      return out
+    },
+    podar() {
+      let n = 0
+      for (const nome of fs.readdirSync(dir)) {
+        if (usados.has(nome)) continue
+        fs.rmSync(path.join(dir, nome), { force: true })
+        n++
+      }
+      return n
+    },
+  }
+}
+
+/** Roda `fn` sobre `itens` com no máximo `n` ao mesmo tempo. */
+export async function emParalelo(itens, n, fn) {
+  let i = 0
+  const trabalhador = async () => {
+    while (i < itens.length) {
+      const k = i++
+      await fn(itens[k], k)
+    }
+  }
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(n, itens.length)) }, trabalhador))
+}
 
 const THUMB_MAX_WIDTH = 384
 const WEBP_QUALITY = 72
@@ -160,6 +225,14 @@ async function main() {
     process.exit(1)
   }
 
+  // Paralelismo nas IMAGENS (uma thread do libvips por imagem, sem disputa).
+  const PARALELO = Math.max(2, os.cpus().length - 2)
+  sharp.concurrency(1)
+  const cache = criaCacheDeImagens(
+    process.env.PLEITOST_THUMBS_CACHE || path.join(repoRoot, 'node_modules', '.cache', 'gen-thumbs'),
+  )
+  const inicio = Date.now()
+
   // 1) CHEIAS → webp (antes dos thumbs; ver o comentário em FULL_QUALITY)
   let convertidas = 0
   let antes = 0
@@ -168,17 +241,19 @@ async function main() {
     const manifestPath = path.join(datasetDir, 'assets.json')
     if (!fs.existsSync(manifestPath)) continue
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-    for (const entry of manifest.assets ?? []) {
+    await emParalelo(manifest.assets ?? [], PARALELO, async (entry) => {
       const destRel = fullWebpDestFor(entry.copiedTo)
-      if (!destRel) continue
+      if (!destRel) return
       const abs = path.join(datasetDir, entry.copiedTo)
-      if (!fs.existsSync(abs)) continue
+      if (!fs.existsSync(abs)) return
       const bruto = fs.readFileSync(abs)
       // #283: o frontmatter colado no binário sai aqui, antes de decodificar
       const src = stripLeadingFrontmatter(bruto)
       antes += src.length
       try {
-        const out = await sharp(src).webp({ quality: FULL_QUALITY }).toBuffer()
+        const out = await cache.obter('cheia', { q: FULL_QUALITY }, src, () =>
+          sharp(src).webp({ quality: FULL_QUALITY }).toBuffer(),
+        )
         fs.writeFileSync(path.join(datasetDir, destRel), out)
         fs.unlinkSync(abs)
         entry.copiedTo = destRel
@@ -191,7 +266,7 @@ async function main() {
         if (src !== bruto) fs.writeFileSync(abs, src)
         depois += src.length
       }
-    }
+    })
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2))
   }
   const mb = (n) => (n / 1024 / 1024).toFixed(0)
@@ -213,12 +288,42 @@ async function main() {
   const files = datasets.flatMap((dir) =>
     walk(path.join(dir, 'assets')).map((abs) => ({ abs, datasetDir: dir })),
   )
-  for (const { abs, datasetDir } of files) {
+  /** MÉDIO (#572) via cache: null quando a imagem não é gigante. */
+  const medioDe = (srcBuf) =>
+    cache.obter('medio', { max: MEDIO_MAX_SIDE, min: MEDIO_MIN_SIDE, q: FULL_QUALITY }, srcBuf, async () => {
+      // o header diz a largura sem decodificar
+      const meta = await sharp(srcBuf).metadata()
+      if (Math.max(meta.width ?? 0, meta.height ?? 0) <= MEDIO_MIN_SIDE) return null
+      return sharp(srcBuf)
+        .resize({ width: MEDIO_MAX_SIDE, height: MEDIO_MAX_SIDE, fit: 'inside', withoutEnlargement: true })
+        .webp({ quality: FULL_QUALITY })
+        .toBuffer()
+    })
+  const escreveMedio = async (relFromVaultData, datasetDir, abs, srcBuf) => {
+    const medioRel = medioDestFor(relFromVaultData)
+    if (!medioRel) return
+    const medioAbs = path.join(datasetDir, medioRel)
+    if (fs.existsSync(medioAbs) && fs.statSync(medioAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
+      mediosPulados++
+      return
+    }
+    try {
+      const mbuf = await medioDe(srcBuf)
+      if (!mbuf) return
+      fs.mkdirSync(path.dirname(medioAbs), { recursive: true })
+      fs.writeFileSync(medioAbs, mbuf)
+      medios++
+    } catch (err) {
+      console.warn(`[gen-thumbs] médio falhou em ${relFromVaultData}: ${err.message}`)
+    }
+  }
+
+  await emParalelo(files, PARALELO, async ({ abs, datasetDir }) => {
     const relFromVaultData = path.relative(datasetDir, abs)
     const destRel = thumbDestFor(relFromVaultData)
     if (!destRel) {
       passed++
-      continue
+      return
     }
     const destAbs = path.join(datasetDir, destRel)
 
@@ -237,66 +342,31 @@ async function main() {
     // MÉDIO ainda pode faltar — deploys antigos não o geravam).
     if (fs.existsSync(destAbs) && fs.statSync(destAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
       skipped++
-      const medioRel = medioDestFor(relFromVaultData)
-      if (medioRel) {
-        const medioAbs = path.join(datasetDir, medioRel)
-        if (!(fs.existsSync(medioAbs) && fs.statSync(medioAbs).mtimeMs >= fs.statSync(abs).mtimeMs)) {
-          try {
-            const meta = await sharp(srcBuf).metadata()
-            if (Math.max(meta.width ?? 0, meta.height ?? 0) > MEDIO_MIN_SIDE) {
-              const mbuf = await sharp(srcBuf)
-                .resize({ width: MEDIO_MAX_SIDE, height: MEDIO_MAX_SIDE, fit: 'inside', withoutEnlargement: true })
-                .webp({ quality: FULL_QUALITY })
-                .toBuffer()
-              fs.mkdirSync(path.dirname(medioAbs), { recursive: true })
-              fs.writeFileSync(medioAbs, mbuf)
-              medios++
-            }
-          } catch (err) {
-            console.warn(`[gen-thumbs] médio falhou em ${relFromVaultData}: ${err.message}`)
-          }
-        } else mediosPulados++
-      }
-      continue
+      await escreveMedio(relFromVaultData, datasetDir, abs, srcBuf)
+      return
     }
 
     try {
       // withoutEnlargement: imagem menor que o alvo não é AMPLIADA (mantém a
       // resolução), só reencodada em webp — o thumb sempre existe, então a URL
       // derivada no app nunca 404a (background-image não tem onError).
-      const buf = await sharp(srcBuf)
-        .resize({ width: THUMB_MAX_WIDTH, withoutEnlargement: true })
-        .webp({ quality: WEBP_QUALITY })
-        .toBuffer()
+      const buf = await cache.obter('thumb', { w: THUMB_MAX_WIDTH, q: WEBP_QUALITY }, srcBuf, () =>
+        sharp(srcBuf)
+          .resize({ width: THUMB_MAX_WIDTH, withoutEnlargement: true })
+          .webp({ quality: WEBP_QUALITY })
+          .toBuffer(),
+      )
       fs.mkdirSync(path.dirname(destAbs), { recursive: true })
       fs.writeFileSync(destAbs, buf)
       generated++
-      // MÉDIO só pras gigantes (mapas): o header diz a largura sem decodificar.
-      const medioRel = medioDestFor(relFromVaultData)
-      if (medioRel) {
-        const medioAbs = path.join(datasetDir, medioRel)
-        if (fs.existsSync(medioAbs) && fs.statSync(medioAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
-          mediosPulados++
-        } else {
-          const meta = await sharp(srcBuf).metadata()
-          if (Math.max(meta.width ?? 0, meta.height ?? 0) > MEDIO_MIN_SIDE) {
-            const mbuf = await sharp(srcBuf)
-              .resize({ width: MEDIO_MAX_SIDE, height: MEDIO_MAX_SIDE, fit: 'inside', withoutEnlargement: true })
-              .webp({ quality: FULL_QUALITY })
-              .toBuffer()
-            fs.mkdirSync(path.dirname(medioAbs), { recursive: true })
-            fs.writeFileSync(medioAbs, mbuf)
-            medios++
-          }
-        }
-      }
+      await escreveMedio(relFromVaultData, datasetDir, abs, srcBuf)
     } catch (err) {
       // Imagem corrompida/formato exótico: não derruba o deploy — o app cai no
       // cheio (VaultImage onError) ou mostra o fallback do slot.
       console.warn(`[gen-thumbs] falhou em ${relFromVaultData}: ${err.message}`)
       passed++
     }
-  }
+  })
 
   console.log(
     `[gen-thumbs] thumbs: ${generated} gerado(s), ${skipped} já existente(s), ` +
@@ -304,6 +374,11 @@ async function main() {
       `Alvo: ≤${THUMB_MAX_WIDTH}px webp q${WEBP_QUALITY}.`,
   )
   console.log(`[gen-thumbs] médios (lado > ${MEDIO_MIN_SIDE}px → ${MEDIO_MAX_SIDE}px): ${medios} gerados, ${mediosPulados} já existiam.`)
+  const podados = cache.podar()
+  console.log(
+    `[gen-thumbs] cache: ${cache.stats.hits} reaproveitada(s), ${cache.stats.misses} gerada(s), ${podados} podada(s) · ` +
+      `${PARALELO} em paralelo · ${((Date.now() - inicio) / 1000).toFixed(1)}s`,
+  )
 }
 
 // Só roda o main quando executado direto (não quando importado por testes).

@@ -18,7 +18,14 @@ import {
   thumbCopiedTo,
   thumbUrl,
 } from '../src/data/assets'
-import { thumbDestFor, fullWebpDestFor, stripLeadingFrontmatter } from '../../scripts/gen-thumbs.mjs'
+import {
+  criaCacheDeImagens,
+  emParalelo,
+  thumbDestFor,
+  fullWebpDestFor,
+  stripLeadingFrontmatter,
+} from '../../scripts/gen-thumbs.mjs'
+import os from 'node:os'
 import { VaultImage } from '../src/components/compendium/VaultImage'
 import type { AssetsManifest } from '../src/data/types'
 
@@ -163,5 +170,48 @@ describe('VaultImage com thumb (#280)', () => {
     })
     const entry = resolveAsset(index, target)!
     expect(img.getAttribute('src')).toBe(assetUrl(entry))
+  })
+})
+
+// Deploy lento (2026-10-30): o build limpa o dist e TODA imagem era
+// reconvertida (6m18s). Cache por conteúdo + paralelismo: imagem igual com os
+// mesmos parâmetros nunca reencoda.
+describe('gen-thumbs: cache por conteúdo', () => {
+  it('mesma entrada e parâmetros → reaproveita; muda bytes ou parâmetro → gera; null vira "não se aplica"; podar tira o não usado', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'thumbs-cache-'))
+    let chamadas = 0
+    const gera = (b: string) => async () => {
+      chamadas++
+      return Buffer.from(b)
+    }
+    const c1 = criaCacheDeImagens(dir)
+    expect(String(await c1.obter('thumb', { w: 384 }, Buffer.from('img'), gera('A')))).toBe('A')
+    expect(String(await c1.obter('thumb', { w: 384 }, Buffer.from('img'), gera('B')))).toBe('A')
+    expect(chamadas).toBe(1)
+    await c1.obter('thumb', { w: 200 }, Buffer.from('img'), gera('C'))
+    await c1.obter('thumb', { w: 384 }, Buffer.from('outra'), gera('D'))
+    expect(await c1.obter('medio', {}, Buffer.from('img'), async () => null)).toBeNull()
+    expect(chamadas).toBe(3)
+    expect(c1.stats).toEqual({ hits: 1, misses: 4 })
+    // novo run (deploy seguinte) usa só uma entrada: as outras são podadas
+    const c2 = criaCacheDeImagens(dir)
+    expect(await c2.obter('medio', {}, Buffer.from('img'), async () => Buffer.from('X'))).toBeNull()
+    expect(c2.podar()).toBe(3)
+    expect(fs.readdirSync(dir)).toHaveLength(1)
+    fs.rmSync(dir, { recursive: true, force: true })
+  })
+  it('emParalelo processa todos, nunca mais que n ao mesmo tempo', async () => {
+    let ativos = 0
+    let pico = 0
+    const feitos: number[] = []
+    await emParalelo([...Array(20).keys()], 4, async (x: number) => {
+      ativos++
+      pico = Math.max(pico, ativos)
+      await new Promise((r) => setTimeout(r, 2))
+      feitos.push(x)
+      ativos--
+    })
+    expect(feitos.sort((a, b) => a - b)).toEqual([...Array(20).keys()])
+    expect(pico).toBe(4)
   })
 })
