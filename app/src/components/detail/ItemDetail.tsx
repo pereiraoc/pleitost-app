@@ -45,8 +45,9 @@ export function ItemDetail({
   const cards: string[] = []
   const cut = doc.id.includes('/Classes/')
   if (propDoc) {
-    // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade)
-    cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), false, false, assets, cut, formulaCtx))
+    // combo: item base + propriedade (COM qualidade); arma-base SEM a
+    // qualidade, implemento-base (tesouro) COM — como no tooltip (ItemHover)
+    cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', false, assets, cut, formulaCtx))
     cards.push(itemCardHtml(propDoc, t, docImageUrl(propDoc, t, assets), true, false, assets, false, formulaCtx))
   } else {
     // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier)

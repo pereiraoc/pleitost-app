@@ -1291,7 +1291,12 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     }}
                   >
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
+                      <ItemHover
+                        doc={r.doc}
+                        propDoc={r.semImplemento ? undefined : r.focoDoc}
+                        tier={r.tier || undefined}
+                        clickToOpen
+                      >
                         {r.img ? (
                           <span
                             style={{

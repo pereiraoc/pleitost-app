@@ -713,8 +713,12 @@ export function ItemHover({
     const cut = doc.id.includes('/Classes/')
     const cards: string[] = []
     if (propDoc) {
-      // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade).
-      cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), false, fullBody, assets, cut, formulaCtx))
+      // combo: item base + propriedade (COM qualidade). A arma-base vai SEM a
+      // qualidade (ela é da imbuição); o implemento-base (tesouro) vai COM —
+      // "Broche Artístico (Adepto)" + "Foco da Intensificação (Adepto)".
+      cards.push(
+        itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', fullBody, assets, cut, formulaCtx),
+      )
       cards.push(itemCardHtml(propDoc, t, docImageUrl(propDoc, t, assets), true, fullBody, assets, false, formulaCtx))
     } else {
       // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier).

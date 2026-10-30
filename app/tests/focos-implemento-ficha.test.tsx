@@ -133,3 +133,43 @@ describe('figura do foco sobre a do implemento', () => {
     })
   }
 })
+
+// "No inventário, o mouse na figura do Broche mostra ele certo mas sem o foco;
+// no texto aparece o foco mas o Broche sem o (Adepto) — no combate também"
+// (mestre, 2026-10-29). Figura e nome: as DUAS cartas, ambas com a qualidade.
+describe('tooltip do implemento com foco', () => {
+  const confere = async (alvo: HTMLElement) => {
+    const html = await waitFor(() => {
+      const h = alvo.closest<HTMLElement>('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
+      expect(h).toContain('Foco da Intensificação')
+      return h
+    })
+    expect(html).toContain('Broche Artístico')
+    expect(html.match(/class="shc-tier">\(Adepto\)/g)?.length).toBe(2)
+  }
+  it('Inventário: figura e nome mostram Broche (Adepto) + Foco (Adepto)', async () => {
+    semear({ 'Inventario.Tesouros': [...fm.Inventario.Tesouros, BROCHE] })
+    const { container } = renderFicha('inventario')
+    const nome = await screen.findByText('Broche Artístico da Intensificação')
+    await confere(nome)
+    const selo = await waitFor(() => {
+      const s = container.querySelector<HTMLElement>('[aria-label="Foco"]')
+      expect(s).toBeTruthy()
+      return s!
+    })
+    await confere(selo.parentElement!)
+  })
+  it('Combate: a figura mostra as duas cartas com a qualidade', async () => {
+    semear({ 'Inventario.Tesouros': [...fm.Inventario.Tesouros, BROCHE] })
+    const { container } = renderFicha('combate')
+    const tabs = await screen.findAllByText('TESOUROS')
+    fireEvent.click(tabs.find((el) => el.closest('button'))!)
+    await screen.findByText('Broche Artístico da Intensificação')
+    const selo = await waitFor(() => {
+      const s = container.querySelector<HTMLElement>('[aria-label="Foco"]')
+      expect(s).toBeTruthy()
+      return s!
+    })
+    await confere(selo.parentElement!)
+  })
+})
