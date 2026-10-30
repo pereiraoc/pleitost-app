@@ -25,7 +25,7 @@ import { GRUPO_ARMA_ORDER, grupoArmaEmoji,
 import { ItemHover, docImageUrl, docTier, ITEM_CARD_CSS } from '../components/item-card'
 import { TipProvider } from '../components/ficha/tooltips'
 import { tesouroImageUrl } from '../data/equipment-image'
-import { clip } from '../components/ficha/bits'
+import { SeloDoFoco, clip } from '../components/ficha/bits'
 import { armaduraBases, escudoBases } from '../components/ficha/equipment-bases'
 import { tesouroAplicavelAoItem } from '../rules/aplicavel-a'
 import { precoPO } from './wealth'
@@ -803,6 +803,9 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             const tier = asTierChar((n as { tier?: string }).tier)
             const docId = kind === 'tesouro' ? (n as { docId?: string }).docId : kind === 'ouro' ? null : idOf(nome)
             const doc = docId ? docs?.get(docId) : undefined
+            // implemento com foco: figura do FOCO no canto (como imbuição × arma)
+            const focoBase = kind === 'tesouro' ? (n as { focoBase?: string }).focoBase : undefined
+            const focoImg = focoBase ? tesouroImageUrl(focoBase, tier, assets) : null
             const img =
               kind === 'ouro'
                 ? null
@@ -837,6 +840,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                       <span
                         aria-hidden
                         style={{
+                          position: 'relative',
+                          display: 'block',
                           flex: 'none',
                           width: 30,
                           height: 30,
@@ -848,7 +853,9 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'center',
                         }}
-                      />
+                      >
+                        {focoImg ? <SeloDoFoco img={focoImg} lado={15} /> : null}
+                      </span>
                     ) : (
                       <span aria-hidden style={{ fontSize: 15, flex: 'none' }}>{itemEmoji(it)}</span>
                     )}

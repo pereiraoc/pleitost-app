@@ -34,7 +34,7 @@ import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots, GoldDots } from './bits'
+import { SeloDoFoco, clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots, GoldDots } from './bits'
 import { wikiStrip } from './local-tip'
 import {
   TipProvider,
@@ -2735,6 +2735,8 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       // Review C5: sem tier passa '' (vai direto pra `${nome}.png`) — 'A'
       // podia pegar a imagem "Adepto" de um homônimo com tier.
       const img = tesouroImageUrl(impl?.nome || nome, tier ?? '', assets)
+      // figura do FOCO pequena no canto da do implemento (como imbuição × arma)
+      const focoImg = impl?.nome && impl.foco ? tesouroImageUrl(impl.foco, tier ?? '', assets) : null
       const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
       const implDoc = impl?.nome ? refs.refDoc(`[[${impl.nome}]]`) : undefined
       return {
@@ -2743,6 +2745,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         cur,
         max,
         img,
+        focoImg,
         // hover: implemento + foco (como arma + imbuição); clique abre o foco
         doc: implDoc ?? tDoc,
         propDoc: implDoc ? tDoc : undefined,
@@ -2775,6 +2778,8 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             {t.img ? (
               <span
                 style={{
+                  position: 'relative',
+                  display: 'block',
                   width: 34,
                   height: 34,
                   flex: 'none',
@@ -2787,7 +2792,9 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                 }}
-              />
+              >
+                {t.focoImg ? <SeloDoFoco img={t.focoImg} lado={17} /> : null}
+              </span>
             ) : (
               <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
             )}

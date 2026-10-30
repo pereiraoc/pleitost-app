@@ -622,3 +622,25 @@ export function BoxSelect({
     </div>
   )
 }
+
+/** Figura do FOCO pequena no canto inferior direito da figura do implemento —
+ *  o mesmo idioma da imbuição sobre a arma (AtaqueArmaFigura). */
+export function SeloDoFoco({ img, lado }: { img: string; lado: number }) {
+  return (
+    <span
+      aria-label="Foco"
+      style={{
+        position: 'absolute',
+        right: -2,
+        bottom: -2,
+        width: lado,
+        height: lado,
+        backgroundImage: `url("${img}")`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        pointerEvents: 'none',
+      }}
+    />
+  )
+}

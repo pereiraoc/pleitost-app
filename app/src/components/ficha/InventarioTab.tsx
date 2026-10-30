@@ -26,7 +26,7 @@ import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
 import { familiaOf, fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { clip, EditToggle, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
+import { clip, EditToggle, GoldDots, PanelTrack, SeloDoFoco, TabStrip, TrackPanel } from './bits'
 import { itemCategoria } from '../compendium/item-taxonomy'
 import { buildEquippedGear } from '../../data/purchase'
 import { CoinsDropdown } from './pop-panels'
@@ -949,6 +949,8 @@ interface TesouroRow {
   focoDoc?: VaultDoc
   /** Foco de ficha antiga ainda sem implemento (migração): pede o fundamental. */
   semImplemento?: boolean
+  /** Figura do FOCO no canto da do implemento (como imbuição × arma). */
+  focoImg?: string | null
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1094,6 +1096,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       impl: true,
       focoDoc,
       semImplemento: !l.nome,
+      focoImg: l.nome && l.foco ? tesouroImageUrl(l.foco, l.tier ?? '', assets) : null,
     }
   })
   // Fundamentais da vault (pasta Implementos/Fundamentais) pro foco sem
@@ -1292,6 +1295,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         {r.img ? (
                           <span
                             style={{
+                              position: 'relative',
+                              display: 'block',
                               flex: 'none',
                               width: 30,
                               height: 30,
@@ -1303,7 +1308,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                               backgroundRepeat: 'no-repeat',
                               backgroundPosition: 'center',
                             }}
-                          />
+                          >
+                            {r.focoImg ? <SeloDoFoco img={r.focoImg} lado={15} /> : null}
+                          </span>
                         ) : (
                           <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                         )}

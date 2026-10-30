@@ -111,3 +111,25 @@ function hexToRgb(hex: string): string {
   const n = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16)
   return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`
 }
+
+// "Tá faltando mostrar o ícone do foco junto com o do implemento, como imbuição
+// e arma" (mestre, 2026-10-29): figura do FOCO pequena no canto da do implemento.
+describe('figura do foco sobre a do implemento', () => {
+  const seloDo = (container: HTMLElement) =>
+    [...container.querySelectorAll<HTMLElement>('[aria-label="Foco"]')].map((e) =>
+      decodeURIComponent(e.style.backgroundImage),
+    )
+  for (const tab of ['inventario', 'combate']) {
+    it(`${tab}: Broche Artístico da Intensificação leva a figura do Foco da Intensificação; foco sem implemento não`, async () => {
+      semear({ 'Inventario.Tesouros': [...fm.Inventario.Tesouros, BROCHE] })
+      const { container } = renderFicha(tab)
+      if (tab === 'combate') {
+        const tabs = await screen.findAllByText('TESOUROS')
+        fireEvent.click(tabs.find((el) => el.closest('button'))!)
+      }
+      await screen.findByText('Broche Artístico da Intensificação')
+      await waitFor(() => expect(seloDo(container)).toHaveLength(1))
+      expect(seloDo(container)[0]).toContain('Foco da Intensificação')
+    })
+  }
+})
