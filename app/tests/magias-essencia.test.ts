@@ -53,10 +53,10 @@ describe('magias das essências re-derivadas na projeção (bug #4)', () => {
     const anima = magiasNaEscola(derivedFm, 'Anima')
     // essências do Zuko concedem: Raio Flamejante, Cone de Fogo (Flamejante),
     // Tocha Flutuante, Combustão (Incendiária), Manifestação Básica, Invocar
-    // Elemental Menor (Criação), Corte de Vento, Lufada de Vento (Ciclonal).
+    // Elemental Menor (Criação), Vento Mensageiro, Vento Guardião (Ciclonal, depois da troca com a Ventania).
     expect(anima).toContain('[[Raio Flamejante]]')
     expect(anima).toContain('[[Combustão]]')
-    expect(anima).toContain('[[Corte de Vento]]')
+    expect(anima).toContain('[[Vento Mensageiro]]')
     expect(anima.length).toBeGreaterThanOrEqual(8)
   })
 
@@ -77,11 +77,33 @@ describe('magias das essências re-derivadas na projeção (bug #4)', () => {
   })
 
   it('char REAL (magias já assadas): regra re-concede mas NÃO duplica', async () => {
-    // Zuko real tem as 8 magias assadas sob Anima; a regra das essências
-    // re-concede as mesmas — appendMergeFmList dedup por alvo, então continua 8.
+    // Zuko real tem 8 magias assadas sob Anima; a regra das essências re-concede
+    // — appendMergeFmList dedup por alvo, então continua 8. A Ciclonal mudou de
+    // conteúdo: as assadas antigas (Corte/Lufada) saem, as novas entram.
     const out = await projectHeroRules(zuko.frontmatter as Record<string, unknown>, catalog, loadFromDisk)
     const anima = magiasNaEscola(out.projection.derivedFm, 'Anima')
     expect(anima.length).toBe(8)
     expect(new Set(anima).size).toBe(anima.length) // sem duplicatas
+    expect(anima).not.toContain('[[Corte de Vento]]')
+    expect(anima).toContain('[[Vento Guardião]]')
+  })
+
+  it('magia assada de essência que a regra não concede mais sai (nota mudou ou apagada); Slot/Manual/outra regra ficam', async () => {
+    const fm = structuredClone(zuko.frontmatter) as Record<string, any>
+    const esc = fm.Magias.Lista.find((e: any) => e.Nome === 'Anima')
+    esc.Lista = [
+      ...esc.Lista,
+      { '[[Passos do Vento]]': 'Regra.[[Essência Ventania Experiente]]' },
+      { '[[Frio Instantâneo]]': 'Slot.B' },
+      { '[[Tremor]]': 'Manual' },
+      { '[[Vento Mensageiro]]': 'Tesouro.[[Anel Mensageiro]]' },
+      { '[[Onda de Choque]]': 'Regra.[[Terras Formadoras]]' },
+    ]
+    const out = await projectHeroRules(fm, catalog, loadFromDisk)
+    const anima = magiasNaEscola(out.projection.derivedFm, 'Anima')
+    expect(anima).not.toContain('[[Passos do Vento]]')
+    for (const fica of ['[[Frio Instantâneo]]', '[[Tremor]]', '[[Onda de Choque]]']) expect(anima).toContain(fica)
+    // a ficha salva não é tocada: quem muda é o derivado
+    expect(JSON.stringify(fm)).toContain('Passos do Vento')
   })
 })

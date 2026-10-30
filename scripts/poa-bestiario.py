@@ -351,6 +351,31 @@ def catalogo_magias() -> list[dict]:
     return out
 
 
+IMPLEMENTOS = VAULT / "Sistema/Equipamento/Tesouros/Implementos"
+
+
+def _separa_implementos(tesouros: list[str], categoria: str, criatura: str) -> tuple[list[str], list[dict]]:
+    """Tira dos tesouros o que é implemento: cada foco é trabalhado num
+    fundamental da criatura (Tesouros.md: "Focos são adicionados a um implemento
+    fundamental de mesma categoria"). Foco sem fundamental é erro de dado."""
+    fundamentais = {p.stem for p in (IMPLEMENTOS / "Fundamentais").glob("*.md")}
+    focos_vault = {p.stem for p in (IMPLEMENTOS / "Focos").glob("*.md")}
+    resto = [t for t in tesouros if t not in fundamentais and t not in focos_vault]
+    livres = [t for t in tesouros if t in fundamentais]
+    focos = [t for t in tesouros if t in focos_vault]
+    if len(focos) > len(livres):
+        sys.exit(f"{criatura}: foco sem implemento fundamental ({', '.join(focos)})")
+    linhas = []
+    for i, base in enumerate(livres):
+        linhas.append({
+            "Nome": f"[[{base}]]",
+            "Propriedade": f"[[{focos[i]}]]" if i < len(focos) else "",
+            "Categoria": f"[[{categoria}]]",
+            "Fonte": "Manual",
+        })
+    return resto, linhas
+
+
 def catalogo_essencias() -> dict[str, dict]:
     """`Flamejante` → {elemento, formas: {Adepta: [magias], Experiente: [...]}}.
 
@@ -372,7 +397,9 @@ def catalogo_essencias() -> dict[str, dict]:
         if fm.get("elemento"):
             reg["elemento"] = fm["elemento"]
         reg["formas"][forma] = magias
-    return out
+    # Essência sem magia NENHUMA (Destruição, conteúdo pendente) não entra no
+    # repartidor: a Artilharia ficaria com a vaga gasta e sem o que conjurar.
+    return {b: r for b, r in out.items() if any(r["formas"].values())}
 
 
 def _essencias_possiveis(essencias: dict, sintonia: str | None) -> list[str]:
@@ -799,7 +826,16 @@ def monta(spec: dict) -> dict:
             "Propriedade": f"[[{e['propriedade']}]]" if e.get("propriedade") else "",
             "Proficiencia": "P",
         }
-    fm["Inventario"]["Tesouros"] = [f"[[{t}]]" for t in inv.get("tesouros", [])]
+    # Implemento e foco têm linha própria (`Inventario.Implementos`), com a
+    # categoria do tier: foco só existe trabalhado num implemento fundamental.
+    tesouros, implementos = _separa_implementos(
+        inv.get("tesouros", []),
+        {0: "Adepto", 1: "Adepto", 2: "Experiente", 3: "Mestre"}[tier],
+        spec["nome"],
+    )
+    fm["Inventario"]["Tesouros"] = [f"[[{t}]]" for t in tesouros]
+    if implementos:
+        fm["Inventario"]["Implementos"] = implementos
     fm["Inventario"]["Consumiveis"] = [f"[[{c}]]" for c in inv.get("consumiveis", [])]
     fm["Inventario"]["Ouro"] = inv.get("ouro", 0)
 

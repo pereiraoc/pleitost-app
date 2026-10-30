@@ -351,6 +351,38 @@ const LIST_TARGETS: Record<string, string[]> = {
   Acoes: ['Acoes', 'Lista'],
 }
 
+/** MAGIAS de essência já assadas (2026-10-30, troca Ventania ↔ Ciclonal): a
+ *  ficha guarda `{"[[Magia]]": "Regra.[[Essência X Adepta]]"}`. Quando a nota da
+ *  essência muda (ou a magia é apagada), a regra passa a conceder outra coisa e a
+ *  antiga ficaria pra sempre. Mesma ideia do #51, só nas linhas cuja fonte é uma
+ *  ESSÊNCIA: toda essência re-concede as magias dela a cada projeção, então o que
+ *  não veio no `calculated` não é mais dela. Slot/Manual/Tesouro e regra de outra
+ *  nota ficam (nem toda regra aparece no parcial). Muda só o derivado. */
+const FONTE_ESSENCIA_RX = /^Regra\.\[\[Essência /
+const MAGIAS_LISTA_CALC_RX = /^Magias\.(?:Secundaria\.)?Lista(?:\.[^.]+\.Lista)?$/
+function podaMagiasDeEssencia(out: Fm, calc: Fm): void {
+  const vivas = new Set<string>()
+  for (const [key, value] of Object.entries(calc)) {
+    if (!MAGIAS_LISTA_CALC_RX.test(key) || !Array.isArray(value)) continue
+    for (const it of value) {
+      const link = typeof it === 'string' ? it : (it as { link?: unknown })?.link
+      if (typeof link === 'string') vivas.add(wikiTarget(link))
+    }
+  }
+  const magias = (out['Magias'] ?? {}) as Fm
+  const secundaria = (magias['Secundaria'] ?? {}) as Fm
+  for (const escolas of [magias['Lista'], secundaria['Lista']]) {
+    if (!Array.isArray(escolas)) continue
+    for (const esc of escolas as Row[]) {
+      if (!Array.isArray(esc?.Lista)) continue
+      esc.Lista = (esc.Lista as Row[]).filter((row) => {
+        const [link, fonte] = (row && typeof row === 'object' ? Object.entries(row)[0] : undefined) ?? []
+        return !(typeof fonte === 'string' && FONTE_ESSENCIA_RX.test(fonte) && !vivas.has(wikiTarget(link ?? '')))
+      })
+    }
+  }
+}
+
 /** Cria a linha do movimento se faltar — SÓ pro Complementar (append). Default
  *  Atributo "FOR" como o plugin (merge-setters.ts:250); '' sumia com o badge
  *  do atributo na ficha (#406). */
@@ -780,5 +812,6 @@ export function mergeCalculatedIntoFm(
   refreshProfScalar(perRows)
   refreshProfScalar(ofiRows)
 
+  podaMagiasDeEssencia(out, calc)
   return out
 }

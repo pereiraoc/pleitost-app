@@ -84,6 +84,8 @@ function carregados(fm: Fm): string[] {
     nomes.push(alvo(inv[slot]?.['Nome']), alvo(inv[slot]?.['Propriedade']))
   }
   for (const t of (inv['Tesouros'] ?? []) as unknown[]) nomes.push(alvo(t))
+  // implemento + foco têm linha própria (2026-10-30)
+  for (const r of (inv['Implementos'] ?? []) as Array<Record<string, unknown>>) nomes.push(alvo(r['Nome']), alvo(r['Propriedade']))
   for (const c of (inv['Consumiveis'] ?? []) as unknown[]) nomes.push(alvo(c))
   return nomes.filter(Boolean)
 }
