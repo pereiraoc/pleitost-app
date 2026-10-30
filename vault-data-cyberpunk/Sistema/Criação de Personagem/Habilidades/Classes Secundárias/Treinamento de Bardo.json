@@ -1,0 +1,305 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Bardo",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Bardo.md",
+  "basename": "Treinamento de Bardo",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Artístico\"",
+      "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+      "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+      "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+      "Nivel 1 Definir Magias.Secundaria.EM 1",
+      "Nivel 4 Definir Magias.Secundaria.EM 2",
+      "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "Nivel 7 Definir Oficios.Lista.Atuacao.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Artístico\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Artístico"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Artístico\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Atuacao.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Atuacao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Performance Bárdica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.EM 1",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.EM 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Magias.Secundaria.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 4 Definir Magias.Secundaria.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Oficios.Lista.Atuacao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Bardo",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Atuacao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Oficios.Lista.Atuacao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink",
+      "alias": "Atuação (PRE)"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Atos Bárdicos",
+      "subpath": "Atos"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Truque Útil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Eclético",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer PRE 2, conta como Técnica Adepta para outras classes*\n\nVocê adiciona um toque de arte a seu repertório, emulando um Bardo.\n\nVocê se torna [[Adepto]] em Ofício: [[Atuação|Atuação (PRE)]]. Você recebe a habilidade [[Performance Bárdica]], podendo realizar somente performances. Você consome 1 EM para ativar uma performance e sua [[Energia Mágica|EM]] máxima é 1. Você **não recebe** os benefícios de [[Auto-Confiança]], nem adições a esta habilidade oriundas de técnicas.\n\nNo 4º nível, sua [[Energia Mágica|EM]] máxima se torna 2 e você pode ativar [[Performance Bárdica#Atos|Atos Bárdicos]] das suas performances.\n\nNo 7º nível, sua [[Energia Mágica|EM]] máxima se torna 3. Adicionalmente, você se torna [[Experiente]] em Ofício: [[Atuação|Atuação (PRE)]].\n\nVocê pode escolher Técnicas Adeptas de Bardo no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Bardo no lugar de Técnicas Mestre da sua classe. As técnicas [[Truque Útil]]  e [[Método Eclético]] não são permitidas.\n\n```autosheet-rules\n```\n"
+}

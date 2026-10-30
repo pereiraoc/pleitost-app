@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Reforçante",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Reforçante.md",
+  "basename": "Ato Reforçante",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Ato Reforçante",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ato Reforçante",
+        "tipo": "AçãoLocal",
+        "origem": "Técnica",
+        "escopo": {
+          "aplicaEm": "Ambos",
+          "compartilharGrupo": true
+        },
+        "visual": {
+          "iconeLigado": "🎶",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "requer": [
+            "Reforçar"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Aliados afetados por Reforçar recebem EH temporária por 1 turno."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Aliados afetados por Reforçar recebem EH temporária por 1 turno.\n%%\n### `= this.file.name` - `= this.custo`\nCusta 1 EM para ativar. Você e aliados em 10q afetados por Reforçar recebem 8 de [[Energia Heroica|EH]] temporária por 1 turno. Esse valor aumenta para 12 no 4º nível e para 16 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,90 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Redenção",
+  "path": "Atlas/Porto Alegre/Bom Fim/Redenção.md",
+  "basename": "Redenção",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "ninguém — brique e barracas da [[Resistência Urbana Gaúcha]]",
+    "Descrição": null,
+    "Serviços": [
+      "[[Pastel da Redenção]]",
+      "[[Sorvete Kibon]]",
+      "[[Cueca Virada]]",
+      "[[Sonho de Valsa]]",
+      "[[Amendoim Japonês]]",
+      "[[Doce de Leite Colonial]]"
+    ],
+    "Completo": true,
+    "markerTag": "Parque"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Redenção.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pastel da Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sorvete Kibon",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cueca Virada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sonho de Valsa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amendoim Japonês",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Doce de Leite Colonial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Redenção.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Redenção.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga praça de eventos ao ar livre, usada para feiras de tecnologia clandestina e manifestações estudantis.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Gramado irregular pontuado por quiosques de ferro forjado, odor de mato recém-cortado misturado a spray de tinta fresca, palmas e cânticos ecoando no coreto central, bancos de madeira descascados.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga praça de eventos ao ar livre, usada para feiras de tecnologia clandestina e manifestações estudantis.",
+    "aparencia": "Gramado irregular pontuado por quiosques de ferro forjado, odor de mato recém-cortado misturado a spray de tinta fresca, palmas e cânticos ecoando no coreto central, bancos de madeira descascados.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

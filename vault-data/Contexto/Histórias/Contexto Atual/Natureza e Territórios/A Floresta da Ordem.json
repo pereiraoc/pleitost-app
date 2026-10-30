@@ -1,0 +1,76 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Floresta da Ordem",
+  "path": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Floresta da Ordem.md",
+  "basename": "A Floresta da Ordem",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A mata colossal do sul da Ilha das Cinzas, suas plataformas e ruínas, e a Ordem Bestial que a domina.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Floresta da Ordem.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Contato com a Ordem Bestial",
+      "kind": "wikilink",
+      "alias": "Ano 150"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "druidas"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Floresta da Ordem.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Mata Colossal"
+    },
+    {
+      "level": 4,
+      "text": "Plataformas e Ruínas"
+    },
+    {
+      "level": 4,
+      "text": "A Ordem Bestial"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Floresta da Ordem.png]]\n\nA [[Floresta da Ordem]] cobre todo o sul da [[Ilha das Cinzas]] e, nos mapas, aparece rotulada apenas com o nome de quem manda nela. Até o [[O Contato com a Ordem Bestial|Ano 150]] ninguém de fora sabia que ela tinha dono; cento e cinquenta anos depois, sabe-se pouco mais do que isso — e o pouco que se sabe basta para que quase ninguém tente entrar.\n#### A Mata Colossal\nA floresta é um dossel contínuo de árvores colossais, com névoa presa entre as copas, e por dentro escura e musgosa, pontuada de monólitos de pedra eretos entre os troncos. A oeste ela termina numa savana dourada de capim seco e árvores de copa achatada, cortada por trilhas claras que convergem todas para a borda da mata — o único acesso por terra. Um riacho desce do norte e some sob as copas. Ao norte e nordeste, uma muralha de picos pontiagudos corre até despencar no mar; o litoral leste e sul é de falésias e farallões escuros, e só uma enseada protegida por um arco de recifes serve de ancoradouro. Não há estrada nem povoado.\n#### Plataformas e Ruínas\nOs únicos sinais de mão construtora são de dois tipos. Na borda oeste, plataformas de madeira encaixadas nos galhos das árvores-gigantes vigiam a savana — moradias ou postos de vigia da Ordem, ninguém sabe ao certo. No coração da mata abre-se uma clareira de prado verde-claro com ruínas de pedra cor de areia — torres e paredões quebrados de aspecto antigo — junto a uma cachoeira que despenca numa lagoa azul-esverdeada. Quem ergueu aquelas pedras, e quando, é pergunta que a Ordem nunca respondeu.\n#### A Ordem Bestial\nA [[Ordem Bestial]] é um povo de [[Druida|druidas]] antigos, praticamente sem contato com a civilização, que sempre viveu nesta mata. Seu objetivo de longo prazo é desconhecido; o imediato é um só: manter o controle da floresta. A resposta que deram aos primeiros forasteiros, no Ano 150, continua valendo no Ano 300 — quem entra sem convite é inimigo. É esse domínio que mantém a Ilha das Cinzas como território neutro: nenhuma nação do [[Mundo Livre]] reclama a ilha. Para os aventureiros, a regra prática é simples — a savana é de quem passa, a mata é da Ordem, e a linha entre as duas é a borda das árvores.\n"
+}

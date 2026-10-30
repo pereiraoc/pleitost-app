@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/Galpão de Teste",
+  "path": "Campanhas/Combates/Galpão de Teste.md",
+  "basename": "Galpão de Teste",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Instituto Técnico Tramontina]] · [[Petrópolis]]",
+    "Situação": "A máquina de teste não sabe que parou de ser exercício — e a portaria acha que é culpa do grupo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Protótipo de Exoesqueleto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Segurança de Portaria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Instituto Técnico Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Protótipo de Exoesqueleto]] lento\n- 4 [[Segurança de Portaria]] lento\n```\n"
+}

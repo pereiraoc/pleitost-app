@@ -1,0 +1,170 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Terrenos e Travessias",
+  "path": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Terrenos e Travessias.md",
+  "basename": "Terrenos e Travessias",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os terrenos que atrasam o viajante no Mundo Livre — deserto, montanhas, matas e o Rio Raio da Luz — e onde se pode atravessá-los.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Terrenos e Travessias.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Última Parada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno do Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Terrenos e Travessias.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O deserto"
+    },
+    {
+      "level": 4,
+      "text": "Montanhas e serras"
+    },
+    {
+      "level": 4,
+      "text": "Matas e ermos"
+    },
+    {
+      "level": 4,
+      "text": "O Rio Raio da Luz"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Terrenos e Travessias.png]]\n\nViajar pelo [[Mundo Livre]] é ver a paisagem mudar de cara conforme se desce para o sul: dunas amarelas em [[Pedra Fina]], planícies de lavoura no [[Campos do Provento]], campos arborizados na [[Planaltina]], colinas de arbusto no [[Principado das Flores]]. Nas planícies, anda-se bem; o resto é terreno difícil ou pior, e no Ano 300 todo guia sabe que a estrada é um favor — fora dela, cada légua se paga em dias.\n\n#### O deserto\nPedra Fina é um mar de dunas entre a costa e as [[Montanhas de Vidro]], varrido por tempestades de areia e sobrevoado por aves de rapina. A única estrada vai de [[Última Parada]] a [[Baar'Shava]] e segue para o sul; o resto é travessia de caravana, com guia contratado e água contada. Última Parada, com seu rio e seus poços, é o último abastecimento confiável antes do deserto profundo, onde jazem as [[Ruínas de Luxor]], longe de qualquer rota. Ao sul, o deserto esmorece em escrube cinzento até virar planície.\n\n#### Montanhas e serras\nO oeste do continente termina em pedra. As Montanhas de Vidro descem da costa noroeste numa muralha natural de picos áridos, coroados por agulhas de vidro de areia derretida que faíscam ao sol; não há estrada nem construção visível na cadeia, e a travessia passa pelo túnel do grande portão de [[Primeiro Contato]], posto de fronteira com fila, vistoria e carimbo. No sul, a cordilheira escura da [[Serra do Bode]] fecha a fronteira; nela pastam soltos os bodes de [[Chama Céu]], a cidade em socalcos onde termina a estrada da região, que desce a encosta em ziguezague. Entre uma e outra corre o [[Grande Muro]], sem portão nem poterna. Na [[Pátria Aurora]], a serra também manda: as estradas de terra partem de [[Firmamentum]] e sobem em escadarias de pedra até os mosteiros, e quem chega à [[Cúpula dos Céus]] sem voar chega pela grande escadaria do penhasco sul.\n\n#### Matas e ermos\nA [[Grande Mata]] é um dossel fechado sob névoa, sem estrada nem clareira além das trilhas dos mineradores; quem entra vai em expedição. A [[Floresta da Ordem]], no sul da [[Ilha das Cinzas]], é pior: território da [[Ordem Bestial]], onde quem entra sem convite é tratado como inimigo — e toda a ilha, aliás, não tem estrada em parte alguma além da que chega a [[Riqueza]]. A cratera do [[Meteorito]] é terra arrasada, sem estrada e sem vegetação, e a estepe da [[Torre dos Magos]] só se cruza por trilhas de aprendizes e peregrinos.\n\n#### O Rio Raio da Luz\nO único grande rio do continente corre de leste a oeste pelo Campos do Provento e mergulha sob o Grande Muro. Em longos trechos é inteiramente selvagem — sem ponte, barco ou telhado à vista —, e atravessá-lo é questão de saber onde. Em [[Iluminada]], uma grande ponte fortificada parte do Portão do Sul; perto de [[Líciae]], cruza-se pela Ponte do Vau, de muitos arcos, ou pelo vau raso onde a estrada mergulha na água; e no extremo oeste, entre o [[Forte Norte]] e o [[Forte Sul]], a estrada o cruza a vau sob os olhos das duas guarnições.\n\n> [!note]- Custo de terreno\n> Fonte: bloco `viagem` de [[Contexto Fantasia]]; o mapa de terrenos está em [[Terreno do Mundo Livre]].\n>\n> | Terreno | Custo de movimento |\n> |---|---|\n> | Gramado | ×1 (padrão) |\n> | Terreno difícil | ×2 |\n> | Terreno muito difícil | ×3 |\n> | Mar | ×3 (Barco ×1) |\n>\n> | Rota | Efeito |\n> |---|---|\n> | Estrada | +1 hex/dia pra Cavalo e Caravana |\n> | Rota marítima | +1 hex/dia pra Barco |\n> | Escadaria | +1 hex/dia pra A pé |\n"
+}

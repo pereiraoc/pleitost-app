@@ -1,0 +1,73 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Influência/Influência",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Influência/Influência.md",
+  "basename": "Influência",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Assustar e Encorajar via Enganação",
+        "tipo": "AçãoDePericia",
+        "origem": "Especialização",
+        "acoes": [
+          "[[Assustar]]",
+          "[[Encorajar]]"
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Enganação]]",
+    "resumo": "\"[[Mentir]] decisivamente também [[Melhorar Atitude|Melhora Atitude]]. Pode [[Assustar]] quem te entende com [[Enganação]]. Pode [[Encorajar]] com [[Enganação]], com penalidade -2 se repetido.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mentir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhorar Atitude",
+      "kind": "wikilink",
+      "alias": "Melhora Atitude"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhorar Atitude",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Enganação]]\nresumo:: \"[[Mentir]] decisivamente também [[Melhorar Atitude|Melhora Atitude]]. Pode [[Assustar]] quem te entende com [[Enganação]]. Pode [[Encorajar]] com [[Enganação]], com penalidade -2 se repetido.\"\n%%\n### `= this.file.name`\n* Quando você tem um sucesso decisivo ao [[Mentir]], você também recebe os benefícios de um sucesso em [[Melhorar Atitude]].\n* Você pode [[Assustar]] criaturas que entendem seu idioma usando seu modificador de [[Enganação]].\n* Você pode [[Encorajar]] usando seu modificador e proficiência de [[Enganação]]. Quando você faz isso, suas próximas tentativas de [[Encorajar]] o mesmo alvo recebem -2 de [[Penalidades|penalidade de circunstância]] até o início do próximo dia.\n\n```autosheet-rules\n```\n"
+}

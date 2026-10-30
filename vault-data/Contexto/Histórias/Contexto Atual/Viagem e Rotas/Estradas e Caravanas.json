@@ -1,0 +1,174 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Estradas e Caravanas",
+  "path": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Estradas e Caravanas.md",
+  "basename": "Estradas e Caravanas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Como se viaja por terra no Mundo Livre: a grande estrada norte–sul, as caravanas, os caravançarás, os estábulos e os tropeiros.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estradas e Caravanas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Última Parada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio de Ja'ar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estradas e Caravanas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A estrada e suas transversais"
+    },
+    {
+      "level": 4,
+      "text": "Caravanas e caravançarás"
+    },
+    {
+      "level": 4,
+      "text": "Tropeiros, estábulos e cavalos"
+    },
+    {
+      "level": 4,
+      "text": "O preço do caminho"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Estradas e Caravanas.png]]\n\nUma única grande estrada costura o [[Mundo Livre]] de ponta a ponta. Ela nasce em [[Última Parada]], no deserto de [[Pedra Fina]], passa por [[Baar'Shava]], desce as planícies até [[Iluminada]], atravessa a [[Planaltina]] até [[Safira]] e termina em [[Canto Alto]], na costa sul — quatro capitais numa só linha. No Ano 300, quem precisa ir de um lado ao outro do continente quase sempre a usa, e quem a deixa sabe que está trocando o conforto pela pressa ou pelo segredo.\n\n#### A estrada e suas transversais\nDa grande estrada brotam os caminhos menores. No [[Campos do Provento]], uma estrada liga [[Lilá]] e [[Rharos]] a Iluminada, por onde sobem o peixe e o grão. No extremo oeste, junto ao [[Grande Muro]], a estrada do eixo ocidental nasce nos portões do [[Forte Norte]], cruza o [[Rio Raio da Luz]] a vau e atravessa o [[Forte Sul]] por dentro, de portão a portão, sob os olhos da guarnição, antes de seguir para o sul. A [[Torre dos Magos]] tem uma estrada só, que desce de sua escadaria para [[Líciae]]. Na Planaltina, a transversal amarra [[Chama Céu]], [[Pedrita]] e [[Manilha]] à capital. No [[Principado das Flores]], tudo é estrada de terra, vigiada na entrada que vem do norte por uma atalaia listrada de vermelho e branco. Muitos lugares, porém, não têm estrada nenhuma: as [[Ruínas de Luxor]], o [[Palácio de Ja'ar]], a cratera do [[Meteorito]] e toda a [[Ilha das Cinzas]], onde só uma estrada de terra chega a [[Riqueza]], vinda do palmeiral.\n\n#### Caravanas e caravançarás\nO transporte de carga anda em caravana. Toda cidade que produz tem o seu pátio: o Pátio das Caravanas de Pedrita, com o âmbar em carroças cobertas e tropas de mulas; o Terreiro dos Carreiros de Manilha, de onde o queijo parte todo dia; os pátios de Safira, colados à muralha, rumo às minas. No deserto, a caravana é de camelo e chega a Baar'Shava pelo Portão do Leste, e acampamentos de tendas crescem junto à Porta do Deserto. Mais ao norte, Última Parada é o caravançará que dá nome ao fim da estrada: muralha ameada, a cúpula azul da Grande Estalagem, estábulos, ferraria, poços e a Tenda dos Guias, onde se contrata quem conheça as dunas. Adiante dela, só areia.\n\n#### Tropeiros, estábulos e cavalos\nNo Principado, a estrada é dos tropeiros. Eles conduzem gado, tropilhas e carroças entre [[Pencas]], [[Varadas]], [[Vinhedos]] e os cais da capital, e cada cidade tem seu pátio para recebê-los — o Pátio dos Tropeiros de Varadas, enorme e de terra batida, e o Pátio das Tropilhas de Vinhedos, cheio de cavalos. Estábulos existem em toda parte, dos Estábulos Centrais de Safira às estrebarias de Última Parada, e alugar ou comprar montaria é das primeiras coisas que um grupo de aventureiros resolve ao sair da cidade. A pé, vai-se a qualquer lugar, devagar; a cavalo, mais rápido, mas não por terreno muito difícil. Na estrada, nada em terra bate a caravana bem organizada, com parelhas trocadas e carga arrumada — mas ela não sai da estrada, e é por isso que o mapa das rotas de comércio é, no fundo, o mapa das estradas.\n\n#### O preço do caminho\nAndar é de graça, e o cavalo, uma vez comprado, também: quem vai a pé ou na própria montaria paga só o que come e onde dorme. Quem quer a velocidade da caravana compra lugar nela, e o costume é o mesmo de Baar'Shava a Canto Alto — uma Peça de Ouro por pessoa a cada dia de estrada, pago ao caravaneiro na partida; dia começado é dia pago. Por isso um grupo com pressa e pouco dinheiro faz as contas antes de subir na carroça, e é comum ver aventureiros recém-registrados indo a pé ao lado da caravana que não podem pagar.\n\n> [!note]- Velocidades de viagem\n> Fonte: bloco `viagem` de [[Contexto Fantasia]].\n>\n> | Meio | Velocidade | Onde anda | Passagem |\n> |---|---|---|---|\n> | 🚶 A pé | 2 hex/dia | Gramado, terreno difícil, terreno muito difícil · costa | — |\n> | 🐎 Cavalo | 3 hex/dia | Gramado, terreno difícil | — (montaria própria) |\n> | 🐪 Caravana | 4 hex/dia | Só com Estrada | 1 PO por pessoa por dia |\n> | ⛵ Barco | 5 hex/dia | Mar · costa | 2 PO por pessoa por dia |\n> | ✨ Portal | instantâneo | Qualquer terreno e mar | — |\n>\n> Dia começado é dia pago. No mapa da exploração, a passagem aparece ao lado do tempo de cada trecho e no total do caminho.\n>\n> | Rota | Efeito |\n> |---|---|\n> | Estrada | +1 hex/dia pra Cavalo e Caravana |\n> | Rota marítima | +1 hex/dia pra Barco |\n> | Escadaria | +1 hex/dia pra A pé |\n"
+}

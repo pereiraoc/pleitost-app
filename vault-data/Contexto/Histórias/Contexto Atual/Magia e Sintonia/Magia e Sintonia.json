@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Magia e Sintonia",
+  "path": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Magia e Sintonia.md",
+  "basename": "Magia e Sintonia",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sintonizados no Mundo Livre",
+      "kind": "embed"
+    },
+    {
+      "target": "A Pedra Estelar e a Magia Arcana",
+      "kind": "embed"
+    },
+    {
+      "target": "Os Mosteiros Elementais",
+      "kind": "embed"
+    },
+    {
+      "target": "Luz e Entropia",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Sintonizados no Mundo Livre]]\n![[A Pedra Estelar e a Magia Arcana]]\n![[Os Mosteiros Elementais]]\n![[Luz e Entropia]]\n"
+}

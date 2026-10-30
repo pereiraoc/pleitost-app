@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Corte Especial Zaffari",
+  "path": "Contexto/Recursos/Alimentação/Corte Especial Zaffari.md",
+  "basename": "Corte Especial Zaffari",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "[[Zaffari]]",
+    "Preço": 500,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Moinhos de Vento]]",
+      "[[Petrópolis]]",
+      "[[Depósito Zaffari]]"
+    ],
+    "Resumo": "Picanha e filé com selo, refrigerados do Depósito Zaffari pelo trilho — só bairro nobre, só com cadastro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Corte Especial Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Depósito Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Corte Especial Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Corte Especial Zaffari.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO corte especial chega do [[Depósito Zaffari]] pelo trilho, refrigerado e lacrado, e só desce em bairro\nnobre. Picanha, filé, costela premium — Cz$ 500 o quilo, com cadastro do comprador. É o que a elite assa\nno domingo enquanto a periferia come marmita 'bovina'.\n\n> [!info] Especificação\n> **Corte:** picanha, filé mignon, costela premium; selo do [[Zaffari]] com lote\n> **Preço:** Cz$ 500 o quilo; ×1,5 nos [[Moinhos de Vento]]\n> **Cadastro:** cartão Zaffari — só em loja de bairro nobre\n> **Origem:** frigorífico do interior, trem da Ferrovia Federal até o [[Depósito Zaffari]]\n> **Mercado negro:** sai por baixo em [[Nova Sarandi]] por Cz$ 350, sem selo e sem gelo\n"
+}

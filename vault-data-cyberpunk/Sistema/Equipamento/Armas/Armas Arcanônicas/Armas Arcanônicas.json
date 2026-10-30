@@ -1,0 +1,37 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Arcanônicas/Armas Arcanônicas",
+  "path": "Sistema/Equipamento/Armas/Armas Arcanônicas/Armas Arcanônicas.md",
+  "basename": "Armas Arcanônicas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armas Arcanônicas"
+    }
+  ],
+  "body": "# Armas Arcanônicas\n\nA terceira categoria de arma: mecanismo arcano-mecânico que lança o projétil sozinho, sem braço que puxe corda nem lâmina que alcance. Por isso o ataque é de **[[Agilidade|AGI]] sempre** — quem acerta com ela é a mira, nunca a [[Força|FOR]]. **Ninguém é proficiente em Arcanônicos por padrão** — sem a arma na lista de armas específicas do personagem, o ataque sai sem o bônus de [[Proficiência]] e sem os dados extras.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"d-arcanonico\"\n```\n"
+}

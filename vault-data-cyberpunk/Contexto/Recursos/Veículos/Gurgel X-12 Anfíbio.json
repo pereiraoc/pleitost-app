@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Veículos/Gurgel X-12 Anfíbio",
+  "path": "Contexto/Recursos/Veículos/Gurgel X-12 Anfíbio.md",
+  "basename": "Gurgel X-12 Anfíbio",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "[[Gurgel]]",
+    "Preço": 1200000,
+    "Cobrança": "única",
+    "Usado": 400000,
+    "Manutenção": 8000,
+    "Nível": 6,
+    "Onde": [
+      "[[Passo D'Areia]]",
+      "[[Cidade Baixa]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "Jipe de fibra com casco selado e hélice no câmbio — o carro de quem mora na água e não quer depender de barqueiro.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel X-12 Anfíbio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gurgel X-12 Anfíbio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Gurgel X-12 Anfíbio.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nDepois da enchente a [[Gurgel]] selou o casco do X-12, acoplou uma hélice ao câmbio e criou o carro-barco que\na Brigada, as megacorps e os moradores ricos da [[Cidade Baixa]] disputam. Na rua é um jipe barulhento; na água\nanda a 6 km/h com o motor a ar cozinhando. Usado, o casco tem remendo e o motor tem história.\n\n> [!info] Especificação\n> **Modelo:** Gurgel X-12 Anfíbio 1987, casco de fibra selado, 2 portas, 4 lugares\n> **Motor:** VW 1.6 refrigerado a ar; hélice acoplada ao câmbio por alavanca no console\n> **Na água:** 6 km/h, calado de 60 cm; não enfrenta o Guaíba com vento\n> **Novo:** concessionária [[Gurgel]] com fila de seis meses — a [[Brigada Militar Metropolitana]] compra primeiro\n> **Usado:** Cz$ 400.000 com casco remendado e motor 'revisado' pelo [[Cartel dos Eixos]]\n> **Manutenção:** Cz$ 8.000 por mês — sal, lodo e uma hélice que entorta em tudo\n"
+}

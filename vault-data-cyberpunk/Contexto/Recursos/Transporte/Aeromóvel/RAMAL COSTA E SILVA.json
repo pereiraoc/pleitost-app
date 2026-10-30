@@ -1,0 +1,56 @@
+{
+  "id": "Contexto/Recursos/Transporte/Aeromóvel/RAMAL COSTA E SILVA",
+  "path": "Contexto/Recursos/Transporte/Aeromóvel/RAMAL COSTA E SILVA.md",
+  "basename": "RAMAL COSTA E SILVA",
+  "type": "Linha",
+  "subtype": "Aeromóvel",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Aeromóvel",
+    "Letreiro": "RAMAL COSTA E SILVA",
+    "Operador": "Exército; Trensurb só mantém o trilho",
+    "Acesso": "só o Exército — fechado ao público desde 1985",
+    "Tarifa": "",
+    "Qualidade": 2,
+    "Cor": "#6b7b4a",
+    "Horário": "sem horário; roda de madrugada",
+    "Circular": false,
+    "Fechada": true,
+    "Paradas": [
+      "[[Estação Central]]",
+      "[[Estação Quartel]]"
+    ],
+    "Aparência": "Viaduto cercado de arame farpado, vagão verde-oliva sem janela passando de madrugada com as luzes apagadas, sentinela de fuzil, torre de comunicação do quartel.",
+    "Resumo": "Ramal construído pra tropa entre a Estação Central e o portão do QG: fechado ao público desde 1985, roda de madrugada com as luzes apagadas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Quartel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Central",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Linha\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nO trecho que ninguém pega. Construído em 1984 pra levar tropa do [[Quartel-General do Exército]] ao Centro, o ramal foi fechado ao público em 1985 e só roda com vagão verde-oliva, sem janela e sem horário. As escadas da [[Estação Quartel]] têm arame farpado; na [[Estação Central]] ele encosta numa plataforma trancada. O [[Cartel dos Eixos]] corre de Motomachine em cima da via quando o vagão não passa — e nos pilares parados do ramal da [[Jardim Botânico]], que nunca ficou pronto. Não entra no mapa da malha: não há como embarcar.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

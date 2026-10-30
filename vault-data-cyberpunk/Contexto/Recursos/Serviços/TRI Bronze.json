@@ -1,0 +1,99 @@
+{
+  "id": "Contexto/Recursos/Serviços/TRI Bronze",
+  "path": "Contexto/Recursos/Serviços/TRI Bronze.md",
+  "basename": "TRI Bronze",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "Trensurb",
+    "Preço": 1500,
+    "Cobrança": "mês",
+    "Nível": 2,
+    "Onde": null,
+    "Resumo": "O cartão de bronze que o patrão desconta em folha: ônibus de ida e volta no horário do turno, mais nada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "TRI Bronze.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink",
+      "alias": "ônibus"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "SARANDI — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "ASSIS BRASIL — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "ITU — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "NAVEGANTES — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CAMPUS DO VALE — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "T1 SARANDI — PORTO NOVO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "T2 BOTÂNICO — BEIRA-RIO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "T3 VILA MILITAR — SARANDI",
+      "kind": "wikilink"
+    },
+    {
+      "target": "B23 VILA DO BOTÂNICO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A2 CIDADE BAIXA — CENTRO",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A3 LINHA DO CAIS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "TRI Bronze.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[TRI Bronze.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO cartão TRI de bronze vem descontado em folha: duas viagens de [[Passagem de Ônibus|ônibus]] por dia útil, no horário do turno, nas linhas da [[Marcopolo]] que a fábrica cadastrou. Fora do horário, fora da linha, fora do plano — o resto é a pé. A [[Embratel]] registra cada validação e o RH lê.\n\nAs linhas onde o bronze funciona no turno — [[SARANDI — CENTRO]], [[ASSIS BRASIL — CENTRO]], [[ITU — CENTRO]], [[NAVEGANTES — CENTRO]], [[CAMPUS DO VALE — CENTRO]], [[T1 SARANDI — PORTO NOVO]], [[T2 BOTÂNICO — BEIRA-RIO]], [[T3 VILA MILITAR — SARANDI]], [[B23 VILA DO BOTÂNICO]], [[A2 CIDADE BAIXA — CENTRO]], [[A3 LINHA DO CAIS]] — estão em [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** TRI Bronze (Trensurb / [[Embratel]])\n> **Dá acesso a:** ônibus nas linhas do turno, ida e volta em dia útil\n> **Não cobre:** Aeromóvel, anfíbio, lotação, fora do turno\n> **Quem usa:** operário de fábrica, empregada, cobrador\n> **Classe:** Classe Baixa\n"
+}

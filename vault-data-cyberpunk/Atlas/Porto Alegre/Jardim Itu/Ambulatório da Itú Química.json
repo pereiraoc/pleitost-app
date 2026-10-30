@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Ambulatório da Itú Química",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Ambulatório da Itú Química.md",
+  "basename": "Ambulatório da Itú Química",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Dono": "Dra. Iara Menegatti",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ambulatório da Itú Química.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ambulatório da Itú Química.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ambulatório da Itú Química.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Atende operário com crachá na frente e vizinho sem crachá atrás; curativo, soro, antídoto de éter e o laudo que decide quem continua empregado.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Anexo de alvenaria colado ao galpão, cheiro de éter, maca de lona, armário de vidro com antídotos, fila de macacão na porta.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Atende operário com crachá na frente e vizinho sem crachá atrás; curativo, soro, antídoto de éter e o laudo que decide quem continua empregado.",
+    "aparencia": "Anexo de alvenaria colado ao galpão, cheiro de éter, maca de lona, armário de vidro com antídotos, fila de macacão na porta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

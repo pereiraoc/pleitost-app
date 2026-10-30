@@ -1,0 +1,130 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Sintonizados no Mundo Livre",
+  "path": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Sintonizados no Mundo Livre.md",
+  "basename": "Sintonizados no Mundo Livre",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Quem nasce sintonizado, como o Mundo Livre enxerga essas pessoas e o que se espera delas desde a Guerra dos 100 Anos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sintonizados no Mundo Livre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "animistas"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "druidas"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Fim da Guerra dos 100 Anos",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Sociedade Aberta",
+      "kind": "wikilink",
+      "alias": "Ano 200"
+    },
+    {
+      "target": "Traço Elemental do Fogo\\",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    },
+    {
+      "target": "Traço Elemental da Água\\",
+      "kind": "wikilink",
+      "alias": "Água"
+    },
+    {
+      "target": "Traço Elemental do Vento\\",
+      "kind": "wikilink",
+      "alias": "Vento"
+    },
+    {
+      "target": "Traço Elemental da Terra\\",
+      "kind": "wikilink",
+      "alias": "Terra"
+    },
+    {
+      "target": "Traços Elementais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sintonizados no Mundo Livre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Os Quatro Temperamentos"
+    },
+    {
+      "level": 4,
+      "text": "O Ciclo Elemental"
+    },
+    {
+      "level": 4,
+      "text": "A Dívida da Guerra"
+    },
+    {
+      "level": 4,
+      "text": "\"Lá Não Existem Sintonizados\""
+    },
+    {
+      "level": 4,
+      "text": "A Ponte da Sociedade Aberta"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Sintonizados no Mundo Livre.png]]\n\nNo Ano 300, todo mundo no [[Mundo Livre]] conhece ao menos um sintonizado — o ferreiro que nunca se queima, a pescadora que lê o mar antes da tempestade, o menino que corre mais que os cavalos da feira. A [[Sintonia]] não se escolhe nem se aprende: nasce-se com ela, ligado a um dos quatro elementos primordiais, e ela molda o temperamento tanto quanto o talento. Duzentos anos depois da trégua, ser sintonizado ainda é visto como uma bênção — e uma bênção sempre vem com cobrança.\n#### Os Quatro Temperamentos\nO povo reconhece um sintonizado pelo jeito antes de reconhecê-lo pela magia. Os do Fogo são enérgicos, criativos e dedicados, e impulsivos a ponto de virar ditado de taberna; os da Água, flexíveis, sábios e resilientes, mas frios com quem sofre; os do Vento, gregários e compreensivos, sempre com a cabeça em outro lugar; os da Terra, confiáveis e pacientes, e teimosos como rocha no meio da estrada. Muitos acabam sendo os melhores em seus ofícios — o que, nas cidades de comércio do leste, vale tanto quanto qualquer espada. Nem toda sintonia se mostra: chama-se de \"aparente\" a que transborda no corpo e no caráter, e é dessa que o mundo espera alguma coisa.\n#### O Ciclo Elemental\nQuem estuda a sintonia a fundo — os [[Animista|animistas]], os [[Druida|druidas]], os mestres dos mosteiros — fala das forças do mundo não em quatro, mas em doze: as [[Essências Elementais]], ligadas umas às outras num grande ciclo. Cada elemento tem uma essência pura, a forma originária e mais distante dos outros — a Flamejante do Fogo, a Mineral da Terra, a Hidratante da Água, a Ventania do Vento —, e ao lado de cada pura ficam as essências de transição, onde um elemento encontra o seu vizinho aliado: a Enraizante é a terra nutrida pela água, que faz brotar planta e raiz; a Relampejante é a fagulha que o vento carregado arranca do fogo. Opostos não se encontram no ciclo: fogo não conversa com água, nem terra com vento. Por isso um conjurador da anima começa sempre pela essência pura da própria sintonia e vai caminhando de vizinha em vizinha, e diz-se de um animista velho que \"andou meio ciclo\" quando o repertório dele já toca o elemento do lado.\n#### A Dívida da Guerra\nO Mundo Livre conta a [[O Fim da Guerra dos 100 Anos|Guerra dos 100 Anos]] como uma vitória da magia. A [[Magna Pátria]] tinha mais homens e mais armas; o que a segurou diante do [[Grande Muro]] foi a Pedra Estelar e foram os sintonizados, que lutaram nas linhas da fronteira por um século inteiro. Dessa memória nasceu uma expectativa que ninguém escreve em lei, mas todos cobram: quem nasce \"abençoado\" faz o trabalho arriscado, em nome do bem comum. É por isso que aventureiros, quase sem exceção, têm sintonia aparente — e é por isso que uma moça de vila que descobre o fogo nas mãos ouve, antes de qualquer outra coisa, que devia procurar a [[Sociedade Aberta]].\n#### \"Lá Não Existem Sintonizados\"\nDo outro lado do Muro, dizem, não nasce sintonizado nenhum. A frase circula desde o Ano 100 como explicação da derrota inimiga — perderam porque não tinham o que nós temos — e virou orgulho nacional, piada de quartel e certeza de mãe. Ninguém vivo viu a Magna Pátria por dentro desde o Ano 250, então ninguém a confirma nem a desmente. Nos portos da [[Pátria Aurora]], onde se interrogam náufragos e espiões vindos do oeste, a frase é dita com menos riso — quem já olhou nos olhos vazios dessa gente prefere não fazer piada com o que pode ou não nascer do outro lado.\n#### A Ponte da Sociedade Aberta\nUm povo que deve a vida a seus sintonizados também tem medo deles, e cada governo do Mundo Livre já quis tê-los sob a própria bandeira. A [[Sociedade Aberta]], fundada no [[A Fundação da Sociedade Aberta|Ano 200]] com apoio de todo o Mundo Livre, nasceu para resolver esse impasse: registrar, treinar e pôr os sintonizados a serviço de quem precisa, tirando deles o peso dos conflitos políticos. Na prática, isso significa que um sintonizado do Ano 300 pode ser aventureiro sem ser soldado de ninguém — e que o povo comum sabe exatamente a que porta bater quando precisa de um.\n\n> [!note]- Sintonias e ajustes (regra)\n> | Sintonia | Tendências | Ajuste de atributo |\n> | --- | --- | --- |\n> | [[Traço Elemental do Fogo\\|Fogo]] | Energético, Criativo, Dedicado, Impulsivo | FOR ou PRE |\n> | [[Traço Elemental da Água\\|Água]] | Flexível, Sábio, Resiliente, Insensível | AGI ou INT |\n> | [[Traço Elemental do Vento\\|Vento]] | Gregário, Amigável, Compreensivo, Avoado | AGI ou PRE |\n> | [[Traço Elemental da Terra\\|Terra]] | Confiável, Estável, Paciente, Teimoso | FOR ou INT |\n>\n> Os [[Traços Elementais]] da sintonia são escolhidos no 1º, 4º e 7º nível. Raças monstruosas também têm sintonia: goblins nascem do Fogo e orcs da Terra.\n"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Oficina do Cardã",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Oficina do Cardã.md",
+  "basename": "Oficina do Cardã",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Cidade Baixa]]",
+    "Dono": "Ademar “Cardã” Lemos",
+    "Descrição": null,
+    "Serviços": [
+      "[[Volkswagen Fusca]]",
+      "[[Volkswagen Kombi]] usado",
+      "[[Honda CG 125]] usado",
+      "[[Gurgel Motomachine]] usado",
+      "[[Gurgel Carajás]] usado",
+      "[[Gasolina Ipiranga]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oficina do Cardã.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Kombi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Carajás",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gasolina Ipiranga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oficina do Cardã.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Oficina do Cardã.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Vende Fusca, Kombi, CG e Motomachine de segunda mão duvidosa, conserta qualquer coisa e não pergunta de onde veio.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão de tábua sobre a água, guincho de corrente, motores no chão e um Fusca sem porta na rampa.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Vende Fusca, Kombi, CG e Motomachine de segunda mão duvidosa, conserta qualquer coisa e não pergunta de onde veio.",
+    "aparencia": "Galpão de tábua sobre a água, guincho de corrente, motores no chão e um Fusca sem porta na rampa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

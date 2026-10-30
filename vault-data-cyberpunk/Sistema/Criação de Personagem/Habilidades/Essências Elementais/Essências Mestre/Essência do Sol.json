@@ -1,0 +1,114 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Sol",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Sol.md",
+  "basename": "Essência do Sol",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Essência Flamejante Experiente]]",
+      "Requisito Contem(Habilidades) [[Essência Incendiária Experiente]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"mestre\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Flamejante Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Sol",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Flamejante Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Flamejante Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Incendiária Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Sol",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Incendiária Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Incendiária Experiente]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Essência Flamejante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rascunhos de Essências Mestre (Roda das Essências)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Mestre]]\n\nresumo:: \"mestre\"\n%%\n#### `= this.file.name`\n*Amplificação* — composição de [[Essência Flamejante]] e [[Essência Incendiária]], vizinhas no [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]].\n\nRequer [[Essência Flamejante Experiente]] e [[Essência Incendiária Experiente]].\n\n* mestre — magia a definir (ver [[Rascunhos de Essências Mestre (Roda das Essências)]])\n\n```autosheet-rules\n```\n"
+}

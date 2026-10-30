@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Chama Céu",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Chama Céu.md",
+  "basename": "Chama Céu",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Bode"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chama Céu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chama Céu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Chama Céu.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade de montanha no extremo oeste de [[Planaltina]], cravada em terraços no sopé da cordilheira escura — é ali que a estrada da região termina. Vive dos bodes que pastam soltos por toda a serra: rebanhos, leite e queijo de bode descem a montanha em caravanas rumo às cidades do planalto. Modesta e trabalhadora, é governada do seu terraço mais alto e comercia tudo na praça da fonte, a meio caminho da descida. \n>\n> 👁️**Aparência do Local:** Uma escada de pedra cravada na serra: casario mediterrâneo de pedra clara e reboco em socalcos sustentados por muros de arrimo cinzentos, ligados por escadarias e rampas — sem muralha defensiva nem portões, e sem água à vista. Os telhados codificam os distritos: vermelho no topo, ocre no centro, roxo a leste, verde a oeste, azul e marrom descendo ao sul. A cidade flui morro abaixo, da Colina do Governo ao Pátio das Caravanas, com a Praça do Mercado e sua fonte de pratos escalonados como coração; pinheiros cobrem as encostas e ciprestes pontuam os terraços nobres. Por todos os lados, penhascos e afloramentos com bodes brancos pastando junto às trilhas; a estrada principal sai pelo sudeste em ziguezague, cruzando uma ravina numa ponte de pedra de dois arcos. \n> \n\n> [!info] Distritos e Locais de Interesse\n> **Colina do Governo** *(vermelho-telha — topo/norte)* — o terraço mais alto, de villas de telhado vermelho com ciprestes.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade de montanha no extremo oeste de [[Planaltina]], cravada em terraços no sopé da cordilheira escura — é ali que a estrada da região termina. Vive dos bodes que pastam soltos por toda a serra: rebanhos, leite e queijo de bode descem a montanha em caravanas rumo às cidades do planalto. Modesta e trabalhadora, é governada do seu terraço mais alto e comercia tudo na praça da fonte, a meio caminho da descida.",
+    "aparencia": "Uma escada de pedra cravada na serra: casario mediterrâneo de pedra clara e reboco em socalcos sustentados por muros de arrimo cinzentos, ligados por escadarias e rampas — sem muralha defensiva nem portões, e sem água à vista. Os telhados codificam os distritos: vermelho no topo, ocre no centro, roxo a leste, verde a oeste, azul e marrom descendo ao sul. A cidade flui morro abaixo, da Colina do Governo ao Pátio das Caravanas, com a Praça do Mercado e sua fonte de pratos escalonados como coração; pinheiros cobrem as encostas e ciprestes pontuam os terraços nobres. Por todos os lados, penhascos e afloramentos com bodes brancos pastando junto às trilhas; a estrada principal sai pelo sudeste em ziguezague, cruzando uma ravina numa ponte de pedra de dois arcos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Colina do Governo** *(vermelho-telha — topo/norte)* — o terraço mais alto, de villas de telhado vermelho com ciprestes.",
+    "leaflet": null
+  }
+}

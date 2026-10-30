@@ -1,0 +1,77 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Garagem dos Rachas",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Garagem dos Rachas.md",
+  "basename": "Garagem dos Rachas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Dono": "Beto Racha",
+    "Descrição": null,
+    "Serviços": [
+      "[[Gurgel Motomachine]] usado",
+      "[[Yamaha RD 135]] usado",
+      "[[Volkswagen Fusca]]",
+      "[[Honda CG 125]] usado",
+      "[[Gurgel Motomachine]]"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Garagem dos Rachas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Yamaha RD 135",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Volkswagen Fusca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Garagem dos Rachas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Garagem dos Rachas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Motomachine, RD 135, Fusca envenenado e CG de segunda mão; escape aberto e motor mexido, sem documento.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Galpão com portão de correr, motos na fila, um Fusca rebaixado e som alto.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Motomachine, RD 135, Fusca envenenado e CG de segunda mão; escape aberto e motor mexido, sem documento.",
+    "aparencia": "Galpão com portão de correr, motos na fila, um Fusca rebaixado e som alto.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

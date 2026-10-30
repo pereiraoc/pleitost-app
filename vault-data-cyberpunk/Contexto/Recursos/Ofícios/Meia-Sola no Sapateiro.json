@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Meia-Sola no Sapateiro",
+  "path": "Contexto/Recursos/Ofícios/Meia-Sola no Sapateiro.md",
+  "basename": "Meia-Sola no Sapateiro",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Conserto",
+    "Marca": "Sapateiro do corredor dos ofícios",
+    "Preço": 150,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Meia-sola, salto e costura de bota no sapateiro do corredor — o sapato que não se compra de novo se conserta aqui.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO sapateiro trabalha sentado num banquinho baixo, cercado de formas de ferro e rolos de couro. Meia-sola, salto novo, costura de bota, alça de mochila. Em cidade que se atravessa a pé, o sapateiro nunca fica sem serviço.\n\n> [!info] Especificação\n> **Meia-sola:** Cz$ 150, pronta no dia seguinte\n> **Bota de trabalho:** costura reforçada, Cz$ 250\n> **Alça e fivela:** Cz$ 60\n"
+}

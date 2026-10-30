@@ -1,0 +1,109 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Letalidade",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Letalidade.md",
+  "basename": "Letalidade",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Letalidade",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "links": {
+          "requer": [
+            "Vantagem de Combate"
+          ]
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtraPorNivel",
+            "valor": {
+              "porNivel": {
+                "1": "d6",
+                "4": "d10",
+                "7": "d12"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Precisa"
+              },
+              {
+                "estado": "Acerto Decisivo"
+              }
+            ]
+          },
+          {
+            "somar": "DadoExtraPorNivel",
+            "valor": {
+              "porNivel": {
+                "1": "d6",
+                "4": "d10",
+                "7": "d12"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "distância"
+              },
+              {
+                "estado": "Acerto Decisivo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Acertos decisivos são mais letais.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Acertos decisivos são mais letais.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSua letalidade em golpes certeiros é amplificada. Quando você obtêm um sucesso decisivo com um [[Atacar|Ataque]] que causa dano de [[Ataque Furtivo]], dobre o dano adicional do [[Ataque Furtivo]].\n\n```autosheet-rules\n```\n"
+}

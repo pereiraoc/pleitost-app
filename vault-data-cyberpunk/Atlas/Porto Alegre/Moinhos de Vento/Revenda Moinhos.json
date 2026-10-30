@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Revenda Moinhos",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Revenda Moinhos.md",
+  "basename": "Revenda Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Dono": "Sr. Lauro Bins",
+    "Descrição": null,
+    "Serviços": [
+      "[[Chevrolet Monza]]",
+      "[[Ford Del Rey]]",
+      "[[Chevrolet Opala Diplomata]]",
+      "[[Gurgel X-12 Anfíbio]]",
+      "[[Honda CB 450]]",
+      "[[Chevrolet Monza]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Revenda Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Monza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ford Del Rey",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chevrolet Opala Diplomata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel X-12 Anfíbio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CB 450",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Revenda Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Revenda Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Sedãs de executivo e o anfíbio da Gurgel, novos e de leilão de frota; entrega com placa e seguro da Gradiente.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Salão envidraçado com carpete, café de cortesia, vendedor de terno e um X-12 preto na vitrine.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Sedãs de executivo e o anfíbio da Gurgel, novos e de leilão de frota; entrega com placa e seguro da Gradiente.",
+    "aparencia": "Salão envidraçado com carpete, café de cortesia, vendedor de terno e um X-12 preto na vitrine.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

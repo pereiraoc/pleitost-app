@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Básico",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Anima/Elementalismo Básico.md",
+  "basename": "Elementalismo Básico",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Elementos_de_Regra": null
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Anima]]",
+    "resumo": "\"[[Identificar Magia|Identifica]] Magia Anima como ação livre. TBD.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink",
+      "alias": "Identifica"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Anima]]\nresumo:: \"[[Identificar Magia|Identifica]] Magia Anima como ação livre. TBD.\"\n%%\n### `= this.file.name`\n* Você pode [[Identificar Magia]] como ação livre uma vez por turno para [[Magia Anima]].\n* TBD.\n\n```autosheet-rules\n```\n"
+}

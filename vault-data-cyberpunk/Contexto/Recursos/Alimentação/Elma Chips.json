@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Elma Chips",
+  "path": "Contexto/Recursos/Alimentação/Elma Chips.md",
+  "basename": "Elma Chips",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Elma Chips (1975)",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Shopping Iguatemi]]",
+      "[[Bom Fim]]",
+      "[[Passo D'Areia]]"
+    ],
+    "Resumo": "Saquinho de batata frita de fábrica, Cz$ 40 na banca: o salgadinho do cinema e do pátio da escola.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Elma Chips.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Padre Chagas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Elma Chips.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Elma Chips.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO saquinho de batata frita industrial chegou aos anos 80 e virou o lanche do cinema da [[Padre Chagas]] e do\npátio da escola. Cz$ 40 na banca, Cz$ 60 no [[Shopping Iguatemi]]; o camelô do Centro vende o saquinho\namassado por Cz$ 30.\n\n> [!info] Especificação\n> **Saquinho:** 50 g, batata frita com sal; Cebolitos e Fandangos no mesmo preço\n> **Marca:** Elma Chips, 1975\n> **Preço:** Cz$ 40; Cz$ 60 no shopping\n> **Onde:** banca, shopping, cinema\n"
+}

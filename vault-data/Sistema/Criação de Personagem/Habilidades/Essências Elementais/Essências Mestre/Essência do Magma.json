@@ -1,0 +1,114 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Magma",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Magma.md",
+  "basename": "Essência do Magma",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Essência Explosiva Experiente]]",
+      "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"mestre\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Explosiva Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Magma",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Explosiva Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Explosiva Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Magma",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Sísmica Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Essência Explosiva Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rascunhos de Essências Mestre (Roda das Essências)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Mestre]]\n\nresumo:: \"mestre\"\n%%\n#### `= this.file.name`\n*Interface* — composição de [[Essência Explosiva]] e [[Essência Sísmica]], vizinhas no [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]].\n\nRequer [[Essência Explosiva Experiente]] e [[Essência Sísmica Experiente]].\n\n* mestre — magia a definir (ver [[Rascunhos de Essências Mestre (Roda das Essências)]])\n\n```autosheet-rules\n```\n"
+}

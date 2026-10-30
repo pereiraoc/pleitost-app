@@ -1,0 +1,149 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Moeda e Comércio",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Moeda e Comércio.md",
+  "basename": "Moeda e Comércio",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A Peça de Ouro, a casa da moeda federal e as rotas de troca que ligam o continente, o porto franco de Riqueza e a Pátria Aurora.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Moeda e Comércio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação de Riqueza",
+      "kind": "wikilink",
+      "alias": "Ano 140"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Mar Fechado",
+      "kind": "wikilink",
+      "alias": "Ano 120"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Guerra Fria do Mar",
+      "kind": "wikilink",
+      "alias": "Ano 280"
+    }
+  ],
+  "images": [
+    {
+      "target": "Moeda e Comércio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A moeda federal"
+    },
+    {
+      "level": 4,
+      "text": "Rotas de troca"
+    },
+    {
+      "level": 4,
+      "text": "O porto franco"
+    },
+    {
+      "level": 4,
+      "text": "O comércio com a ilha"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Moeda e Comércio.png]]\n\nO dinheiro do [[Mundo Livre]] é a Peça de Ouro — a PO, como dizem mercadores e escrivães. Com ela se paga o salário do guarda, o frete do carroceiro e a recompensa de um contrato da [[Sociedade Aberta]]. No Ano 300, a moeda corre de [[Baar'Shava]] a [[Canto Alto]] pela mesma estrada que costura o continente, e onde a estrada não chega, chega o barco.\n\n#### A moeda federal\nA PO é cunhada em [[Iluminada]], na Casa da Moeda Federal, um edifício de pátio quadrado na Cidadela Áurea, ao lado do Tribunal da Federação e da Sede Federal. É o mesmo distrito de onde se governa a [[Federação Áurea]] — e não por acaso: quem cunha a moeda é quem garante o seu peso. Em Canto Alto, a capital do [[Principado das Flores]], há uma Casa da Moeda Fina no Bairro Mercante, junto à torre do Carrilhão. O peso, aliás, é coisa séria em toda parte: as cidades produtoras têm a sua casa de balança oficial — a de [[Pedrita]] para o âmbar, a de [[Manilha]] para o queijo, a Casa Ponderis de [[Prasinarium]] para as cargas do porto —, e nenhuma venda grande se fecha sem passar por ela.\n\n#### Rotas de troca\nA grande estrada norte–sul é a espinha do comércio: liga quatro capitais, de Baar'Shava, no deserto, a Canto Alto, na costa sul, passando por Iluminada e [[Safira]]. Ao longo dela, cada cidade tem seu pátio de caravanas, e transversais amarram o interior — o grão de [[Rharos]] e o peixe de [[Lilá]] sobem para Iluminada, o âmbar de Pedrita e o queijo de Manilha descem para Safira, o vinho de [[Vinhedos]] e o gado de [[Varadas]] seguem para os cais de Canto Alto. Em Iluminada, as corporações mercantis se reúnem na Câmara dos Cuidios; nas fronteiras, como em [[Primeiro Contato]], cambistas atendem com balança e moeda os recém-chegados.\n\n#### O porto franco\nDo outro lado do estreito, em frente a Canto Alto, fica [[Riqueza]] — porto franco desde o [[A Fundação de Riqueza|Ano 140]], sem governo, sem templo, sem bandeira e sem Sociedade Aberta. Lá a única lei é o negócio fechado: rubis, imbuições de fogo e Focos arcanos trocam de mão em tendas armadas de véspera, e ninguém cobra imposto porque não há quem cobrar. Para o mercador do Principado, Riqueza é a melhor e a mais arriscada praça do sul.\n\n#### O comércio com a ilha\nA [[Pátria Aurora]] comercia com o continente desde o [[O Mar Fechado|Ano 120]], quando a [[Magna Pátria]] cortou toda relação com a ilha e os aurorenses viraram as velas para Baar'Shava. Hoje é [[Velimaris]], a \"cidade das velas\", quem domina esse tráfego: refina imbuições e as vende para exportação no Forum Exportationis, enquanto armadores e mercadores fecham fretes e cargas na bolsa mercantil da cidade. Desde o [[A Guerra Fria do Mar|Ano 280]], porém, há espiões nos portos e naus que somem no caminho — e o preço do frete marítimo já não é o que era.\n"
+}

@@ -1,0 +1,95 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Ilha das Cinzas e o Vulcão",
+  "path": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Ilha das Cinzas e o Vulcão.md",
+  "basename": "A Ilha das Cinzas e o Vulcão",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A ilha vulcânica do sudeste: o vulcão em erupção, a terra de cinza, a savana e os palmeirais, e quem vive ali.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Ilha das Cinzas e o Vulcão.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação de Riqueza",
+      "kind": "wikilink",
+      "alias": "fundado no Ano 140"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno do Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Ilha das Cinzas e o Vulcão.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Vulcão"
+    },
+    {
+      "level": 4,
+      "text": "A Terra de Cinza"
+    },
+    {
+      "level": 4,
+      "text": "Quem Manda na Ilha"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Ilha das Cinzas e o Vulcão.png]]\n\nDe qualquer ponto da costa sul do [[Principado das Flores]] se vê a coluna de fumaça: é a [[Ilha das Cinzas]], a poucas léguas de [[Canto Alto]] do outro lado do estreito. No Ano 300 ela continua o que sempre foi — terra sem governo, sem estrada e sem bandeira, onde só existem uma cidade de comércio, uma mata que tem dono e, entre as duas, o vulcão.\n#### O Vulcão\nO maciço vulcânico do nordeste está em erupção constante. Rios de lava alaranjada descem pelas encostas escuras, e a fumaça sobe sem parar numa coluna que os navegantes usam para reconhecer a ilha de longe. É dele que vem o nome: a cinza cobre as árvores, empoeira o mato e tinge a terra inteira de um tom pálido. Ninguém mora na encosta, e nenhuma trilha conhecida sobe até a cratera.\n#### A Terra de Cinza\nA ilha muda de rosto conforme se afasta do vulcão. O oeste é de terra seca e clara de cinza, com palmeirais tropicais na costa em torno de [[Riqueza]]; o leste e o sul são de escrube acinzentado, árvores empoeiradas que vão se adensando até virar a mata escura e musgosa da [[Floresta da Ordem]], pontuada de monólitos de pedra eretos. Entre os palmeirais e a mata, uma savana dourada de capim seco e árvores de copa achatada é cortada por trilhas claras que convergem todas para a borda da floresta. Não há estrada em parte alguma: quem desembarca no píer de Riqueza segue por trilha — ou não segue.\n#### Quem Manda na Ilha\nNinguém e, ao mesmo tempo, dois. [[Riqueza]], porto franco [[A Fundação de Riqueza|fundado no Ano 140]], não tem governo, templo nem [[Sociedade Aberta]] — a única lei é o negócio fechado, e por seu cais saem os rubis, as imbuições de fogo e os Focos arcanos que a ilha produz, negociados de frente para Canto Alto. O sul é da [[Ordem Bestial]], e é o domínio dela sobre a mata que mantém a ilha como território neutro: nenhuma nação do [[Mundo Livre]] reclama uma terra onde metade do chão pertence a druidas que não aceitam visitantes. Para o forasteiro, a ilha é isso: um porto onde tudo se compra e, atrás dele, uma terra onde é melhor não entrar sem saber para onde vai.\n\n> [!note]- Chegar à ilha\n> Não há estrada na ilha: de Canto Alto se cruza o estreito de Barco (5 hex/dia no mar, 2 PO por pessoa por dia) até o píer de Riqueza e, dali, segue-se A pé (2 hex/dia) ou a Cavalo (3 hex/dia, só em gramado e terreno difícil). A Caravana não serve: ela só anda em estrada. Regras de viagem por terreno e meio de transporte em [[Contexto Fantasia]] (bloco `viagem`) e [[Terreno do Mundo Livre]].\n"
+}

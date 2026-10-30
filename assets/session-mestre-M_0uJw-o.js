@@ -1,0 +1,1 @@
+import{rt as e}from"./useDoc-ClfA8JoW.js";import{r as t}from"./auth-state-DZ3mR9CI.js";function n(){let n=e(e=>e?.sessionId??null),r=e(e=>e?.gmUserId??null),i=t(),a=!!n&&!!i&&!!r;return{locked:a,roleMestre:a&&r===i.id}}export{n as t};

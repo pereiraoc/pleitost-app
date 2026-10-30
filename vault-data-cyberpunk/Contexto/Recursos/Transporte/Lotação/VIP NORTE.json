@@ -1,0 +1,80 @@
+{
+  "id": "Contexto/Recursos/Transporte/Lotação/VIP NORTE",
+  "path": "Contexto/Recursos/Transporte/Lotação/VIP NORTE.md",
+  "basename": "VIP NORTE",
+  "type": "Linha",
+  "subtype": "Lotação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Lotação",
+    "Letreiro": "VIP NORTE",
+    "Operador": "concessionárias privadas com rádio [[Embratel]]",
+    "Acesso": "[[TRI Ouro]]",
+    "Tarifa": "[[Lotação VIP]]",
+    "Qualidade": 4,
+    "Cor": "#8c8c8c",
+    "Horário": "6h–23h",
+    "Circular": false,
+    "Paradas": [
+      "[[Estação Centro Corporativo]]",
+      "[[Estação Independência]]",
+      "[[Estação Moinhos]]",
+      "[[Estação Concorde]]",
+      "[[Shopping Iguatemi]]"
+    ],
+    "Aparência": "Van Marcopolo prateada com vidro fumê e antena de rádio comprida, letreiro digital vermelho, motorista de gravata fina, poltronas de veludo azul, sinaleira abrindo verde à frente enquanto o ônibus do lado espera.",
+    "Resumo": "A lotação do Centro Corporativo aos Moinhos e ao Iguatemi: doze poltronas, ar, e o rádio que abre a sinaleira.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "VIP NORTE.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Estação Centro Corporativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Moinhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Ouro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lotação VIP",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "VIP NORTE.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[VIP NORTE.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nDe baixo do deck da [[Estação Centro Corporativo]] pela [[Estação Independência]] até a [[Estação Moinhos]], a [[Estação Concorde]] e o [[Shopping Iguatemi]]. Van Marcopolo de doze poltronas reclináveis, ar-condicionado e rádio [[Embratel]] que abre a sinaleira antes de chegar. O motorista sabe o nome de todo mundo e anota quem entrou com quem. [[TRI Ouro]] pra cima; avulso, Cz$ 500 na mão.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

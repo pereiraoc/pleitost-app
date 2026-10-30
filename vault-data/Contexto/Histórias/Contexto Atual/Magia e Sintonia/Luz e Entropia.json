@@ -1,0 +1,105 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Luz e Entropia",
+  "path": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Luz e Entropia.md",
+  "basename": "Luz e Entropia",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A Ordem Solar, a luz e a entropia negativa, os mortos-vivos e os focos de energia negativa que ainda brotam no Mundo Livre.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Luz e Entropia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Solar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Negativa em Construção de Estrada (Redenção - Manilha)\\",
+      "kind": "wikilink",
+      "alias": "Energia negativa em construção de estrada"
+    },
+    {
+      "target": "Expedição e Limpeza de Tumba Selada com Magia do Vazio\\",
+      "kind": "wikilink",
+      "alias": "Tumba selada com magia do vazio"
+    },
+    {
+      "target": "Neutralização da Fenda Negra\\",
+      "kind": "wikilink",
+      "alias": "Fenda Negra em torre orc"
+    },
+    {
+      "target": "Aventuras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Luz e Entropia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Luz e o Seu Avesso"
+    },
+    {
+      "level": 4,
+      "text": "Mortos que Não Descansam"
+    },
+    {
+      "level": 4,
+      "text": "Os Cavaleiros de Branco"
+    },
+    {
+      "level": 4,
+      "text": "O Primeiro Nascido da Luz"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Luz e Entropia.png]]\n\nNem toda ameaça do Ano 300 tem exército. Em estradas novas, tumbas lacradas e ruínas esquecidas, o Mundo Livre ainda encontra lugares onde algo se apagou — focos de energia negativa que fazem os mortos se levantarem e a terra adoecer em volta. Contra eles marcham cavaleiros de branco, falando como nos romances antigos, e é com eles que muito aventureiro ganha as primeiras Marcas.\n#### A Luz e o Seu Avesso\nOs doutos da [[Magia Arcana]] dizem que ela nasce da diferença entre os elementos: a [[Magia Arcana Branca]] os potencializa, a [[Magia Arcana Negra]] os suprime. A [[Ordem Solar]] leva essa ideia adiante e faz dela uma fé de conduta. Para os cavaleiros, criar entropia positiva — o que chamam simplesmente de **luz** — é o dever de quem tem poder, e o excesso de entropia negativa é uma doença do mundo, que se acumula onde ninguém a combate. O povo comum não entende a teoria, mas entende o efeito: onde a Ordem passa, os mortos voltam a ficar quietos.\n#### Mortos que Não Descansam\nOs relatos das expedições são parecidos. Uma obra de estrada perto de [[Manilha]] que precisa parar porque um foco de energia negativa brotou no caminho; uma tumba selada com magia do vazio nas terras de [[Canto Alto]]; uma \"fenda negra\" aberta dentro de uma torre orc. Às vezes são esqueletos de povos antigos, presos ao último combate sem saber que morreram; às vezes é coisa pior, sem nome no papel do contrato. O que os casos têm em comum é que não somem sozinhos: alguém precisa encontrar o foco e neutralizá-lo, e a Ordem prefere pagar para que esse alguém seja ela ou um aventureiro que ela escolheu.\n#### Os Cavaleiros de Branco\nA Ordem reúne marcialistas, magos e arcanistas brancos, e se porta como cavalaria de outro tempo — trejeitos solenes, termos \"clássicos\", juramentos que soam antiquados nas tabernas. Sua base fica em [[Iluminada]]: um forte quadrado branco junto à muralha leste do Bairro das Trocas, que irradia um brilho arcano visível de longe. Seus cavaleiros mantêm presença em [[Manilha]], de onde partem contratos para todo o sul, e é pela [[Sociedade Aberta]] que muitos desses contratos chegam aos aventureiros. A Ordem também recruta entre eles: quem volta de uma tumba com o foco apagado costuma ouvir um convite.\n#### O Primeiro Nascido da Luz\nPor trás da cruzada contra os mortos há uma espera. A Ordem acredita que um dia nascerá alguém sintonizado com os quatro elementos ao mesmo tempo — o primeiro nascido da luz — e que caberá a ela recebê-lo e, com ele, guiar o mundo para a luz. Ninguém fora da Ordem sabe dizer se isso é profecia, cálculo arcano ou só esperança. Mas toda vez que uma criança de sintonia estranha aparece numa vila, alguém lembra que os cavaleiros de branco gostariam de saber.\n\n> [!note]- Contratos da Ordem Solar (exemplos)\n> | Contrato | Onde | Classe |\n> | --- | --- | :---: |\n> | [[Energia Negativa em Construção de Estrada (Redenção - Manilha)\\|Energia negativa em construção de estrada]] | [[Manilha]] | C |\n> | [[Expedição e Limpeza de Tumba Selada com Magia do Vazio\\|Tumba selada com magia do vazio]] | [[Canto Alto]] | B |\n> | [[Neutralização da Fenda Negra\\|Fenda Negra em torre orc]] | [[Canto Alto]] | B |\n>\n> Todos financiados pela [[Ordem Solar]], com contato nos cavaleiros de [[Manilha]]; recompensa em Marcas e Ouro. Ver [[Aventuras]].\n"
+}

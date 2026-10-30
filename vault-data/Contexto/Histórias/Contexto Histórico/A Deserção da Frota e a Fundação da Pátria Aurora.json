@@ -1,0 +1,35 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Deserção da Frota e a Fundação da Pátria Aurora",
+  "path": "Contexto/Histórias/Contexto Histórico/A Deserção da Frota e a Fundação da Pátria Aurora.md",
+  "basename": "A Deserção da Frota e a Fundação da Pátria Aurora",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 55",
+    "Descrição": "A marinha inteira da Magna Pátria é mandada para o norte, com ordens de esmagar os fugitivos e abrir um segundo flanco. Chega à ilha e não ataca: deserta. Os monges acolhem os marinheiros, e a Magna Pátria perde de uma vez toda a sua frota. Da união de monges e ex-marinheiros nasce a [[Pátria Aurora]]; as galeras roubadas ancoram em [[Lucerna]] e [[Magna Vigilia]] — é delas que descende a esquadra de velas vermelhas.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nA frota que deveria esmagar o êxodo encontra, na ilha, parentes, vizinhos e gente que fugiu do mesmo Estado que a mandou. Os capitães descem a terra para negociar a rendição dos fugitivos e voltam a bordo decididos a não voltar para casa. Os monges, que acolheram os primeiros, acolhem também os últimos.\n\nÉ por isso que a [[Pátria Aurora]] é o que é: uma nação de monges e de marinheiros. A capital, [[Lucerna]], nasce como porto de guerra para as galeras roubadas, e a Academia Navalis transforma a frota desertora numa marinha própria. A fachada oeste da ilha, voltada para a Magna Pátria, nunca deixou de ser militar.\n\n"
+}

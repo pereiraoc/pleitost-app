@@ -1,0 +1,142 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Vida nas Cidades",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Vida nas Cidades.md",
+  "basename": "Vida nas Cidades",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Como se vive nas capitais, cidades e vilarejos do Mundo Livre: tamanho, muralhas, feiras e distritos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vida nas Cidades.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Economia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vida nas Cidades.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Capitais Muradas"
+    },
+    {
+      "level": 4,
+      "text": "Cidades Abertas"
+    },
+    {
+      "level": 4,
+      "text": "Feiras e Praças"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Vida nas Cidades.png]]\n\nNo Ano 300, as cidades do [[Mundo Livre]] seguem uma escada clara de tamanho — vilarejo, pequena cidade, grande cidade e capital — e cada degrau muda o salário, o preço e a chance de se encontrar um serviço mágico. Acima de todas está [[Iluminada]], a capital federal, com cerca de trezentas mil almas: o dobro de qualquer outra capital e a única cidade onde a classe baixa é minoria franca.\n#### Capitais Muradas\nToda capital do Mundo Livre tem muralha. [[Baar'Shava]] se fecha numa muralha cor de areia de dezenas de torres redondas e quatro portões; [[Iluminada]] e [[Safira]] são círculos de pedra cinzenta com avenidas convergindo para a praça central; [[Canto Alto]] se abre só para a baía; [[Lucerna]] se cerca de uma arcada dupla como um aqueduto fortificado. Dentro, a vida se arruma por distritos que se reconhecem de longe pela cor dos telhados — o dourado do poder, o ocre das feiras, o roxo das oficinas, o casario denso e simples onde mora a maior parte do povo, como a Baixada Popular de Iluminada ou a Vila dos Operários de Safira. É nas capitais que ficam os paços, os tribunais, as casas da moeda e as maiores sedes da [[Sociedade Aberta]].\n#### Cidades Abertas\nFora das capitais, quase ninguém tem muralha. [[Líciae]], [[Rharos]], [[Manilha]], [[Pedrita]], [[Lilá]], [[Chama Céu]], [[Pencas]], [[Varadas]], [[Vinhedos]], [[Velimaris]], [[Firmamentum]] e [[Prasinarium]] são cidades abertas: portais de pedra isolados marcam a entrada das estradas, quando muito, e a defesa é a distância rural. Nelas o campo entra pela cidade — gado nos piquetes de Líciae, talhões de grão entre as casas de Rharos, parreirais na malha de Vinhedos — e a vida corre no compasso da safra, da apartação e da vindima. A Sociedade Aberta está em quase todas, de casarão discreto no casario artesão a sobrado imponente no largo; as exceções notáveis são [[Krasnogor]], cidade dos anões, e [[Riqueza]], que não aceita governo nenhum.\n#### Feiras e Praças\nO coração de toda cidade é a praça do mercado, quase sempre com uma fonte no meio, e a feira é onde a cidade se mostra: o Mercado das Especiarias em Baar'Shava, o Mercado do Gado em Líciae, o Mercado dos Queijos e a Casa da Balança em Manilha, o Mercado do Peixe com seus defumadores em Lilá, o Mercado Livre das Tendas em Riqueza. Quase todas têm, perto da feira, um pátio de caravanas e um estábulo — porque nenhuma cidade vive sozinha, e tudo o que se produz sai em carroça pela estrada para a próxima.\n\n> [!note]- População e classes por tamanho de cidade\n> | Tamanho | População | Classe Baixa | Classe Média | Classe Alta | Exemplos |\n> | -------------- | ---------:|:------------:|:------------:|:-----------:| -------- |\n> | Vilarejo | ~5.000 | 60% | 40% | <1% | [[Magna Vigilia]] (praça-forte) |\n> | Pequena Cidade | ~20.000 | 40% | 55% | 5% | [[Lilá]], [[Pedrita]], [[Chama Céu]], [[Riqueza]], [[Firmamentum]], [[Prasinarium]], [[Pencas]], [[Varadas]], [[Vinhedos]], [[Krasnogor]] |\n> | Grande Cidade | ~50.000 | 30% | 60% | 10% | [[Líciae]], [[Rharos]], [[Manilha]], [[Velimaris]] |\n> | Capital | ~150.000 | 20% | 60% | 20% | [[Baar'Shava]], [[Safira]], [[Canto Alto]], [[Lucerna]] |\n> | Iluminada | ~300.000 | 10% | 65% | 25% | [[Iluminada]] |\n>\n> Salários, patrimônio e acesso a magia por tamanho de cidade estão em [[Economia]].\n"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Fundação de Riqueza",
+  "path": "Contexto/Histórias/Contexto Histórico/A Fundação de Riqueza.md",
+  "basename": "A Fundação de Riqueza",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 140",
+    "Descrição": "Na costa oeste da [[Ilha das Cinzas]] nasce [[Riqueza]] — porto franco sem governo, sem templo e sem bandeira, onde a única lei é o negócio fechado.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Descoberta da Pedra Estelar",
+  "path": "Contexto/Histórias/Contexto Histórico/A Descoberta da Pedra Estelar.md",
+  "basename": "A Descoberta da Pedra Estelar",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 10 a.G.",
+    "Descrição": "No fundo da cratera do [[Meteorito]], a oeste de [[Iluminada]], escavadores encontram a Pedra Estelar — um mineral de outro céu que multiplica a magia de quem sabe usá-lo. A [[Torre dos Magos]] nasce em torno dela, e a cratera vira, da noite para o dia, a terra mais cobiçada do mundo.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nA cratera estava ali havia séculos, terra arrasada onde nada cresce. O que muda é o que se acha no fundo dela. A Pedra Estelar não brilha nem pesa como pedra comum, e nas mãos de um mago faz o que dez magos não fariam. Em poucos anos, as oficinas arcanas do [[Campos do Provento]] trabalham em torno dela, e a [[Torre dos Magos]] se ergue na estepe para formar quem saiba usá-la.\n\nA notícia atravessa as montanhas. Para o leste, a pedra é riqueza; para quem olha de fora, é poder — e poder que não fica do seu lado é ameaça.\n\n"
+}

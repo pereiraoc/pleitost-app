@@ -1,0 +1,42 @@
+{
+  "id": "Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync)",
+  "path": "Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync).md",
+  "basename": "Emboscada de Goblins (Exemplo Sync)",
+  "type": "Aventura",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Encontro",
+    "nome": "Emboscada de Goblins"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Goblin Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Piromante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Emboscada de Goblins"
+    },
+    {
+      "level": 2,
+      "text": "Como usar"
+    },
+    {
+      "level": 2,
+      "text": "Roster"
+    }
+  ],
+  "body": "\n# Emboscada de Goblins\n\nCombate exemplo pra exercitar o fluxo F7b do pleitost-sync.\n\n## Como usar\n\n1. Abra essa nota em modo normal (não-edit) — o combat tracker monta sozinho abaixo\n2. Com sessão sync ativa como GM, clique no botão 🔗 da action bar do tracker\n3. No painel do sync aparece \"Combates Preparados\" com este card\n4. Click \"Iniciar combate\" → personagens da mesa entram; NPCs spawnam com vida cheia\n5. Click \"Encerrar combate\" no header pra arquivar\n\n## Roster\n\n```combat-marker\n- 3 [[Goblin Soldado]]\n- 1 [[Goblin Piromante]]\n```\n"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Oficina de Sucata",
+  "path": "Atlas/Porto Alegre/Restinga/Oficina de Sucata.md",
+  "basename": "Oficina de Sucata",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Dono": "Seu Tião Sucata",
+    "Descrição": null,
+    "Serviços": [
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Gurgel Motomachine]] usado",
+      "[[Carroça com Cavalo]] usado",
+      "[[Honda CG 125]] usado",
+      "[[Carroça com Cavalo]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oficina de Sucata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel Motomachine",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Honda CG 125",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oficina de Sucata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Oficina de Sucata.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Ateliê de reaproveitamento de metal e eletrônicos.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Pilhas de peças, cheiro de graxa e poeira, música alta.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ateliê de reaproveitamento de metal e eletrônicos.",
+    "aparencia": "Pilhas de peças, cheiro de graxa e poeira, música alta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

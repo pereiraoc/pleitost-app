@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/A Revogação",
+  "path": "Campanhas/Combates/A Revogação.md",
+  "basename": "A Revogação",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Jardim Itu]] · [[Moinhos de Vento]]",
+    "Situação": "Ele não veio brigar: veio cancelar a ficha do grupo. Enquanto isso, a escolta segura a porta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Diretor Clínico da Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escolta de Diretoria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fiscal de Patente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Diretor Clínico da Panvel]] lento\n- 2 [[Escolta de Diretoria]] super rápido\n- 2 [[Fiscal de Patente]] rápido\n```\n"
+}

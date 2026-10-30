@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Campus Saúde da UFRGS",
+  "path": "Atlas/Porto Alegre/Bom Fim/Campus Saúde da UFRGS.md",
+  "basename": "Campus Saúde da UFRGS",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Dono": "Faculdade de Medicina da UFRGS (diretor Dr. Ivo Kruel)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Campus Saúde da UFRGS.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Campus Saúde da UFRGS.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Campus Saúde da UFRGS.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Prédios altos de concreto, corredor até o hospital, laboratório de farmácia com fila de laudo; o residente aprende no paciente e a Panvel paga a bolsa.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bloco de concreto de dez andares com passarela até o hospital, jaleco branco na escadaria, ambulância na rampa e a Redenção verde ao fundo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Prédios altos de concreto, corredor até o hospital, laboratório de farmácia com fila de laudo; o residente aprende no paciente e a Panvel paga a bolsa.",
+    "aparencia": "Bloco de concreto de dez andares com passarela até o hospital, jaleco branco na escadaria, ambulância na rampa e a Redenção verde ao fundo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Política/A Federação Áurea",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Política/A Federação Áurea.md",
+  "basename": "A Federação Áurea",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Como se governa a maior potência do Mundo Livre: três regiões, três capitais e um governo federal em Iluminada.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Federação Áurea.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Federação Áurea",
+      "kind": "wikilink",
+      "alias": "Ano 8"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Mineradores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Federação Áurea.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Governo em Iluminada"
+    },
+    {
+      "level": 4,
+      "text": "Três Capitais, Três Pesos"
+    },
+    {
+      "level": 4,
+      "text": "Uma Paz que Afrouxa os Laços"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Federação Áurea.png]]\n\nNo Ano 300, a [[Federação Áurea]] é a maior potência do [[Mundo Livre]] e já quase não se lembra de que nasceu como remendo de emergência. Foi no [[A Fundação da Federação Áurea|Ano 8]], com a Magna Pátria avançando sobre o [[Campos do Provento]], que [[Baar'Shava]], [[Iluminada]] e [[Safira]] juntaram suas regiões porque nenhuma delas resistiria sozinha. A aliança de guerra virou governo permanente, e três séculos depois o leão rampante dourado sobre azul tremula de [[Pedra Fina]] a [[Planaltina]].\n#### O Governo em Iluminada\nTudo o que é federal mora em [[Iluminada]]. Na Cidadela Áurea, de cúpulas douradas, ficam a Sede Federal, de onde a Federação inteira é administrada; o Tribunal da Federação, corte máxima da nação, no braço oeste do distrito; e a Casa da Moeda Federal, onde se cunha a moeda que corre nas três regiões. Os papéis da nação descansam no Arquivo e Registro Federal, a torre-arquivo encravada na muralha sul, junto ao Portão do Sul. Ser capital federal fez de Iluminada a maior cidade do continente, com perto de trezentas mil almas e a classe média mais larga do Mundo Livre — e lhe deu a fama, nas outras duas capitais, de cidade que fala pelas três. Ao lado do poder político, a Câmara dos Cuidios reúne as corporações mercantis, e a Grande Casa da [[Sociedade Aberta]] faz da capital também a sede dos aventureiros.\n#### Três Capitais, Três Pesos\nCada região entra na balança com o que tem. [[Campos do Provento]] é o celeiro e o coração político: os grãos de [[Rharos]], o gado de [[Líciae]] e o pescado de [[Lilá]] alimentam a nação, e a fronteira oeste, a mais vigiada do Mundo Livre, fica toda dentro dela. [[Pedra Fina]] é a porta e o entreposto: o deserto governado de [[Baar'Shava]] controla as caravanas do norte, o porto de especiarias, o posto de imigração de [[Primeiro Contato]] e o âmbar e as armas anãs de [[Krasnogor]], monarquia própria escavada nas [[Montanhas de Vidro]]. [[Planaltina]] é a pedra e a mão de obra: as safiras do [[Campo de Mineradores]], o âmbar de [[Pedrita]] e as poções azuis de [[Safira]], cidade de poder civil cuja maior construção é o Paço do Governador.\n#### Uma Paz que Afrouxa os Laços\nO que uniu as três regiões foi o medo, e o medo envelheceu. Dois séculos sem guerra fizeram o [[Grande Muro]] virar paisagem e a Federação virar rotina: impostos que sobem para Iluminada, sentenças do Tribunal que descem para as províncias, estrada federal costurando as três capitais de norte a sul. Em Baar'Shava e em Safira há quem resmungue que a capital federal colhe o que as outras plantam; em Iluminada, há quem ache que sem ela as outras duas já teriam esquecido por que estão juntas. Ninguém fala em separação. Mas ninguém, também, sabe dizer o que seria da Federação se o Muro voltasse a ser necessário.\n\n> [!note]- A Federação em números\n> | Capital | Região | População | Classes (Baixa / Média / Alta) |\n> | --- | --- | ---: | :---: |\n> | [[Iluminada]] (federal) | [[Campos do Provento]] | ~300.000 | 10% / 65% / 25% |\n> | [[Baar'Shava]] | [[Pedra Fina]] | ~150.000 | 20% / 60% / 20% |\n> | [[Safira]] | [[Planaltina]] | ~150.000 | 20% / 60% / 20% |\n"
+}

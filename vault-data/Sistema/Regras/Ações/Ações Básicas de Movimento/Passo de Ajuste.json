@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Passo de Ajuste",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Passo de Ajuste.md",
+  "basename": "Passo de Ajuste",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Move 1q sem provocar reações.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Move 1q sem provocar reações.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nMove 1q sem provocar reações. Você não pode dar um Passo de Ajuste para dentro de [[Terreno Difícil]] e você só pode dar Passos de Ajuste com sua movimentação terrestre. Você não pode dar um Passo de Ajuste se sua movimentação é menor que 2q.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,94 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Arma Monástica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Arma Monástica.md",
+  "basename": "Arma Monástica",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Com um [[Bordão|Bordão]], você pode aparar para ganhar +1 de [[bônus de circunstância]] na [[Defesa]], pode ajustar a empunhadura livremente, ele conta como [[Precisa]] e tem [[Força X|Força]] reduzida (1 com 1 mão; 2 com 2 mãos); você pode [[Desarmar]] e [[Derrubar]] com as mãos ocupadas e pode usar técnicas que exigem ataque desarmado com um [[Bordão]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink",
+      "alias": "Bordão"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink",
+      "alias": "Bordões"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Com um [[Bordão|Bordão]], você pode aparar para ganhar +1 de [[bônus de circunstância]] na [[Defesa]], pode ajustar a empunhadura livremente, ele conta como [[Precisa]] e tem [[Força X|Força]] reduzida (1 com 1 mão; 2 com 2 mãos); você pode [[Desarmar]] e [[Derrubar]] com as mãos ocupadas e pode usar técnicas que exigem ataque desarmado com um [[Bordão]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê é especialmente proficiente com [[Bordão|Bordões]]. Quando estiver empunhando um bordão, você recebe os seguintes benefícios:\n* Você pode usar uma ação para aparar com ele, garantindo +1 de [[bônus de circunstância]] na [[Defesa]];\n* Você pode [[Interagir]] para alterar sua empunhadura com um bordão como uma ação livre no início e fim do seu turno, e antes de cada [[Atacar|Ataque]] com o bordão;\n* Quando você usa um bordão ele conta como tendo a propriedade [[Precisa]];\n* Quando você usa um bordão com uma mão, a propriedade [[Força X|Força]] é reduzida para 1;\n* Quando você usa um bordão com duas mãos, a propriedade [[Força X|Força]] é reduzida para 2;\n* Você pode realizar as manobras de combate [[Desarmar]] e [[Derrubar]] mesmo que esteja com as duas mãos ocupadas por um [[Bordão]];\n* Você pode usar qualquer técnica ou habilidade que necessite de um [[Atacar|Ataque]] desarmado com um [[Bordão]].\n\n```autosheet-rules\n```\n"
+}

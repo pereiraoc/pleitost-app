@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Fim da Era Elemental",
+  "path": "Contexto/Histórias/Contexto Histórico/O Fim da Era Elemental.md",
+  "basename": "O Fim da Era Elemental",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 1000 a.G.",
+    "Descrição": "As forças elementais que governavam o mundo se recolhem, e o que fica é terra comum. Os povos se organizam como dá, ao acaso do relevo: no leste, a variedade de terras e o [[Rio Raio da Luz]] fazem nascer sociedades de troca, cada uma com sua cultura; no oeste, a terra árida obriga a viver em coletivo — ali ninguém sobrevive sozinho.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nQuando os elementos deixam de mandar no mundo, ninguém assina o fim de uma era: ela simplesmente acaba, e cada povo fica com o chão que tem. No leste, o chão é generoso e variado — o deserto que um dia será [[Pedra Fina]], as planícies férteis do [[Campos do Provento]], os planaltos de pedra de [[Planaltina]], as coxilhas do sul. Cada paisagem cria um jeito de viver, e o rio que corta o centro do continente costura todos eles numa rede de trocas: quem tem grão troca com quem tem pedra, quem tem gado troca com quem tem peixe.\n\nNo oeste, além das [[Montanhas de Vidro]], o chão é pobre. Pouca água, pouca sombra, pouca coisa que nasça sem esforço de muitos. Os povos de lá aprendem cedo que a família não basta: é a aldeia que cava o poço, a aldeia que guarda o celeiro, a aldeia que decide quem come primeiro. Essa dependência do coletivo vai moldar tudo o que o oeste se tornará.\n"
+}

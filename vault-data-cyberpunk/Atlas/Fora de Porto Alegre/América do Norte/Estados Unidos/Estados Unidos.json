@@ -1,0 +1,39 @@
+{
+  "id": "Atlas/Fora de Porto Alegre/América do Norte/Estados Unidos/Estados Unidos",
+  "path": "Atlas/Fora de Porto Alegre/América do Norte/Estados Unidos/Estados Unidos.md",
+  "basename": "Estados Unidos",
+  "type": "Localização",
+  "subtype": "País",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "EUA"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "País",
+    "Geolocalização": "[[América do Norte]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "América do Norte",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto** `= this.Contexto`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** `= this.Descrição`\n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": null,
+    "aparencia": null,
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Ataque Móvel",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Ataque Móvel.md",
+  "basename": "Ataque Móvel",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Você dá um [[Passo de Ajuste]] e um [[Atacar|Ataque]], em qualquer ordem. Você só pode utilizar Ataque Móvel uma vez por turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Você dá um [[Passo de Ajuste]] e um [[Atacar|Ataque]], em qualquer ordem. Você só pode utilizar Ataque Móvel uma vez por turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Móvel.\n\n**Ataque Móvel - 1A**\nVocê dá um [[Passo de Ajuste]] e um [[Atacar|Ataque]], em qualquer ordem. Você só pode utilizar Ataque Móvel uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Flexibilidade Arcana",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Flexibilidade Arcana.md",
+  "basename": "Flexibilidade Arcana",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      null
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Pode manipular o custo de [[Energia Mágica|EM]] de [[Magia Arcana Mista Limitada]]. +1 EM para mais potência ou -1 EM conjurando magia oposta a uma anteriormente conjurada.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink",
+      "alias": "Magia Arcana de forma mista"
+    },
+    {
+      "target": "Forçar Entropia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\n\nresumo:: \"Pode manipular o custo de [[Energia Mágica|EM]] de [[Magia Arcana Mista Limitada]]. +1 EM para mais potência ou -1 EM conjurando magia oposta a uma anteriormente conjurada.\"\n%%\n#### `= this.file.name`\nSeu estudo de [[Magia Arcana Mista Limitada|Magia Arcana de forma mista]] pode não ser especializado, mas é flexível. Você pode manipular o custo de [[Energia Mágica|EM]] das suas magias de Mago das seguintes formas:\n\n* **Surto de Poder:** Você pode utilizar 1 [[Energia Mágica|EM]] adicional ao conjurar uma Magia Arcana não-básica de [[Magia Arcana Mista Limitada]] para aumentar a sua potência magica para essa conjuração em 2.\n* **Ciclar Entropia:** Pode ser usado se você conjurou uma Magia não-básica de [[Magia Arcana Mista Limitada]] no seu turno anterior. Você se aproveita da entropia criada pela magia anterior, reduzindo o custo da próxima conjuração. Quando você conjura uma Magia Arcana não-básica da escola oposta à Magia previamente conjurada, você pode reduzir o custo dessa conjuração em 1 [[Energia Mágica|EM]] (permitindo que você conjure uma Magia Adepta tendo somente 1 EM, por exemplo). Você então não pode usar Ciclar Entropia (ou [[Forçar Entropia]], caso tenha) novamente até [[Descansar]].\n\n```autosheet-rules\n```\n"
+}

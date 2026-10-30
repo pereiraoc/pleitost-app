@@ -1,0 +1,102 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/O Deserto e as Ruínas",
+  "path": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/O Deserto e as Ruínas.md",
+  "basename": "O Deserto e as Ruínas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O mar de dunas de Pedra Fina, a rota das caravanas e os lugares isolados que o deserto guarda.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Deserto e as Ruínas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Última Parada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio de Ja'ar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno do Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "O Deserto e as Ruínas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "As Dunas"
+    },
+    {
+      "level": 4,
+      "text": "Última Parada"
+    },
+    {
+      "level": 4,
+      "text": "As Ruínas de Luxor"
+    },
+    {
+      "level": 4,
+      "text": "O Palácio de Ja'ar"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[O Deserto e as Ruínas.png]]\n\nO norte da [[Federação Áurea]] é um mar de dunas amarelas espremido entre a costa e as [[Montanhas de Vidro]]: o deserto de [[Pedra Fina]]. No Ano 300, uma única estrada o corta, e tudo o que fica fora dela — ruínas, palácios, tempestades — é terra de caravana, de guia e de quem sabe onde fica o próximo poço.\n#### As Dunas\nAs dunas cobrem a faixa inteira entre a costa norte e a fronteira sul, onde o deserto esmorece em escrube cinzento rumo ao [[Campos do Provento]]. A oeste, os picos coroados de vidro das Montanhas de Vidro captam o sol em clarões, e aos seus pés corre um deserto pedregoso de areia ocre entre afloramentos de rocha escura. Aves de rapina circulam os cumes, e tempestades de areia varrem o horizonte. Quem chega de fora atravessa as montanhas pelo túnel de [[Primeiro Contato]] e é registrado na Casa da Imigração antes que a trilha o leve deserto adentro.\n#### Última Parada\nA estrada que vem de [[Baar'Shava]] termina em [[Última Parada]], e o nome diz o resto: adiante, só dunas. O caravançará murado de arenito dourado serve inteiro às caravanas — guias contratados na tenda junto ao portão, estábulos, ferraria, mercado de equipamentos, tonéis de reserva d'água e a Grande Estalagem de cúpula azul, onde se dorme antes da travessia. O rio e os poços fazem dele o último abastecimento confiável antes do deserto profundo.\n#### As Ruínas de Luxor\nNas dunas do norte, perto da costa e longe de qualquer rota, jazem as [[Ruínas de Luxor]]: uma metrópole mourisca de outra era, da qual só os monumentos ainda rompem a areia — um mausoléu de cúpula enterrado até meia altura, minaretes partidos, um portal inclinado com o vão escuro meio tapado de areia. Uma avenida rebaixada entre duas muralhas arruinadas ainda é transitável. Ninguém vive ali, não há água nem vegetação, e o nível variável das dunas sugere que boa parte da cidade continua intacta sob a areia. O que mais dorme lá embaixo, ninguém sabe dizer.\n#### O Palácio de Ja'ar\nNa ponta costeira do nordeste, sobre um promontório rochoso, ergue-se o [[Palácio de Ja'ar]], obra-prima da arquitetura mourisca de Pedra Fina: pátios, jardins de laranjeiras, fontes e banhos murados como uma fortaleza, com o mar por todos os lados e uma única ponte sobre o canal. Nenhuma estrada chega até ele — tão belo quanto defensável, e tão isolado quanto as ruínas.\n\n> [!note]- Atravessar o deserto\n> A única estrada de Pedra Fina liga [[Última Parada]] a [[Baar'Shava]] e segue para o sul rumo a [[Iluminada]]. A Caravana (4 hex/dia, 1 PO por pessoa por dia) só anda em estrada; fora dela, Luxor e Ja'ar se alcançam A pé (2 hex/dia) ou a Cavalo (3 hex/dia, só em gramado e terreno difícil) — Ja'ar também por mar, de Barco. Regras completas em [[Contexto Fantasia]] (bloco `viagem`) e [[Terreno do Mundo Livre]].\n"
+}

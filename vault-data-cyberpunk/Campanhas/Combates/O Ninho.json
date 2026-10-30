@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/O Ninho",
+  "path": "Campanhas/Combates/O Ninho.md",
+  "basename": "O Ninho",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Delta Radioativo]] · [[Zona Deserta]]",
+    "Situação": "A estação abandonada inteira é o inimigo — e alguma coisa rápida demais circula entre as ruínas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Colônia Mutante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corredor Fantasma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rato-do-Delta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[Colônia Mutante]] lento\n- 1 [[Corredor Fantasma]] super rápido\n- 4 [[Rato-do-Delta]] rápido\n```\n"
+}

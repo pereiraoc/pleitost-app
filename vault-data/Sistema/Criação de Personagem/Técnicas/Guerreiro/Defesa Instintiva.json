@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Defesa Instintiva",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Defesa Instintiva.md",
+  "basename": "Defesa Instintiva",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "L",
+    "resumo": "\"Você pode [[Erguer Escudo]] ou [[Aparar]] como ação livre no inicio do turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: L\n\nresumo:: \"Você pode [[Erguer Escudo]] ou [[Aparar]] como ação livre no inicio do turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Defesa Instintiva.\n\n**Defesa Instintiva - L**\nPode ser usado quando seu turno começa. Você realiza [[Erguer Escudo]] como ação livre.\n\n Caso você tenha a técnica [[Aparar]], você pode realizar [[Aparar]] em vez de [[Erguer Escudo]] e também pode ativar Defesa Instintiva quando sua primeira ação no turno é [[Sacar]] uma arma compatível (ou armas compatíveis) com [[Aparar]] (além da ativação normal no início de seus turnos).\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Contexto/Organizações/Empresas/Polar",
+  "path": "Contexto/Organizações/Empresas/Polar.md",
+  "basename": "Polar",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Frida Neumann]]",
+    "Descrição": null,
+    "Resumo": "Cervejaria gaúcha dona da polêmica cerveja com taurilênicos — álcool e estimulante na mesma garrafa, em parceria com a Panvel e sob liberação especial.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Polar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frida Neumann",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Polar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Polar.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** O bairrismo gaúcho em forma de garrafa. A linha tradicional segue sendo a cerveja do bar de esquina, mas a **cerveja com taurilênicos** — álcool e estimulante selênico no mesmo gole — é a mais controversa das parcerias da [[Panvel]]: sai com tarja vermelha e só com liberação, e mesmo assim atravessa o balcão por baixo em metade da [[Cidade Baixa]]. A [[Brigada Militar Metropolitana]] culpa a mistura pelos tumultos de arquibancada; a Polar responde com patrocínio, gelo e o slogan de sempre.\n"
+}

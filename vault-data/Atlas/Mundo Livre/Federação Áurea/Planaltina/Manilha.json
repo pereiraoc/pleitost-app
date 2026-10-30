@@ -1,0 +1,62 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Manilha",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Manilha.md",
+  "basename": "Manilha",
+  "type": "Localização",
+  "subtype": "Grande Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Grande Cidade",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Queijo"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Manilha.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Manilha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Manilha.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Grande cidade aberta de [[Planaltina]], espraiada num mar de pastos, vinhas e pomares — Manilha não tem muralhas nem portões: a distância rural é sua única defesa. É a cidade do queijo da [[Federação Áurea]], e todo o seu desenho serve à indústria do leite, dos rebanhos nos campos aos armazéns, adegas de maturação e ao mercado onde as rodas são pesadas e vendidas. Situada no eixo de estradas que liga o interior da região a [[Pedrita]] e [[Safira]], escoa a produção em caravanas de carroças que partem diariamente do Terreiro dos Carreiros. \n>\n> 👁️**Aparência do Local:** Casario de estilo português de um a dois andares, com a cor dos telhados marcando cada distrito — dourado na colina norte, ocre no centro, pardo a oeste, verde a leste, teal a sudoeste, violeta a sudeste. As ruas partem em estrela da Praça da Fonte e viram estradas rurais entre campos cercados e renques de vinhas e pomares; o skyline se resume ao Paço da Vila e à Torre do Sino na colina norte. Um rio de água esverdeada entra pelo oeste, contorna o sul da cidade e sai pelo sudeste, cruzado por duas pontes de pedra em arco de margens arborizadas. Por toda a volta, animais brancos pastam entre casas de fazenda — o ciclo do queijo é legível na própria paisagem, do pasto aos armazéns do leite, às adegas e à balança. \n> \n\n> [!info] Distritos e Locais de Interesse\n> **Colina do Paço** *(dourado — norte)* — o casario nobre da colina suave que coroa a cidade.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "50.000 (30% Classe Baixa,  60% Classe Média, 10% Classe Alta)",
+    "descricao": "Grande cidade aberta de [[Planaltina]], espraiada num mar de pastos, vinhas e pomares — Manilha não tem muralhas nem portões: a distância rural é sua única defesa. É a cidade do queijo da [[Federação Áurea]], e todo o seu desenho serve à indústria do leite, dos rebanhos nos campos aos armazéns, adegas de maturação e ao mercado onde as rodas são pesadas e vendidas. Situada no eixo de estradas que liga o interior da região a [[Pedrita]] e [[Safira]], escoa a produção em caravanas de carroças que partem diariamente do Terreiro dos Carreiros.",
+    "aparencia": "Casario de estilo português de um a dois andares, com a cor dos telhados marcando cada distrito — dourado na colina norte, ocre no centro, pardo a oeste, verde a leste, teal a sudoeste, violeta a sudeste. As ruas partem em estrela da Praça da Fonte e viram estradas rurais entre campos cercados e renques de vinhas e pomares; o skyline se resume ao Paço da Vila e à Torre do Sino na colina norte. Um rio de água esverdeada entra pelo oeste, contorna o sul da cidade e sai pelo sudeste, cruzado por duas pontes de pedra em arco de margens arborizadas. Por toda a volta, animais brancos pastam entre casas de fazenda — o ciclo do queijo é legível na própria paisagem, do pasto aos armazéns do leite, às adegas e à balança.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Colina do Paço** *(dourado — norte)* — o casario nobre da colina suave que coroa a cidade.",
+    "leaflet": null
+  }
+}

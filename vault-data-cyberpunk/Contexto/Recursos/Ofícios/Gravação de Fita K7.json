@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Gravação de Fita K7",
+  "path": "Contexto/Recursos/Ofícios/Gravação de Fita K7.md",
+  "basename": "Gravação de Fita K7",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Gravação",
+    "Marca": "Banca de Discos e Fitas",
+    "Preço": 200,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Fita K7 gravada na hora a partir de disco ou de outra fita — rock gaúcho, samba, e o que o rádio não toca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA banca de discos tem um toca-discos, dois decks duplos e pilhas de fitas virgens. O cliente escolhe as músicas e sai com a fita gravada e a capa escrita à mão. Rock gaúcho, samba-enredo, MPB — e, pra quem pergunta baixo, as fitas demo do [[Quarto Distrito]] que a rádio não toca.\n\n> [!info] Especificação\n> **Fita:** 60 minutos, capa escrita à mão\n> **Fita virgem:** Cz$ 80\n> **Por baixo do balcão:** demo proibida do Quarto Distrito, Cz$ 300\n"
+}

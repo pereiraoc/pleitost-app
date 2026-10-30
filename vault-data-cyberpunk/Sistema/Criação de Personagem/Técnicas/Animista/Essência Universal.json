@@ -1,0 +1,123 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Universal",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Universal.md",
+  "basename": "Essência Universal",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Somar Magias.Lista.Anima.Slots.U 1",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Somar Magias.Secundaria.Lista.Anima.Slots.U 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "P",
+    "resumo": "\"Você recebe acesso a uma [[Essências Elementais#Universal|Essência Elemental Universal]], você pode conjurar a forma Básica e Adepta desta essência.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Somar Magias.Lista.Anima.Slots.U 1",
+      "parsed": [
+        {
+          "sourceNote": "Essência Universal",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Magias Anima]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.U",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Magias Anima]]) Somar Magias.Lista.Anima.Slots.U 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Somar Magias.Secundaria.Lista.Anima.Slots.U 1",
+      "parsed": [
+        {
+          "sourceNote": "Essência Universal",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Animista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Slots.U",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Somar Magias.Secundaria.Lista.Anima.Slots.U 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental Universal",
+      "subpath": "Universal"
+    },
+    {
+      "target": "Essência de Criação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Destruição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magias Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    },
+    {
+      "level": 4,
+      "text": "Essências Universais"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: P\n\nresumo:: \"Você recebe acesso a uma [[Essências Elementais#Universal|Essência Elemental Universal]], você pode conjurar a forma Básica e Adepta desta essência.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manifestar os elementos de uma forma fundamental. Você recebe acesso a uma [[Essências Elementais#Universal|Essência Elemental Universal]], você pode conjurar a forma Básica e Adepta desta essência.\n\n#### Essências Universais\n[[Essência de Criação]]\n[[Essência de Destruição]]\n\n```autosheet-rules\n```\n"
+}

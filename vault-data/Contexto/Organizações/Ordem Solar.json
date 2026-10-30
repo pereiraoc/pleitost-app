@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Organizações/Ordem Solar",
+  "path": "Contexto/Organizações/Ordem Solar.md",
+  "basename": "Ordem Solar",
+  "type": "Organização",
+  "subtype": "Ordem",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Ordem",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Cavaleiros da luz: marcialistas, magos e arcanistas brancos que caçam mortos-vivos e esperam o primeiro nascido da luz.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ordem Solar.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Ordem Solar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Ordem Solar.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Um conjunto de pessoas que se portam como cavaleiros medievais, com trejeitos e termos \"clássicos\". Priorizam a criação de entropia positiva, que chamam de **luz**. Suas fileiras reúnem marcialistas, magos e arcanistas brancos.\n"
+}

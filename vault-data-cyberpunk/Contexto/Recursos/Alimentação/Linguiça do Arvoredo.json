@@ -1,0 +1,42 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Linguiça do Arvoredo",
+  "path": "Contexto/Recursos/Alimentação/Linguiça do Arvoredo.md",
+  "basename": "Linguiça do Arvoredo",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Mantimento",
+    "Marca": "Açougue do Arvoredo",
+    "Preço": 120,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Açougue do Arvoredo]]"
+    ],
+    "Resumo": "A linguiça mais barata do Centro, temperada forte demais pra se saber de quê — vendida na rua onde, em 1864, a cidade jurou que a linguiça era de gente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Açougue do Arvoredo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carne de Segunda do Açougue",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO quilo mais barato de carne da cidade, no gancho do [[Açougue do Arvoredo]], no piso flutuante sobre a antiga Rua do Arvoredo. Gorda, vermelha de colorau, com alho e pimenta bastando pra tapar qualquer gosto, e um nome que é a piada mais velha de Porto Alegre: em 1864 acharam restos no porão de um açougue dessa rua, e desde então todo mundo \"sabe\" do que era feita a linguiça — sem que ninguém tenha provado. Seu Miro, o dono, jura que a carne vem de Viamão; o freguês do [[Mercado Público]] que não paga a [[Carne de Segunda do Açougue]] compra, frita e repete a piada. Na feira, \"linguiça do Arvoredo\" é como se chama qualquer carne que ninguém sabe de onde veio.\n\n> [!info] Especificação\n> **Unidade:** o quilo, em gomos, embrulhado em jornal\n> **Tempero:** colorau, alho, pimenta e sal de mais — o gosto de ferro no fim é \"da panela\"\n> **Fiado:** nunca; o Miro cobra na hora e em cruzado\n"
+}

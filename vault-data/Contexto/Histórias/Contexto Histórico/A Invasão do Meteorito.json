@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Invasão do Meteorito",
+  "path": "Contexto/Histórias/Contexto Histórico/A Invasão do Meteorito.md",
+  "basename": "A Invasão do Meteorito",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 0",
+    "Descrição": "A Magna Pátria cruza as montanhas para tomar a região do [[Meteorito]], disputada como terra santa. As primeiras campanhas são vitórias esmagadoras, e o oeste avança sobre o [[Campos do Provento]]. Começa a Guerra dos 100 Anos.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

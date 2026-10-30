@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Revolta do Oeste e a Fundação da Magna Pátria",
+  "path": "Contexto/Histórias/Contexto Histórico/A Revolta do Oeste e a Fundação da Magna Pátria.md",
+  "basename": "A Revolta do Oeste e a Fundação da Magna Pátria",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 250 a.G.",
+    "Descrição": "Os povos subjugados se levantam contra os Altivos numa guerra longa e sangrenta — e vencem. Sobre as ruínas do domínio élfico decretam a [[Magna Pátria]], a pátria de todos que lutaram. No [[Mundo Livre]], a revolta é lembrada até hoje como um dos levantes populares mais legítimos da história.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nA revolta é o mito fundador da [[Magna Pátria]]: a prova de que o povo do oeste, unido, derruba qualquer senhor. Começa em aldeias que se recusam a entregar a colheita, vira guerra quando os Altivos mandam suas tropas, e termina décadas depois com as casas élficas queimadas e seus nomes riscados. O nome da nova nação é uma promessa — uma pátria grande o bastante para todos os que sangraram por ela.\n\nDo lado de cá das montanhas, a história chega como inspiração. Nas cidades do leste ainda se conta a revolta como exemplo de coragem popular, e houve um tempo — antes da guerra — em que o leste admirava a Magna Pátria.\n\n"
+}

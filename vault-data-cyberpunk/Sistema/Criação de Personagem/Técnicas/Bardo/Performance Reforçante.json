@@ -1,0 +1,106 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Reforçante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Reforçante.md",
+  "basename": "Performance Reforçante",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Reforçar]]",
+      "Complementar Acoes.Lista [[Ato Reforçante]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você aprende a Performance Bárdica [[Reforçar]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Reforçar]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Reforçante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Reforçar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Reforçar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Reforçante]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Reforçante",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Reforçante]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Reforçante]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Reforçar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reforçar",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Ato Reforçante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você aprende a Performance Bárdica [[Reforçar]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a Performance Bárdica Reforçar.\n\n![[Reforçar#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

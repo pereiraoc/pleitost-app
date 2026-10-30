@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Pousada da Estrada",
+  "path": "Contexto/Recursos/Moradia/Noite na Pousada da Estrada.md",
+  "basename": "Noite na Pousada da Estrada",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Pousada da Estrada]]",
+    "Preço": 100,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Restinga]]",
+      "[[Pousada da Estrada]]"
+    ],
+    "Resumo": "Rede ou colchão por noite no sobrado do Bar da Estrada, na Restinga: sem pergunta, sem registro, sem Brigada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Pousada da Estrada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pousada da Estrada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Pousada da Estrada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Pousada da Estrada.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA [[Pousada da Estrada]] é o andar de cima do bar: rede, colchão e uma chave de cadeado pra quem chegou de balsa ou vai sair de bote de madrugada. O enclave não registra ninguém — e cobra em dinheiro, dólar ou peixe.\n\n> [!info] Especificação\n> **Quarto:** rede ou colchão em salão comum\n> **Inclui:** café do bar de manhã\n> **Regra:** briga resolve na rua\n> **Nível:** 1 — Miserável\n"
+}

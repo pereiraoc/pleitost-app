@@ -1,0 +1,68 @@
+{
+  "id": "Contexto/Recursos/Veículos/Volkswagen Kombi",
+  "path": "Contexto/Recursos/Veículos/Volkswagen Kombi.md",
+  "basename": "Volkswagen Kombi",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Volkswagen",
+    "Preço": 350000,
+    "Cobrança": "única",
+    "Usado": 120000,
+    "Manutenção": 3000,
+    "Nível": 4,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Praia de Belas]]",
+      "[[Petrópolis]]"
+    ],
+    "Resumo": "A van de frete, de lotação clandestina e de mudança de palafita: nove lugares ou uma tonelada, motor a ar atrás.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Volkswagen Kombi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Volkswagen Kombi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Volkswagen Kombi.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Kombi carrega o que a cidade precisa mover: nove passageiros numa lotação clandestina da [[Jardim Botânico]], o\nestoque de um armazém, a mudança inteira de uma palafita. Nova custa o preço de um Carajás; usada, o [[Cartel dos Eixos]] entrega com placa de outro estado.\n\n> [!info] Especificação\n> **Modelo:** Kombi Standard 1986, 9 lugares ou furgão de carga\n> **Motor:** VW 1.6 a ar, 56 cv; 8 km/l\n> **Carga:** 1.000 kg\n> **Novo:** revendas de [[Petrópolis]] e [[Passo D'Areia]]\n> **Usado:** garagens de [[Nova Sarandi]] e do cais\n> **Manutenção:** Cz$ 3.000 por mês — lotação clandestina paga a própria propina\n"
+}

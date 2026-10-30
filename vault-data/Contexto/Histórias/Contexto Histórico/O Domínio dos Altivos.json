@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Domínio dos Altivos",
+  "path": "Contexto/Histórias/Contexto Histórico/O Domínio dos Altivos.md",
+  "basename": "O Domínio dos Altivos",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 400 a.G.",
+    "Descrição": "Um povo do oeste passa a se dizer descendente dos elfos — e, com isso, acima dos demais. Cobra tributo, toma a água e a terra boa e transforma o coletivo de que todos dependiam numa servidão.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

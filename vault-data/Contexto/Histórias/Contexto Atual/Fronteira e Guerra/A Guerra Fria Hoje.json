@@ -1,0 +1,102 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/A Guerra Fria Hoje",
+  "path": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/A Guerra Fria Hoje.md",
+  "basename": "A Guerra Fria Hoje",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A guerra que ninguém declara: naus que somem, espiões nos portos e escaramuças negadas entre a Pátria Aurora e a Magna Pátria.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Guerra Fria Hoje.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Guerra Fria do Mar",
+      "kind": "wikilink",
+      "alias": "Ano 280"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Os Olhos Vazios",
+      "kind": "wikilink",
+      "alias": "olhos vazios"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Mar Fechado",
+      "kind": "wikilink",
+      "alias": "Mar Fechado"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Deserção da Frota e a Fundação da Pátria Aurora",
+      "kind": "wikilink",
+      "alias": "Ano 55"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Guerra Fria Hoje.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Naus que Somem"
+    },
+    {
+      "level": 4,
+      "text": "Espiões nos Portos"
+    },
+    {
+      "level": 4,
+      "text": "As Velas Vermelhas"
+    },
+    {
+      "level": 4,
+      "text": "O Continente Não Acredita"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Guerra Fria Hoje.png]]\n\nEm terra, o [[Mundo Livre]] vive a paz mais longa de sua história. No mar a oeste da [[Pátria Aurora]], não. Desde o [[A Guerra Fria do Mar|Ano 280]], vinte anos antes do presente, a ilha e a Magna Pátria travam uma guerra que nenhum dos lados admite: naus que somem, espiões nos portos, escaramuças que ninguém confirma. No continente, quase ninguém presta atenção; em [[Lucerna]], não se fala de outra coisa.\n#### Naus que Somem\nO sinal mais comum é a ausência. Um pesqueiro que não volta, um mercante que sai de [[Velimaris]] contornando a ilha e nunca chega ao destino, um bote de patrulha encontrado à deriva sem ninguém a bordo. Nenhum desses casos tem testemunha, e nenhum tem culpado oficial. Os armadores da Bolas das Velas já embutem o risco nos fretes que contornam a fachada oeste, e os pescadores do litoral aprenderam a não ir longe demais para o poente. Quem pergunta a Lucerna recebe a mesma resposta seca: o mar é perigoso.\n#### Espiões nos Portos\nA segunda frente é em terra firme, nas docas. A Pátria Aurora caça espiões nos seus portos com um zelo que no continente parece paranoia — e os capturados reforçam o que a ilha denuncia desde os [[Os Olhos Vazios|olhos vazios]] do Ano 190: gente de olhar parado, frases repetidas, uma lealdade que interrogatório nenhum quebra. Velimaris, aberta ao mar em três frentes de porto e sem muralha alguma, é o lugar mais difícil de vigiar da ilha; Lucerna, com seu porto interno fechado a qualquer nau mercante, o mais fácil. Nos cais de [[Baar'Shava]], que recebem os aurorenses desde o [[O Mar Fechado|Mar Fechado]], também já se ouviu falar de estrangeiro calado demais.\n#### As Velas Vermelhas\nQuem responde a tudo isso é a esquadra de velas vermelhas de [[Magna Vigilia]], a fortaleza naval encravada no desfiladeiro logo abaixo de Lucerna. Descendente direta das galeras que desertaram no [[A Deserção da Frota e a Fundação da Pátria Aurora|Ano 55]], ela guarda a fachada oeste da ilha sob o comando do Mestre da Vigília. A base vive em manobras e obras permanentes: a Officina Murorum nunca para de reforçar as muralhas, a Schola Nautarum treina cadetes em formação, e no alto a Turris Lentis Arcanae vigia o desfiladeiro e o mar com sua lente arcana gigante. Se houve escaramuça de verdade — e nas tavernas de Lucerna se jura que houve —, foi ali que as galés voltaram com o casco riscado e ninguém deu explicação.\n#### O Continente Não Acredita\nA ironia da guerra fria é que ela isola ainda mais a Pátria. Em [[Iluminada]], o assunto é tratado como mais uma desconfiança aurorense, prima da denúncia dos olhos vazios que muitos ainda chamam de exagero. A Federação mantém o comércio com a ilha e a paz com o resto do mundo, e não tem pressa de trocar uma pela outra. Para o aurorense, essa indiferença é a parte mais difícil de engolir: a ilha que já escapou uma vez sabe que está sendo medida — e sabe que, se o mar pegar fogo, vai pegar primeiro em Lucerna.\n"
+}

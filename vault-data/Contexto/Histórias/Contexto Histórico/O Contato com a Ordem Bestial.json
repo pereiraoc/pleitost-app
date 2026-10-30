@@ -1,0 +1,35 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Contato com a Ordem Bestial",
+  "path": "Contexto/Histórias/Contexto Histórico/O Contato com a Ordem Bestial.md",
+  "basename": "O Contato com a Ordem Bestial",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 150",
+    "Descrição": "Os primeiros forasteiros a atravessar a savana até a mata colossal do sul da [[Ilha das Cinzas]] descobrem que ela tem dono: ali vive, desde sempre, um povo de druidas que nunca tinha sido contatado — a [[Ordem Bestial]]. A resposta deles é uma só: quem entrar sem convite é inimigo. Desde então a mata se chama, nos mapas, [[Floresta da Ordem]].",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

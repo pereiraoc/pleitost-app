@@ -1,0 +1,77 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Modos",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Modos.md",
+  "basename": "Modos",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Efeitos Interativos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frontmatter",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Os 4 modos da ficha"
+    },
+    {
+      "level": 2,
+      "text": "Editável"
+    },
+    {
+      "level": 2,
+      "text": "Interativa"
+    },
+    {
+      "level": 3,
+      "text": "Cluster Vida + Extras"
+    },
+    {
+      "level": 3,
+      "text": "Cluster Atributos"
+    },
+    {
+      "level": 3,
+      "text": "Cluster Magias (Heroi com proficiência mágica OU tesouros)"
+    },
+    {
+      "level": 3,
+      "text": "Monstro / CA"
+    },
+    {
+      "level": 2,
+      "text": "Resumo"
+    },
+    {
+      "level": 2,
+      "text": "Leitura"
+    },
+    {
+      "level": 2,
+      "text": "Trocar de modo"
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Os 4 modos da ficha\n\nCada modo é uma **view diferente** do mesmo YAML. Trocar de modo NÃO\naltera dado — só muda como você vê.\n\n| Modo | Status | Pra quê |\n|---|---|---|\n| **Resumo** | ✅ | Ficha em **cartão compacto** read-only com accent bar tier-colorida. Pra colocar em índices, painéis de campanha. |\n| **Interativa** | ✅ | Usar a ficha em sessão. Tracking de Vitalidade/Moral/EM, condições ativas, efeitos sustentados, invocações. Save próprio (separado do Editável). |\n| **Editável** | ✅ Default | Editar a ficha. Único modo com botões pra mudar valores + painel ℹ️ pra ver o que vai mudar antes de salvar. |\n| **Leitura** | ✅ | Ficha **densa printável A4** read-only. Tabular, fonte serif. `Ctrl+P` produz ficha de RPG digna de papel. |\n\nDisponibilidade depende da família — todos os 4 modos aparecem em Heroi/Monstro/CA.\n\n## Editável\n\nÚnico modo editável. Onde você cria/ajusta a ficha. Tem **regras**\nativas — o que sua classe/raça/habilidades adicionam aparece automático\n(perícias treinadas, slots, magias, ações).\n\n**Estrutura por família:**\n- **Heroi**: 6 abas (Perfil / Proficiências / Habilidades / Magias /\n  Inventário / Anotações).\n- **Monstro / CompanheiroAnimal**: 1 aba \"completa\" com tudo empilhado.\n\n**Painel ℹ️ \"Detalhes de Alteração\"**: mostra tudo que será gravado\nANTES do save. Princípio NO-SILENT-MUTATION-ON-SAVE — sem surpresa.\n\n## Interativa\n\nPra usar a ficha em **sessão**. Foco em tracking ao vivo.\n\n**Estrutura visual v2** (Heroi) — toda a ação acontece em **3 clusters\nempilhados no topo**, cada um com seus diamonds clicáveis à esquerda e\numa sidebar à direita que troca de conteúdo:\n\n### Cluster Vida + Extras\n- ❤️ **Losango Vida** no centro — fill bottom-up com gravidade (vit em\n  baixo, moral em cima; moral \"afunda\" pra repousar no nível atual da\n  vit; verde de Moral Temporária no topo). Linha pontilhada marca o\n  maxVit. Número único = total (Vit + Moral + MoralTemp); hover mostra\n  breakdown.\n- 💤 **Recuperação** (esq) e 💫 **Condições** (dir) flanqueando, alinhados\n  com colunas AGI/PRE do cluster Atributos abaixo.\n- Abaixo: 4 mini diamonds em cruz com 🥇 **Experiência** · 🪶 **Anotações** ·\n  🧪 **Consumíveis** · 🪙 **Moedas + Tesouros Especiais**.\n- Sidebar à direita troca entre os 7 modos:\n  - **Vida** (default): contadores Vit/Moral/MoralTemp + dano +\n    Escudo (com toggle de Erguer Escudo inline).\n  - **Condições**: lista catálogo agrupada (Negativas/Positivas).\n  - **Recuperação**: Ferimentos Tratáveis / Encorajável + Descansar /\n    Dormir.\n  - **Consumíveis**: poções por tier (compact list, alias \"P. X\").\n  - **Anotações**: textarea livre.\n  - **Experiência**: Marcas + Reconhecimentos editáveis.\n  - **Moedas + Tesouros Especiais**: ouro + texto livre.\n\n### Cluster Atributos\n- 4 grandes resistências (Defesa / Vigor / Reflexo / Ímpeto).\n- Cruz central de 4 atributos (FOR / AGI / INT / PRE).\n- Mid cross: 🥊 **Ataques** · ⚒️ **Ofícios** · 📘 **Técnicas** · 📕 **Habilidades**.\n- Badge da família no centro inferior (cinza pra Heroi, vermelho pra\n  Monstro, verde pra Companheiro Animal).\n- Sidebar à direita mostra Ataques e Ações / Defesa / Movimento /\n  Ofícios / lista de Perícias agrupadas por atributo clicado.\n\n### Cluster Magias (Heroi com proficiência mágica OU tesouros)\n- 4 mini diamonds em cruz: 💍 **Tesouros** (topo) · 🌗 **Arcana** (esq,\n  Branca + Negra combinadas) · ☄️ **Anima** (dir) · 🌀 **Magia Secundária**\n  (baixo).\n- Diamonds sem proficiência ficam cinzas e não-clicáveis.\n- Sidebar à direita mostra a escola clicada. EM (Energia Mágica) aparece\n  como pílulas toggle no canto direito do título (🔷 Primária ou 🔶\n  Secundária; clique consome/restaura).\n- **Companheiros** (invocações) aparecem INLINE dentro da escola que os\n  invoca (Amálgama das Sombras → Magia Arcana Negra etc).\n\n### Monstro / CA\n- Cluster Vida: losango Vida em modo single (sem Moral). Recuperação\n  desabilitada pra Monstro.\n- Extras: apenas 🧪 Consumíveis acessível em Monstro; CA não tem cluster\n  Extras.\n- Sem cluster Magias.\n- Cluster Atributos adaptado por família.\n\n**Save**: cada edit (toggle, contador, seletor) marca o que mudou\nem memória. O cabeçalho do bloco de tabs mostra `✏️ não salvo`\nenquanto há pendência e `✅ salvo` quando está em dia. O hover em cima\ndo status detalha o que está pendente.\n\nModos de save:\n- **Salvar manualmente** (default): aparece um container dedicado\n  abaixo do seletor de modos com botão `💾 Salvar` à esquerda e\n  indicador de status à direita (`✏️ não salvo` / `💾 salvando…` /\n  `✅ salvo`). Clique no botão grava tudo de uma vez. O container só\n  aparece quando você está na Interativa.\n- **Auto-salvar** (opt-in em Settings → Pleitost Autosheet): qualquer\n  alteração persiste sozinha após ~800 ms (coalesce cliques rápidos\n  num único save). O container do botão Salvar fica oculto; o\n  indicador de status aparece ao lado esquerdo do botão \"Interativa\"\n  no seletor de modos (`💾 salvando…` enquanto grava, `✅ salvo` por\n  1 segundo após finalizar e some). Sem flash visual nem perda de\n  scroll durante o salvamento.\n\n**Sanitização silenciosa**: se a Editável mudou algo que invalidaria o\nstate da Interativa (vit gravada acima do novo max, condição apontando\npra nota que sumiu, weapon selector pra arma removida), o plugin corrige\nsozinho ao carregar — vit volta pro max, referências órfãs são\ndescartadas, toggles em recursos preservados.\n\n**Efeitos Interativos**: condições, estados, formas, ações locais,\nataques locais, invocações declarados em `Efeitos_Interativos:` no FM.\nAparecem como toggles e dropdowns nos painéis. Cascade automático\n(`Ato Inspirador` ativa `Inspiração`, etc.). Ver [[Efeitos Interativos]].\n\n## Resumo\n\nFicha **read-only single-block** com accent bar lateral colorida pelo\ntier/nível. Pra visão geral compacta.\n\n**Sections renderizadas em ordem fixa** (hide-when-empty):\n1. Header (avatar + summary line + badge tier/NVL)\n2. Atributos\n3. Vitalidade + Defesa (com Moral)\n4. Resistências\n5. Sentidos + Movimentos\n6. Perícias (só treinadas)\n7. Magias (escolas)\n8. Magias-Tesouros\n9. Ataques (com sub-row de propriedades)\n10. Ações\n11. Técnicas (agrupadas por rank)\n12. Tesouros\n13. Habilidades (lista flat com parent/child)\n14. Consumíveis\n\n**Adaptações por família:**\n- **Heroi**: Bronze/Silver/Gold/Platina por nível. Badge NVL.\n- **Monstro**: Tier 0-3 (preto/bronze/prata/ouro). Raça+Tamanho na summary.\n- **CA**: Sem Magias/Tesouros. Tutor por último em negrito.\n\n## Leitura\n\nFicha **densa printável A4** read-only. Layout tabular com fonte serif\nGeorgia. `Ctrl+P` no Obsidian gera PDF/print B&W com paginação inteligente.\n\n**16 sections em ordem fixa** com HRs entre blocos:\nAtributos / Vitalidade / Ataques / Resistências+Equipamentos / Sentidos+\nPoderes Mágicos / Perícias / Ofícios / Especializações / EM / Magias\nAprendidas+Tesouros / Tesouros / Ações (agrupadas por up) / Técnicas /\nHabilidades+Especiais / Ações de Perícia / Consumíveis.\n\n**2 padrões visuais dominam:**\n- **Tabela 6-col Padrão A** (emoji/nome/prof/item-bolinhas/esp/total)\n  pra stats numéricos.\n- **Lista descritiva** `[[Item]] (custo): resumo` pros itens textuais.\n\nO `resumo` vem de inline `resumo::` no body de cada nota — escrito em\nlinguagem livre.\n\n## Trocar de modo\n\nBotões de modo no topo da ficha. Modos não disponíveis pra família ficam\ndesabilitados (cinza). Trocar de modo NÃO confirma edits não salvos hoje\n— se você editou no Editável e quer testar no Interativa, **salve antes**.\n\n## Ver também\n\n- [[Como Funciona]] — visão simples dos fluxos\n- [[Frontmatter]] — o que escrever no YAML\n- [[Efeitos Interativos]] — bloco `Efeitos_Interativos:`\n- [architecture/modes.md](../../../.obsidian/plugins/pleitost-autosheet/docs/architecture/modes.md) — como modos são montados internamente\n"
+}

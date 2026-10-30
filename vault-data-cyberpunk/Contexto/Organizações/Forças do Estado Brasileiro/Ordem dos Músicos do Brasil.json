@@ -1,0 +1,50 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Ordem dos Músicos do Brasil",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Ordem dos Músicos do Brasil.md",
+  "basename": "Ordem dos Músicos do Brasil",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Ordem dos Músicos",
+      "OMB"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "O conselho federal que decide quem é músico: sem carteira e sem anuidade paga, tocar por dinheiro é exercício ilegal da profissão — e o fiscal fecha a casa no meio do show.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ordem dos Músicos do Brasil.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Expressão Artística",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink",
+      "alias": "Ressonante"
+    },
+    {
+      "target": "Regalias de Classe",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ordem dos Músicos do Brasil.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Ordem dos Músicos do Brasil.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Criada por lei federal em 1960 pra \"disciplinar o exercício da profissão\", a Ordem virou o cadastro de quem pode ganhar dinheiro tocando. A carteira sai depois de prova e paga-se **anuidade**; quem não tem carteira não assina contrato, não recebe por fora sem risco e não entra em casa que tem alvará — toca onde ninguém pede papel, e lá se paga em comida, cerveja e entrada franca. Fiscal da Ordem entra no meio do show, pede o documento e multa a casa junto com o músico, o que faz o dono preferir quem já é registrado. Some com a censura de repertório ([[Expressão Artística]]) e dá dois carimbos pra atravessar antes de subir no palco: quem tu é e o que tu pode cantar. Para o [[Bardo|Ressonante]], é o degrau que separa o cachê da carreira — e quem paga a anuidade dele é a gravadora, no nível 4 ([[Regalias de Classe]]).\n\n"
+}

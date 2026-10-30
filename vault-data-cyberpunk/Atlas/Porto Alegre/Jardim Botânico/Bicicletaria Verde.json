@@ -1,0 +1,78 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Bicicletaria Verde",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Bicicletaria Verde.md",
+  "basename": "Bicicletaria Verde",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Dono": "Seu Ivo Balestrin",
+    "Descrição": null,
+    "Serviços": [
+      "[[Caloi Cross]]",
+      "[[Bicicleta Caloi 10]]",
+      "[[Monark Barra Circular]]",
+      "[[Mobilete Caloi]]",
+      "[[Bicicleta Caloi 10]] usado",
+      "[[Caloi Cross]] usado"
+    ],
+    "Completo": true,
+    "markerTag": "Industrial"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bicicletaria Verde.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caloi Cross",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bicicleta Caloi 10",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monark Barra Circular",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mobilete Caloi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bicicletaria Verde.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bicicletaria Verde.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Caloi Cross, Caloi 10, Monark e Mobilete, novas e usadas; conserto na hora e cadeado com desconto.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Loja com bicicletas penduradas na fachada, bancada de conserto na calçada e um cachorro vira-lata.\n> \n\n> [!info] Serviços\n> O que este estabelecimento vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Caloi Cross, Caloi 10, Monark e Mobilete, novas e usadas; conserto na hora e cadeado com desconto.",
+    "aparencia": "Loja com bicicletas penduradas na fachada, bancada de conserto na calçada e um cachorro vira-lata.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

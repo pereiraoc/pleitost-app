@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Superior/Estratagema Superior (Combatente)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema Superior/Estratagema Superior (Combatente).md",
+  "basename": "Estratagema Superior (Combatente)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratagema (Combatente)]]",
+      "Complementar Acoes.Lista [[Avanço Conjunto]]",
+      "Complementar Acoes.Lista [[Ataque Combinado]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprende as habilidades [[Avanço Conjunto]] e [[Ataque Combinado]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratagema (Combatente)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Superior (Combatente)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratagema (Combatente)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratagema (Combatente)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Avanço Conjunto]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Superior (Combatente)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Avanço Conjunto]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Avanço Conjunto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Ataque Combinado]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema Superior (Combatente)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ataque Combinado]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ataque Combinado]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avanço Conjunto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Combinado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema (Combatente)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprende as habilidades [[Avanço Conjunto]] e [[Ataque Combinado]].\"\n%%\n##### `= this.file.name`\nVocê aprende as habilidades [[Avanço Conjunto]] e [[Ataque Combinado]].\n\n```autosheet-rules\n```\n"
+}

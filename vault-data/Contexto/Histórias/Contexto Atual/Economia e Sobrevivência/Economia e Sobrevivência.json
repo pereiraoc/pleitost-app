@@ -1,0 +1,45 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia e Sobrevivência",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia e Sobrevivência.md",
+  "basename": "Economia e Sobrevivência",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Economia",
+      "kind": "embed"
+    },
+    {
+      "target": "Divisão de Classes",
+      "kind": "embed"
+    },
+    {
+      "target": "Ofícios e Mercados",
+      "kind": "embed"
+    },
+    {
+      "target": "Moeda e Comércio",
+      "kind": "embed"
+    },
+    {
+      "target": "Disponibilidade de Tesouros",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Economia]]\n![[Divisão de Classes]]\n![[Ofícios e Mercados]]\n![[Moeda e Comércio]]\n![[Disponibilidade de Tesouros]]\n"
+}

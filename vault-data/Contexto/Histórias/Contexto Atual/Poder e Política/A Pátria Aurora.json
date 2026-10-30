@@ -1,0 +1,132 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Política/A Pátria Aurora",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Política/A Pátria Aurora.md",
+  "basename": "A Pátria Aurora",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A ilha-nação de monges e ex-marinheiros: uma fachada militar voltada para o oeste, uma fachada mercante voltada para o continente.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Pátria Aurora.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Deserção da Frota e a Fundação da Pátria Aurora",
+      "kind": "wikilink",
+      "alias": "Ano 55"
+    },
+    {
+      "target": "O Êxodo do Norte",
+      "kind": "wikilink",
+      "alias": "Êxodo"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Mar Fechado",
+      "kind": "wikilink",
+      "alias": "Ano 120"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Terraplanagem de Centrum",
+      "kind": "wikilink",
+      "alias": "Terraplanagem de Centrum"
+    },
+    {
+      "target": "Os Olhos Vazios",
+      "kind": "wikilink",
+      "alias": "olhos vazios"
+    },
+    {
+      "target": "A Guerra Fria do Mar",
+      "kind": "wikilink",
+      "alias": "Ano 280"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Pátria Aurora.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Monges e Oficiais"
+    },
+    {
+      "level": 4,
+      "text": "Duas Fachadas"
+    },
+    {
+      "level": 4,
+      "text": "Do Mar Fechado à Guerra Fria"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Pátria Aurora.png]]\n\nA [[Pátria Aurora]] é a única nação do [[Mundo Livre]] fundada por gente que veio do outro lado. Nasceu no [[A Deserção da Frota e a Fundação da Pátria Aurora|Ano 55]], quando a frota inteira da Magna Pátria, mandada para esmagar os fugitivos do [[O Êxodo do Norte|Êxodo]], chegou à ilha dos mosteiros e desertou. Dois séculos e meio depois, a ilha ainda é o que aquela união fez dela: uma nação de monges e de marinheiros, separada da [[Federação Áurea]] e de olhos sempre postos no poente.\n#### Monges e Oficiais\nA espinha da Pátria são os quatro mosteiros-fortaleza irmãos — [[Cúpula dos Céus]], [[Mosteiro dos Mares]], [[Palácio das Pedras]] e [[Torre das Tochas]] — cujos mestres formam a elite da nação. Os noviços começam em [[Firmamentum]], o entroncamento de todos os caminhos da serra, e sobem aos mosteiros. Ao lado deles, a herança da frota: oficiais formados na Academia Navalis e uma tradição militar que nunca foi desmontada. [[Lucerna]], a capital, pertence tanto aos monges quanto aos oficiais — fóruns, mosteiros e quartéis sob a mesma muralha em arcada, o Palatium Lucernae dourado no alto da acrópole, e toda a toponímia escrita em latim, a língua da frota que virou a língua do Estado.\n#### Duas Fachadas\nA ilha tem duas caras e não esconde nenhuma. A oeste, voltada para a Magna Pátria, é militar: Lucerna mantém um porto interno onde nenhuma nau mercante atraca, e logo abaixo, no desfiladeiro, [[Magna Vigilia]] abriga a esquadra de velas vermelhas, descendente das galeras desertoras. A leste e ao norte, é mercante: [[Velimaris]], a \"cidade das velas\", compra matéria-prima, refina imbuições em suas oficinas e revende o produto acabado ao continente, enquanto [[Prasinarium]] embarca o minério da serra. O aurorense comum vive dessa segunda fachada; o Estado aurorense, da primeira.\n#### Do Mar Fechado à Guerra Fria\nPor muito tempo a Pátria ainda trocava cartas e prisioneiros com o oeste — famílias partidas pela deserção mantinham algum fio. No [[O Mar Fechado|Ano 120]], a Magna Pátria cortou tudo, e a Pátria virou as velas para o continente: é desde então que o comércio com [[Baar'Shava]] sustenta Velimaris. Foram os aurorenses, também, que confirmaram a [[A Terraplanagem de Centrum|Terraplanagem de Centrum]] e denunciaram os [[Os Olhos Vazios|olhos vazios]] dos que vêm de lá — denúncias que no continente muitos ainda chamam de exagero. Desde o [[A Guerra Fria do Mar|Ano 280]], as naus que somem e os espiões nos portos deram à Pátria a sensação amarga de ter tido razão sozinha. Em Lucerna, ninguém acha que a paz de 200 anos chegou ao mar.\n"
+}

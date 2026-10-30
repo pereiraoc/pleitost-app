@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Caldo de Cana do Mercado",
+  "path": "Contexto/Recursos/Alimentação/Caldo de Cana do Mercado.md",
+  "basename": "Caldo de Cana do Mercado",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Bebida",
+    "Marca": "Engenhoca da Banca 40",
+    "Preço": 30,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Copo de caldo de cana moído na engenhoca, com limão — o acompanhamento do pastel e o almoço de quem não tem mais nada.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA engenhoca de moer cana fica na boca da Banca 40, barulhenta como uma betoneira. O copo sai gelado e doce, com um espremido de limão; com o pastel, é o almoço de estivador. Nas semanas em que a cana não chega, a banca vende garapa de rapadura dissolvida e jura que é a mesma coisa.\n\n> [!info] Especificação\n> **Copo:** 300 ml, com limão; sem limão ninguém pede\n> **Com pastel:** Cz$ 70 os dois, preço de combo\n> **Quando falta:** garapa de rapadura, mais rala\n"
+}

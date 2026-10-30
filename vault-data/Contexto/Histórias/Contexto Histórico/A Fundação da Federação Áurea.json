@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Fundação da Federação Áurea",
+  "path": "Contexto/Histórias/Contexto Histórico/A Fundação da Federação Áurea.md",
+  "basename": "A Fundação da Federação Áurea",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 8",
+    "Descrição": "Sozinha, nenhuma região resistiria. [[Baar'Shava]], [[Iluminada]] e [[Safira]] juntam [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] numa só nação — a [[Federação Áurea]] — e o [[Principado das Flores]] entra na luta como aliado. Juntos, os quatro retomam o território perdido e empurram a frente até o gargalo entre a [[Serra do Bode]] e as [[Montanhas de Vidro]], onde ela vai ficar pelo resto da guerra.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

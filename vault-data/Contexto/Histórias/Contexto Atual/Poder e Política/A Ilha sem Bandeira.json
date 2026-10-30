@@ -1,0 +1,88 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Política/A Ilha sem Bandeira",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Política/A Ilha sem Bandeira.md",
+  "basename": "A Ilha sem Bandeira",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A Ilha das Cinzas, terra de ninguém: o porto franco de Riqueza, sem governo, e a Ordem Bestial, que mantém a ilha neutra.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Ilha sem Bandeira.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação de Riqueza",
+      "kind": "wikilink",
+      "alias": "Ano 140"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Contato com a Ordem Bestial",
+      "kind": "wikilink",
+      "alias": "Ano 150"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Ilha sem Bandeira.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Riqueza, o Porto sem Dono"
+    },
+    {
+      "level": 4,
+      "text": "A Ordem que Ninguém Convidou"
+    },
+    {
+      "level": 4,
+      "text": "Por que a Ilha Continua Neutra"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Ilha sem Bandeira.png]]\n\nDo porto de [[Canto Alto]] avista-se, do outro lado do estreito, uma ilha escura sob uma coluna de fumaça que nunca baixa. A [[Ilha das Cinzas]] faz parte do [[Mundo Livre]] no mapa e em nenhum outro lugar: não tem governo, não tem estrada e não tem bandeira. No Ano 300, é o único pedaço do continente onde nenhuma nação manda — e todas preferem que continue assim.\n#### Riqueza, o Porto sem Dono\n[[Riqueza]] nasceu no [[A Fundação de Riqueza|Ano 140]] na costa oeste da ilha como porto franco: sem governo, sem templo e sem bandeira, onde a única lei é o negócio fechado. Não tem sede da [[Sociedade Aberta]], não tem paço, não tem muralha. É uma cidade de madeira e lona, construída barata para abrir comércio no dia seguinte, onde boa parte das lojas é uma tenda armada no Mercado Livre das Tendas. Pelo Cais Raso entram e saem os rubis dos Armazéns do Rubi, as imbuições de fogo das Oficinas e os Focos arcanos da Casa dos Focos — quase tudo negociado de frente para Canto Alto. Quem vem de fora aprende rápido que ali não há a quem reclamar: o que garante um contrato é a reputação de quem o fechou, e a reputação se perde uma vez só.\n#### A Ordem que Ninguém Convidou\nO resto da ilha tem dono, e o dono não negocia. No [[O Contato com a Ordem Bestial|Ano 150]], os primeiros forasteiros que cruzaram a savana até a mata colossal do sul descobriram ali a [[Ordem Bestial]] — druidas antigos, praticamente sem contato com a civilização, que sempre viveram na [[Floresta da Ordem]]. A resposta deles foi e continua sendo uma só: quem entrar sem convite é inimigo. Das plataformas de madeira nos galhos das árvores-gigantes, eles vigiam a borda oeste da mata; ninguém sabe o que querem a longo prazo, só que querem a floresta inteira para si.\n#### Por que a Ilha Continua Neutra\nÉ o domínio da Ordem que mantém a Ilha das Cinzas como território neutro. Nenhuma nação do continente arriscaria uma guarnição numa ilha cujo sul é hostil a qualquer bandeira, e nenhuma aceitaria ver a outra tentar. O Principado das Flores olha para Riqueza como olha para um mercado vizinho; a Federação, como uma conveniência que ninguém precisa explicar. O resultado é um equilíbrio curioso: um porto onde qualquer um pode comprar quase qualquer coisa, a poucas léguas de uma mata onde ninguém pode pisar. Os mercadores de Riqueza não pagam imposto a ninguém — e, entre eles, sabe-se que a fronteira entre o palmeiral e a savana é a única lei da ilha que não está à venda.\n"
+}

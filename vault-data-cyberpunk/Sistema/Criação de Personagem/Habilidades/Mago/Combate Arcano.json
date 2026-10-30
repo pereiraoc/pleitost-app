@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano.md",
+  "basename": "Combate Arcano",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Sequência Arcana]]",
+      "Complementar Acoes.Lista [[Melhoramento Arcano]]",
+      "Complementar Acoes.Lista [[Combinação Arcana]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você ganha as habilidades [[Sequência Arcana]], [[Melhoramento Arcano]] e [[Combinação Arcana]]. Você só pode usar uma habilidade de Combate Arcano por turno.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Sequência Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Combate Arcano",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Sequência Arcana]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Sequência Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Melhoramento Arcano]]",
+      "parsed": [
+        {
+          "sourceNote": "Combate Arcano",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Melhoramento Arcano]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Melhoramento Arcano]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Combinação Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Combate Arcano",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Combinação Arcana]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Combinação Arcana]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sequência Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto]]\n\nresumo:: \"Você ganha as habilidades [[Sequência Arcana]], [[Melhoramento Arcano]] e [[Combinação Arcana]]. Você só pode usar uma habilidade de Combate Arcano por turno.\"\n%%\n#### `= this.file.name`\nVocê sabe diversas maneiras de combinar arte arcana e marcial. Você ganha as habilidades [[Sequência Arcana]], [[Melhoramento Arcano]] e [[Combinação Arcana]]. Você só pode usar uma habilidade de Combate Arcano por turno.\n\n```autosheet-rules\n```\n"
+}

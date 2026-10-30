@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Ciclone Localizado",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Ciclone Localizado.md",
+  "basename": "Ciclone Localizado",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ciclone Localizado (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criaturas em 4q de um ponto em 6q com 1d4×potência de dano de contusão (metade na falha) e puxa criatura pro ponto.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criaturas em 4q de um ponto em 6q com 1d4×potência de dano de contusão (metade na falha) e puxa criatura pro ponto.\"\n%%\n# `= this.file.name` - `= this.custo`\nEscolha um ponto em 6q que consegue ver. Faça um Ataque Mágico contra [[Vigor]] das criaturas em até 4q desse ponto.\n\n**Sucesso:** A criatura recebe 1d4×potência de dano de contusão e é empurrada até 2q na direção do ponto, parando caso fique adjacente a ele.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior e o limite do empurrão é até 4q.\n**Falha:** Como sucesso, mas reduza o dano a metade e o limite do empurrão é até 1q.\n**Falha Decisiva:** A criatura não é afetada."
+}

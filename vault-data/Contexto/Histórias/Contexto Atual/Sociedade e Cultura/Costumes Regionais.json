@@ -1,0 +1,147 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Costumes Regionais",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Costumes Regionais.md",
+  "basename": "Costumes Regionais",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os modos de vida de cada região do Mundo Livre: o que se produz, como se constrói e como se resolvem as coisas.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Costumes Regionais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Nascer das Nações do Leste",
+      "kind": "wikilink",
+      "alias": "sociedades de troca"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Última Parada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Costumes Regionais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Deserto de Pedra Fina"
+    },
+    {
+      "level": 4,
+      "text": "A Lavoura do Provento e a Pedra da Planaltina"
+    },
+    {
+      "level": 4,
+      "text": "A Vida Campeira do Principado"
+    },
+    {
+      "level": 4,
+      "text": "O Latim da Aurora e o Negócio de Riqueza"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Costumes Regionais.png]]\n\nO [[Mundo Livre]] nasceu de [[O Nascer das Nações do Leste|sociedades de troca]], cada uma moldada pelo chão que tinha, e no Ano 300 isso ainda se vê à primeira vista: basta olhar o telhado, o prato e a feira para saber em que região se está. A [[Federação Áurea]] tem um só governo, mas três jeitos de viver — e o [[Principado das Flores]], a [[Pátria Aurora]] e [[Riqueza]] têm cada um o seu.\n#### O Deserto de Pedra Fina\nEm [[Pedra Fina]] tudo se mede em caravana. As rotas cruzam as dunas até [[Última Parada]], onde se contrata guia, se tira água e se dorme sob a cúpula azul da Grande Estalagem antes do deserto profundo; camelos chegam pelo Portão do Leste de [[Baar'Shava]] e acampam em tendas junto às muralhas. A arquitetura é mourisca — adobe claro, cúpulas em bulbo, minaretes, palmeiras — e a capital vive das especiarias, das forjas de armas de haste e de uma vida erudita de oradores e sábios que tem até casa própria para a eloquência.\n#### A Lavoura do Provento e a Pedra da Planaltina\nNo [[Campos do Provento]], o casario é gótico rural de pedra e enxaimel, e as cidades são abertas no campo: [[Rharos]] vive da safra de grãos, [[Líciae]] das feiras de gado e dos curtumes, [[Lilá]] do peixe defumado. Mais ao sul, na [[Planaltina]], o casario muda para o estilo português e a riqueza sai da pedra — as safiras da [[Grande Mata]], o âmbar de [[Pedrita]] — e do leite: [[Manilha]] é a cidade do queijo da Federação, com adegas de maturação e casa de pesagem, e em [[Chama Céu]] os bodes pastam soltos pela serra e o queijo de bode desce a montanha em caravana.\n#### A Vida Campeira do Principado\nO [[Principado das Flores]] se reconhece pelo casario holandês de empenas escalonadas, pelos moinhos de vento e por uma identidade campeira e orgulhosa. Os grãos de [[Pencas]], o gado de [[Varadas]] e o vinho de [[Vinhedos]] descem em tropas de tropeiros pelas estradas de terra até os cais de [[Canto Alto]]. O chimarrão se toma no galpão — o Galpão das Tradições de Pencas, o Galpão de Chimarrão de Varadas, o Galpão Crioulo de Vinhedos — e as disputas se resolvem na peleia, no grito e no truco: em Canto Alto, a Arena da Peleia lota para a luta por esporte e o Beco do Truco decide o que o grito não decidiu.\n#### O Latim da Aurora e o Negócio de Riqueza\nA [[Pátria Aurora]], nação de monges e de ex-marinheiros, escreve sua toponímia em latim e constrói em romano-clássico — colunatas, fóruns, termas e aquedutos — fundido a pagodes monásticos de telhados dourados. Na [[Ilha das Cinzas]], [[Riqueza]] é o oposto de tudo isso: porto franco sem governo, sem templo e sem bandeira, de madeira e lona, onde a única lei que todos respeitam é a do negócio fechado e qualquer tenda armada hoje abre comércio amanhã.\n"
+}

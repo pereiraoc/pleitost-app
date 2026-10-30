@@ -1,0 +1,99 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/B05 BOM FIM",
+  "path": "Contexto/Recursos/Transporte/Ônibus/B05 BOM FIM.md",
+  "basename": "B05 BOM FIM",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "B05 BOM FIM",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Prata]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 3,
+    "Cor": "#26a69a",
+    "Horário": "6h–23h",
+    "Circular": true,
+    "Paradas": [
+      "[[Redenção]]",
+      "[[Estação Independência]]",
+      "[[Campus Centro da UFRGS]]",
+      "[[Armazém Sarmento Leite]]",
+      "[[Bar Ocidente]]",
+      "[[Pensão Farroupilha]]",
+      "[[Hospital de Clínicas]]",
+      "[[Campus Saúde da UFRGS]]"
+    ],
+    "Aparência": "Microônibus Marcopolo branco com faixa verde, letreiro 'B05 BOM FIM', cheio de estudante com mochila, árvores da Redenção passando na janela.",
+    "Resumo": "O microônibus do Bom Fim: vinte minutos a volta, da Redenção ao Ocidente e de volta.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "B05 BOM FIM.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estação Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Centro da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armazém Sarmento Leite",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar Ocidente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Hospital de Clínicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campus Saúde da UFRGS",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Prata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "B05 BOM FIM.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[B05 BOM FIM.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nUm microônibus, vinte minutos a volta. Da [[Redenção]] sobe à [[Estação Independência]], desce pelo portão do [[Campus Centro da UFRGS]] e pela esquina do [[Armazém Sarmento Leite]], para na porta do [[Bar Ocidente]], na [[Pensão Farroupilha]], na rampa do [[Hospital de Clínicas]] e no [[Campus Saúde da UFRGS]] e recomeça. É o ônibus do estudante sem pressa e do professor com sacola; o cobrador conhece todo mundo pelo nome — e a Brigada, pelo cobrador.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

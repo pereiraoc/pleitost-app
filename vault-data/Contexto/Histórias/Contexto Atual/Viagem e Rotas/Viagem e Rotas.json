@@ -1,0 +1,37 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Viagem e Rotas",
+  "path": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Viagem e Rotas.md",
+  "basename": "Viagem e Rotas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estradas e Caravanas",
+      "kind": "embed"
+    },
+    {
+      "target": "Mar e Portos",
+      "kind": "embed"
+    },
+    {
+      "target": "Terrenos e Travessias",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Estradas e Caravanas]]\n![[Mar e Portos]]\n![[Terrenos e Travessias]]\n"
+}

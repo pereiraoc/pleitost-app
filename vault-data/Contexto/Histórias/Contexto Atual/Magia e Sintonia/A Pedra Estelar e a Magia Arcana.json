@@ -1,0 +1,125 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/A Pedra Estelar e a Magia Arcana",
+  "path": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/A Pedra Estelar e a Magia Arcana.md",
+  "basename": "A Pedra Estelar e a Magia Arcana",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A Pedra Estelar do Meteorito, a Torre dos Magos e o peso da magia arcana na riqueza e na defesa do leste.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Pedra Estelar e a Magia Arcana.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos (Organização)",
+      "kind": "wikilink",
+      "alias": "organização da Torre"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Essencial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink",
+      "alias": "Arcanistas"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink",
+      "alias": "Magos"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Economia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disponibilidade de Tesouros",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Pedra Estelar e a Magia Arcana.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Cratera que Nunca Dorme"
+    },
+    {
+      "level": 4,
+      "text": "A Torre na Estepe"
+    },
+    {
+      "level": 4,
+      "text": "Magia que se Calcula"
+    },
+    {
+      "level": 4,
+      "text": "A Força do Leste"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Pedra Estelar e a Magia Arcana.png]]\n\nSe a sintonia é a magia com que se nasce, a [[Magia Arcana]] é a que se estuda — e, no Mundo Livre do Ano 300, estudá-la quase sempre passa pelo [[Campos do Provento]]. Ali, numa cratera onde nada cresce, está a Pedra Estelar, o mineral de outro céu pelo qual a [[Magna Pátria]] cruzou as montanhas e começou uma guerra de cem anos. Três séculos depois, a pedra continua sendo a terra mais cobiçada do mundo, e a [[Torre dos Magos]] continua de pé ao lado dela.\n#### A Cratera que Nunca Dorme\nO [[Meteorito]] é quilômetros de rocha nua e poeira descendo em anéis até um poço perfeitamente circular, de fundo que ninguém mediu. Nenhuma estrada leva até lá. Na borda leste, dentro de um círculo de menires de ametista ligados por uma linha contínua de luz violeta, tendas, carroças, uma grua e uma torre de perfuração trabalham dia e noite, e lanternas pontilham os andaimes que descem a parede da cratera. A escavação nunca parou desde a descoberta, e o que sobe do fundo nem sempre é pedra: a própria Torre paga aventureiros para conter o que sai das cavernas do poço — trabalho que a [[Sociedade Aberta]] anuncia como neutralização de monstros, sem muitos detalhes no papel.\n#### A Torre na Estepe\nA nove andares de altura, plantada sozinha num morrote da estepe, a [[Torre dos Magos]] é a academia arcana da [[Federação Áurea]]. Os aprendizes começam nas salas básicas do segundo andar e, se tiverem fôlego, sobem: oficinas de criação, câmara de prática com círculos mágicos no chão, salas superiores, até a Câmara do Arquimago, onde a coluna de energia azul que atravessa o edifício sobe por um poço balaustrado rumo aos cristais gigantes da cobertura. Desses focos estáticos saem os artefatos que fazem a fama da Torre — focos, anéis e luvas de arcanista que se vendem por todo o continente. A única estrada parte da escadaria rumo a [[Líciae]]; o resto do mundo chega a pé, por trilhas de aprendizes e peregrinos. Dos que a governam por dentro, a [[Torre dos Magos (Organização)|organização da Torre]], o povo fala pouco e sabe menos.\n#### Magia que se Calcula\nO povo chama de \"magia calculada\" o que os doutos chamam de entrópica: a arcana não nasce de um elemento, nasce da diferença entre eles. A [[Magia Arcana Branca]] potencializa os elementos e fortalece quem a recebe; a [[Magia Arcana Negra]] os suprime, deixando o alvo vulnerável e sem vontade de lutar; e os efeitos mais raros, a [[Magia Arcana Essencial]], só os mais dedicados reproduzem. [[Arcanista|Arcanistas]] são seus praticantes clássicos e [[Mago|Magos]] a aplicam de forma prática no combate, mas, como pode ser estudada, ela aparece no repertório de muita gente que nunca pisou na Torre.\n#### A Força do Leste\nNinguém no Mundo Livre esquece por que a guerra começou. A Pedra Estelar faz, nas mãos de um mago, o que dez magos não fariam, e foi ela — junto com os sintonizados — que segurou um oeste maior em homens e em armas. Por isso a cratera é, ao mesmo tempo, mina, santuário e posto de defesa: a riqueza das oficinas arcanas do Campos do Provento e a garantia de que, se o outro lado voltar, o leste terá com que responder. Em [[Iluminada]], a capital mais próxima da cratera, há quem durma melhor só por saber que a Torre está acesa.\n\n> [!note]- Acesso a serviços e itens mágicos (economia)\n> | Classe social | Adepto | Experiente | Mestre |\n> | --- | :---: | :---: | :---: |\n> | Baixa | Raro | Não | Não |\n> | Média | Incomum | Muito Raro | Não |\n> | Alta | Comum | Raro | Não |\n>\n> Fonte: [[Economia]]. Para compra e encomenda de tesouros por porte de cidade, ver [[Disponibilidade de Tesouros]] — [[Iluminada]] é o maior mercado de itens do Mundo Livre.\n"
+}

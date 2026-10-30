@@ -1,0 +1,175 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Feras e Bestas Elementais",
+  "path": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Feras e Bestas Elementais.md",
+  "basename": "Feras e Bestas Elementais",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Que ameaças ainda rondam o Mundo Livre num tempo de poucas bestas elementais — raças monstruosas, ruínas e o que sai do fundo da terra.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Feras e Bestas Elementais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tempestade de Flechas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin",
+      "kind": "wikilink",
+      "alias": "Goblins"
+    },
+    {
+      "target": "Orc",
+      "kind": "wikilink",
+      "alias": "Orcs"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Kobold",
+      "kind": "wikilink",
+      "alias": "Kobolds"
+    },
+    {
+      "target": "Lagartóides",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Solar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Batedor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin Piromante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Covil dos Orcs (Safira)\\",
+      "kind": "wikilink",
+      "alias": "Covil em Safira"
+    },
+    {
+      "target": "Defesa de Cidade Contra Ataque Orc (Pencas)\\",
+      "kind": "wikilink",
+      "alias": "ataque a Pencas"
+    },
+    {
+      "target": "Neutralização da Fenda Negra\\",
+      "kind": "wikilink",
+      "alias": "torre orc"
+    },
+    {
+      "target": "Orc Arqueiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)\\",
+      "kind": "wikilink",
+      "alias": "Ruína"
+    },
+    {
+      "target": "Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)\\",
+      "kind": "wikilink",
+      "alias": "mina"
+    },
+    {
+      "target": "Limpar Meteorito da Torre dos Magos\\",
+      "kind": "wikilink",
+      "alias": "Cavernas da cratera"
+    },
+    {
+      "target": "Arruaceiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Feras e Bestas Elementais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Raças Monstruosas"
+    },
+    {
+      "level": 4,
+      "text": "O Que Dorme Debaixo da Terra"
+    },
+    {
+      "level": 4,
+      "text": "Onde Ainda Há Feras"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Feras e Bestas Elementais.png]]\n\nOs velhos caçadores dizem que já houve tempo em que uma besta elemental por estação era coisa normal. No Ano 300, não é mais: com a estabilidade atual, há poucas bestas elementais para caçar, e a própria [[Tempestade de Flechas]] vive de perfil baixo por falta de presa. Mas um mundo sem grandes feras não é um mundo seguro, e os quadros da [[Sociedade Aberta]] nunca ficam vazios. O perigo só mudou de tamanho — e de endereço.\n#### Raças Monstruosas\nA ameaça mais comum tem nome de raça. [[Goblin|Goblins]] vivem em cavernas e saqueiam as comunidades próximas, caóticos e imprevisíveis, e quando usam magia é a Anima do Fogo; nas estradas do interior, uma emboscada goblin é o primeiro combate de muito aventureiro. [[Orc|Orcs]] são outra conversa: militarmente organizados, fortes, treinados com machado e armadura pesada, e quando conjuram tendem à [[Magia Arcana Negra]]. Covis orcs a poucas horas de [[Safira]], torres orc com fendas de energia negativa por dentro, um ataque inteiro contra [[Pencas]], cidade sem muralha que precisou ser defendida rua a rua — os orcs são a razão de muita cidade aberta do sul pensar em muralha. Já os [[Kobold|Kobolds]] têm estrutura social coesa e o costume de invadir ruínas e outras construções para montar base, o que deixa os moradores próximos inquietos mesmo quando ninguém foi atacado; podem ter qualquer sintonia. E há os [[Lagartóides]], criaturas elementais da água, inteligentes e estruturadas, convencidas da própria superioridade intelectual.\n#### O Que Dorme Debaixo da Terra\nBoa parte do perigo do Ano 300 está enterrada. Os montes perto de [[Pencas]] escondem ruínas e minas dracônicas onde espíritos de um povo antigo ainda lutam uma guerra que acabou, e onde aventureiros entram atrás de relíquias e nem sempre saem; tumbas lacradas guardam focos de energia negativa e mortos que não descansam, assunto da [[Ordem Solar]]. Do poço do [[Meteorito]] sobem monstros que a [[Torre dos Magos]] paga para conter. No deserto, as [[Ruínas de Luxor]] jazem quase intactas sob a areia, e ninguém sabe o que mais dorme lá embaixo.\n#### Onde Ainda Há Feras\nQuem quer fera de verdade vai aonde as estradas não vão. A [[Grande Mata]] de [[Planaltina]] é terreno de expedição e de caça, e os mineradores de safira trabalham sob a névoa sem saber direito o que vive ali. A [[Floresta da Ordem]] tem árvores colossais e dono que não admite visita. E as feras domadas também contam a história: os grifos reais da [[Cúpula dos Céus]] lembram a todos que criaturas grandes ainda existem — só que, hoje, a maioria delas usa arreio.\n\n> [!note]- Ameaças nos contratos e no bestiário\n> | Ameaça | Onde aparece | Bestiário |\n> | --- | --- | --- |\n> | Goblins | Emboscadas de estrada | [[Goblin Soldado]], [[Goblin Batedor]], [[Goblin Guerreiro]], [[Goblin Piromante]] |\n> | Orcs | [[Covil dos Orcs (Safira)\\|Covil em Safira]], [[Defesa de Cidade Contra Ataque Orc (Pencas)\\|ataque a Pencas]], [[Neutralização da Fenda Negra\\|torre orc]] | [[Orc Arqueiro]] |\n> | Ruínas e minas dracônicas | [[Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)\\|Ruína]] e [[Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)\\|mina]] perto de Pencas | — |\n> | Mortos-vivos e energia negativa | Contratos da [[Ordem Solar]] | — |\n> | Monstros do Meteorito | [[Limpar Meteorito da Torre dos Magos\\|Cavernas da cratera]] | — |\n> | Gente | Arruaceiros e confusão urbana | [[Arruaceiro]] |\n"
+}

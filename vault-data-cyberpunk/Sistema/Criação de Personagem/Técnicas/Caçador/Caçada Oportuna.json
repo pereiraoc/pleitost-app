@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Caçada Oportuna",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Caçada Oportuna.md",
+  "basename": "Caçada Oportuna",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Caçada Oportuna",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "modificadores": [
+          {
+            "somar": "DadoOportunidade",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "estado": "Alvo de Caça"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Seu treinamento para a caçada inclui técnicas para quando seus inimigos baixam a guarda. Quando você faz um [[Ataque de Oportunidade]] contra seu alvo de caça, adicione um dado de dano da arma no dano.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Seu treinamento para a caçada inclui técnicas para quando seus inimigos baixam a guarda. Quando você faz um [[Ataque de Oportunidade]] contra seu alvo de caça, adicione um dado de dano da arma no dano.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSeu treinamento para a caçada inclui técnicas para quando seus inimigos baixam a guarda. Quando você faz um [[Ataque de Oportunidade]] contra seu alvo de caça, adicione um dado de dano da arma no dano.\n\n**Especial:** Técnicas que aumentam o dano do [[Ataque de Oportunidade]] não acumulam.\n\n```autosheet-rules\n```\n"
+}

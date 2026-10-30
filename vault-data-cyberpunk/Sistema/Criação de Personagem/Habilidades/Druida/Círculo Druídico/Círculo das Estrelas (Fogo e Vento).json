@@ -1,0 +1,203 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo das Estrelas (Fogo e Vento)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo das Estrelas (Fogo e Vento).md",
+  "basename": "Círculo das Estrelas (Fogo e Vento)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 2 \"das Estrelas\"",
+      "Complementar Habilidades.Lista [[Essência Incendiária Adepta]]",
+      "Complementar Habilidades.Lista [[Essência Relampejante Adepta]]",
+      "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1",
+      "Nivel 5 Somar Magias.Lista.Anima.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Recebe acesso a 2 [[Essências Elementais]] do circulo e só pode escolher essências dos elementos Fogo e Vento.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 2 \"das Estrelas\"",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 2,
+            "fragment": "das Estrelas"
+          },
+          "raw": "Alias Classe Compor 2 \"das Estrelas\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Essência Incendiária Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Incendiária Adepta]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Essência Incendiária Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Essência Relampejante Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Relampejante Adepta]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Essência Relampejante Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Magias.Lista.Anima.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Círculo das Estrelas (Fogo e Vento)",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Magias.Lista.Anima.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Invocar Elemental Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]] \n\nresumo:: \"Recebe acesso a 2 [[Essências Elementais]] do circulo e só pode escolher essências dos elementos Fogo e Vento.\"\n%%\n#####  `= this.file.name`\nVocê recebe acesso as duas [[Essências Elementais]] transicionais referentes ao seu circulo, independentemente dos pré-requisitos: [[Essência Incendiária]] e [[Essência Relampejante]]. Você pode conjurar as formas Básicas e Adeptas dessas essências. \n\nQuando você escolhe [[Essências Elementais]], você deve respeitar os pré-requisitos do [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]] e só pode escolher essências dos elementos Fogo e Vento. Quando você conjura uma Magia de uma essência universal (como [[Invocar Elemental Menor]] ou [[Forma Elemental]]), deve escolher o elemento Fogo ou Vento no momento da conjuração.\n\n```autosheet-rules\n```\n"
+}

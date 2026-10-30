@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Empunhadura Híbrida",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Empunhadura Híbrida.md",
+  "basename": "Empunhadura Híbrida",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo com uma arma de uma mão como se estivesse com duas. Decida a empunhadura após o ataque.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Duas-mãos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink",
+      "alias": "Interage"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo com uma arma de uma mão como se estivesse com duas. Decida a empunhadura após o ataque.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Empunhadura Híbrida.\n\n**Empunhadura Híbrida - 1A**\nPode ser usado quando empunhando uma arma com a propriedade [[Duas-mãos]] em uma mão e tem uma mão livre. Escolha um:\n* Faça um [[Atacar|Ataque]] corpo-a-corpo com a arma requerida, você usa sua mão livre para impulsionar o ataque, recebendo os benefícios da propriedade [[Duas-mãos]] para esse ataque, como se estivesse empunhando com duas mãos. Você mantem sua empunhadura com uma mão sem perder benefícios que dependam da mão livre, como [[Aparar]].\n* Você [[Interagir|Interage]] para mudar a empunhadura da arma requerida para duas mãos e faz um [[Atacar|Ataque]] corpo-a-corpo com ela. [[Interagir]] dessa forma como parte de Empunhadura Híbrida não provoca reações.\n\nVocê só pode realizar Empunhadura Híbrida uma vez por turno.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,102 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Ataques",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Ataques.md",
+  "basename": "Ataques",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ataques",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Agressivas]]",
+    "prev": "[[Ações Agressivas]]",
+    "next": "[[Penalidade por Ataque Múltiplo]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "Penalidade Por Ataque Múltiplo (PAM)"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "proficiência"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink",
+      "alias": "precisas"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maré de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Ataques"
+    },
+    {
+      "level": 4,
+      "text": "Ataques Básicos"
+    },
+    {
+      "level": 4,
+      "text": "Manobras de Ataque"
+    },
+    {
+      "level": 4,
+      "text": "Outros Ataques"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Agressivas]]\nprev:: [[Ações Agressivas]]\nnext:: [[Penalidade por Ataque Múltiplo]]\n%%\n### Ataques\nAtaques são as ações mais comuns em combate, envolvem contato direto e agressivo com o oponente. [[Atacar]] com uma espada, atirar uma flecha, [[Agarrar]] um inimigo - todas essas ações são Ataques. \nDiferentemente de outras rolagens e testes, Ataques são afetados pela [[Penalidade por Ataque Múltiplo|Penalidade Por Ataque Múltiplo (PAM)]].\n\n#### Ataques Básicos\nAtaques com arma (ou desarmados) usando a ação [[Atacar]] é a forma mais básica de infligir dano nos inimigos. Seus ataques com arma usam sua [[Proficiência|proficiência]] em ataques somada da sua [[Força|FOR]] (para ataques corpo-a-corpo) ou [[Agilidade|AGI]] (para ataques a distância e, opcionalmente, armas [[Precisa|precisas]]) como modificador.\n\n#### Manobras de Ataque\nÉ possível também fazer manobras de ataque que penalizam o inimigo em vez de causar dano, elas são as ações [[Desarmar]], [[Derrubar]] e [[Agarrar]]. Sua manobras de ataque usam sua [[Proficiência|proficiência]] em ataques somada da sua [[Força|FOR]] como modificador.\n\n#### Outros Ataques\nCertas ações, habilidades ou técnicas também podem te permitir realizar ataques diferenciados, possíveis exemplos são a ação [[Escapar]] e a habilidade [[Maré de Combate]] do [[Monge]]. Cada ação, técnica ou habilidade que descreve um ataque explica qual o modificador a ser utilizado.\n\n```autosheet-rules\n```\n"
+}

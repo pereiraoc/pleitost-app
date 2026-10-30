@@ -1,0 +1,60 @@
+{
+  "id": "Contexto/Recursos/Transporte/Informal/Informal",
+  "path": "Contexto/Recursos/Transporte/Informal/Informal.md",
+  "basename": "Informal",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Informal.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carona no Caminhão do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Carroça com Cavalo",
+      "kind": "wikilink",
+      "alias": "carroças"
+    },
+    {
+      "target": "Curral do Sindicato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Táxi Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Informal.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Informal"
+    }
+  ],
+  "body": "# Informal\n![[Informal.png]]\n\nO que roda sem letreiro: a caravana da [[Camisa 12]] em dia de jogo — a única com rota fixa. O resto não é linha: a carona no caminhão de coleta do [[Sindicato dos Catadores]] ([[Carona no Caminhão do Sindicato]], Zona Deserta e Restinga, fora da malha), as [[Carroça com Cavalo|carroças]] do [[Curral do Sindicato]] por onde caminhão não passa, o [[Táxi Gurgel]] dos pontos de táxi (Cz$ 300 + Cz$ 100/km, noite ×1,5, Gre-Nal ×3, [[TRI Platina]] conveniado) e a bicicleta de quem não tem plano — a ladeira da Independência é o inimigo.\n\n```dataview\nTABLE WITHOUT ID file.link AS \"Linha\", subcategoria AS \"Modo\", Acesso AS \"Acesso\", Qualidade AS \"★\", Horário AS \"Horário\", Paradas AS \"Paradas\"\nFROM \"Contexto/Recursos/Transporte/Informal\"\nWHERE categoria = \"Linha\"\nSORT subcategoria ASC, file.name ASC\n```\n"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Reconhecer",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Reconhecer.md",
+  "basename": "Reconhecer",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta reconhecer uma criatura ou objeto.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Conhecimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta reconhecer uma criatura ou objeto.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste contra [[CD]] de uma criatura ou objeto que você consegue ver (tipicamente [[CD|CD-Nível]] de uma criatura).\n\n**Sucesso:** Você se recorda sobre algum fato notável do alvo.\n**Sucesso Decisivo:** Você se recorda sobre algum fato notável do alvo mais algum fato específico.\n**Falha:** Você não se recorda de nada sobre o alvo.\n\nDepois que você realiza Reconhecer, tendo sucesso ou falha, você esgotou parte do seu conhecimento sobre o alvo. Demais testes de Reconhecer contra o mesmo alvo tem a CD aumentada: o segundo teste aumenta a CD em 2, o terceiro em 5, o quarto em 10 e posteriormente o teste fica impossível.\n\nA perícia usada para o teste pode ser algum tipo de [[Conhecimento]] ou uma perícia que se aplique.\n* [[Sobrevivência]] para animais, plantas e estruturas naturais\n* [[Arcana]] para criaturas do vazio, da luz, ou implementos mágicos\n* [[Anima]] para elementais ou material elemental\n* [[Sociedades]] para humanoides e construções/objetos/ferramentas feitas por humanoides\n\n```autosheet-rules\n```\n"
+}

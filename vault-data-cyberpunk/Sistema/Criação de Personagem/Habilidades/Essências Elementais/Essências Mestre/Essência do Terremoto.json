@@ -1,0 +1,136 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Terremoto",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência do Terremoto.md",
+  "basename": "Essência do Terremoto",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]",
+      "Requisito Contem(Habilidades) [[Essência Mineral Experiente]]",
+      "Complementar Magias.Lista [[Fenda Tectônica]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"mestre [[Fenda Tectônica]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Terremoto",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Sísmica Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Sísmica Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Mineral Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Terremoto",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Mineral Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Mineral Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Fenda Tectônica]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência do Terremoto",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Fenda Tectônica]]"
+          },
+          "raw": "Complementar Magias.Lista [[Fenda Tectônica]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fenda Tectônica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Essência Sísmica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Mestre]]\n\nresumo:: \"mestre [[Fenda Tectônica]]\"\n%%\n#### `= this.file.name`\n*Amplificação* — composição de [[Essência Sísmica]] e [[Essência Mineral]], vizinhas no [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]].\n\nRequer [[Essência Sísmica Experiente]] e [[Essência Mineral Experiente]].\n\n* mestre [[Fenda Tectônica]]\n\n```autosheet-rules\n```\n"
+}

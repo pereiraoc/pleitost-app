@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Análise de Combate",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Análise de Combate.md",
+  "basename": "Análise de Combate",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Análise de Combate",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"1 vez por turno, faça um teste de [[Guerra]] contra a [[CD|CD-Nível]] da maior criatura em conflito; em sucesso, ganhe 1 dado de comando d6 (d8 em sucesso decisivo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"1 vez por turno, faça um teste de [[Guerra]] contra a [[CD|CD-Nível]] da maior criatura em conflito; em sucesso, ganhe 1 dado de comando d6 (d8 em sucesso decisivo).\"\n%%\n\n### `= this.file.name` - `= this.custo`\nFaça um teste de Guerra contra a [[CD|CD-Nível]] da maior criatura em conflito com o grupo.  no sucesso (d8 se decisivo). Você só pode usar Análise de Combate uma vez por turno.\n\n**Sucesso:** Você recebe um dado de comando d6.\n**Sucesso Decisivo:** Você recebe um dado de comando d8.\n**Falha:** Nada acontece.\n\n```autosheet-rules\n```\n"
+}

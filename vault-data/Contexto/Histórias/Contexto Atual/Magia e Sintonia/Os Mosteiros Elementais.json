@@ -1,0 +1,95 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Os Mosteiros Elementais",
+  "path": "Contexto/Histórias/Contexto Atual/Magia e Sintonia/Os Mosteiros Elementais.md",
+  "basename": "Os Mosteiros Elementais",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os quatro mosteiros-fortaleza da Pátria Aurora, a vila de Firmamentum e a vida de quem atravessa o mar para virar monge.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Os Mosteiros Elementais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Êxodo do Norte",
+      "kind": "wikilink",
+      "alias": "Êxodo do Norte"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Os Mosteiros Elementais.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Firmamentum, a Porta da Serra"
+    },
+    {
+      "level": 4,
+      "text": "Os Quatro Irmãos"
+    },
+    {
+      "level": 4,
+      "text": "Monges e Marinheiros"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Os Mosteiros Elementais.png]]\n\nQuando a Era Elemental acabou, as artes que restaram dos elementos foram guardadas numa ilha de montanhas no norte, longe de tudo. Mil anos depois, a ilha é a [[Pátria Aurora]], e os quatro mosteiros-fortaleza que guardam o Ar, a Água, a Terra e o Fogo continuam sendo a espinha da nação: seus mestres formam a elite aurorense, e seus monges estão nos cais, nos estaleiros, nas muralhas e no céu. Para o resto do [[Mundo Livre]], \"ir para a ilha\" ainda quer dizer uma coisa só — buscar a maestria do próprio corpo e da própria sintonia.\n#### Firmamentum, a Porta da Serra\nTodo caminho terrestre da ilha passa por [[Firmamentum]], cidade serrana do sul sem muralhas e sem porto, toda em terraços e escadarias. Da torre-portal da Porta dos Caminhos partem as trilhas para os quatro mosteiros, e a cidade vive de quem as sobe: guias de montanha, pátios de caravanas cheios de muares, mercados de manoplas e oficinas de imbuição. Foi também aqui que os monges abriram as portas aos fugitivos do [[O Êxodo do Norte|Êxodo do Norte]], e a cidade nunca perdeu o costume de receber gente que chega de longe querendo recomeçar. No distrito da Claustra Novitiorum, os claustros arcados do Monasterium Novitiorum acolhem os noviços, que ali começam a formação antes de seguir para um dos mosteiros. É nesses pátios em socalcos que se descobre para qual elemento cada um vai subir — e quantos desistem antes de subir para algum.\n#### Os Quatro Irmãos\nNo pico mais alto da ilha, acima de um mar de nuvens, a [[Cúpula dos Céus]] é a casa verde-cobre dos monges do Ar e dos grifos reais: ali as criaturas são criadas, adestradas e montadas, e do cume se vigiam o céu e o oceano; quem não chega voando sobe a grande escadaria do sul. Nas falésias do leste, o [[Mosteiro dos Mares]] verte o próprio elemento em cascatas pelos muros, ensina navegação aos monges de azul e constrói barcos no estaleiro monástico. No coração do maciço central, o [[Palácio das Pedras]] é um canteiro de obras perpétuo — o palácio constrói a si mesmo e ensina a construir, e seus monges-canteiros de hábito ocre passam a vida esculpindo e empilhando rocha. E num penhasco do noroeste, perto de [[Lucerna]], a [[Torre das Tochas]] é o mais guerreiro dos quatro: arsenal, campos de treino e uma legião própria, com uma chama perpétua que serve de farol à costa e um sacrário onde os monges aprendem a domar a própria fúria.\n#### Monges e Marinheiros\nCada mosteiro tem seu Mestre, e cada Mestre tem sua câmara no ponto mais alto do complexo. Desde que a frota desertora ancorou na ilha, os mosteiros nunca mais foram só contemplativos: a Torre das Tochas arma a fachada militar do oeste, o Mosteiro dos Mares forma navegadores para uma nação que vive do mar, e as imbuições refinadas em [[Velimaris]] e nas oficinas da serra saem pelo mundo com a fama dos mosteiros atrás. Em Lucerna, monges e oficiais dividem a mesma muralha — e, numa ilha que vive de olho na guerra fria do mar, ninguém acha isso estranho.\n\n> [!note]- Os mosteiros num relance\n> | Mosteiro | Elemento | Ofício | Cor | Acesso |\n> | --- | --- | --- | --- | --- |\n> | [[Cúpula dos Céus]] | Ar | Grifos reais, vigia do céu e do mar | Verde | Escadaria do sul ou voo |\n> | [[Mosteiro dos Mares]] | Água | Navegação, estaleiro, vigia do litoral | Azul | Escadaria até a Porta Maris |\n> | [[Palácio das Pedras]] | Terra | Cantaria e construção | Ocre | Escadarias desde Firmamentum |\n> | [[Torre das Tochas]] | Fogo | Combate, legião, domínio da fúria | Vermelho | Calçada-escadaria do sul |\n>\n> A classe [[Monge]] nas fichas reflete essa tradição — maestria do corpo e da sintonia.\n"
+}

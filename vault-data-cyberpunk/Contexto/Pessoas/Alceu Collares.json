@@ -1,0 +1,48 @@
+{
+  "id": "Contexto/Pessoas/Alceu Collares",
+  "path": "Contexto/Pessoas/Alceu Collares.md",
+  "basename": "Alceu Collares",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Collares"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Oposição Cassada]]",
+    "Função": "Advogado criminalista; vereador de Porto Alegre cassado em 1964",
+    "Aparência": "Sessenta anos, cabelo grisalho crespo e curto, bigode, terno escuro e gravata larga, voz grave de rádio; escritório de dois cômodos no piso flutuante do [[Centro Histórico]], perto do [[Viaduto da Borges]], com a fila de clientes na passarela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Alceu Collares.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Oposição Cassada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Viaduto da Borges",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Alceu Collares.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Alceu Collares.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

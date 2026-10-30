@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/A Carga no Pilar",
+  "path": "Campanhas/Combates/A Carga no Pilar.md",
+  "basename": "A Carga no Pilar",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Zona Deserta]] · [[Restinga]]",
+    "Situação": "Alguém está contando em voz alta. Quando chegar no zero, metade da cobertura cai.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Detonador do Clã",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferro-Velho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Catador Armado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 3 [[Detonador do Clã]] lento\n- 4 [[Ferro-Velho]] lento\n- 4 [[Catador Armado]] rápido\n```\n"
+}

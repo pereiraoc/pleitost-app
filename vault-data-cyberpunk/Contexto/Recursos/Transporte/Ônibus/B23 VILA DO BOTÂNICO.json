@@ -1,0 +1,83 @@
+{
+  "id": "Contexto/Recursos/Transporte/Ônibus/B23 VILA DO BOTÂNICO",
+  "path": "Contexto/Recursos/Transporte/Ônibus/B23 VILA DO BOTÂNICO.md",
+  "basename": "B23 VILA DO BOTÂNICO",
+  "type": "Linha",
+  "subtype": "Ônibus",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Linha",
+    "subcategoria": "Ônibus",
+    "Letreiro": "B23 ZONA LESTE",
+    "Operador": "[[Marcopolo]] por contrato com a [[Prefeitura de Porto Alegre]]",
+    "Acesso": "[[TRI Bronze]]",
+    "Tarifa": "[[Passagem de Ônibus]]",
+    "Qualidade": 1,
+    "Cor": "#ef6c00",
+    "Horário": "5h–23h",
+    "Circular": true,
+    "Paradas": [
+      "[[Sede da Camisa 12]]",
+      "[[Oficina do Borracheiro]]",
+      "[[Padaria da Vila]]",
+      "[[Venda da Vila]]"
+    ],
+    "Aparência": "Torino velho pintado de vermelho por baixo do amarelo, bandeira do Inter no retrovisor, rua de chão, vila de tijolo sem reboco, criança correndo atrás.",
+    "Resumo": "A circular das vilas do Botânico: o motorista é da Camisa 12 e o ônibus para onde a vila manda.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "B23 VILA DO BOTÂNICO.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sede da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina do Borracheiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Padaria da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Venda da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pensão da Vila",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Bronze",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passagem de Ônibus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "B23 VILA DO BOTÂNICO.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Linha\n![[B23 VILA DO BOTÂNICO.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> 🪧**Letreiro:** `= this.Letreiro`\n> 🏢**Operador:** `= this.Operador`\n> 🎫**Acesso:** `= this.Acesso` · avulso: `= this.Tarifa`\n> ⭐**Qualidade:** `= this.Qualidade` de 5\n> 🕔**Horário:** `= this.Horário`\n> 📍**Paradas (em ordem):** `= this.Paradas`\n> 📝**Resumo:** `= this.Resumo`\n\nA circular das vilas. Da [[Sede da Camisa 12]] pela [[Oficina do Borracheiro]], pela [[Padaria da Vila]] e pela [[Venda da Vila]], de volta à sede. O motorista é da Camisa 12, o cobrador é sobrinho da [[Pensão da Vila]] e o ônibus para onde a vila manda. TRI Bronze no turno; depois do toque, ninguém entra e ninguém sai.\n\n> [!info] Aparência\n> `= this.Aparência`\n"
+}

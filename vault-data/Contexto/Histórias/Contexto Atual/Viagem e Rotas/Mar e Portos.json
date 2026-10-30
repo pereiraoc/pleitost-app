@@ -1,0 +1,153 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Mar e Portos",
+  "path": "Contexto/Histórias/Contexto Atual/Viagem e Rotas/Mar e Portos.md",
+  "basename": "Mar e Portos",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os portos do Mundo Livre, as travessias de barco pelo continente e a ilha da Pátria Aurora, mercante a leste e militar a oeste.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mar e Portos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Guerra Fria do Mar",
+      "kind": "wikilink",
+      "alias": "Ano 280"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Deserção da Frota e a Fundação da Pátria Aurora",
+      "kind": "wikilink",
+      "alias": "Ano 55"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Mar Fechado",
+      "kind": "wikilink",
+      "alias": "Ano 120"
+    },
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mar e Portos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Os portos do continente"
+    },
+    {
+      "level": 4,
+      "text": "Travessias"
+    },
+    {
+      "level": 4,
+      "text": "A ilha das duas fachadas"
+    },
+    {
+      "level": 4,
+      "text": "O mar fechado"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Mar e Portos.png]]\n\nO [[Mundo Livre]] é um continente compacto cercado de oceano por todos os lados, e no Ano 300 o mar é a estrada mais rápida que existe. Barco nenhum precisa de estrada: anda mais que qualquer caravana, não atola em duna nem em serra e liga cidades que nenhuma estrada liga. O preço é outro: o mar tem humor, e desde o [[A Guerra Fria do Mar|Ano 280]] tem também espiões e naus que somem.\n\n#### Os portos do continente\nNo norte, [[Baar'Shava]] abre a muralha para o mar por um portão-d'água de torres gêmeas: a Doca é uma floresta de píeres, bancas e dhows, e por ela as mercadorias das caravanas seguem para o resto do continente. Na costa leste, [[Lilá]] é a porta marítima de [[Iluminada]] — o Porto de Lilá recebe navios de grande porte e escoa a carga pela estrada de [[Rharos]], entre o Mercado do Peixe, os armazéns e o estaleiro. Mais ao sul, [[Safira]] desce a muralha até a enseada do Cais da Safira, coalhada de velas, guardada pelo farol numa ponta de rocha. E na costa sul, [[Canto Alto]] abre-se para uma baía enorme, cheia de naus e trapiches, com o Distrito dos Ancoradouros espremido entre a muralha e a água. Nem toda costa tem cais: [[Varadas]] vive de costas para o mar, e o litoral da [[Grande Mata]] é só falésia e agulha de pedra.\n\n#### Travessias\nAlgumas viagens só se fazem de barco. De Canto Alto se cruza o estreito de poucas léguas até [[Riqueza]], na [[Ilha das Cinzas]], cujo Cais Raso — um grande píer de madeira sobre estacas — recebe veleiros dos dois lados e navios maiores fundeados ao lado. Ao longo da costa leste, cargas valiosas descem por mar de Lilá a Safira, e a escolta dessas viagens é um contrato comum da [[Sociedade Aberta]]. Para chegar à [[Pátria Aurora]], não há outro caminho senão o mar aberto.\n\nO mar é rápido, mas não é barato. Ninguém leva passageiro de favor: o preço corrente nos cais é de duas Peças de Ouro por pessoa a cada dia de travessia, o dobro da caravana, e o capitão cobra o dia inteiro mesmo que a costa apareça antes do almoço. Para um grupo de aventureiros, a conta pesa — e é por isso que tanto contrato de escolta marítima da Sociedade Aberta é disputado: quem guarda a carga viaja sem pagar a passagem.\n\n#### A ilha das duas fachadas\nA Pátria Aurora tem dois rostos voltados para o oceano. A fachada oeste é militar: [[Lucerna]], a capital, tem um porto interno destinado exclusivamente a navios de guerra, e logo abaixo dela, num desfiladeiro, a fortaleza de [[Magna Vigilia]] abriga a esquadra de velas vermelhas — descendente das galeras que desertaram da [[Magna Pátria]] no [[A Deserção da Frota e a Fundação da Pátria Aurora|Ano 55]] —, com acesso exclusivamente marítimo. As fachadas leste e norte são mercantes: [[Velimaris]], a \"cidade das velas\", tem três frentes de porto, estaleiros, a Doca Magna e o farol altíssimo da Torre dos Faróis, e é dela o comércio mais forte com o continente; [[Prasinarium]], ao norte, é porto de carga, de estiva e guindaste. Nas falésias do leste, monges navegadores aprendem a arte no [[Mosteiro dos Mares]], que tem estaleiro próprio, enquanto [[Firmamentum]], encravada numa costa brava, não tem porto nenhum.\n\n#### O mar fechado\nDesde o [[O Mar Fechado|Ano 120]], a Magna Pátria não troca nada com a Pátria Aurora pela água — acabaram os prisioneiros devolvidos e as cartas entre famílias separadas pela deserção. A ilha virou as velas para o continente e passou a comerciar com Baar'Shava, e as rotas do norte ganharam vida. Hoje, porém, os capitães aurorenses vigiam o horizonte com mais atenção do que nunca, e todo marinheiro de Velimaris tem uma história de nau desaparecida para contar na taverna.\n\n> [!note]- Barco e rotas marítimas\n> Fonte: bloco `viagem` de [[Contexto Fantasia]].\n>\n> | Meio | Velocidade | Onde anda | Passagem |\n> |---|---|---|---|\n> | ⛵ Barco | 5 hex/dia | Mar · costa | 2 PO por pessoa por dia |\n>\n> | Terreno / rota | Efeito |\n> |---|---|\n> | Mar | custo ×3 · Barco ×1 |\n> | Rota marítima | +1 hex/dia pra Barco |\n"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "Campanhas/Aventuras/Defesa de Cidade Contra Ataque Orc (Pencas)",
+  "path": "Campanhas/Aventuras/Defesa de Cidade Contra Ataque Orc (Pencas).md",
+  "basename": "Defesa de Cidade Contra Ataque Orc (Pencas)",
+  "type": "Aventura",
+  "subtype": "Teste de Classe",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Teste de Classe",
+    "rank": "B",
+    "disponivel": [
+      "[[Pencas]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Defesa de Pencas Contra Ataque Orc\n\nRecompensa:\n- Promoção: B\n- Extra: \"Jantar e Show, Medalha de Honra ao Mérito\"\nObjetivo:\n- \"Defender a cidade de [[Pencas]] contra o ataque dos orcs.\"\nLocal:\n- \"[[Pencas]]\"\nContato: \"Roger da Silva (Recruta da Guarda)\"\nFinanciador: \"Cidade de Pencas\"\n```\n"
+}

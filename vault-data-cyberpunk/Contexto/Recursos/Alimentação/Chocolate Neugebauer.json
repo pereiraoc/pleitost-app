@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Chocolate Neugebauer",
+  "path": "Contexto/Recursos/Alimentação/Chocolate Neugebauer.md",
+  "basename": "Chocolate Neugebauer",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Guloseima",
+    "Marca": "Neugebauer (Porto Alegre, 1891)",
+    "Preço": 60,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Quarto Distrito]]",
+      "[[Centro Histórico]]",
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Tablete de 100 g ao leite em papel prateado, da fábrica do Quarto Distrito: o chocolate da cidade desde 1891.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chocolate Neugebauer.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chocolate Neugebauer.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chocolate Neugebauer.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA Neugebauer faz chocolate no [[Quarto Distrito]] desde 1891 — a fábrica ainda solta cheiro de cacau por cima\ndo cheiro de graxa. Tablete de 100 g ao leite, papel prateado, Cz$ 60 no armazém. O operário compra um no\nsábado pra criança; o executivo compra a caixa importada e diz que é a mesma coisa.\n\n> [!info] Especificação\n> **Tablete:** 100 g ao leite, papel prateado e rótulo azul\n> **Fábrica:** Neugebauer, [[Quarto Distrito]], desde 1891 — a chaminé é referência de bairro\n> **Preço:** Cz$ 60; a barra de 30 g Cz$ 20\n> **Derretido:** o camelô do Centro vende mole a Cz$ 40 no verão\n"
+}

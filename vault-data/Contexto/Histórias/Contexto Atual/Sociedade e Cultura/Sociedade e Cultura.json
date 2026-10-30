@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Sociedade e Cultura",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Sociedade e Cultura.md",
+  "basename": "Sociedade e Cultura",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Povos e Raças",
+      "kind": "embed"
+    },
+    {
+      "target": "Vida nas Cidades",
+      "kind": "embed"
+    },
+    {
+      "target": "Costumes Regionais",
+      "kind": "embed"
+    },
+    {
+      "target": "Saber e Ensino",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Povos e Raças]]\n![[Vida nas Cidades]]\n![[Costumes Regionais]]\n![[Saber e Ensino]]\n"
+}

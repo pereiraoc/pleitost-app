@@ -1,0 +1,89 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Estátua do Laçador",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Estátua do Laçador.md",
+  "basename": "Estátua do Laçador",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Laçador",
+      "Monumento ao Laçador",
+      "Largo do Bombeiro"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Dono": "[[Prefeitura de Porto Alegre|Prefeitura]]",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Ponto de Interesse"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estátua do Laçador.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recursos",
+      "kind": "wikilink",
+      "alias": "Recurso"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Prefeitura"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estátua do Laçador.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estátua do Laçador.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** O primeiro e o último porto-alegrense que o viajante vê: um gaúcho de bombacha e lenço, laço na mão, de frente pra estrada, no canteiro de um trevo por onde passam caminhão da [[Zaffari]], ônibus anfíbio da [[Marcopolo]] voltando seco do norte e a comitiva de quem desembarca no aeroporto. O regime desfila em volta dele na Semana Farroupilha e o usa em cartaz; a cidade o usa de ponto de encontro, de referência de ônibus e de lugar pra amarrar faixa de madrugada.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Bronze escurecido pela fuligem dos caminhões, o laço erguido, a placa de 1958 no granito; canteiro gramado no meio do trevo, grade baixa, bandeira do Estado num mastro; ao fundo o outdoor da [[Gradiente]] e a cerca do aeroporto; de noite, um holofote da [[Brigada Militar Metropolitana|Brigada]] e os faróis da BR.\n> \n\n> [!info] Serviços\n> O que este lugar vende ou aluga (aba **Serviços** do app; preço e marca vivem na nota de cada [[Recursos|Recurso]]):\n> `= this.Serviços`\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "O primeiro e o último porto-alegrense que o viajante vê: um gaúcho de bombacha e lenço, laço na mão, de frente pra estrada, no canteiro de um trevo por onde passam caminhão da [[Zaffari]], ônibus anfíbio da [[Marcopolo]] voltando seco do norte e a comitiva de quem desembarca no aeroporto. O regime desfila em volta dele na Semana Farroupilha e o usa em cartaz; a cidade o usa de ponto de encontro, de referência de ônibus e de lugar pra amarrar faixa de madrugada.",
+    "aparencia": "Bronze escurecido pela fuligem dos caminhões, o laço erguido, a placa de 1958 no granito; canteiro gramado no meio do trevo, grade baixa, bandeira do Estado num mastro; ao fundo o outdoor da [[Gradiente]] e a cerca do aeroporto; de noite, um holofote da [[Brigada Militar Metropolitana|Brigada]] e os faróis da BR.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

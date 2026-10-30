@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Presente",
+  "path": "Contexto/Histórias/Contexto Histórico/O Presente.md",
+  "basename": "O Presente",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 300",
+    "Descrição": "O [[Mundo Livre]] vive em paz atrás de um Muro que ninguém mais vigia de verdade; a [[Sociedade Aberta]] distribui contratos de aventureiro — e, do outro lado, alguém termina de se preparar.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

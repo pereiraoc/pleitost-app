@@ -1,0 +1,430 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Animista/Elementalista",
+  "path": "Sistema/Criação de Personagem/Habilidades/Animista/Elementalista.md",
+  "basename": "Elementalista",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 5",
+      "Somar Vida.Moral 10",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Definir Magias.Lista.Anima.Proficiencia E",
+      "Definir Magias.Potencia 6",
+      "Definir Magias.EM 5",
+      "Nivel 4 Alias Classe Compor 0 \"Elementalista\"",
+      "Somar Magias.Lista.Anima.Slots.E 2",
+      "Nivel 5 Somar Magias.Lista.Anima.Slots.E 1",
+      "Nivel 6 Somar Magias.Lista.Anima.Slots.E 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica, e permite conjurar a forma experiente de 2 [[Essências Elementais]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 5",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "5"
+          },
+          "raw": "Somar Vida.Vitalidade 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 10",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "10"
+          },
+          "raw": "Somar Vida.Moral 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 6",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "6"
+          },
+          "raw": "Definir Magias.Potencia 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 5",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "5"
+          },
+          "raw": "Definir Magias.EM 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Alias Classe Compor 0 \"Elementalista\"",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Elementalista"
+          },
+          "raw": "Nivel 4 Alias Classe Compor 0 \"Elementalista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Lista.Anima.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Lista.Anima.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Magias.Lista.Anima.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Magias.Lista.Anima.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 6 Somar Magias.Lista.Anima.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Elementalista",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 6
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 6 Somar Magias.Lista.Anima.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica, e permite conjurar a forma experiente de 2 [[Essências Elementais]].\"\n%%\n#### `= this.file.name`\nVocê expande seu domínio dos elementos, se tornando uma força da natureza em forma humana. Animistas que atingem esse nível de experiência são conhecidos como Elementalistas, aqueles que controlam os elementos de forma clara e decisiva. \n* Sua [[Energia Vital|EV]] máxima aumenta em 5\n* Sua [[Energia Heroica|EH]] máxima aumenta em 10\n* Você se torna [[Experiente]] em [[Ímpeto]];\n* Você se torna [[Adepto]] em [[Vigor]] e [[Evasão]];\n* Você se torna [[Experiente]] em [[Intuição]];\n* Você se torna [[Adepto]] em [[Percepção]];\n* Você se torna [[Experiente]] em [[Magia Anima]];\n* Sua potência mágica para magias de Animista aumenta para 6;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 5;\n* Escolha 1 [[Essências Elementais|Essência Elemental]] referente a sua sintonia que você tem acesso a forma Adepta, você recebe acesso e pode conjurar a forma Experiente dela, independentemente dos pré-requisitos;\n* Escolha 1 [[Essências Elementais|Essência Elemental]] que você tem acesso a forma Adepta, você recebe acesso e pode conjurar a forma Experiente dela, respeitando os pré-requisitos do [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]].\n\n```autosheet-rules\n```\n"
+}

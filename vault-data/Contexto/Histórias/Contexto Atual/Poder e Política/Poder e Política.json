@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Política/Poder e Política",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Política/Poder e Política.md",
+  "basename": "Poder e Política",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Federação Áurea",
+      "kind": "embed"
+    },
+    {
+      "target": "O Governo do Principado",
+      "kind": "embed"
+    },
+    {
+      "target": "A Pátria Aurora",
+      "kind": "embed"
+    },
+    {
+      "target": "A Ilha sem Bandeira",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[A Federação Áurea]]\n![[O Governo do Principado]]\n![[A Pátria Aurora]]\n![[A Ilha sem Bandeira]]\n"
+}

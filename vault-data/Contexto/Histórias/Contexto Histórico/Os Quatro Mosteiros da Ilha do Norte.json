@@ -1,0 +1,43 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Os Quatro Mosteiros da Ilha do Norte",
+  "path": "Contexto/Histórias/Contexto Histórico/Os Quatro Mosteiros da Ilha do Norte.md",
+  "basename": "Os Quatro Mosteiros da Ilha do Norte",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 700 a.G.",
+    "Descrição": "Na ilha montanhosa do norte, isolada pelo mar, quatro mosteiros guardam as artes que restaram dos elementos — o Ar na [[Cúpula dos Céus]], a Água no [[Mosteiro dos Mares]], a Terra no [[Palácio das Pedras]] e o Fogo na [[Torre das Tochas]]. Ao pé da serra, a vila de [[Firmamentum]] acolhe quem atravessa o mar querendo virar monge.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

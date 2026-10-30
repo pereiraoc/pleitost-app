@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Moradia/Noite na Palafita",
+  "path": "Contexto/Recursos/Moradia/Noite na Palafita.md",
+  "basename": "Noite na Palafita",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Hotel",
+    "Marca": "[[Aliança Livre das Palafitas]]",
+    "Preço": 100,
+    "Cobrança": "noite",
+    "Nível": 2,
+    "Onde": [
+      "[[Cidade Baixa]]",
+      "[[Trapiche da Aliança]]"
+    ],
+    "Resumo": "Uma noite numa palafita da Cidade Baixa, combinada no Trapiche da Aliança: colchão, lona, água embaixo e o pedágio já pago.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Noite na Palafita.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Trapiche da Aliança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Noite na Palafita.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Noite na Palafita.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nNo [[Trapiche da Aliança]] se combina cama por noite numa das palafitas: colchão no chão de tábua, lona no teto, o Guaíba batendo embaixo. Paga-se na mão; a [[Aliança Livre das Palafitas]] garante que ninguém entra, nem a Brigada.\n\n> [!info] Especificação\n> **Quarto:** colchão em palafita de tábua e zinco\n> **Inclui:** pedágio da passarela, bote até o Centro de manhã\n> **Regra:** quem faz barulho vai pra água\n> **Nível:** 1 — Miserável\n"
+}

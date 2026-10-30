@@ -1,0 +1,114 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/O Outro Lado do Muro",
+  "path": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/O Outro Lado do Muro.md",
+  "basename": "O Outro Lado do Muro",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O que o Mundo Livre acha que sabe da Magna Pátria: meia dúzia de fatos confirmados e muita lenda de taverna.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Outro Lado do Muro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "O Esquecimento do Outro Lado",
+      "kind": "wikilink",
+      "alias": "Ano 250"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centrum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Terraplanagem de Centrum",
+      "kind": "wikilink",
+      "alias": "Ano 160"
+    },
+    {
+      "target": "Libertus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Fim da Guerra dos 100 Anos",
+      "kind": "wikilink",
+      "alias": "Ano 100"
+    },
+    {
+      "target": "Os Olhos Vazios",
+      "kind": "wikilink",
+      "alias": "Ano 190"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "O Outro Lado do Muro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Que Se Sabe"
+    },
+    {
+      "level": 4,
+      "text": "\"Lá Não Existem Sintonizados\""
+    },
+    {
+      "level": 4,
+      "text": "Os Olhos Vazios"
+    },
+    {
+      "level": 4,
+      "text": "Lendas de Taverna"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[O Outro Lado do Muro.png]]\n\nDesde o [[O Esquecimento do Outro Lado|Ano 250]], não há ninguém vivo no [[Mundo Livre]] que tenha visto a [[Magna Pátria]] por dentro. O que existe além do [[Grande Muro]] virou lenda de taverna e susto de criança — e, no Ano 300, até os eruditos de [[Baar'Shava]] e os arquivistas de [[Iluminada]] admitem que sabem pouco mais do que o povo. O que se tem é um punhado de fatos confirmados, uma frase repetida há duzentos anos e muito espaço para a imaginação.\n#### O Que Se Sabe\nSabe-se que [[Centrum]] é a capital, de onde se governa todo o oeste, à beira de um lago. Sabe-se que, no [[A Terraplanagem de Centrum|Ano 160]], navegantes aurorenses e vigias do Muro confirmaram que os morros e vales ao redor dela foram arrasados e nivelados num grande platô de bordas em penhasco, riscado por estradas em grade perfeita — e que a própria Magna Pátria anunciou a obra como a maior terraplanagem já feita. Ninguém do lado de cá entende como, nem para quê. Sabe-se que ao sul fica [[Libertus]], a região dos campos coletivos dispostos em colmeia, onde o coletivo planta o que todos comem. E sabe-se, pela história, que o oeste é terra árida, onde ninguém sobrevive sozinho, e que a nação nasceu de uma revolta contra os Altivos que o leste ainda conta como um dos levantes mais legítimos que já houve.\n#### \"Lá Não Existem Sintonizados\"\nA frase nasceu no fim da guerra, no [[O Fim da Guerra dos 100 Anos|Ano 100]], e atravessou gerações: o oeste era maior em homens e em armas, e perdeu porque lá não há sintonizados. No Ano 300 ela é dita como fato, como piada e como consolo. Os mais orgulhosos a usam para explicar por que a Magna Pátria nunca voltou; os mais desconfiados perguntam como um povo inteiro pode nascer sem nenhum. Ninguém tem como verificar.\n#### Os Olhos Vazios\nO relato mais inquietante vem do mar. No [[Os Olhos Vazios|Ano 190]], a [[Pátria Aurora]] denunciou que gente vinda da Magna Pátria — náufragos, pescadores arrastados pela corrente, espiões capturados — traz marcas de lavagem cerebral: olhar vazio, frases repetidas, uma lealdade que nenhum interrogatório quebra. No continente, muitos acham que é exagero aurorense, e os mais céticos lembram que a Pátria tem motivo de sobra para pintar o oeste do pior jeito possível. Mas a história não morreu: virou o \"olho vazio\" das cantigas de ninar, com que as mães do Mundo Livre assustam os filhos que não querem dormir.\n#### Lendas de Taverna\nO resto é especulação. Nas tavernas da Federação, o outro lado já foi descrito como deserto vazio, como exército de um milhão de homens marchando em silêncio, como cidade de uma rua só que nunca termina. Os bardos de [[Canto Alto]] cantam o que o público quer ouvir. Os veteranos do [[Forte Norte]] dizem só que, do alto da torre, não se vê fumaça de chaminé nenhuma — e que isso, para eles, é o mais estranho de tudo.\n"
+}

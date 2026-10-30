@@ -1,0 +1,53 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Galeto ao Primo Canto",
+  "path": "Contexto/Recursos/Alimentação/Galeto ao Primo Canto.md",
+  "basename": "Galeto ao Primo Canto",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Galeterias de Petrópolis",
+    "Preço": 600,
+    "Cobrança": "unidade",
+    "Nível": 5,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Moinhos de Vento]]"
+    ],
+    "Resumo": "Galeto na brasa com polenta, radicci com bacon, massa e sopa à vontade — a mesa de domingo da serra italiana.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Galeto ao Primo Canto.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Galeto ao Primo Canto.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Galeto ao Primo Canto.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA galeteria é a tradição da serra que desceu pra [[Petrópolis]]: galeto assado na brasa, polenta frita, radicci\ncom bacon, massa e sopa de capeletti à vontade, vinho da casa incluso. Domingo ao meio-dia é fila de família\ncom crachá de megacorp; o resto embrulha e leva.\n\n> [!info] Especificação\n> **Prato:** galeto ao primo canto na brasa, polenta, radicci com bacon, salada de maionese\n> **À vontade:** massa, sopa de capeletti, pão e vinho da casa\n> **Sobremesa:** [[Sagu de Vinho]] ou ambrosia, Cz$ 60\n> **Público:** família de engenheiro, sargento com folga, quem fechou uma caixinha boa\n> **Leva:** o resto vai embrulhado — ninguém desperdiça galeto\n"
+}

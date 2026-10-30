@@ -1,0 +1,72 @@
+{
+  "id": "Contexto/Recursos/Veículos/Chevrolet Chevette",
+  "path": "Contexto/Recursos/Veículos/Chevrolet Chevette.md",
+  "basename": "Chevrolet Chevette",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Chevrolet",
+    "Preço": 300000,
+    "Cobrança": "única",
+    "Usado": 110000,
+    "Manutenção": 2500,
+    "Nível": 4,
+    "Onde": [
+      "[[Petrópolis]]",
+      "[[Centro Histórico]]",
+      "[[Jardim Botânico]]"
+    ],
+    "Resumo": "O sedã pequeno da GM, o carro do bancário e do sargento: confiável, sem graça, com rádio de fábrica.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Chevrolet Chevette.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem Rua da Praia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem do Jardim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Chevrolet Chevette.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Chevrolet Chevette.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO Chevette é o carro de quem quer um carro e nada mais: quatro lugares, motor 1.6 a gasolina que não dá trabalho,\nrádio AM de fábrica. Novo, é o que o sargento compra com vinte anos de PIRA; usado, é o táxi que a [[Gurgel]]\nnão conseguiu substituir.\n\n> [!info] Especificação\n> **Modelo:** Chevette Junior/SL 1987, 2 portas, 4 lugares\n> **Motor:** GM 1.6 a gasolina, 72 cv; 10 km/l\n> **Velocidade:** 140 km/h\n> **Novo:** [[Auto Petrópolis]]\n> **Usado:** [[Garagem Rua da Praia]], [[Garagem do Jardim]]\n> **Manutenção:** Cz$ 2.500 por mês\n"
+}

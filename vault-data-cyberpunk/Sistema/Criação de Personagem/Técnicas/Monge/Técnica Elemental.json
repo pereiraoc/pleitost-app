@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Técnica Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Técnica Elemental.md",
+  "basename": "Técnica Elemental",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Você pode conjurar essa magia uma vez por descanso com custo de [[Energia Vital|EV]].\"",
+    "usos_nome": "\"Técnica Elemental\"",
+    "usos_freq": "1/10min"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Magia Anima Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Você pode conjurar essa magia uma vez por descanso com custo de [[Energia Vital|EV]].\"\n\nusos_nome:: \"Técnica Elemental\"\nusos_freq:: 1/10min\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manifestar sua sintonia de mais uma forma. Escolha uma [[Magia Anima Adepta]] referente a sua sintonia. Se a magia precisar de um ataque mágico, use seu modificador de ataque com um ataque desarmado. Se a magia precisar de uma CD, use 10 + seu modificador de ataque com um ataque desarmado. Se a magia precisar de um atributo chave, use [[Força|FOR]] ou [[Agilidade|AGI]] (o que for maior). Se a magia precisar de potência mágica, considere sua potência mágica como 4.\n\nVocê pode conjurar essa magia somente usando [[Energia Vital|EV]]. Para conjurá-la, você perde 4 [[Energia Vital|EV]]. Depois que a magia for conjurada uma vez, você não pode conjurá-la novamente até [[Descansar]]. No 4º nível, você pode optar por conjurar a magia com potência mágica aumentada para 6, mas você perde 6 [[Energia Vital|EV]]. No 7º nível, pode aumentar a potência mágica para 8, perdendo 8 [[Energia Vital|EV]].\n\n```autosheet-rules\n```\n"
+}

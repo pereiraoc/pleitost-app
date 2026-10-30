@@ -1,0 +1,80 @@
+{
+  "id": "Contexto/Recursos/Veículos/Mercedes-Benz 1113",
+  "path": "Contexto/Recursos/Veículos/Mercedes-Benz 1113.md",
+  "basename": "Mercedes-Benz 1113",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Veículo",
+    "Marca": "Mercedes-Benz",
+    "Preço": 1800000,
+    "Cobrança": "única",
+    "Usado": 800000,
+    "Manutenção": 12000,
+    "Nível": 5,
+    "Onde": [
+      "[[Nova Sarandi]]",
+      "[[Praia de Belas]]"
+    ],
+    "Resumo": "O caminhão de tudo: frete pesado, caravana de torcida, mudança de fábrica. Usado, é o que o Cartel usa pra levar carro roubado.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercedes-Benz 1113.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Depósito Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caravana da Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem da Ferroviária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garagem do Estivador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercedes-Benz 1113.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Mercedes-Benz 1113.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 🔧**Usado:** Cz$ `= this.Usado`\n> 🛠️**Manutenção:** Cz$ `= this.Manutenção` por mês (manutenção, combustível, seguro, IPVA / condomínio, IPTU)\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO 1113 é o caminhão médio que carrega Porto Alegre: sucata da [[Zona Deserta]], cesta do [[Depósito Zaffari]], a\n[[Caravana da Camisa 12]] em dia de jogo. Motor diesel que dura quarenta anos, cabine sem nada. Usado, é a\nferramenta do frete de [[A Caixinha|Caixinha]] — e do [[Cartel dos Eixos]].\n\n> [!info] Especificação\n> **Modelo:** Mercedes-Benz L-1113 (1970–1987), caminhão toco, 6 toneladas\n> **Motor:** OM-352 diesel, 130 cv; 4 km/l\n> **Velocidade:** 90 km/h\n> **Novo:** concessionária Mercedes em [[Nova Sarandi]], sob encomenda\n> **Usado:** [[Garagem da Ferroviária]], [[Garagem do Estivador]]\n> **Manutenção:** Cz$ 12.000 por mês: diesel, pneu, documento de carga\n"
+}

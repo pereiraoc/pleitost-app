@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Hospital Cristo Redentor",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Hospital Cristo Redentor.md",
+  "basename": "Hospital Cristo Redentor",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Dono": "Dr. Antônio Bicca (chefe do pronto-socorro)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hospital Cristo Redentor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hospital Cristo Redentor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Hospital Cristo Redentor.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pronto-socorro de trauma 24 h, cirurgia de urgência e enfermaria lotada; fila por gravidade, prontuário compartilhado com a Brigada.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Prédio horizontal com rampa de ambulância, caminhonete da Marcopolo descarregando ferido, fila na calçada, letreiro vermelho de PRONTO-SOCORRO.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pronto-socorro de trauma 24 h, cirurgia de urgência e enfermaria lotada; fila por gravidade, prontuário compartilhado com a Brigada.",
+    "aparencia": "Prédio horizontal com rampa de ambulância, caminhonete da Marcopolo descarregando ferido, fila na calçada, letreiro vermelho de PRONTO-SOCORRO.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

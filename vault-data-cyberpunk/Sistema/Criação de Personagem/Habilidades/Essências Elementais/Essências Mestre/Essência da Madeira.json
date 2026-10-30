@@ -1,0 +1,136 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência da Madeira",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Mestre/Essência da Madeira.md",
+  "basename": "Essência da Madeira",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Essência Enraizante Experiente]]",
+      "Requisito Contem(Habilidades) [[Essência Torrencial Experiente]]",
+      "Complementar Magias.Lista [[Revolta da Terra]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"mestre [[Revolta da Terra]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Enraizante Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência da Madeira",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Enraizante Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Enraizante Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Requisito Contem(Habilidades) [[Essência Torrencial Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência da Madeira",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Essência Torrencial Experiente]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Essência Torrencial Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Revolta da Terra]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência da Madeira",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Revolta da Terra]]"
+          },
+          "raw": "Complementar Magias.Lista [[Revolta da Terra]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Revolta da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Essência Enraizante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Mestre]]\n\nresumo:: \"mestre [[Revolta da Terra]]\"\n%%\n#### `= this.file.name`\n*Interface* — composição de [[Essência Enraizante]] e [[Essência Torrencial]], vizinhas no [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]].\n\nRequer [[Essência Enraizante Experiente]] e [[Essência Torrencial Experiente]].\n\n* mestre [[Revolta da Terra]]\n\n```autosheet-rules\n```\n"
+}

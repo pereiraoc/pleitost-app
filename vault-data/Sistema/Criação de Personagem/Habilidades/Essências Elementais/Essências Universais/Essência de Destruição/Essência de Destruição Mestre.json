@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Destruição/Essência de Destruição Mestre",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Destruição/Essência de Destruição Mestre.md",
+  "basename": "Essência de Destruição Mestre",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": null
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Mestre]]",
+    "resumo": "\"pendente\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Mestre]]\n\nresumo:: \"pendente\"\n%%\n#### `= this.file.name`\n* *a definir* — conteúdo pendente (magias e efeitos da Destruição).\n\n```autosheet-rules\n```\n"
+}

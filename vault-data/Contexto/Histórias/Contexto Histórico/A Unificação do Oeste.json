@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Unificação do Oeste",
+  "path": "Contexto/Histórias/Contexto Histórico/A Unificação do Oeste.md",
+  "basename": "A Unificação do Oeste",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 200 a.G.",
+    "Descrição": "A Magna Pátria transforma a cultura do coletivo em Estado: um só comando a partir de [[Centrum]], um só celeiro nos campos coletivos de [[Libertus]], um só exército. À frente dela surge um grande conquistador, que unifica os povos do oeste e põe tudo a serviço da acumulação de recursos e da força militar.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Centrum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Libertus",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

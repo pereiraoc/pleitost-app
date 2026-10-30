@@ -1,0 +1,240 @@
+{
+  "id": "Contexto/Histórias/Histórias",
+  "path": "Contexto/Histórias/Histórias.md",
+  "basename": "Histórias",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Fim da Era Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Os Quatro Mosteiros da Ilha do Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Domínio dos Altivos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Revolta do Oeste e a Fundação da Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Unificação do Oeste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centrum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Libertus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Nascer das Nações do Leste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Descoberta da Pedra Estelar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Invasão do Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Êxodo do Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Deserção da Frota e a Fundação da Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Construção do Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Fim da Guerra dos 100 Anos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Mar Fechado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação de Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Contato com a Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Terraplanagem de Centrum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Os Olhos Vazios",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Esquecimento do Outro Lado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Guerra Fria do Mar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Presente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```timeline\n[line-3, body-2]\n\n+ c. 1000 a.G.\n+ [[O Fim da Era Elemental]]\n+ As forças elementais que governavam o mundo se recolhem, e o que fica é terra comum. Os povos se organizam como dá, ao acaso do relevo: no leste, a variedade de terras e o [[Rio Raio da Luz]] fazem nascer sociedades de troca, cada uma com sua cultura; no oeste, a terra árida obriga a viver em coletivo — ali ninguém sobrevive sozinho.\n\n+ c. 700 a.G.\n+ [[Os Quatro Mosteiros da Ilha do Norte]]\n+ Na ilha montanhosa do norte, isolada pelo mar, quatro mosteiros guardam as artes que restaram dos elementos — o Ar na [[Cúpula dos Céus]], a Água no [[Mosteiro dos Mares]], a Terra no [[Palácio das Pedras]] e o Fogo na [[Torre das Tochas]]. Ao pé da serra, a vila de [[Firmamentum]] acolhe quem atravessa o mar querendo virar monge.\n\n+ c. 400 a.G.\n+ [[O Domínio dos Altivos]]\n+ Um povo do oeste passa a se dizer descendente dos elfos — e, com isso, acima dos demais. Cobra tributo, toma a água e a terra boa e transforma o coletivo de que todos dependiam numa servidão.\n\n+ c. 250 a.G.\n+ [[A Revolta do Oeste e a Fundação da Magna Pátria]]\n+ Os povos subjugados se levantam contra os Altivos numa guerra longa e sangrenta — e vencem. Sobre as ruínas do domínio élfico decretam a [[Magna Pátria]], a pátria de todos que lutaram. No [[Mundo Livre]], a revolta é lembrada até hoje como um dos levantes populares mais legítimos da história.\n\n+ c. 200 a.G.\n+ [[A Unificação do Oeste]]\n+ A Magna Pátria transforma a cultura do coletivo em Estado: um só comando a partir de [[Centrum]], um só celeiro nos campos coletivos de [[Libertus]], um só exército. À frente dela surge um grande conquistador, que unifica os povos do oeste e põe tudo a serviço da acumulação de recursos e da força militar.\n\n+ c. 150 a.G.\n+ [[O Nascer das Nações do Leste]]\n+ Enquanto o oeste se fecha, o leste cresce em mil direções. [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] ganham nome e se organizam em torno de suas capitais — [[Baar'Shava]], [[Iluminada]] e [[Safira]]. No sul, as coxilhas viram o [[Principado das Flores]], governado de [[Canto Alto]]. Quatro sociedades que negociam entre si e não têm laço nenhum além do comércio.\n\n+ c. 10 a.G.\n+ [[A Descoberta da Pedra Estelar]]\n+ No fundo da cratera do [[Meteorito]], a oeste de [[Iluminada]], escavadores encontram a Pedra Estelar — um mineral de outro céu que multiplica a magia de quem sabe usá-lo. A [[Torre dos Magos]] nasce em torno dela, e a cratera vira, da noite para o dia, a terra mais cobiçada do mundo.\n\n+ Ano 0\n+ [[A Invasão do Meteorito]]\n+ A Magna Pátria cruza as montanhas para tomar a região do [[Meteorito]], disputada como terra santa. As primeiras campanhas são vitórias esmagadoras, e o oeste avança sobre o [[Campos do Provento]]. Começa a Guerra dos 100 Anos.\n\n+ Ano 8\n+ [[A Fundação da Federação Áurea]]\n+ Sozinha, nenhuma região resistiria. [[Baar'Shava]], [[Iluminada]] e [[Safira]] juntam [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] numa só nação — a [[Federação Áurea]] — e o [[Principado das Flores]] entra na luta como aliado. Juntos, os quatro retomam o território perdido e empurram a frente até o gargalo entre a [[Serra do Bode]] e as [[Montanhas de Vidro]], onde ela vai ficar pelo resto da guerra.\n\n+ Ano 40\n+ [[O Êxodo do Norte]]\n+ Mesmo sob a mão de ferro da Magna Pátria, há quem discorde — e não são poucos: perto de 15% da população foge pelo mar rumo à ilha dos mosteiros. Os monges abrem as portas de [[Firmamentum]] para eles.\n\n+ Ano 55\n+ [[A Deserção da Frota e a Fundação da Pátria Aurora]]\n+ A marinha inteira da Magna Pátria é mandada para o norte, com ordens de esmagar os fugitivos e abrir um segundo flanco. Chega à ilha e não ataca: deserta. Os monges acolhem os marinheiros, e a Magna Pátria perde de uma vez toda a sua frota. Da união de monges e ex-marinheiros nasce a [[Pátria Aurora]]; as galeras roubadas ancoram em [[Lucerna]] e [[Magna Vigilia]] — é delas que descende a esquadra de velas vermelhas.\n\n+ Ano 60–85\n+ [[A Construção do Grande Muro]]\n+ A Magna Pátria descobre a traição e já não tem força para seguir na ofensiva. A Federação aproveita o fôlego e fecha o gargalo pedra a pedra: o [[Grande Muro]] corre das [[Montanhas de Vidro]] à [[Serra do Bode]], e na travessia do [[Rio Raio da Luz]] o [[Forte Norte]] e o [[Forte Sul]] guardam a única passagem.\n\n+ Ano 100\n+ [[O Fim da Guerra dos 100 Anos]]\n+ A guerra não termina em tratado, termina em cansaço. Atrito sem fim, cofres vazios, a Magna Pátria lutando em duas frentes e o Muro de pé produzem uma trégua que ninguém assinou. O que segura o oeste, maior em homens e em armas, é a magia: a Pedra Estelar e os sintonizados do Mundo Livre. Do outro lado, dizem, \"não existem sintonizados\".\n\n+ Ano 120\n+ [[O Mar Fechado]]\n+ A Magna Pátria corta qualquer relação com a [[Pátria Aurora]]: acabam as trocas de prisioneiros e as cartas entre famílias separadas pela deserção. A Pátria Aurora vira as velas para o continente e passa a comerciar com [[Baar'Shava]].\n\n+ Ano 140\n+ [[A Fundação de Riqueza]]\n+ Na costa oeste da [[Ilha das Cinzas]] nasce [[Riqueza]] — porto franco sem governo, sem templo e sem bandeira, onde a única lei é o negócio fechado.\n\n+ Ano 150\n+ [[O Contato com a Ordem Bestial]]\n+ Os primeiros forasteiros a atravessar a savana até a mata colossal do sul da [[Ilha das Cinzas]] descobrem que ela tem dono: ali vive, desde sempre, um povo de druidas que nunca tinha sido contatado — a [[Ordem Bestial]]. A resposta deles é uma só: quem entrar sem convite é inimigo. Desde então a mata se chama, nos mapas, [[Floresta da Ordem]].\n\n+ Ano 160\n+ [[A Terraplanagem de Centrum]]\n+ Navegantes aurorenses e vigias do Muro confirmam o que se dizia havia décadas: os morros e vales ao redor de [[Centrum]], a capital da Magna Pátria, foram arrasados e nivelados num grande platô de bordas em penhasco, riscado por estradas em grade perfeita. A Magna Pátria anuncia a obra como concluída — a maior terraplanagem já feita. Ninguém do lado de cá entende como, nem para quê.\n\n+ Ano 190\n+ [[Os Olhos Vazios]]\n+ A [[Pátria Aurora]] denuncia que gente vinda da Magna Pátria — náufragos, pescadores arrastados pela corrente, espiões capturados — traz marcas de lavagem cerebral: olhar vazio, frases repetidas, uma lealdade que nenhum interrogatório quebra. No continente, muitos acham que é exagero aurorense.\n\n+ Ano 200\n+ [[A Fundação da Sociedade Aberta]]\n+ Com o apoio de todo o [[Mundo Livre]] nasce a [[Sociedade Aberta]], para registrar, treinar e pôr a serviço os sintonizados — a arma que segurou a guerra — e organizar os aventureiros em ranks.\n\n+ Ano 250\n+ [[O Esquecimento do Outro Lado]]\n+ Já não há ninguém vivo que tenha visto a Magna Pátria por dentro. O que existe além do [[Grande Muro]] virou lenda de taverna e susto de criança.\n\n+ Ano 280\n+ [[A Guerra Fria do Mar]]\n+ Começa a guerra fria entre a [[Pátria Aurora]] e a Magna Pátria: naus que somem, espiões nos portos, escaramuças que nenhum dos lados admite.\n\n+ Ano 300\n+ [[O Presente]]\n+ O [[Mundo Livre]] vive em paz atrás de um Muro que ninguém mais vigia de verdade; a [[Sociedade Aberta]] distribui contratos de aventureiro — e, do outro lado, alguém termina de se preparar.\n\n```\n"
+}

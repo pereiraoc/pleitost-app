@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Aventureiros e Missões",
+  "path": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Aventureiros e Missões.md",
+  "basename": "Aventureiros e Missões",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Sociedade Aberta e os Contratos",
+      "kind": "embed"
+    },
+    {
+      "target": "Ranks e Marcas",
+      "kind": "embed"
+    },
+    {
+      "target": "Guildas e Ordens",
+      "kind": "embed"
+    },
+    {
+      "target": "Feras e Bestas Elementais",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[A Sociedade Aberta e os Contratos]]\n![[Ranks e Marcas]]\n![[Guildas e Ordens]]\n![[Feras e Bestas Elementais]]\n"
+}

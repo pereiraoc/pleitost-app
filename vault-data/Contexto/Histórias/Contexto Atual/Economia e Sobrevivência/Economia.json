@@ -1,0 +1,98 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia.md",
+  "basename": "Economia",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Quanto se ganha e quanto se tem no Mundo Livre: salários, patrimônio e o peso de cada ofício conforme o tamanho da cidade.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Economia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Economia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Salário: a escada das cidades"
+    },
+    {
+      "level": 4,
+      "text": "Patrimônio: o que sobra depois do mês"
+    },
+    {
+      "level": 4,
+      "text": "O peso de cada ofício"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Economia.png]]\n\nNo Ano 300, duzentos anos de trégua atrás do [[Grande Muro]] fizeram do [[Mundo Livre]] uma terra de mercado. O dinheiro é a Peça de Ouro, e o que um trabalhador leva para casa no fim do mês depende menos do ofício do que do lugar onde ele o exerce: o mesmo guarda ganha o dobro em [[Iluminada]] do que num vilarejo de beira de estrada. Quem quer subir na vida não muda de profissão, muda de cidade.\n\n#### Salário: a escada das cidades\nA régua é simples e todo mundo a conhece. No vilarejo, um servente ganha três peças por mês e um mercador, dez; numa capital como [[Baar'Shava]], [[Safira]] ou [[Canto Alto]], os mesmos postos rendem seis e vinte. Entre os dois extremos ficam as pequenas e as grandes cidades, degraus que se sobem um de cada vez. Escrivães e guardas vivem no meio da escada: o escrivão é o letrado dos cartórios, dos paços e das casas de balança; o guarda é a muralha de carne que as cidades abertas, como [[Líciae]] ou [[Rharos]], dispensam de pedra. O artesão já ganha mais que ambos — o ofício manual bem feito é a espinha da economia federada, das forjas de [[Iluminada]] às oficinas de imbuição de [[Pedrita]]. No topo está o mercador, que nunca ganha só o salário: ganha o que a rota rende.\n\n#### Patrimônio: o que sobra depois do mês\nA diferença entre as classes aparece de verdade no que se acumula. Servente, escrivão e guarda guardam pouco mais de três meses de salário — o suficiente para um enterro digno ou uma estação ruim. O artesão já tem oficina, ferramentas e estoque, e seu patrimônio salta para dez vezes o salário; o mercador, com carroças, armazém e mercadoria em trânsito, passa de quinze vezes. É por isso que um aprendiz da Universidade dos Ofícios, em Iluminada, sonha com a oficina própria e não com o soldo: o soldo paga o mês, a oficina paga a vida.\n\n#### O peso de cada ofício\nNum vilarejo, quase todos são serventes, lavradores e pastores, e o mercador itinerante é a ponte com o resto do mundo. Nas pequenas cidades — [[Lilá]], [[Pedrita]], [[Varadas]] — um único ofício costuma dominar a economia: o peixe, o âmbar, o gado. As grandes cidades já sustentam guildas de artesãos e um funcionalismo próprio, e as capitais vivem de governo, comércio e forja. Acima de todas fica Iluminada, sede da Federação, onde se cunha a moeda, se julgam as causas e se fecham os maiores negócios do continente.\n\nPara os aventureiros, a conta é outra: um contrato da [[Sociedade Aberta]] de rank C paga dezenas de peças de uma vez — perto do que um guarda de capital ganha em meio ano de serviço. Não espanta que tanta gente jovem queira pendurar uma espada na cintura.\n\n> [!note]- Salário Mensal Médio (PO)\n> | Cargo    | Vilarejo | Pequena Cidade | Grande Cidade | Capital |\n> | -------- |:--------:|:--------------:|:-------------:|:-------:|\n> | Servente |    3     |       4        |       5       |    6    |\n> | Escrivão |    5     |       7        |       8       |   10    |\n> | Guarda   |    6     |       8        |      10       |   12    |\n> | Artesão  |    7     |       9        |      12       |   14    |\n> | Mercador |    10    |       13       |      16       |   20    |\n\n> [!note]- Patrimônio Líquido Médio (PO)\n> | Cargo    | Vilarejo | Pequena Cidade | Grande Cidade | Capital |\n> | -------- |:--------:|:--------------:|:-------------:|:-------:|\n> | Servente |    9     |       12       |      15       |   18    |\n> | Escrivão |    15    |       21       |      24       |   30    |\n> | Guarda   |    18    |       24       |      30       |   36    |\n> | Artesão  |    70    |       90       |      120      |   140   |\n> | Mercador |   150    |      195       |      240      |   300   | \n\n> [!note]- População\n> | Tamanho        | População | Classe Baixa | Classe Média | Classe Alta |\n> | -------------- | ---------:|:------------:|:------------:|:-----------:|\n> | Vilarejo       |    ~5.000 |     60%      |     40%      |     <1%     |\n> | Pequena Cidade |   ~20.000 |     40%      |     55%      |     5%      | \n> | Grande Cidade  |   ~50.000 |     30%      |     60%      |     10%     |\n> | Capital        |  ~150.000 |     20%      |     60%      |     20%     |\n> | Iluminada      |  ~300.000 |     10%      |     65%      |     25%     |\n\n> [!note]- Acesso a Serviços/Itens Mágicos\n> | Classe | Adepto  | Experiente | Mestre |\n> | ------ |:-------:|:----------:|:------:|\n> | Baixa  |  Raro   |    Não     |  Não   |\n> | Média  | Incomum | Muito Raro |  Não   |\n> | Alta   |  Comum  |    Raro    |  Não   |\n\n> [!note]- Riqueza por Nível para Personagens\n> | Nível  | Riqueza (PO) | Adepto | Experiente | Mestre | \n> |:------:|:------------:|:------:|:----------:|:------:|\n> |   1    |      10      |   0    |     0      |   0    |\n> |   2    |      50      |   1    |     0      |   0    |\n> |   3    |      90      |   2    |     0      |   0    |\n> |   4    |     175      |   4    |     0      |   0    |\n> |   5    |     400      |   4    |     1      |   0    |\n> |   6    |     600      |   4    |     2      |   0    |\n> |   7    |     1000      |   2    |     4      |   0    |\n> |   8    |     2000     |   1    |     4      |   1    |\n> |   9    |     3000     |   0    |     4      |   2    |\n> |   10   |     4800     |   0    |     2      |   4    |\n> | Pós-10 |     5700     |   0    |     1      |   5    |\n"
+}

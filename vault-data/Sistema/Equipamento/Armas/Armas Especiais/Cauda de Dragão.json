@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Cauda de Dragão",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Cauda de Dragão.md",
+  "basename": "Cauda de Dragão",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "especial",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "especial",
+    "dg-publish": true,
+    "dano": "d8+4",
+    "tipo": "contusão",
+    "mãos": 0,
+    "propriedades": [],
+    "ordem": 2,
+    "preço": "",
+    "Elementos_de_Regra": [
+      "Requisito Atributos.FOR 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Armas Especiais]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Atributos.FOR 3",
+      "parsed": [
+        {
+          "sourceNote": "Cauda de Dragão",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "3"
+          },
+          "raw": "Requisito Atributos.FOR 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Armas Especiais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Especiais]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| FOR | Mãos          | Dano          | Tipo          | Propriedades          |\n| --- | ------------- | ------------- | ------------- | --------------------- |\n| 3   | `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` |\n\n```autosheet-rules\n```\n"
+}

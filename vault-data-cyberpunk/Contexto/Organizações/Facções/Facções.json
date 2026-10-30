@@ -1,0 +1,26 @@
+{
+  "id": "Contexto/Organizações/Facções/Facções",
+  "path": "Contexto/Organizações/Facções/Facções.md",
+  "basename": "Facções",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Facções.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Facções.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "![[Facções.png]]\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Organização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Organização\" and subcategoria=\"Facção\"\nsort subcategoria asc\n```"
+}

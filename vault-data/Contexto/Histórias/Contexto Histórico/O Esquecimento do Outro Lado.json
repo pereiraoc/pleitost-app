@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Esquecimento do Outro Lado",
+  "path": "Contexto/Histórias/Contexto Histórico/O Esquecimento do Outro Lado.md",
+  "basename": "O Esquecimento do Outro Lado",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 250",
+    "Descrição": "Já não há ninguém vivo que tenha visto a Magna Pátria por dentro. O que existe além do [[Grande Muro]] virou lenda de taverna e susto de criança.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Guerra Fria do Mar",
+  "path": "Contexto/Histórias/Contexto Histórico/A Guerra Fria do Mar.md",
+  "basename": "A Guerra Fria do Mar",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 280",
+    "Descrição": "Começa a guerra fria entre a [[Pátria Aurora]] e a Magna Pátria: naus que somem, espiões nos portos, escaramuças que nenhum dos lados admite.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

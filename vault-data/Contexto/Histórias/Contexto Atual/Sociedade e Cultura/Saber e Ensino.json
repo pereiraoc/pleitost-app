@@ -1,0 +1,144 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Saber e Ensino",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Saber e Ensino.md",
+  "basename": "Saber e Ensino",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Onde e como se aprende no Mundo Livre: a magia, os ofícios, a navegação e os registros.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Saber e Ensino.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Descoberta da Pedra Estelar",
+      "kind": "wikilink",
+      "alias": "Pedra Estelar"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Sociedade Aberta",
+      "kind": "wikilink",
+      "alias": "fundação da Sociedade Aberta"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Saber e Ensino.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Torre dos Magos"
+    },
+    {
+      "level": 4,
+      "text": "Escolas das Cidades"
+    },
+    {
+      "level": 4,
+      "text": "Mosteiros e Academias da Aurora"
+    },
+    {
+      "level": 4,
+      "text": "Os Sintonizados"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Saber e Ensino.png]]\n\nNo Ano 300, aprender no [[Mundo Livre]] é quase sempre aprender um ofício, e cada ofício tem a sua casa. A magia se estuda numa torre isolada na estepe, a pedra se aprende dentro da montanha, a navegação nos mosteiros e academias da [[Pátria Aurora]], e o que a [[Federação Áurea]] sabe de si mesma fica guardado nos arquivos de [[Iluminada]].\n#### A Torre dos Magos\nA [[Torre dos Magos]], plantada sozinha na estepe do [[Campos do Provento]], é a academia arcana da Federação: nove andares que vão das salas de aula básicas, onde os aprendizes começam, às salas superiores sob vitrais, à câmara circular de prática mágica e, no alto, à Câmara do Arquimago. Nasceu em torno da [[A Descoberta da Pedra Estelar|Pedra Estelar]], e um eixo de energia azul atravessa o edifício até os cristais gigantes da cobertura, que alimentam as oficinas de criação arcana. Só uma estrada chega até ela, vinda de [[Líciae]]; de resto, são trilhas de aprendizes e peregrinos.\n#### Escolas das Cidades\nCada capital ensina o que a sustenta. Em [[Baar'Shava]], a Academia Elemental e a Casa da Eloquência dão casa aos elementalistas e oradores, e o Bairro dos Sábios reúne a vida erudita da cidade. Em [[Iluminada]], a Universidade dos Ofícios forma os mestres de ofício da Federação, e a torre do Arquivo e Registro Federal guarda, junto ao Portão do Sul, a memória escrita da nação. Em [[Canto Alto]], a Academia dos Imbuidores fica à beira do canal. E em [[Krasnogor]], escavada nas [[Montanhas de Vidro]], os anões têm escolas como as de qualquer cidade da superfície — a Escola de Pedraria ensina o ofício da rocha — e um arquivo próprio junto à administração da coroa.\n#### Mosteiros e Academias da Aurora\nNa [[Pátria Aurora]], o ensino é a espinha da nação. Em [[Firmamentum]], a Claustra Novitiorum recebe os noviços que começam ali a formação antes de subir aos quatro mosteiros-fortaleza; a cidade tem ainda uma escola da arte do bordão. Cada mosteiro é uma escola do seu elemento: na [[Cúpula dos Céus]], a Schola Alarum adestra grifos; no [[Mosteiro dos Mares]], a Schola Navigatorum ensina a navegar; no [[Palácio das Pedras]], a Schola Caementariorum forma canteiros; na [[Torre das Tochas]], os monges aprendem a domar a própria fúria. Em [[Lucerna]], a Academia Navalis forma a oficialidade e desenvolve a tecnologia naval da Pátria, e em [[Magna Vigilia]] a Schola Nautarum põe os cadetes a remar em formação.\n#### Os Sintonizados\nDesde a [[A Fundação da Sociedade Aberta|fundação da Sociedade Aberta]], no Ano 200, o Mundo Livre tem também um caminho próprio para quem nasce com [[Sintonia]]: a [[Sociedade Aberta]] registra, treina e organiza os sintonizados em ranks, e é no balcão dela, mais do que em qualquer escola, que um aventureiro aprende o que o mundo espera dele.\n"
+}

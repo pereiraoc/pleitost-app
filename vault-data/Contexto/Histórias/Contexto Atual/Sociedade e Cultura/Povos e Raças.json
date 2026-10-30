@@ -1,0 +1,151 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Povos e Raças",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Povos e Raças.md",
+  "basename": "Povos e Raças",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Os povos que habitam o Mundo Livre no Ano 300, onde vivem e como são vistos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Povos e Raças.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Humano",
+      "kind": "wikilink",
+      "alias": "humanos"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anão",
+      "kind": "wikilink",
+      "alias": "anões"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elfo",
+      "kind": "wikilink",
+      "alias": "elfos"
+    },
+    {
+      "target": "O Domínio dos Altivos",
+      "kind": "wikilink",
+      "alias": "se diziam descendentes dos elfos"
+    },
+    {
+      "target": "A Revolta do Oeste e a Fundação da Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Revolta do Oeste"
+    },
+    {
+      "target": "Orc",
+      "kind": "wikilink",
+      "alias": "orcs"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin",
+      "kind": "wikilink",
+      "alias": "goblins"
+    },
+    {
+      "target": "Kobold",
+      "kind": "wikilink",
+      "alias": "kobolds"
+    },
+    {
+      "target": "Lagartóides",
+      "kind": "wikilink",
+      "alias": "lagartóides"
+    }
+  ],
+  "images": [
+    {
+      "target": "Povos e Raças.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Humanos: a Maioria Diversa"
+    },
+    {
+      "level": 4,
+      "text": "Anões de Krasnogor"
+    },
+    {
+      "level": 4,
+      "text": "Elfos: o Povo Perdido"
+    },
+    {
+      "level": 4,
+      "text": "As Raças Monstruosas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Povos e Raças.png]]\n\nNo Ano 300, o [[Mundo Livre]] é antes de tudo uma terra de [[Humano|humanos]] — de Baar'Shava a Canto Alto, são eles que enchem as feiras, as guarnições e os balcões da [[Sociedade Aberta]]. Ao lado deles vivem povos mais antigos ou mais raros, alguns com cidade própria, outros apenas como rumor na estrada, e outros ainda como ameaça que os contratos de aventureiro tentam conter.\n#### Humanos: a Maioria Diversa\nHumanos são a raça dominante em população e a mais variada: o cameleiro de [[Pedra Fina]], o lavrador do [[Campos do Provento]], o tropeiro do [[Principado das Flores]] e o monge da [[Pátria Aurora]] pouco têm em comum além do sangue. Sem [[Sintonia]], um humano raramente toca a magia além de um uso eventual de arcana essencial — as forças elementais e entrópicas esgotam quem não nasceu sintonizado. É por isso que, entre humanos, o sintonizado é visto como abençoado, e dele se espera que faça o trabalho mais arriscado em nome de todos.\n#### Anões de Krasnogor\nO único povo não humano com cidade própria no Mundo Livre são os [[Anão|anões]], antigo povo da terra. Vivem em [[Krasnogor]], escavada por inteiro dentro das [[Montanhas de Vidro]], sob uma monarquia que governa do ponto mais fundo da rocha. A cidade, que antes se chamava Vidrakar, vive do âmbar e do aço dos machados, e suas oficinas imbuem o mineral com artes que só eles dominam; é dela que desce o âmbar vendido no posto de [[Primeiro Contato]]. Krasnogor é um dos raros cantos da [[Federação Áurea]] sem instalação da Sociedade Aberta — os anões resolvem os seus problemas entre si.\n#### Elfos: o Povo Perdido\nOs [[Elfo|elfos]], o povo do vento, são chamados de perdidos, e a palavra é exata: não há cidade élfica em mapa nenhum do Mundo Livre. O nome deles carrega ainda o peso da história do oeste — os Altivos que [[O Domínio dos Altivos|se diziam descendentes dos elfos]] e caíram na [[A Revolta do Oeste e a Fundação da Magna Pátria|Revolta do Oeste]], com as casas élficas queimadas e os nomes riscados. Quem se apresenta como elfo numa taverna do leste ainda escuta, cedo ou tarde, a pergunta sobre de que lado da revolta estariam os seus.\n#### As Raças Monstruosas\nFora das cidades vivem os povos que o Mundo Livre trata como perigo. Os [[Orc|orcs]], militarmente organizados e armados de machado, montam covis perto de [[Safira]], erguem torres no sul e já atacaram [[Pencas]]. Os [[Goblin|goblins]], caóticos e imprevisíveis, moram em cavernas e saqueiam as comunidades vizinhas. Os [[Kobold|kobolds]], de estrutura social coesa, ocupam ruínas e estruturas abandonadas como base de operações, para inquietação de quem mora perto. Os [[Lagartóides|lagartóides]], criaturas elementais da água, são outra coisa: inteligentes, lógicos até o exagero, convictos da própria superioridade intelectual — e submissos apenas a quem julgam mais inteligente. Para o povo comum, todos eles são assunto de contrato: é na guarda local ou no balcão da Sociedade Aberta que um ataque orc vira missão de rank.\n"
+}

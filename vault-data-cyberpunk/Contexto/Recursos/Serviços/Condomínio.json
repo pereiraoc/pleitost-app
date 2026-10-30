@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Serviços/Condomínio",
+  "path": "Contexto/Recursos/Serviços/Condomínio.md",
+  "basename": "Condomínio",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Moradia Classe Alta"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 50000,
+    "Cobrança": "mês",
+    "Vagas": 4,
+    "Nível": 6,
+    "Onde": null,
+    "Resumo": "Condomínio fechado, cobertura ou suíte de hotel de luxo por mês — guarita, gerador e motorista na garagem.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Condomínio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Casa em Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura no Edifício Concorde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plaza São Rafael",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    }
+  ],
+  "images": [
+    {
+      "target": "Condomínio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Condomínio.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAluguel de [[Casa em Ipanema]], [[Cobertura no Edifício Concorde]] ou suíte permanente no [[Plaza São Rafael]]: muro eletrificado, guarita, água e luz privadas, motorista na garagem. Ninguém da rua sobe sem a [[A Caixinha|Caixinha]] marcar.\n\n> [!info] Especificação\n> **Onde dorme:** condomínio fechado; cobertura; suíte de hotel de luxo — alugados\n> **Cobre:** segurança própria, água e luz privadas, telefone Embratel privado, garagem com motorista\n> **O que compra:** o Concorde te separa da cidade: tudo chega até você; a Brigada bate continência\n> **O que cabe:** sala segura e cofre; garagem pra frota e vaga de lancha em Ipanema; suíte de hóspedes (esconde o grupo inteiro)\n> **Classe:** Classe Alta\n"
+}

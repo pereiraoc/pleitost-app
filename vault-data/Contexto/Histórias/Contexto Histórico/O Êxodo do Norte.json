@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Êxodo do Norte",
+  "path": "Contexto/Histórias/Contexto Histórico/O Êxodo do Norte.md",
+  "basename": "O Êxodo do Norte",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 40",
+    "Descrição": "Mesmo sob a mão de ferro da Magna Pátria, há quem discorde — e não são poucos: perto de 15% da população foge pelo mar rumo à ilha dos mosteiros. Os monges abrem as portas de [[Firmamentum]] para eles.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

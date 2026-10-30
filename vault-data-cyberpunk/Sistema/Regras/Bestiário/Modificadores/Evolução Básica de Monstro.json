@@ -1,0 +1,3219 @@
+{
+  "id": "Sistema/Regras/Bestiário/Modificadores/Evolução Básica de Monstro",
+  "path": "Sistema/Regras/Bestiário/Modificadores/Evolução Básica de Monstro.md",
+  "basename": "Evolução Básica de Monstro",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+      "Definir Inventario.Armas.Proficiencia.Marciais P",
+      "Tier 0 Definir Ataques.Lista.*.Bonus_Item -1",
+      "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item -1",
+      "Tier 0 Definir Movimento.Lista.*.Bonus_Item -1",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item -1",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item -1",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item -1",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item -1",
+      "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item -1",
+      "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item -1",
+      "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item -1",
+      "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item -1",
+      "Tier 0 Definir Magias.Lista.Anima.Bonus_Item -1",
+      "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Especial -1",
+      "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Especial -1",
+      "Tier 0 Definir Magias.Lista.Anima.Bonus_Especial -1",
+      "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item -1",
+      "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item -1",
+      "Tier 1 Definir Ataques.Lista.*.Bonus_Item 0",
+      "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+      "Tier 1 Definir Movimento.Lista.*.Bonus_Item 0",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+      "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+      "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+      "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+      "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+      "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 0",
+      "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 0",
+      "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 0",
+      "Tier 1 Definir Magias.Lista.Anima.Bonus_Especial 0",
+      "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+      "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+      "Tier 2 Definir Ataques.Lista.*.Bonus_Item 1",
+      "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+      "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 1",
+      "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 1",
+      "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 1",
+      "Tier 2 Definir Magias.Lista.Anima.Bonus_Especial 1",
+      "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "Tier 3 Definir Ataques.Lista.*.Bonus_Item 2",
+      "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+      "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 2",
+      "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+      "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 2",
+      "Tier 3 Definir Magias.Lista.Anima.Bonus_Especial 2",
+      "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "Tier 0 Somar Pericias.Slots.A Propriedade(INT)",
+      "Tier 0 Somar Pericias.Slots.A 3",
+      "Tier 1 Somar Pericias.Slots.A 1",
+      "Tier 2 Somar Pericias.Slots.E 2",
+      "Tier 3 Somar Pericias.Slots.E 2",
+      "Tier 3 Somar Pericias.Slots.M 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Você é uma criatura não humana.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "attr-compare",
+            "left": "FOR",
+            "op": ">",
+            "right": "AGI"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Atributo",
+            "valueRaw": "FOR"
+          },
+          "raw": "Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Inventario.Armas.Proficiencia.Marciais P",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Proficiencia.Marciais",
+            "valueRaw": "P"
+          },
+          "raw": "Definir Inventario.Armas.Proficiencia.Marciais P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Ataques.Lista.*.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Ataques.Lista.*.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Movimento.Lista.*.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Movimento.Lista.*.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Movimento.Lista.*.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Especial -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Especial",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Especial -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Especial -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Especial",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Especial -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Especial -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Especial -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 24,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 25,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 26,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 27,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 28,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item -1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 29,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "-1"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item -1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Ataques.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 30,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Ataques.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 31,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Movimento.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 32,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Movimento.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Movimento.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 33,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 34,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 35,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 36,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 37,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 38,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 39,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 40,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 41,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 42,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Especial",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 43,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Especial",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Especial 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 44,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Especial 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 45,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 46,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 47,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 48,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 49,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 50,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 51,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 52,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 53,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 54,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 55,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 56,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 57,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Ataques.Lista.*.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 58,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Ataques.Lista.*.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 59,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 60,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 61,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 62,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 63,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 64,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 65,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 66,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 67,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 68,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 69,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 70,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 71,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 72,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 73,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 74,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 75,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 76,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 77,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 78,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 79,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 80,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 81,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 82,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 83,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 84,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Ataques.Lista.*.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 85,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Ataques.Lista.*.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 86,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 87,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 88,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 89,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 90,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 91,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 92,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 93,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 94,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 95,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 96,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 97,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 98,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 99,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 100,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 101,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 102,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 103,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 104,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 105,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 106,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 107,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 108,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 109,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 110,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 111,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Somar Pericias.Slots.A Propriedade(INT)",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 112,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "Propriedade(INT)"
+          },
+          "raw": "Tier 0 Somar Pericias.Slots.A Propriedade(INT)",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Somar Pericias.Slots.A 3",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 113,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 0 Somar Pericias.Slots.A 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Somar Pericias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 114,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Somar Pericias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Somar Pericias.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 115,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Somar Pericias.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Somar Pericias.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 116,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Somar Pericias.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Somar Pericias.Slots.M 2",
+      "parsed": [
+        {
+          "sourceNote": "Evolução Básica de Monstro",
+          "occurrenceIndex": 117,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.M",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 3 Somar Pericias.Slots.M 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Você é uma criatura não humana.\"\n%%\n##### `= this.file.name`\nVocê é uma criatura não humana.\n\n```autosheet-rules\n```\n"
+}

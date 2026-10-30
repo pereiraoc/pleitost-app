@@ -1,0 +1,37 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Tecnologia e Conectividade",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Tecnologia e Conectividade.md",
+  "basename": "Tecnologia e Conectividade",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acesso a Tecnologia",
+      "kind": "embed"
+    },
+    {
+      "target": "Hacking e Guerra Digital",
+      "kind": "embed"
+    },
+    {
+      "target": "Modificações Corporais",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Acesso a Tecnologia]]\n![[Hacking e Guerra Digital]]\n![[Modificações Corporais]]"
+}

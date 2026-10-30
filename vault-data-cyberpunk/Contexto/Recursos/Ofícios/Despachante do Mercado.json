@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Despachante do Mercado",
+  "path": "Contexto/Recursos/Ofícios/Despachante do Mercado.md",
+  "basename": "Despachante do Mercado",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Despachante",
+    "Marca": "Despachante do sobrado",
+    "Preço": 1500,
+    "Cobrança": "unidade",
+    "Nível": 3,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Segunda via, carteira de trabalho, transferência de cartão TRI e certidão — o despachante anda na fila por ti.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Prefeitura"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO despachante tem uma mesa no sobrado, uma máquina de escrever e uma pasta pra cada cliente. Segunda via de documento, carteira de trabalho, transferência de plano TRI, certidão, licença de banca. Ele conhece quem carimba em cada guichê da [[Prefeitura de Porto Alegre|Prefeitura]]; o preço inclui o café desse pessoal.\n\n> [!info] Especificação\n> **Prazo:** uma semana; urgente em dois dias, pelo dobro\n> **Serviços:** segunda via, carteira de trabalho, TRI, certidão\n> **Documento que não existe:** não faz — mas conhece quem faz\n"
+}

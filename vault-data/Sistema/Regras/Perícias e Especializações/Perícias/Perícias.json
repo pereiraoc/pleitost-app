@@ -1,0 +1,151 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Perícias",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Perícias.md",
+  "basename": "Perícias",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Perícias, Perícia, perícia",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Movimentação|Movimentação]]",
+    "next": "[[Sintonia|Sintonia]]",
+    "down": "[[Atletismo]], [[Acrobacia]], [[Furtividade]], [[Ladinagem]], [[Arcana]], [[Sociedades]], [[Guerra]], [[Anima]], [[Medicina]], [[Sobrevivência]], [[Diplomacia]], [[Enganação]], [[Intimidação]], [[Perícias de Ofício]], [[Especialização e Maestria]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink",
+      "alias": "Movimentação"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink",
+      "alias": "Sintonia"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização e Maestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink",
+      "alias": "Defesas"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Perícias"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Movimentação|Movimentação]]\nnext:: [[Sintonia|Sintonia]]\ndown:: [[Atletismo]], [[Acrobacia]], [[Furtividade]], [[Ladinagem]], [[Arcana]], [[Sociedades]], [[Guerra]], [[Anima]], [[Medicina]], [[Sobrevivência]], [[Diplomacia]], [[Enganação]], [[Intimidação]], [[Perícias de Ofício]], [[Especialização e Maestria]]\n%%\n# Perícias\nExistem 13 perícias: [[Atletismo]], [[Acrobacia]], [[Furtividade]], [[Ladinagem]], [[Guerra]], [[Arcana]], [[Sociedades]], [[Medicina]], [[Anima]], [[Sobrevivência]], [[Diplomacia]], [[Enganação]] e [[Intimidação]].\n\nCada personagem tem um conjunto de perícias determinados pelo seu nível, classe e [[Inteligência|INT]]. Perícias são usadas para determinar a chance de sucesso de certas ações durante o jogo, representando o treinamento e experiência do personagem em certas situações.\n\nO nível de [[Proficiência|Proficiência]] do personagem na perícia define o quão treinado ou experiente ele é nesse ramo. Adicionalmente, cada perícia tem um atributo associado, que potencializa o efeito da perícia, como se fosse o \"talento nato\" do personagem para essa.\n\nUm personagem pode ser [[Adepto]], [[Experiente]] ou [[Mestre]] com uma perícia, assim como em ataques, [[Defesa|Defesas]] e [[Sentidos|Sentidos]]. A [[Proficiência|Proficiência]] na perícia, somada ao atributo-chave da perícia, totalizam o modificador de perícia de um personagem.\n\n[[Atletismo]] é a única perícia de [[Força|FOR]].\n[[Acrobacia]], [[Furtividade]] e [[Ladinagem]] são perícias de [[Agilidade|AGI]].\n[[Guerra]], [[Arcana]], [[Sociedades]], [[Medicina]] e [[Sobrevivência]]  são perícias de [[Inteligência|INT]].\n[[Anima]], [[Diplomacia]], [[Enganação]] e [[Intimidação]] são perícias de [[Presença|PRE]].\n\n---\n```dataview\nLIST\nWHERE subcategoria = \"Perícia\"\n```\n\n```autosheet-rules\n```\n"
+}

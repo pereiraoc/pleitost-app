@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Recursos/Serviços/Carro com Motorista",
+  "path": "Contexto/Recursos/Serviços/Carro com Motorista.md",
+  "basename": "Carro com Motorista",
+  "type": "Recurso",
+  "subtype": "Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Transporte",
+    "Tipo": "Estilo de Vida",
+    "Marca": "a empresa (crachá de diretoria)",
+    "Preço": 20000,
+    "Cobrança": "mês",
+    "Nível": 6,
+    "Onde": null,
+    "Resumo": "Carro da empresa com motorista na porta, escolta quando precisa e o TRI Platina no bolso. Ninguém da rua vê você andar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carro com Motorista.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "TRI Platina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "LINHA EXECUTIVA",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malha de Transportes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Carro com Motorista.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Carro com Motorista.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nO plano da diretoria: carro da empresa com motorista à disposição, escolta da [[Gradiente]] quando o destino é feio, e um [[TRI Platina]] no bolso pra [[LINHA EXECUTIVA]] quando a rua não presta. Não se paga: a empresa desconta — e sabe onde você dormiu.\n\nQuem tem motorista não pega linha — mas o [[TRI Platina]] vem no bolso: [[LINHA EXECUTIVA]] e o resto em [[Malha de Transportes]].\n\n> [!info] Especificação\n> **Cartão:** TRI Platina de cortesia + carro da empresa\n> **Dá acesso a:** motorista, escolta, linha executiva, lancha da Gradiente, táxi sem limite\n> **Não cobre:** nada — cobre até o que não devia\n> **Quem usa:** diretor, coronel, dono de rede\n> **Classe:** Classe Alta\n"
+}

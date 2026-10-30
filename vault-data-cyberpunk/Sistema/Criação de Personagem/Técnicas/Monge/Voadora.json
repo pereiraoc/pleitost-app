@@ -1,0 +1,80 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Voadora",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Voadora.md",
+  "basename": "Voadora",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"Quando você [[Saltar|Saltar]], aumente a distância em 1q. Você pode combinar um salto com um ataque: [[Mover|mova-se]] e [[Saltar|salte]] na mesma direção (atacando durante ou no fim), ou faça um [[Salto Longo]] (atacando durante ou no fim), sempre com [[Atacar|Ataque]] desarmado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Saltar"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "mova-se"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "salte"
+    },
+    {
+      "target": "Salto Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Saltar",
+      "kind": "wikilink",
+      "alias": "Salta"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"Quando você [[Saltar|Saltar]], aumente a distância em 1q. Você pode combinar um salto com um ataque: [[Mover|mova-se]] e [[Saltar|salte]] na mesma direção (atacando durante ou no fim), ou faça um [[Salto Longo]] (atacando durante ou no fim), sempre com [[Atacar|Ataque]] desarmado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Voadora.\nAdicionalmente, quando você [[Saltar|Salta]], aumente a distância em 1q.\n\n**Voadora - 2A**\nVocê realiza um pulo combinado com um ataque, escolha:\n* Você [[Mover|Move]] e [[Saltar|Salta]] na mesma direção, durante o Salto ou no final deste faça um [[Atacar|Ataque]] Desarmado.\n* Você realiza um [[Salto Longo]], durante o Salto Longo ou no final deste faça um [[Atacar|Ataque]] Desarmado.\n\n```autosheet-rules\n```\n"
+}

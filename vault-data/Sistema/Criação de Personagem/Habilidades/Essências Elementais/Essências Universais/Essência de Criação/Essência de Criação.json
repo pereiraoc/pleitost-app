@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Criação/Essência de Criação",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Criação/Essência de Criação.md",
+  "basename": "Essência de Criação",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Manifestação Básica]], adepta [[Invocar Elemental Menor]], experiente [[Forma Elemental]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manifestação Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invocar Elemental Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência de Criação Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Manifestação Básica]], adepta [[Invocar Elemental Menor]], experiente [[Forma Elemental]]\"\n%%\n### `= this.file.name`\n![[Essência de Criação Adepta#`= this.file.name`]]\n![[Essência de Criação Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Nascer das Nações do Leste",
+  "path": "Contexto/Histórias/Contexto Histórico/O Nascer das Nações do Leste.md",
+  "basename": "O Nascer das Nações do Leste",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "c. 150 a.G.",
+    "Descrição": "Enquanto o oeste se fecha, o leste cresce em mil direções. [[Pedra Fina]], [[Campos do Provento]] e [[Planaltina]] ganham nome e se organizam em torno de suas capitais — [[Baar'Shava]], [[Iluminada]] e [[Safira]]. No sul, as coxilhas viram o [[Principado das Flores]], governado de [[Canto Alto]]. Quatro sociedades que negociam entre si e não têm laço nenhum além do comércio.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

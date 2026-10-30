@@ -1,0 +1,67 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Serra do Bode",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Serra do Bode.md",
+  "basename": "Serra do Bode",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Serra do Bode.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Serra do Bode.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Serra do Bode.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> ℹ️**Descrição:** Cordilheira escura do sudoeste de [[Planaltina]], onde pastam soltos os bodes de [[Chama Céu]]. Fecha a fronteira entre o [[Mundo Livre]] e a [[Magna Pátria]] no sul; ao norte dela, o [[Grande Muro]] corre até as [[Montanhas de Vidro]].\n> \n> 👁️**Aparência do Local:** \n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Cordilheira escura do sudoeste de [[Planaltina]], onde pastam soltos os bodes de [[Chama Céu]]. Fecha a fronteira entre o [[Mundo Livre]] e a [[Magna Pátria]] no sul; ao norte dela, o [[Grande Muro]] corre até as [[Montanhas de Vidro]].",
+    "aparencia": null,
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Onda d'água",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Onda d'água.md",
+  "basename": "Onda d'água",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Onda d'água (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] em cone de 6q (ou dois cones de 4q) com 1d6×potência de dano de contusão (metade na falha) e empurra 1q no sucesso (e [[Caído]] se decisivo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] em cone de 6q (ou dois cones de 4q) com 1d6×potência de dano de contusão (metade na falha) e empurra 1q no sucesso (e [[Caído]] se decisivo).\"\n%%\n# `= this.file.name` - `= this.custo`\nEscolha:\n* Juntar as mãos para um cone de 6q\n* Separar as mãos para dois cones de 4q que não se sobrepõem\n\nFaça um Ataque Mágico contra [[Vigor]] das criaturas na área escolhida.\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de contusão e é empurrada 1q.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior e criatura fica [[Caído|Caída]].\n**Falha:** A criatura recebe metade de 1d6×potência de dano de contusão.\n**Falha Decisiva:** A criatura não é afetada."
+}

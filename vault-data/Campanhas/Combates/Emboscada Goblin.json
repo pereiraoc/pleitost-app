@@ -1,0 +1,39 @@
+{
+  "id": "Campanhas/Combates/Emboscada Goblin",
+  "path": "Campanhas/Combates/Emboscada Goblin.md",
+  "basename": "Emboscada Goblin",
+  "type": "Combate",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": null,
+    "rank": null,
+    "disponivel": [
+      ""
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Goblin Batedor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nclasse:: \nrank:: \n%%\n#### `= this.file.name`\n```combat-marker-small\n- 4 [[Goblin Batedor]]\n```\n"
+}

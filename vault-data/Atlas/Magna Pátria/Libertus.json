@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Magna Pátria/Libertus",
+  "path": "Atlas/Magna Pátria/Libertus.md",
+  "basename": "Libertus",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Magna Pátria]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mapa de Libertus.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mapa de Libertus.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mapa de Libertus.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> ℹ️**Descrição:** Região agrícola do sul da [[Magna Pátria]], tomada por campos coletivos dispostos em colmeia — no oeste árido, é aqui que o coletivo planta o que todos comem.\n> \n> 👁️**Aparência do Local:** \n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Região agrícola do sul da [[Magna Pátria]], tomada por campos coletivos dispostos em colmeia — no oeste árido, é aqui que o coletivo planta o que todos comem.",
+    "aparencia": null,
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

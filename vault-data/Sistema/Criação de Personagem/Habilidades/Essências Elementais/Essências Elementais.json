@@ -1,0 +1,267 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais.md",
+  "basename": "Essências Elementais",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Ciclo_Elemental": [
+      "[[Essência Flamejante]]",
+      "[[Essência Explosiva]]",
+      "[[Essência Sísmica]]",
+      "[[Essência Mineral]]",
+      "[[Essência Enraizante]]",
+      "[[Essência Torrencial]]",
+      "[[Essência Hidratante]]",
+      "[[Essência Congelante]]",
+      "[[Essência Ciclonal]]",
+      "[[Essência Ventania]]",
+      "[[Essência Relampejante]]",
+      "[[Essência Incendiária]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Magias Anima dependem de Essências Elementais.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "Animistas"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "Druidas"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Explosiva",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Incendiária",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Ventania",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Relampejante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Ciclonal",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Hidratante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Torrencial",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Congelante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Mineral",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Sísmica",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Enraizante",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência do Meteoro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Sol",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Terremoto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Cristal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Gelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Dilúvio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Trovão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Furacão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Magma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência da Madeira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência da Geada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência do Metal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência de Destruição",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Flamejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Ciclo Elemental"
+    },
+    {
+      "level": 2,
+      "text": "Essências Elementais"
+    },
+    {
+      "level": 3,
+      "text": "Fogo"
+    },
+    {
+      "level": 3,
+      "text": "Vento"
+    },
+    {
+      "level": 3,
+      "text": "Água"
+    },
+    {
+      "level": 3,
+      "text": "Terra"
+    },
+    {
+      "level": 3,
+      "text": "Essências Mestre"
+    },
+    {
+      "level": 3,
+      "text": "Universal"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Magias Anima dependem de Essências Elementais.\"\n%%\n# `= this.file.name`\nToda Magia Anima, seja de itens mágicos ou para [[Animista|Animistas]] e [[Druida|Druidas]], faz parte de uma das 12 Essências Elementais. As 12 essências representam as forças elementais no mundo e todas são conectadas num grande ciclo elemental. Cada essência representa um aspecto de cada elemento e como ele interage com os demais.\n\nAs 4 essências \"puras\", Flamejante, Mineral, Ventania e Hidratante representam a forma originária do elemento, mais distante dos outros. Conectadas a elas são as essências mais transicionais, interações dos elementos com seus elementos \"aliados\" adjacentes no ciclo elemental. Como exemplos, a essência Enraizante representa a terra nutrida pela água, criando plantas e raizes; já a essência Relampejante representa a fagulha incendiária que o vento eletricamente carregado é capaz de fazer. \n\nUm conjurador Anima se conecta as formas mágicas dos elementos quando recebe acesso as essências. Originando de uma essência inicial relativa a [[Sintonia]] do personagem, ele vai caminhando no ciclo elemental, acessando essências adjacentes as que ele tem acesso, expandido seu repertório. O mesmo se aplica para obter uma versão superior da essência, após receber sua primeira essência em forma Experiente, demais essências Experientes devem ser adjacentes no Ciclo Elemental.\n\n%%Essências universais (como [[Essência de Criação]]) são sempre acessíveis, pois representam uma manifestação de qualquer elemento.%%\n\n## Ciclo Elemental\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"149 149 742 742\" width=\"100%\" style=\"max-width:700px;display:block;margin:0 auto;font-family:sans-serif\">\n<defs><marker id=\"ar\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#444\"/></marker></defs>\n<rect x=\"149\" y=\"149\" width=\"742\" height=\"742\" fill=\"none\" rx=\"16\"/>\n<circle cx=\"520.0\" cy=\"520.0\" r=\"180.0\" fill=\"none\" stroke=\"#bbb\" stroke-width=\"2\"/>\n<circle cx=\"520.0\" cy=\"520.0\" r=\"315.0\" fill=\"none\" stroke=\"#bbb\" stroke-width=\"2\"/>\n<line x1=\"479.5\" y1=\"316.1\" x2=\"399.5\" y2=\"269.0\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"560.5\" y1=\"316.1\" x2=\"640.5\" y2=\"269.0\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"723.9\" y1=\"479.5\" x2=\"771.0\" y2=\"399.5\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"723.9\" y1=\"560.5\" x2=\"771.0\" y2=\"640.5\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"560.5\" y1=\"723.9\" x2=\"640.5\" y2=\"771.0\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"479.5\" y1=\"723.9\" x2=\"399.5\" y2=\"771.0\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"316.1\" y1=\"560.5\" x2=\"269.0\" y2=\"640.5\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<line x1=\"316.1\" y1=\"479.5\" x2=\"269.0\" y2=\"399.5\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<path d=\"M714.9,272.5 A315.0,315.0 0 0 1 767.5,325.1\" fill=\"none\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<path d=\"M767.5,714.9 A315.0,315.0 0 0 1 714.9,767.5\" fill=\"none\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<path d=\"M325.1,767.5 A315.0,315.0 0 0 1 272.5,714.9\" fill=\"none\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<path d=\"M272.5,325.1 A315.0,315.0 0 0 1 325.1,272.5\" fill=\"none\" stroke=\"#444\" stroke-width=\"2.2\" marker-start=\"url(#ar)\" marker-end=\"url(#ar)\"/>\n<circle cx=\"362.5\" cy=\"247.2\" r=\"40.0\" fill=\"#e53935\" stroke=\"#7f0000\" stroke-width=\"5\"/><text x=\"362.5\" y=\"247.2\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"10\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Incendiária</text>\n<circle cx=\"520.0\" cy=\"340.0\" r=\"44.0\" fill=\"#e53935\" stroke=\"#7f0000\" stroke-width=\"5\"/><text x=\"520.0\" y=\"340.0\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Flamejante</text>\n<circle cx=\"677.5\" cy=\"247.2\" r=\"40.0\" fill=\"#e53935\" stroke=\"#7f0000\" stroke-width=\"5\"/><text x=\"677.5\" y=\"247.2\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Explosiva</text>\n<circle cx=\"792.8\" cy=\"362.5\" r=\"40.0\" fill=\"#fdd835\" stroke=\"#b28704\" stroke-width=\"5\"/><text x=\"792.8\" y=\"362.5\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"12\" font-weight=\"bold\" fill=\"#111\" stroke=\"#fff\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Sísmica</text>\n<circle cx=\"700.0\" cy=\"520.0\" r=\"44.0\" fill=\"#fdd835\" stroke=\"#b28704\" stroke-width=\"5\"/><text x=\"700.0\" y=\"520.0\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"12\" font-weight=\"bold\" fill=\"#111\" stroke=\"#fff\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Mineral</text>\n<circle cx=\"792.8\" cy=\"677.5\" r=\"40.0\" fill=\"#fdd835\" stroke=\"#b28704\" stroke-width=\"5\"/><text x=\"792.8\" y=\"677.5\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#111\" stroke=\"#fff\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Enraizante</text>\n<circle cx=\"677.5\" cy=\"792.8\" r=\"40.0\" fill=\"#1e88e5\" stroke=\"#0d47a1\" stroke-width=\"5\"/><text x=\"677.5\" y=\"792.8\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Torrencial</text>\n<circle cx=\"520.0\" cy=\"700.0\" r=\"44.0\" fill=\"#1e88e5\" stroke=\"#0d47a1\" stroke-width=\"5\"/><text x=\"520.0\" y=\"700.0\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Hidratante</text>\n<circle cx=\"362.5\" cy=\"792.8\" r=\"40.0\" fill=\"#1e88e5\" stroke=\"#0d47a1\" stroke-width=\"5\"/><text x=\"362.5\" y=\"792.8\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Congelante</text>\n<circle cx=\"247.2\" cy=\"677.5\" r=\"40.0\" fill=\"#43a047\" stroke=\"#1b5e20\" stroke-width=\"5\"/><text x=\"247.2\" y=\"677.5\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"12\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Ciclonal</text>\n<circle cx=\"340.0\" cy=\"520.0\" r=\"44.0\" fill=\"#43a047\" stroke=\"#1b5e20\" stroke-width=\"5\"/><text x=\"340.0\" y=\"520.0\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"12\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Ventania</text>\n<circle cx=\"247.2\" cy=\"362.5\" r=\"40.0\" fill=\"#43a047\" stroke=\"#1b5e20\" stroke-width=\"5\"/><text x=\"247.2\" y=\"362.5\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"10\" font-weight=\"bold\" fill=\"#fff\" stroke=\"#00000088\" stroke-width=\"2.5\" paint-order=\"stroke\" style=\"paint-order:stroke\">Relampejante</text>\n<circle cx=\"520.0\" cy=\"520.0\" r=\"34.0\" fill=\"#eeeeee\" stroke=\"#9e9e9e\" stroke-width=\"5\"/><text x=\"520.0\" y=\"520.0\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"11\" font-weight=\"bold\" fill=\"#333\">Criação</text>\n</svg>\n\n## Essências Elementais\n\n### Fogo\n![[Essência Flamejante#`= this.file.name`]]\n![[Essência Explosiva#`= this.file.name`]]\n![[Essência Incendiária#`= this.file.name`]]\n\n### Vento\n![[Essência Ventania#`= this.file.name`]]\n![[Essência Relampejante#`= this.file.name`]]\n![[Essência Ciclonal#`= this.file.name`]]\n\n### Água\n![[Essência Hidratante#`= this.file.name`]]\n![[Essência Torrencial#`= this.file.name`]]\n![[Essência Congelante#`= this.file.name`]]\n\n### Terra\n![[Essência Mineral#`= this.file.name`]]\n![[Essência Sísmica#`= this.file.name`]]\n![[Essência Enraizante#`= this.file.name`]]\n\n### Essências Mestre\nCada Essência Mestre é a composição de duas Essências vizinhas no Ciclo Elemental e requer a forma Experiente das duas.\n\n- [[Essência do Meteoro]] — Flamejante + Explosiva\n- [[Essência do Sol]] — Flamejante + Incendiária\n- [[Essência do Terremoto]] — Sísmica + Mineral\n- [[Essência do Cristal]] — Mineral + Enraizante\n- [[Essência do Gelo]] — Hidratante + Congelante\n- [[Essência do Dilúvio]] — Hidratante + Torrencial\n- [[Essência do Trovão]] — Relampejante + Ventania\n- [[Essência do Furacão]] — Ventania + Ciclonal\n- [[Essência do Magma]] — Explosiva + Sísmica\n- [[Essência da Madeira]] — Enraizante + Torrencial\n- [[Essência da Geada]] — Congelante + Ciclonal\n- [[Essência do Metal]] — Relampejante + Incendiária\n\n### Universal\n![[Essência de Criação#`= this.file.name`]]\n![[Essência de Destruição#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

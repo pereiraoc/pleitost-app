@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Batida do Quartel",
+  "path": "Campanhas/Combates/Batida do Quartel.md",
+  "basename": "Batida do Quartel",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "[[Quartel-General do Exército]] · [[Costa e Silva]]",
+    "Situação": "Pólvora legal, comando de verdade e fogo indireto que não para de chegar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pelotão de Guarnição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficial de Operações",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bateria da Torre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Pelotão de Guarnição]] lento\n- 1 [[Oficial de Operações]] super rápido\n- 1 [[Bateria da Torre]] lento\n```\n"
+}

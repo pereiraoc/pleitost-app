@@ -1,0 +1,128 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Divisão de Classes",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Divisão de Classes.md",
+  "basename": "Divisão de Classes",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Classes baixa, média e alta no Mundo Livre: como o tamanho da cidade molda a pirâmide social e quem tem acesso à magia.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Divisão de Classes.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Revolta do Oeste e a Fundação da Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Revolta do Oeste"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Sociedade Aberta",
+      "kind": "wikilink",
+      "alias": "Ano 200"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Economia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Divisão de Classes.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A cidade faz a classe"
+    },
+    {
+      "level": 4,
+      "text": "Onde cada um mora"
+    },
+    {
+      "level": 4,
+      "text": "Magia tem preço"
+    },
+    {
+      "level": 4,
+      "text": "Quem está no topo"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Divisão de Classes.png]]\n\nO [[Mundo Livre]] do Ano 300 não tem castas nem senhores de servos — a lembrança dos Altivos e da [[A Revolta do Oeste e a Fundação da Magna Pátria|Revolta do Oeste]] ensinou o continente a desconfiar de quem se diz nascido acima dos outros. Tem, porém, classes, e elas se medem em peças de ouro. A regra que todo viajante percebe é que a pirâmide se achata conforme a cidade cresce: quanto maior o lugar, menos pobres, mais remediados e mais ricos.\n\n#### A cidade faz a classe\nNum vilarejo de cinco mil almas, seis em cada dez vivem na classe baixa — lavradores, pastores, serventes — e a classe alta mal existe: menos de uma família em cem. Nas pequenas cidades, como [[Lilá]], [[Pedrita]] ou [[Vinhedos]], a classe média já é maioria, sustentada por um ofício forte. As grandes cidades, como [[Rharos]], [[Líciae]], [[Manilha]] ou [[Velimaris]], têm um décimo de gente abastada; as capitais, um quinto. No topo está [[Iluminada]], onde só um em cada dez é pobre e um em cada quatro é rico — a única cidade do continente em que a classe alta é mais numerosa que a baixa.\n\n#### Onde cada um mora\nA divisão está desenhada nas próprias cidades, quase sempre pela cor dos telhados. Os pobres moram perto do trabalho: a Baixada Popular de Iluminada, o Bairro dos Trabalhadores de Pedrita, a Vila dos Operários de [[Safira]] — os dormitórios dos mineradores —, o Bairro das Redes de Lilá, o Vicus Operariorum de [[Prasinarium]]. A classe média ocupa o miolo: artesãos, escrivães, guardas, comerciantes de banca. A classe alta sobe a colina — os Altos Solares de Iluminada, a Colina Dourada de [[Baar'Shava]], as colinas do governo de [[Chama Céu]] e de Pedrita, onde os paços e as villas olham a cidade de cima.\n\n#### Magia tem preço\nUm item ou serviço mágico Adepto é coisa comum para os ricos, incomum para a classe média e raro para os pobres. O nível Experiente é raro até para quem tem dinheiro, muito raro para o remediado e simplesmente inalcançável para quem vive de salário de servente. O nível Mestre não se compra com classe nenhuma: está fora do alcance de qualquer bolsa comum, e só circula por contratos, favores e acordos entre poucos.\n\nÉ aí que os sintonizados mudam a equação. Desde o [[A Fundação da Sociedade Aberta|Ano 200]], a [[Sociedade Aberta]] registra, treina e contrata quem nasce sintonizado, e um aventureiro de origem humilde pode, em poucos anos, carregar no corpo mais tesouro do que um mercador de capital acumula numa vida. Para muitas famílias pobres, um filho sintonizado é a única escada que existe.\n\n#### Quem está no topo\nA classe alta do Mundo Livre é feita de governo e comércio: as casas que administram os paços regionais e a Sede Federal, os grandes mercadores das rotas, os mestres de ofício que viraram donos de oficinas inteiras. Não há catedral em [[Iluminada]], [[Safira]] ou [[Canto Alto]], e o poder é civil — o que se herda é a casa, o armazém e a rede de contatos, não um título divino.\n\nAs tabelas de população, salário e acesso a magia estão em [[Economia]].\n"
+}

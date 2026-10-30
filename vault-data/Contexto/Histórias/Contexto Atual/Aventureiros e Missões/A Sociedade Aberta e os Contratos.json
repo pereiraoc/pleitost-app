@@ -1,0 +1,131 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/A Sociedade Aberta e os Contratos",
+  "path": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/A Sociedade Aberta e os Contratos.md",
+  "basename": "A Sociedade Aberta e os Contratos",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Como a Sociedade Aberta organiza os aventureiros sintonizados, distribui contratos e liga o povo comum a quem pode ajudá-lo.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Sociedade Aberta e os Contratos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "A Fundação da Sociedade Aberta",
+      "kind": "wikilink",
+      "alias": "Ano 200"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Solar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aventuras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Sociedade Aberta e os Contratos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Uma Casa em Cada Cidade"
+    },
+    {
+      "level": 4,
+      "text": "O Contrato"
+    },
+    {
+      "level": 4,
+      "text": "As Regras da Casa"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Sociedade Aberta e os Contratos.png]]\n\nQuem precisa de ajuda no Mundo Livre do Ano 300 não procura um herói: procura um balcão. Desde o [[A Fundação da Sociedade Aberta|Ano 200]], a [[Sociedade Aberta]] é o sindicato dos aventureiros sintonizados — centraliza as missões e as comissões, dita as regras de quem vive de aventura e mantém uma rede de apoio para essa gente. É ela que fica entre o lavrador com orcs na lavoura e o aventureiro disposto a resolver isso por um preço justo.\n#### Uma Casa em Cada Cidade\nA Sociedade se reconhece pela fachada. Em [[Iluminada]], a Grande Casa da Sociedade Aberta é um complexo gótico fortificado no Bairro das Oficinas, cujas cúpulas e coruchéus disputam o horizonte com a própria Sede Federal — a principal sede em todo o Mundo Livre. Em [[Rharos]], uma torre alta de contrafortes junto à Feira da Ponte; em [[Lilá]], um casarão escuro de estandarte azul ao lado do mercado; em [[Safira]], um prédio alto de telhado avermelhado perto da Praça da Fonte, o balcão onde os aventureiros das minas pegam missões. Há sobrados de galeria em [[Pedrita]] e [[Manilha]], uma sede discreta no casario artesão de [[Líciae]] e uma basílica de pórtico no fórum de [[Firmamentum]]. No [[Principado das Flores]], a Sociedade se veste como o lugar: presença respeitável mas propositalmente longe de gigantesca em [[Canto Alto]], prédio nobre em [[Vinhedos]], versão campeira em [[Varadas]] e um conjunto modesto de jardim em [[Pencas]]. Onde ela não está diz tanto quanto onde está: [[Riqueza]] se orgulha de não ter Sociedade Aberta, e [[Krasnogor]] não mantém instalação própria.\n#### O Contrato\nTodo trabalho chega ao aventureiro do mesmo jeito: um contrato com título, objetivo, local, um contato para procurar ao chegar e um financiador que paga a conta. Quem financia varia — a própria Sociedade, uma cidade sob ataque, a [[Ordem Solar]] atrás de um foco de energia negativa, a [[Torre dos Magos]] com problemas na cratera, um pai atrás dos filhos que sumiram numa mina. Às vezes o financiador é simplesmente \"desconhecido\", e a Sociedade garante o pagamento assim mesmo. Os trabalhos se dividem em tipos que todo aventureiro conhece de cor: neutralização, proteção de transporte, recuperação de relíquia, resgate, e os testes de classe que decidem quem sobe de patamar. Nas cidades maiores, a Sociedade se organiza localmente em gremiações, com um comandante à frente — e é comum o contratante ser, ele mesmo, gente da casa.\n#### As Regras da Casa\nO que a Sociedade vende ao povo é confiança: o trabalho feito, o preço combinado, ninguém extorquido no fim. Por isso ela não tolera negócio por fora. Quem tenta contratar aventureiros escondido da Sociedade é visto como malandro, e o aventureiro esperto convence o cliente a passar pelo balcão — o que achou numa ruína é entregue à casa, avaliado, e a recompensa sai dali. Em troca, quem joga pelas regras tem para onde voltar: missões em qualquer cidade, uma rede de apoio entre colegas e uma reputação que viaja mais rápido que a carroça. Para os sintonizados, é também um abrigo político — servir à Sociedade é servir ao povo, sem precisar vestir a bandeira de nenhum governo.\n\n> [!note]- Anatomia de um contrato\n> | Campo | O que diz |\n> | --- | --- |\n> | Título | O tipo do trabalho (Neutralização, Proteção de Transporte, Recuperação de Relíquia, Resgate, Teste de Classe) |\n> | Recompensa | Marcas e Ouro, às vezes extras (tesouros, pergaminhos, honrarias) ou promoção de classe |\n> | Objetivo | O que precisa estar feito para receber |\n> | Local | Cidade de partida e onde fica o problema |\n> | Contato | Quem procurar ao chegar |\n> | Financiador | Quem paga |\n>\n> Os contratos disponíveis estão em [[Aventuras]].\n"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Cratera do Meteorito",
+  "path": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/A Cratera do Meteorito.md",
+  "basename": "A Cratera do Meteorito",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A cratera do Meteorito, seu poço sem fundo, o acampamento de escavação e a Pedra Estelar que fez dela a terra mais cobiçada do mundo.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Cratera do Meteorito.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Invasão do Meteorito",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos começou"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Descoberta da Pedra Estelar",
+      "kind": "wikilink",
+      "alias": "descobriu no fundo dela por volta de 10 a.G."
+    },
+    {
+      "target": "O Fim da Guerra dos 100 Anos",
+      "kind": "wikilink",
+      "alias": "segurou o oeste"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Limpar Meteorito da Torre dos Magos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "A Cratera do Meteorito.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Cratera"
+    },
+    {
+      "level": 4,
+      "text": "O Acampamento de Escavação"
+    },
+    {
+      "level": 4,
+      "text": "A Pedra Estelar"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[A Cratera do Meteorito.png]]\n\nA oeste de [[Iluminada]], um círculo de terra chamuscada mancha as planícies verdes do [[Campos do Provento]]: é a cratera do [[Meteorito]]. Foi por ela que a [[A Invasão do Meteorito|Guerra dos 100 Anos começou]], e no Ano 300 ela continua sendo o chão mais valioso — e mais estranho — do [[Mundo Livre]].\n#### A Cratera\nA bacia tem quilômetros de largura. Suas paredes estratificadas descem em anéis e terraços concêntricos de rocha cinza-parda, e a borda externa se ergue num anel de ejeção enrugado em cristas radiais. Dentro e fora, só rocha nua, cascalho e poeira: nada cresce ali há séculos. No fundo abre-se o poço central, perfeitamente circular, um abismo de paredes estriadas que espirala até o negro absoluto — o ponto do impacto, de profundidade desconhecida. Nenhuma estrada leva até a cratera; a planície devastada em volta se estende até as montanhas denteadas do horizonte.\n#### O Acampamento de Escavação\nNo platô da borda leste, dezenas de tendas, carroças, uma grua de madeira e uma torre de perfuração se apinham dentro de um círculo de menires de ametista ligados por uma linha contínua de energia violeta — a única cor viva da paisagem. Dali, andaimes e escadas em zigue-zague descem pela parede da cratera, pontilhados de lanternas, e a perfuração não para nem de dia nem de noite, atrás do que quer que tenha caído ali. E o perigo não é só a queda: das cavernas da cratera saem monstros, e a [[Torre dos Magos]] paga aventureiros para contê-los.\n#### A Pedra Estelar\nO que faz a cratera valer uma guerra é o que se [[A Descoberta da Pedra Estelar|descobriu no fundo dela por volta de 10 a.G.]]: a Pedra Estelar, um mineral de outro céu que não brilha nem pesa como pedra comum e que, nas mãos de um mago, faz o que dez magos não fariam. A Torre dos Magos nasceu em torno dela, e as oficinas arcanas do Campos do Provento trabalham com ela até hoje. Para o Mundo Livre, a pedra é riqueza e é escudo: foi ela, junto com os sintonizados, que [[O Fim da Guerra dos 100 Anos|segurou o oeste]] diante do [[Grande Muro]]. A região do Meteorito ficou do lado de cá — e quem estuda a guerra sabe que foi por ela que a Magna Pátria cruzou as montanhas.\n\n> [!note]- Contratos na cratera\n> A [[Torre dos Magos]] financia missões de neutralização de monstros saídos da caverna do Meteorito, de rank B (ver [[Limpar Meteorito da Torre dos Magos]]).\n"
+}

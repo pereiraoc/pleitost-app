@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Os Olhos Vazios",
+  "path": "Contexto/Histórias/Contexto Histórico/Os Olhos Vazios.md",
+  "basename": "Os Olhos Vazios",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 190",
+    "Descrição": "A [[Pátria Aurora]] denuncia que gente vinda da Magna Pátria — náufragos, pescadores arrastados pela corrente, espiões capturados — traz marcas de lavagem cerebral: olhar vazio, frases repetidas, uma lealdade que nenhum interrogatório quebra. No continente, muitos acham que é exagero aurorense.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

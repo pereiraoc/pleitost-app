@@ -1,0 +1,73 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Caminho de Gelo",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Caminho de Gelo.md",
+  "basename": "Caminho de Gelo",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] em 4q adjacentes em 10q para aplicar [[Caído]]. Chão fica escorregadio e causa tombos se falhar em [[Equilibrar-se]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caídas"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink",
+      "alias": "Passos de Ajuste"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] em 4q adjacentes em 10q para aplicar [[Caído]]. Chão fica escorregadio e causa tombos se falhar em [[Equilibrar-se]].\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. 4q adjacentes originando do ponto de origem. Chão congelado escorregadio surge na área afetada for 10t. Faça um Ataque Mágico contra a  [[Evasão]] das criaturas na área no momento da conjuração.\n\n**Sucesso:** A criatura fica [[Caído|Caída]].\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n\nEnquanto o chão escorregadio durar, criaturas que se movam para dentro da área afetada devem passar em um teste de [[Acrobacia]] contra [[CD]] da magia ou ficarem [[Caído|Caídas]]. [[Arrastar-se]] ou [[Passo de Ajuste|Passos de Ajuste]] não requerem teste. Pode ser usada para congelar uma superfície de água, criando uma ponte, também escorregadia."
+}

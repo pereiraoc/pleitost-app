@@ -1,0 +1,63 @@
+{
+  "id": "Contexto/Contexto",
+  "path": "Contexto/Contexto.md",
+  "basename": "Contexto",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink",
+      "alias": "PIRA"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink",
+      "alias": "Guaíba"
+    },
+    {
+      "target": "Histórias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Atual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Organizações",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pessoas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Contexto"
+    },
+    {
+      "level": 2,
+      "text": "Índice"
+    }
+  ],
+  "body": "\n# Contexto\n\nPorto Alegre, 1987. Desde a descoberta da selênica em 1969, a química alienígena move a cidade: a [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)|PIRA]] compra dez anos de vida de cada trabalhador em troca de aposentadoria, as megacorporações dividem os bairros com o [[Governo Militar Brasileiro]], e desde a [[Grande Enchente de 1986]] o [[Lago Guaíba|Guaíba]] dita por onde a cidade ainda respira. Sob o toque de recolher, facções, torcidas e resistências disputam o que sobra.\n\n## Índice\n\n- [[Histórias]] — linha do tempo do mundo ([[Contexto Histórico]]) e os dossiês do presente ([[Contexto Atual]]).\n- [[Organizações]] — megacorporações, forças do Estado, empresas, facções e potências estrangeiras.\n- [[Pessoas]] — quem manda, quem resiste e quem cobra.\n"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Contexto Atual",
+  "path": "Contexto/Histórias/Contexto Atual/Contexto Atual.md",
+  "basename": "Contexto Atual",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Economia e Sobrevivência",
+      "kind": "embed"
+    },
+    {
+      "target": "Magia e Sintonia",
+      "kind": "embed"
+    },
+    {
+      "target": "Aventureiros e Missões",
+      "kind": "embed"
+    },
+    {
+      "target": "Poder e Política",
+      "kind": "embed"
+    },
+    {
+      "target": "Fronteira e Guerra",
+      "kind": "embed"
+    },
+    {
+      "target": "Sociedade e Cultura",
+      "kind": "embed"
+    },
+    {
+      "target": "Natureza e Territórios",
+      "kind": "embed"
+    },
+    {
+      "target": "Viagem e Rotas",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "# `= this.file.name`\n![[Economia e Sobrevivência]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Magia e Sintonia]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Aventureiros e Missões]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Poder e Política]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Fronteira e Guerra]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Sociedade e Cultura]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Natureza e Territórios]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n![[Viagem e Rotas]]\n\n---\n\n<div style=\"page-break-after: always;\"></div>\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Contexto Atual\",\n  Assunto as \"Assunto\"\nwhere categoria=\"Contexto\" and subcategoria=\"Atualidade\"\nsort file.folder asc\n```\n"
+}

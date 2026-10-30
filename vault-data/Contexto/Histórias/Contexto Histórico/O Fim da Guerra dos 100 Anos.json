@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Fim da Guerra dos 100 Anos",
+  "path": "Contexto/Histórias/Contexto Histórico/O Fim da Guerra dos 100 Anos.md",
+  "basename": "O Fim da Guerra dos 100 Anos",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 100",
+    "Descrição": "A guerra não termina em tratado, termina em cansaço. Atrito sem fim, cofres vazios, a Magna Pátria lutando em duas frentes e o Muro de pé produzem uma trégua que ninguém assinou. O que segura o oeste, maior em homens e em armas, é a magia: a Pedra Estelar e os sintonizados do Mundo Livre. Do outro lado, dizem, \"não existem sintonizados\".",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nO [[Mundo Livre]] conta o fim da guerra como vitória — e, de certo modo, é: o oeste não passou do Muro, e a região do [[Meteorito]] continua do lado de cá. Mas nenhum exército da Federação jamais cruzou para o outro lado, e nenhum embaixador voltou de lá com papel assinado. As tropas da Magna Pátria simplesmente param de vir.\n\nDo lado de lá, a Magna Pátria se recolhe atrás das montanhas e começa a se preparar para a próxima ofensiva. Do lado de cá, nasce a frase que vai atravessar gerações: lá não há sintonizados — e é por isso que perderam.\n\n"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Recursos/Serviços/Quarto",
+  "path": "Contexto/Recursos/Serviços/Quarto.md",
+  "basename": "Quarto",
+  "type": "Recurso",
+  "subtype": "Moradia",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Moradia Classe Média Baixa"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Moradia",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 2500,
+    "Cobrança": "mês",
+    "Vagas": 1,
+    "Nível": 3,
+    "Onde": null,
+    "Resumo": "Quarto de pensão ou de hotel ruim pago por mês — chave na porta, banheiro por andar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quarto.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Vaga na Pensão Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vaga no Sobrado da Velha Indústria",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Quarto.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Quarto.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nAluguel de vaga em pensão ([[Vaga na Pensão Farroupilha]], [[Vaga no Sobrado da Velha Indústria]]) ou de um quarto num hotel ruim do Centro pago por mês. Quarto com chave, banheiro por andar, telefone na portaria — e a dona sabendo quem entra.\n\n> [!info] Especificação\n> **Onde dorme:** pensão; hotel ruim por mês; vila operária\n> **Cobre:** luz oficial com apagão, banheiro por andar, telefone na portaria\n> **O que compra:** carteira PIRA e vale de armazém; laudo em dia; recado anotado\n> **O que cabe:** armário com chave pro equipamento; moto ou mobilete no pátio; uma pessoa\n> **Classe:** Classe Média Baixa\n"
+}

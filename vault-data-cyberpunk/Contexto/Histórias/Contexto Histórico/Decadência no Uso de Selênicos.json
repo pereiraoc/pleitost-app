@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Decadência no Uso de Selênicos",
+  "path": "Contexto/Histórias/Contexto Histórico/Decadência no Uso de Selênicos.md",
+  "basename": "Decadência no Uso de Selênicos",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1980-01-02",
+    "Descrição": "Cinco anos de jornadas de 130 horas cobram o preço — trabalhadores da PIRA aos 35 anos com corpo de 50, tremores e degeneração neural. A adesão ao programa despenca, o mercado paralelo de selênicos explode e surgem os primeiros grupos que recusam a química do Estado.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Eterna/Tradição Eterna",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Eterna/Tradição Eterna.md",
+  "basename": "Tradição Eterna",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Eterna (Guardião)]]",
+      "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Eterna (Xamã)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Suas formas se tornam perfeitas. Sua proficiência druídica aumenta para [[Mestre]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Eterna (Guardião)]]",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Tradição Druídica (Guardião)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Tradição Eterna (Guardião)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Guardião)]]) Complementar Habilidades.Lista [[Tradição Eterna (Guardião)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Eterna (Xamã)]]",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Tradição Druídica (Xamã)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Tradição Eterna (Xamã)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Tradição Druídica (Xamã)]]) Complementar Habilidades.Lista [[Tradição Eterna (Xamã)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Eterna (Guardião)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Eterna (Xamã)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Druídica (Guardião)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Eterna (Guardião)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica (Xamã)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Eterna (Xamã)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Mestre]]\n\nresumo:: \"Suas formas se tornam perfeitas. Sua proficiência druídica aumenta para [[Mestre]].\"\n%%\n####  `= this.file.name`\nVocê é uma referência em sua [[Tradição Druídica]], manifestando as forças mais poderosas da natureza. Sua proficiência druídica aumenta para [[Mestre]] e você ganha benefícios dependendo da tradição escolhida:\n\n![[Tradição Eterna (Guardião)#`= this.file.name`]]\n![[Tradição Eterna (Xamã)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

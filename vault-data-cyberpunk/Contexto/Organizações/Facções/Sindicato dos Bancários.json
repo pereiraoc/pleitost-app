@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Organizações/Facções/Sindicato dos Bancários",
+  "path": "Contexto/Organizações/Facções/Sindicato dos Bancários.md",
+  "basename": "Sindicato dos Bancários",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Bancários"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Olívio Dutra]]",
+    "Descrição": null,
+    "Resumo": "O sindicato que a intervenção de 1979 nunca devolveu: na sede da General Câmara despacha um interventor nomeado, e o sindicato de verdade reúne na palafita, com o presidente cassado na cabeceira e a ata escondida no caixa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sindicato dos Bancários.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Coronel Heitor Maciel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Olívio Dutra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Palafitas do Mercado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sindicato dos Bancários.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sindicato dos Bancários.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Fundado em 1933 por bancários do Pelotense e do Província, sofreu intervenção em 1946, 1964, 1968 e 1979. A de 1979 veio com a greve de setembro, proibida e feita assim mesmo: o presidente [[Olívio Dutra]] e a diretoria foram presos e cassados, e o interventor nomeado pelo [[Governo Militar Brasileiro|Governo Militar]] assumiu a sede \"por dez meses\". Em 1987 os dez meses seguem correndo. A sede da General Câmara é cartório: carimba acordo que o Banrisul escreve e chama de negociação. O sindicato que os bancários reconhecem não tem sede: reúne em assembleia sem autorização nas [[Palafitas do Mercado]], passa ata de mão em mão, guarda a caixa de resistência em dólar de esquina e usa a única arma que bancário tem — bancário vê a conta de todo mundo. O cadastro que a [[Embratel]] lê, o sindicato também lê, e é por isso que o [[Coronel Heitor Maciel]] quer o nome de cada um que parou.\n\n"
+}

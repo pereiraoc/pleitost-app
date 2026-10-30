@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Fluxo de Vida",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Fluxo de Vida.md",
+  "basename": "Fluxo de Vida",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Fluxo de Vida (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cura [1d6+(MOD/2)]×potência [[Energia Heroica|EH]], alcance 6q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cura [1d6+(MOD/2)]×potência [[Energia Heroica|EH]], alcance 6q.\"\n%%\n# `= this.file.name` - `= this.custo`\n[1d6+(MOD/2)]×potência de cura de [[Energia Heroica|EH]], alcance 6q. %%Se a [[Energia Heroica|EH]] for completamente curada, metade do que sobrar cura [[Energia Vital|EV]]. %%\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Organizações/Ordem Bestial",
+  "path": "Contexto/Organizações/Ordem Bestial.md",
+  "basename": "Ordem Bestial",
+  "type": "Organização",
+  "subtype": "Druidas",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Druidas",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "Druidas antigos, praticamente sem contato com a civilização, senhores da Floresta da Ordem.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ordem Bestial.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "O Contato com a Ordem Bestial",
+      "kind": "wikilink",
+      "alias": "Ano 150"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ordem Bestial.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Ordem Bestial.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Grupo de druidas antigos, praticamente sem contato com a civilização. Sempre viveram na mata do sul da ilha; o mundo só soube deles no [[O Contato com a Ordem Bestial|Ano 150]], e desde então quem entra sem convite é tratado como inimigo.\n"
+}

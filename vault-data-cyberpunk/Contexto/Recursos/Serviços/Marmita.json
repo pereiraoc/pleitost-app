@@ -1,0 +1,64 @@
+{
+  "id": "Contexto/Recursos/Serviços/Marmita",
+  "path": "Contexto/Recursos/Serviços/Marmita.md",
+  "basename": "Marmita",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Alimentação Classe Baixa"
+    ],
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Estilo de Vida",
+    "Marca": "",
+    "Preço": 1500,
+    "Cobrança": "mês",
+    "Nível": 2,
+    "Onde": null,
+    "Resumo": "Marmita congelada, pão com margarina e pastel, todo dia do mês — pago adiantado no armazém e na barraca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Marmita.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Marmita Congelada Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pastel da Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pescado do Cais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar Tradicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaraná Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grapette",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Marmita.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Marmita.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nPão com margarina, [[Marmita Congelada Zaffari]] no vapor do Aeromóvel, [[Pastel da Redenção]] na volta e [[Pescado do Cais]] quando tem dólar. Pago adiantado no caderno do armazém, garante as três refeições simples o mês inteiro; a [[Polar Tradicional]] é de sábado.\n\n> [!info] Especificação\n> **Garante no mês:** três refeições simples por dia\n> **Café:** pão com margarina, café requentado\n> **Almoço:** [[Marmita Congelada Zaffari]]\n> **Janta:** pastel, churrasquinho, peixe frito\n> **Bebida:** [[Guaraná Fruki]] na semana, [[Polar Tradicional]] no sábado; [[Grapette]] pras crianças\n> **Classe:** Classe Baixa\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Construção do Grande Muro",
+  "path": "Contexto/Histórias/Contexto Histórico/A Construção do Grande Muro.md",
+  "basename": "A Construção do Grande Muro",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 60",
+    "Descrição": "A Magna Pátria descobre a traição e já não tem força para seguir na ofensiva. A Federação aproveita o fôlego e fecha o gargalo pedra a pedra: o [[Grande Muro]] corre das [[Montanhas de Vidro]] à [[Serra do Bode]], e na travessia do [[Rio Raio da Luz]] o [[Forte Norte]] e o [[Forte Sul]] guardam a única passagem.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Barganhar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Barganhar.md",
+  "basename": "Barganhar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "10 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Diplomacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Negocia por preços melhores.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Diplomacia]]\"\npropriedades:: \nresumo:: \"Negocia por preços melhores.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê tenta obter um preço melhor durante uma compra ou venda. Faça um teste de [[Diplomacia]] vs [[CD]] da tarefa (tipicamente a [[CD|CD-Nível]] do item).\n\n**Sucesso:** Você tem sucesso na barganha, obtendo um desconto de 10%, ou ganho de 10% extra na sua venda.\n**Sucesso Decisivo:** Como sucesso, e você consegue 10% de desconto em mais um item na mesma loja.\n**Falha:** Você falha em barganhar e compra (ou vende) o item pelo preço base (metade do preço base).\n**Falha Decisiva:** Como falha, e você não pode mais Barganhar nesta loja por 1 mês.\n\n```autosheet-rules\n```\n"
+}

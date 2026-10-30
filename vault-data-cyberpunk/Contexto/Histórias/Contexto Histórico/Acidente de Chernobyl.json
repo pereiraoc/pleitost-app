@@ -1,0 +1,49 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Acidente de Chernobyl",
+  "path": "Contexto/Histórias/Contexto Histórico/Acidente de Chernobyl.md",
+  "basename": "Acidente de Chernobyl",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1986-04-26",
+    "Descrição": "O reator soviético explode e espalha medo nuclear pelo mundo. No Brasil, o desastre vira argumento de propaganda pró-selênica — a CEEE acelera os planos de modernização “limpa” das redes e a desconfiança contra os soviéticos e seus adaptadores neurais cresce nas ruas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink",
+      "alias": "Tipagem",
+      "subpath": "Reatividade cruzada"
+    },
+    {
+      "target": "Hospital de Guarnição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\nO reator explode no dia 26 e a notícia chega antes da nuvem; a nuvem chega em\nquatro dias, dentro da chuva que não para ([[Grande Enchente de 1986]]). Quem\ntinha Fator positivo e ficou debaixo dela — na laje da [[Cidade Baixa]], no\ncais, na fila da balsa — saiu diferente: a selênica do sangue acordou e passou\na reagir sozinha. A [[Panvel]] batizou o que corre neles de **radiolênico** e\ncarimbou o laudo com \"reatividade cruzada\"\n([[Reatividade Selênica e Tipagem#Reatividade cruzada|Tipagem]]); o\n[[Hospital de Guarnição]] comprou o único kit de descontaminação da cidade. No\njornal, o desastre virou propaganda: a selênica é a energia \"limpa\", e os\nsoviéticos e seus adaptadores neurais, a suja. A chuva caiu na cidade inteira,\ne irradiado tem em todo bairro, escondendo o laudo; os que não tinham pra onde\nir foram parar onde a água foi, o [[Delta Radioativo]], e é lá que o frasco se\nvende.\n\n"
+}

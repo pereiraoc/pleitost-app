@@ -1,0 +1,122 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Cena Musical",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Cena Musical.md",
+  "basename": "Cena Musical",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Quem toca, onde toca e o que a censura deixa tocar — o rock de protesto que chega por fita e a cena de Porto Alegre em 1987.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cena Musical.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Os Replicantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Engenheiros do Hawaii",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Músicos do Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gravação de Fita K7",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar Ocidente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rádio Farroupilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Expressão Artística",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Entretenimento e Escapismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cena Musical.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O que chega por fita"
+    },
+    {
+      "level": 4,
+      "text": "A cena da cidade"
+    },
+    {
+      "level": 4,
+      "text": "Casas, rádio e fiscal"
+    },
+    {
+      "level": 4,
+      "text": "Os cancionistas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Cena Musical.png]]\n\n#### O que chega por fita\nO rock que fala do país chega a Porto Alegre em fita cassete, duplicada em casa e vendida no camelô: a prensagem oficial passa pela censura, a fita não. Em 1987 a fita que mais roda é *Que País É Este*, da Legião Urbana — a faixa-título foi escrita em 1978 e a cidade canta como se fosse de ontem. Os Titãs de *Cabeça Dinossauro* (\"Polícia\", \"Estado Violência\") e a Plebe Rude de \"Até Quando Esperar\" são repertório de sarau; os Paralamas tocam \"Alagados\" e o Centro inteiro entende de outro jeito; o RPM canta \"Rádio Pirata\" e a [[Resistência Urbana Gaúcha]] usa de vinheta. Do lado de baixo, Inocentes, Ratos de Porão e Cólera chegam copiados de copiado, com chiado e sem capa. O exemplo que todo mundo cita é o *Viva* do Camisa de Vênus, gravado ao vivo e apreendido pela Polícia Federal em 1986 por palavrão: o disco sumiu das lojas e a fita multiplicou. É a lição da cena: cortar vende.\n\n#### A cena da cidade\nPorto Alegre tem a própria safra, e ela saiu do porão pro vinil com duas coletâneas: *Rock Garagem* (1984, independente) e *Rock Grande do Sul* (1985, RCA), que levou pra gravadora quase todo mundo que importa. [[Os Replicantes]] são o punk do [[Bom Fim]], com carteira paga pela gravadora e a faixa censurada tocada ao vivo; os [[Engenheiros do Hawaii]] são a banda de terno da Arquitetura da UFRGS, a única que passa na FM licenciada porque a letra tem duas camadas. Em volta deles: os Garotos da Rua, com \"Tô de Saco Cheio\" que o fiscal acha que é sobre emprego; o TNT, rockabilly de topete que não fala de política e por isso toca em qualquer lugar; o DeFalla, que provoca de outro jeito; o Nenhum de Nós, nascido em 1986 de um guitarrista que saiu dos Engenheiros; os Cascavelletes, recém-formados, com \"Menstruada\" barrada no rádio antes de sair o disco; a Bandaliera do IAPI, com \"Campo Minado\"; e o Taranatiriça, hard rock de 1979 que acabou este ano. A regra da cena é a da [[Ordem dos Músicos do Brasil]]: quem tem gravadora tem carteira e toca em casa com alvará; quem não tem, toca no [[Quarto Distrito]] por comida e cerveja — e grava a demo no estúdio de fundos ([[Gravação de Fita K7]]).\n\n#### Casas, rádio e fiscal\nO palco da cidade é o [[Bar Ocidente]], segundo piso de casarão na Osvaldo Aranha, que foi \"Seis Amigos\" nas oficinas ferroviárias e virou o endereço de punk, estudante e gente que a Brigada não gosta — a blitz de agosto de 1986 ainda está na conta. A Danceteria 433, na Silva Jardim, é onde as mesmas bandas tocam pra quem paga ingresso. O Opinião, da Cidade Baixa, abriu em 1983 e fechou com a [[Grande Enchente de 1986]]: o palco está debaixo d'água e o nome virou lenda de quem foi. No [[Quarto Distrito]], o [[Teatro Quarto Distrito]] e a [[Velha Indústria]] são as casas sem alvará, onde se toca sem carteira e se sai pela porta dos fundos. No rádio, a [[Rádio Farroupilha]] é a voz do governo, e a Ipanema FM, no Morro Santo Antônio, é a emissora licenciada que toca demo de banda local entre um comunicado e outro, enquanto a [[Embratel]] deixa — o programador sabe que cada música é uma licença a menos. Quem decide quem toca é o fiscal: o da Ordem pede a carteira e multa a casa; o da [[Brigada Militar Metropolitana]] pede a letra e fecha a porta. A fita e o camelô do [[Mercado da Restinga]] fazem o resto ([[Expressão Artística]], [[Entretenimento e Escapismo]]).\n\n#### Os cancionistas\nAntes do rock, a cidade ouvia os cancionistas, e 1985 foi o ano em que as rádios pararam de tocá-los pra tocar guitarra. Nei Lisboa, criado no Bom Fim, assinou com a EMI no fim de 1986 e lançou *Carecas da Jamaica* este ano; o irmão dele é um dos desaparecidos de que a Resistência guarda o nome, e isso está em cada verso que o censor não entende. Vitor Ramil lançou *Tango*; Bebeto Alves, *Pegadas*, milonga com guitarra; Kleiton & Kledir, os irmãos do \"Deu pra Ti\", são a dupla que o regime deixa tocar na Farroupilha porque acha que é sobre namoro. São a geração que ensinou à cena de agora o truque das duas camadas — e que ainda enche o Ocidente numa terça-feira.\n"
+}

@@ -1,0 +1,124 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Ranks e Marcas",
+  "path": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Ranks e Marcas.md",
+  "basename": "Ranks e Marcas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As classes de aventureiro da Sociedade Aberta, os testes de promoção e o que significa ganhar Marcas além do ouro.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ranks e Marcas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proteção de Carregamento de Esmeraldas (Lilá - Safira)\\",
+      "kind": "wikilink",
+      "alias": "Carregamento de esmeraldas"
+    },
+    {
+      "target": "Energia Negativa em Construção de Estrada (Redenção - Manilha)\\",
+      "kind": "wikilink",
+      "alias": "Energia negativa na estrada"
+    },
+    {
+      "target": "Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)\\",
+      "kind": "wikilink",
+      "alias": "Resgate na mina dracônica"
+    },
+    {
+      "target": "Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)\\",
+      "kind": "wikilink",
+      "alias": "Relíquias em ruína dracônica"
+    },
+    {
+      "target": "Limpar Meteorito da Torre dos Magos\\",
+      "kind": "wikilink",
+      "alias": "Monstros do Meteorito"
+    },
+    {
+      "target": "Expedição e Limpeza de Tumba Selada com Magia do Vazio\\",
+      "kind": "wikilink",
+      "alias": "Tumba selada"
+    },
+    {
+      "target": "Covil dos Orcs (Safira)\\",
+      "kind": "wikilink",
+      "alias": "Covil dos orcs"
+    },
+    {
+      "target": "Neutralização da Fenda Negra\\",
+      "kind": "wikilink",
+      "alias": "Fenda Negra"
+    },
+    {
+      "target": "Defesa de Cidade Contra Ataque Orc (Pencas)\\",
+      "kind": "wikilink",
+      "alias": "Defesa de Pencas"
+    },
+    {
+      "target": "Teste de Classe B Pega Bandeira\\",
+      "kind": "wikilink",
+      "alias": "Pega-bandeira"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ranks e Marcas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Classe C, Classe B, Classe A"
+    },
+    {
+      "level": 4,
+      "text": "Subir de Classe"
+    },
+    {
+      "level": 4,
+      "text": "O Que São as Marcas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Ranks e Marcas.png]]\n\nDesde a fundação, a [[Sociedade Aberta]] organiza os aventureiros em ranks — no balcão, todo mundo diz \"classe\". Um aventureiro Classe C não pega o mesmo contrato que um Classe B, e a diferença entre os dois não se compra: se prova em campo. Junto com a classe, cada aventureiro carrega um número que o povo comum mal entende e os colegas levam muito a sério — suas Marcas.\n#### Classe C, Classe B, Classe A\nA Classe C é onde todo mundo começa. Os contratos desse patamar são trabalho de estrada e de interior: escoltar um barco de esmeraldas brutas entre [[Lilá]] e [[Safira]], neutralizar um foco de energia negativa numa obra perto de [[Manilha]], descer numa ruína ou numa mina dracônica nos montes de [[Pencas]] atrás de relíquias ou de gente desaparecida. Na Classe B, o perigo engrossa — covis de orcs com chefe a abater, tumbas lacradas, fendas negras dentro de torres orc, monstros saindo das cavernas do [[Meteorito]]. Acima delas existe a Classe A, de que se fala mais do que se vê: são aventureiros desse patamar que servem de juízes nos testes de quem está embaixo, e os contratos que lhes cabem raramente chegam ao quadro público.\n#### Subir de Classe\nNinguém é promovido por tempo de casa. A subida passa por um teste de classe, e o teste pode ter duas caras. Uma é a competição organizada: equipes de aventureiros se enfrentam num jogo de pega-bandeira sob o olhar de um arcanista Classe A, que conjura uma magia de não agressão para garantir que ninguém saia morto, e a avaliação pesa mais que o placar — há quem perca a partida e passe pelo critério. A outra cara é a vida real: quando os orcs atacaram Pencas, quem ajudou a defender a cidade saiu de lá Classe B, com medalha de honra ao mérito e jantar com show pagos pela própria cidade. Para a Sociedade, provar-se diante de uma comunidade em perigo vale o mesmo que provar-se numa arena.\n#### O Que São as Marcas\nO ouro paga a estrada; as Marcas contam a carreira. Todo contrato oferece as duas coisas, e as Marcas crescem com o tamanho do serviço: um trabalho de Classe C rende poucas, uma fenda negra de Classe B rende dezenas. Elas ficam registradas junto da classe do aventureiro na Sociedade, e é por elas — não pelo cofre — que um veterano se reconhece. Alguns contratos oferecem ainda o que nem ouro nem Marcas compram: tesouros à escolha, um pergaminho raro, uma medalha, um título de honra dado por uma cidade agradecida. Quando um contratante diz que a recompensa em Marcas depende do resultado, ele está dizendo que a Sociedade vai avaliar o trabalho feito.\n\n> [!note]- Recompensas registradas nos contratos\n> | Classe | Contrato | Marcas | Ouro | Extra |\n> | :---: | --- | :---: | :---: | --- |\n> | C | [[Proteção de Carregamento de Esmeraldas (Lilá - Safira)\\|Carregamento de esmeraldas]] | 2–4 | 40–60 | — |\n> | C | [[Energia Negativa em Construção de Estrada (Redenção - Manilha)\\|Energia negativa na estrada]] | 2–4 | 60–80 | — |\n> | C | [[Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)\\|Resgate na mina dracônica]] | 6 | 50–100 | Pergaminho |\n> | C | [[Recuperação de Relíquias em Ruína Dracônica (Montanhas de Pencas)\\|Relíquias em ruína dracônica]] | 1–10 | 125 | — |\n> | B | [[Limpar Meteorito da Torre dos Magos\\|Monstros do Meteorito]] | 2–4 | 40–60 | — |\n> | B | [[Expedição e Limpeza de Tumba Selada com Magia do Vazio\\|Tumba selada]] | 10–15 | 60–80 | — |\n> | B | [[Covil dos Orcs (Safira)\\|Covil dos orcs]] | 13–17 | — | 2 tesouros à escolha |\n> | B | [[Neutralização da Fenda Negra\\|Fenda Negra]] | 20–25 | 60–80 | Título \"Luz do Ápice de Canto Alto\" |\n> | B (teste) | [[Defesa de Cidade Contra Ataque Orc (Pencas)\\|Defesa de Pencas]] | — | — | Promoção a B, medalha |\n> | B (teste) | [[Teste de Classe B Pega Bandeira\\|Pega-bandeira]] | — | — | Promoção a B |\n"
+}

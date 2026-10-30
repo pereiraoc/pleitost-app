@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Entrega da Madrugada",
+  "path": "Campanhas/Combates/Entrega da Madrugada.md",
+  "basename": "Entrega da Madrugada",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Passo D'Areia]] · [[Nova Sarandi]]",
+    "Situação": "Duas cargas na mesma rua às três da manhã, e nenhuma delas pode parar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Motorista da Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corredor da Madrugada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Puxador de Barril",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Motorista da Fruki]] rápido\n- 2 [[Corredor da Madrugada]] super rápido\n- 6 [[Puxador de Barril]] lento\n```\n"
+}

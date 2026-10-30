@@ -1,0 +1,159 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Disponibilidade de Tesouros",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Disponibilidade de Tesouros.md",
+  "basename": "Disponibilidade de Tesouros",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Onde e como se compram tesouros no Mundo Livre: o mercado de Iluminada, a encomenda aos artesãos e a sorte nos vilarejos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Disponibilidade de Tesouros.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luva do Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bracelete Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broche Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferramenta Obra-prima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink",
+      "alias": "Arma"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Armadura"
+    },
+    {
+      "target": "Obter Informação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Arma"
+    },
+    {
+      "target": "Armadura Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Armadura"
+    },
+    {
+      "target": "Ferramenta Obra-prima\\",
+      "kind": "wikilink",
+      "alias": "Ferramenta"
+    }
+  ],
+  "images": [
+    {
+      "target": "Disponibilidade de Tesouros.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Iluminada, o mercado de tudo"
+    },
+    {
+      "level": 4,
+      "text": "Típico, básico e incomum"
+    },
+    {
+      "level": 4,
+      "text": "Encomenda e espera"
+    },
+    {
+      "level": 4,
+      "text": "Vilarejos: o mascate e o ferreiro"
+    },
+    {
+      "level": 2,
+      "text": "Disponibilidade Pronta"
+    },
+    {
+      "level": 2,
+      "text": "Disponibilidade por Encomenda"
+    },
+    {
+      "level": 2,
+      "text": "Modificadores por Região"
+    },
+    {
+      "level": 2,
+      "text": "Tesouros em Vilarejos"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Disponibilidade de Tesouros.png]]\n\nNo Ano 300, um tesouro — a arma obra-prima, o anel que equilibra, a imbuição que faz o aço arder — é mercadoria como qualquer outra, só que mais rara e mais cara. Quanto maior a cidade, maior a chance de achá-lo na prateleira; quanto mais longe da região que o produz, menor. Aventureiro experiente aprende cedo que o tesouro certo se compra onde ele nasce, ou se encomenda a quem sabe fazê-lo.\n\n#### Iluminada, o mercado de tudo\nNenhum lugar se compara a [[Iluminada]]. A capital federal é a maior praça de comércio do continente: as caravanas chegam à Grande Praça do Comércio, as corporações mercantis se reúnem na Câmara dos Cuidios e a Universidade dos Ofícios forma os mestres de ofício da Federação. Grandes artesãos de todas as regiões passam pela cidade para comprar material e ferramenta da melhor qualidade, e por isso o que se encontra lá é imprevisível — um mestre de [[Krasnogor]] pode estar negociando âmbar ao lado de um imbuidor de [[Velimaris]]. É o único lugar onde até um item Mestre aparece com alguma regularidade, ainda que quase nunca por dinheiro apenas.\n\n#### Típico, básico e incomum\nCada região tem seus tesouros típicos, aqueles que suas forjas e oficinas fazem há gerações: armas de haste em [[Baar'Shava]], machados e imbuições minerais em Krasnogor e [[Pedrita]], martelos e imbuições de água em [[Safira]], lâminas leves em [[Canto Alto]], imbuições de fogo e Focos arcanos em [[Riqueza]]. O Foco nunca se vende sozinho: o artesão o trabalha sobre um implemento fundamental da mesma categoria, e o preço já inclui a peça de base. Fora de casa, o mesmo item vira raridade. Alguns tesouros, porém, são tão fundamentais que qualquer oficina decente sabe fazer — o [[Anel do Equilíbrio]], os implementos fundamentais — a [[Luva do Arcanista]], o [[Bracelete Elemental]], o [[Broche Artístico]] — e as peças obra-prima de arma, armadura e ferramenta. A combinação mais difícil de achar é a de arma e imbuição que nenhuma das duas pertence à região.\n\n#### Encomenda e espera\nQuando o tesouro não está pronto, encomenda-se. Nas pequenas cidades, encomendar é quase garantia para o que é Adepto; nas capitais, até o Experiente sai da bancada com paciência e ouro. O Mestre é outra conversa: os artesãos capazes de produzi-lo têm a agenda lotada e nem sempre encontram material à altura, e a negociação costuma envolver contrapartidas, contratos e favores — às vezes um serviço que só um grupo de aventureiros pode prestar.\n\n#### Vilarejos: o mascate e o ferreiro\nNo vilarejo, a economia é precária. Raramente há quem faça algo além de uma arma, uma armadura ou uma ferramenta típica da região, e o resto depende de sorte: um morador que guardou a herança do avô, um mercador itinerante de passagem. Perguntar de porta em porta leva tempo, e cada tesouro buscado é uma procura à parte.\n\n---\n\n## Disponibilidade Pronta\n\n| Local              | Adepto | Experiente | Mestre |\n| ------------------ |:------:|:----------:|:------:|\n| **Pequena Cidade** |  33%   |     —      |   —    |\n| **Grande Cidade**  |  50%   |    10%     |   —    |\n| **Capital**        |  100%  |    25%     |  2%*   |\n| **Iluminada**      |  150%  |    50%     |  5%*   | \n\\* *Itens Mestre são extremamente valiosos e raros, portanto a negociação normalmente envolve contrapartidas, contratos ou outras combinações.*\n\n## Disponibilidade por Encomenda\n\n| Local              | Adepto | Experiente | Mestre |\n| ------------------ |:------:|:----------:|:------:|\n| **Pequena Cidade** |  100%  |     —      |   —    |\n| **Grande Cidade**  |  100%  |    50%     |   —    |\n| **Capital**        |  150%  |    100%    |  10%*  |\n| **Iluminada**      |  200%  |    100%    | 25%**  |\n\\* *Grandes artesões capazes de criar itens Mestre tem agendas tipicamente lotadas e muitas vezes não tem disponíveis materiais de qualidade alta o suficiente para produzir o item.*\n\\*\\* *Iluminada é um centro comercial onde grandes artesões muitas vezes estão para obter materiais e/ou ferramentas da melhor qualidade. Um artesão Mestre encontrado em Iluminada pode ser aleatoriamente de qualquer origem para fins de decidir quais são os itens típicos que ele produz.*\n\n## Modificadores por Região\nOs heróis podem querer obter tesouros que não são típicos da região. Aplique os seguintes modificadores para esses casos. Itens com imbuição são casos específicos dependendo da combinação, como descrito na tabela. Alguns tesouros são considerados básicos, o que torna-os mais comuns:\n* [[Anel do Equilíbrio]]\n* [[Luva do Arcanista]]\n* [[Bracelete Elemental]]\n* [[Broche Artístico]]\n* [[Arma Obra-prima]]\n* [[Armadura Obra-prima]]\n* [[Ferramenta Obra-prima]]\n\n| Caso                            | Modificador |\n| ------------------------------- |:-----------:|\n| Tesouro típico                  |     ×1      |\n| Tesouro básico típico           |     ×2      |\n| Tesouro básico incomum          |    ×1/2     |\n| Tesouro incomum                 |    ×1/4     |\n| Arma típica + imbuição típica   |     ×1      |\n| Arma incomum + imbuição típica  |    ×1/2     |\n| Arma típica + imbuição incomum  |    ×1/4     |\n| Arma incomum + imbuição incomum |    ×1/8     |\n\n## Tesouros em Vilarejos\n\nAlgumas vezes, principalmente heróis iniciantes, podem estar procurando algum tipo de tesouro em um vilarejo. A estrutura econômica de um vilarejo é precária, onde muitas vezes não há artesões capazes de criar itens além de algum tipo de [[Arma Obra-prima|Arma]], [[Armadura Obra-prima|Armadura]] ou [[Ferramenta Obra-prima]] Adepta típica da região. Nesse caso, uma vez por semana, um grupo de heróis pode realizar [[Obter Informação]] em um vilarejo para buscar se há algum morador local ou mercador itinerante disposto a vender um tesouro desejado, onde a chance de encontrar depende do resultado do teste. Esse teste (e o tempo de espera) é feito para cada tesouro específico desejado, portanto, um grupo pode tentar vários testes no mesmo vilarejo na mesma semana, desde que esteja procurando por itens diferentes.\n\n| Disponibilidade em Vilarejo |                Chance                 |\n| --------------------------- |:-------------------------------------:|\n| [[Arma Obra-prima\\|Arma]], [[Armadura Obra-prima\\|Armadura]] ou [[Ferramenta Obra-prima\\|Ferramenta]] típica pronta           |                  25%                  |\n| [[Arma Obra-prima\\|Arma]], [[Armadura Obra-prima\\|Armadura]] ou [[Ferramenta Obra-prima\\|Ferramenta]] típica por encomenda    |                 100%                  |\n| Tesouro típico Adepto       | 1.5 × [[Obter Informação]]% (max 33%)    |\n| Tesouro fundamental Adepto  | 3/4 × [[Obter Informação]]% (max 17%) |\n| Tesouro atípico Adepto      | 2/5 × [[Obter Informação]]% (max 8%) |\n"
+}

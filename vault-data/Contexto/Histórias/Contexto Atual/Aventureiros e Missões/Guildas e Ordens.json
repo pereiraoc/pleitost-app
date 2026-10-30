@@ -1,0 +1,129 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Guildas e Ordens",
+  "path": "Contexto/Histórias/Contexto Atual/Aventureiros e Missões/Guildas e Ordens.md",
+  "basename": "Guildas e Ordens",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As guildas e ordens que disputam, contratam ou recrutam aventureiros ao lado da Sociedade Aberta.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guildas e Ordens.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tempestade de Flechas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruínas de Luxor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Solar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "O Contato com a Ordem Bestial",
+      "kind": "wikilink",
+      "alias": "Ano 150"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Plebeus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sussurros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos (Organização)",
+      "kind": "wikilink",
+      "alias": "organização da Torre dos Magos"
+    },
+    {
+      "target": "Meteorito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos (Organização)\\",
+      "kind": "wikilink",
+      "alias": "Torre dos Magos"
+    }
+  ],
+  "images": [
+    {
+      "target": "Guildas e Ordens.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "A Tempestade de Flechas"
+    },
+    {
+      "level": 4,
+      "text": "A Ordem Solar"
+    },
+    {
+      "level": 4,
+      "text": "Quem Não Contrata Ninguém"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Guildas e Ordens.png]]\n\nA [[Sociedade Aberta]] é a casa de todo aventureiro, mas não é a única porta. No Ano 300, quem vive de aventura cedo ou tarde cruza com gente que se organiza por outros motivos — caçar, explorar, purificar, guardar uma mata — e que ora contrata, ora recruta, ora simplesmente não quer ninguém por perto. Saber quem é quem faz parte do ofício tanto quanto saber manejar uma espada.\n#### A Tempestade de Flechas\nA [[Tempestade de Flechas]] é uma guilda de exploradores adeptos de terrenos diversos — gente de mata, de deserto, de serra e de mar. O que a distingue é o placar: cada membro soma os abates de feras e as descobertas que faz, e a posição nesse placar é assunto de taberna, de rivalidade e de aposta entre colegas. O sonho declarado da guilda é desbravar, catalogar e entender todos os biomas, planos e criaturas que existem; o plano mais próximo é levar sua influência para regiões fora do [[Mundo Livre]]. Por ora, porém, a guilda vive de perfil baixo. Com a estabilidade atual, há poucas bestas elementais para caçar, e um placar de abates não cresce em tempo de paz. Quem ainda soma pontos são os que se embrenham onde ninguém vai — a [[Grande Mata]], as dunas sobre as [[Ruínas de Luxor]], as encostas das [[Montanhas de Vidro]].\n#### A Ordem Solar\nSe a Tempestade busca feras, a [[Ordem Solar]] busca o que não devia estar de pé. Cavaleiros de trejeitos antigos — marcialistas, magos e arcanistas brancos —, eles caçam mortos-vivos e focos de energia negativa e são, hoje, um dos financiadores mais frequentes nos quadros da Sociedade. Seu quartel branco fica em [[Iluminada]], e seus cavaleiros em [[Manilha]] assinam contratos que vão até [[Canto Alto]]. Pagam bem, cobram conduta, e mais de um aventureiro voltou de uma tumba com um convite para vestir branco.\n#### Quem Não Contrata Ninguém\nNem toda ordem quer aventureiros. A [[Ordem Bestial]], o povo de druidas antigos da [[Floresta da Ordem]], trata como inimigo quem entra sem convite desde o [[O Contato com a Ordem Bestial|Ano 150]]; para a Tempestade de Flechas, cuja meta é catalogar todo bioma, a mata colossal do sul da [[Ilha das Cinzas]] é a página em branco mais tentadora e mais proibida do mapa. E há nomes que circulam nos balcões sem que ninguém saiba dizer muito: os [[Plebeus]], os [[Sussurros]] e a [[Torre dos Magos (Organização)|organização da Torre dos Magos]], que contrata aventureiros para a cratera do [[Meteorito]] — e, fora isso, pouco se sabe dela no balcão.\n\n> [!note]- Quem contrata, quem recruta\n> | Organização | Relação com aventureiros |\n> | --- | --- |\n> | [[Sociedade Aberta]] | Centraliza missões e comissões; organiza os ranks |\n> | [[Ordem Solar]] | Contrata expedições contra mortos-vivos e focos de energia negativa; recruta entre os aventureiros |\n> | [[Tempestade de Flechas]] | Guilda de exploradores com placar de abates e descobertas |\n> | [[Torre dos Magos (Organização)\\|Torre dos Magos]] | Financia contratos na cratera do Meteorito |\n> | [[Ordem Bestial]] | Hostil a quem entra na Floresta da Ordem sem convite |\n"
+}

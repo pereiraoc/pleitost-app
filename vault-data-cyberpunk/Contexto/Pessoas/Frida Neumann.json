@@ -1,0 +1,40 @@
+{
+  "id": "Contexto/Pessoas/Frida Neumann",
+  "path": "Contexto/Pessoas/Frida Neumann.md",
+  "basename": "Frida Neumann",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Dona Frida"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Polar]]",
+    "Função": "Presidente da Polar",
+    "Aparência": "Quarenta anos, cabelo curto loiro, tailleur azul-marinho com o broche da Polar e cigarro fino; anda de Monza com motorista e nunca bebe em público.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Frida Neumann.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Frida Neumann.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Frida Neumann.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

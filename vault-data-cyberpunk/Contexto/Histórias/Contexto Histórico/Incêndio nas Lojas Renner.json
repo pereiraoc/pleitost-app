@@ -1,0 +1,36 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Incêndio nas Lojas Renner",
+  "path": "Contexto/Histórias/Contexto Histórico/Incêndio nas Lojas Renner.md",
+  "basename": "Incêndio nas Lojas Renner",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1976-04-27",
+    "Descrição": "Numa tarde de terça o fogo toma a loja de departamentos da [[Renner]] no [[Centro Histórico]] e mata dezenas de pessoas presas nos andares de cima — a maior tragédia urbana que a cidade tinha visto. O laudo oficial fecha em curto-circuito e a censura do [[Decretação do AI-5|AI-5]] encerra o assunto em uma semana. Porto Alegre nunca engoliu: até hoje se conta em bar e em fila de ponto que o incêndio foi conveniente demais, e cada versão escolhe seu culpado — o seguro, o terreno, um andar com estoque que não podia estar ali. Nada foi provado nem investigado até o fim — e é por isso que a história não morre. A Renner se reergue vendendo farda e vestuário industrial para o Estado, o negócio que a mantém de pé em 1987.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Renner",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Decretação do AI-5",
+      "kind": "wikilink",
+      "alias": "AI-5"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

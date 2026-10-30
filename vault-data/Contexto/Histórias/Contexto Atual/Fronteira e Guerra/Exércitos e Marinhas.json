@@ -1,0 +1,160 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/Exércitos e Marinhas",
+  "path": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/Exércitos e Marinhas.md",
+  "basename": "Exércitos e Marinhas",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As forças armadas do Mundo Livre no Ano 300: guarnições da Federação, a marinha aurorense, a legião monástica e as guardas das cidades.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Exércitos e Marinhas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink",
+      "alias": "sintonizados"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Deserção da Frota e a Fundação da Pátria Aurora",
+      "kind": "wikilink",
+      "alias": "Ano 55"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem Bestial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Economia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Exércitos e Marinhas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "As Guarnições da Federação"
+    },
+    {
+      "level": 4,
+      "text": "A Marinha Aurorense"
+    },
+    {
+      "level": 4,
+      "text": "A Legião da Torre"
+    },
+    {
+      "level": 4,
+      "text": "O Sul e a Ilha"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Exércitos e Marinhas.png]]\n\nO [[Mundo Livre]] venceu a Guerra dos 100 Anos com muralha, magia e teimosia, e passou os dois séculos seguintes esquecendo como se faz uma guerra. No Ano 300, as forças armadas do continente são mais memória do que exército: guarnições pequenas em postos antigos, guardas de cidade, e uma única marinha que ainda treina como se o inimigo fosse aparecer amanhã. O que segurou o oeste na guerra — a Pedra Estelar e os [[Sintonia|sintonizados]] — hoje está mais nos contratos da [[Sociedade Aberta]] do que em qualquer quartel.\n#### As Guarnições da Federação\nA [[Federação Áurea]] guarda sua fronteira oeste em dois pontos: o [[Forte Norte]] e o [[Forte Sul]], gêmeos que vigiam a travessia do [[Rio Raio da Luz]] junto ao [[Grande Muro]], com quartéis, arsenal, pátio de armas e o leão dourado sobre azul nas torres. O resto da muralha está deserto. O armamento pesado da nação sai das forjas de [[Iluminada]], das Forjas Bélicas de [[Safira]] e do Arsenal das Hastes de [[Baar'Shava]], e cada capital mantém muralha e portões guarnecidos. No norte, a fronteira montanhosa tem outros guardiões: em [[Primeiro Contato]], guardas de lança vistoriam quem atravessa as [[Montanhas de Vidro]], e sob a rocha [[Krasnogor]] mantém sua própria guarda e exército anão no Bastião das Sentinelas. No resto do país, quem mantém a ordem são as guardas das cidades.\n#### A Marinha Aurorense\nA única força militar do Mundo Livre que nunca baixou a guarda é a da [[Pátria Aurora]]. A frota desertora do [[A Deserção da Frota e a Fundação da Pátria Aurora|Ano 55]] virou marinha própria em [[Lucerna]], onde o porto interno é exclusivo de navios de guerra: na Doca das Trirremes, galeras pesadas de múltiplos conveses atracam casco a casco, e a Academia Navalis forma a oficialidade e desenvolve a tecnologia naval da Pátria. No Campus Fulminis, pátios de parada e o Arsenal Superior completam a capital-quartel. Logo abaixo, [[Magna Vigilia]] abriga a esquadra de velas vermelhas, a infantaria da Castra Peditum, as baterias de balistas do Ballistarium Ventorum e os depósitos da frota. Do lado leste, o [[Mosteiro dos Mares]] forma monges navegadores e vigia o litoral, e do alto da [[Cúpula dos Céus]] os monges do vento montam os grifos reais e vigiam o céu e o oceano.\n#### A Legião da Torre\nEntre os mosteiros-fortaleza da Pátria, um é mais quartel do que templo. A [[Torre das Tochas]], mosteiro do Fogo no penhasco da costa noroeste, tem campos de treino, arsenal e uma legião própria, que marcha e perfila em formação cerrada no Campus Legionis. Os monges aprendem a domar a própria fúria no Sacrarium Furoris Domiti antes de empunhar as lanças do Armamentarium, e a chama perpétua da Turris Magistra arde dia e noite como farol da costa. No continente, a legião monástica é mais lenda do que tropa conhecida — mas, entre os aurorenses, é a resposta pronta para quem pergunta o que a ilha faria se alguém desembarcasse.\n#### O Sul e a Ilha\nO [[Principado das Flores]] não mantém nada que se pareça com um exército de campanha. Tem a muralha de [[Canto Alto]], as guardas de suas cidades e, na estrada que vem do norte, uma atalaia listrada de vermelho e branco. A [[Ilha das Cinzas]] não tem força nenhuma além da que a [[Ordem Bestial]] impõe na sua mata.\n\n> [!note]- Soldo de guarda\n> Salário mensal médio de um guarda, em PO (ver [[Economia]]):\n> | Vilarejo | Pequena Cidade | Grande Cidade | Capital |\n> | :---: | :---: | :---: | :---: |\n> | 6 | 8 | 10 | 12 |\n"
+}

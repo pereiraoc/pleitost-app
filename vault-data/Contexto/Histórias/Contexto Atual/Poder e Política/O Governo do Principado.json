@@ -1,0 +1,103 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Política/O Governo do Principado",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Política/O Governo do Principado.md",
+  "basename": "O Governo do Principado",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O principado campeiro do sul: um príncipe em Canto Alto, uma aliança antiga com a Federação e uma nação que nunca quis deixar de ser separada.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Governo do Principado.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Fundação da Federação Áurea",
+      "kind": "wikilink",
+      "alias": "Ano 8"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "O Governo do Principado.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O Príncipe e o Conselho"
+    },
+    {
+      "level": 4,
+      "text": "Aliado, Não Federado"
+    },
+    {
+      "level": 4,
+      "text": "Identidade Campeira"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[O Governo do Principado.png]]\n\nO [[Principado das Flores]] é a nação mais meridional do [[Mundo Livre]] e a mais teimosa em ser ela mesma. Lutou ao lado da [[Federação Áurea]] na Guerra dos 100 Anos, mas entrou nela como aliado — e como aliado saiu. No Ano 300, a fronteira de costa a costa entre os dois países é pacífica, movimentada e levada muito a sério pelos dois lados.\n#### O Príncipe e o Conselho\nTodo o governo do Principado cabe dentro dos muros de [[Canto Alto]]. O príncipe reside no Palácio dos Altos Ventos, encostado à muralha norte, entre jardins formais e fontes; a administração do dia a dia sobe a Colina do Plenário até o Conselho Local, complexo gótico de pináculos cinzentos no topo do morro, de onde a nação inteira é governada. A cidade tem casa de moeda própria, a Casa da Moeda Fina, a leste do Carrilhão, e não tem catedral nenhuma. O poder aqui é de corte e de conselho, mas é também de rua: decisões que o Plenário não fecha costumam se resolver na argumentação, no grito, na Arena da Peleia ou numa mão de truco no beco atrás do canal.\n#### Aliado, Não Federado\nO Principado entrou na guerra no [[A Fundação da Federação Áurea|Ano 8]], quando as três regiões do norte se uniram, e ajudou a empurrar a frente até o gargalo entre a [[Serra do Bode]] e as [[Montanhas de Vidro]]. Mas nunca assinou a união. Para o campeiro, a Federação é vizinha e parceira, não dona; para Iluminada, o Principado é o celeiro de vinho e gado do sul que convém manter de bom humor. A amizade se vê na estrada: [[Vinhedos]] está assentada sobre a própria linha de fronteira, e o grande eixo norte–sul desce de [[Safira]] direto até Canto Alto. A diferença também se vê — na estrada que vem do norte, uma atalaia listrada de vermelho e branco lembra a quem chega que ali começa outro país.\n#### Identidade Campeira\nO que faz um principadense é o campo. Os grãos de [[Pencas]], o gado de [[Varadas]] e o vinho de [[Vinhedos]] descem em caravanas de tropeiros pelas estradas de terra até os cais de Canto Alto, e dali atravessam o estreito rumo a [[Riqueza]] ou seguem por mar para o resto do continente. O chimarrão no galpão, as tropilhas na estrada e o orgulho de quem resolve as coisas cara a cara são a moeda de reputação do sul. O casario de empenas escalonadas e os moinhos de vento distinguem as cidades do Principado de qualquer outra, e o principadense faz questão de que se distinga também o jeito de falar. A [[Sociedade Aberta]] mantém em Canto Alto uma sede respeitável, mas propositalmente longe de gigantesca — e é assim que o Principado gosta das instituições que vêm de fora.\n"
+}

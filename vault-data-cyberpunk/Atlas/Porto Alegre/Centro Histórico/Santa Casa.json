@@ -1,0 +1,50 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Santa Casa",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Santa Casa.md",
+  "basename": "Santa Casa",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Dono": "Irmã Otília (madre superiora)",
+    "Descrição": null,
+    "Serviços": null,
+    "Completo": true,
+    "markerTag": "Hospital"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Santa Casa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Santa Casa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Santa Casa.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Enfermaria de caridade sobre a água: freira, médico voluntário e remédio da Panvel racionado; atende quem chega de barco, sem plano e sem registro.\n> \n> 👤**Dono:** `= this.Dono`\n> \n> 👁️**Aparência do Local:** Prédio colonial com a água na altura das janelas do térreo, passarela de tábua até um portão do segundo andar, freira de hábito branco recebendo bote com ferido.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Enfermaria de caridade sobre a água: freira, médico voluntário e remédio da Panvel racionado; atende quem chega de barco, sem plano e sem registro.",
+    "aparencia": "Prédio colonial com a água na altura das janelas do térreo, passarela de tábua até um portão do segundo andar, freira de hábito branco recebendo bote com ferido.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

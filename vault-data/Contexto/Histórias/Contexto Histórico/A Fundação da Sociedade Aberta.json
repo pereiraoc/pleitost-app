@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Fundação da Sociedade Aberta",
+  "path": "Contexto/Histórias/Contexto Histórico/A Fundação da Sociedade Aberta.md",
+  "basename": "A Fundação da Sociedade Aberta",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 200",
+    "Descrição": "Com o apoio de todo o [[Mundo Livre]] nasce a [[Sociedade Aberta]], para registrar, treinar e pôr a serviço os sintonizados — a arma que segurou a guerra — e organizar os aventureiros em ranks.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

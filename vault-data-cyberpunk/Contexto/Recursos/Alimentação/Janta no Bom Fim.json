@@ -1,0 +1,57 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Janta no Bom Fim",
+  "path": "Contexto/Recursos/Alimentação/Janta no Bom Fim.md",
+  "basename": "Janta no Bom Fim",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Refeição",
+    "Marca": "Restaurantes do Bom Fim",
+    "Preço": 400,
+    "Cobrança": "unidade",
+    "Nível": 4,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Independência]]"
+    ],
+    "Resumo": "Bife à milanesa, massa e sopa num restaurante de família, vinho de garrafão e fechamento às 23h pelo toque.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Janta no Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sagu de Vinho",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinho Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Independência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Janta no Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Janta no Bom Fim.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nOs restaurantes de família do [[Bom Fim]] servem o que a classe média come quando sai: bife à milanesa,\nmassa com molho, sopa de capeletti no inverno. Vinho de garrafão da serra, toalha xadrez, a dona no caixa e a\nconta fechada às 23h porque o toque não espera.\n\n> [!info] Especificação\n> **Prato:** bife à milanesa com fritas, massa, sopa de capeletti; sobremesa [[Sagu de Vinho]]\n> **Bebida:** [[Vinho Aurora]] de garrafão incluso no rodízio de terça\n> **Público:** professor, estudante, artista, o médico da clínica clandestina do sobrado\n> **Fecha:** 23h — toque de recolher\n> **Na Cidade Baixa:** o mesmo por Cz$ 280 (×0,7), com menos luz\n"
+}

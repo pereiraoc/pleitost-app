@@ -1,0 +1,121 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Relampejante",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Relampejante.md",
+  "basename": "Imbuição Relampejante",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Arma de arremesso que te transporta.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. Ao arremessar, a arma volta para sua mão após o ataque. Ao acertar um ataque à distância com ela, reaja para teleportar adjacente ao alvo. A cada 10 min.",
+      "experiente": "+2 de bônus de item em Ataques. Alcance de Arremesso vira 6. Ao arremessar, a arma volta para sua mão. Ao acertar ataque à distância, reaja para teleportar adjacente ao alvo e receber VdC. A cada 10 min.",
+      "mestre": "+3 de bônus de item em Ataques. Alcance de Arremesso vira 10. Ao arremessar, a arma volta para sua mão. Ao acertar ataque à distância, reaja para teleportar adjacente ao alvo e receber VdC. A cada 10 min."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Propriedades,Contem([[Arremesso]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Propriedades,Contem([[Arremesso]])",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Relampejante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "props-contains",
+                  "slotProp": "Propriedades",
+                  "needle": "[[Arremesso]]"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Propriedades,Contem([[Arremesso]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arremesso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - arma com propriedade [[Arremesso]]*\nUma arma carregada do poder do vento, portando 1 gema verde em sua base. Quando ativada, transporta o usuário para o alvo, surpreendendo-o.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Aumente o alcance da propriedade [[Arremesso]] para 6. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo e seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]]. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Aumente o alcance da propriedade [[Arremesso]] para 10. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo e seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]]. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

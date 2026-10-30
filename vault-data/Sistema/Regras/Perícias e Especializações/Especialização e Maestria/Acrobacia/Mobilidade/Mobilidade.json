@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Acrobacia/Mobilidade/Mobilidade",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Acrobacia/Mobilidade/Mobilidade.md",
+  "basename": "Mobilidade",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Acrobacia]]",
+    "resumo": "\"Pode fazer [[Cambalhota]] contra dois alvos. Pode dar [[Passo de Ajuste|Passo]] após [[Escapar]]. Metade do movimento ao [[Arrastar-se]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink",
+      "alias": "Passo"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink",
+      "alias": "movimentação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Acrobacia]]\nresumo:: \"Pode fazer [[Cambalhota]] contra dois alvos. Pode dar [[Passo de Ajuste|Passo]] após [[Escapar]]. Metade do movimento ao [[Arrastar-se]].\"\n%%\n### `= this.file.name`\n* Quando você faz uma [[Cambalhota]], pode passar por uma segunda criatura durante o movimento caso seu teste de [[Acrobacia]] supere a [[Evasão]] desta segunda. Seu movimento é interrompido pela segunda criatura normalmente caso o teste não supere a [[Evasão]] desta, mas supere a primeira. \n* Quando você tem sucesso em [[Escapar]], você pode dar um [[Passo de Ajuste]] como ação livre.\n* Seu movimento ao [[Arrastar-se]] aumenta para metade da sua [[Movimentação|movimentação]].\n* *algo pra squeeze*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/A Terraplanagem de Centrum",
+  "path": "Contexto/Histórias/Contexto Histórico/A Terraplanagem de Centrum.md",
+  "basename": "A Terraplanagem de Centrum",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 160",
+    "Descrição": "Navegantes aurorenses e vigias do Muro confirmam o que se dizia havia décadas: os morros e vales ao redor de [[Centrum]], a capital da Magna Pátria, foram arrasados e nivelados num grande platô de bordas em penhasco, riscado por estradas em grade perfeita. A Magna Pátria anuncia a obra como concluída — a maior terraplanagem já feita. Ninguém do lado de cá entende como, nem para quê.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Centrum",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n"
+}

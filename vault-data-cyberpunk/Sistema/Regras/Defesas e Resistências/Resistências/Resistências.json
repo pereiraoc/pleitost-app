@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Resistências/Resistências",
+  "path": "Sistema/Regras/Defesas e Resistências/Resistências/Resistências.md",
+  "basename": "Resistências",
+  "type": "Regra",
+  "subtype": "defesas-e-resistências",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Resistência",
+    "categoria": "Regra",
+    "subcategoria": "defesas-e-resistências",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Defesas e Resistências|Defesas e Resistências]]",
+    "prev": "[[Defesa]]",
+    "next": "[[Sentidos|Sentidos]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesas e Resistências",
+      "kind": "wikilink",
+      "alias": "Defesas e Resistências"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "embed",
+      "subpath": "Vigor"
+    },
+    {
+      "target": "Evasão",
+      "kind": "embed",
+      "subpath": "Evasão"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "embed",
+      "subpath": "Ímpeto"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Resistências"
+    }
+  ],
+  "body": "%%\nup:: [[Defesas e Resistências|Defesas e Resistências]]\nprev:: [[Defesa]]\nnext:: [[Sentidos|Sentidos]]\n%%\n## Resistências\nUma criatura possui resistências para mitigar ou evitar efeitos negativos de ações agressivas dos inimigos. As 3 Resistências são [[Vigor]], [[Evasão]] e [[Ímpeto]].\n![[Vigor#Vigor]]\n![[Evasão#Evasão]]\n![[Ímpeto#Ímpeto]]"
+}

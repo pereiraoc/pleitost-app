@@ -1,0 +1,96 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/O Grande Muro Hoje",
+  "path": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/O Grande Muro Hoje.md",
+  "basename": "O Grande Muro Hoje",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O Grande Muro no Ano 300: inteiro, antigo e quase deserto, guardado de verdade só na travessia do rio, depois de dois séculos de paz.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Grande Muro Hoje.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Serra do Bode",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Construção do Grande Muro",
+      "kind": "wikilink",
+      "alias": "construção que começou no Ano 60"
+    },
+    {
+      "target": "O Fim da Guerra dos 100 Anos",
+      "kind": "wikilink",
+      "alias": "Ano 100"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Raio da Luz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Norte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forte Sul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "O Grande Muro Hoje.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Uma Muralha sem Soldados"
+    },
+    {
+      "level": 4,
+      "text": "Os Fortes da Travessia"
+    },
+    {
+      "level": 4,
+      "text": "O Que a Paz Esconde"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[O Grande Muro Hoje.png]]\n\nO [[Grande Muro]] continua de pé, inteiro de ponta a ponta, e é isso que todo mundo diz dele primeiro. Corre em linha quase reta da ponta sul das [[Montanhas de Vidro]] à [[Serra do Bode]], sem portão nem poterna, e fecha o [[Mundo Livre]] contra a Magna Pátria desde a [[A Construção do Grande Muro|construção que começou no Ano 60]]. O que mudou foi o resto: no Ano 300, quem sobe às ameias encontra a pedra e o vento — e quase mais nada.\n#### Uma Muralha sem Soldados\nVista da campina agreste a seus pés, a muralha é uma cortina de cantaria cinzenta de escala inumana, blocos quase ciclópicos manchados de musgo, bastiões quadrados repetindo-se até sumirem na névoa. É obra entrelaçada com magias antigas, e talvez por isso não tenha caído nem rachado em três séculos. Mas está deserta: nem um soldado nas ameias, nem um estandarte ao vento ao longo de quase toda a extensão. A trégua do [[O Fim da Guerra dos 100 Anos|Ano 100]] nunca foi assinada, e mesmo assim durou duzentos anos. A geração que guarneceu os bastiões morreu de velhice, e a que veio depois aprendeu a tratar o Muro como paisagem — o símbolo em pedra da [[Federação Áurea]], mais lembrado nos discursos de [[Iluminada]] do que visitado.\n#### Os Fortes da Travessia\nA única exceção é o rio. O [[Rio Raio da Luz]] é a única coisa que atravessa a fronteira, mergulhando por baixo da muralha rumo ao oeste, e sua travessia é guarnecida pelo par de fortalezas que ainda tem gente dentro. O [[Forte Norte]], castelo gótico num esporão de rocha viva, é o fim da linha: a estrada do oeste nasce em seus portões, e ao norte dele só há montanha e Muro. O [[Forte Sul]], seu gêmeo, é um forte de passagem — a estrada calçada atravessa o Pátio de Armas de portão a portão, e todo viajante que segue para o sul da Federação desfila sob os olhos da guarnição. Nos dois, o leão dourado sobre azul ainda pende das torres, os braseiros ainda ardem nas torres de vigia, e os quartéis têm ocupantes. O serviço ali é visto, no resto da Federação, como posto tranquilo: vigiar um rio, uma estrada e um horizonte onde nada acontece há dois séculos.\n#### O Que a Paz Esconde\nHá quem ache que o Muro funciona justamente porque ninguém o testa. Do alto dos fortes, vê-se só uma faixa estreita do outro lado — deserto amarelo ao norte, bosques oliva ao sul — e nenhum assentamento. Nas tavernas da Federação se diz que, se a Magna Pátria quisesse voltar, o Muro avisaria antes de qualquer espião. Nos fortes, os veteranos respondem que um muro sem gente não avisa nada a ninguém.\n\n"
+}

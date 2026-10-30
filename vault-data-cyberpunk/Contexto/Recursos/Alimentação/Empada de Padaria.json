@@ -1,0 +1,58 @@
+{
+  "id": "Contexto/Recursos/Alimentação/Empada de Padaria",
+  "path": "Contexto/Recursos/Alimentação/Empada de Padaria.md",
+  "basename": "Empada de Padaria",
+  "type": "Recurso",
+  "subtype": "Alimentação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Alimentação",
+    "Tipo": "Salgado",
+    "Marca": "Padaria de esquina",
+    "Preço": 40,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Bom Fim]]",
+      "[[Petrópolis]]",
+      "[[Centro Histórico]]"
+    ],
+    "Resumo": "Empada de frango ou de palmito na vitrine da padaria, Cz$ 40: o lanche das quatro da tarde.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Empada de Padaria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Café Passado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Empada de Padaria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Recurso\n![[Empada de Padaria.png]]\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nA vitrine da padaria tem empada de frango, de palmito e de camarão (esta só nos Moinhos). Cz$ 40, quente\nse você chegar às quatro, fria depois. Com [[Café Passado]] é o lanche do escritório inteiro.\n\n> [!info] Especificação\n> **Salgado:** empada de frango ou palmito; camarão Cz$ 70 nos Moinhos\n> **Preço:** Cz$ 40\n> **Hora:** 16h, quente\n> **Onde:** padarias de bairro\n"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Manobras Esmagadoras",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Manobras Esmagadoras.md",
+  "basename": "Manobras Esmagadoras",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Quando você tiver sucesso em [[Desarmar]], [[Derrubar]] ou [[Agarrar]], cause 2 de dano (1d4+2 no 4º nível; 2d4+2 no 7º). Também se aplica a [[Maré de Combate]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maré de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Quando você tiver sucesso em [[Desarmar]], [[Derrubar]] ou [[Agarrar]], cause 2 de dano (1d4+2 no 4º nível; 2d4+2 no 7º). Também se aplica a [[Maré de Combate]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê causa 2 de dano ao alvo quando você tem sucesso numa manobra de [[Desarmar]], [[Derrubar]] ou [[Agarrar]]. Esse dano aumenta para 1d4+2 no 4° nível e para 2d4+2 no 7º nível.\nEssa técnica também se aplica para [[Maré de Combate]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,389 @@
+{
+  "id": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Ursino",
+  "path": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Ursino.md",
+  "basename": "Companheiro Animal Ursino",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 0 \"Ursino\"",
+      "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "Definir Atributos.FOR 3",
+      "Definir Atributos.AGI 1",
+      "Definir Atributos.INT 0",
+      "Definir Atributos.PRE 2",
+      "Definir Pericias.Lista.Intimidacao.Proficiencia A",
+      "Somar Vida.Vitalidade 5",
+      "Complementar Ataques.Lista [[Mandíbula]]",
+      "Complementar Ataques.Lista [[Garras]]",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Seu companheiro animal é do tipo ursino.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 0 \"Ursino\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Ursino"
+          },
+          "raw": "Alias Classe Compor 0 \"Ursino\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Companheiro Animal]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Faro|Faro (6q)]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.FOR 3",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Atributos.FOR 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.AGI 1",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.AGI",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Atributos.AGI 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.INT 0",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.INT",
+            "valueRaw": "0"
+          },
+          "raw": "Definir Atributos.INT 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.PRE 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.PRE",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Atributos.PRE 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Intimidacao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Intimidacao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Vitalidade 5",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "5"
+          },
+          "raw": "Somar Vida.Vitalidade 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Mandíbula]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Mandíbula]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Mandíbula]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Garras]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Garras]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Garras]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Ursino",
+          "occurrenceIndex": 12,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Mandíbula",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink",
+      "alias": "Faro (6q)"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Seu companheiro animal é do tipo ursino.\"\n%%\n##### `= this.file.name`\n* [[Força|FOR]] 3, [[Agilidade|AGI]] 1, [[Inteligência|INT]] 0, [[Presença|PRE]] 2\n* [[Adepto]] em [[Intimidação]]\n* [[Movimentação]] Terrestre 5\n* [[Faro]] com alcance 6q\n* 5 [[Energia Vital|EV]] adicional\n* [[Mandíbula]]\n* [[Garras]]\n\n```autosheet-rules\n```\n"
+}

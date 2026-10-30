@@ -1,0 +1,45 @@
+{
+  "id": "Campanhas/Combates/O Touro Solto",
+  "path": "Campanhas/Combates/O Touro Solto.md",
+  "basename": "O Touro Solto",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Zona Deserta]] · [[Costa e Silva]]",
+    "Situação": "Gado sem dono no meio da estrada — e nada convence dois mil quilos a sair.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Touro do Pasto Morto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Javali da Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Touro do Pasto Morto]] lento\n- 2 [[Javali da Restinga]] rápido\n```\n"
+}

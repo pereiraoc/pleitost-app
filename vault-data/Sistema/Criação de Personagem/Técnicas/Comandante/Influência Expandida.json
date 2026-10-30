@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Influência Expandida",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Influência Expandida.md",
+  "basename": "Influência Expandida",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Aumenta sua área de influência conforme seu [[Estratagema]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Aumenta sua área de influência conforme seu [[Estratagema]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aumenta sua influência no campo de batalha, recebendo um benefício dependendo do seu [[Estratagema]].\n* **Estrategista** - Sua área de influência aumenta para 15q.\n* **Combatente** - Sua área de influência aumenta para 10q.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Pessoas/Teodoro “Roentgen” Mattos",
+  "path": "Contexto/Pessoas/Teodoro “Roentgen” Mattos.md",
+  "basename": "Teodoro “Roentgen” Mattos",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Roentgen",
+      "Teodoro Mattos"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Cais da Amostra]]",
+    "Função": "Vetor do Delta — vende amostra de dia e travessia de noite",
+    "Aparência": "Quarenta anos que parecem sessenta, capa de chuva por cima de tudo, veias do pescoço azuladas que acendem quando ele se irrita; o rádio da Brigada chia quando ele passa.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Teodoro “Roentgen” Mattos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cais da Amostra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Teodoro “Roentgen” Mattos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Pessoa\n![[Teodoro “Roentgen” Mattos.png]]\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Magia Essencial Experiente",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Experiente/Magia Essencial Experiente.md",
+  "basename": "Magia Essencial Experiente",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Essencial Experiente"
+    }
+  ],
+  "body": "### Magia Essencial Experiente\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Essencial\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Essencial\" and rank=\"Experiente\"\n```"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Jornada Intransponível",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Jornada Intransponível.md",
+  "basename": "Jornada Intransponível",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "custo": "R",
+    "resumo": "\"Movimento não é impedido de forma alguma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\ncusto:: R\n\nresumo:: \"Movimento não é impedido de forma alguma.\"\n%%\n#### `= this.file.name` - `= this.rank`\nNada te impede de explorar e chegar onde quer. Você ignora totalmente os efeitos de qualquer [[Terreno Difícil]], seja natural, mágico, criaturas, ou outra fonte. Adicionalmente, você não ativa armadilhas que envolvam estar em algum lugar para ativar, como alçapões, placas de pressão, fios de disparo, runas mágicas posicionadas, etc. Você pode intencionalmente ativar uma armadilha que esteja ciente caso queira.\n\n```autosheet-rules\n```\n"
+}

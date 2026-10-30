@@ -1,0 +1,33 @@
+{
+  "id": "Campanhas/Combates/A Conta da Caixinha",
+  "path": "Campanhas/Combates/A Conta da Caixinha.md",
+  "basename": "A Conta da Caixinha",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 3,
+    "Onde": "Genérico — o endereço onde o grupo dorme.",
+    "Situação": "Solo puro, sem apoio. Ele não quer vencer o grupo: quer um deles.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Despachante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 3 — rank S (nível 10)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 1 [[O Despachante]] super rápido\n```\n"
+}

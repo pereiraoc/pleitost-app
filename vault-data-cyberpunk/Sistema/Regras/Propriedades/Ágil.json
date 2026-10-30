@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Regras/Propriedades/Ágil",
+  "path": "Sistema/Regras/Propriedades/Ágil.md",
+  "basename": "Ágil",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Adequada para lutar com duas armas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink",
+      "alias": "lutar com duas armas"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "Ataques de Oportunidade"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Adequada para lutar com duas armas.\"\n%%\n## `= this.file.name`\nVocê pode [[Lutando com Duas Armas|lutar com duas armas]] usando essa arma como secundária.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n%%Armas ágeis causam um dado de dano adicional em [[Ataque de Oportunidade|Ataques de Oportunidade]], até um máximo de um dado de dano da arma para cada grau de [[Proficiência|Proficiência]] que tenha com ela. (1 para [[Adepto]], 2 para [[Experiente]] e 3 para [[Mestre]]).\n\n```autosheet-rules\n```\n"
+}

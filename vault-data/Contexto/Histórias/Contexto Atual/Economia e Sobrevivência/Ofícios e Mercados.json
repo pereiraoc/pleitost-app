@@ -1,0 +1,175 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Ofícios e Mercados",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Ofícios e Mercados.md",
+  "basename": "Ofícios e Mercados",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O que cada região do Mundo Livre produz e vende: gemas, âmbar, imbuições, armas, comida e vinho.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ofícios e Mercados.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "O Nascer das Nações do Leste",
+      "kind": "wikilink",
+      "alias": "quatro sociedades"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montanhas de Vidro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Krasnogor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiro Contato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Mineradores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre dos Magos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líciae",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Varadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhedos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ofícios e Mercados.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Pedra e gema"
+    },
+    {
+      "level": 4,
+      "text": "Forja e arte"
+    },
+    {
+      "level": 4,
+      "text": "Mesa e campo"
+    },
+    {
+      "level": 4,
+      "text": "Onde se vende"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Ofícios e Mercados.png]]\n\nDesde antes da Guerra dos 100 Anos, as terras do leste negociam entre si mais do que qualquer outra coisa — [[O Nascer das Nações do Leste|quatro sociedades]] que, por muito tempo, não tinham laço nenhum além do comércio. No Ano 300, cada canto do [[Mundo Livre]] tem sua especialidade, e a pergunta que todo mercador faz ao chegar numa cidade nova é a mesma: o que se faz aqui que não se faz em mais lugar nenhum?\n\n#### Pedra e gema\nA riqueza mais famosa do continente sai da rocha. Nas [[Montanhas de Vidro]], os anões de [[Krasnogor]] extraem âmbar e forjam machados, e suas oficinas imbuem o mineral com artes que só eles dominam; o mesmo âmbar desce até o posto de [[Primeiro Contato]], onde é vendido bruto aos recém-chegados. No sul, [[Pedrita]] vive do âmbar das encostas — lapidação, pesagem e as imbuições minerais, sísmicas e enraizantes de suas oficinas muradas. As safiras azuis vêm da [[Grande Mata]], arrancadas pelo [[Campo de Mineradores]] e levadas para [[Safira]], que as lapida, as imbui com artes da água e as transforma nas poções de cura azuis da Alquimia Azul, sua maior exportação. Do outro lado do estreito, [[Riqueza]] embarca os rubis da [[Ilha das Cinzas]] e as imbuições de fogo — explosiva, flamejante, incendiária — junto com os Focos arcanos da Casa dos Focos.\n\n#### Forja e arte\nCada capital tem sua forja de assinatura. [[Iluminada]] faz o armamento pesado — espadas bastardas, montantes, alabardas — e a Imbuição de Aço Solar; [[Baar'Shava]] forja lanças e alfanjes no Arsenal das Hastes; Safira bate martelos e malhos nas Forjas Bélicas; [[Canto Alto]] prefere o fino, com rapieiras, adagas de duelo e armaduras leves. A [[Torre dos Magos]] produz o que nenhuma forja produz: anéis, focos, colares e luvas de arcanista saídos das suas oficinas de criação arcana — e é dela o comércio da Pedra Estelar. Na [[Pátria Aurora]], [[Velimaris]] recebe matéria-prima de outras sintonias, refina tudo nas suas oficinas e revende ao continente imbuições prontas de vento, raio e tempestade; [[Prasinarium]], ao norte da ilha, embarca o minério da serra.\n\n#### Mesa e campo\nO [[Campos do Provento]] é o celeiro da [[Federação Áurea]]: os grãos de [[Rharos]], a carne e o couro de [[Líciae]], com seus curtumes fumegantes, e o pescado defumado de [[Lilá]]. A [[Planaltina]] completa a mesa com o queijo de [[Manilha]], pesado e vendido em rodas, e o leite e o queijo de bode que descem de [[Chama Céu]]. No sul, o [[Principado das Flores]] vive do que a terra dá — os grãos de [[Pencas]], o gado de [[Varadas]] e o vinho de [[Vinhedos]] —, tudo levado pelos tropeiros até os cais da capital.\n\n#### Onde se vende\nOs mercados têm a cara de quem os frequenta. Baar'Shava tem o souk do Mercado das Especiarias; Iluminada, a Grande Praça do Comércio e o Mercado dos Mercadores; Krasnogor, o Grande Mercado Subterrâneo em volta de um pilar de âmbar aceso. Nas cidades menores, o mercado é um largo com fonte — a Praça do Mercado de Lilá, o Mercado dos Queijos de Manilha, a Feira do Gado de Varadas. E em Riqueza, o mercado é a cidade inteira: um mar de tendas onde tudo está à venda e ninguém pergunta de onde veio.\n"
+}

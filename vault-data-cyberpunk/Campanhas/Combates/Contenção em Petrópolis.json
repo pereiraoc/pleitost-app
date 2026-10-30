@@ -1,0 +1,49 @@
+{
+  "id": "Campanhas/Combates/Contenção em Petrópolis",
+  "path": "Campanhas/Combates/Contenção em Petrópolis.md",
+  "basename": "Contenção em Petrópolis",
+  "type": "Combate",
+  "subtype": "Encontro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Combate",
+    "subcategoria": "Encontro",
+    "Tier": 2,
+    "Onde": "[[Petrópolis]] · [[Rua das Indústrias]]",
+    "Situação": "Um muro que não morre, dois que prendem e um que pune quem se expõe.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Exoesqueleto do BOPE",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cabo de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Franco-Atirador da Brigada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rua das Indústrias",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!info] Encontro de tier 2 — rank A (níveis 7–9)\n> 📍**Onde:** `= this.Onde`\n> 🎬**Situação:** `= this.Situação`\n\n```combat-marker\n- 2 [[Exoesqueleto do BOPE]] lento\n- 3 [[Cabo de Choque]] lento\n- 1 [[Franco-Atirador da Brigada]] rápido\n```\n"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Controle/Governo e Influência Corporativa",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Controle/Governo e Influência Corporativa.md",
+  "basename": "Governo e Influência Corporativa",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A forma de organização do estado, e a interação entre megacorporações na definição de políticas públicas.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governo e Influência Corporativa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Emílio Garrastazu Médici",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink",
+      "alias": "Exército"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    }
+  ],
+  "images": [
+    {
+      "target": "Governo e Influência Corporativa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Regime e Estrutura de Poder"
+    },
+    {
+      "level": 4,
+      "text": "Aliança Estado–Corporação"
+    },
+    {
+      "level": 4,
+      "text": "Mecanismos de Influência"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Governo e Influência Corporativa.png]]\n\n#### Regime e Estrutura de Poder\nEm Porto Alegre de 1987, o Brasil vive sob um regime militar altamente centralizado, encabeçado pelo Marechal [[Emílio Garrastazu Médici]], mantido vivo por implantes selênicos e próteses mecânicas desde 1985. A Junta de Generais exerce controle absoluto sobre poderes Executivo e Legislativo, tendo suspenso direitos políticos e instaurado julgamentos militares em casos de “terrorismo industrial” ou “subversão” . O Estado dispõe de uma máquina repressiva robusta — a [[Brigada Militar Metropolitana]] e o [[Quartel-General do Exército]] coordenam operações de toque de recolher, vigilância por drones e guerra química, garantindo rápida repressão a qualquer forma de dissidência .\n#### Aliança Estado–Corporação  \nParalelamente, quatro megacorporações — [[Gradiente]], [[Panvel]], [[Tramontina]] e [[Zaffari]] — compõem uma oligarquia que dita linhas gerais de políticas públicas:\n\n- **[[Panvel]]**, dominante na produção de drogas selênicas, mantém redes de farmácias e clínicas dependentes do Estado, influenciando decretos sobre registro e distribuição de substâncias “tarja amarela” .\n- **[[Tramontina]]** provê próteses físicas e exoesqueletos táticos à [[Brigada Militar Metropolitana|Brigada Militar]], recebendo em troca contratos exclusivos em infraestrutura de segurança urbana .\n- **[[Zaffari]]** controla logística de alimentos e insumos industriais, negociando cessões de ferrovias e terminais portuários em troca de subsídios governamentais para expansão de sua malha multimodal .\n#### Mecanismos de Influência  \nAs megacorporações utilizam duas principais vias para garantir vantagens indevidas:\n\n1. **Financiamento de Oficiais de Alta Patente:** Empresas destinam altos repasses a oficiais de alto escalão, que em troca aprovam licitações superfaturadas e protegem contratos sigilosos de P&D .\n2. **Participação em Conselhos e Decretos:** Executivos corporativos são cooptados como “conselheiros militares”, influenciando diretamente decretos de racionamento de água, energia da [[Companhia Estadual de Energia Elétrica|CEEE]] e políticas trabalhistas do PIRA, ampliando jornadas de 130 h semanais em troca de aposentadoria precoce .\n\nEssa simbiose Estado–megacorporação garante a perpetuação do autoritarismo, enquanto aprofunda as desigualdades urbanas: o regime militar sustenta seu poder em tecnologias de coerção e na dependência das corporações, tornando qualquer reforma democrática quase impossível.\n"
+}

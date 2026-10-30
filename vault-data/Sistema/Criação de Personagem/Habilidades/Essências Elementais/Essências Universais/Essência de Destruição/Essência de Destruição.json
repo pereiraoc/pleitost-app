@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Destruição/Essência de Destruição",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Universais/Essência de Destruição/Essência de Destruição.md",
+  "basename": "Essência de Destruição",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"pendente\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Destruição Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência de Destruição Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"pendente\"\n%%\n### `= this.file.name`\nEssência universal do lado da Destruição (Fogo e Vento), par da [[Essência de Criação]]. *Conteúdo pendente.*\n\n![[Essência de Destruição Adepta#`= this.file.name`]]\n![[Essência de Destruição Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

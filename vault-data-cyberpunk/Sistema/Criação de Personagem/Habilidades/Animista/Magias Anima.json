@@ -1,0 +1,392 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Animista/Magias Anima",
+  "path": "Sistema/Criação de Personagem/Habilidades/Animista/Magias Anima.md",
+  "basename": "Magias Anima",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.Anima.Proficiencia A",
+      "Definir Magias.Potencia 4",
+      "Definir Magias.EM 4",
+      "Definir Magias.Lista.Anima.Atributo PRE",
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Essência Flamejante Adepta]]",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Essência Hidratante Adepta]]",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Essência Mineral Adepta]]",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Essência Ventania Adepta]]",
+      "Somar Magias.Lista.Anima.Slots.A 2",
+      "Nivel 2 Somar Magias.Lista.Anima.Slots.A 1",
+      "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Animista é 4. Sua [[Energia Mágica|EM]] máxima é 4. Seu atributo-chave para magias é [[Presença]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 4",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.EM 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Definir Magias.Lista.Anima.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Essência Flamejante Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Fogo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Flamejante Adepta]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Essência Flamejante Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Essência Hidratante Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Água]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Hidratante Adepta]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Essência Hidratante Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Essência Mineral Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Terra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Mineral Adepta]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Essência Mineral Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Essência Ventania Adepta]]",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Vento]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Essência Ventania Adepta]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Essência Ventania Adepta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Lista.Anima.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Lista.Anima.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 2 Somar Magias.Lista.Anima.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 2 Somar Magias.Lista.Anima.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Magias Anima",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.Anima.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 3 Somar Magias.Lista.Anima.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Essência Flamejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Ciclo Elemental",
+      "subpath": "Ciclo Elemental"
+    },
+    {
+      "target": "Invocar Elemental Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Animista é 4. Sua [[Energia Mágica|EM]] máxima é 4. Seu atributo-chave para magias é [[Presença]].\"\n%%\n#### `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Animista é 4. Sua [[Energia Mágica|EM]] máxima é 4. Seu atributo-chave para magias é [[Presença]].\n\nVocê recebe acesso a [[Essências Elementais|Essência Elemental]] pura referente a sua sintonia, independentemente dos pré-requisitos: [[Essência Flamejante]] para Fogo, [[Essência Hidratante]] para Água, [[Essência Ventania]] para Vento e [[Essência Mineral]] para Terra. Adicionalmente, você recebe acesso a mais duas [[Essências Elementais]], respeitando os pré-requisitos do [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]]. Você pode conjurar as formas Básicas e Adeptas dessas essências.\n\nQuando você escolhe [[Essências Elementais]], você deve respeitar os pré-requisitos do [[Essências Elementais#Ciclo Elemental|Ciclo Elemental]] e nenhuma pode ser do elemento oposto a sua sintonia. Quando você conjura uma Magia de uma essência universal (como [[Invocar Elemental Menor]] ou [[Forma Elemental]]), não pode escolher os efeitos do elemento oposto ao seu no momento da conjuração.\n\n| Sintonia | Elemento Oposto |\n| -------- | --------------- |\n| Fogo     | Água            |\n| Água     | Fogo            |\n| Vento    | Terra           |\n| Terra    | Vento           |\n\n```autosheet-rules\n```\n"
+}

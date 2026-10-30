@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/Fronteira e Guerra",
+  "path": "Contexto/Histórias/Contexto Atual/Fronteira e Guerra/Fronteira e Guerra.md",
+  "basename": "Fronteira e Guerra",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "O Grande Muro Hoje",
+      "kind": "embed"
+    },
+    {
+      "target": "O Outro Lado do Muro",
+      "kind": "embed"
+    },
+    {
+      "target": "A Guerra Fria Hoje",
+      "kind": "embed"
+    },
+    {
+      "target": "Exércitos e Marinhas",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[O Grande Muro Hoje]]\n![[O Outro Lado do Muro]]\n![[A Guerra Fria Hoje]]\n![[Exércitos e Marinhas]]\n"
+}

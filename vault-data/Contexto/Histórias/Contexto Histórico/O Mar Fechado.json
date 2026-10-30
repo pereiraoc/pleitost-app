@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/O Mar Fechado",
+  "path": "Contexto/Histórias/Contexto Histórico/O Mar Fechado.md",
+  "basename": "O Mar Fechado",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "Ano 120",
+    "Descrição": "A Magna Pátria corta qualquer relação com a [[Pátria Aurora]]: acabam as trocas de prisioneiros e as cartas entre famílias separadas pela deserção. A Pátria Aurora vira as velas para o continente e passa a comerciar com [[Baar'Shava]].",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

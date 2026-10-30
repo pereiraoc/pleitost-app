@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/Natureza e Territórios",
+  "path": "Contexto/Histórias/Contexto Atual/Natureza e Territórios/Natureza e Territórios.md",
+  "basename": "Natureza e Territórios",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Ilha das Cinzas e o Vulcão",
+      "kind": "embed"
+    },
+    {
+      "target": "A Floresta da Ordem",
+      "kind": "embed"
+    },
+    {
+      "target": "O Deserto e as Ruínas",
+      "kind": "embed"
+    },
+    {
+      "target": "A Cratera do Meteorito",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[A Ilha das Cinzas e o Vulcão]]\n![[A Floresta da Ordem]]\n![[O Deserto e as Ruínas]]\n![[A Cratera do Meteorito]]\n"
+}

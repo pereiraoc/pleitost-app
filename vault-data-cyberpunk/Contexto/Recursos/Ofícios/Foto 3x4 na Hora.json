@@ -1,0 +1,39 @@
+{
+  "id": "Contexto/Recursos/Ofícios/Foto 3x4 na Hora",
+  "path": "Contexto/Recursos/Ofícios/Foto 3x4 na Hora.md",
+  "basename": "Foto 3x4 na Hora",
+  "type": "Recurso",
+  "subtype": "Ofício",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Recurso",
+    "subcategoria": "Ofício",
+    "Tipo": "Fotografia",
+    "Marca": "Foto Rápida do Mercado",
+    "Preço": 250,
+    "Cobrança": "unidade",
+    "Nível": 2,
+    "Onde": [
+      "[[Mercado Público]]"
+    ],
+    "Resumo": "Quatro fotos 3x4 em dez minutos, com fundo branco — o retrato que o cartão TRI e a carteira de trabalho exigem.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Recurso\n> [!info] `= this.Tipo`: `= this.file.name`\n> 🏷️**Marca:** `= this.Marca`\n> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`\n> 📶**Nível:** `= this.Nível`\n> 📍**Onde:** `= this.Onde`\n> 📝**Resumo:** `= this.Resumo`\n\nUm estúdio do tamanho de um armário, com banco giratório, fundo branco e flash que cega. Quatro fotos 3x4 em dez minutos, secas no ventilador. É o primeiro passo de todo cartão TRI, carteira de trabalho e documento — e o fotógrafo guarda os negativos, o que mais de uma vez interessou à [[Brigada Militar Metropolitana|Brigada]].\n\n> [!info] Especificação\n> **Pacote:** quatro fotos 3x4, dez minutos\n> **Pra documento:** fundo branco, sem óculos, sem sorriso\n> **Negativos:** ficam na loja; comprar de volta custa Cz$ 500\n"
+}
