@@ -17,7 +17,7 @@
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { formulaCtxDeMagia, rolagensDaMagia, type FormulaCtx } from '../../interativa/formula-ctx'
 import { execucaoDe } from '../../interativa/execucao'
-import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { custoIcone } from '../AcaoIcone'
 import { reskinExecucao, reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
@@ -651,6 +651,13 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   const setUsoHab = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
   const [pop, setPop] = useState<null | 'cond' | 'efeitos' | 'recup'>(null)
+  /** Botão de descanso recém-clicado (realce curto de confirmação). */
+  const [descansoFeito, setDescansoFeito] = useState<null | 'descansar' | 'dormir'>(null)
+  useEffect(() => {
+    if (!descansoFeito) return
+    const t = setTimeout(() => setDescansoFeito(null), 700)
+    return () => clearTimeout(t)
+  }, [descansoFeito])
 
   // Delta da Interativa por key numérica (defesas/sentidos) — mesmas
   // entries/cor do plugin (applyConditionToBreakdown + valueClass).
@@ -1462,14 +1469,19 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                 ].map((b) => (
                   <button
                     key={b.l}
-                    onClick={() => descansar(b.modo)}
+                    // Feedback do clique (sugestão de jogador, 2026-10-29): cor
+                    // no :active e realce curto depois (app.css).
+                    className="combate-descanso-btn"
+                    data-feito={descansoFeito === b.modo ? '' : undefined}
+                    onClick={() => {
+                      descansar(b.modo)
+                      setDescansoFeito(b.modo)
+                    }}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 9,
                       padding: '9px 16px',
-                      background: 'var(--panel2)',
-                      border: '1px solid var(--line2)',
                       color: 'var(--text)',
                       fontWeight: 600,
                       fontSize: 13,

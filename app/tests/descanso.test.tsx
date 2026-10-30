@@ -180,6 +180,22 @@ describe('DESCANSO na ficha (issue #227) — tela', () => {
     // Uso da imbuição também volta ao máximo ao dormir.
     expect((await punhalDots()).filter(dotOn).length).toBe(1)
   })
+
+  // Sugestão de jogador (2026-10-29): "a Recuperação/Descanso poderia ter um
+  // feedback visual ao clicar nela, como trocar a cor enquanto estiver no
+  // clique". Cor no :active (classe CSS) + realce curto depois do clique —
+  // no toque do celular o :active quase não aparece.
+  it('Descansar/Dormir dão feedback visual: classe com :active e realce depois do clique', async () => {
+    renderCombate()
+    await abrirDescanso()
+    const btn = screen.getByText('Descansar').closest('button')!
+    expect(btn.classList.contains('combate-descanso-btn')).toBe(true)
+    expect(btn.hasAttribute('data-feito')).toBe(false)
+    fireEvent.click(btn)
+    expect(btn.hasAttribute('data-feito')).toBe(true)
+    expect(screen.getByText('Dormir').closest('button')!.hasAttribute('data-feito')).toBe(false)
+    await waitFor(() => expect(btn.hasAttribute('data-feito')).toBe(false), { timeout: 2000 })
+  })
 })
 
 /* ===================== unidade: regras portadas do plugin ===================== */

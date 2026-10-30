@@ -3255,3 +3255,21 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   letter-spacing: 0;
   vertical-align: 1px;
 }
+
+/* Descansar/Dormir da RECUPERAÇÃO (aba Combate): feedback do clique —
+   sugestão de jogador (2026-10-29). Cor enquanto pressiona (:active) e um
+   realce curto depois (data-feito), porque no toque o :active quase some. */
+.combate-descanso-btn {
+  background: var(--panel2);
+  border: 1px solid var(--line2);
+  transition: background 0.3s, border-color 0.3s;
+}
+.combate-descanso-btn:hover {
+  border-color: color-mix(in srgb, #43a06a 45%, var(--line2));
+}
+.combate-descanso-btn:active,
+.combate-descanso-btn[data-feito] {
+  background: color-mix(in srgb, #43a06a 32%, var(--panel2));
+  border-color: #43a06a;
+  transition: none;
+}
