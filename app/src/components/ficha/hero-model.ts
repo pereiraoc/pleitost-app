@@ -473,6 +473,39 @@ export function profArmaEfetiva(
   return especifica ? rank : 'N'
 }
 
+/** Modificador de ATAQUE base de uma linha de arma (sem a camada interativa):
+ *  atributo da arma + proficiência EFETIVA com ela + bônus de item/especial.
+ *  Serve de critério de ORDEM das armas na ficha (pedido do mestre,
+ *  2026-10-29: "as que têm maior modificador primeiro"). */
+export function modAtaqueBaseDaArma(
+  arma: Record<string, unknown>,
+  fm: Record<string, unknown>,
+  attrs: Record<string, number>,
+  armaDoc: Pick<VaultDoc, 'frontmatter' | 'inlineFields'> | undefined,
+): number {
+  const inline = {
+    ...((armaDoc?.frontmatter ?? {}) as Record<string, unknown>),
+    ...((armaDoc?.inlineFields ?? {}) as Record<string, unknown>),
+  }
+  const basename = wikiTarget(str(arma['Nome'])).split('/').pop() ?? ''
+  return rowMod(
+    {
+      Atributo: atributoDeAtaqueDaArma(inline['grupo'], arma['Atributo']),
+      Proficiencia: profArmaEfetiva(str(fmPath(fm, 'Ataques', 'Proficiencia')), str(inline['grupo']), basename, fm),
+      Bonus_Item: num(arma['Bonus_Item']),
+      Bonus_Especial: num(arma['Bonus_Especial']),
+    },
+    attrs,
+  )
+}
+
+/** Índices de `linhas` em ordem DECRESCENTE de `mod` (empate mantém a ordem
+ *  original — quem escreve no FM segue endereçando pelo índice). */
+export function ordemPorModDesc<T>(linhas: T[], mod: (l: T, i: number) => number): number[] {
+  const ms = linhas.map(mod)
+  return linhas.map((_, i) => i).sort((a, b) => ms[b]! - ms[a]! || a - b)
+}
+
 /** Regra de arma do Empregado declarada no Contexto do mundo (#544). */
 export interface RegraArmaCompanheiro {
   grupos: string[]

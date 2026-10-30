@@ -170,3 +170,27 @@ describe('Apunhalante nas armas custom (report 362a7f82)', () => {
     await waitFor(async () => expect(await linha()).toMatch(/⚔️ \d+d6/), { timeout: 8000 })
   }, 30000)
 })
+
+// Pedido do mestre (2026-10-29): ataques do Combate pelo MAIOR modificador.
+// Carlos: AGI 2, FOR 0, Ataques M. FM: Maça (FOR) → Adaga (AGI) → Punhal
+// (AGI, +2 item, Relampejante) → exibe Punhal, Adaga, Maça.
+describe('ATAQUES pelo maior modificador', () => {
+  it('Punhal → Adaga → Maça', async () => {
+    window.localStorage.setItem(
+      `pleitost.heroEdits.${CARLOS_ID}`,
+      JSON.stringify({
+        fm: {
+          'Inventario.Armas.Lista': [
+            { Nome: '[[Maça]]', Atributo: 'FOR', Bonus_Item: 0, Bonus_Especial: 0, Categoria: '', Propriedade: '', Fonte: 'Manual' },
+            { Nome: '[[Adaga]]', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0, Categoria: '', Propriedade: '', Fonte: 'Manual' },
+            armaFm,
+          ],
+        },
+        session: {},
+      }),
+    )
+    const { container } = renderCombate()
+    const ordem = () => [...container.querySelectorAll<HTMLElement>('[data-ataque]')].map((e) => e.dataset.ataque)
+    await waitFor(() => expect(ordem()).toEqual(['Punhal', 'Adaga', 'Maça']))
+  })
+})

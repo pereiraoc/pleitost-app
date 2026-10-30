@@ -111,6 +111,7 @@ import {
   wikiTarget,
   docField,
   type ProfRow,
+  ordemPorModDesc,
 } from './hero-model'
 import {
   applyTarget,
@@ -1901,6 +1902,26 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     clipPath: clip(13),
   }
 
+  /** Modificador de ataque da linha — mesmo cálculo do acerto exibido. */
+  const modDaLinha = (arma: Record<string, unknown>): number => {
+    const cust = arma['__custom'] as CustomAtaque | undefined
+    const basename = cust
+      ? cust.label
+      : (wikiTarget(str(arma['Nome'])).split('/').pop() ?? linkLabel(str(arma['Nome'])))
+    const grupo = (cust ? cust.grupo : str(fmOf(refs.refDoc(arma['Nome']))['grupo'])).toLowerCase().trim()
+    const atributo = atributoDeAtaqueDaArma(grupo, arma['Atributo'])
+    const base = rowMod(
+      {
+        Atributo: atributo,
+        Proficiencia: profArmaEfetiva(profAtaque, grupo, basename, fm),
+        Bonus_Item: num(arma['Bonus_Item']),
+        Bonus_Especial: num(arma['Bonus_Especial']),
+      },
+      attrs,
+    )
+    return base + applyTarget(inter.ctx, { kind: 'attack', attr: atributo as AtributoId, sourceId: basename }).delta
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 2 }}>
@@ -1956,7 +1977,10 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         })}
       </div>
 
-      {armas.map((arma, i) => {
+      {/* Maior modificador de ataque primeiro (pedido do mestre,
+          2026-10-29) — o número que a linha mostra (base + interativa). */}
+      {ordemPorModDesc(armas, modDaLinha).map((i) => {
+        const arma = armas[i]!
         const cust = arma['__custom'] as CustomAtaque | undefined
         const nome = cust ? cust.label : linkLabel(str(arma['Nome']))
         // nome EXIBIDO no mundo ativo (POA: Cauda de Dragão → Rabo de Arraia);
@@ -2050,7 +2074,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               assets,
             )
         return (
-          <div key={`${nome}-${i}`} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div key={`${nome}-${i}`} data-ataque={nome} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={rowStyle}>
             <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier || 'A'}>
               <AtaqueArmaFigura

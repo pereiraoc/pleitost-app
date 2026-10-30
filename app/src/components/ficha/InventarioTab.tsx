@@ -62,6 +62,8 @@ import {
   tierCategoriaFm,
   tierLetter,
   wikiTarget,
+  modAtaqueBaseDaArma,
+  ordemPorModDesc,
 } from './hero-model'
 import { implementosDe, rotuloImplemento } from '../../data/implementos'
 
@@ -332,6 +334,10 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const lista = (fmPath(model.fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
   const rows = useMemo(() => armaRowsFromFm(fm), [fm])
   const atributos = heroAtributos(fm).values
+  const listaDerivada = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  const ordemArmas = ordemPorModDesc(rows, (_, i) =>
+    modAtaqueBaseDaArma(listaDerivada[i] ?? {}, fm, atributos, refs.refDoc(rows[i]!.nomeRaw)),
+  )
 
   // Overlay grava a LISTA inteira (write-through de container, como o plugin).
   const patchArma = (i: number, patch: Record<string, unknown>) =>
@@ -491,7 +497,10 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       <div>
         <PanelLabel>ARMAS</PanelLabel>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 3 }}>
-          {rows.map((arma, i) => {
+          {/* Maior modificador de ataque primeiro (pedido do mestre,
+              2026-10-29); `i` segue o índice NO FM — patchArma/remover. */}
+          {ordemArmas.map((i) => {
+            const arma = rows[i]!
             const armaDoc = refs.refDoc(arma.nomeRaw)
             const propDoc = refs.refDoc(arma.propriedadeRaw)
             const ench = linkLabel(str(arma.propriedadeRaw))
@@ -521,6 +530,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             return (
               <div
                 key={`${arma.nome}-${i}`}
+                data-arma={arma.nome}
                 style={{
                   display: 'flex',
                   gap: 14,

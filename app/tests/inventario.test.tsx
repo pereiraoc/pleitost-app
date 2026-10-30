@@ -918,3 +918,29 @@ describe('#63: escudo/armadura listam os DOCS reais da vault (não Leve/Pesado)'
     })
   })
 })
+
+// Pedido do mestre (2026-10-29): "a ordem das armas que tu tem que mostrar no
+// personagem é mostrando as que têm maior modificador". Carlos: AGI 2, FOR 0,
+// Ataques M. Ordem no FM: Maça (FOR) → Adaga (AGI) → Punhal (AGI, +2 item).
+describe('armas pelo MAIOR modificador de ataque', () => {
+  const lista3 = [
+    { Nome: '[[Maça]]', Atributo: 'FOR', Bonus_Item: 0, Bonus_Especial: 0, Categoria: '', Propriedade: '', Fonte: 'Manual' },
+    { Nome: '[[Adaga]]', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0, Categoria: '', Propriedade: '', Fonte: 'Manual' },
+    armaFm,
+  ]
+  it('Punhal (+2 item) → Adaga → Maça; a edição da 1ª linha cai no índice certo do FM', async () => {
+    window.localStorage.setItem(STORE_KEY, JSON.stringify({ fm: { 'Inventario.Armas.Lista': lista3 }, session: {} }))
+    const { container } = renderFicha('inventario')
+    await screen.findAllByLabelText('Arma')
+    const ordem = () => [...container.querySelectorAll<HTMLElement>('[data-arma]')].map((e) => e.dataset.arma)
+    await waitFor(() => expect(ordem()).toEqual(['Punhal', 'Adaga', 'Maça']))
+    const topo = container.querySelector<HTMLElement>('[data-arma="Punhal"]')!
+    fireEvent.click(tierBtn(topo, 'M', 26))
+    await waitFor(() => {
+      const salvo = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(String(salvo[2].Categoria)).toMatch(/Mestre/)
+      expect(salvo[0].Nome).toBe('[[Maça]]')
+      expect(String(salvo[0].Categoria)).toBe('')
+    })
+  })
+})

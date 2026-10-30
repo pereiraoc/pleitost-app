@@ -32,6 +32,7 @@ import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { reskinExecucao, reskinName, reskinText } from '../../data/reskin'
 import { execucaoDe, type ExecucaoAlvo } from '../../interativa/execucao'
 import { atributoDeAtaqueDaArma,
+  modAtaqueBaseDaArma,
   profArmaEfetiva,
   fmPath,
   heroAtributos,
@@ -575,20 +576,7 @@ export function AtaquesResumo({
   ]
   if (lista0.length === 0) return null
   const profAtaque = profLetter({ Proficiencia: str(fmPath(fm, 'Ataques', 'Proficiencia')) })
-  const modDe = (arma: Fm) => {
-    const armaDoc = refs.refDoc(arma['Nome'])
-    const inline = { ...((armaDoc?.frontmatter ?? {}) as Fm), ...((armaDoc?.inlineFields ?? {}) as Fm) }
-    const basenameArma = wikiTarget(str(arma['Nome'])).split('/').pop() ?? ''
-    return rowMod(
-      {
-        Atributo: atributoDeAtaqueDaArma(inline['grupo'], arma['Atributo']),
-        Proficiencia: profArmaEfetiva(profAtaque, str(inline['grupo']), basenameArma, fm),
-        Bonus_Item: num(arma['Bonus_Item']),
-        Bonus_Especial: num(arma['Bonus_Especial']),
-      },
-      attrs,
-    )
-  }
+  const modDe = (arma: Fm) => modAtaqueBaseDaArma(arma, fm, attrs, refs.refDoc(arma['Nome']))
   const lista = ordem === 'desc' ? [...lista0].sort((a, b) => modDe(b) - modDe(a)) : lista0
   return (
     <Section label="// ATAQUES">
