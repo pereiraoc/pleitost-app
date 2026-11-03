@@ -61,6 +61,41 @@ deploy em subcaminho: prefixar os fetches de dados com `import.meta.env.BASE_URL
 (fora do escopo da Trilha I — os arquivos de dados pertencem a outras trilhas).
 Enquanto isso, o caminho sem atrito é deploy em raiz (`VITE_BASE` ausente).
 
+## Deploy no NAS — `npm run deploy:nas`
+
+Segunda publicação do MESMO app, servida pelo NAS de casa em
+`https://pleitost.nas.local` (Caddy, arquivos estáticos em
+`/srv/appdata/pleitost/www`). Não substitui o Pages: é a cópia pra testar a
+migração do app **e do Supabase** pra dentro do NAS.
+
+| | GitHub Pages (`deploy`) | NAS (`deploy:nas`) |
+| --- | --- | --- |
+| base do Vite | `/pleitost-app/` | `/` |
+| Supabase | cloud (`app/.env`) | do NAS (`app/.env.nas`, via `--mode nas`) |
+| publicação | branch `gh-pages` | `rsync` pelo SSH (alias `nas`, sudo sem senha lá) |
+| SPA fallback | `404.html` | `try_files … /index.html` no Caddy |
+
+Como funciona (`scripts/deploy-nas.sh`):
+
+1. mesma trava `.deploy.lock` do `deploy.sh` — os dois deploys nunca rodam
+   juntos (o `vite build` limpa `app/dist`);
+2. `VITE_BASE=/ npm run build -w app -- --mode nas` — o Vite carrega
+   `app/.env.nas` por cima do `app/.env` (só as chaves presentes mudam);
+3. `npm run gen-thumbs` + `bash scripts/check-dist.sh` (guarda do dataset,
+   compartilhada com o `deploy-pages.sh`);
+4. `rsync -a --delete` de `app/dist/` pra `nas:/srv/appdata/pleitost/www/`
+   (sem o `.nojekyll`, que é coisa do Pages).
+
+`app/.env.nas` é versionado (anon key é pública por desenho, como a do `.env`).
+O script **recusa publicar** enquanto a chave ainda for o placeholder
+`__PREENCHIDO_PELO_INIT_DO_NAS__` — sem ela o app subiria "100% local", sem
+mesa, calado. Host e pasta de destino aceitam override por
+`PLEITOST_NAS_HOST` / `PLEITOST_NAS_DIR`.
+
+Fora do app: o login GitHub no Supabase do NAS precisa de um OAuth App
+próprio (callback `https://supabase.nas.local/auth/v1/callback`); isso é
+configuração do NAS, não do repo.
+
 ## SPA fallback — `404.html`
 
 Rotas do app (`/heroi/...`, `/doc/...`) não existem como arquivos no Pages;
