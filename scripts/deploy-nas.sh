@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# DEPLOY NO NAS DE CASA (https://pleitost.nas.local) — irmão do deploy.sh.
+# DEPLOY NO NAS DE CASA (https://rpg.adrenalindos.com, público; também https://pleitost.nas.local) — irmão do deploy.sh.
 #
 # O NAS serve o app como arquivos estáticos pelo Caddy, a partir de
 # /srv/appdata/pleitost/www. Diferenças pro GitHub Pages:
 #   - base `/` (o app vive na raiz do nome pleitost.nas.local, não em /<repo>/);
 #   - `--mode nas`: o Vite carrega app/.env.nas por cima do app/.env, e o
-#     Supabase passa a ser o DO NAS (https://supabase.nas.local), não o cloud;
+#     Supabase passa a ser o DO NAS (https://db.adrenalindos.com), não o cloud;
 #   - sem gh-pages: o dist vai por rsync pelo SSH (alias `nas`, sudo sem senha
 #     lá) — `.nojekyll` é coisa do Pages e fica de fora.
 #
@@ -45,4 +45,4 @@ bash scripts/check-dist.sh
 rsync -a --delete --chmod=D755,F644 --exclude='.nojekyll' \
   --rsync-path='sudo rsync' \
   app/dist/ "$NAS_HOST:$NAS_DIR/"
-echo "publicado: app/dist → $NAS_HOST:$NAS_DIR (https://pleitost.nas.local)"
+echo "publicado: app/dist → $NAS_HOST:$NAS_DIR (https://rpg.adrenalindos.com)"
