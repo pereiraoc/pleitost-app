@@ -16,6 +16,12 @@ let cache: SessionUser | null = null
 let started = false
 const listeners = new Set<() => void>()
 
+/** PORTÃO DE LOGIN (2026-11-04): estado da sessão pro gate do app inteiro.
+ *  'loading' = o client ainda não decidiu (inclui o retorno do OAuth, enquanto
+ *  o Supabase lê o code/token da URL); 'unconfigured' = build sem Supabase. */
+export type AuthStatus = 'loading' | 'signed-in' | 'signed-out' | 'unconfigured'
+let status: AuthStatus = 'loading'
+
 function emit() {
   for (const l of listeners) l()
 }
@@ -53,7 +59,11 @@ function start() {
   if (started) return
   started = true
   const sb = supabaseClient()
-  if (!sb) return
+  if (!sb) {
+    status = 'unconfigured'
+    emit()
+    return
+  }
   // estado inicial + mudanças (login GitHub volta por redirect; anônimo é imediato)
   void sb.auth.getUser().then(({ data }) => {
     const u = data.user
@@ -78,6 +88,11 @@ function start() {
           nome: displayNameOf(u),
         }
       : null
+    // Gate: a SESSÃO local decide (INITIAL_SESSION chega depois de o client
+    // processar o retorno do OAuth na URL; SIGNED_OUT cobre logout e refresh
+    // token expirado/revogado). Não usa o getUser() acima: offline ele falha
+    // e trancaria o PWA de quem já está logado.
+    status = session ? 'signed-in' : 'signed-out'
     // #291: mantém o token do REALTIME em dia. Sem isso, no refresh de token
     // (~1h) o socket segue com o JWT velho e o realtime RLS-gated PARA de
     // entregar eventos no meio da mesa (turno/HP/revelação não chegam). O
@@ -99,27 +114,38 @@ export function __setUserForTests(user: SessionUser | null): void {
   emit()
 }
 
+/** SÓ testes: define o estado do portão de login sem passar pelo Supabase. */
+export function __setAuthStatusForTests(next: AuthStatus): void {
+  started = true
+  status = next
+  emit()
+}
+
+function subscribe(cb: () => void): () => void {
+  start()
+  listeners.add(cb)
+  return () => listeners.delete(cb)
+}
+
+/** Estado da sessão pro portão de login (AuthGate). */
+export function useAuthStatus(): AuthStatus {
+  return useSyncExternalStore(subscribe, () => status)
+}
+
 /** Usuário atual do Supabase (null = deslogado/sem servidor). */
 export function useSupabaseUser(): SessionUser | null {
-  return useSyncExternalStore(
-    (cb) => {
-      start()
-      listeners.add(cb)
-      return () => listeners.delete(cb)
-    },
-    () => cache,
-  )
+  return useSyncExternalStore(subscribe, () => cache)
 }
 
 export async function loginGitHub(): Promise<void> {
   await signInWithGitHub()
 }
 
-
 export async function logoutSessao(): Promise<void> {
   const sb = supabaseClient()
   if (sb) await sb.auth.signOut()
   clearGitHubLogin()
   cache = null
+  if (sb) status = 'signed-out'
   emit()
 }

@@ -5,6 +5,7 @@ import { CatalogProvider } from './data/CatalogContext'
 import { startPublishedOverlays } from './data/published-overlay-store'
 import { SessionRepoProvider } from './data/session-repo/provider'
 import { AppShell } from './components/layout/AppShell'
+import { AuthGate } from './components/layout/AuthGate'
 import { FolderView } from './components/compendium/FolderView'
 
 // #291: code-splitting por rota. A HOME (compêndio/FolderView) fica no bundle
@@ -61,31 +62,38 @@ const L = (el: ReactNode) => <Suspense fallback={<RouteFallback />}>{el}</Suspen
 const router = createBrowserRouter(
   [
     {
-      element: <AppShell />,
+      // PORTÃO DE LOGIN (2026-11-04): TODA rota passa pelo AuthGate — sem
+      // sessão do GitHub só a tela de login aparece (nada de leitura deslogada).
+      element: <AuthGate />,
       children: [
-        // home real (design do Claude Design) substitui este redirect
-        { path: '/', element: <Navigate to="/compendio" replace /> },
-        { path: '/compendio', element: <FolderView /> },
-        { path: '/compendio/*', element: <FolderView /> },
-        { path: '/herois', element: L(<HeroisPage />) },
-        { path: '/npcs', element: L(<NpcsPage />) },
-        { path: '/heroi/*', element: L(<FichaPage />) },
-        { path: '/sessao-ficha/:charId', element: L(<SessaoFichaPage />) },
-        { path: '/config', element: L(<ConfigPage />) },
-        { path: '/doc/*', element: L(<DocPage />) },
-        // Mapa do mundo (fase 1 do atlas completo) — entrada no FolderView do Atlas.
-        { path: '/mapa', element: L(<AtlasMapaPage />) },
-        { path: '/escudo', element: L(<EscudoPage />) },
-        // CONTEXTO (2026-09-09): os dossiês do mundo agrupados, sem passar
-        // pelo compêndio (o botão da sidebar vem do design-nav).
-        { path: '/contexto', element: L(<ContextoPage />) },
+        {
+          element: <AppShell />,
+          children: [
+            // home real (design do Claude Design) substitui este redirect
+            { path: '/', element: <Navigate to="/compendio" replace /> },
+            { path: '/compendio', element: <FolderView /> },
+            { path: '/compendio/*', element: <FolderView /> },
+            { path: '/herois', element: L(<HeroisPage />) },
+            { path: '/npcs', element: L(<NpcsPage />) },
+            { path: '/heroi/*', element: L(<FichaPage />) },
+            { path: '/sessao-ficha/:charId', element: L(<SessaoFichaPage />) },
+            { path: '/config', element: L(<ConfigPage />) },
+            { path: '/doc/*', element: L(<DocPage />) },
+            // Mapa do mundo (fase 1 do atlas completo) — entrada no FolderView do Atlas.
+            { path: '/mapa', element: L(<AtlasMapaPage />) },
+            { path: '/escudo', element: L(<EscudoPage />) },
+            // CONTEXTO (2026-09-09): os dossiês do mundo agrupados, sem passar
+            // pelo compêndio (o botão da sidebar vem do design-nav).
+            { path: '/contexto', element: L(<ContextoPage />) },
+          ],
+        },
+        // FICHA DE PAPEL (export #452): rota IRMÃ do AppShell — a pré-visualização
+        // A4 não tem sidebars e o print pega só as folhas.
+        // MAPA DA AVENTURA em papel (formato de aventura): mesma família de rota.
+        { path: '/papel/mapa/*', element: L(<MapaPapelPage />) },
+        { path: '/papel/*', element: L(<FichaPapelPage />) },
       ],
     },
-    // FICHA DE PAPEL (export #452): rota IRMÃ do AppShell — a pré-visualização
-    // A4 não tem sidebars e o print pega só as folhas.
-    // MAPA DA AVENTURA em papel (formato de aventura): mesma família de rota.
-    { path: '/papel/mapa/*', element: L(<MapaPapelPage />) },
-    { path: '/papel/*', element: L(<FichaPapelPage />) },
     // #210: sob GitHub Pages de projeto o app vive em /pleitost-app/ — sem o
     // basename o router 404-eia a própria home.
   ],
