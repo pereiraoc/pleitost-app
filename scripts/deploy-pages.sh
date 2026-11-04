@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# DESATIVADO em 03/11/2026: o Pleitost saiu do GitHub Pages. O app oficial e https://rpg.adrenalindos.com (NAS de
+# casa, banco em https://db.adrenalindos.com), publicado por `npm run deploy:nas`. A branch gh-pages agora so
+# redireciona (e desregistra o PWA antigo); publicar o build aqui de novo traria de volta um app falando com o
+# Supabase cloud. Para forcar mesmo assim: PLEITOST_PAGES_FORCE=1.
+if [ "${PLEITOST_PAGES_FORCE:-0}" != 1 ]; then
+  echo "[deploy-pages] DESATIVADO: o Pleitost mudou para https://rpg.adrenalindos.com -> use: npm run deploy:nas" >&2
+  exit 1
+fi
 # Publica app/dist na branch gh-pages (#207) — plumbing do git, sem o pacote
 # gh-pages: ele criava a branch a partir do main quando ela não existia,
 # herdando o .gitignore da raiz (que ignora vault-data/) e vazando arquivos do

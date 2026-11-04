@@ -15,7 +15,7 @@
     "build": "npm run build -w app",
     "preview": "npm run preview -w app",
     "gen-thumbs": "node scripts/gen-thumbs.mjs",
-    "deploy": "bash scripts/deploy.sh",
+    "deploy": "bash scripts/deploy-nas.sh",
     "deploy:nas": "bash scripts/deploy-nas.sh",
     "publish-db": "npm run extract && npm run deploy",
     "test:infra": "node --test scripts/tests/*.test.mjs",
