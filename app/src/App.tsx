@@ -5,7 +5,7 @@ import { CatalogProvider } from './data/CatalogContext'
 import { startPublishedOverlays } from './data/published-overlay-store'
 import { SessionRepoProvider } from './data/session-repo/provider'
 import { AppShell } from './components/layout/AppShell'
-import { AuthGate } from './components/layout/AuthGate'
+import { AuthGate, RequireLogin } from './components/layout/AuthGate'
 import { FolderView } from './components/compendium/FolderView'
 
 // #291: code-splitting por rota. A HOME (compêndio/FolderView) fica no bundle
@@ -101,6 +101,15 @@ const router = createBrowserRouter(
 )
 
 export default function App() {
+  // 05/11: o login vem antes de tudo — sem sessão nada do mundo é baixado.
+  return (
+    <RequireLogin>
+      <SignedInApp />
+    </RequireLogin>
+  )
+}
+
+function SignedInApp() {
   // Carrega + assina os overlays publicados (#47) uma vez. Graceful sem Supabase.
   useEffect(() => {
     startPublishedOverlays()

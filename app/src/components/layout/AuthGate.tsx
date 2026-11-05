@@ -8,7 +8,7 @@
 // Enquanto o client lê o code/token da URL o estado é 'loading' (o callback
 // nunca vê a tela de login nem o redirect '/' → '/compendio' antes da hora).
 // Assets estáticos (vault-data, ícones, SW) não passam pelo router.
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { loginGitHub, useAuthStatus } from '../../data/session-repo/auth-state'
 import { clip } from '../mestre/ui'
@@ -94,15 +94,14 @@ function Loading() {
 }
 
 /** Tela de login — a única coisa visível sem sessão. */
-export function SignInScreen({ unconfigured = false }: { unconfigured?: boolean }) {
-  const location = useLocation()
+export function SignInScreen({ unconfigured = false, returnTo }: { unconfigured?: boolean; returnTo: string }) {
   const [erro, setErro] = useState<string | null>(() => oauthErrorFromUrl())
   const [indo, setIndo] = useState(false)
 
   const entrar = () => {
     setErro(null)
     setIndo(true)
-    writeReturnTo(location.pathname + location.search + location.hash)
+    writeReturnTo(returnTo)
     loginGitHub().catch((e) => {
       setIndo(false)
       setErro(String(e?.message ?? e))
@@ -152,10 +151,31 @@ export function SignInScreen({ unconfigured = false }: { unconfigured?: boolean 
   )
 }
 
+/** Caminho atual fora do router (sem a base do deploy), pro retorno do OAuth. */
+function currentPath(): string {
+  const base = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '')
+  const p = window.location.pathname
+  const semBase = base && p.startsWith(base) ? p.slice(base.length) || '/' : p
+  return semBase + window.location.search + window.location.hash
+}
+
+/** PORTÃO DE FORA (05/11): vem ANTES do catálogo, do Supabase de overlays e do
+ *  router — sem sessão o app não baixa o índice do mundo (0,5 MB) nem consulta o
+ *  banco só pra mostrar "Sign in required" (antes a tela demorava em rede lenta). */
+export function RequireLogin({ children }: { children: ReactNode }) {
+  const status = useAuthStatus()
+  if (status === 'loading') return <Loading />
+  if (status === 'signed-out') return <SignInScreen returnTo={currentPath()} />
+  if (status === 'unconfigured') return <SignInScreen unconfigured returnTo={currentPath()} />
+  return <>{children}</>
+}
+
 /** Rota-raiz: libera o app só com sessão do GitHub. */
 export function AuthGate() {
   const status = useAuthStatus()
   const navigate = useNavigate()
+  const location = useLocation()
+  const here = location.pathname + location.search + location.hash
   // página pedida antes do redirect do OAuth (lida 1x: o retorno recarrega o app)
   const [voltarPara, setVoltarPara] = useState<string | null>(() => readReturnTo())
 
@@ -167,8 +187,8 @@ export function AuthGate() {
   }, [status, voltarPara, navigate])
 
   if (status === 'loading') return <Loading />
-  if (status === 'signed-out') return <SignInScreen />
-  if (status === 'unconfigured') return <SignInScreen unconfigured />
+  if (status === 'signed-out') return <SignInScreen returnTo={here} />
+  if (status === 'unconfigured') return <SignInScreen unconfigured returnTo={here} />
   if (voltarPara) return <Loading />
   return <Outlet />
 }

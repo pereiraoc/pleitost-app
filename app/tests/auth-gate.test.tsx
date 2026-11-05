@@ -6,7 +6,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { AuthGate } from '../src/components/layout/AuthGate'
+import { AuthGate, RequireLogin } from '../src/components/layout/AuthGate'
 
 const login = vi.hoisted(() => vi.fn(() => new Promise<void>(() => {})))
 vi.mock('../src/data/session-repo/supabase', async (orig) => ({
@@ -109,5 +109,33 @@ describe('AuthGate — login do GitHub obrigatório', () => {
     montar('/')
     expect(screen.getByRole('alert').textContent).toBe('User denied access')
     window.history.replaceState(null, '', '/')
+  })
+})
+
+describe('RequireLogin — portão antes do catálogo (05/11)', () => {
+  it('sem sessão mostra o login e não monta o app (nada do mundo é baixado)', () => {
+    act(() => __setAuthStatusForTests('signed-out'))
+    const montou = vi.fn()
+    function App() {
+      montou()
+      return <p>app</p>
+    }
+    render(
+      <RequireLogin>
+        <App />
+      </RequireLogin>,
+    )
+    expect(screen.getByText('Sign in required')).toBeTruthy()
+    expect(montou).not.toHaveBeenCalled()
+  })
+
+  it('com sessão monta o app', () => {
+    act(() => __setAuthStatusForTests('signed-in'))
+    render(
+      <RequireLogin>
+        <p>app</p>
+      </RequireLogin>,
+    )
+    expect(screen.getByText('app')).toBeTruthy()
   })
 })
