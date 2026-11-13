@@ -15,6 +15,10 @@ DIST="${1:-app/dist}"
 [ -f "$DIST/index.html" ] || { echo "erro: $DIST não tem build (rode npm run build)"; exit 1; }
 
 for D in vault-data vault-data-cyberpunk; do
+  # 12/11/2026: build num worktree com vault-data em symlink deixou o dataset do
+  # dist como SYMLINK; o rsync publicou o link (apontando pra um caminho que só
+  # existe no PC) e o compêndio caiu ("Falha ao carregar o índice da vault").
+  [ -L "$DIST/$D" ] && { echo "erro: $DIST/$D é symlink — o deploy publicaria o link, não os arquivos"; exit 1; }
   IDX="$DIST/$D/index.json"
   [ -s "$IDX" ] || { echo "erro: $IDX faltando — rode o extract e o build de novo (o extract apaga a pasta antes de reescrever)"; exit 1; }
   N=$(node -e "const fs=require('fs');const m=JSON.parse(fs.readFileSync('$IDX','utf8'));process.stdout.write(String((m.docs||[]).length))")

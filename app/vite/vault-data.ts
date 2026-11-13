@@ -100,7 +100,9 @@ export function vaultData(
         )
       }
       const dest = path.join(outDir, mount)
-      fs.cpSync(root, dest, { recursive: true })
+      // dereference: com a pasta em symlink (worktree), sem isso o dist levava o
+      // LINK e o deploy publicava um caminho do PC (incidente 12/11/2026).
+      fs.cpSync(root, dest, { recursive: true, dereference: true })
       console.log(`[${mount}] copiado para ${dest}`)
     },
   }

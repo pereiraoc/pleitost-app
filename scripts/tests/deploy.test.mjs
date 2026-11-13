@@ -10,7 +10,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -103,6 +103,20 @@ test("check-dist: para sem build, sem dataset ou com 0 docs (report 2026-09-12)"
     }
   } finally {
     for (const [dir] of cases) rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("check-dist: para com dataset em symlink (o rsync publicaria o link; incidente 12/11/2026)", () => {
+  const real = fakeDist();
+  const dir = fakeDist({ worlds: ["vault-data-cyberpunk"] });
+  try {
+    symlinkSync(join(real, "vault-data"), join(dir, "vault-data"));
+    const r = checkDist(dir);
+    assert.equal(r.status, 1, r.stdout + r.stderr);
+    assert.match(r.stdout, /vault-data é symlink/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+    rmSync(real, { recursive: true, force: true });
   }
 });
 
