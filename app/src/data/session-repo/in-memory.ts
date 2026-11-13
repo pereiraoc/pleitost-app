@@ -73,6 +73,19 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     const up = code.toUpperCase()
     return [...this.sessions.values()].find((s) => s.code === up && !s.endedAt) ?? null
   }
+  async joinSessionByCode(code: string, who: { userId: string; displayName: string }): Promise<Session | null> {
+    const sess = await this.findSessionByCode(code.trim())
+    if (!sess) return null
+    if (!(await this.findMember(sess.id, who.userId))) {
+      await this.insertMember({
+        sessionId: sess.id,
+        userId: who.userId,
+        role: sess.gmUserId === who.userId ? 'gm' : 'player',
+        displayName: who.displayName.trim() || 'Convidado',
+      })
+    }
+    return structuredClone(sess)
+  }
   /** SÓ testes: modela a RLS do Supabase pra um usuário "logado". null (default)
    *  = sem checagem (os testes antigos escrevem como quiserem). Com um id:
    *  updateSessionState só pro MESTRE (RLS gm-only de `sessions`) e as RPCs de

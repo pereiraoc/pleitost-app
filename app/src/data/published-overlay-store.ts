@@ -61,8 +61,9 @@ export function allPublishedOverlays(): Record<string, DocPatch> {
   return Object.fromEntries(published)
 }
 
-/** PUBLICA (upsert) uma lista de patches na tabela compartilhada. Exige login
- *  (RLS: escrita só autenticado). Atualiza o cache local otimista + emit. */
+/** PUBLICA (upsert) uma lista de patches na tabela compartilhada. Exige conta
+ *  EDITORA do compêndio (RLS: `compendio_editores`, TSK-106); leitura exige
+ *  login. Atualiza o cache local otimista + emit. */
 export async function publishOverlays(
   entries: { id: string; patch: DocPatch }[],
   updatedBy: string | null,
@@ -78,7 +79,14 @@ export async function publishOverlays(
     updated_at: stamp,
   }))
   const { error } = await sb.from('doc_overlays').upsert(rows)
-  if (error) throw new Error(error.message)
+  if (error) {
+    // TSK-106: só quem está em `compendio_editores` publica (RLS). O compêndio é
+    // de todas as mesas; a senha do Modo Dev é só um portão de tela.
+    if (error.code === '42501' || /row-level security/i.test(error.message)) {
+      throw new Error('esta conta não é editora do compêndio. Os rascunhos continuam neste aparelho (Exportar segue funcionando).')
+    }
+    throw new Error(error.message)
+  }
   const next = new Map(published)
   for (const e of entries) next.set(e.id, e.patch)
   published = next

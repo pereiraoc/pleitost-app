@@ -401,7 +401,16 @@ export interface SessionEvent {
  *  Supabase — testes usam o InMemorySessionRepo. */
 export interface SessionRepo {
   createSession(input: { name: string; gmUserId: string; code: string; state?: Partial<SessionState> }): Promise<Session>
+  /** Busca por código. No Supabase só acha mesa de que o usuário JÁ é mestre
+   *  ou membro (TSK-106: a lista de sessões não é mais pública) — para ENTRAR
+   *  numa mesa nova use joinSessionByCode. */
   findSessionByCode(code: string): Promise<Session | null>
+  /** ENTRAR POR CÓDIGO (TSK-106): acha a mesa ATIVA do código e grava o
+   *  membro (papel 'gm' se for o mestre, senão 'player'); idempotente. null =
+   *  código inexistente ou mesa encerrada. No Supabase é a RPC
+   *  `session_join_by_code` (SECURITY DEFINER): o servidor usa o usuário do
+   *  token, `who.userId` só vale para o fake e para o caminho antigo. */
+  joinSessionByCode(code: string, who: { userId: string; displayName: string }): Promise<Session | null>
   /** Extensão do APP (#226, além do contrato do pleitost-sync): sessões
    *  ATIVAS em que o usuário é membro — alimenta a lista multi-dispositivo. */
   findSessionsByUser(userId: string): Promise<Session[]>

@@ -37,6 +37,21 @@ function contractSuite(name: string, make: () => SessionRepo & SessionRealtime) 
       expect((await repo.findSessionById(sess.id))?.endedAt).toBeTruthy()
     })
 
+    it('entrar por código (TSK-106): grava o membro com o papel certo, idempotente; código errado/encerrado = null', async () => {
+      const repo = make()
+      const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm1', code: 'ABC236' })
+      expect((await repo.joinSessionByCode(' abc236 ', { userId: 'p1', displayName: 'Ana' }))?.id).toBe(sess.id)
+      expect((await repo.findMember(sess.id, 'p1'))?.role).toBe('player')
+      await repo.joinSessionByCode('ABC236', { userId: 'p1', displayName: 'Ana de novo' })
+      expect((await repo.listMembers(sess.id)).filter((m) => m.userId === 'p1').length).toBe(1)
+      await repo.joinSessionByCode('ABC236', { userId: 'gm1', displayName: 'Mestre' })
+      expect((await repo.findMember(sess.id, 'gm1'))?.role).toBe('gm')
+      expect(await repo.joinSessionByCode('ZZZ999', { userId: 'p2', displayName: 'Bia' })).toBeNull()
+      await repo.endSession(sess.id)
+      expect(await repo.joinSessionByCode('ABC236', { userId: 'p2', displayName: 'Bia' })).toBeNull()
+      expect(await repo.findMember(sess.id, 'p2')).toBeNull()
+    })
+
     it('members: join idempotente via findMember; rename; leave', async () => {
       const repo = make()
       const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm1', code: 'ABC235' })

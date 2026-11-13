@@ -3108,20 +3108,13 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
         return
       }
       try {
-        const remote = await repo.findSessionByCode(code)
+        // TSK-106: entrar é UMA chamada (RPC no servidor) — a lista de mesas não
+        // é mais pública e o jogador não se insere direto em session_members.
+        const remote = await repo.joinSessionByCode(code, { userId: user.id, displayName: user.nome })
         if (!remote) {
           // #295: servidor respondeu e não há sessão com esse código.
           setErro('Sessão não encontrada. Confira o código com o mestre.')
           return
-        }
-        const existing = await repo.findMember(remote.id, user.id)
-        if (!existing) {
-          await repo.insertMember({
-            sessionId: remote.id,
-            userId: user.id,
-            role: remote.gmUserId === user.id ? 'gm' : 'player',
-            displayName: user.nome,
-          })
         }
         const local = joinSessionByCode(remote.code, { adotarMundo: true })
         updateSession(local.codigo, { nome: remote.name, remoteId: remote.id })

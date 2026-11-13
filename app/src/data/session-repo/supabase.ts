@@ -187,6 +187,36 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     if (error) fail('findSessionByCode', error)
     return data ? mapSession(data as Row) : null
   }
+  /** Entrar por código (TSK-106): a RPC `session_join_by_code` acha a mesa
+   *  ativa e grava o membro no servidor — a tabela `sessions` só mostra mesa
+   *  a quem já está nela, e `session_members` não aceita mais jogador se
+   *  inserindo direto. Projeto sem a função (PGRST202) → caminho antigo. */
+  async joinSessionByCode(code: string, who: { userId: string; displayName: string }): Promise<Session | null> {
+    if (this.rpcs.session_join_by_code !== false) {
+      const { data, error } = await this.sb.rpc('session_join_by_code', {
+        p_code: code.trim().toUpperCase(),
+        p_display_name: who.displayName,
+      })
+      if (!error) {
+        this.rpcs.session_join_by_code = true
+        const row = (Array.isArray(data) ? data[0] : data) as Row | null | undefined
+        return row?.id ? mapSession(row) : null
+      }
+      if (!rpcAusente(error)) fail('joinSessionByCode(rpc)', error)
+      this.rpcs.session_join_by_code = false
+    }
+    const sess = await this.findSessionByCode(code.trim())
+    if (!sess) return null
+    if (!(await this.findMember(sess.id, who.userId))) {
+      await this.insertMember({
+        sessionId: sess.id,
+        userId: who.userId,
+        role: sess.gmUserId === who.userId ? 'gm' : 'player',
+        displayName: who.displayName,
+      })
+    }
+    return sess
+  }
   async findSessionsByUser(userId: string): Promise<Session[]> {
     // #226: memberships do usuário → sessões ativas correspondentes
     const { data: mems, error: e1 } = await this.sb
@@ -237,7 +267,12 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
    *  sabemos; true/false depois da 1ª chamada (false = PGRST202, não insiste). */
   private rpcs: Partial<
     Record<
-      'session_state_patch' | 'session_mural_add' | 'session_mural_remove' | 'session_inventario_set' | 'session_inventario_tirar',
+      | 'session_state_patch'
+      | 'session_mural_add'
+      | 'session_mural_remove'
+      | 'session_inventario_set'
+      | 'session_inventario_tirar'
+      | 'session_join_by_code',
       boolean
     >
   > = {}
