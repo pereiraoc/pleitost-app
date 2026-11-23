@@ -202,14 +202,13 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
   // (essência Mestre só do próprio Fator). A lista vale nos DOIS sentidos:
   // quando uma criatura as carregar e ninguém tirar daqui, o teste quebra e
   // cobra a limpeza, em vez de virar exceção permanente.
-  // Lote de Mestre do sfynz (6fbfdd71, 2026-11-19): as quatro saem das Essências
-  // Mestre COMPOSTAS (Meteoro, Magma, Gelo, Cristal), que o poa-bestiario.py
-  // ainda não reparte — ele só conhece a Mestre por sabor (`Essência X Mestre`).
-  // Mesmo sem isso, Criogenia (Água) e Parede Espinhosa (Terra) não teriam dono:
-  // as únicas Artilharias T3 são Fogo (Canhão Orion) e Vento (Bateria da Torre).
+  // Lote de Mestre do sfynz (6fbfdd71, 2026-11-19): as magias saem das Essências
+  // Mestre COMPOSTAS, que o poa-bestiario.py reparte pela vaga Mestre da T3
+  // (as duas Experientes-mãe, uma do Fator). O Canhão Orion (Fogo) levou
+  // Meteoro e Magma; Criogenia (Água) e Parede Espinhosa (Terra) esperam
+  // Artilharia T3 desses Fatores — as únicas T3 hoje são Fogo e Vento.
   const MAGIAS_SEM_DONO_PENDENTES = new Set([
-    'Fenda Tectônica', 'Revolta da Terra',
-    'Chuva de Meteoritos', 'Erupção', 'Criogenia', 'Parede Espinhosa',
+    'Fenda Tectônica', 'Revolta da Terra', 'Criogenia', 'Parede Espinhosa',
   ])
   it('toda tecnologia do catálogo está com alguma criatura', () => {
     const usadas = new Set(criaturas.flatMap((c) => magiasDe(c.fm)))

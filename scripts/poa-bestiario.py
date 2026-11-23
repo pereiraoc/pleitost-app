@@ -402,6 +402,27 @@ def catalogo_essencias() -> dict[str, dict]:
     return {b: r for b, r in out.items() if any(r["formas"].values())}
 
 
+def catalogo_compostas() -> dict[str, dict]:
+    """`Essência do Meteoro` → {maes: (Flamejante, Explosiva), magias: [...]}.
+
+    As Essências Mestre COMPOSTAS (pasta `Essências Mestre`) são o que a vaga
+    Mestre do herói compra (`Magias.Lista.Anima.Slots.M`): cada uma pede as
+    Experientes de duas vizinhas no Ciclo (`Requisito Contem(Habilidades)`) e
+    concede a magia Mestre por `Complementar Magias.Lista`. Composta sem magia
+    escrita fica de fora, pela mesma razão da essência sem magia."""
+    out: dict[str, dict] = {}
+    for md in sorted((ESSENCIAS / "Essências Mestre").glob("Essência *.md")):
+        regras = [str(e) for e in (fm_da_nota(md).get("Elementos_de_Regra") or [])]
+        maes = tuple(
+            re.fullmatch(r"Essência (.+) Experiente", _basename_wl(r.split(" ", 2)[-1])).group(1)
+            for r in regras if r.startswith("Requisito Contem(Habilidades) "))
+        magias = [_basename_wl(r.split(" ", 2)[-1])
+                  for r in regras if r.startswith("Complementar Magias.Lista ")]
+        if len(maes) == 2 and magias:
+            out[md.stem] = {"maes": maes, "magias": magias}
+    return out
+
+
 def _essencias_possiveis(essencias: dict, sintonia: str | None) -> list[str]:
     """O Fator do sangue tranca o elemento OPOSTO — e só ele. A universal
     (Criação) serve a qualquer Fator."""
@@ -409,7 +430,8 @@ def _essencias_possiveis(essencias: dict, sintonia: str | None) -> list[str]:
     return [nome for nome, e in essencias.items() if e["elemento"] != fora]
 
 
-def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
+def _reparte_lenica(casters: list[dict], essencias: dict,
+                    compostas: dict | None = None) -> None:
     """Dá essências às Artilharias, servindo da forma mais ALTA pra mais baixa —
     Mestre e Experiente são as vagas escassas (só T2 e T3 têm) e são elas que
     decidem se as magias Experientes do catálogo chegam em alguém.
@@ -418,9 +440,28 @@ def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
     ao Fator (Fogo↔Água, Vento↔Terra); a forma Mestre é obrigatoriamente do
     próprio Fator (é o que o Avatar manda); e das Experientes ao menos uma é do
     Fator (o que o Elementalista manda). O que sobra vai pra quem ainda não tem
-    dono naquela forma."""
+    dono naquela forma.
+
+    Quem tem vaga Mestre (T3) prefere, entre as essências ainda sem dono naquela
+    forma, a que FECHA uma composta com magia junto de uma essência que já é
+    dela — é assim que a vaga Mestre vira magia (ver `_reparte_compostas`)."""
+    compostas = compostas or {}
     for c in casters:
         c["essencias"] = []
+
+    def fecha_composta(c: dict, base: str) -> bool:
+        if "M" not in ESSENCIAS_POR_TIER[c["tier"]]:
+            return False
+        minhas = {b for b, _ in c["essencias"]}
+        donas = {n for o in casters for n in o.get("compostas", [])}
+        for nome, comp in compostas.items():
+            if nome in donas or base not in comp["maes"]:
+                continue
+            outra = comp["maes"][1] if comp["maes"][0] == base else comp["maes"][0]
+            if outra in minhas and c["elemento"] in (
+                    essencias[base]["elemento"], essencias[outra]["elemento"]):
+                return True
+        return False
 
     def tem(base: str, forma_min: str) -> bool:
         ordem = {"M": 0, "E": 1, "A": 2}
@@ -440,7 +481,8 @@ def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
         # punha a mesma essência na mão de quase toda Artilharia e as nove
         # ficavam fazendo a mesma coisa na mesa.
         quantas = collections.Counter(b for o in casters for b, _ in o["essencias"])
-        pool.sort(key=lambda n: (tem(n, forma), tem(n, "A"), quantas[n], n))
+        pool.sort(key=lambda n: (tem(n, forma), not fecha_composta(c, n),
+                                 tem(n, "A"), quantas[n], n))
         return pool[0]
 
     # uma passada por forma, da escassa pra farta
@@ -459,6 +501,24 @@ def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
                 escolha = escolhe(c, forma, so_sintonia) or escolhe(c, forma, False)
                 if escolha:
                     c["essencias"].append((escolha, forma))
+
+
+def _reparte_compostas(casters: list[dict], essencias: dict, compostas: dict) -> None:
+    """Cada vaga Mestre da Artilharia vira uma composta, como no herói: as duas
+    mães em Experiente ou acima (as notas são cumulativas, então a forma Mestre
+    da essência conta) e ao menos uma mãe do Fator (a Mestre é do próprio
+    Fator). Sem dono primeiro, depois alfabética — determinístico."""
+    for c in casters:
+        c["compostas"] = []
+    for c in sorted(casters, key=lambda c: (c["tier"], c["nome"]), reverse=True):
+        vagas = ESSENCIAS_POR_TIER[c["tier"]].count("M")
+        altas = {b for b, f in c["essencias"] if f in ("E", "M")}
+        donas = {n for o in casters for n in o["compostas"]}
+        aptas = [n for n, comp in compostas.items()
+                 if set(comp["maes"]) <= altas
+                 and c["elemento"] in {essencias[m]["elemento"] for m in comp["maes"]}]
+        aptas.sort(key=lambda n: (n in donas, n))
+        c["compostas"] = aptas[:vagas]
 
 
 ATE_A_FORMA = {"A": ["Adepta"], "E": ["Adepta", "Experiente"],
@@ -533,7 +593,8 @@ def _reparte_tronica(casters: list[dict], catalogo: list[dict], postas: set[str]
                 c["magias_slot"].append((nome, f"Slot.{sigla}"))
 
 
-def checa_tecnologia(criaturas: list[dict], essencias: dict, catalogo: list[dict]) -> None:
+def checa_tecnologia(criaturas: list[dict], essencias: dict, catalogo: list[dict],
+                     compostas: dict | None = None) -> None:
     """As travas do sistema, conferidas depois de repartir. Erro de geração, não
     aviso: uma criatura com magia da escola errada é ficha inválida."""
     escola_da_magia = {m["nome"]: m["escola"] for m in catalogo}
@@ -550,6 +611,7 @@ def checa_tecnologia(criaturas: list[dict], essencias: dict, catalogo: list[dict
                     raise SystemExit(f"{nome}: '{magia}' é Utilitrônica e ela não é Arcanista")
             elif esc != c["escola"]:
                 raise SystemExit(f"{nome}: roda {c['escola']} e está com '{magia}', que é {esc}")
+        compostas = compostas or {}
         proibido = OPOSTO.get(c.get("elemento") or "")
         formas = [f for _, f in c.get("essencias", [])]
         elementos = [essencias[b]["elemento"] for b, _ in c.get("essencias", [])]
@@ -560,6 +622,15 @@ def checa_tecnologia(criaturas: list[dict], essencias: dict, catalogo: list[dict
         for (base, forma) in c.get("essencias", []):
             if forma == "M" and essencias[base]["elemento"] != c["elemento"]:
                 raise SystemExit(f"{nome}: essência Mestre '{base}' não é do Fator dela")
+        altas = {b for b, f in c.get("essencias", []) if f in ("E", "M")}
+        for comp in c.get("compostas", []):
+            maes = compostas[comp]["maes"]
+            if not set(maes) <= altas:
+                raise SystemExit(f"{nome}: composta '{comp}' sem as duas Experientes-mãe")
+            if c["elemento"] not in {essencias[m]["elemento"] for m in maes}:
+                raise SystemExit(f"{nome}: composta '{comp}' sem mãe do Fator dela")
+        if len(c.get("compostas", [])) > formas.count("M"):
+            raise SystemExit(f"{nome}: mais compostas que vagas Mestre")
         if "E" in formas and not any(
                 f == "E" and essencias[b]["elemento"] == c["elemento"]
                 for b, f in c["essencias"]) and "M" not in formas:
@@ -570,11 +641,13 @@ def distribui_magias(criaturas: list[dict]) -> list[str]:
     """Reparte o catálogo entre os operadores e devolve o que ficou sem dono."""
     catalogo = catalogo_magias()
     essencias = catalogo_essencias()
+    compostas = catalogo_compostas()
 
     lenicas = [s for s in criaturas if s.get("escola") == "Lênica"]
     tronicas = [s for s in criaturas if s.get("escola") in ("Positrônica", "Negatrônica")]
 
-    _reparte_lenica(lenicas, essencias)
+    _reparte_lenica(lenicas, essencias, compostas)
+    _reparte_compostas(lenicas, essencias, compostas)
     for s in lenicas:
         vistas: list[str] = []
         s["magias"] = []
@@ -587,6 +660,12 @@ def distribui_magias(criaturas: list[dict]) -> list[str]:
                 if magia not in vistas:
                     vistas.append(magia)
                     s["magias"].append((magia, f"Regra.[[{origem}]]"))
+        for nome in s["compostas"]:
+            s["essencias_nota"].append(nome)
+            for magia in compostas[nome]["magias"]:
+                if magia not in vistas:
+                    vistas.append(magia)
+                    s["magias"].append((magia, f"Regra.[[{nome}]]"))
 
     # O que vem de TESOURO já está coberto e não precisa de slot — vale pra
     # criatura que não conjura nada também (um Líder com Modulador de Voz).
@@ -595,7 +674,7 @@ def distribui_magias(criaturas: list[dict]) -> list[str]:
     for s in tronicas:
         s["magias"] = list(s["magias_slot"])
 
-    checa_tecnologia(criaturas, essencias, catalogo)
+    checa_tecnologia(criaturas, essencias, catalogo, compostas)
     postas |= {m for s in criaturas if s.get("magias") for m, _ in s["magias"]}
     return sorted(m["nome"] for m in catalogo if m["nome"] not in postas)
 
