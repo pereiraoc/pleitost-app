@@ -525,10 +525,10 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   const [subTab, setSubTab] = useState<ShopCat>('armas')
   const [mode, setMode] = useState<'pronta' | 'encomenda'>('pronta')
 
-  // Tipo de local efetivo: o guardado na rolagem (permite override "Iluminada"
-  // do GM persistido) ou a projeção da subcategoria.
-  const subtypeLocalType = localTypeOfDoc(doc)
-  const localType: LocalType | null = shop?.localType ?? subtypeLocalType
+  // Tipo de local efetivo = o do lugar AGORA (tag `Comércio:` ou subcategoria).
+  // Não o guardado na rolagem: a Iluminada salva como Capital seguiria rolando
+  // como Capital no RE-ROLAR mesmo depois da tag (2026-11-23).
+  const localType: LocalType | null = localTypeOfDoc(doc)
   // PREÇO POR BAIRRO (2026-09-07): a linha da régua do mundo pode multiplicar o
   // preço (POA: 0,7 periferia · 1,5 nobre); a fantasia não declara → 1.
   const precoMult = localType ? (matrizDoContexto(activeContextoDef())?.precos[localType] ?? 1) : 1

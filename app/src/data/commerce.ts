@@ -310,18 +310,19 @@ export function localTypeFromSubtype(subtype: string | null | undefined): LocalT
   return found ?? null
 }
 
-/** Tipo de comércio EFETIVO de uma Localização: a subcategoria (fantasia:
- *  Pequena/Grande Cidade, Capital) ou o FM `Comércio:` (POA 1987, aprovado
- *  2026-08-31: bairros carregam a MESMA régua canônica — Mercado Público =
- *  Iluminada, Moinhos/Petrópolis/Centro = Capital etc.). */
+/** Tipo de comércio EFETIVO de uma Localização. A TAG `Comércio:` do FM vence
+ *  (POA 1987, aprovado 2026-08-31: bairros carregam a MESMA régua canônica —
+ *  Mercado Público = Iluminada; pedido do mestre 2026-11-23: "taggear lugares
+ *  com comércio aberto sem consequências de população" — Iluminada é Capital na
+ *  subcategoria e Iluminada na loja; um Ponto de Interesse abre comércio só com
+ *  a tag). Sem tag válida, vale a subcategoria (Pequena/Grande Cidade, Capital). */
 export function localTypeOfDoc(doc: {
   subtype?: string | null
   frontmatter?: Record<string, unknown>
 }): LocalType | null {
-  const porSubtipo = localTypeFromSubtype(doc.subtype)
-  if (porSubtipo) return porSubtipo
   const fm = doc.frontmatter?.['Comércio']
-  return typeof fm === 'string' ? localTypeFromSubtype(fm.trim()) : null
+  const porTag = typeof fm === 'string' ? localTypeFromSubtype(fm.trim()) : null
+  return porTag ?? localTypeFromSubtype(doc.subtype)
 }
 
 /** RNG injetável: () => número em [0,1). Default = Math.random (browser). */
