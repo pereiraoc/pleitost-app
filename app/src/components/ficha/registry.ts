@@ -113,6 +113,12 @@ const SLUG_TO_DISPLAY: Record<string, string> = {
   ArcanaNegra: 'Arcana Negra',
   ArcanaBranca: 'Arcana Branca',
 }
+/** Nome CANÔNICO (da vault, sem o reskin do mundo) de um slug de perícia —
+ *  pra dado gravado ("Ferramenta Obra-prima de Sobrevivência"). */
+export function nomeCanonico(slug: string): string {
+  return SLUG_TO_DISPLAY[slug] ?? slug
+}
+
 export function displayName(slug: string): string {
   // #519: perícias com display próprio do mundo (Arcana → "Trônicos") —
   // aplica DEPOIS da tabela slug→display; no-op sem contexto ativo.

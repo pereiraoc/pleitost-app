@@ -683,7 +683,8 @@ export function inventarioItens(
     const { nome, tier, qtd } = parseItemAlias(item)
     if (!nome) continue
     if (opts.comQtd && qtd <= 0) continue
-    const key = `${wikiTarget(item)}|${tier ?? ''}`
+    // o nome entra na chave: Ferramenta Obra-prima de Ladinagem ≠ de Medicina
+    const key = `${wikiTarget(item)}|${nome}|${tier ?? ''}`
     if (opts.dedup) {
       if (seen.has(key)) continue
       seen.add(key)

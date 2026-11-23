@@ -100,6 +100,20 @@ const ARTEFATOS_FOLDER = 'Sistema/Equipamento/Tesouros/Artefatos/'
 const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 const TESOUROS_EXCLUIR = [CONSUMIVEIS_FOLDER, IMBUICOES_FOLDER, ARTEFATOS_FOLDER]
 
+/** Texto no lugar do select quando o pill é só leitura (fora do ✎ Alterar):
+ *  mesmo peso/tamanho, cortado com reticências. */
+function pillTextoStyle(weight: number, size: number): CSSProperties {
+  return {
+    flex: 1,
+    minWidth: 0,
+    fontWeight: weight,
+    fontSize: size,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  }
+}
+
 /** Select transparente dentro do pill desenhado — estilos verbatim do select
  *  do design (Companion App.dc.html:636, armadura/escudo); peso/tamanho
  *  seguem o texto que o pill mostrava (nome 700/15, propriedade 500/13.5). */
@@ -785,8 +799,10 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
  *  (data/implementos), como arma + imbuição: figura do implemento, seletor do
  *  implemento, figura e seletor do foco, qualidade, item bônus, vender e
  *  descartar. O foco de ficha antiga sem implemento cai aqui com o seletor do
- *  implemento vazio. `j` é o índice NA LISTA SALVA (as escritas vão por ele). */
-function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs }) {
+ *  implemento vazio. `j` é o índice NA LISTA SALVA (as escritas vão por ele).
+ *  Mora nos TESOUROS: fora do ✎ Alterar só mostra (nomes, figuras, (A)), sem
+ *  seletor/qualidade/vender/descartar (#599). */
+function ImplementosCards({ model, refs, edit }: { model: HeroModel; refs: HeroRefs; edit: boolean }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const lista = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as Record<string, unknown>[]
@@ -902,29 +918,48 @@ function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs })
                       background: 'var(--panel2)',
                       // sem implemento (foco de ficha antiga): pede a escolha
                       border: `1px solid ${l.nome ? 'var(--line2)' : 'var(--red)'}`,
-                      cursor: 'pointer',
+                      cursor: edit ? 'pointer' : 'default',
                       clipPath: clip(7),
                     }}
                   >
                     <span style={{ fontSize: 15, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
-                    <select
-                      value={l.nome}
-                      onChange={(e) => patch(j, { Nome: e.target.value ? `[[${e.target.value}]]` : '' })}
-                      aria-label="Implemento"
-                      style={pillSelectStyle(700, 15)}
-                    >
-                      <option value="">Selecionar implemento</option>
-                      {l.nome && !implNoCatalogo ? <option value={l.nome}>{reskinName(l.nome)}</option> : null}
-                      {fundamentais.map((e) => (
-                        <option key={e.id} value={e.basename ?? e.id}>
-                          {reskinName(e.basename ?? e.id)}
-                        </option>
-                      ))}
-                    </select>
-                    <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                    {edit ? (
+                      <>
+                        <select
+                          value={l.nome}
+                          onChange={(e) => patch(j, { Nome: e.target.value ? `[[${e.target.value}]]` : '' })}
+                          aria-label="Implemento"
+                          style={pillSelectStyle(700, 15)}
+                        >
+                          <option value="">Selecionar implemento</option>
+                          {l.nome && !implNoCatalogo ? <option value={l.nome}>{reskinName(l.nome)}</option> : null}
+                          {fundamentais.map((e) => (
+                            <option key={e.id} value={e.basename ?? e.id}>
+                              {reskinName(e.basename ?? e.id)}
+                            </option>
+                          ))}
+                        </select>
+                        <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                      </>
+                    ) : (
+                      <>
+                        <span style={{ ...pillTextoStyle(700, 15), color: l.nome ? undefined : 'var(--muted)' }}>
+                          {l.nome ? reskinName(l.nome) : 'Selecionar implemento'}
+                        </span>
+                        {tier ? (
+                          <span style={{ flex: 'none', fontFamily: 'var(--mono)', fontSize: 11.5, fontWeight: 700, color: ITEM_TIER_BTN[tier].bd }}>
+                            ({tier})
+                          </span>
+                        ) : null}
+                      </>
+                    )}
                   </span>
-                  <SellBtn refund={refund} onClick={() => vende(j, refund)} />
-                  <TrashBtn onClick={() => tira(j)} />
+                  {edit ? (
+                    <>
+                      <SellBtn refund={refund} onClick={() => vende(j, refund)} />
+                      <TrashBtn onClick={() => tira(j)} />
+                    </>
+                  ) : null}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'stretch', gap: 12, minWidth: 0 }}>
                   {/* Figura do FOCO antes do seletor, como a da imbuição na arma;
@@ -947,7 +982,8 @@ function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs })
                       }}
                     />
                   </ItemHover>
-                  <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7, justifyContent: 'center' }}>
+                    {edit ? (
                     <span style={{ display: 'flex', alignItems: 'flex-end', columnGap: 18, rowGap: 6, flexWrap: 'wrap' }}>
                       <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                         <span style={mono9}>QUALIDADE</span>
@@ -963,6 +999,7 @@ function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs })
                         </span>
                       </span>
                     </span>
+                    ) : null}
                     <span
                       style={{
                         display: 'inline-flex',
@@ -972,26 +1009,32 @@ function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs })
                         minWidth: 0,
                         background: 'var(--panel2)',
                         border: '1px solid var(--line2)',
-                        cursor: 'pointer',
+                        cursor: edit ? 'pointer' : 'default',
                         clipPath: clip(7),
                       }}
                     >
                       <span style={{ fontSize: 14, flex: 'none' }}>{imbuicaoEmoji(docField(focoDoc, 'propriedades'))}</span>
-                      <select
-                        value={l.foco ?? ''}
-                        onChange={(e) => patch(j, { Propriedade: e.target.value ? `[[${e.target.value}]]` : '' })}
-                        aria-label="Foco do implemento"
-                        style={pillSelectStyle(500, 13.5)}
-                      >
-                        <option value="">—</option>
-                        {l.foco && !focosDaLinha.includes(l.foco) ? <option value={l.foco}>{reskinName(l.foco)}</option> : null}
-                        {focosDaLinha.map((b) => (
-                          <option key={b} value={b}>
-                            {reskinName(b)}
-                          </option>
-                        ))}
-                      </select>
-                      <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                      {edit ? (
+                        <>
+                          <select
+                            value={l.foco ?? ''}
+                            onChange={(e) => patch(j, { Propriedade: e.target.value ? `[[${e.target.value}]]` : '' })}
+                            aria-label="Foco do implemento"
+                            style={pillSelectStyle(500, 13.5)}
+                          >
+                            <option value="">—</option>
+                            {l.foco && !focosDaLinha.includes(l.foco) ? <option value={l.foco}>{reskinName(l.foco)}</option> : null}
+                            {focosDaLinha.map((b) => (
+                              <option key={b} value={b}>
+                                {reskinName(b)}
+                              </option>
+                            ))}
+                          </select>
+                          <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                        </>
+                      ) : (
+                        <span style={pillTextoStyle(500, 13.5)}>{l.foco ? reskinName(l.foco) : '—'}</span>
+                      )}
                     </span>
                   </span>
                 </span>
@@ -1287,7 +1330,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const rows: TesouroRow[] = useMemo(
     () =>
       tesourosRaw.map((raw, index) => {
-        const { nome, tier } = parseItemAlias(raw)
+        const { nome, alvo, tier } = parseItemAlias(raw)
         const tDoc = refs.refDoc(raw)
         // Grupo = pasta do doc do tesouro na vault (fonte real da organização).
         const parts = (tDoc?.id ?? '').split('/')
@@ -1298,8 +1341,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           bonus: tier ? bonusPorTier(tDoc, tier) : 0,
           grupo: grupo.toUpperCase(),
           index,
-          // Figura do tesouro (issue #65): Figura/Equipamentos/<Nome>[ <Tier>].png.
-          img: tesouroImageUrl(nome, tier ?? '', assets),
+          // Figura do tesouro (issue #65): Figura/Equipamentos/<Nome>[ <Tier>].png
+          // — pela NOTA do link (o nome pode levar a perícia da Ferramenta).
+          img: tesouroImageUrl(alvo, tier ?? '', assets),
           doc: tDoc ?? undefined,
         }
       }),
@@ -1353,10 +1397,11 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const setTierTesouro = (r: TesouroRow, tier: '' | 'A' | 'E' | 'M') => {
     if (!tier) return
     const index = r.index
-    const { nome } = parseItemAlias(tesourosRaw[index])
+    // mantém a nota do link e o nome mostrado (Ferramenta Obra-prima de <Perícia>)
+    const { nome, alvo } = parseItemAlias(tesourosRaw[index])
     model.set(
       'Inventario.Tesouros',
-      tesourosRaw.map((raw, j) => (j === index ? buildTesouroAlias(nome, tier) : raw)),
+      tesourosRaw.map((raw, j) => (j === index ? buildTesouroAlias(alvo, tier, nome) : raw)),
     )
   }
 
@@ -1420,7 +1465,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           <span style={{ flex: 1 }} />
           <EditToggle edit={tesEdit} onToggle={() => setTesEdit((v) => !v)} />
         </div>
-        <ImplementosCards model={model} refs={refs} />
+        <ImplementosCards model={model} refs={refs} edit={tesEdit} />
         {(() => {
           // Colunas por modo: Alterar = nome/qualidade/bônus/ações; leitura =
           // nome/equipar (qualidade vira sufixo (A)/(E)/(M) no nome — menos

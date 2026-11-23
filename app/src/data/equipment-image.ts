@@ -183,7 +183,9 @@ export function tesouroImageUrl(
   if (eq) return eq
   // Implementos vivem em Figura/Implementos (sem sufixo de tier) —
   // implementos-render.ts:80 do pleitost-views. Ex.: Foco da Consistência.png.
-  return byPath(assets, `${FIGURA_IMPLEMENTOS}/${base}.png`)
+  // Tesouro que é QUALIDADE (Ferramenta Obra-prima, vendida sozinha por
+  // perícia — 2026-11-23): a figura é a da pasta de imbuições/qualidades.
+  return byPath(assets, `${FIGURA_IMPLEMENTOS}/${base}.png`) ?? propriedadeImageUrl(base, tier, assets)
 }
 
 /** Figura de CONSUMÍVEL (poção) — Figura/Consumíveis/<Nome> <TierFem>.png; VARIA

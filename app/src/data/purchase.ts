@@ -89,13 +89,15 @@ export interface PurchaseResult {
 
 /** Debita `preco` de Ouro e adiciona `nome (tier)` a Inventario.Tesouros do
  *  herói. Falha (sem escrever) se o ouro corrente for menor que o preço.
- *  Retorna o ouro restante. */
+ *  Retorna o ouro restante. `rotulo`: nome mostrado quando o item da loja leva
+ *  uma escolha (Ferramenta Obra-prima de <Perícia>) — o link segue na nota. */
 export function buyTreasure(
   heroId: string,
   vaultDoc: VaultDoc | undefined,
   nome: string,
   tier: Tier,
   preco: number,
+  rotulo?: string,
 ): PurchaseResult {
   const fm = currentFm(heroId, vaultDoc)
   const ouro = ouroDe(fm)
@@ -105,7 +107,7 @@ export function buyTreasure(
   writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
 
   const tesouros = tesourosDe(fm)
-  tesouros.push(buildTesouroAlias(nome, tier))
+  tesouros.push(buildTesouroAlias(nome, tier, rotulo))
   writeHero(heroId, vaultDoc, 'Inventario.Tesouros', tesouros)
 
   return { ok: true, ouroRestante: novoOuro }

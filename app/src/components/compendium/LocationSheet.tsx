@@ -749,8 +749,9 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       finish(buyImplemento(hid, hdoc, { nome: entry.nome, foco: null, tier: entry.tier }, entry.preco))
       return
     }
-    // Demais tesouros (equipamentos/ferramenta obra-prima).
-    finish(buyTreasure(hid, hdoc, entry.nome, entry.tier, entry.preco))
+    // Demais tesouros (equipamentos/ferramenta obra-prima). Rótulo diferente da
+    // nota = o item leva uma escolha (Ferramenta Obra-prima de <Perícia>).
+    finish(buyTreasure(hid, hdoc, entry.nome, entry.tier, entry.preco, entry.label !== entry.nome ? entry.label : undefined))
   }
 
   // Report 2026-09-08: lojas ROLADAS antes do filtro de armas sem mão

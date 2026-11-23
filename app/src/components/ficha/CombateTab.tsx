@@ -2722,7 +2722,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   ]
   const tesouros = entradas
     .map(({ raw, impl }) => {
-      const { nome, tier } = parseItemAlias(raw)
+      const { nome, alvo, tier } = parseItemAlias(raw)
       const tDoc = refs.refDoc(raw)
       const cargas = tier ? cargasPorTier(tDoc, tier) : null
       const usosN = tier ? usosPorTier(tDoc, tier) : null
@@ -2734,7 +2734,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       // Figura do tesouro (issue #65) — igual ao inventário.
       // Review C5: sem tier passa '' (vai direto pra `${nome}.png`) — 'A'
       // podia pegar a imagem "Adepto" de um homônimo com tier.
-      const img = tesouroImageUrl(impl?.nome || nome, tier ?? '', assets)
+      const img = tesouroImageUrl(impl?.nome || alvo, tier ?? '', assets)
       // figura do FOCO pequena no canto da do implemento (como imbuição × arma)
       const focoImg = impl?.nome && impl.foco ? tesouroImageUrl(impl.foco, tier ?? '', assets) : null
       const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
@@ -2746,9 +2746,11 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         max,
         img,
         focoImg,
-        // hover: implemento + foco (como arma + imbuição); clique abre o foco
+        // hover: implemento + foco (como arma + imbuição); clique abre o foco.
+        // Sem foco o alias aponta pro PRÓPRIO implemento — 2ª carta seria ele
+        // de novo (#600, "o bracelete aparece duas vezes").
         doc: implDoc ?? tDoc,
-        propDoc: implDoc ? tDoc : undefined,
+        propDoc: implDoc && impl?.foco ? tDoc : undefined,
         tier,
         resumo,
         isCarga: Boolean(cargas),

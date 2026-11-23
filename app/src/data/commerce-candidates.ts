@@ -8,8 +8,11 @@ import type { VaultDoc } from './types'
 import { rotuloImplemento } from './implementos'
 import { precoPO } from '../grupo/wealth'
 import { escudoObraPrima, wikiTarget } from '../components/ficha/hero-model'
+import { nomeCanonico } from '../components/ficha/registry'
+import { PERICIAS } from '../rules/rules-model'
 import { aplicavelPredicates, hostStatsFromDoc, isAplicavelAoHost } from '../rules/aplicavel-a'
 import {
+  FERRAMENTA_X_ARMA_OBRA_PRIMA,
   RARIDADE_MULT,
   comboMult,
   raridadeTesouro,
@@ -156,10 +159,14 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
   //    Armadura Obra-prima é BÁSICO (×2 típico / ×½ incomum); Broquel/Escudo
   //    Obra-prima NÃO são básicos (×1 típico / ×¼ incomum).
   const basesTipicas = new Set<string>()
+  // perícias típicas da Ferramenta: "[[Ferramenta Obra-prima|Ladinagem]]"
+  const periciasTipicas = new Set<string>()
   for (const raw of input.recursos) {
     const m = /\[\[([^\]|]+)\|([^\]]+)\]\]/.exec(raw)
     if (!m) continue
-    if (/Obra-prima$/i.test((m[1]!.split('/').pop() ?? '').trim())) basesTipicas.add(m[2]!.trim())
+    const alvo = (m[1]!.split('/').pop() ?? '').trim()
+    if (/Obra-prima$/i.test(alvo)) basesTipicas.add(m[2]!.trim())
+    if (alvo === 'Ferramenta Obra-prima') periciasTipicas.add(m[2]!.trim())
   }
   const gearBases = [
     ...input.armaduras.map((base) => ({ base, quality: 'Armadura Obra-prima' })),
@@ -179,6 +186,29 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
       propriedadeBase: quality, // selo "<Qualidade> <Tier>.png"
       thumbBasename: base.basename, // miniatura da armadura/escudo base
     })
+  }
+
+  // 4b) FERRAMENTA OBRA-PRIMA — uma por PERÍCIA comum (pedido do mestre,
+  //     2026-11-23: "Ferramenta é atrelada a uma perícia (não tem de ofício). A
+  //     chance de achar é o dobro de uma arma obra prima."). Típica com
+  //     "[[Ferramenta Obra-prima|<Perícia>]]" nos Recursos (o alias das
+  //     obra-primas); chance = a da Arma Obra-prima na mesma situação × 2. O
+  //     rótulo leva a perícia e vira o nome do tesouro na compra.
+  const ferramenta = qualByName.get('Ferramenta Obra-prima')
+  if (ferramenta) {
+    for (const slug of PERICIAS) {
+      const pericia = nomeCanonico(slug)
+      const tipica = periciasTipicas.has(pericia)
+      candidates.push({
+        key: `${ferramenta.id}|${pericia}`,
+        nome: ferramenta.basename,
+        label: `${ferramenta.basename} de ${pericia}`,
+        precoBase: precoPO(ferramenta),
+        mult: FERRAMENTA_X_ARMA_OBRA_PRIMA * RARIDADE_MULT[raridadeTesouro('Arma Obra-prima', tipica)],
+        tiers: T3,
+        imbTarget: ferramenta.id, // carta no hover
+      })
+    }
   }
 
   // 5) Poções — regra por dados (à parte da matriz).

@@ -182,6 +182,12 @@ export const RARIDADE_MULT: Record<Raridade, number> = {
   incomum: 0.25,
 }
 
+/** FERRAMENTA OBRA-PRIMA (pedido do mestre, 2026-11-23): "Ferramenta é atrelada
+ *  a uma perícia (não tem de ofício). A chance de achar é o dobro de uma arma
+ *  obra prima." — fator sobre o modificador da Arma Obra-prima na mesma
+ *  situação (típica nos Recursos ou não). Regra do mestre, fora da nota. */
+export const FERRAMENTA_X_ARMA_OBRA_PRIMA = 2
+
 /** Classifica um tesouro pelo nome canônico + se é típico da região (Recursos). */
 export function raridadeTesouro(nome: string, tipico: boolean): Raridade {
   if (TESOUROS_BASICOS.includes(nome)) return tipico ? 'basico-tipico' : 'basico-incomum'

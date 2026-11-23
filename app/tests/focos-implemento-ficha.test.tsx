@@ -79,12 +79,15 @@ function renderFicha(tab: string) {
 const SEM_FOCOS = (fm.Inventario.Tesouros as string[]).filter((t) => !/Foco da/.test(t))
 const cards = (c: HTMLElement) => [...c.querySelectorAll<HTMLElement>('[data-implemento]')]
 const sel = (card: HTMLElement, label: string) => within(card).getByLabelText(label) as HTMLSelectElement
+/** Os cards ficam dentro dos TESOUROS: só editam no ✎ Alterar (#599). */
+const alterar = () => fireEvent.click(screen.getByRole('button', { name: '✎ Alterar' }))
 
 describe('Inventário: implementos em card, no início dos tesouros', () => {
   it('Broche A + Intensificação A num card só, antes dos tesouros; o foco sem implemento pede o implemento e grava as DUAS listas', async () => {
     semear({ 'Inventario.Tesouros': [...fm.Inventario.Tesouros, BROCHE] })
     const { container } = renderFicha('inventario')
     await waitFor(() => expect(cards(container)).toHaveLength(2))
+    alterar()
     const [broche, solto] = cards(container)
     expect(sel(broche!, 'Implemento').value).toBe('Broche Artístico')
     expect(sel(broche!, 'Foco do implemento').value).toBe('Foco da Intensificação')
@@ -116,6 +119,7 @@ describe('Inventário: implementos em card, no início dos tesouros', () => {
     })
     const { container } = renderFicha('inventario')
     await waitFor(() => expect(cards(container)).toHaveLength(2))
+    alterar()
     const luva = cards(container).find((c) => sel(c, 'Implemento').value === 'Luva do Arcanista')!
     expect(sel(luva, 'Foco do implemento').value).toBe('')
     fireEvent.change(sel(luva, 'Foco do implemento'), { target: { value: 'Foco da Penetração' } })
@@ -139,6 +143,7 @@ describe('Inventário: implementos em card, no início dos tesouros', () => {
     })
     fireEvent.click(item)
     await waitFor(() => expect(cards(container)).toHaveLength(1))
+    alterar()
     const card = cards(container)[0]!
     expect(sel(card, 'Implemento').value).toBe('Luva do Arcanista')
     fireEvent.change(sel(card, 'Foco do implemento'), { target: { value: 'Foco da Consistência' } })
@@ -147,6 +152,31 @@ describe('Inventário: implementos em card, no início dos tesouros', () => {
         { Nome: '[[Luva do Arcanista]]', Propriedade: '[[Foco da Consistência]]', Categoria: '[[Adepto]]', Fonte: 'Manual' },
       ]),
     )
+  })
+})
+
+// Reportado por @thallesagm (#599): "Está sendo possível editar o tesouro sem
+// clicar no modo Alterar dentro dos tesouros do inventário."
+describe('#599: card do implemento só edita no Alterar dos tesouros', () => {
+  it('fora do Alterar: nomes e qualidade à mostra, sem seletor, qualidade, vender nem descartar', async () => {
+    semear({
+      'Inventario.Tesouros': SEM_FOCOS,
+      'Inventario.Implementos': [
+        { Nome: '[[Broche Artístico]]', Propriedade: '[[Foco da Repetição]]', Categoria: '[[Experiente]]', Fonte: 'Comércio' },
+      ],
+    })
+    const { container } = renderFicha('inventario')
+    await waitFor(() => expect(cards(container)).toHaveLength(1))
+    const card = cards(container)[0]!
+    expect(card.querySelector('select')).toBeNull()
+    expect(within(card).queryByTitle(/Vender/)).toBeNull()
+    expect(within(card).queryByText('QUALIDADE')).toBeNull()
+    expect(within(card).getByText('Broche Artístico')).toBeTruthy()
+    expect(within(card).getByText('Foco da Repetição')).toBeTruthy()
+    expect(within(card).getByText('(E)')).toBeTruthy()
+    alterar()
+    expect(sel(cards(container)[0]!, 'Implemento').value).toBe('Broche Artístico')
+    expect(within(cards(container)[0]!).getByText('QUALIDADE')).toBeTruthy()
   })
 })
 
@@ -223,6 +253,25 @@ describe('tooltip do implemento com foco', () => {
       return f!
     })
     await confere(fig)
+  })
+  // Reportado por @thallesagm (#600): "quando não é escolhido foco para o
+  // Bracelete Elemental, o bracelete aparece duas vezes ao deixar o cursor".
+  it('#600 Combate: implemento SEM foco mostra uma carta só', async () => {
+    semear({
+      'Inventario.Tesouros': SEM_FOCOS,
+      'Inventario.Implementos': [{ Nome: '[[Bracelete Elemental]]', Propriedade: '', Categoria: '[[Adepto]]', Fonte: 'Manual' }],
+    })
+    renderFicha('combate')
+    const tabs = await screen.findAllByText('TESOUROS')
+    fireEvent.click(tabs.find((el) => el.closest('button'))!)
+    const nome = await screen.findByText('Bracelete Elemental')
+    const linha = nome.closest<HTMLElement>('div[style*="padding: 12px 15px"]')!
+    const html = await waitFor(() => {
+      const h = linha.querySelector<HTMLElement>('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
+      expect(h).toContain('Bracelete Elemental')
+      return h
+    })
+    expect(html.match(/class="shc-tier">\(Adepto\)/g)?.length).toBe(1)
   })
   it('Combate: a figura mostra as duas cartas com a qualidade', async () => {
     semear({ 'Inventario.Tesouros': [...fm.Inventario.Tesouros, BROCHE] })

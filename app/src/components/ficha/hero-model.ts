@@ -191,9 +191,12 @@ export function tierLetter(categoria: unknown): 'A' | 'E' | 'M' | null {
   return null
 }
 
-/** Alias de tesouro/consumível "Nome (Adepto) (x3)" → partes. */
+/** Alias de tesouro/consumível "Nome (Adepto) (x3)" → partes. `nome` é o do
+ *  RÓTULO (o que a ficha mostra — pode levar uma escolha, "Ferramenta
+ *  Obra-prima de Ladinagem"); `alvo` é a NOTA do link (figura, preço, carta). */
 export function parseItemAlias(value: unknown): {
   nome: string
+  alvo: string
   tier: 'A' | 'E' | 'M' | null
   qtd: number
 } {
@@ -204,6 +207,8 @@ export function parseItemAlias(value: unknown): {
   const nome = semQtd.replace(/\s*\((Adepto|Adepta|Experiente|Mestre)\)\s*$/, '').trim()
   return {
     nome,
+    // string sem link ("Anel (Adepto)") não tem nota à parte: alvo = nome
+    alvo: (WIKILINK.exec(str(value))?.[1] ?? '').split('/').pop()?.trim() || nome,
     tier: tierMatch ? tierLetter(`(${tierMatch[1]})`) : null,
     qtd: qtdMatch ? Number(qtdMatch[1]) : 1,
   }
@@ -275,9 +280,11 @@ export function deriveArmaAtributo(
 
 /** Alias de tesouro no formato do FM salvo — espelha addTesouro/setTesouroTier
  *  do plugin (apply-tesouros-edit.ts:44-46 e :73-77): `[[X|X (Adepto)]]`,
- *  sempre basename, sem sufixo de quantidade. */
-export function buildTesouroAlias(nome: string, tier: 'A' | 'E' | 'M'): string {
-  return `[[${nome}|${nome} (${TIER_NOME[tier]})]]`
+ *  sempre basename, sem sufixo de quantidade. `rotulo` = nome mostrado quando
+ *  o tesouro leva uma escolha (`[[Ferramenta Obra-prima|Ferramenta Obra-prima
+ *  de Ladinagem (Adepto)]]`, pedido do mestre 2026-11-23). */
+export function buildTesouroAlias(nome: string, tier: 'A' | 'E' | 'M', rotulo: string = nome): string {
+  return `[[${nome}|${rotulo} (${TIER_NOME[tier]})]]`
 }
 
 /** Inverso de parseItemAlias pro overlay: alias de consumível/tesouro no
