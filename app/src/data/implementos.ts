@@ -40,18 +40,25 @@ export function rotuloImplemento(nome: string, foco: string | null): string {
   return foco ? `${nome} ${focoAdjetivo(foco)}` : nome
 }
 
+/** Uma linha crua de `Inventario.Implementos` (ou null se não for objeto). */
+export function parseImplementoLinha(r: unknown): ImplementoLinha | null {
+  if (!r || typeof r !== 'object') return null
+  const row = r as Record<string, unknown>
+  return {
+    nome: wikiTarget(str(row['Nome'])),
+    foco: wikiTarget(str(row['Propriedade'])) || null,
+    tier: TIER_DE_CATEGORIA[linkLabel(str(row['Categoria']))] ?? null,
+    fonte: str(row['Fonte']),
+  }
+}
+
 /** Linhas de `Inventario.Implementos` do FM. */
 export function implementosDe(fm: Record<string, unknown>): ImplementoLinha[] {
   const rows = fmPath(fm, 'Inventario', 'Implementos')
   if (!Array.isArray(rows)) return []
   return rows
-    .filter((r): r is Record<string, unknown> => !!r && typeof r === 'object')
-    .map((r) => ({
-      nome: wikiTarget(str(r['Nome'])),
-      foco: wikiTarget(str(r['Propriedade'])) || null,
-      tier: TIER_DE_CATEGORIA[linkLabel(str(r['Categoria']))] ?? null,
-      fonte: str(r['Fonte']),
-    }))
+    .map(parseImplementoLinha)
+    .filter((l): l is ImplementoLinha => l !== null)
     // nome vazio + foco = foco ainda sem implemento (migração de ficha antiga)
     .filter((l) => l.nome !== '' || l.foco !== null)
 }

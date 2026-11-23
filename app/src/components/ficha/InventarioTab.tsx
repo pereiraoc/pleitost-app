@@ -23,10 +23,10 @@ import { loadDoc, useDocs } from '../../data/useDoc'
 import { TIER_PRICE_MULT, resaleRefund } from '../../data/commerce'
 import { sistemaConfig } from '../../data/system-config'
 import { precoPO } from '../../grupo/wealth'
-import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroModel, type HeroModel } from '../../data/useHeroModel'
 import { familiaOf, fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { clip, EditToggle, GoldDots, PanelTrack, SeloDoFoco, TabStrip, TrackPanel } from './bits'
+import { clip, EditToggle, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { itemCategoria } from '../compendium/item-taxonomy'
 import { buildEquippedGear } from '../../data/purchase'
 import { CoinsDropdown } from './pop-panels'
@@ -65,7 +65,13 @@ import {
   modAtaqueBaseDaArma,
   ordemPorModDesc,
 } from './hero-model'
-import { implementosDe, linhaImplemento, rotuloImplemento, tipoImplementoPeloId } from '../../data/implementos'
+import {
+  linhaImplemento,
+  parseImplementoLinha,
+  tipoImplementoPeloId,
+  type ImplementoLinha,
+  type TierAEM,
+} from '../../data/implementos'
 
 const INV_TABS = [
   { id: 'armas', label: 'ARMAS' },
@@ -770,6 +776,234 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   )
 }
 
+/* ===================== implementos (no início dos tesouros) ===================== */
+
+/** IMPLEMENTOS em CARD, no formato do da arma (pedido do mestre, 2026-11-23:
+ *  "quando eu adiciono implemento, não tá mostrando os focos na forma como é
+ *  armas; pode separar pra ser no início dos tesouros"). Uma linha de
+ *  `Inventario.Implementos` = implemento fundamental + foco trabalhado nele
+ *  (data/implementos), como arma + imbuição: figura do implemento, seletor do
+ *  implemento, figura e seletor do foco, qualidade, item bônus, vender e
+ *  descartar. O foco de ficha antiga sem implemento cai aqui com o seletor do
+ *  implemento vazio. `j` é o índice NA LISTA SALVA (as escritas vão por ele). */
+function ImplementosCards({ model, refs }: { model: HeroModel; refs: HeroRefs }) {
+  const catalog = useCatalog()
+  const assets = useAssetIndex()
+  const lista = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as Record<string, unknown>[]
+  // Fundamentais e focos da vault (pela pasta, a mesma convenção da loja).
+  const { fundamentais, focos } = useMemo(() => {
+    const doTipo = (t: 'fundamental' | 'foco') =>
+      catalog.content
+        .filter((e: IndexDocEntry) => tipoImplementoPeloId(e.id) === t && e.subtype === 'Tesouro')
+        .sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR'))
+    return { fundamentais: doTipo('fundamental'), focos: doTipo('foco') }
+  }, [catalog])
+  const docs = useDocs(useMemo(() => [...fundamentais, ...focos].map((e) => e.id), [fundamentais, focos]))
+  const docDe = (base: string | null) => {
+    if (!base) return undefined
+    const e = [...fundamentais, ...focos].find((x) => x.basename === base)
+    return (e ? docs?.get(e.id) : undefined) ?? refs.refDoc(`[[${base}]]`) ?? undefined
+  }
+  if (lista.length === 0) return null
+
+  const grava = (next: Record<string, unknown>[]) => model.set('Inventario.Implementos', next)
+  const patch = (j: number, p: Record<string, unknown>) => grava(lista.map((row, k) => (k === j ? { ...row, ...p } : row)))
+  const tira = (j: number) => grava(lista.filter((_, k) => k !== j))
+  const vende = (j: number, refund: number) => {
+    if (refund > 0) model.set('Inventario.Ouro', num(fmPath(model.fm, 'Inventario', 'Ouro')) + refund)
+    tira(j)
+  }
+
+  const linhas = lista.map((row, j) => {
+    const l: ImplementoLinha = parseImplementoLinha(row) ?? { nome: '', foco: null, tier: null, fonte: '' }
+    const tier: '' | TierAEM = l.tier ?? ''
+    const implDoc = docDe(l.nome || null)
+    const focoDoc = docDe(l.foco)
+    // o preço do foco já inclui o implemento-base (Tesouros.md)
+    const custo = precoPO(focoDoc ?? implDoc) * TIER_PRICE_MULT[tier || 'A']
+    return { j, l, tier, implDoc, focoDoc, custo }
+  })
+  // Mais caros no topo, como os tesouros (#121); empate mantém a ordem salva.
+  const ordem = [...linhas].sort((a, b) => b.custo - a.custo || a.j - b.j)
+
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', color: '#7d8593', padding: '9px 2px 6px' }}
+      >
+        IMPLEMENTOS
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {ordem.map(({ j, l, tier, implDoc, focoDoc, custo }) => {
+          const img = tesouroImageUrl(l.nome || (l.foco ?? ''), tier, assets)
+          const focoImg = l.foco ? tesouroImageUrl(l.foco, tier, assets) : null
+          const bonus = tier ? bonusPorTier(implDoc, tier) : 0
+          const refund = resaleRefund(custo, sistemaConfig.getRevenda())
+          // Focos que cabem no implemento da linha (AplicavelA, o mesmo avaliador
+          // da imbuição na arma); sem implemento ainda, todos.
+          const focosDaLinha = focos
+            .map((e) => e.basename ?? e.id)
+            .filter((b) => {
+              const fd = docDe(b)
+              return !implDoc || !fd || tesouroAplicavelAoItem(fd, implDoc)
+            })
+          const implNoCatalogo = fundamentais.some((e) => e.basename === l.nome)
+          return (
+            <div
+              key={j}
+              data-implemento={j}
+              style={{
+                display: 'flex',
+                gap: 14,
+                padding: 13,
+                background: 'var(--card)',
+                border: '1px solid var(--line2)',
+                borderLeft: `3px solid ${tier ? ITEM_TIER_BTN[tier].bd : 'var(--line2)'}`,
+                clipPath: clip(12),
+              }}
+            >
+              <ItemHover
+                doc={implDoc ?? focoDoc}
+                propDoc={implDoc ? focoDoc : undefined}
+                tier={tier || 'A'}
+                clickToOpen
+              >
+                <span
+                  data-figura-implemento=""
+                  style={{
+                    position: 'relative',
+                    display: 'block',
+                    width: 96,
+                    height: 96,
+                    flex: 'none',
+                    background: 'var(--panel2)',
+                    border: '1px solid var(--line2)',
+                    clipPath: clip(9),
+                    backgroundImage: img ? `url("${img}")` : undefined,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }}
+                />
+              </ItemHover>
+              {/* Duas linhas (cabe no painel estreito e no celular): implemento
+                  + vender/descartar; figura do foco + qualidade/bônus + foco. */}
+              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <span style={{ display: 'flex', alignItems: 'center', columnGap: 8, rowGap: 6, minWidth: 0, flexWrap: 'wrap' }}>
+                  <span
+                    style={{
+                      // no celular o vender/descartar descem em vez de espremer
+                      flex: '1 1 150px',
+                      minWidth: 0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '9px 13px',
+                      background: 'var(--panel2)',
+                      // sem implemento (foco de ficha antiga): pede a escolha
+                      border: `1px solid ${l.nome ? 'var(--line2)' : 'var(--red)'}`,
+                      cursor: 'pointer',
+                      clipPath: clip(7),
+                    }}
+                  >
+                    <span style={{ fontSize: 15, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
+                    <select
+                      value={l.nome}
+                      onChange={(e) => patch(j, { Nome: e.target.value ? `[[${e.target.value}]]` : '' })}
+                      aria-label="Implemento"
+                      style={pillSelectStyle(700, 15)}
+                    >
+                      <option value="">Selecionar implemento</option>
+                      {l.nome && !implNoCatalogo ? <option value={l.nome}>{reskinName(l.nome)}</option> : null}
+                      {fundamentais.map((e) => (
+                        <option key={e.id} value={e.basename ?? e.id}>
+                          {reskinName(e.basename ?? e.id)}
+                        </option>
+                      ))}
+                    </select>
+                    <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                  </span>
+                  <SellBtn refund={refund} onClick={() => vende(j, refund)} />
+                  <TrashBtn onClick={() => tira(j)} />
+                </span>
+                <span style={{ display: 'flex', alignItems: 'stretch', gap: 12, minWidth: 0 }}>
+                  {/* Figura do FOCO antes do seletor, como a da imbuição na arma;
+                      o hover mostra só a carta do foco. */}
+                  <ItemHover doc={focoDoc} tier={tier || undefined} style={{ alignSelf: 'stretch' }}>
+                    <span
+                      data-figura-foco=""
+                      style={{
+                        flex: 'none',
+                        // 76 como a imbuição da arma; encolhe em tela estreita
+                        width: 'clamp(48px, 18vw, 76px)',
+                        alignSelf: 'stretch',
+                        background: 'var(--panel2)',
+                        border: '1px solid var(--line2)',
+                        clipPath: clip(7),
+                        backgroundImage: focoImg ? `url("${focoImg}")` : undefined,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  </ItemHover>
+                  <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    <span style={{ display: 'flex', alignItems: 'flex-end', columnGap: 18, rowGap: 6, flexWrap: 'wrap' }}>
+                      <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                        <span style={mono9}>QUALIDADE</span>
+                        <span style={{ display: 'flex', gap: 5 }}>
+                          {/* tesouro sem qualidade não existe: clicar no ativo não desmarca */}
+                          <TierBtns sel={tier} onSelect={(next) => next && patch(j, { Categoria: tierCategoriaFm(next) })} />
+                        </span>
+                      </span>
+                      <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                        <span style={mono9}>ITEM BÔNUS</span>
+                        <span style={{ display: 'flex', gap: 5, height: 24, alignItems: 'center' }}>
+                          <GoldDots on={bonus} />
+                        </span>
+                      </span>
+                    </span>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '9px 13px',
+                        minWidth: 0,
+                        background: 'var(--panel2)',
+                        border: '1px solid var(--line2)',
+                        cursor: 'pointer',
+                        clipPath: clip(7),
+                      }}
+                    >
+                      <span style={{ fontSize: 14, flex: 'none' }}>{imbuicaoEmoji(docField(focoDoc, 'propriedades'))}</span>
+                      <select
+                        value={l.foco ?? ''}
+                        onChange={(e) => patch(j, { Propriedade: e.target.value ? `[[${e.target.value}]]` : '' })}
+                        aria-label="Foco do implemento"
+                        style={pillSelectStyle(500, 13.5)}
+                      >
+                        <option value="">—</option>
+                        {l.foco && !focosDaLinha.includes(l.foco) ? <option value={l.foco}>{reskinName(l.foco)}</option> : null}
+                        {focosDaLinha.map((b) => (
+                          <option key={b} value={b}>
+                            {reskinName(b)}
+                          </option>
+                        ))}
+                      </select>
+                      <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 /* ===================== armadura / escudo / tesouros ===================== */
 
 function GearCard({
@@ -943,14 +1177,6 @@ interface TesouroRow {
   index: number
   img: string | null
   doc?: VaultDoc
-  /** Linha de `Inventario.Implementos` (implemento + foco); `index` é dessa lista. */
-  impl?: boolean
-  /** Foco do implemento (doc pro preço de revenda: o foco inclui a base). */
-  focoDoc?: VaultDoc
-  /** Foco de ficha antiga ainda sem implemento (migração): pede o fundamental. */
-  semImplemento?: boolean
-  /** Figura do FOCO no canto da do implemento (como imbuição × arma). */
-  focoImg?: string | null
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1079,53 +1305,15 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       }),
     [tesourosRaw, refs, assets],
   )
-  // IMPLEMENTOS com foco (linha própria, data/implementos): mesma lista de
-  // tesouros na tela, com o rótulo do combo e a figura do implemento.
-  const implRaw = (fmPath(model.fm, 'Inventario', 'Implementos') ?? []) as Record<string, unknown>[]
-  const implRows: TesouroRow[] = implementosDe(fm).map((l, index) => {
-    const focoDoc = l.foco ? (refs.refDoc(`[[${l.foco}]]`) ?? undefined) : undefined
-    const fDoc = (l.nome ? refs.refDoc(`[[${l.nome}]]`) : undefined) ?? (l.nome ? undefined : focoDoc)
-    return {
-      nome: rotuloImplemento(l.nome, l.foco),
-      tier: l.tier ?? '',
-      bonus: l.tier ? bonusPorTier(fDoc, l.tier) : 0,
-      grupo: 'IMPLEMENTOS',
-      index,
-      img: tesouroImageUrl(l.nome || (l.foco ?? ''), l.tier ?? '', assets),
-      doc: fDoc,
-      impl: true,
-      focoDoc,
-      semImplemento: !l.nome,
-      focoImg: l.nome && l.foco ? tesouroImageUrl(l.foco, l.tier ?? '', assets) : null,
-    }
-  })
-  // Fundamentais da vault (pasta Implementos/Fundamentais) pro foco sem
-  // implemento: o preço do foco já incluía o implemento — escolher é de graça.
-  const fundamentais = useMemo(
-    () =>
-      catalog.content
-        .filter((e: IndexDocEntry) => tipoImplementoPeloId(e.id) === 'fundamental')
-        .map((e) => e.basename ?? e.id)
-        .sort((a, b) => a.localeCompare(b, 'pt-BR')),
-    [catalog],
-  )
-  const escolherImplemento = (r: TesouroRow, base: string) => {
-    if (!base) return
-    model.set(
-      'Inventario.Implementos',
-      implRaw.map((row, j) => (j === r.index ? { ...row, Nome: `[[${base}]]` } : row)),
-    )
-  }
-  const allRows = [...rows, ...implRows]
-  const tirarLinha = (r: TesouroRow) =>
-    r.impl
-      ? model.set('Inventario.Implementos', implRaw.filter((_, j) => j !== r.index))
-      : model.set('Inventario.Tesouros', tesourosRaw.filter((_, j) => j !== r.index))
+  // IMPLEMENTOS (implemento + foco) têm card próprio no início do painel
+  // (ImplementosCards) — aqui ficam só os tesouros.
+  const allRows = rows
+  const tirarLinha = (r: TesouroRow) => model.set('Inventario.Tesouros', tesourosRaw.filter((_, j) => j !== r.index))
   const removeTesouro = (r: TesouroRow) => tirarLinha(r)
   // #300: valor de revenda de um tesouro = preço × mult do tier × taxa (mesma
   // base do `custo` usado na ordenação).
   const tesouroRefund = (r: TesouroRow) =>
-    resaleRefund(precoPO(r.focoDoc ?? r.doc) * TIER_PRICE_MULT[r.tier || 'A'], sistemaConfig.getRevenda())
+    resaleRefund(precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A'], sistemaConfig.getRevenda())
   const sellTesouro = (r: TesouroRow, refund: number) => {
     if (refund > 0) {
       const ouro = num(fmPath(model.fm, 'Inventario', 'Ouro'))
@@ -1165,13 +1353,6 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const setTierTesouro = (r: TesouroRow, tier: '' | 'A' | 'E' | 'M') => {
     if (!tier) return
     const index = r.index
-    if (r.impl) {
-      model.set(
-        'Inventario.Implementos',
-        implRaw.map((row, j) => (j === index ? { ...row, Categoria: tierCategoriaFm(tier) } : row)),
-      )
-      return
-    }
     const { nome } = parseItemAlias(tesourosRaw[index])
     model.set(
       'Inventario.Tesouros',
@@ -1188,14 +1369,14 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     }
     // Ordena cada grupo por CUSTO efetivo (base × mult do tier), mais caros no
     // topo (#121).
-    const custo = (r: TesouroRow) => precoPO(r.focoDoc ?? r.doc) * TIER_PRICE_MULT[r.tier || 'A']
+    const custo = (r: TesouroRow) => precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A']
     return [...byGroup.entries()].map(([title, groupRows]) => ({
       title,
       dois: groupRows.some((r) => r.bonus > 0) ? 1 : 0,
       rows: [...groupRows].sort((a, b) => custo(b) - custo(a)),
     }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows, refs, JSON.stringify(implRows.map((r) => [r.nome, r.tier, r.index]))])
+  }, [rows, refs])
 
   return (
     <>
@@ -1239,6 +1420,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           <span style={{ flex: 1 }} />
           <EditToggle edit={tesEdit} onToggle={() => setTesEdit((v) => !v)} />
         </div>
+        <ImplementosCards model={model} refs={refs} />
         {(() => {
           // Colunas por modo: Alterar = nome/qualidade/bônus/ações; leitura =
           // nome/equipar (qualidade vira sufixo (A)/(E)/(M) no nome — menos
@@ -1277,6 +1459,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 return (
                   <div
                     key={r.nome + r.tier}
+                    data-tesouro={r.nome}
                     style={{
                       display: 'grid',
                       gridTemplateColumns: cols,
@@ -1291,12 +1474,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     }}
                   >
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                      <ItemHover
-                        doc={r.doc}
-                        propDoc={r.semImplemento ? undefined : r.focoDoc}
-                        tier={r.tier || undefined}
-                        clickToOpen
-                      >
+                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
                         {r.img ? (
                           <span
                             style={{
@@ -1313,19 +1491,12 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                               backgroundRepeat: 'no-repeat',
                               backgroundPosition: 'center',
                             }}
-                          >
-                            {r.focoImg ? <SeloDoFoco img={r.focoImg} lado={15} /> : null}
-                          </span>
+                          />
                         ) : (
                           <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                         )}
                       </ItemHover>
-                      <ItemHover
-                        doc={r.doc}
-                        propDoc={r.semImplemento ? undefined : r.focoDoc}
-                        tier={r.tier || undefined}
-                        clickToOpen
-                      >
+                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
                         <span
                           style={{
                             fontWeight: 600,
@@ -1339,31 +1510,6 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           {reskinName(r.nome)}
                         </span>
                       </ItemHover>
-                      {/* Foco de ficha antiga sem implemento: o jogador escolhe
-                          o fundamental em que ele foi trabalhado. */}
-                      {r.semImplemento ? (
-                        <select
-                          aria-label={`Implemento do ${reskinName(r.nome)}`}
-                          value=""
-                          onChange={(e) => escolherImplemento(r, e.target.value)}
-                          style={{
-                            flex: 'none',
-                            maxWidth: 170,
-                            fontSize: 12,
-                            background: 'var(--panel2)',
-                            color: 'var(--text)',
-                            border: '1px solid var(--red)',
-                            padding: '3px 6px',
-                          }}
-                        >
-                          <option value="">🪄 — implemento —</option>
-                          {fundamentais.map((b) => (
-                            <option key={b} value={b}>
-                              {reskinName(b)}
-                            </option>
-                          ))}
-                        </select>
-                      ) : null}
                       {/* Fora do Alterar, a qualidade vira sufixo (A)/(E)/(M) no
                           nome (tier-colorido, casa com a borda) — sem coluna. */}
                       {!tesEdit && r.tier ? (

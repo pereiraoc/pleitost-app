@@ -591,9 +591,10 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     // vira um card COMPLETO na lista (design: allArmas = armas + adicionadas)
     await waitFor(() => expect(screen.getAllByLabelText('Arma').length).toBe(2))
 
-    // remover a arma adicionada volta ao FM original (removeArma :84-87)
-    const trashes = screen.getAllByText('🗑️').filter((el) => el.tagName === 'BUTTON')
-    fireEvent.click(trashes[trashes.length - 1])
+    // remover a arma adicionada volta ao FM original (removeArma :84-87) —
+    // a lixeira do card DESSA arma (os implementos também têm lixeira)
+    const cardNovo = document.querySelector<HTMLElement>(`[data-arma="${alvo.basename}"]`)!
+    fireEvent.click(within(cardNovo).getAllByText('🗑️').find((el) => el.tagName === 'BUTTON')!)
     expect(overlaySalvo().fm['Inventario.Armas.Lista']).toEqual(fm.Inventario.Armas.Lista)
 
     // persiste no reload
