@@ -167,6 +167,38 @@ describe('Roda das Essências', () => {
     fireEvent.click(no('M:Essência do Meteoro')!)
     await waitFor(() => expect(fonteDe(id, 'Essência do Meteoro')).toBe('Slot.M'))
   }, 40000)
+  // Reportado por @thallesagm (#603): "o círculo das essências não está
+  // mostrando as essências mestres mesmo que na aba combate as magias estejam
+  // corretas." Avatar de Terra N8 com Sísmica Mestre e Enraizante Mestre (a
+  // escolha ANTIGA do Avatar, uma essência só). Regra escrita (hub, sfynz
+  // 2026-10-25): "Cada Essência Mestre é a composição de duas Essências
+  // vizinhas" — a de uma essência só aparece no anel Mestre, INVÁLIDA, pra
+  // desfazer e gastar a vaga numa composta; nunca é oferecida.
+  it('#603: Mestre de UMA essência que o herói tem aparece inválida e devolve a vaga', async () => {
+    const id = renderHeroi({
+      Nível: 8,
+      Sintonia: '[[Traço Elemental da Terra]]',
+      Habilidades: {
+        Lista: [
+          { '[[Essência Sísmica Adepta]]': 'Slot.A' },
+          { '[[Essência Enraizante Adepta]]': 'Slot.A' },
+          { '[[Essência Sísmica Experiente]]': 'Slot.E' },
+          { '[[Essência Mineral Experiente]]': 'Slot.E' },
+          { '[[Essência Enraizante Experiente]]': 'Slot.E' },
+          { '[[Essência Sísmica Mestre]]': 'Slot.M' },
+          { '[[Essência Enraizante Mestre]]': 'Slot.M' },
+        ],
+      },
+    })
+    await waitFor(() => expect(estado('M:Essência Sísmica')).toBe('tem'), { timeout: 15000 })
+    expect(estado('M:Essência Enraizante')).toBe('tem')
+    expect(no('M:Essência Sísmica')!.querySelector('[data-roda-invalida]')).toBeTruthy()
+    expect(no('M:Essência Mineral')).toBeNull() // não oferece Mestre de uma essência só
+    expect(estado('M:Essência do Terremoto')).toBe('semVaga') // as 2 vagas M gastas
+    fireEvent.click(no('M:Essência Sísmica')!)
+    await waitFor(() => expect(fonteDe(id, 'Essência Sísmica Mestre')).toBeNull())
+    await waitFor(() => expect(estado('M:Essência do Terremoto')).toBe('livre'), { timeout: 15000 })
+  }, 40000)
   it('Druida do Oceano: a interface é a âncora, slots de vizinha em vizinha, sem corda', async () => {
     renderHeroi({
       Classe: '[[Druida]]',

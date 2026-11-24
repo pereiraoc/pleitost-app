@@ -223,9 +223,12 @@ export function estadoRoda(input: {
     else if (roda.universais.includes(b)) no.E[b] = cicloE.length > 0 ? 'livre' : 'fechado'
     else no.E[b] = alcanceE.has(b) ? 'livre' : 'fechado'
   }
-  // Mestre universal: a Experiente dela.
+  // Mestre universal: a Experiente dela. Mestre de UMA essência do ciclo é a
+  // regra antiga (hub, sfynz 2026-10-25: "Cada Essência Mestre é a composição
+  // de duas Essências vizinhas") — nunca se oferece; quem tem fica inválida.
   for (const b of todas) {
     if (tem.M.has(b)) no.M[b] = 'tem'
+    else if (!roda.universais.includes(b)) no.M[b] = 'fechado'
     else no.M[b] = tem.E.has(b) ? 'livre' : 'fechado'
   }
 
@@ -280,7 +283,11 @@ export function estadoRoda(input: {
     else if (cicloE.includes(b) && !ligadasE.has(b))
       invalidas.set(`E:${b}`, 'fora do caminho das Experientes (a primeira é do elemento da sintonia)')
   }
-  for (const b of tem.M) if (!tem.E.has(b)) invalidas.set(`M:${b}`, 'sem a Experiente')
+  for (const b of tem.M) {
+    if (roda.ordem.includes(b))
+      invalidas.set(`M:${b}`, 'a Essência Mestre é a composição de duas vizinhas — troque por uma composta')
+    else if (!tem.E.has(b)) invalidas.set(`M:${b}`, 'sem a Experiente')
+  }
   return { no, soltas, invalidas }
 }
 

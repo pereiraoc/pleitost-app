@@ -112,10 +112,18 @@ describe('regras de escolha (Animista)', () => {
     expect(s.invalidas.get(`E:${E('Mineral')}`)).toMatch(/fora do caminho das Experientes/)
     expect(s.invalidas.has(`E:${E('Explosiva')}`)).toBe(false)
   })
-  it('Mestre: só de quem tem a Experiente', () => {
+  // #603: a Mestre é a COMPOSIÇÃO de duas vizinhas (hub, sfynz 2026-10-25) —
+  // Mestre de uma essência do ciclo nunca abre; quem já tem (escolha antiga do
+  // Avatar) fica inválida pra trocar por uma composta.
+  it('Mestre de uma essência do ciclo: nunca livre; a que o herói tem é inválida', () => {
     const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante', 'Explosiva'], ['Flamejante', 'Explosiva']) })
-    expect(s.no.M[E('Flamejante')]).toBe('livre')
+    expect(s.no.M[E('Flamejante')]).toBe('fechado')
     expect(s.no.M[E('Sísmica')]).toBe('fechado')
+    const t = tem(['Flamejante', 'Explosiva'], ['Flamejante', 'Explosiva'])
+    t.M.add(E('Flamejante'))
+    const comM = estadoRoda({ roda, sintonia: 'Fogo', tem: t })
+    expect(comM.no.M[E('Flamejante')]).toBe('tem')
+    expect(comM.invalidas.get(`M:${E('Flamejante')}`)).toMatch(/composição de duas vizinhas/)
   })
   it('a pura concedida é a âncora: o caminho sai dela pros dois lados', () => {
     const s = estadoRoda({ roda, sintonia: 'Fogo', tem: tem(['Flamejante']), ancoras: new Set([E('Flamejante')]) })

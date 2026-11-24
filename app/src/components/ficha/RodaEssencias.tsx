@@ -782,6 +782,42 @@ function Roda({
             return no(b, t, p.x, p.y, t === 'A')
           }),
         )}
+        {/* #603: Mestre de UMA essência (a escolha antiga do Avatar) — só as
+            que o herói TEM, no ângulo da própria essência (as compostas ficam
+            entre as vizinhas), inválidas: clicar desfaz e devolve a vaga M. */}
+        {visivel.M
+          ? roda.ordem
+              .filter((b) => tem.M.has(b))
+              .map((b) => {
+                const i = roda.ordem.indexOf(b)
+                const p = pt(R.M, ang(i))
+                // um pouco mais pra fora que o das compostas: a marca "!" da
+                // inválida fica no canto do nó
+                const lb = pt(R.M + NO_R.M + 17, ang(i))
+                return (
+                  <g key={`m1-${b}`}>
+                    {no(b, 'M', p.x, p.y, false)}
+                    <text
+                      x={lb.x}
+                      y={lb.y}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      style={{
+                        fontFamily: 'var(--mono)',
+                        fontSize: 7.2,
+                        fontWeight: 700,
+                        letterSpacing: '.05em',
+                        textTransform: 'uppercase',
+                        fill: 'var(--red)',
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      {nomeCurto(b)}
+                    </text>
+                  </g>
+                )
+              })
+          : null}
         {/* anel MESTRE: cada composta na fatia entre as duas vizinhas, ligada
             às duas Experientes (o "colchete" do diagrama) */}
         {visivel.M
