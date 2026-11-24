@@ -159,6 +159,7 @@ import {
   type InterativaCtxState,
 } from '../../interativa/useInterativaCtx'
 import { aliasDoImplemento, implementosDe, type ImplementoLinha } from '../../data/implementos'
+import { useAcoesPorPericia } from './acoes-pericia'
 
 const COMB_TABS = [
   { id: 'ataques', label: 'ATAQUES' },
@@ -2351,39 +2352,6 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
 }
 
 /* ===================== sub-aba PERÍCIAS ===================== */
-
-const ACOES_PERICIA_FOLDER = 'Sistema/Regras/Ações/Ações de Perícia/'
-
-/** AÇÕES por perícia (p.acts do design) — catálogo real da vault: docs de
- *  Ação de Perícia apontam a(s) perícia(s) no inline `perícia::`. */
-function useAcoesPorPericia(): Map<string, VaultDoc[]> {
-  const catalog = useCatalog()
-  const ids = useMemo(
-    () =>
-      catalog.content
-        .filter((e) => e.id.startsWith(ACOES_PERICIA_FOLDER) && e.basename !== 'Ações de Perícia')
-        .map((e) => e.id),
-    [catalog],
-  )
-  const docs = useDocs(ids)
-  return useMemo(() => {
-    const map = new Map<string, VaultDoc[]>()
-    if (docs) {
-      for (const acaoDoc of docs.values()) {
-        const alvo = (acaoDoc.inlineFields as Record<string, unknown>)['perícia']
-        for (const label of wikiLabels(alvo)) {
-          const key = slugify(label)
-          const list = map.get(key) ?? []
-          list.push(acaoDoc)
-          map.set(key, list)
-        }
-      }
-      for (const list of map.values())
-        list.sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt'))
-    }
-    return map
-  }, [docs])
-}
 
 function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')

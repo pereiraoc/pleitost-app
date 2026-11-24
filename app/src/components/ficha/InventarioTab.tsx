@@ -35,6 +35,9 @@ import {
   ATTR_EMOJI,
   GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
+  displayName,
+  nomeCanonico,
+  slugify,
   grupoArmaEmoji,
   rotuloGrupoArma,
   imbuicaoEmoji,
@@ -43,6 +46,9 @@ import {
 } from './registry'
 import { armaduraBases, escudoBases } from './equipment-bases'
 import { tesouroAplicavelAoItem } from '../../rules/aplicavel-a'
+import { PERICIAS } from '../../rules/rules-model'
+import { escolhaDoTesouro, lerEscolha, rotuloComEscolha, type EscolhaTesouro, type ValorEscolha } from '../../data/tesouro-escolha'
+import { useAcoesPorPericia } from './acoes-pericia'
 import {
   ARMA_OBRA_PRIMA,
   ARMADURA_OBRA_PRIMA,
@@ -1047,6 +1053,81 @@ function ImplementosCards({ model, refs, edit }: { model: HeroModel; refs: HeroR
   )
 }
 
+/** Campos da ESCOLHA do tesouro no ✎ Alterar (#598 + pedido do mestre,
+ *  2026-11-23): escolha de perícia = perícia + atividade dela ("não dá o +1
+ *  pra tudo de Atletismo, pode ser +1 escalar" — as Ações de Perícia da vault);
+ *  texto = campo livre com o rótulo da nota (Idioma do Colar). */
+function EscolhaCampos({
+  escolha,
+  valor,
+  atividades,
+  onChange,
+}: {
+  escolha: EscolhaTesouro
+  valor: ValorEscolha
+  atividades: (pericia: string) => string[]
+  onChange: (v: ValorEscolha) => void
+}) {
+  const [texto, setTexto] = useState(valor.detalhe)
+  const campo: CSSProperties = {
+    fontSize: 12.5,
+    color: 'var(--text)',
+    background: 'var(--panel2)',
+    border: '1px solid var(--line2)',
+    padding: '4px 8px',
+    minWidth: 0,
+  }
+  if (escolha.tipo === 'texto') {
+    return (
+      <input
+        aria-label={escolha.rotulo}
+        placeholder={escolha.rotulo}
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onBlur={() => texto.trim() !== valor.detalhe && onChange({ ...valor, detalhe: texto })}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur()
+        }}
+        style={{ ...campo, flex: '1 1 160px' }}
+      />
+    )
+  }
+  const acoes = valor.pericia ? atividades(valor.pericia) : []
+  return (
+    <>
+      <select
+        aria-label="Perícia"
+        value={valor.pericia}
+        // outra perícia: a atividade era da anterior, sai
+        onChange={(e) => onChange({ pericia: e.target.value, detalhe: '' })}
+        style={{ ...campo, flex: '1 1 130px' }}
+      >
+        <option value="">Perícia</option>
+        {PERICIAS.map((slug) => (
+          <option key={slug} value={nomeCanonico(slug)}>
+            {displayName(slug)}
+          </option>
+        ))}
+      </select>
+      <select
+        aria-label="Atividade"
+        value={valor.detalhe}
+        disabled={!valor.pericia}
+        onChange={(e) => onChange({ ...valor, detalhe: e.target.value })}
+        style={{ ...campo, flex: '1 1 150px' }}
+      >
+        <option value="">Atividade</option>
+        {valor.detalhe && !acoes.includes(valor.detalhe) ? <option value={valor.detalhe}>{valor.detalhe}</option> : null}
+        {acoes.map((a) => (
+          <option key={a} value={a}>
+            {reskinName(a)}
+          </option>
+        ))}
+      </select>
+    </>
+  )
+}
+
 /* ===================== armadura / escudo / tesouros ===================== */
 
 function GearCard({
@@ -1214,6 +1295,10 @@ function GearCard({
 
 interface TesouroRow {
   nome: string
+  /** Nota do link (o `nome` pode levar a escolha: "… de Ladinagem"). */
+  alvo: string
+  /** O que a nota pede pra escolher (FM `escolha`), ou null. */
+  escolha: EscolhaTesouro | null
   tier: '' | 'A' | 'E' | 'M'
   bonus: number
   grupo: string
@@ -1337,6 +1422,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         const grupo = parts.length > 1 ? parts[parts.length - 2]! : ''
         return {
           nome,
+          alvo,
+          escolha: escolhaDoTesouro(tDoc),
           tier: tier ?? '',
           bonus: tier ? bonusPorTier(tDoc, tier) : 0,
           grupo: grupo.toUpperCase(),
@@ -1352,6 +1439,19 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // IMPLEMENTOS (implemento + foco) têm card próprio no início do painel
   // (ImplementosCards) — aqui ficam só os tesouros.
   const allRows = rows
+  // ESCOLHA do tesouro (#598/#604): perícia + atividade (ações da vault) ou
+  // texto livre; grava no nome do tesouro, o link segue na nota.
+  const acoesPorPericia = useAcoesPorPericia(rows.some((r) => r.escolha?.tipo === 'pericia'))
+  const setEscolha = (r: TesouroRow, valor: ValorEscolha) => {
+    const escolha = r.escolha
+    if (!escolha) return
+    model.set(
+      'Inventario.Tesouros',
+      tesourosRaw.map((raw, j) =>
+        j === r.index ? buildTesouroAlias(r.alvo, r.tier || 'A', rotuloComEscolha(r.alvo, escolha, valor)) : raw,
+      ),
+    )
+  }
   const tirarLinha = (r: TesouroRow) => model.set('Inventario.Tesouros', tesourosRaw.filter((_, j) => j !== r.index))
   const removeTesouro = (r: TesouroRow) => tirarLinha(r)
   // #300: valor de revenda de um tesouro = preço × mult do tier × taxa (mesma
@@ -1503,7 +1603,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 const slot = gearSlotOf(r)
                 return (
                   <div
-                    key={r.nome + r.tier}
+                    // índice da lista salva: pode haver dois Colares iguais (#598)
+                    key={r.index}
                     data-tesouro={r.nome}
                     style={{
                       display: 'grid',
@@ -1541,7 +1642,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                         )}
                       </ItemHover>
-                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
+                      {/* minWidth 0: o nome encolhe com reticências em vez de passar
+                          por cima da QUALIDADE no celular (nomes longos com a escolha) */}
+                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen style={{ minWidth: 0 }}>
                         <span
                           style={{
                             fontWeight: 600,
@@ -1616,6 +1719,16 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         ) : null}
                       </span>
                     )}
+                    {tesEdit && r.escolha ? (
+                      <span style={{ gridColumn: '1 / -1', display: 'flex', flexWrap: 'wrap', gap: 6, paddingLeft: 38 }}>
+                        <EscolhaCampos
+                          escolha={r.escolha}
+                          valor={lerEscolha(r.alvo, r.nome, r.escolha)}
+                          atividades={(p) => (acoesPorPericia.get(slugify(p)) ?? []).map((d) => d.basename ?? d.id)}
+                          onChange={(v) => setEscolha(r, v)}
+                        />
+                      </span>
+                    ) : null}
                   </div>
                 )
               })}
@@ -2007,9 +2120,30 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
       })
   }
 
+  // Tesouros com ESCOLHA na nota (#598/#604: Colar da Eloquência, Ferramenta
+  // Obra-prima) — podem repetir (cada um com a sua escolha) e a Ferramenta, que
+  // mora na pasta de qualidades, entra no "+ Adicionar Tesouro".
+  const escolhaIds = useMemo(
+    () =>
+      catalog.content
+        .filter(
+          (e: IndexDocEntry) =>
+            e.id.startsWith(TESOUROS_FOLDER) &&
+            e.subtype === 'Tesouro' &&
+            ![CONSUMIVEIS_FOLDER, ARTEFATOS_FOLDER, IMBUICOES_ARMA_FOLDER].some((p) => e.id.startsWith(p)),
+        )
+        .map((e) => e.id),
+    [catalog],
+  )
+  const escolhaDocs = useDocs(escolhaIds)
+  const comEscolha = useMemo(
+    () => new Set([...(escolhaDocs?.values() ?? [])].filter((d) => escolhaDoTesouro(d)).map((d) => d.id)),
+    [escolhaDocs],
+  )
+
   // Adicionar TESOURO (issue #14) — espelha addTesouro do plugin
   // (apply-tesouros-edit.ts:38-51): alias `[[X|X (Adepto)]]` (tier A default);
-  // tesouro repetido é no-op ("já tem").
+  // tesouro repetido é no-op ("já tem") — menos o que tem escolha (#598).
   const addTesouro = (id: string) => {
     const entry = catalog.entryById.get(id)
     if (!entry) return
@@ -2021,7 +2155,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
       return
     }
     const tesouros = (fmPath(model.fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
-    if (tesouros.some((raw) => parseItemAlias(raw).nome === nome)) return
+    if (!comEscolha.has(id) && tesouros.some((raw) => parseItemAlias(raw).nome === nome)) return
     model.set('Inventario.Tesouros', [...tesouros, buildTesouroAlias(nome, 'A')])
   }
 
@@ -2053,7 +2187,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
           (e: IndexDocEntry) =>
             e.id.startsWith(TESOUROS_FOLDER) &&
             e.subtype === 'Tesouro' &&
-            !TESOUROS_EXCLUIR.some((prefix) => e.id.startsWith(prefix)) &&
+            (!TESOUROS_EXCLUIR.some((prefix) => e.id.startsWith(prefix)) || comEscolha.has(e.id)) &&
             // foco só existe trabalhado num implemento (combo da loja)
             tipoImplementoPeloId(e.id) !== 'foco' &&
             // CA só equipa os 3 tesouros permitidos — filtro VERBATIM de
@@ -2061,7 +2195,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
             (!caps.tesourosPermitidos || caps.tesourosPermitidos.has(e.basename ?? e.id)),
         )
         .map((e) => ({ ic: tokens.emojis.bonusType.Item, nm: reskinName(e.basename ?? e.id), key: e.id })),
-    [catalog, caps],
+    [catalog, caps, comEscolha],
   )
 
   const index = Math.max(

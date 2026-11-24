@@ -9,6 +9,7 @@ import { rotuloImplemento } from './implementos'
 import { precoPO } from '../grupo/wealth'
 import { escudoObraPrima, wikiTarget } from '../components/ficha/hero-model'
 import { nomeCanonico } from '../components/ficha/registry'
+import { rotuloComEscolha } from './tesouro-escolha'
 import { PERICIAS } from '../rules/rules-model'
 import { aplicavelPredicates, hostStatsFromDoc, isAplicavelAoHost } from '../rules/aplicavel-a'
 import {
@@ -202,7 +203,8 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
       candidates.push({
         key: `${ferramenta.id}|${pericia}`,
         nome: ferramenta.basename,
-        label: `${ferramenta.basename} de ${pericia}`,
+        // mesmo formato da escolha na ficha (data/tesouro-escolha)
+        label: rotuloComEscolha(ferramenta.basename, { tipo: 'pericia' }, { pericia, detalhe: '' }),
         precoBase: precoPO(ferramenta),
         mult: FERRAMENTA_X_ARMA_OBRA_PRIMA * RARIDADE_MULT[raridadeTesouro('Arma Obra-prima', tipica)],
         tiers: T3,
